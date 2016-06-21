@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace R3E
+namespace SecondWindow.Core.R3EConnector
 {
-    class Constant
-    {
-        public const string SharedMemoryName = "$Race$";
+    public class Constant
+    {        
 
         enum Session
         {
@@ -86,7 +85,7 @@ namespace R3E
     namespace Data
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Vector3<T>
+        public struct Vector3<T>
         {
             public T X;
             public T Y;
@@ -94,7 +93,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Orientation<T>
+        public struct Orientation<T>
         {
             public T Pitch;
             public T Yaw;
@@ -102,13 +101,13 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct UserInput
+        public struct UserInput
         {
             public Single _1, _2, _3, _4, _5, _6;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct TireTemperature
+        public struct TireTemperature
         {
             public Single FrontLeft_Left;
             public Single FrontLeft_Center;
@@ -128,7 +127,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct PlayerData
+        public struct PlayerData
         {
             // Virtual physics time
             // Unit: Ticks (1 tick = 1/400th of a second)
@@ -173,7 +172,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Flags
+        public struct Flags
         {
             // Whether yellow flag is currently active
             // -1 = no data
@@ -197,7 +196,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct CarDamage
+        public struct CarDamage
         {
             // Range: 0.0 - 1.0
             // Note: -1.0 = N/A
@@ -222,7 +221,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct TirePressure
+        public struct TirePressure
         {
             public Single FrontLeft;
             public Single FrontRight;
@@ -231,7 +230,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct BrakeTemperatures
+        public struct BrakeTemperatures
         {
             public Single FrontLeft;
             public Single FrontRight;
@@ -240,7 +239,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct CutTrackPenalties
+        public struct CutTrackPenalties
         {
             public Int32 DriveThrough;
             public Int32 StopAndGo;
@@ -250,7 +249,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Sectors<T>
+        public struct Sectors<T>
         {
             public T Sector1;
             public T Sector2;
@@ -258,7 +257,7 @@ namespace R3E
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Shared
+        public struct R3ESharedData
         {
             [ObsoleteAttribute("Not set anymore", false)]
             public UserInput UserInput;

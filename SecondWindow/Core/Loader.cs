@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SecondWindow.Core.R3EConnector;
 
 namespace SecondWindow
 {
@@ -14,9 +15,19 @@ namespace SecondWindow
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            try
+            {
+                IR3EConnector connector = new R3EConnector();
+                connector.AsynConnect();
+                /*Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new Form1());*/
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+                
         }
     }
 }
