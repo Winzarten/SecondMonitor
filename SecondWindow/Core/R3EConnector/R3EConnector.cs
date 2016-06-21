@@ -27,13 +27,15 @@ namespace SecondWindow.Core.R3EConnector
         private TimeSpan timeInterval = TimeSpan.FromMilliseconds(100);
 
         public event EventHandler<R3EDataEventArgs> DataLoaded;
+        public event EventHandler<EventArgs> ConnectedEvent;
+        public event EventHandler<EventArgs> Disconnected;
 
         public R3EConnector()
         {
             TickTime = 100;
         }
 
-        public bool Connected
+        public bool IsConnected
         {
             get { return (sharedMemory != null && sharedMemoryAccessor != null); }
         }
@@ -73,6 +75,7 @@ namespace SecondWindow.Core.R3EConnector
             {
                 sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
                 sharedMemoryAccessor = sharedMemory.CreateViewAccessor(0, Marshal.SizeOf(typeof(R3ESharedData)));
+                RaiseConnectedEvent();
                 StartDaemon();
                 return true;
             }
@@ -122,34 +125,59 @@ namespace SecondWindow.Core.R3EConnector
             sharedMemoryAccessor = null;
             sharedMemory = null;
             disconnect = false;
+            RaiseDisconnectedEvent();
         }
 
-        private void RaiseDataLoadedEvent(R3ESharedData data)
-        {
-            R3EDataEventArgs args = new R3EDataEventArgs(data);
-            EventHandler<R3EDataEventArgs> handler = DataLoaded;
-            if(handler!=null)
-            {
-                handler(this, args);
-            }
-        }
+       
 
         private void Disconnect()
         {
             disconnect = true;
             sharedMemoryAccessor = null;
             sharedMemory = null;
+            RaiseDisconnectedEvent();
         }
 
         private R3ESharedData Load()
         {
             lock (sharedMemoryAccessor)
             {
-                if (!Connected)
+                if (!IsConnected)
                     throw new InvalidOperationException("Not connected");
                 R3ESharedData data;
                 sharedMemoryAccessor.Read(0, out data);
                 return data;
+            }
+        }
+
+
+        private void RaiseDataLoadedEvent(R3ESharedData data)
+        {
+            R3EDataEventArgs args = new R3EDataEventArgs(data);
+            EventHandler<R3EDataEventArgs> handler = DataLoaded;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
+        private void RaiseConnectedEvent()
+        {
+            EventArgs args = new EventArgs();
+            EventHandler<EventArgs> handler = ConnectedEvent;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
+        private void RaiseDisconnectedEvent()
+        {
+            EventArgs args = new EventArgs();
+            EventHandler<EventArgs> handler = Disconnected;
+            if (handler != null)
+            {
+                handler(this, args);
             }
         }
     }

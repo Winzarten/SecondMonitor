@@ -68,6 +68,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Loader.cs" />
+    <Compile Include="Core\PluginManager\PluginManager.cs" />
     <Compile Include="Core\R3EConnector\IR3EConnector.cs" />
     <Compile Include="Core\R3EConnector\R3E.cs" />
     <Compile Include="Core\R3EConnector\R3EConnector.cs" />

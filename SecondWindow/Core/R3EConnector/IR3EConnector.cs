@@ -21,10 +21,13 @@ namespace SecondWindow.Core.R3EConnector
         }
     }
 
-    interface IR3EConnector
+    public interface IR3EConnector
     {
         event EventHandler<R3EDataEventArgs> DataLoaded;
-        bool Connected
+        event EventHandler<EventArgs> ConnectedEvent;
+        event EventHandler<EventArgs> Disconnected;
+
+        bool IsConnected
         {
             get;            
         }
