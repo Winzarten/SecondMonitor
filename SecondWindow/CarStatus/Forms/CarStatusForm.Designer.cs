@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.AGaugeRange aGaugeRange3 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel1 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeRange aGaugeRange1 = new System.Windows.Forms.AGaugeRange();
             this.gWaterTemp = new System.Windows.Forms.AGauge();
             this.pedalControl1 = new SecondWindow.CarStatus.Forms.Controls.PedalControl();
             this.oilControl2 = new SecondWindow.CarStatus.Forms.Controls.OilControl();
@@ -36,23 +37,29 @@
             // 
             // gWaterTemp
             // 
-            this.gWaterTemp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(206)))), ((int)(((byte)(199)))));
+            this.gWaterTemp.BackColor = System.Drawing.Color.White;
             this.gWaterTemp.BaseArcColor = System.Drawing.Color.Navy;
             this.gWaterTemp.BaseArcRadius = 80;
             this.gWaterTemp.BaseArcStart = 135;
             this.gWaterTemp.BaseArcSweep = 270;
-            this.gWaterTemp.BaseArcWidth = 10;
+            this.gWaterTemp.BaseArcWidth = 2;
             this.gWaterTemp.Center = new System.Drawing.Point(100, 100);
-            aGaugeRange3.Color = System.Drawing.Color.Red;
-            aGaugeRange3.EndValue = 140F;
-            aGaugeRange3.InnerRadius = 70;
-            aGaugeRange3.InRange = false;
-            aGaugeRange3.Name = "GaugeRange1";
-            aGaugeRange3.OuterRadius = 90;
-            aGaugeRange3.StartValue = 100F;
-            this.gWaterTemp.GaugeRanges.Add(aGaugeRange3);
+            aGaugeLabel1.Color = System.Drawing.Color.DarkRed;
+            aGaugeLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            aGaugeLabel1.Name = "GaugeLabel1";
+            aGaugeLabel1.Position = new System.Drawing.Point(65, 60);
+            aGaugeLabel1.Text = "Water Temp";
+            this.gWaterTemp.GaugeLabels.Add(aGaugeLabel1);
+            aGaugeRange1.Color = System.Drawing.Color.Red;
+            aGaugeRange1.EndValue = 120F;
+            aGaugeRange1.InnerRadius = 70;
+            aGaugeRange1.InRange = false;
+            aGaugeRange1.Name = "GaugeRange1";
+            aGaugeRange1.OuterRadius = 90;
+            aGaugeRange1.StartValue = 100F;
+            this.gWaterTemp.GaugeRanges.Add(aGaugeRange1);
             this.gWaterTemp.Location = new System.Drawing.Point(382, 12);
-            this.gWaterTemp.MaxValue = 140F;
+            this.gWaterTemp.MaxValue = 120F;
             this.gWaterTemp.MinValue = 0F;
             this.gWaterTemp.Name = "gWaterTemp";
             this.gWaterTemp.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Green;
@@ -105,6 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(791, 424);
             this.Controls.Add(this.oilControl2);
             this.Controls.Add(this.pedalControl1);
