@@ -59,7 +59,9 @@ namespace SecondWindow.Core.R3EConnector
 
         public void AsynConnect()
         {
-            new Thread(AsynConnector).Start();
+            Thread asyncConnectThread = new Thread(AsynConnector);
+            asyncConnectThread.IsBackground = true;
+            asyncConnectThread.Start();
         }
 
         public bool TryConnect()
@@ -98,6 +100,7 @@ namespace SecondWindow.Core.R3EConnector
             if (daemonThread != null)
                 throw new InvalidOperationException("Daemon is already running");
             daemonThread = new Thread(DaemonMethod);
+            daemonThread.IsBackground = true;
             daemonThread.Start();
         }
 
@@ -121,6 +124,7 @@ namespace SecondWindow.Core.R3EConnector
                     continue;
                 }
                 R3ESharedData data = Load();
+                RaiseDataLoadedEvent(data);
             }
             sharedMemoryAccessor = null;
             sharedMemory = null;

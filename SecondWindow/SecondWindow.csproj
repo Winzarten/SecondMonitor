@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AGauge">
+      <HintPath>..\Artifacts\AGauge.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,18 +64,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CarStatus\Forms\Form1.cs">
+    <Compile Include="CarStatus\Forms\CarStatusForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CarStatus\Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CarStatus\Forms\CarStatusForm.Designer.cs">
+      <DependentUpon>CarStatusForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CarStatus\Forms\Controls\OilControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CarStatus\Forms\Controls\OilControl.Designer.cs">
+      <DependentUpon>OilControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CarStatus\Forms\Controls\PedalControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CarStatus\Forms\Controls\PedalControl.Designer.cs">
+      <DependentUpon>PedalControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Loader.cs" />
+    <Compile Include="Core\PluginManager\ISecondWindowPlugin.cs" />
     <Compile Include="Core\PluginManager\PluginManager.cs" />
     <Compile Include="Core\R3EConnector\IR3EConnector.cs" />
     <Compile Include="Core\R3EConnector\R3E.cs" />
     <Compile Include="Core\R3EConnector\R3EConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CarStatus\Forms\CarStatusForm.resx">
+      <DependentUpon>CarStatusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CarStatus\Forms\Controls\OilControl.resx">
+      <DependentUpon>OilControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CarStatus\Forms\Controls\PedalControl.resx">
+      <DependentUpon>PedalControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

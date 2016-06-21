@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SecondWindow.Core.R3EConnector;
+using SecondWindow.Core.PluginManager;
 
 namespace SecondWindow
 {
@@ -17,12 +18,19 @@ namespace SecondWindow
         {
             try
             {
-                IR3EConnector connector = new R3EConnector();
-                connector.AsynConnect();
-                /*Application.EnableVisualStyles();
+
+                Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Form1());*/
-            }catch(Exception ex)
+                
+                IR3EConnector connector = new R3EConnector();
+                PluginManager pluginManager = new PluginManager(connector);
+                pluginManager.InitializePlugins();                             
+                connector.AsynConnect();
+
+                Application.Run();
+
+            }
+            catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
