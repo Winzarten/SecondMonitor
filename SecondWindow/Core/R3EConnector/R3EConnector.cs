@@ -32,7 +32,7 @@ namespace SecondWindow.Core.R3EConnector
 
         public R3EConnector()
         {
-            TickTime = 100;
+            TickTime = 10;
         }
 
         public bool IsConnected
@@ -42,14 +42,8 @@ namespace SecondWindow.Core.R3EConnector
 
         public int TickTime
         {
-            get
-            {
-                return timeInterval.Milliseconds;
-            }
-            set
-            {
-                timeInterval = TimeSpan.FromMilliseconds(value);
-            }
+            get;
+            set;
         }
 
         public static bool IsRrreRunning()
@@ -106,25 +100,13 @@ namespace SecondWindow.Core.R3EConnector
 
         private void DaemonMethod()
         {
-            TimeSpan _timeAlive = TimeSpan.FromMinutes(10);
-            DateTime timeReset = DateTime.UtcNow;
-            DateTime timeLast = timeReset;
+            
             while (!disconnect && sharedMemoryAccessor.CanRead)
             {
 
-                DateTime timeNow = DateTime.UtcNow;
-                if (timeNow.Subtract(timeReset) > _timeAlive)
-                {
-                    break;
-                }
-
-                if (timeNow.Subtract(timeLast) < timeInterval)
-                {
-                    Thread.Sleep(5);
-                    continue;
-                }
-                R3ESharedData data = Load();
-                RaiseDataLoadedEvent(data);
+               Thread.Sleep(TickTime);                    
+               R3ESharedData data = Load();
+               RaiseDataLoadedEvent(data);
             }
             sharedMemoryAccessor = null;
             sharedMemory = null;

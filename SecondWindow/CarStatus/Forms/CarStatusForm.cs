@@ -51,13 +51,18 @@ namespace SecondWindow.CarStatus.Forms
 
         private void CarStatusForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PluginManager.DeletePlugin(this);
+            PluginManager.DeletePlugin(this) ;
         }
 
         private void UpdateWaterTemp(R3ESharedData data)
         {
             if (data.EngineWaterTemp != -1)
                 gWaterTemp.Value = data.EngineWaterTemp;
+        }
+
+        private void UpdateFuelLevel(R3ESharedData data)
+        {
+            gFuel.Value = (data.FuelLeft/ data.FuelCapacity) * 100;
         }
                    
         private void UpdateGui(R3ESharedData data)
@@ -76,6 +81,7 @@ namespace SecondWindow.CarStatus.Forms
                 }
             }
             UpdateWaterTemp(data);
+            UpdateFuelLevel(data);
             pedalControl1.UpdateControl(data);
             oilControl2.UpdateControl(data);
         }

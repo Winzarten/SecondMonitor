@@ -51,8 +51,8 @@ namespace SecondWindow.CarStatus.Forms.Controls
             int refHeight = this.Height - 30;
 
             Point loc = panel.Location;
-            loc.Y = (int)(refHeight * (1 - value));
-            panel.Height = (refHeight - panel.Location.Y);
+            loc.Y = 0;
+            panel.Height = (int)(refHeight * value);
             panel.Location = loc;
             label.Text = (value * 100).ToString("0.0");
         }

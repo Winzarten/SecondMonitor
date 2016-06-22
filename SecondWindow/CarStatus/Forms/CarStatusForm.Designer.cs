@@ -28,31 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.AGaugeRange aGaugeRange3 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel1 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeRange aGaugeRange1 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel2 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel3 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
             this.gWaterTemp = new System.Windows.Forms.AGauge();
             this.pedalControl1 = new SecondWindow.CarStatus.Forms.Controls.PedalControl();
             this.oilControl2 = new SecondWindow.CarStatus.Forms.Controls.OilControl();
+            this.gFuel = new System.Windows.Forms.AGauge();
             this.SuspendLayout();
             // 
             // gWaterTemp
             // 
-            this.gWaterTemp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(206)))), ((int)(((byte)(199)))));
+            this.gWaterTemp.BackColor = System.Drawing.Color.White;
             this.gWaterTemp.BaseArcColor = System.Drawing.Color.Navy;
             this.gWaterTemp.BaseArcRadius = 80;
             this.gWaterTemp.BaseArcStart = 135;
             this.gWaterTemp.BaseArcSweep = 270;
-            this.gWaterTemp.BaseArcWidth = 10;
+            this.gWaterTemp.BaseArcWidth = 2;
             this.gWaterTemp.Center = new System.Drawing.Point(100, 100);
-            aGaugeRange3.Color = System.Drawing.Color.Red;
-            aGaugeRange3.EndValue = 140F;
-            aGaugeRange3.InnerRadius = 70;
-            aGaugeRange3.InRange = false;
-            aGaugeRange3.Name = "GaugeRange1";
-            aGaugeRange3.OuterRadius = 90;
-            aGaugeRange3.StartValue = 100F;
-            this.gWaterTemp.GaugeRanges.Add(aGaugeRange3);
-            this.gWaterTemp.Location = new System.Drawing.Point(382, 12);
-            this.gWaterTemp.MaxValue = 140F;
+            aGaugeLabel1.Color = System.Drawing.Color.DarkRed;
+            aGaugeLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            aGaugeLabel1.Name = "GaugeLabel1";
+            aGaugeLabel1.Position = new System.Drawing.Point(65, 60);
+            aGaugeLabel1.Text = "Water Temp";
+            this.gWaterTemp.GaugeLabels.Add(aGaugeLabel1);
+            aGaugeRange1.Color = System.Drawing.Color.Red;
+            aGaugeRange1.EndValue = 120F;
+            aGaugeRange1.InnerRadius = 70;
+            aGaugeRange1.InRange = false;
+            aGaugeRange1.Name = "GaugeRange1";
+            aGaugeRange1.OuterRadius = 90;
+            aGaugeRange1.StartValue = 100F;
+            this.gWaterTemp.GaugeRanges.Add(aGaugeRange1);
+            this.gWaterTemp.Location = new System.Drawing.Point(393, 12);
+            this.gWaterTemp.MaxValue = 120F;
             this.gWaterTemp.MinValue = 0F;
             this.gWaterTemp.Name = "gWaterTemp";
             this.gWaterTemp.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Green;
@@ -96,16 +107,80 @@
             // oilControl2
             // 
             this.oilControl2.BackColor = System.Drawing.Color.White;
-            this.oilControl2.Location = new System.Drawing.Point(139, 12);
+            this.oilControl2.Location = new System.Drawing.Point(150, 12);
             this.oilControl2.Name = "oilControl2";
             this.oilControl2.Size = new System.Drawing.Size(237, 290);
             this.oilControl2.TabIndex = 2;
+            // 
+            // gFuel
+            // 
+            this.gFuel.BackColor = System.Drawing.Color.White;
+            this.gFuel.BaseArcColor = System.Drawing.Color.Gray;
+            this.gFuel.BaseArcRadius = 50;
+            this.gFuel.BaseArcStart = 225;
+            this.gFuel.BaseArcSweep = 90;
+            this.gFuel.BaseArcWidth = 2;
+            this.gFuel.Center = new System.Drawing.Point(40, 55);
+            aGaugeLabel2.Color = System.Drawing.SystemColors.WindowText;
+            aGaugeLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            aGaugeLabel2.Name = "GaugeLabel1";
+            aGaugeLabel2.Position = new System.Drawing.Point(70, 35);
+            aGaugeLabel2.Text = "F";
+            aGaugeLabel3.Color = System.Drawing.SystemColors.WindowText;
+            aGaugeLabel3.Name = "GaugeLabel2";
+            aGaugeLabel3.Position = new System.Drawing.Point(7, 35);
+            aGaugeLabel3.Text = "E";
+            this.gFuel.GaugeLabels.Add(aGaugeLabel2);
+            this.gFuel.GaugeLabels.Add(aGaugeLabel3);
+            aGaugeRange2.Color = System.Drawing.Color.Red;
+            aGaugeRange2.EndValue = 25F;
+            aGaugeRange2.InnerRadius = 40;
+            aGaugeRange2.InRange = false;
+            aGaugeRange2.Name = "GaugeRange1";
+            aGaugeRange2.OuterRadius = 50;
+            aGaugeRange2.StartValue = 0F;
+            this.gFuel.GaugeRanges.Add(aGaugeRange2);
+            this.gFuel.Location = new System.Drawing.Point(448, 170);
+            this.gFuel.MaxValue = 100F;
+            this.gFuel.MinValue = 0F;
+            this.gFuel.Name = "gFuel";
+            this.gFuel.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Red;
+            this.gFuel.NeedleColor2 = System.Drawing.Color.Black;
+            this.gFuel.NeedleRadius = 40;
+            this.gFuel.NeedleType = System.Windows.Forms.NeedleType.Advance;
+            this.gFuel.NeedleWidth = 2;
+            this.gFuel.ScaleLinesInterColor = System.Drawing.Color.Black;
+            this.gFuel.ScaleLinesInterInnerRadius = 45;
+            this.gFuel.ScaleLinesInterOuterRadius = 50;
+            this.gFuel.ScaleLinesInterWidth = 2;
+            this.gFuel.ScaleLinesMajorColor = System.Drawing.Color.Black;
+            this.gFuel.ScaleLinesMajorInnerRadius = 40;
+            this.gFuel.ScaleLinesMajorOuterRadius = 50;
+            this.gFuel.ScaleLinesMajorStepValue = 50F;
+            this.gFuel.ScaleLinesMajorWidth = 3;
+            this.gFuel.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.gFuel.ScaleLinesMinorInnerRadius = 40;
+            this.gFuel.ScaleLinesMinorOuterRadius = 60;
+            this.gFuel.ScaleLinesMinorTicks = 1;
+            this.gFuel.ScaleLinesMinorWidth = 1;
+            this.gFuel.ScaleNumbersColor = System.Drawing.Color.Black;
+            this.gFuel.ScaleNumbersFormat = null;
+            this.gFuel.ScaleNumbersRadius = 95;
+            this.gFuel.ScaleNumbersRotation = 0;
+            this.gFuel.ScaleNumbersStartScaleLine = 4;
+            this.gFuel.ScaleNumbersStepScaleLines = 3;
+            this.gFuel.Size = new System.Drawing.Size(82, 73);
+            this.gFuel.TabIndex = 3;
+            this.gFuel.Text = "aGauge1";
+            this.gFuel.Value = 0F;
             // 
             // CarStatusForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(791, 424);
+            this.Controls.Add(this.gFuel);
             this.Controls.Add(this.oilControl2);
             this.Controls.Add(this.pedalControl1);
             this.Controls.Add(this.gWaterTemp);
@@ -123,5 +198,6 @@
         private System.Windows.Forms.AGauge gWaterTemp;
         private Controls.PedalControl pedalControl1;        
         private Controls.OilControl oilControl2;
+        private System.Windows.Forms.AGauge gFuel;
     }
 }
