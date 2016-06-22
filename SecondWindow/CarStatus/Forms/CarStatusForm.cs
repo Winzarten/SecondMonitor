@@ -77,7 +77,7 @@ namespace SecondWindow.CarStatus.Forms
                     return;
                 }catch(Exception)
                 {
-
+                    return;
                 }
             }
             UpdateWaterTemp(data);

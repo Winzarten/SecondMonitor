@@ -37,7 +37,7 @@
             // pnlThrottle
             // 
             this.pnlThrottle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.pnlThrottle.Location = new System.Drawing.Point(122, 3);
+            this.pnlThrottle.Location = new System.Drawing.Point(67, 3);
             this.pnlThrottle.Name = "pnlThrottle";
             this.pnlThrottle.Size = new System.Drawing.Size(28, 118);
             this.pnlThrottle.TabIndex = 0;
@@ -56,7 +56,7 @@
             // pnlBrake
             // 
             this.pnlBrake.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.pnlBrake.Location = new System.Drawing.Point(67, 3);
+            this.pnlBrake.Location = new System.Drawing.Point(3, 0);
             this.pnlBrake.Name = "pnlBrake";
             this.pnlBrake.Size = new System.Drawing.Size(28, 118);
             this.pnlBrake.TabIndex = 2;

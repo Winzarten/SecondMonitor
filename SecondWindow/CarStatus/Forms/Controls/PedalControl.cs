@@ -41,7 +41,7 @@ namespace SecondWindow.CarStatus.Forms.Controls
         public void UpdateControl(R3ESharedData data)
         {
             int refHeight = this.Height - 30;
-
+            UpdatePostions();
             UpdateControlsByValue(pnlThrottle, lblThrottle, data.ThrottlePedal);
             UpdateControlsByValue(pnlBrake, lblBrake, data.BrakePedal);
         }

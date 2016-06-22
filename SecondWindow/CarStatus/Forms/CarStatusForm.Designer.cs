@@ -34,9 +34,9 @@
             System.Windows.Forms.AGaugeLabel aGaugeLabel3 = new System.Windows.Forms.AGaugeLabel();
             System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
             this.gWaterTemp = new System.Windows.Forms.AGauge();
-            this.pedalControl1 = new SecondWindow.CarStatus.Forms.Controls.PedalControl();
-            this.oilControl2 = new SecondWindow.CarStatus.Forms.Controls.OilControl();
             this.gFuel = new System.Windows.Forms.AGauge();
+            this.oilControl2 = new SecondWindow.CarStatus.Forms.Controls.OilControl();
+            this.pedalControl1 = new SecondWindow.CarStatus.Forms.Controls.PedalControl();
             this.SuspendLayout();
             // 
             // gWaterTemp
@@ -62,7 +62,7 @@
             aGaugeRange1.OuterRadius = 90;
             aGaugeRange1.StartValue = 100F;
             this.gWaterTemp.GaugeRanges.Add(aGaugeRange1);
-            this.gWaterTemp.Location = new System.Drawing.Point(393, 12);
+            this.gWaterTemp.Location = new System.Drawing.Point(237, -1);
             this.gWaterTemp.MaxValue = 120F;
             this.gWaterTemp.MinValue = 0F;
             this.gWaterTemp.Name = "gWaterTemp";
@@ -96,22 +96,6 @@
             this.gWaterTemp.Text = "gWaterTemp";
             this.gWaterTemp.Value = 0F;
             // 
-            // pedalControl1
-            // 
-            this.pedalControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
-            this.pedalControl1.Location = new System.Drawing.Point(640, 262);
-            this.pedalControl1.Name = "pedalControl1";
-            this.pedalControl1.Size = new System.Drawing.Size(150, 150);
-            this.pedalControl1.TabIndex = 1;
-            // 
-            // oilControl2
-            // 
-            this.oilControl2.BackColor = System.Drawing.Color.White;
-            this.oilControl2.Location = new System.Drawing.Point(150, 12);
-            this.oilControl2.Name = "oilControl2";
-            this.oilControl2.Size = new System.Drawing.Size(237, 290);
-            this.oilControl2.TabIndex = 2;
-            // 
             // gFuel
             // 
             this.gFuel.BackColor = System.Drawing.Color.White;
@@ -140,7 +124,7 @@
             aGaugeRange2.OuterRadius = 50;
             aGaugeRange2.StartValue = 0F;
             this.gFuel.GaugeRanges.Add(aGaugeRange2);
-            this.gFuel.Location = new System.Drawing.Point(448, 170);
+            this.gFuel.Location = new System.Drawing.Point(298, 164);
             this.gFuel.MaxValue = 100F;
             this.gFuel.MinValue = 0F;
             this.gFuel.Name = "gFuel";
@@ -174,12 +158,28 @@
             this.gFuel.Text = "aGauge1";
             this.gFuel.Value = 0F;
             // 
+            // oilControl2
+            // 
+            this.oilControl2.BackColor = System.Drawing.Color.White;
+            this.oilControl2.Location = new System.Drawing.Point(1, -1);
+            this.oilControl2.Name = "oilControl2";
+            this.oilControl2.Size = new System.Drawing.Size(237, 290);
+            this.oilControl2.TabIndex = 2;
+            // 
+            // pedalControl1
+            // 
+            this.pedalControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
+            this.pedalControl1.Location = new System.Drawing.Point(448, -1);
+            this.pedalControl1.Name = "pedalControl1";
+            this.pedalControl1.Size = new System.Drawing.Size(82, 150);
+            this.pedalControl1.TabIndex = 1;
+            // 
             // CarStatusForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(791, 424);
+            this.ClientSize = new System.Drawing.Size(540, 769);
             this.Controls.Add(this.gFuel);
             this.Controls.Add(this.oilControl2);
             this.Controls.Add(this.pedalControl1);
