@@ -35,6 +35,10 @@
             System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
             this.gWaterTemp = new System.Windows.Forms.AGauge();
             this.gFuel = new System.Windows.Forms.AGauge();
+            this.ctlRearRight = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
+            this.ctlFrontRight = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
+            this.ctlFrontLeft = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
+            this.ctlRearLeft = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
             this.oilControl2 = new SecondWindow.CarStatus.Forms.Controls.OilControl();
             this.pedalControl1 = new SecondWindow.CarStatus.Forms.Controls.PedalControl();
             this.SuspendLayout();
@@ -62,7 +66,7 @@
             aGaugeRange1.OuterRadius = 90;
             aGaugeRange1.StartValue = 100F;
             this.gWaterTemp.GaugeRanges.Add(aGaugeRange1);
-            this.gWaterTemp.Location = new System.Drawing.Point(237, -1);
+            this.gWaterTemp.Location = new System.Drawing.Point(255, 12);
             this.gWaterTemp.MaxValue = 120F;
             this.gWaterTemp.MinValue = 0F;
             this.gWaterTemp.Name = "gWaterTemp";
@@ -124,7 +128,7 @@
             aGaugeRange2.OuterRadius = 50;
             aGaugeRange2.StartValue = 0F;
             this.gFuel.GaugeRanges.Add(aGaugeRange2);
-            this.gFuel.Location = new System.Drawing.Point(298, 164);
+            this.gFuel.Location = new System.Drawing.Point(309, 176);
             this.gFuel.MaxValue = 100F;
             this.gFuel.MinValue = 0F;
             this.gFuel.Name = "gFuel";
@@ -158,10 +162,46 @@
             this.gFuel.Text = "aGauge1";
             this.gFuel.Value = 0F;
             // 
+            // ctlRearRight
+            // 
+            this.ctlRearRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.ctlRearRight.Location = new System.Drawing.Point(243, 607);
+            this.ctlRearRight.Name = "ctlRearRight";
+            this.ctlRearRight.Size = new System.Drawing.Size(225, 150);
+            this.ctlRearRight.TabIndex = 7;
+            this.ctlRearRight.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearRight;
+            // 
+            // ctlFrontRight
+            // 
+            this.ctlFrontRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.ctlFrontRight.Location = new System.Drawing.Point(243, 451);
+            this.ctlFrontRight.Name = "ctlFrontRight";
+            this.ctlFrontRight.Size = new System.Drawing.Size(225, 150);
+            this.ctlFrontRight.TabIndex = 6;
+            this.ctlFrontRight.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontRight;
+            // 
+            // ctlFrontLeft
+            // 
+            this.ctlFrontLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.ctlFrontLeft.Location = new System.Drawing.Point(12, 451);
+            this.ctlFrontLeft.Name = "ctlFrontLeft";
+            this.ctlFrontLeft.Size = new System.Drawing.Size(225, 150);
+            this.ctlFrontLeft.TabIndex = 5;
+            this.ctlFrontLeft.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontLeft;
+            // 
+            // ctlRearLeft
+            // 
+            this.ctlRearLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.ctlRearLeft.Location = new System.Drawing.Point(12, 607);
+            this.ctlRearLeft.Name = "ctlRearLeft";
+            this.ctlRearLeft.Size = new System.Drawing.Size(225, 150);
+            this.ctlRearLeft.TabIndex = 4;
+            this.ctlRearLeft.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearLeft;
+            // 
             // oilControl2
             // 
             this.oilControl2.BackColor = System.Drawing.Color.White;
-            this.oilControl2.Location = new System.Drawing.Point(1, -1);
+            this.oilControl2.Location = new System.Drawing.Point(12, 12);
             this.oilControl2.Name = "oilControl2";
             this.oilControl2.Size = new System.Drawing.Size(237, 290);
             this.oilControl2.TabIndex = 2;
@@ -169,7 +209,7 @@
             // pedalControl1
             // 
             this.pedalControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(5)))), ((int)(((byte)(5)))));
-            this.pedalControl1.Location = new System.Drawing.Point(448, -1);
+            this.pedalControl1.Location = new System.Drawing.Point(466, 12);
             this.pedalControl1.Name = "pedalControl1";
             this.pedalControl1.Size = new System.Drawing.Size(82, 150);
             this.pedalControl1.TabIndex = 1;
@@ -179,7 +219,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(540, 769);
+            this.ClientSize = new System.Drawing.Size(597, 769);
+            this.Controls.Add(this.ctlRearRight);
+            this.Controls.Add(this.ctlFrontRight);
+            this.Controls.Add(this.ctlFrontLeft);
+            this.Controls.Add(this.ctlRearLeft);
             this.Controls.Add(this.gFuel);
             this.Controls.Add(this.oilControl2);
             this.Controls.Add(this.pedalControl1);
@@ -199,5 +243,9 @@
         private Controls.PedalControl pedalControl1;        
         private Controls.OilControl oilControl2;
         private System.Windows.Forms.AGauge gFuel;
+        private Controls.WheelStatusControl ctlRearLeft;
+        private Controls.WheelStatusControl ctlFrontLeft;
+        private Controls.WheelStatusControl ctlFrontRight;
+        private Controls.WheelStatusControl ctlRearRight;
     }
 }

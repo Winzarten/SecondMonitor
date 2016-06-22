@@ -52,6 +52,9 @@
     <Reference Include="AGauge">
       <HintPath>..\Artifacts\AGauge.dll</HintPath>
     </Reference>
+    <Reference Include="LCDLabel">
+      <HintPath>..\Artifacts\LCDLabel.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -82,6 +85,12 @@
     <Compile Include="CarStatus\Forms\Controls\PedalControl.Designer.cs">
       <DependentUpon>PedalControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CarStatus\Forms\Controls\WheelStatusControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CarStatus\Forms\Controls\WheelStatusControl.Designer.cs">
+      <DependentUpon>WheelStatusControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\Loader.cs" />
     <Compile Include="Core\PluginManager\ISecondWindowPlugin.cs" />
     <Compile Include="Core\PluginManager\PluginManager.cs" />
@@ -97,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CarStatus\Forms\Controls\PedalControl.resx">
       <DependentUpon>PedalControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CarStatus\Forms\Controls\WheelStatusControl.resx">
+      <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -121,7 +133,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\brake.png" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
@@ -133,6 +147,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tirepressure300.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

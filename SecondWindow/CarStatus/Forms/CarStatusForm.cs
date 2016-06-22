@@ -84,6 +84,10 @@ namespace SecondWindow.CarStatus.Forms
             UpdateFuelLevel(data);
             pedalControl1.UpdateControl(data);
             oilControl2.UpdateControl(data);
+            ctlRearLeft.UpdateControl(data);
+            ctlRearRight.UpdateControl(data);
+            ctlFrontLeft.UpdateControl(data);
+            ctlFrontRight.UpdateControl(data);
         }
 
 
