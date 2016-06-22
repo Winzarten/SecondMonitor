@@ -51,7 +51,7 @@ namespace SecondWindow.CarStatus.Forms
 
         private void CarStatusForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PluginManager.DeletePlugin(this);
+            PluginManager.DeletePlugin(this) ;
         }
 
         private void UpdateWaterTemp(R3ESharedData data)
