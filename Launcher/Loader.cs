@@ -11,7 +11,7 @@ namespace SecondMonitor.Launcher
 {
     static class Loader
     {
-        private static readonly string defaultGameConnector = "R3EConnector.dll";
+        private static readonly string defaultGameConnector = "PCarsConnector.dll";// "R3EConnector.dll";
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
