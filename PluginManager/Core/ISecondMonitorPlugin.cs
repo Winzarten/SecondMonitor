@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SecondMonitor.Core.PluginManager
+﻿namespace SecondMonitor.PluginManager.Core
 {
     public interface ISecondMonitorPlugin
     {
-        PluginManager PluginManager
+        PluginsManager PluginManager
         {
             get;
             set;

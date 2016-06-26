@@ -2,19 +2,16 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using SecondMonitor.Core.R3EConnector.Data;
 using System.Threading;
 using SecondMonitor.DataModel;
+using SecondMonitor.PluginManager.GameConnector;
 
 namespace SecondMonitor.Core.R3EConnector
-{    
+{
 
-    public class R3EConnector : IR3EConnector
+    public class R3EConnector : IGameConnector
     {
 
         private MemoryMappedFile sharedMemory;
@@ -151,7 +148,7 @@ namespace SecondMonitor.Core.R3EConnector
         }
 
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
-        public static SimulatorDataSet FromR3EData(R3ESharedData data)
+        private static SimulatorDataSet FromR3EData(R3ESharedData data)
         {
             SimulatorDataSet simData = new SimulatorDataSet();
 

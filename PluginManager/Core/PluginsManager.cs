@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using SecondMonitor.Core.R3EConnector;
-using SecondMonitor.Core.R3EConnector.Data;
-using SecondMonitor.CarStatus.Forms;
-using System.Windows.Forms;
 using SecondMonitor.DataModel;
+using SecondMonitor.PluginManager.GameConnector;
+using System.Windows.Forms;
 
-namespace SecondMonitor.Core.PluginManager
+namespace SecondMonitor.PluginManager.Core
 {
-    public class PluginManager
+    public class PluginsManager
     {
         public event EventHandler<DataEventArgs> DataLoaded;
         private ICollection<ISecondMonitorPlugin> plugins;
 
-        public PluginManager(IR3EConnector connector)
+        public PluginsManager(IGameConnector connector)
         {
             plugins = new List<ISecondMonitorPlugin>();
             Connector = connector;
@@ -31,6 +26,8 @@ namespace SecondMonitor.Core.PluginManager
             plugin.RunPlugin();
             plugins.Add(plugin);
         }
+
+        
 
         public void DeletePlugin(ISecondMonitorPlugin plugin)
         {   lock (plugins)
@@ -47,7 +44,7 @@ namespace SecondMonitor.Core.PluginManager
              }
         }
 
-        public IR3EConnector Connector
+        public IGameConnector Connector
         {
             get;
             private set;

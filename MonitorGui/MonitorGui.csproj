@@ -34,7 +34,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,7 +43,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -91,10 +91,6 @@
     <Compile Include="CarStatus\Forms\Controls\WheelStatusControl.Designer.cs">
       <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\Loader.cs" />
-    <Compile Include="Core\PluginManager\ISecondWindowPlugin.cs" />
-    <Compile Include="Core\PluginManager\PluginManager.cs" />
-    <Compile Include="Core\R3EConnector\IR3EConnector.cs" />
     <Compile Include="Core\R3EConnector\R3E.cs" />
     <Compile Include="Core\R3EConnector\R3EConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,6 +151,10 @@
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginManager\PluginManager.csproj">
+      <Project>{e61dbd85-bc10-4abd-9c0b-22770399de70}</Project>
+      <Name>PluginManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

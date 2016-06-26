@@ -1,15 +1,8 @@
-﻿using SecondMonitor.Core.PluginManager;
-using SecondMonitor.Core.R3EConnector;
-using SecondMonitor.Core.R3EConnector.Data;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
 using SecondMonitor.DataModel;
+using SecondMonitor.PluginManager.Core;
+using SecondMonitor.PluginManager.GameConnector;
 
 namespace SecondMonitor.CarStatus.Forms
 {
@@ -31,8 +24,8 @@ namespace SecondMonitor.CarStatus.Forms
             }
         }
 
-        private PluginManager pluginManager;
-        public PluginManager PluginManager
+        private PluginsManager pluginManager;
+        public PluginsManager PluginManager
         {
             get
             {

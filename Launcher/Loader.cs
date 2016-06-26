@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SecondMonitor.Core.R3EConnector;
-using SecondMonitor.Core.PluginManager;
 
-namespace SecondMonitor
+namespace SecondMonitor.Launcher
 {
     static class Program
     {
