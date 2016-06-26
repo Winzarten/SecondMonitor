@@ -3,12 +3,12 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
-using SecondMonitor.Core.R3EConnector.Data;
 using System.Threading;
 using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.GameConnector;
+using SecondMonitor.R3EConnector.Data;
 
-namespace SecondMonitor.Core.R3EConnector
+namespace SecondMonitor.R3EConnector
 {
 
     public class R3EConnector : IGameConnector

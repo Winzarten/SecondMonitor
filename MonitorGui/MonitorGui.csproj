@@ -94,8 +94,6 @@
     <Compile Include="CarStatus\Forms\Controls\WheelStatusControl.Designer.cs">
       <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\R3EConnector\R3E.cs" />
-    <Compile Include="Core\R3EConnector\R3EConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CarStatus\Forms\CarStatusForm.resx">
       <DependentUpon>CarStatusForm.cs</DependentUpon>
