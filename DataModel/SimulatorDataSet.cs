@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SecondMonitor.DataModel.BasicProperties;
+﻿using SecondMonitor.DataModel.BasicProperties;
 
 namespace SecondMonitor.DataModel
 {

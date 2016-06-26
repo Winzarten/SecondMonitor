@@ -1,11 +1,7 @@
-﻿using SecondMonitor.Core.R3EConnector.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using SecondMonitor.DataModel;
 
-namespace SecondMonitor.Core.R3EConnector
+namespace SecondMonitor.PluginManager.GameConnector
 {
     public class DataEventArgs : EventArgs
     {
@@ -22,7 +18,7 @@ namespace SecondMonitor.Core.R3EConnector
         }
     }
 
-    public interface IR3EConnector
+    public interface IGameConnector
     {
         event EventHandler<DataEventArgs> DataLoaded;
         event EventHandler<EventArgs> ConnectedEvent;

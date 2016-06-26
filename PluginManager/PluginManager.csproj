@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{30DEA773-F579-4A77-9C73-3D58C81612D0}</ProjectGuid>
+    <ProjectGuid>{E61DBD85-BC10-4ABD-9C0B-22770399DE70}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SecondMonitor.DataModel</RootNamespace>
-    <AssemblyName>DataModel</AssemblyName>
+    <RootNamespace>SecondMonitor.PluginManager</RootNamespace>
+    <AssemblyName>PluginManager</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,17 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicProperties\PedalInfo.cs" />
-    <Compile Include="BasicProperties\Volume.cs" />
-    <Compile Include="CarInfo.cs" />
-    <Compile Include="SimulatorDataSet.cs" />
-    <Compile Include="FuelInfo.cs" />
-    <Compile Include="OilInfo.cs" />
-    <Compile Include="BasicProperties\Pressure.cs" />
+    <Compile Include="Core\ISecondMonitorPlugin.cs" />
+    <Compile Include="Core\PluginsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BasicProperties\Temperature.cs" />
-    <Compile Include="WaterInfo.cs" />
-    <Compile Include="WheelInfo.cs" />
+    <Compile Include="GameConnector\IGameConnector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
+      <Name>DataModel</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
