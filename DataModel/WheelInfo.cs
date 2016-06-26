@@ -8,11 +8,19 @@ namespace SecondMonitor.DataModel
 {
     public class WheelInfo
     {                
-        public Temperature brakeTemperature;
-        public Pressure tyrePressure;
-        public Temperature leftTyrePressure;
-        public Temperature rightTyrePressure;
-        public Temperature centerTyrePressure;
+        public WheelInfo()
+        {
+            BrakeTemperature = new Temperature();
+            TyrePressure = new Pressure();
+            LeftTyreTemp = new Temperature();
+            RightTyreTemp = new Temperature();
+            CenterTyreTemp = new Temperature();
+        }
+        public Temperature BrakeTemperature;
+        public Pressure TyrePressure;
+        public Temperature LeftTyreTemp;
+        public Temperature RightTyreTemp;
+        public Temperature CenterTyreTemp;
     }
 
 }

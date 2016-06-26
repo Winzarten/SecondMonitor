@@ -1,6 +1,6 @@
-﻿using SecondWindow.Core.PluginManager;
-using SecondWindow.Core.R3EConnector;
-using SecondWindow.Core.R3EConnector.Data;
+﻿using SecondMonitor.Core.PluginManager;
+using SecondMonitor.Core.R3EConnector;
+using SecondMonitor.Core.R3EConnector.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,13 +9,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SecondMonitor.DataModel;
 
-namespace SecondWindow.CarStatus.Forms
+namespace SecondMonitor.CarStatus.Forms
 {
-    public partial class CarStatusForm : Form, ISecondWindowPlugin
+    public partial class CarStatusForm : Form, ISecondMonitorPlugin
     {
 
-        delegate void UpdateGuiDelegate(R3ESharedData data);
+        delegate void UpdateGuiDelegate(SimulatorDataSet data);
 
         public CarStatusForm()
         {
@@ -54,18 +55,18 @@ namespace SecondWindow.CarStatus.Forms
             PluginManager.DeletePlugin(this) ;
         }
 
-        private void UpdateWaterTemp(R3ESharedData data)
+        private void UpdateWaterTemp(SimulatorDataSet data)
         {
-            if (data.EngineWaterTemp != -1)
-                gWaterTemp.Value = data.EngineWaterTemp;
+            if (data.PlayerCarInfo.WaterSystmeInfo.WaterTemperature.InCelsius != -1)
+                gWaterTemp.Value =(float) data.PlayerCarInfo.WaterSystmeInfo.WaterTemperature.InCelsius;
         }
 
-        private void UpdateFuelLevel(R3ESharedData data)
+        private void UpdateFuelLevel(SimulatorDataSet data)
         {
-            gFuel.Value = (data.FuelLeft/ data.FuelCapacity) * 100;
+            gFuel.Value = (float)((data.PlayerCarInfo.FuelSystemInfo.FuelRemaining.InLiters/ data.PlayerCarInfo.FuelSystemInfo.FuelCapacity.InLiters) * 100);
         }
                    
-        private void UpdateGui(R3ESharedData data)
+        private void UpdateGui(SimulatorDataSet data)
         {            
             if (Disposing || IsDisposed)
                 return;
@@ -91,10 +92,10 @@ namespace SecondWindow.CarStatus.Forms
         }
 
 
-        private void OnDataLoaded(object sender, R3EDataEventArgs args)
+        private void OnDataLoaded(object sender, DataEventArgs args)
         {
-            R3ESharedData data = args.Data;
-            if (args.Data.EngineWaterTemp == -1)
+            SimulatorDataSet data = args.Data;
+            if (args.Data.PlayerCarInfo.WaterSystmeInfo.WaterTemperature.InCelsius == -1)
                 return;
             UpdateGui(data);
         }

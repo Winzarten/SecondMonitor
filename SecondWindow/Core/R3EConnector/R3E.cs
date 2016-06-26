@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SecondWindow.Core.R3EConnector
+namespace SecondMonitor.Core.R3EConnector
 {
     public class Constant
     {        

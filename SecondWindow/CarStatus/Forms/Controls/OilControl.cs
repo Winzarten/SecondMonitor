@@ -6,9 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SecondWindow.Core.R3EConnector.Data;
+using SecondMonitor.Core.R3EConnector.Data;
+using SecondMonitor.DataModel;
 
-namespace SecondWindow.CarStatus.Forms.Controls
+namespace SecondMonitor.CarStatus.Forms.Controls
 {
     public partial class OilControl : UserControl
     {
@@ -22,10 +23,10 @@ namespace SecondWindow.CarStatus.Forms.Controls
 
         }
 
-        public void UpdateControl(R3ESharedData data)
+        public void UpdateControl(SimulatorDataSet data)
         {
-            gTemperature.Value = data.EngineOilTemp;
-            gPressure.Value = data.EngineOilPressure;
+            gTemperature.Value = (float) data.PlayerCarInfo.OilSystemInfo.OilTemperature.InCelsius;
+            gPressure.Value = (float) data.PlayerCarInfo.OilSystemInfo.OilPressure.InKpa;
         }
     }
 }

@@ -6,9 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SecondWindow.Core.R3EConnector.Data;
+using SecondMonitor.Core.R3EConnector.Data;
+using SecondMonitor.DataModel;
 
-namespace SecondWindow.CarStatus.Forms.Controls
+namespace SecondMonitor.CarStatus.Forms.Controls
 {
     public partial class WheelStatusControl : UserControl
     {
@@ -23,75 +24,75 @@ namespace SecondWindow.CarStatus.Forms.Controls
             set;
         }
 
-        private void UpdateBrakeControl(R3ESharedData data)
+        private void UpdateBrakeControl(SimulatorDataSet data)
         {
             switch(WheelPostion)
             {
                 case WheelPostionEnum.FrontLeft:
-                    lblBreakTemp.Text = data.BrakeTemp.FrontLeft.ToString("0");
+                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.BrakeTemperature.InCelsius.ToString("0");
                     break;
                 case WheelPostionEnum.FrontRight:
-                    lblBreakTemp.Text = data.BrakeTemp.FrontRight.ToString("0");
+                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.BrakeTemperature.InCelsius.ToString("0");
                     break;
                 case WheelPostionEnum.RearLeft:
-                    lblBreakTemp.Text = data.BrakeTemp.RearLeft.ToString("0");
+                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.BrakeTemperature.InCelsius.ToString("0");
                     break;
                 case WheelPostionEnum.RearRight:
-                    lblBreakTemp.Text = data.BrakeTemp.RearRight.ToString("0");
+                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.RearRight.BrakeTemperature.InCelsius.ToString("0");
                     break;
 
             }
         }
 
-        private void UpdatePressureControl(R3ESharedData data)
+        private void UpdatePressureControl(SimulatorDataSet data)
         {            
             switch (WheelPostion)
             {
                 case WheelPostionEnum.FrontLeft:
-                    lblTyrePressure.Text = data.TirePressure.FrontLeft.ToString("0");
+                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyrePressure.InKpa.ToString("0");
                     break;
                 case WheelPostionEnum.FrontRight:
-                    lblTyrePressure.Text = data.TirePressure.FrontRight.ToString("0");
+                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.TyrePressure.InKpa.ToString("0");
                     break;
                 case WheelPostionEnum.RearLeft:
-                    lblTyrePressure.Text = data.TirePressure.RearLeft.ToString("0");
+                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.TyrePressure.InKpa.ToString("0");
                     break;
                 case WheelPostionEnum.RearRight:
-                    lblTyrePressure.Text = data.TirePressure.RearRight.ToString("0");
+                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.RearRight.TyrePressure.InKpa.ToString("0");
                     break;
 
             }
         }
 
-        private void UpdateWheelTemp(R3ESharedData data)
+        private void UpdateWheelTemp(SimulatorDataSet data)
         {
             switch (WheelPostion)
             {
                 case WheelPostionEnum.FrontLeft:
-                    wheelTempLeft.Text = data.TireTemp.FrontLeft_Left.ToString("0");
-                    wheelTempCenter.Text = data.TireTemp.FrontLeft_Center.ToString("0");
-                    wheelTempRight.Text = data.TireTemp.FrontLeft_Right.ToString("0");
+                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.InCelsius.ToString("0");
+                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.InCelsius.ToString("0");
+                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.RightTyreTemp.InCelsius.ToString("0");
                     break;
                 case WheelPostionEnum.FrontRight:
-                    wheelTempLeft.Text = data.TireTemp.FrontRight_Left.ToString("0");
-                    wheelTempCenter.Text = data.TireTemp.FrontRight_Center.ToString("0");
-                    wheelTempRight.Text = data.TireTemp.FrontRight_Right.ToString("0");
+                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.LeftTyreTemp.InCelsius.ToString("0");
+                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.CenterTyreTemp.InCelsius.ToString("0");
+                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.RightTyreTemp.InCelsius.ToString("0");
                     break;
                 case WheelPostionEnum.RearLeft:
-                    wheelTempLeft.Text = data.TireTemp.RearLeft_Left.ToString("0");
-                    wheelTempCenter.Text = data.TireTemp.RearLeft_Center.ToString("0");
-                    wheelTempRight.Text = data.TireTemp.RearLeft_Right.ToString("0");
+                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.LeftTyreTemp.InCelsius.ToString("0");
+                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.CenterTyreTemp.InCelsius.ToString("0");
+                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.RightTyreTemp.InCelsius.ToString("0");
                     break;
                 case WheelPostionEnum.RearRight:
-                    wheelTempLeft.Text = data.TireTemp.RearRight_Left.ToString("0");
-                    wheelTempCenter.Text = data.TireTemp.RearRight_Center.ToString("0");
-                    wheelTempRight.Text = data.TireTemp.RearRight_Right.ToString("0");
+                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.RearRight.LeftTyreTemp.InCelsius.ToString("0");
+                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.RearRight.CenterTyreTemp.InCelsius.ToString("0");
+                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.RearRight.RightTyreTemp.InCelsius.ToString("0");
                     break;
 
             }
         }
 
-        public void UpdateControl(R3ESharedData data)
+        public void UpdateControl(SimulatorDataSet data)
         {
             UpdateBrakeControl(data);
             UpdateWheelTemp(data);

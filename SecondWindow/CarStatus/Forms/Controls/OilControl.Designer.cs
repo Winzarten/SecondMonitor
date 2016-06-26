@@ -1,4 +1,4 @@
-﻿namespace SecondWindow.CarStatus.Forms.Controls
+﻿namespace SecondMonitor.CarStatus.Forms.Controls
 {
     partial class OilControl
     {

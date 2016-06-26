@@ -1,4 +1,4 @@
-﻿namespace SecondWindow.CarStatus.Forms.Controls
+﻿namespace SecondMonitor.CarStatus.Forms.Controls
 {
     partial class WheelStatusControl
     {
@@ -166,7 +166,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::SecondWindow.Properties.Resources.tirepressure300;
+            this.pictureBox2.Image = global::SecondMonitor.Properties.Resources.tirepressure300;
             this.pictureBox2.Location = new System.Drawing.Point(123, 74);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(25, 18);
@@ -176,7 +176,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::SecondWindow.Properties.Resources.brake;
+            this.pictureBox1.Image = global::SecondMonitor.Properties.Resources.brake;
             this.pictureBox1.Location = new System.Drawing.Point(3, 76);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(18, 18);

@@ -8,7 +8,12 @@ namespace SecondMonitor.DataModel
 {
     public class Pressure
     {
-        double valueInKpa;        
+        private double valueInKpa;      
+        
+        public Pressure()
+        {
+            valueInKpa = -1;
+        }
 
         private Pressure(double valueInKpa)
         {

@@ -11,6 +11,11 @@ namespace SecondMonitor.DataModel
         
         private double valueInCelsius;
 
+        public Temperature()
+        {
+            valueInCelsius = -1;
+        }
+
         private Temperature(double valueInCelsius)
         {
             this.valueInCelsius = valueInCelsius;

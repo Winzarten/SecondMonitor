@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondWindow", "SecondWindow\SecondWindow.csproj", "{D94FAD38-42AF-4FAE-8E42-826D776E674A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondMonitor", "SecondWindow\SecondMonitor.csproj", "{D94FAD38-42AF-4FAE-8E42-826D776E674A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{30DEA773-F579-4A77-9C73-3D58C81612D0} = {30DEA773-F579-4A77-9C73-3D58C81612D0}
 	EndProjectSection

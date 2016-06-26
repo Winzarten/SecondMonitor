@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SecondWindow.Core.R3EConnector;
-using SecondWindow.Core.PluginManager;
+using SecondMonitor.Core.R3EConnector;
+using SecondMonitor.Core.PluginManager;
 
-namespace SecondWindow
+namespace SecondMonitor
 {
     static class Program
     {

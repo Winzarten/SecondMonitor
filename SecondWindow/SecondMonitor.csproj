@@ -7,8 +7,8 @@
     <ProjectGuid>{D94FAD38-42AF-4FAE-8E42-826D776E674A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SecondWindow</RootNamespace>
-    <AssemblyName>SecondWindow</AssemblyName>
+    <RootNamespace>SecondMonitor</RootNamespace>
+    <AssemblyName>SecondMonitor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -150,6 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\tirepressure300.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

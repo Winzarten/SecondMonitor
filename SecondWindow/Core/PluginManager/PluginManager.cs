@@ -3,40 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using SecondWindow.Core.R3EConnector;
-using SecondWindow.Core.R3EConnector.Data;
-using SecondWindow.CarStatus.Forms;
+using SecondMonitor.Core.R3EConnector;
+using SecondMonitor.Core.R3EConnector.Data;
+using SecondMonitor.CarStatus.Forms;
 using System.Windows.Forms;
+using SecondMonitor.DataModel;
 
-namespace SecondWindow.Core.PluginManager
+namespace SecondMonitor.Core.PluginManager
 {
     public class PluginManager
     {
-        public event EventHandler<R3EDataEventArgs> DataLoaded;
-        private ICollection<ISecondWindowPlugin> plugins;
+        public event EventHandler<DataEventArgs> DataLoaded;
+        private ICollection<ISecondMonitorPlugin> plugins;
 
         public PluginManager(IR3EConnector connector)
         {
-            plugins = new List<ISecondWindowPlugin>();
+            plugins = new List<ISecondMonitorPlugin>();
             Connector = connector;
             connector.DataLoaded += OnDataLoaded;
         }
 
         public void InitializePlugins()
         {
-            plugins = new List<ISecondWindowPlugin>();
-            ISecondWindowPlugin plugin = new CarStatusForm();
+            plugins = new List<ISecondMonitorPlugin>();
+            ISecondMonitorPlugin plugin = new CarStatusForm();
             plugin.PluginManager = this;
             plugin.RunPlugin();
             plugins.Add(plugin);
         }
 
-        public void DeletePlugin(ISecondWindowPlugin plugin)
+        public void DeletePlugin(ISecondMonitorPlugin plugin)
         {   lock (plugins)
             {
                 plugins.Remove(plugin);
                 bool allDaemons = true;
-                foreach(ISecondWindowPlugin activePlugin in plugins)
+                foreach(ISecondMonitorPlugin activePlugin in plugins)
                 {
                     allDaemons = allDaemons && activePlugin.IsDaemon;
                 }
@@ -52,15 +53,15 @@ namespace SecondWindow.Core.PluginManager
             private set;
         }
 
-        void OnDataLoaded(object sender, R3EDataEventArgs args)
+        void OnDataLoaded(object sender, DataEventArgs args)
         {
             RaiseDataLoadedEvent(args.Data);
         }
 
-        private void RaiseDataLoadedEvent(R3ESharedData data)
+        private void RaiseDataLoadedEvent(SimulatorDataSet data)
         {
-            R3EDataEventArgs args = new R3EDataEventArgs(data);
-            EventHandler<R3EDataEventArgs> handler = DataLoaded;
+            DataEventArgs args = new DataEventArgs(data);
+            EventHandler<DataEventArgs> handler = DataLoaded;
             if (handler != null)
             {
                 handler(this, args);

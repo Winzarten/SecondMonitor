@@ -1,4 +1,4 @@
-﻿namespace SecondWindow.CarStatus.Forms
+﻿namespace SecondMonitor.CarStatus.Forms
 {
     partial class CarStatusForm
     {
@@ -35,12 +35,12 @@
             System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
             this.gWaterTemp = new System.Windows.Forms.AGauge();
             this.gFuel = new System.Windows.Forms.AGauge();
-            this.ctlRearRight = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
-            this.ctlFrontRight = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
-            this.ctlFrontLeft = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
-            this.ctlRearLeft = new SecondWindow.CarStatus.Forms.Controls.WheelStatusControl();
-            this.oilControl2 = new SecondWindow.CarStatus.Forms.Controls.OilControl();
-            this.pedalControl1 = new SecondWindow.CarStatus.Forms.Controls.PedalControl();
+            this.ctlRearRight = new SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl();
+            this.ctlFrontRight = new SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl();
+            this.ctlFrontLeft = new SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl();
+            this.ctlRearLeft = new SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl();
+            this.oilControl2 = new SecondMonitor.CarStatus.Forms.Controls.OilControl();
+            this.pedalControl1 = new SecondMonitor.CarStatus.Forms.Controls.PedalControl();
             this.SuspendLayout();
             // 
             // gWaterTemp
@@ -169,7 +169,7 @@
             this.ctlRearRight.Name = "ctlRearRight";
             this.ctlRearRight.Size = new System.Drawing.Size(225, 150);
             this.ctlRearRight.TabIndex = 7;
-            this.ctlRearRight.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearRight;
+            this.ctlRearRight.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearRight;
             // 
             // ctlFrontRight
             // 
@@ -178,7 +178,7 @@
             this.ctlFrontRight.Name = "ctlFrontRight";
             this.ctlFrontRight.Size = new System.Drawing.Size(225, 150);
             this.ctlFrontRight.TabIndex = 6;
-            this.ctlFrontRight.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontRight;
+            this.ctlFrontRight.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontRight;
             // 
             // ctlFrontLeft
             // 
@@ -187,7 +187,7 @@
             this.ctlFrontLeft.Name = "ctlFrontLeft";
             this.ctlFrontLeft.Size = new System.Drawing.Size(225, 150);
             this.ctlFrontLeft.TabIndex = 5;
-            this.ctlFrontLeft.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontLeft;
+            this.ctlFrontLeft.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontLeft;
             // 
             // ctlRearLeft
             // 
@@ -196,7 +196,7 @@
             this.ctlRearLeft.Name = "ctlRearLeft";
             this.ctlRearLeft.Size = new System.Drawing.Size(225, 150);
             this.ctlRearLeft.TabIndex = 4;
-            this.ctlRearLeft.WheelPostion = SecondWindow.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearLeft;
+            this.ctlRearLeft.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearLeft;
             // 
             // oilControl2
             // 

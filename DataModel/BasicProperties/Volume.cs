@@ -9,6 +9,12 @@ namespace SecondMonitor.DataModel.BasicProperties
     public class Volume
     {
         private double valueInLiters;
+
+        public Volume()
+        {
+            valueInLiters = -1;
+        }
+
         private Volume(double valueInLiters)
         {
             this.valueInLiters = valueInLiters;

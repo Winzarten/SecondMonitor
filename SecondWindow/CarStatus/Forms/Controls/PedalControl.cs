@@ -6,10 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SecondWindow.Core.R3EConnector;
-using SecondWindow.Core.R3EConnector.Data;
+using SecondMonitor.Core.R3EConnector;
+using SecondMonitor.Core.R3EConnector.Data;
+using SecondMonitor.DataModel;
 
-namespace SecondWindow.CarStatus.Forms.Controls
+namespace SecondMonitor.CarStatus.Forms.Controls
 {
     public partial class PedalControl : UserControl
     {
@@ -38,15 +39,15 @@ namespace SecondWindow.CarStatus.Forms.Controls
             control.Width = this.Width / 3;
         }
 
-        public void UpdateControl(R3ESharedData data)
+        public void UpdateControl(SimulatorDataSet data)
         {
             int refHeight = this.Height - 30;
             UpdatePostions();
-            UpdateControlsByValue(pnlThrottle, lblThrottle, data.ThrottlePedal);
-            UpdateControlsByValue(pnlBrake, lblBrake, data.BrakePedal);
+            UpdateControlsByValue(pnlThrottle, lblThrottle, data.PedalInfo.ThrottlePedalPosition);
+            UpdateControlsByValue(pnlBrake, lblBrake, data.PedalInfo.BrakePedalPosition);
         }
 
-        private void UpdateControlsByValue(Panel panel, Label label, float value)
+        private void UpdateControlsByValue(Panel panel, Label label, double  value)
         {
             int refHeight = this.Height - 30;
 

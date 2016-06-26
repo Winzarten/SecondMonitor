@@ -1,20 +1,21 @@
-﻿using SecondWindow.Core.R3EConnector.Data;
+﻿using SecondMonitor.Core.R3EConnector.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SecondMonitor.DataModel;
 
-namespace SecondWindow.Core.R3EConnector
+namespace SecondMonitor.Core.R3EConnector
 {
-    public class R3EDataEventArgs : EventArgs
+    public class DataEventArgs : EventArgs
     {
         
-        public R3EDataEventArgs(R3ESharedData data)
+        public DataEventArgs(SimulatorDataSet data)
         {
             this.Data = data;
         }
 
-        public R3ESharedData Data
+        public SimulatorDataSet Data
         {
             get;
             set;
@@ -23,7 +24,7 @@ namespace SecondWindow.Core.R3EConnector
 
     public interface IR3EConnector
     {
-        event EventHandler<R3EDataEventArgs> DataLoaded;
+        event EventHandler<DataEventArgs> DataLoaded;
         event EventHandler<EventArgs> ConnectedEvent;
         event EventHandler<EventArgs> Disconnected;
 
