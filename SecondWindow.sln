@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondWindow", "SecondWindow\SecondWindow.csproj", "{D94FAD38-42AF-4FAE-8E42-826D776E674A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30DEA773-F579-4A77-9C73-3D58C81612D0} = {30DEA773-F579-4A77-9C73-3D58C81612D0}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{30DEA773-F579-4A77-9C73-3D58C81612D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{D94FAD38-42AF-4FAE-8E42-826D776E674A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D94FAD38-42AF-4FAE-8E42-826D776E674A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D94FAD38-42AF-4FAE-8E42-826D776E674A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30DEA773-F579-4A77-9C73-3D58C81612D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30DEA773-F579-4A77-9C73-3D58C81612D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30DEA773-F579-4A77-9C73-3D58C81612D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30DEA773-F579-4A77-9C73-3D58C81612D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
