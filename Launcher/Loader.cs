@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using SecondMonitor.Core.R3EConnector;
+using SecondMonitor.PluginManager.GameConnector;
+using SecondMonitor.PluginManager.Core;
 
 namespace SecondMonitor.Launcher
 {
@@ -18,8 +20,8 @@ namespace SecondMonitor.Launcher
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 
-                IR3EConnector connector = new R3EConnector();
-                PluginManager pluginManager = new PluginManager(connector);
+                IGameConnector connector = new R3EConnector();
+                PluginsManager pluginManager = new PluginsManager(connector);
                 pluginManager.InitializePlugins();                             
                 connector.AsynConnect();
 
