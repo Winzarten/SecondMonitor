@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.AGaugeLabel aGaugeLabel1 = new System.Windows.Forms.AGaugeLabel();
-            System.Windows.Forms.AGaugeRange aGaugeRange1 = new System.Windows.Forms.AGaugeRange();
-            System.Windows.Forms.AGaugeLabel aGaugeLabel2 = new System.Windows.Forms.AGaugeLabel();
-            System.Windows.Forms.AGaugeLabel aGaugeLabel3 = new System.Windows.Forms.AGaugeLabel();
-            System.Windows.Forms.AGaugeRange aGaugeRange2 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel4 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeRange aGaugeRange3 = new System.Windows.Forms.AGaugeRange();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel5 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel6 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeRange aGaugeRange4 = new System.Windows.Forms.AGaugeRange();
             this.gWaterTemp = new System.Windows.Forms.AGauge();
             this.gFuel = new System.Windows.Forms.AGauge();
             this.ctlRearRight = new SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl();
@@ -41,6 +41,7 @@
             this.ctlRearLeft = new SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl();
             this.oilControl2 = new SecondMonitor.CarStatus.Forms.Controls.OilControl();
             this.pedalControl1 = new SecondMonitor.CarStatus.Forms.Controls.PedalControl();
+            this.blbFuelPressure = new SecondMonitor.CarStatus.Forms.Controls.LedBulb();
             this.SuspendLayout();
             // 
             // gWaterTemp
@@ -52,20 +53,20 @@
             this.gWaterTemp.BaseArcSweep = 270;
             this.gWaterTemp.BaseArcWidth = 2;
             this.gWaterTemp.Center = new System.Drawing.Point(100, 100);
-            aGaugeLabel1.Color = System.Drawing.Color.DarkRed;
-            aGaugeLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            aGaugeLabel1.Name = "GaugeLabel1";
-            aGaugeLabel1.Position = new System.Drawing.Point(65, 60);
-            aGaugeLabel1.Text = "Water Temp";
-            this.gWaterTemp.GaugeLabels.Add(aGaugeLabel1);
-            aGaugeRange1.Color = System.Drawing.Color.Red;
-            aGaugeRange1.EndValue = 120F;
-            aGaugeRange1.InnerRadius = 70;
-            aGaugeRange1.InRange = false;
-            aGaugeRange1.Name = "GaugeRange1";
-            aGaugeRange1.OuterRadius = 90;
-            aGaugeRange1.StartValue = 100F;
-            this.gWaterTemp.GaugeRanges.Add(aGaugeRange1);
+            aGaugeLabel4.Color = System.Drawing.Color.DarkRed;
+            aGaugeLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            aGaugeLabel4.Name = "GaugeLabel1";
+            aGaugeLabel4.Position = new System.Drawing.Point(65, 60);
+            aGaugeLabel4.Text = "Water Temp";
+            this.gWaterTemp.GaugeLabels.Add(aGaugeLabel4);
+            aGaugeRange3.Color = System.Drawing.Color.Red;
+            aGaugeRange3.EndValue = 120F;
+            aGaugeRange3.InnerRadius = 70;
+            aGaugeRange3.InRange = false;
+            aGaugeRange3.Name = "GaugeRange1";
+            aGaugeRange3.OuterRadius = 90;
+            aGaugeRange3.StartValue = 100F;
+            this.gWaterTemp.GaugeRanges.Add(aGaugeRange3);
             this.gWaterTemp.Location = new System.Drawing.Point(255, 12);
             this.gWaterTemp.MaxValue = 120F;
             this.gWaterTemp.MinValue = 0F;
@@ -109,25 +110,25 @@
             this.gFuel.BaseArcSweep = 90;
             this.gFuel.BaseArcWidth = 2;
             this.gFuel.Center = new System.Drawing.Point(40, 55);
-            aGaugeLabel2.Color = System.Drawing.SystemColors.WindowText;
-            aGaugeLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            aGaugeLabel2.Name = "GaugeLabel1";
-            aGaugeLabel2.Position = new System.Drawing.Point(70, 35);
-            aGaugeLabel2.Text = "F";
-            aGaugeLabel3.Color = System.Drawing.SystemColors.WindowText;
-            aGaugeLabel3.Name = "GaugeLabel2";
-            aGaugeLabel3.Position = new System.Drawing.Point(7, 35);
-            aGaugeLabel3.Text = "E";
-            this.gFuel.GaugeLabels.Add(aGaugeLabel2);
-            this.gFuel.GaugeLabels.Add(aGaugeLabel3);
-            aGaugeRange2.Color = System.Drawing.Color.Red;
-            aGaugeRange2.EndValue = 25F;
-            aGaugeRange2.InnerRadius = 40;
-            aGaugeRange2.InRange = false;
-            aGaugeRange2.Name = "GaugeRange1";
-            aGaugeRange2.OuterRadius = 50;
-            aGaugeRange2.StartValue = 0F;
-            this.gFuel.GaugeRanges.Add(aGaugeRange2);
+            aGaugeLabel5.Color = System.Drawing.SystemColors.WindowText;
+            aGaugeLabel5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            aGaugeLabel5.Name = "GaugeLabel1";
+            aGaugeLabel5.Position = new System.Drawing.Point(70, 35);
+            aGaugeLabel5.Text = "F";
+            aGaugeLabel6.Color = System.Drawing.SystemColors.WindowText;
+            aGaugeLabel6.Name = "GaugeLabel2";
+            aGaugeLabel6.Position = new System.Drawing.Point(7, 35);
+            aGaugeLabel6.Text = "E";
+            this.gFuel.GaugeLabels.Add(aGaugeLabel5);
+            this.gFuel.GaugeLabels.Add(aGaugeLabel6);
+            aGaugeRange4.Color = System.Drawing.Color.Red;
+            aGaugeRange4.EndValue = 25F;
+            aGaugeRange4.InnerRadius = 40;
+            aGaugeRange4.InRange = false;
+            aGaugeRange4.Name = "GaugeRange1";
+            aGaugeRange4.OuterRadius = 50;
+            aGaugeRange4.StartValue = 0F;
+            this.gFuel.GaugeRanges.Add(aGaugeRange4);
             this.gFuel.Location = new System.Drawing.Point(309, 176);
             this.gFuel.MaxValue = 100F;
             this.gFuel.MinValue = 0F;
@@ -214,12 +215,23 @@
             this.pedalControl1.Size = new System.Drawing.Size(82, 150);
             this.pedalControl1.TabIndex = 1;
             // 
+            // blbFuelPressure
+            // 
+            this.blbFuelPressure.BackColor = System.Drawing.Color.White;
+            this.blbFuelPressure.Color = System.Drawing.Color.Red;
+            this.blbFuelPressure.Location = new System.Drawing.Point(309, 229);
+            this.blbFuelPressure.Name = "blbFuelPressure";
+            this.blbFuelPressure.On = true;
+            this.blbFuelPressure.Size = new System.Drawing.Size(20, 20);
+            this.blbFuelPressure.TabIndex = 9;
+            // 
             // CarStatusForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(597, 769);
+            this.Controls.Add(this.blbFuelPressure);
             this.Controls.Add(this.ctlRearRight);
             this.Controls.Add(this.ctlFrontRight);
             this.Controls.Add(this.ctlFrontLeft);
@@ -228,8 +240,10 @@
             this.Controls.Add(this.oilControl2);
             this.Controls.Add(this.pedalControl1);
             this.Controls.Add(this.gWaterTemp);
+            this.Location = new System.Drawing.Point(1930, 30);
             this.Name = "CarStatusForm";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Car Status";
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CarStatusForm_FormClosed);
@@ -247,5 +261,6 @@
         private Controls.WheelStatusControl ctlFrontLeft;
         private Controls.WheelStatusControl ctlFrontRight;
         private Controls.WheelStatusControl ctlRearRight;
+        private Controls.LedBulb blbFuelPressure;
     }
 }

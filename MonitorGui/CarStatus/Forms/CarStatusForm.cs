@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.Core;
 using SecondMonitor.PluginManager.GameConnector;
+using System.Drawing;
 
 namespace SecondMonitor.CarStatus.Forms
 {
@@ -82,6 +83,10 @@ namespace SecondMonitor.CarStatus.Forms
             ctlRearRight.UpdateControl(data);
             ctlFrontLeft.UpdateControl(data);
             ctlFrontRight.UpdateControl(data);
+            if (data.PlayerCarInfo.FuelSystemInfo.FuelPressure.InKpa > 10)
+                blbFuelPressure.Color = Color.Green;
+            else
+                blbFuelPressure.Color = Color.Red;
         }
 
 
