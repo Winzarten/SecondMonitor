@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.DataModel
+﻿using SecondMonitor.DataModel.BasicProperties;
+
+namespace SecondMonitor.DataModel
 {
     public class CarInfo
     {
@@ -23,12 +25,14 @@
             OilSystemInfo = new OilInfo();
             FuelSystemInfo = new FuelInfo();
             WaterSystmeInfo = new WaterInfo();
+            Acceleration = new Acceleration();
         }
 
         public Wheels WheelsInfo;
         public OilInfo OilSystemInfo;
         public FuelInfo FuelSystemInfo;
         public WaterInfo WaterSystmeInfo;
+        public Acceleration Acceleration;
         
     }
 }

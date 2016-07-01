@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicProperties\Acceleration.cs" />
     <Compile Include="BasicProperties\PedalInfo.cs" />
     <Compile Include="BasicProperties\Volume.cs" />
     <Compile Include="CarInfo.cs" />

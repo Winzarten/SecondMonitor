@@ -83,6 +83,9 @@ namespace SecondMonitor.CarStatus.Forms
             ctlRearRight.UpdateControl(data);
             ctlFrontLeft.UpdateControl(data);
             ctlFrontRight.UpdateControl(data);
+            gMeter1.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
+            gMeter1.HorizG = data.PlayerCarInfo.Acceleration.XInG;
+            gMeter1.Refresh();
             if (data.PlayerCarInfo.FuelSystemInfo.FuelPressure.InKpa > 10)
                 blbFuelPressure.Color = Color.Green;
             else

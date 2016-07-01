@@ -76,6 +76,12 @@
     <Compile Include="CarStatus\Forms\CarStatusForm.Designer.cs">
       <DependentUpon>CarStatusForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CarStatus\Forms\Controls\GMeter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CarStatus\Forms\Controls\GMeter.Designer.cs">
+      <DependentUpon>GMeter.cs</DependentUpon>
+    </Compile>
     <Compile Include="CarStatus\Forms\Controls\LedBulb.cs">
       <SubType>Component</SubType>
     </Compile>
