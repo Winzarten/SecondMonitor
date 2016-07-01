@@ -218,6 +218,11 @@ namespace SecondMonitor.PCarsConnector
             simData.PlayerCarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(data.mFuelCapacity * data.mFuelLevel);
             simData.PlayerCarInfo.FuelSystemInfo.FuelPressure = Pressure.FromKiloPascals(data.mFuelPressureKPa);
 
+            //Acceleration
+            simData.PlayerCarInfo.Acceleration.XInMS = data.mLocalAcceleration[0];
+            simData.PlayerCarInfo.Acceleration.YInMS = data.mLocalAcceleration[1];
+            simData.PlayerCarInfo.Acceleration.ZInMS = data.mLocalAcceleration[2];
+
             return simData;
          }
 
