@@ -19,6 +19,10 @@
             get { return valueInKpa; }
 
         }
+        public double InAtmospheres
+        {
+            get { return InKpa / 101.3; }
+        }
 
         public static Pressure FromKiloPascals(double pressureInKpa)
         {

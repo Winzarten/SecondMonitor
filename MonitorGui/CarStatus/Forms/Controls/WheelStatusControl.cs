@@ -17,6 +17,29 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             set;
         }
 
+        private void UpdateTyreWearControl(SimulatorDataSet data)
+        {
+            double wear = 0;
+            switch (WheelPostion)
+            {
+                case WheelPostionEnum.FrontLeft:
+                    wear = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear;
+                    break;
+                case WheelPostionEnum.FrontRight:
+                    wear = data.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear;
+                    break;
+                case WheelPostionEnum.RearLeft:
+                    wear = data.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear;
+                    break;
+                case WheelPostionEnum.RearRight:
+                    wear = data.PlayerCarInfo.WheelsInfo.RearRight.TyreWear;
+                    break;
+
+            }
+            pnlWear.Width = (int)((1 - wear) * this.Width);
+            lbWear.Text = ((1 - wear) * 100).ToString("0");
+        }
+
         private void UpdateBrakeControl(SimulatorDataSet data)
         {
             switch(WheelPostion)
@@ -90,11 +113,17 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             UpdateBrakeControl(data);
             UpdateWheelTemp(data);
             UpdatePressureControl(data);
+            UpdateTyreWearControl(data);
         }
 
         public WheelStatusControl()
         {            
             InitializeComponent();
+        }
+
+        private void pictureBox2_Click(object sender, System.EventArgs e)
+        {
+
         }
     }
 }

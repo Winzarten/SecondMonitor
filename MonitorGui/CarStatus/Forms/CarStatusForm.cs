@@ -97,5 +97,10 @@ namespace SecondMonitor.CarStatus.Forms
                 return;
             UpdateGui(data);
         }
+
+        private void stayOnTopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.TopMost = !this.TopMost;
+        }
     }
 }

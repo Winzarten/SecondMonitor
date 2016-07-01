@@ -35,6 +35,8 @@
             this.lblTyrePressure = new LCDLabel.LcdLabel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pnlWear = new System.Windows.Forms.Panel();
+            this.lbWear = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -167,12 +169,13 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::SecondMonitor.MonitorGui.Properties.Resources.tirepressure300;
-            this.pictureBox2.Location = new System.Drawing.Point(123, 74);
+            this.pictureBox2.Location = new System.Drawing.Point(197, 76);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(25, 18);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 6;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // pictureBox1
             // 
@@ -184,11 +187,31 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
+            // pnlWear
+            // 
+            this.pnlWear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.pnlWear.Location = new System.Drawing.Point(3, 49);
+            this.pnlWear.Name = "pnlWear";
+            this.pnlWear.Size = new System.Drawing.Size(219, 21);
+            this.pnlWear.TabIndex = 7;
+            // 
+            // lbWear
+            // 
+            this.lbWear.AutoSize = true;
+            this.lbWear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbWear.Location = new System.Drawing.Point(91, 73);
+            this.lbWear.Name = "lbWear";
+            this.lbWear.Size = new System.Drawing.Size(45, 16);
+            this.lbWear.TabIndex = 0;
+            this.lbWear.Text = "100%";
+            // 
             // WheelStatusControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.Controls.Add(this.lbWear);
+            this.Controls.Add(this.pnlWear);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblTyrePressure);
@@ -201,6 +224,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -213,5 +237,7 @@
         private LCDLabel.LcdLabel lblTyrePressure;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Panel pnlWear;
+        private System.Windows.Forms.Label lbWear;
     }
 }
