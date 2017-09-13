@@ -295,7 +295,6 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Car Status";
-            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CarStatusForm_FormClosed);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);

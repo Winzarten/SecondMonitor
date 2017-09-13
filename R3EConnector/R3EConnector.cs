@@ -15,13 +15,12 @@ namespace SecondMonitor.R3EConnector
     public class R3EConnector : IGameConnector
     {
 
-        private MemoryMappedFile sharedMemory;
-        private MemoryMappedViewAccessor sharedMemoryAccessor;
+        private MemoryMappedFile sharedMemory;        
         private Thread daemonThread;
         private bool disconnect;
 
         private static readonly string r3EExcecutable = "RRRE";
-        private static readonly string SharedMemoryName = "$Race$";
+        private static readonly string SharedMemoryName = "$R3E";
 
         private TimeSpan timeInterval = TimeSpan.FromMilliseconds(100);
 
@@ -38,7 +37,7 @@ namespace SecondMonitor.R3EConnector
 
         public bool IsConnected
         {
-            get { return (sharedMemory != null && sharedMemoryAccessor != null); }
+            get { return (sharedMemory != null); }
         }
 
         public int TickTime
@@ -70,8 +69,7 @@ namespace SecondMonitor.R3EConnector
                 return false;
             try
             {
-                sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
-                sharedMemoryAccessor = sharedMemory.CreateViewAccessor(0, Marshal.SizeOf(typeof(R3ESharedData)));
+                sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);                
                 RaiseConnectedEvent();
                 StartDaemon();
                 return true;
@@ -102,14 +100,13 @@ namespace SecondMonitor.R3EConnector
         private void DaemonMethod()
         {
             
-            while (!disconnect && sharedMemoryAccessor.CanRead)
+            while (!disconnect)
             {
 
                Thread.Sleep(TickTime);                    
                R3ESharedData data = Load();
                RaiseDataLoadedEvent(data);
-            }
-            sharedMemoryAccessor = null;
+            }            
             sharedMemory = null;
             disconnect = false;
             RaiseDisconnectedEvent();
@@ -119,22 +116,25 @@ namespace SecondMonitor.R3EConnector
 
         private void Disconnect()
         {
-            disconnect = true;
-            sharedMemoryAccessor = null;
+            disconnect = true;            
             sharedMemory = null;
             RaiseDisconnectedEvent();
         }
 
         private R3ESharedData Load()
         {
-            lock (sharedMemoryAccessor)
-            {
+            
                 if (!IsConnected)
                     throw new InvalidOperationException("Not connected");
                 R3ESharedData data;
-                sharedMemoryAccessor.Read(0, out data);
+                var _view = sharedMemory.CreateViewStream();
+                BinaryReader _stream = new BinaryReader(_view);
+                byte[] buffer = _stream.ReadBytes(Marshal.SizeOf(typeof(R3ESharedData)));
+                GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                data = (R3ESharedData)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(R3ESharedData));
+                handle.Free();
                 return data;
-            }
+            
         }
 
 
@@ -179,10 +179,10 @@ namespace SecondMonitor.R3EConnector
 
 
 
-            simData.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - data.CarDamage.TireFrontRight;
-            simData.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear = 1 - data.CarDamage.TireFrontRight;
-            simData.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear = 1 - data.CarDamage.TireRearLeft;
-            simData.PlayerCarInfo.WheelsInfo.RearRight.TyreWear = 1 - data.CarDamage.TireRearRight;
+            simData.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - data.TireWear.FrontRight;
+            simData.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear = 1 - data.TireWear.FrontRight;
+            simData.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear = 1 - data.TireWear.RearLeft;
+            simData.PlayerCarInfo.WheelsInfo.RearRight.TyreWear = 1 - data.TireWear.RearRight;
 
             //Front Left Tyre Temps
             simData.PlayerCarInfo.WheelsInfo.FrontLeft.LeftTyreTemp = Temperature.FromCelsius(data.TireTemp.FrontLeft_Left);
