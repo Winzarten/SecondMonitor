@@ -8,8 +8,10 @@ namespace SecondMonitor.DataModel
         {
             PlayerCarInfo = new CarInfo();
             PedalInfo = new PedalInfo();
+            SessionInfo = new SessionInfo();
         }
         public CarInfo PlayerCarInfo;
         public PedalInfo PedalInfo;
+        public SessionInfo SessionInfo;
     }
 }

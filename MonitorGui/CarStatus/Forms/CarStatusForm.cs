@@ -90,6 +90,7 @@ namespace SecondMonitor.CarStatus.Forms
                 blbFuelPressure.Color = Color.Green;
             else
                 blbFuelPressure.Color = Color.Red;
+            label1.Text = data.SessionInfo.SessionTime.TotalSeconds.ToString();
         }
 
 

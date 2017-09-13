@@ -44,6 +44,7 @@
     <Compile Include="BasicProperties\PedalInfo.cs" />
     <Compile Include="BasicProperties\Volume.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="SessionInfo.cs" />
     <Compile Include="SimulatorDataSet.cs" />
     <Compile Include="FuelInfo.cs" />
     <Compile Include="OilInfo.cs" />
