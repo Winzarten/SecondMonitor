@@ -31,6 +31,7 @@ namespace SecondMonitor.PCarsConnector
         public event EventHandler<DataEventArgs> DataLoaded;
         public event EventHandler<EventArgs> ConnectedEvent;
         public event EventHandler<EventArgs> Disconnected;
+        public event EventHandler<DataEventArgs> SessionStarted;
 
         private DateTime lastTick;
         private TimeSpan sessionTime;
