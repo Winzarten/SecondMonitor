@@ -49,6 +49,7 @@
       <DependentUpon>TimingGUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Drivers\Driver.cs" />
+    <Compile Include="Model\LapInfo.cs" />
     <Compile Include="Model\SessionTiming.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

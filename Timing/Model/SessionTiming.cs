@@ -24,23 +24,34 @@ namespace SecondMonitor.Timing.Model
             Dictionary<string, Driver> drivers = new Dictionary<string, Driver>();
             SessionTiming timing = new SessionTiming();
             //Driver[] drivers = Array.ConvertAll(dataSet.DriversInfo, s => Driver.FromModel(s));
-            Array.ForEach(dataSet.DriversInfo, s => drivers.Add(s.DriverName, Driver.FromModel(s)));
+            Array.ForEach(dataSet.DriversInfo, s => {
+                String name = s.DriverName;
+                int count = 1;
+                while (drivers.Keys.Contains(name))
+                {
+                    name = s.DriverName + " dup" + count;
+                    count++;
+                }
+                    
+                drivers.Add(name, Driver.FromModel(s));
+                });
             timing.Drivers = drivers;            
             return timing;
         }
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
-            UpdateDrivers(dataSet.DriversInfo);
+            UpdateDrivers(dataSet);
         }
 
-        private void UpdateDrivers(DriverInfo[] driversInfo)
+        private void UpdateDrivers(SimulatorDataSet dataSet)
         {
-            Array.ForEach(driversInfo, s => UpdateDriver(s, Drivers[s.DriverName]));
+            Array.ForEach(dataSet.DriversInfo, s => UpdateDriver(s, Drivers[s.DriverName], dataSet.SessionInfo));
         }
-        private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo)
+        private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo, SessionInfo sessionInfo)
         {
-            timingInfo.Position = modelInfo.Position;
+            timingInfo.DriverInfo = modelInfo;
+            timingInfo.UpdateLaps(sessionInfo);
         }
 
         public IEnumerator GetEnumerator()

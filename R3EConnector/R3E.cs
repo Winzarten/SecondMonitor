@@ -7,19 +7,19 @@ namespace SecondMonitor.R3EConnector
     {
         public const string SharedMemoryName = "$R3E";
 
-        enum VersionMajor
+        public enum VersionMajor
         {
             // Major version number to test against
             R3E_VERSION_MAJOR = 1
         };
 
-        enum VersionMinor
+        public enum VersionMinor
         {
             // Minor version number to test against
             R3E_VERSION_MINOR = 7
         };
 
-        enum Session
+        public enum Session
         {
             Unavailable = -1,
             Practice = 0,
@@ -28,7 +28,7 @@ namespace SecondMonitor.R3EConnector
             Warmup = 3,
         };
 
-        enum SessionPhase
+        public enum SessionPhase
         {
             Unavailable = -1,
 
@@ -51,7 +51,7 @@ namespace SecondMonitor.R3EConnector
             Checkered = 6,
         };
 
-        enum Control
+        public enum Control
         {
             Unavailable = -1,
 
@@ -68,7 +68,7 @@ namespace SecondMonitor.R3EConnector
             Replay = 3,
         };
 
-        enum PitWindow
+        public enum PitWindow
         {
             Unavailable = -1,
 
@@ -88,7 +88,7 @@ namespace SecondMonitor.R3EConnector
             Completed = 4,
         };
 
-        enum PitStopStatus
+        public enum PitStopStatus
         {
             // No mandatory pitstops
             Unavailable = -1,
@@ -100,7 +100,7 @@ namespace SecondMonitor.R3EConnector
             Served = 1,
         };
 
-        enum FinishStatus
+        public enum FinishStatus
         {
             // N/A
             Unavailable = -1,
@@ -124,7 +124,7 @@ namespace SecondMonitor.R3EConnector
             DQ = 5,
         };
 
-        enum SessionLengthFormat
+        public enum SessionLengthFormat
         {
             // N/A
             Unavailable = -1,
@@ -137,14 +137,14 @@ namespace SecondMonitor.R3EConnector
             TimeAndLapBased = 2
         };
 
-        enum TireType
+        public enum TireType
         {
             Unavailable = -1,
             Option = 0,
             Prime = 1,
         };
 
-        enum TireSubtype
+        public enum TireSubtype
         {
             Unavailable = -1,
             Primary = 0,

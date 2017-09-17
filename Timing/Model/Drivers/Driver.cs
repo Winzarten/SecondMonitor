@@ -1,4 +1,5 @@
-﻿using SecondMonitor.DataModel.Drivers;
+﻿using SecondMonitor.DataModel;
+using SecondMonitor.DataModel.Drivers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +10,151 @@ namespace SecondMonitor.Timing.Model.Drivers
 {
     public class Driver
     {
-        public Driver(bool isPlayer, string name, int postion)
+        private List<LapInfo> lapsInfo;        
+
+        public Driver(DriverInfo driverInfo)
         {
-            IsPlayer = isPlayer;
-            Name = name;
-            Position = postion;
+            lapsInfo = new List<LapInfo>();
+            DriverInfo = driverInfo;
+            Pace = new TimeSpan(0);
+            PitCount = 0;
+        }
+        public DriverInfo DriverInfo { get; internal set; }
+        public bool IsPlayer { get => DriverInfo.IsPlayer; }
+        public string Name { get => DriverInfo.DriverName; }
+        public int Position { get => DriverInfo.Position; }
+        public int CompletedLaps { get => DriverInfo.CompletedLaps; }
+        public bool InPits { get; private set; }
+        public TimeSpan Pace { get; private set; }
+        public string PaceAsString { get => FormatTimeSpan(Pace);}
+        public bool IsCurrentLapValud { get => DriverInfo.CurrentLapValid; }
+        public LapInfo BestLap { get; set; }
+        public string BestLapString { get => BestLap != null ? FormatTimeSpan(BestLap.LapTime) : "N/A"; }
+        public int PitCount { get; private set; }
+
+        public bool IsLastLapBestLap { get
+            {
+                if (BestLap == null)
+                    return false;
+                return BestLap == LastCompletedLap;
+            } }
+
+        public void UpdateLaps(SessionInfo sessionInfo)
+        {
+            if (!sessionInfo.IsActive)
+                return;
+            if(!InPits && DriverInfo.InPits)
+            {
+                InPits = true;
+                PitCount++;
+            }
+            if (InPits && !DriverInfo.InPits)
+                InPits = false;
+            if(lapsInfo.Count==0)
+            {
+                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps+1));
+                return;
+            }
+            if (CurrentLap.LapNumber == DriverInfo.CompletedLaps + 1)
+            {
+                CurrentLap.Tick(sessionInfo.SessionTime);
+                CurrentLap.Valid = sessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race || (CurrentLap.Valid && DriverInfo.CurrentLapValid);                
+            }
+            if(CurrentLap.LapNumber < DriverInfo.CompletedLaps + 1 || (!CurrentLap.Valid && DriverInfo.CurrentLapValid ))
+            {
+                CurrentLap.FinishLap(sessionInfo.SessionTime);
+                if (BestLap == null || CurrentLap.LapTime < BestLap.LapTime)
+                    BestLap = CurrentLap;                
+                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1));                
+                ComputePace();
+            }
         }
 
-        public bool IsPlayer { get; set; }
-        public string Name { get; set; }
-        public int Position { get; set; }
+        private void ComputePace()
+        {
+            if(LastCompletedLap== null)
+            {
+                Pace = new TimeSpan(0);
+                return;
+            }
+            int totalPaceLaps = 0;
+            TimeSpan pace = new TimeSpan(0);
+            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps <= 4; i--)
+            {
+                LapInfo lap = lapsInfo[i];
+                if (!lap.Valid)
+                    continue;
+                pace = pace.Add(lap.LapTime);
+                totalPaceLaps++;
+            }
+            if (totalPaceLaps == 0)
+                Pace = new TimeSpan(0);
+            else
+                Pace = new TimeSpan(pace.Ticks / totalPaceLaps);
+                
+        }
+
+        public LapInfo CurrentLap
+        {
+            get
+            {
+                if (lapsInfo.Count == 0)
+                    return null;
+                return lapsInfo.Last();
+            }
+        }
+
+        public string CurrentLapProgressTime
+        {
+            get
+            {
+                if (CurrentLap == null)
+                    return "";
+                if (!CurrentLap.Valid)
+                    return "Lap Invalid";
+                TimeSpan progress = CurrentLap.LapProgressTime;            
+                return FormatTimeSpan(progress);
+            }
+        }
+
+        public LapInfo LastCompletedLap
+        {
+            get
+            {
+                if (lapsInfo.Count < 2)
+                    return null;
+                for (int i = lapsInfo.Count - 2; i >= 0; i--)
+                {
+                    if (lapsInfo[i].Valid)
+                        return lapsInfo[i];
+                }
+                return null;
+            }
+        }
+
+        public string LastLapTime
+        {
+            get
+            {
+                LapInfo lastCompletedLap = LastCompletedLap;
+                if (lastCompletedLap != null)
+                    return FormatTimeSpan(lastCompletedLap.LapTime);
+                else
+                    return "N/A";
+            }
+        }
+
+        public static string FormatTimeSpan(TimeSpan timeSpan)
+        {
+            //String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            //String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            //return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
+            return timeSpan.ToString("mm\\:ss\\.fff");
+        }
 
         public static Driver FromModel(DriverInfo modelDriverInfo)
         {
-            return new Driver(modelDriverInfo.IsPlayer, modelDriverInfo.DriverName, modelDriverInfo.Position);
+            return new Driver(modelDriverInfo);
         }
     }
 }

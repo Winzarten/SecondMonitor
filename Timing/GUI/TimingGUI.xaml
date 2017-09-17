@@ -5,14 +5,65 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SecondMonitor.Timing.GUI"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1200" Height="699" Left="1920">
-    <Grid>
-        <DataGrid x:Name="dtTimig" Margin="0,10,0,0" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False">
+             d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1680" Height="1020" Left="1920" WindowStyle="ThreeDBorderWindow">
+    <Grid Background="Black">
+        <DataGrid x:Name="dtTimig" Margin="10,52,-10,28" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
+                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                  >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#"/>
+                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="Blue">
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding CompletedLaps}" ClipboardContentBinding="{x:Null}" Header="Laps" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime}" ClipboardContentBinding="{x:Null}" Header="Current Lap" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding LastLapTime}" ClipboardContentBinding="{x:Null}" Header="Last Lap" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PaceAsString}" ClipboardContentBinding="{x:Null}" Header="Pace" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding BestLapString}" ClipboardContentBinding="{x:Null}" Header="Best Lap" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding PitCount}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding IsCurrentLapValud}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True"/>
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPlayer}" Value="True">
+                            <Setter Property="Background" Value="Red"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsPlayer}" Value="False">
+                            <Setter Property="Background" Value="Black"></Setter>
+                            <Setter Property="FontWeight" Value="Normal"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InPits}" Value="True">
+                            <Setter Property="Background" Value="Blue">
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="Blue" />
+                    <Setter Property="BorderBrush"  Value="Red" />
+                </Style>
+            </DataGrid.Resources>
         </DataGrid>
+        <Label x:Name="lblTrack" Content="Label" HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" Foreground="White"/>
 
     </Grid>
 </Window>

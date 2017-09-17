@@ -19,6 +19,7 @@ namespace SecondMonitor.R3EConnector
         private Thread daemonThread;
         private bool disconnect;
         private bool inSession;
+        private int lastSessionType = -1;
 
         private static readonly string r3EExcecutable = "RRRE";
         private static readonly string SharedMemoryName = "$R3E";
@@ -34,7 +35,7 @@ namespace SecondMonitor.R3EConnector
 
         public R3EConnector()
         {
-            TickTime = 100;
+            TickTime = 10;
             inSession = false;
         }
 
@@ -146,6 +147,11 @@ namespace SecondMonitor.R3EConnector
 
         private bool CheckSessionStarted(R3ESharedData r3rData)
         {
+            /*if(r3rData.SessionType != lastSessionType)
+            {
+                lastSessionType = r3rData.SessionType;
+                return true;
+            }*/
             if(r3rData.SessionPhase != -1 && !inSession)
             {
                 inSession = true;
@@ -183,14 +189,15 @@ namespace SecondMonitor.R3EConnector
             if (r3rData.NumCars == -1)
                 return;
             data.DriversInfo = new DataModel.Drivers.DriverInfo[r3rData.NumCars];
+            String playerName = System.Text.Encoding.UTF8.GetString(r3rData.PlayerName).Replace("\0", "");
             /*DataModel.Drivers.DriverInfo playerInfo = new DataModel.Drivers.DriverInfo();
-            playerInfo.DriverName = System.Text.Encoding.UTF8.GetString(r3rData.PlayerName).Replace("\0", "");
+            
             playerInfo.CompletedLaps = r3rData.CompletedLaps;
             playerInfo.CarName = System.Text.Encoding.UTF8.GetString(r3rData.VehicleInfo.Name).Replace("\0", "");
             playerInfo.InPits = r3rData.InPitlane == 1;
             playerInfo.IsPlayer = true;*/
 
-            for(int i = 0; i<r3rData.NumCars; i++)
+            for (int i = 0; i<r3rData.NumCars; i++)
             {
                 DriverData r3rDriverData =  r3rData.DriverData[i];                
                 DataModel.Drivers.DriverInfo driverInfo = new DataModel.Drivers.DriverInfo();
@@ -198,8 +205,12 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.CompletedLaps = r3rDriverData.CompletedLaps;
                 driverInfo.CarName = "";//System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.).Replace("\0", "");
                 driverInfo.InPits = r3rDriverData.InPitlane == 1;
-                driverInfo.IsPlayer = false;
+                driverInfo.IsPlayer = driverInfo.DriverName == playerName;
                 driverInfo.Position = r3rDriverData.Place;
+                if(driverInfo.IsPlayer)
+                    driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
+                else
+                    driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
                 data.DriversInfo[i] = driverInfo;
             }
             
@@ -214,6 +225,29 @@ namespace SecondMonitor.R3EConnector
 
             //Timing
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.Player.GameSimulationTime);
+            simData.SessionInfo.IsActive =   (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Green
+                || (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Checkered;
+            switch((Constant.Session)data.SessionType)
+            {
+                case Constant.Session.Practice:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Practice;
+                    break;
+                case Constant.Session.Qualify:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Qualification;
+                    break;
+                case Constant.Session.Race:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Race;
+                    break;
+                case Constant.Session.Unavailable:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.NA;
+                    break;
+                case Constant.Session.Warmup:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.WarmUp;
+                    break;
+            }
+            simData.SessionInfo.TrackName = System.Text.Encoding.UTF8.GetString(data.TrackName).Replace("\0", "");
+            simData.SessionInfo.TrackLayoutName = System.Text.Encoding.UTF8.GetString(data.LayoutName).Replace("\0", "");
+
 
             //PEDAL INFO
             simData.PedalInfo.ThrottlePedalPosition = data.ThrottlePedal;

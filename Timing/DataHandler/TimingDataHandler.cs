@@ -69,9 +69,7 @@ namespace SecondMonitor.Timing.DataHandler
                 lastRefresh = DateTime.Now;
                 gui.Dispatcher.Invoke(() =>
                 {
-
-                    ViewSource.View.Refresh();
-                    //gui.dtTimig.Items.Refresh();               
+                    ViewSource.View.Refresh();                    
                 });
             }
         }
@@ -79,10 +77,10 @@ namespace SecondMonitor.Timing.DataHandler
         private void OnSessionStarted(object sender, DataEventArgs args)
         {
             timing = SessionTiming.FromSimulatorData(args.Data);
-            InitializeGui();
+            InitializeGui(args.Data);
         }
 
-        private void InitializeGui()
+        private void InitializeGui(SimulatorDataSet data)
         {
             gui.Dispatcher.Invoke(() =>
             {
@@ -92,13 +90,22 @@ namespace SecondMonitor.Timing.DataHandler
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
                     ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
-                    gui.dtTimig.ItemsSource = ViewSource.View;
+                    gui.dtTimig.ItemsSource = ViewSource.View;                    
                 }
                 Collection.Clear();
                 foreach (Driver d in timing.Drivers.Values)
                 {
                     Collection.Add(d);
                 }
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(data.SessionInfo.TrackName);
+                sb.Append(" (");
+                sb.Append(data.SessionInfo.TrackLayoutName);
+
+                sb.Append(") - ");
+                sb.Append(data.SessionInfo.SessionType);
+                gui.lblTrack.Content = sb.ToString();
 
             });
         }
