@@ -12,9 +12,22 @@ namespace SecondMonitor.Timing.Model
 {
     public class SessionTiming : IEnumerable
     {
+
+        public class BestLapChangedArgs : EventArgs
+        {            
+            public BestLapChangedArgs(LapInfo lap)
+            {
+                Lap = lap;
+            }
+            public LapInfo Lap { get; set; }
+                
+        }
+        private LapInfo bestSessionLap;
+        public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
+        
         private SessionTiming()
         {
-
+            
         }
 
         public Dictionary<string, Driver> Drivers { get; private set; }
@@ -39,6 +52,9 @@ namespace SecondMonitor.Timing.Model
             return timing;
         }
 
+        public string BestLapFormatted { get => bestSessionLap != null ? Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
+        
+
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
             UpdateDrivers(dataSet);
@@ -51,12 +67,21 @@ namespace SecondMonitor.Timing.Model
         private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo, SessionInfo sessionInfo)
         {
             timingInfo.DriverInfo = modelInfo;
-            timingInfo.UpdateLaps(sessionInfo);
+            if(timingInfo.UpdateLaps(sessionInfo) && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
+            {
+                bestSessionLap = timingInfo.LastCompletedLap;
+                RaiseBestLapChangedEvent(bestSessionLap);
+            }
         }
 
         public IEnumerator GetEnumerator()
         {
             return Drivers.Values.GetEnumerator();
+        }
+
+        public void RaiseBestLapChangedEvent(LapInfo lapInfo)
+        {
+            BestLapChangedEvent?.Invoke(this, new BestLapChangedArgs(lapInfo));
         }
     }
 }

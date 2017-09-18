@@ -189,7 +189,7 @@ namespace SecondMonitor.R3EConnector
             if (r3rData.NumCars == -1)
                 return;
             data.DriversInfo = new DataModel.Drivers.DriverInfo[r3rData.NumCars];
-            String playerName = System.Text.Encoding.UTF8.GetString(r3rData.PlayerName).Replace("\0", "");
+            String playerName = FromByteArray(r3rData.PlayerName);
             /*DataModel.Drivers.DriverInfo playerInfo = new DataModel.Drivers.DriverInfo();
             
             playerInfo.CompletedLaps = r3rData.CompletedLaps;
@@ -201,7 +201,7 @@ namespace SecondMonitor.R3EConnector
             {
                 DriverData r3rDriverData =  r3rData.DriverData[i];                
                 DataModel.Drivers.DriverInfo driverInfo = new DataModel.Drivers.DriverInfo();
-                driverInfo.DriverName = System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.Name).Replace("\0", "");
+                driverInfo.DriverName = FromByteArray(r3rDriverData.DriverInfo.Name);
                 driverInfo.CompletedLaps = r3rDriverData.CompletedLaps;
                 driverInfo.CarName = "";//System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.).Replace("\0", "");
                 driverInfo.InPits = r3rDriverData.InPitlane == 1;
@@ -245,8 +245,8 @@ namespace SecondMonitor.R3EConnector
                     simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.WarmUp;
                     break;
             }
-            simData.SessionInfo.TrackName = System.Text.Encoding.UTF8.GetString(data.TrackName).Replace("\0", "");
-            simData.SessionInfo.TrackLayoutName = System.Text.Encoding.UTF8.GetString(data.LayoutName).Replace("\0", "");
+            simData.SessionInfo.TrackName = FromByteArray(data.TrackName);
+            simData.SessionInfo.TrackLayoutName = FromByteArray(data.LayoutName);
 
 
             //PEDAL INFO
@@ -316,6 +316,11 @@ namespace SecondMonitor.R3EConnector
             AddDriversData(simData, data);
             return simData;
          }
+
+        private static string FromByteArray(byte[] buffer)
+        {
+            return System.Text.Encoding.UTF8.GetString(buffer).Split(new Char[] { (Char)0 }, StringSplitOptions.RemoveEmptyEntries)[0];
+        }
 
         private void RaiseConnectedEvent()
         {

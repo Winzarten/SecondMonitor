@@ -27,7 +27,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public bool InPits { get; private set; }
         public TimeSpan Pace { get; private set; }
         public string PaceAsString { get => FormatTimeSpan(Pace);}
-        public bool IsCurrentLapValud { get => CurrentLap != null ? CurrentLap.Valid : false; }
+        public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
         public LapInfo BestLap { get; set; }
         public string BestLapString { get => BestLap != null ? FormatTimeSpan(BestLap.LapTime) : "N/A"; }
         public int PitCount { get; private set; }
@@ -39,30 +39,34 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return BestLap == LastCompletedLap;
             } }
 
-        public void UpdateLaps(SessionInfo sessionInfo)
+        public bool UpdateLaps(SessionInfo sessionInfo)
         {
             if (!sessionInfo.IsActive)
-                return;
-            UpdateInPitsProperty();
+                return false;
+            UpdateInPitsProperty();            
             if (lapsInfo.Count == 0)
             {
                 lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1));
-                return;
             }
-            if (CurrentLap.LapNumber == DriverInfo.CompletedLaps + 1)
+            LapInfo currentLap = CurrentLap;
+            if (currentLap.LapNumber == DriverInfo.CompletedLaps + 1)
             {
                 UpdateCurrentLap(sessionInfo);
             }
-            if (CurrentLap.LapNumber < DriverInfo.CompletedLaps + 1 || (!CurrentLap.Valid && DriverInfo.CurrentLapValid))
+            if (currentLap.LapNumber < DriverInfo.CompletedLaps + 1 ||
+                (!currentLap.Valid && DriverInfo.CurrentLapValid && SessionInfo.SessionTypeEnum.Race == sessionInfo.SessionType && !DriverInfo.IsPlayer)
+                || (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer))
             {
                 FinishCurrentLap(sessionInfo);
+                return currentLap.Valid;
             }
+            return false;
         }
 
         private void UpdateCurrentLap(SessionInfo sessionInfo)
         {
             CurrentLap.Tick(sessionInfo.SessionTime);
-            if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || DriverInfo.CurrentLapValid))
+            if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid))
                 CurrentLap.Valid = false;
         }
 
@@ -95,7 +99,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
             int totalPaceLaps = 0;
             TimeSpan pace = new TimeSpan(0);
-            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps <= 4; i--)
+            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps <= 3; i--)
             {
                 LapInfo lap = lapsInfo[i];
                 if (!lap.Valid)

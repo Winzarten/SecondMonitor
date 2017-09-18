@@ -36,7 +36,7 @@
                 <DataGridTextColumn Binding="{Binding PaceAsString}" ClipboardContentBinding="{x:Null}" Header="Pace" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding BestLapString}" ClipboardContentBinding="{x:Null}" Header="Best Lap" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding PitCount}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding IsCurrentLapValud}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True"/>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -63,7 +63,8 @@
                 </Style>
             </DataGrid.Resources>
         </DataGrid>
-        <Label x:Name="lblTrack" Content="Label" HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" Foreground="White"/>
+        <Label x:Name="lblTrack" Content="Label"  HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" Foreground="White"/>
+        <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Width="235" Foreground="White" FontSize="20"/>
 
     </Grid>
 </Window>

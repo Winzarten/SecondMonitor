@@ -60,6 +60,7 @@
     <ProjectReference Include="..\PluginManager\PluginManager.csproj">
       <Project>{e61dbd85-bc10-4abd-9c0b-22770399de70}</Project>
       <Name>PluginManager</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

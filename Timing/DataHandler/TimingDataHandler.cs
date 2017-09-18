@@ -12,22 +12,28 @@ using SecondMonitor.Timing.Model.Drivers;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SecondMonitor.Timing.DataHandler
 {
-    public class TimingDataHandler : ISecondMonitorPlugin
+    public class TimingDataHandler : ISecondMonitorPlugin, INotifyPropertyChanged
     {
         private TimingGUI gui;
         private PluginsManager pluginsManager;
         private SessionTiming timing;
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         private DateTime lastRefresh;
 
         // Gets or sets the CollectionViewSource
-        public CollectionViewSource ViewSource { get; set; }
+        public CollectionViewSource ViewSource { get; set; }    
 
         // Gets or sets the ObservableCollection
         public ObservableCollection<Driver> Collection { get; set; }
+
+        private LapInfo bestSessionLap;
+        public string BestLapFormatted { get => bestSessionLap != null ? Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
 
         public PluginsManager PluginManager
         {
@@ -75,8 +81,9 @@ namespace SecondMonitor.Timing.DataHandler
         }
 
         private void OnSessionStarted(object sender, DataEventArgs args)
-        {
+        {            
             timing = SessionTiming.FromSimulatorData(args.Data);
+            timing.BestLapChangedEvent += BestLapChangedHandler;
             InitializeGui(args.Data);
         }
 
@@ -90,7 +97,8 @@ namespace SecondMonitor.Timing.DataHandler
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
                     ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
-                    gui.dtTimig.ItemsSource = ViewSource.View;                    
+                    gui.dtTimig.ItemsSource = ViewSource.View;
+                    gui.lblBestLap.DataContext = this;
                 }
                 Collection.Clear();
                 foreach (Driver d in timing.Drivers.Values)
@@ -106,8 +114,20 @@ namespace SecondMonitor.Timing.DataHandler
                 sb.Append(") - ");
                 sb.Append(data.SessionInfo.SessionType);
                 gui.lblTrack.Content = sb.ToString();
-
+                
             });
+            NotifyPropertyChanged();
+        }
+
+        private void BestLapChangedHandler(object sender, SessionTiming.BestLapChangedArgs args)
+        {
+            bestSessionLap = args.Lap;
+            NotifyPropertyChanged();
+        }
+
+        protected virtual void NotifyPropertyChanged()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BestLapFormatted"));
         }
     }
 }
