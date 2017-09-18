@@ -27,7 +27,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public bool InPits { get; private set; }
         public TimeSpan Pace { get; private set; }
         public string PaceAsString { get => FormatTimeSpan(Pace);}
-        public bool IsCurrentLapValud { get => DriverInfo.CurrentLapValid; }
+        public bool IsCurrentLapValud { get => CurrentLap != null ? CurrentLap.Valid : false; }
         public LapInfo BestLap { get; set; }
         public string BestLapString { get => BestLap != null ? FormatTimeSpan(BestLap.LapTime) : "N/A"; }
         public int PitCount { get; private set; }

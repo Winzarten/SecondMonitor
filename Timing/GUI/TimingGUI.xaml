@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SecondMonitor.Timing.GUI"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1680" Height="1020" Left="1920" WindowStyle="ThreeDBorderWindow">
+             d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Grid Background="Black">
         <DataGrid x:Name="dtTimig" Margin="10,52,-10,28" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
                   HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#">
+                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#" Width="60">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Foreground" Value="Blue">
