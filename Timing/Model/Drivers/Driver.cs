@@ -43,31 +43,47 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             if (!sessionInfo.IsActive)
                 return;
-            if(!InPits && DriverInfo.InPits)
+            UpdateInPitsProperty();
+            if (lapsInfo.Count == 0)
+            {
+                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1));
+                return;
+            }
+            if (CurrentLap.LapNumber == DriverInfo.CompletedLaps + 1)
+            {
+                UpdateCurrentLap(sessionInfo);
+            }
+            if (CurrentLap.LapNumber < DriverInfo.CompletedLaps + 1 || (!CurrentLap.Valid && DriverInfo.CurrentLapValid))
+            {
+                FinishCurrentLap(sessionInfo);
+            }
+        }
+
+        private void UpdateCurrentLap(SessionInfo sessionInfo)
+        {
+            CurrentLap.Tick(sessionInfo.SessionTime);
+            if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || DriverInfo.CurrentLapValid))
+                CurrentLap.Valid = false;
+        }
+
+        private void FinishCurrentLap(SessionInfo sessionInfo)
+        {
+            CurrentLap.FinishLap(sessionInfo.SessionTime);
+            if (BestLap == null || CurrentLap.LapTime < BestLap.LapTime)
+                BestLap = CurrentLap;
+            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1));
+            ComputePace();
+        }
+
+        private void UpdateInPitsProperty()
+        {
+            if (!InPits && DriverInfo.InPits)
             {
                 InPits = true;
                 PitCount++;
             }
             if (InPits && !DriverInfo.InPits)
                 InPits = false;
-            if(lapsInfo.Count==0)
-            {
-                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps+1));
-                return;
-            }
-            if (CurrentLap.LapNumber == DriverInfo.CompletedLaps + 1)
-            {
-                CurrentLap.Tick(sessionInfo.SessionTime);
-                CurrentLap.Valid = sessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race || (CurrentLap.Valid && DriverInfo.CurrentLapValid);                
-            }
-            if(CurrentLap.LapNumber < DriverInfo.CompletedLaps + 1 || (!CurrentLap.Valid && DriverInfo.CurrentLapValid ))
-            {
-                CurrentLap.FinishLap(sessionInfo.SessionTime);
-                if (BestLap == null || CurrentLap.LapTime < BestLap.LapTime)
-                    BestLap = CurrentLap;                
-                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1));                
-                ComputePace();
-            }
         }
 
         private void ComputePace()
