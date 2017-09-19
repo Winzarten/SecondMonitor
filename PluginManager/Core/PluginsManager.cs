@@ -60,7 +60,7 @@ namespace SecondMonitor.PluginManager.Core
             {
                 assembly = Assembly.LoadFile(assemblyPath);
                 
-            }catch(Exception ex)
+            }catch(Exception)
             {
                 return new List<ISecondMonitorPlugin>();
             }

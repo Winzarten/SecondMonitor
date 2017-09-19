@@ -18,8 +18,7 @@ namespace SecondMonitor.R3EConnector
         private MemoryMappedFile sharedMemory;        
         private Thread daemonThread;
         private bool disconnect;
-        private bool inSession;
-        private int lastSessionType = -1;
+        private bool inSession;        
 
         private static readonly string r3EExcecutable = "RRRE";
         private static readonly string SharedMemoryName = "$R3E";

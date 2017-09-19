@@ -46,7 +46,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             UpdateInPitsProperty();            
             if (lapsInfo.Count == 0)
             {
-                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1));
+                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this));
             }
             LapInfo currentLap = CurrentLap;
             if (currentLap.LapNumber == DriverInfo.CompletedLaps + 1)
@@ -75,7 +75,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             CurrentLap.FinishLap(sessionInfo.SessionTime);
             if (BestLap == null || CurrentLap.LapTime < BestLap.LapTime)
                 BestLap = CurrentLap;
-            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1));
+            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
             ComputePace();
         }
 
