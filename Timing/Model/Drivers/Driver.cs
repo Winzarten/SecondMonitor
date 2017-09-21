@@ -73,7 +73,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         private void FinishCurrentLap(SessionInfo sessionInfo)
         {
             CurrentLap.FinishLap(sessionInfo.SessionTime);
-            if (BestLap == null || CurrentLap.LapTime < BestLap.LapTime)
+            if (CurrentLap.Valid && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
                 BestLap = CurrentLap;
             lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
             ComputePace();

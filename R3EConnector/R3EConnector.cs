@@ -30,12 +30,16 @@ namespace SecondMonitor.R3EConnector
         public event EventHandler<EventArgs> ConnectedEvent;
         public event EventHandler<EventArgs> Disconnected;
 
-        
+        private DateTime lastTick;
+        private TimeSpan sessionTime;
+
 
         public R3EConnector()
         {
             TickTime = 10;
             inSession = false;
+            sessionTime = new TimeSpan(0);
+            lastTick = DateTime.Now;
         }
 
         public bool IsConnected
@@ -111,6 +115,12 @@ namespace SecondMonitor.R3EConnector
                 SimulatorDataSet data = FromR3EData(r3rData);
                 if (CheckSessionStarted(r3rData))
                     RaiseSessionStartedEvent(data);
+                DateTime tickTime = DateTime.Now;
+                if (r3rData.GamePaused != 1)
+                {
+                    sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
+                }
+                lastTick = tickTime;
                 RaiseDataLoadedEvent(data);
             }
             sharedMemory = null;
@@ -167,6 +177,7 @@ namespace SecondMonitor.R3EConnector
         {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
+            sessionTime = new TimeSpan(0);
             if (handler != null)
             {
                 handler(this, args);
@@ -175,7 +186,7 @@ namespace SecondMonitor.R3EConnector
 
         private void RaiseDataLoadedEvent(SimulatorDataSet data)
         {
-            DataEventArgs args = new DataEventArgs(data);
+            DataEventArgs args = new DataEventArgs(data);            
             EventHandler<DataEventArgs> handler = DataLoaded;
             if (handler != null)
             {
@@ -218,12 +229,12 @@ namespace SecondMonitor.R3EConnector
         }
 
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
-        private static SimulatorDataSet FromR3EData(R3ESharedData data)
+        private SimulatorDataSet FromR3EData(R3ESharedData data)
         {
             SimulatorDataSet simData = new SimulatorDataSet();
 
             //Timing
-            simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.Player.GameSimulationTime);
+            simData.SessionInfo.SessionTime = sessionTime; //TimeSpan.FromSeconds(data.Player.GameSimulationTime);
             simData.SessionInfo.IsActive =   (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Green
                 || (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Checkered;
             switch((Constant.Session)data.SessionType)
@@ -318,6 +329,8 @@ namespace SecondMonitor.R3EConnector
 
         private static string FromByteArray(byte[] buffer)
         {
+            if(buffer[0]==(Char)0)
+                return "";
             return System.Text.Encoding.UTF8.GetString(buffer).Split(new Char[] { (Char)0 }, StringSplitOptions.RemoveEmptyEntries)[0];
         }
 

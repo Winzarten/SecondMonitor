@@ -75,7 +75,8 @@ namespace SecondMonitor.Timing.DataHandler
                 lastRefresh = DateTime.Now;
                 gui.Dispatcher.Invoke(() =>
                 {
-                    ViewSource.View.Refresh();                    
+                    ViewSource.View.Refresh();
+                    gui.lblTime.Content = data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
                 });
             }
         }
