@@ -8,6 +8,7 @@ using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.GameConnector;
 using SecondMonitor.R3EConnector.Data;
 using SecondMonitor.DataModel.BasicProperties;
+using System.Collections.Generic;
 
 namespace SecondMonitor.R3EConnector
 {
@@ -15,7 +16,8 @@ namespace SecondMonitor.R3EConnector
     public class R3EConnector : IGameConnector
     {
 
-        private MemoryMappedFile sharedMemory;        
+        private MemoryMappedFile sharedMemory;
+        private readonly Queue<SimulatorDataSet> queue = new Queue<SimulatorDataSet>();
         private Thread daemonThread;
         private bool disconnect;
         private bool inSession;        
@@ -102,6 +104,11 @@ namespace SecondMonitor.R3EConnector
             daemonThread = new Thread(DaemonMethod);
             daemonThread.IsBackground = true;
             daemonThread.Start();
+
+            Thread queueProcessorThread = new Thread(QueueProcessor);
+            queueProcessorThread.IsBackground = true;
+            queueProcessorThread.Start();
+
         }
 
         private void DaemonMethod()
@@ -121,11 +128,34 @@ namespace SecondMonitor.R3EConnector
                     sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
                 }
                 lastTick = tickTime;
-                RaiseDataLoadedEvent(data);
+                lock(queue)
+                {
+                    queue.Enqueue(data);                    
+                }
+                
             }
             sharedMemory = null;
             disconnect = false;
             RaiseDisconnectedEvent();
+        }
+
+        private void QueueProcessor()
+        {
+            while (true)
+            {
+                SimulatorDataSet set;
+                while (queue.Count != 0)
+                {
+                    lock (queue)
+                    {
+                        set = queue.Dequeue();                        
+                         
+                    }
+                    RaiseDataLoadedEvent(set);
+                }
+                Thread.Sleep(TickTime);                
+            }
+            
         }
 
 
