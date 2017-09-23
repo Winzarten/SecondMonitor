@@ -168,7 +168,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::SecondMonitor.MonitorGui.Properties.Resources.tirepressure300;
+            this.pictureBox2.Image = global::SecondMonitor.WindowsControls.Properties.Resources.tirepressure300;
             this.pictureBox2.Location = new System.Drawing.Point(197, 76);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(25, 18);
@@ -179,7 +179,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::SecondMonitor.MonitorGui.Properties.Resources.brake;
+            this.pictureBox1.Image = global::SecondMonitor.WindowsControls.Properties.Resources.brake;
             this.pictureBox1.Location = new System.Drawing.Point(3, 76);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(18, 18);

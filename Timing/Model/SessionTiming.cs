@@ -62,12 +62,12 @@ namespace SecondMonitor.Timing.Model
 
         private void UpdateDrivers(SimulatorDataSet dataSet)
         {
-            Array.ForEach(dataSet.DriversInfo, s => UpdateDriver(s, Drivers[s.DriverName], dataSet.SessionInfo));
+            Array.ForEach(dataSet.DriversInfo, s => UpdateDriver(s, Drivers[s.DriverName], dataSet));
         }
-        private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo, SessionInfo sessionInfo)
+        private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo, SimulatorDataSet set)
         {
             timingInfo.DriverInfo = modelInfo;
-            if(timingInfo.UpdateLaps(sessionInfo) && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
+            if(timingInfo.UpdateLaps(set) && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
             {
                 bestSessionLap = timingInfo.LastCompletedLap;
                 RaiseBestLapChangedEvent(bestSessionLap);

@@ -10,14 +10,15 @@ namespace SecondMonitor.Timing.Model.Drivers
 {
     public class Driver
     {
-        private List<LapInfo> lapsInfo;        
+        private List<LapInfo> lapsInfo;
+        private List<PitInfo> pitStopInfo;
 
         public Driver(DriverInfo driverInfo)
         {
             lapsInfo = new List<LapInfo>();
+            pitStopInfo = new List<PitInfo>();
             DriverInfo = driverInfo;
-            Pace = new TimeSpan(0);
-            PitCount = 0;
+            Pace = new TimeSpan(0);            
         }
         public DriverInfo DriverInfo { get; internal set; }
         public bool IsPlayer { get => DriverInfo.IsPlayer; }
@@ -30,7 +31,8 @@ namespace SecondMonitor.Timing.Model.Drivers
         public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
         public LapInfo BestLap { get; set; }
         public string BestLapString { get => BestLap != null ? FormatTimeSpan(BestLap.LapTime) : "N/A"; }
-        public int PitCount { get; private set; }
+        public int PitCount { get => pitStopInfo.Count; }
+        public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
 
         public bool IsLastLapBestLap { get
             {
@@ -39,11 +41,12 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return BestLap == LastCompletedLap;
             } }
 
-        public bool UpdateLaps(SessionInfo sessionInfo)
+        public bool UpdateLaps(SimulatorDataSet set)
         {
+            SessionInfo sessionInfo = set.SessionInfo;
             if (!sessionInfo.IsActive)
                 return false;
-            UpdateInPitsProperty();            
+            UpdateInPitsProperty(set);            
             if (lapsInfo.Count == 0)
             {
                 lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this));
@@ -79,16 +82,21 @@ namespace SecondMonitor.Timing.Model.Drivers
             ComputePace();
         }
 
-        private void UpdateInPitsProperty()
+        private void UpdateInPitsProperty(SimulatorDataSet set)
         {
+            if(InPits && !LastPitStop.Completed )
+            {
+                LastPitStop.Tick(set);
+            }
             if (!InPits && DriverInfo.InPits)
             {
                 InPits = true;
-                PitCount++;
+                pitStopInfo.Add(new PitInfo(set, this, CurrentLap));
             }
-            if (InPits && !DriverInfo.InPits)
-                InPits = false;
+            if(InPits && !DriverInfo.InPits)
+                InPits = false;            
         }
+        
 
         private void ComputePace()
         {
@@ -123,7 +131,16 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return lapsInfo.Last();
             }
         }
-
+        public string LastPitInfo
+        {
+            get
+            {
+                if (LastPitStop == null)
+                    return "0";
+                else
+                    return PitCount + ":(" + LastPitStop.PitInfoFormatted + ")";
+            }
+        }
         public string CurrentLapProgressTime
         {
             get

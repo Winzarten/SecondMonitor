@@ -24,7 +24,8 @@ namespace SecondMonitor.Timing.DataHandler
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        private DateTime lastRefresh;
+        private DateTime lastRefreshTiming;
+        private DateTime lastRefreshCarInfo;
 
         // Gets or sets the CollectionViewSource
         public CollectionViewSource ViewSource { get; set; }    
@@ -54,7 +55,8 @@ namespace SecondMonitor.Timing.DataHandler
             gui = new TimingGUI();
             gui.Show();
             gui.Closed += Gui_Closed;
-            lastRefresh = DateTime.Now;
+            lastRefreshTiming = DateTime.Now;
+            lastRefreshCarInfo = DateTime.Now;
         }
 
         private void Gui_Closed(object sender, EventArgs e)
@@ -69,15 +71,31 @@ namespace SecondMonitor.Timing.DataHandler
                 return;
             if (timing != null)
                 timing.UpdateTiming(data);
-            TimeSpan timeSpan = DateTime.Now.Subtract(lastRefresh);
+            TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
             if (timeSpan.TotalMilliseconds > 1000)
             {
-                lastRefresh = DateTime.Now;
+                lastRefreshTiming = DateTime.Now;
                 gui.Dispatcher.Invoke(() =>
                 {
                     ViewSource.View.Refresh();
-                    gui.lblTime.Content = data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
+                    gui.lblTime.Content = data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");                    
                 });
+            }
+            timeSpan = DateTime.Now.Subtract(lastRefreshCarInfo);
+            if (timeSpan.TotalMilliseconds > 33)
+            {
+                gui.Dispatcher.Invoke(() =>
+                {                    
+                    gui.pedalControl.UpdateControl(data);
+                    gui.whLeftFront.UpdateControl(data);
+                    gui.whRightFront.UpdateControl(data);
+                    gui.whLeftRear.UpdateControl(data);
+                    gui.whRightRear.UpdateControl(data);
+                    gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
+                    gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;                    
+                    gui.gMeter.Refresh();
+                });
+                lastRefreshCarInfo = DateTime.Now;
             }
         }
 

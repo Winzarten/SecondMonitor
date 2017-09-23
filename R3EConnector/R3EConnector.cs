@@ -217,6 +217,7 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.InPits = r3rDriverData.InPitlane == 1;
                 driverInfo.IsPlayer = driverInfo.DriverName == playerName;
                 driverInfo.Position = r3rDriverData.Place;
+                driverInfo.Speed = r3rDriverData.CarSpeed;
                 if(driverInfo.IsPlayer)
                     driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
                 else
