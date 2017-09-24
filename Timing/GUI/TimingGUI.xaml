@@ -30,10 +30,10 @@
             <controls1:GMeter x:Name="gMeter" GBallDiameter="4" GScale="1" HorizG="2" VertG="3" MaxG="4" GBallColor="Green"/>
         </WindowsFormsHost>
         <DataGrid x:Name="dtTimig" Margin="10,52,10,368" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
-                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                  HorizontalAlignment="Stretch" EnableRowVirtualization="True" EnableColumnVirtualization="True" ItemsSource="{Binding TimingInfo}"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#" Width="60">
+                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#" Width="60" IsReadOnly="True">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Foreground" Value="Blue">
@@ -41,10 +41,10 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding CompletedLaps}" ClipboardContentBinding="{x:Null}" Header="Laps" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime}" ClipboardContentBinding="{x:Null}" Header="Current Lap" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding LastLapTime}" ClipboardContentBinding="{x:Null}" Header="Last Lap" IsReadOnly="True">
+                <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding CompletedLaps}" ClipboardContentBinding="{x:Null}" Header="Laps" IsReadOnly="True" Width="60"/>
+                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime}" ClipboardContentBinding="{x:Null}" Header="Current Lap" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding LastLapTime}" ClipboardContentBinding="{x:Null}" Header="Last Lap" IsReadOnly="True" Width="200">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Style.Triggers>
@@ -55,10 +55,10 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding PaceAsString}" ClipboardContentBinding="{x:Null}" Header="Pace" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding BestLapString}" ClipboardContentBinding="{x:Null}" Header="Best Lap" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding LastPitInfo}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding PaceAsString}" ClipboardContentBinding="{x:Null}" Header="Pace" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding BestLapString}" ClipboardContentBinding="{x:Null}" Header="Best Lap" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding LastPitInfo}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True" Width="60"/>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">

@@ -72,14 +72,13 @@ namespace SecondMonitor.Timing.DataHandler
             if (timing != null)
                 timing.UpdateTiming(data);
             TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
-            TimeSpan timeSpanCarIno = DateTime.Now.Subtract(lastRefreshCarInfo);
             
-            if (timeSpan.TotalMilliseconds > 1000)
+            
+            if (timeSpan.TotalMilliseconds >700)
             {
                 lastRefreshTiming = DateTime.Now;
-                gui.Dispatcher.BeginInvoke((Action)(() =>
-                {
-                    ViewSource.View.Refresh();
+                gui.Dispatcher.Invoke((Action)(() =>
+                {                                        
                     gui.lblTime.Content = data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
@@ -89,11 +88,13 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
                     gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     gui.gMeter.Refresh();
+                    ViewSource.View.Refresh();
                 }));
             }
-            else if (timeSpanCarIno.TotalMilliseconds > 33)
+            TimeSpan timeSpanCarIno = DateTime.Now.Subtract(lastRefreshCarInfo);
+            if (timeSpanCarIno.TotalMilliseconds > 33)
             {
-                gui.Dispatcher.BeginInvoke((Action)(() =>
+                gui.Dispatcher.Invoke((Action)(() =>
                 {
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
@@ -115,6 +116,8 @@ namespace SecondMonitor.Timing.DataHandler
             InitializeGui(args.Data);
         }
 
+        public ICollectionView TimingInfo { get => ViewSource.View; }
+
         private void InitializeGui(SimulatorDataSet data)
         {
             gui.Dispatcher.Invoke(() =>
@@ -124,8 +127,8 @@ namespace SecondMonitor.Timing.DataHandler
                     Collection = new ObservableCollection<Driver>();
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
-                    ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
-                    gui.dtTimig.ItemsSource = ViewSource.View;
+                    ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));                    
+                    gui.dtTimig.DataContext = this;
                     gui.lblBestLap.DataContext = this;
                 }
                 Collection.Clear();
