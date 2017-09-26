@@ -123,7 +123,7 @@ namespace SecondMonitor.R3EConnector
                 if (CheckSessionStarted(r3rData))
                     RaiseSessionStartedEvent(data);
                 DateTime tickTime = DateTime.Now;
-                if (r3rData.GamePaused != 1)
+                if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay )
                 {
                     sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
                 }
@@ -207,7 +207,8 @@ namespace SecondMonitor.R3EConnector
         {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
-            sessionTime = new TimeSpan(0);
+            lastTick = DateTime.Now;
+            sessionTime = new TimeSpan(0,0,1);
             if (handler != null)
             {
                 handler(this, args);

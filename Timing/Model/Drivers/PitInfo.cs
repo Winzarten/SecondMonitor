@@ -85,7 +85,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                         phaseAsString = "Out-";
                         break;
                     case PitPhase.COMPLETED:
-                        phaseAsString = "D-";
+                        phaseAsString = EntryLap != null ? EntryLap.LapNumber.ToString() + "-": "0-";
                         break;
 
                 }

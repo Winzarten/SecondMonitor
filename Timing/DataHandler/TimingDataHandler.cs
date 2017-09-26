@@ -13,14 +13,43 @@ using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace SecondMonitor.Timing.DataHandler
 {
+    public class ResetCommand : ICommand
+    {
+        public event EventHandler CanExecuteChanged;
+        private Action executeDelegate;
+        private Func<bool> canExecuteDelegate;
+
+        public ResetCommand(Action execute)
+        {
+            executeDelegate = execute;
+            canExecuteDelegate = () => { return true; };
+        }
+        public ResetCommand(Action execute, Func<bool> canExecute)
+        {
+            executeDelegate = execute;
+            canExecuteDelegate = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return canExecuteDelegate();
+        }
+
+        public void Execute(object parameter)
+        {
+            executeDelegate();
+        }
+    }
     public class TimingDataHandler : ISecondMonitorPlugin, INotifyPropertyChanged
     {
         private TimingGUI gui;
         private PluginsManager pluginsManager;
         private SessionTiming timing;
+        bool shouldReset;
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -55,8 +84,28 @@ namespace SecondMonitor.Timing.DataHandler
             gui = new TimingGUI();
             gui.Show();
             gui.Closed += Gui_Closed;
+            gui.btnReset.DataContext = this;
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
+            shouldReset = false;
+        }
+
+        private ICommand _resetCommand;
+        public ICommand ResetCommand
+        {
+            get
+            {
+                if(_resetCommand==null)
+                {
+                    _resetCommand = new ResetCommand(ScheduleReset);
+                }
+                return _resetCommand;
+            }
+        }
+
+        private void ScheduleReset()
+        {
+            shouldReset = true;
         }
 
         private void Gui_Closed(object sender, EventArgs e)
@@ -66,13 +115,20 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
-            SimulatorDataSet data = args.Data;
+            SimulatorDataSet data = args.Data;            
             if (ViewSource == null)
                 return;
+            if(shouldReset)
+            {
+                timing = SessionTiming.FromSimulatorData(args.Data);
+                timing.BestLapChangedEvent += BestLapChangedHandler;
+                InitializeGui(data);
+                shouldReset = false;
+            }
             if (timing != null)
                 timing.UpdateTiming(data);
             TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
-            
+           
             
             if (timeSpan.TotalMilliseconds >700)
             {
@@ -120,6 +176,7 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void InitializeGui(SimulatorDataSet data)
         {
+
             gui.Dispatcher.Invoke(() =>
             {
                 if (Collection == null)
