@@ -12,6 +12,7 @@ namespace SecondMonitor.PluginManager.Core
     public class PluginsManager
     {
         public event EventHandler<DataEventArgs> DataLoaded;
+        public event EventHandler<DataEventArgs> SessionStarted;
         private List<ISecondMonitorPlugin> plugins;
 
         public PluginsManager(IGameConnector connector)
@@ -19,6 +20,7 @@ namespace SecondMonitor.PluginManager.Core
             plugins = new List<ISecondMonitorPlugin>();
             Connector = connector;
             connector.DataLoaded += OnDataLoaded;
+            connector.SessionStarted += OnSessionStarted;
         }
 
         public void InitializePlugins()
@@ -58,7 +60,7 @@ namespace SecondMonitor.PluginManager.Core
             {
                 assembly = Assembly.LoadFile(assemblyPath);
                 
-            }catch(Exception ex)
+            }catch(Exception)
             {
                 return new List<ISecondMonitorPlugin>();
             }
@@ -98,6 +100,21 @@ namespace SecondMonitor.PluginManager.Core
         void OnDataLoaded(object sender, DataEventArgs args)
         {
             RaiseDataLoadedEvent(args.Data);
+        }
+
+        void OnSessionStarted(object sender, DataEventArgs args)
+        {
+            RaiseSessionStartedEvent(args.Data);
+        }
+
+        private void RaiseSessionStartedEvent(SimulatorDataSet data)
+        {
+            DataEventArgs args = new DataEventArgs(data);
+            EventHandler<DataEventArgs> handler = SessionStarted;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
         }
 
         private void RaiseDataLoadedEvent(SimulatorDataSet data)

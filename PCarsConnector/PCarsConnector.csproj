@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecondMonitor.PCarsConnector</RootNamespace>
     <AssemblyName>PCarsConnector</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,14 +67,17 @@
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Launcher\Launcher.csproj">
       <Project>{9cb31996-7ff5-4bb2-aaf7-5a9a88aadc48}</Project>
       <Name>Launcher</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PluginManager\PluginManager.csproj">
       <Project>{e61dbd85-bc10-4abd-9c0b-22770399de70}</Project>
       <Name>PluginManager</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

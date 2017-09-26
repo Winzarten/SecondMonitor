@@ -46,7 +46,7 @@ namespace SecondMonitor.CarStatus.Forms
 
         private void CarStatusForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PluginManager.DeletePlugin(this) ;
+            PluginManager.DeletePlugin(this);
         }
 
         private void UpdateWaterTemp(SimulatorDataSet data)
@@ -90,6 +90,7 @@ namespace SecondMonitor.CarStatus.Forms
                 blbFuelPressure.Color = Color.Green;
             else
                 blbFuelPressure.Color = Color.Red;
+            label1.Text = data.SessionInfo.SessionTime.TotalSeconds.ToString();
         }
 
 

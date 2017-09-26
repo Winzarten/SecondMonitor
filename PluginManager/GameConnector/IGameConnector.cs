@@ -23,6 +23,7 @@ namespace SecondMonitor.PluginManager.GameConnector
         event EventHandler<DataEventArgs> DataLoaded;
         event EventHandler<EventArgs> ConnectedEvent;
         event EventHandler<EventArgs> Disconnected;
+        event EventHandler<DataEventArgs> SessionStarted;
 
         bool IsConnected
         {

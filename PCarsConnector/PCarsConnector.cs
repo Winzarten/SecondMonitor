@@ -7,6 +7,7 @@ using System.Threading;
 using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.GameConnector;
 using SecondMonitor.DataModel.BasicProperties;
+using SecondMonitor.PCarsConnector.enums;
 
 namespace SecondMonitor.PCarsConnector
 {
@@ -30,12 +31,17 @@ namespace SecondMonitor.PCarsConnector
         public event EventHandler<DataEventArgs> DataLoaded;
         public event EventHandler<EventArgs> ConnectedEvent;
         public event EventHandler<EventArgs> Disconnected;
+        public event EventHandler<DataEventArgs> SessionStarted;
+
+        private DateTime lastTick;
+        private TimeSpan sessionTime;
 
         
 
         public PCarsConnector()
         {
             TickTime = 10;
+            sessionTime = new TimeSpan(0);
         }
 
         public bool IsConnected
@@ -153,7 +159,17 @@ namespace SecondMonitor.PCarsConnector
 
         private void RaiseDataLoadedEvent(pCarsAPIStruct data)
         {
-            DataEventArgs args = new DataEventArgs(FromR3EData(data));
+            SimulatorDataSet simData = FromR3EData(data);
+            DateTime tickTime = DateTime.Now;
+            if (data.mGameState == 2)
+            {
+                sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
+            }
+            if (data.mSessionState == 0 || data.mRaceState == 1)
+                sessionTime = new TimeSpan(0);
+            simData.SessionInfo.SessionTime = sessionTime;
+            lastTick = tickTime;
+            DataEventArgs args = new DataEventArgs(simData);
             EventHandler<DataEventArgs> handler = DataLoaded;
             if (handler != null)
             {
@@ -164,8 +180,7 @@ namespace SecondMonitor.PCarsConnector
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
         private static SimulatorDataSet FromR3EData(pCarsAPIStruct data)
         {
-            SimulatorDataSet simData = new SimulatorDataSet();
-
+            SimulatorDataSet simData = new SimulatorDataSet();            
             //PEDAL INFO
             simData.PedalInfo.ThrottlePedalPosition = data.mThrottle;
             simData.PedalInfo.BrakePedalPosition = data.mBrake;

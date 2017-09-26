@@ -33,7 +33,7 @@ namespace SecondMonitor.MonitorGui.CarStatus.Forms.Controls
             set;
         }
 
-        [Description("Color of the GBall"),
+        [Description("Color of the GBall"),        
         Category("Design"),
         Browsable(true)]
         public Color GBallColor

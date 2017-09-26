@@ -1,0 +1,103 @@
+﻿<Window x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:WinForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+            xmlns:WindowsFormsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SecondMonitor.Timing.GUI"
+        xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls;assembly=WindowsControls"
+        xmlns:controls1="clr-namespace:SecondMonitor.MonitorGui.CarStatus.Forms.Controls;assembly=WindowsControls"
+        mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
+    <Grid Background="Black">
+        <WindowsFormsHost Margin="10,0,0,195" VerticalAlignment="Bottom" MinWidth="225" MinHeight="150" HorizontalAlignment="Left">
+            <controls:WheelStatusControl x:Name="whLeftFront"/>
+        </WindowsFormsHost>
+        <WindowsFormsHost Margin="280,0,0,195" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <controls:WheelStatusControl x:Name="whRightFront" WheelPostion="FrontRight"/>
+        </WindowsFormsHost>
+        <WindowsFormsHost Margin="10,0,0,10" MinWidth="225" MinHeight="150" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <controls:WheelStatusControl x:Name="whLeftRear" WheelPostion="RearLeft"/>
+        </WindowsFormsHost>
+        <WindowsFormsHost Margin="280,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <controls:WheelStatusControl x:Name="whRightRear" WheelPostion="RearRight"/>
+        </WindowsFormsHost>
+        <WindowsFormsHost Margin="594,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <controls:PedalControl x:Name="pedalControl"/>
+        </WindowsFormsHost>
+        <WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
+            <controls1:GMeter x:Name="gMeter" GBallDiameter="4" GScale="1" HorizG="2" VertG="3" MaxG="4" GBallColor="Green"/>
+        </WindowsFormsHost>
+        <DataGrid x:Name="dtTimig" Margin="10,52,10,368" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
+                  HorizontalAlignment="Stretch" EnableRowVirtualization="True" EnableColumnVirtualization="True" ItemsSource="{Binding TimingInfo}"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#" Width="60" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="Blue">
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding CompletedLaps}" ClipboardContentBinding="{x:Null}" Header="Laps" IsReadOnly="True" Width="60"/>
+                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime}" ClipboardContentBinding="{x:Null}" Header="Current Lap" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding LastLapTime}" ClipboardContentBinding="{x:Null}" Header="Last Lap" IsReadOnly="True" Width="200">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding PaceAsString}" ClipboardContentBinding="{x:Null}" Header="Pace" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding BestLapString}" ClipboardContentBinding="{x:Null}" Header="Best Lap" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding LastPitInfo}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True" Width="60"/>
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPlayer}" Value="True">
+                            <Setter Property="Background" Value="Red"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsPlayer}" Value="False">
+                            <Setter Property="Background" Value="Black"></Setter>
+                            <Setter Property="FontWeight" Value="Normal"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InPits}" Value="True">
+                            <Setter Property="Background" Value="Blue">
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="Blue" />
+                    <Setter Property="BorderBrush"  Value="Red" />
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+        <Label x:Name="lblTrack" Content="Label"  HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" Foreground="White"/>
+        <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Width="235" Foreground="White" FontSize="20"/>
+        <Label x:Name="lblTime" Content="Label"  HorizontalAlignment="Right" FontSize="20" Margin="1382,10,0,0" VerticalAlignment="Top" Width="200" Foreground="White"/>
+        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="629,0,0,294" Width="76" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding Path=ResetCommand}">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-1.46"/>
+                    <TranslateTransform X="-0.573" Y="0.057"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+
+    </Grid>
+</Window>

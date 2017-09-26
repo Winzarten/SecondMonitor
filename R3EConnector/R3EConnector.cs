@@ -8,6 +8,7 @@ using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.GameConnector;
 using SecondMonitor.R3EConnector.Data;
 using SecondMonitor.DataModel.BasicProperties;
+using System.Collections.Generic;
 
 namespace SecondMonitor.R3EConnector
 {
@@ -16,29 +17,36 @@ namespace SecondMonitor.R3EConnector
     {
 
         private MemoryMappedFile sharedMemory;
-        private MemoryMappedViewAccessor sharedMemoryAccessor;
+        private readonly Queue<SimulatorDataSet> queue = new Queue<SimulatorDataSet>();
         private Thread daemonThread;
         private bool disconnect;
+        private bool inSession;        
 
         private static readonly string r3EExcecutable = "RRRE";
-        private static readonly string SharedMemoryName = "$Race$";
+        private static readonly string SharedMemoryName = "$R3E";
 
         private TimeSpan timeInterval = TimeSpan.FromMilliseconds(100);
 
         public event EventHandler<DataEventArgs> DataLoaded;
+        public event EventHandler<DataEventArgs> SessionStarted;
         public event EventHandler<EventArgs> ConnectedEvent;
         public event EventHandler<EventArgs> Disconnected;
 
-        
+        private DateTime lastTick;
+        private TimeSpan sessionTime;
+
 
         public R3EConnector()
         {
             TickTime = 10;
+            inSession = false;
+            sessionTime = new TimeSpan(0);
+            lastTick = DateTime.Now;
         }
 
         public bool IsConnected
         {
-            get { return (sharedMemory != null && sharedMemoryAccessor != null); }
+            get { return (sharedMemory != null); }
         }
 
         public int TickTime
@@ -70,8 +78,7 @@ namespace SecondMonitor.R3EConnector
                 return false;
             try
             {
-                sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
-                sharedMemoryAccessor = sharedMemory.CreateViewAccessor(0, Marshal.SizeOf(typeof(R3ESharedData)));
+                sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);                
                 RaiseConnectedEvent();
                 StartDaemon();
                 return true;
@@ -97,50 +104,120 @@ namespace SecondMonitor.R3EConnector
             daemonThread = new Thread(DaemonMethod);
             daemonThread.IsBackground = true;
             daemonThread.Start();
+
+            Thread queueProcessorThread = new Thread(QueueProcessor);
+            queueProcessorThread.IsBackground = true;
+            queueProcessorThread.Start();
+
         }
 
         private void DaemonMethod()
         {
-            
-            while (!disconnect && sharedMemoryAccessor.CanRead)
+
+            while (!disconnect)
             {
 
-               Thread.Sleep(TickTime);                    
-               R3ESharedData data = Load();
-               RaiseDataLoadedEvent(data);
+                Thread.Sleep(TickTime);
+                R3ESharedData r3rData = Load();
+                SimulatorDataSet data = FromR3EData(r3rData);
+                if (CheckSessionStarted(r3rData))
+                    RaiseSessionStartedEvent(data);
+                DateTime tickTime = DateTime.Now;
+                if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay )
+                {
+                    sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
+                }
+                lastTick = tickTime;
+                lock(queue)
+                {
+                    queue.Enqueue(data);                    
+                }
+                
             }
-            sharedMemoryAccessor = null;
             sharedMemory = null;
             disconnect = false;
             RaiseDisconnectedEvent();
         }
 
-       
+        private void QueueProcessor()
+        {
+            while (true)
+            {
+                SimulatorDataSet set;
+                while (queue.Count != 0)
+                {
+                    lock (queue)
+                    {
+                        set = queue.Dequeue();                        
+                         
+                    }
+                    RaiseDataLoadedEvent(set);
+                }
+                Thread.Sleep(TickTime);                
+            }
+            
+        }
+
+
 
         private void Disconnect()
         {
-            disconnect = true;
-            sharedMemoryAccessor = null;
+            disconnect = true;            
             sharedMemory = null;
             RaiseDisconnectedEvent();
         }
 
         private R3ESharedData Load()
         {
-            lock (sharedMemoryAccessor)
-            {
+            
                 if (!IsConnected)
                     throw new InvalidOperationException("Not connected");
                 R3ESharedData data;
-                sharedMemoryAccessor.Read(0, out data);
+                var _view = sharedMemory.CreateViewStream();
+                BinaryReader _stream = new BinaryReader(_view);
+                byte[] buffer = _stream.ReadBytes(Marshal.SizeOf(typeof(R3ESharedData)));
+                GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                data = (R3ESharedData)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(R3ESharedData));
+                handle.Free();
                 return data;
-            }
+            
         }
 
 
-        private void RaiseDataLoadedEvent(R3ESharedData data)
+        private bool CheckSessionStarted(R3ESharedData r3rData)
         {
-            DataEventArgs args = new DataEventArgs(FromR3EData(data));
+            /*if(r3rData.SessionType != lastSessionType)
+            {
+                lastSessionType = r3rData.SessionType;
+                return true;
+            }*/
+            if(r3rData.SessionPhase != -1 && !inSession)
+            {
+                inSession = true;
+                return true;
+            }
+            if(inSession && r3rData.SessionPhase == -1)
+            {
+                inSession = false;
+            }
+            return false;
+        }
+
+        private void RaiseSessionStartedEvent(SimulatorDataSet data)
+        {
+            DataEventArgs args = new DataEventArgs(data);
+            EventHandler<DataEventArgs> handler = SessionStarted;
+            lastTick = DateTime.Now;
+            sessionTime = new TimeSpan(0,0,1);
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
+        private void RaiseDataLoadedEvent(SimulatorDataSet data)
+        {
+            DataEventArgs args = new DataEventArgs(data);            
             EventHandler<DataEventArgs> handler = DataLoaded;
             if (handler != null)
             {
@@ -148,10 +225,71 @@ namespace SecondMonitor.R3EConnector
             }
         }
 
+        private static void AddDriversData(SimulatorDataSet data, R3ESharedData r3rData)
+        {
+            if (r3rData.NumCars == -1)
+                return;
+            data.DriversInfo = new DataModel.Drivers.DriverInfo[r3rData.NumCars];
+            String playerName = FromByteArray(r3rData.PlayerName);
+            /*DataModel.Drivers.DriverInfo playerInfo = new DataModel.Drivers.DriverInfo();
+            
+            playerInfo.CompletedLaps = r3rData.CompletedLaps;
+            playerInfo.CarName = System.Text.Encoding.UTF8.GetString(r3rData.VehicleInfo.Name).Replace("\0", "");
+            playerInfo.InPits = r3rData.InPitlane == 1;
+            playerInfo.IsPlayer = true;*/
+
+            for (int i = 0; i<r3rData.NumCars; i++)
+            {
+                DriverData r3rDriverData =  r3rData.DriverData[i];                
+                DataModel.Drivers.DriverInfo driverInfo = new DataModel.Drivers.DriverInfo();
+                driverInfo.DriverName = FromByteArray(r3rDriverData.DriverInfo.Name);
+                driverInfo.CompletedLaps = r3rDriverData.CompletedLaps;
+                driverInfo.CarName = "";//System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.).Replace("\0", "");
+                driverInfo.InPits = r3rDriverData.InPitlane == 1;
+                driverInfo.IsPlayer = driverInfo.DriverName == playerName;
+                driverInfo.Position = r3rDriverData.Place;
+                driverInfo.Speed = r3rDriverData.CarSpeed;
+                if(driverInfo.IsPlayer)
+                    driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
+                else
+                    driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
+                data.DriversInfo[i] = driverInfo;
+            }
+            
+            
+            
+        }
+
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
-        private static SimulatorDataSet FromR3EData(R3ESharedData data)
+        private SimulatorDataSet FromR3EData(R3ESharedData data)
         {
             SimulatorDataSet simData = new SimulatorDataSet();
+
+            //Timing
+            simData.SessionInfo.SessionTime = sessionTime; //TimeSpan.FromSeconds(data.Player.GameSimulationTime);
+            simData.SessionInfo.IsActive =   (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Green
+                || (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Checkered;
+            switch((Constant.Session)data.SessionType)
+            {
+                case Constant.Session.Practice:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Practice;
+                    break;
+                case Constant.Session.Qualify:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Qualification;
+                    break;
+                case Constant.Session.Race:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Race;
+                    break;
+                case Constant.Session.Unavailable:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.NA;
+                    break;
+                case Constant.Session.Warmup:
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.WarmUp;
+                    break;
+            }
+            simData.SessionInfo.TrackName = FromByteArray(data.TrackName);
+            simData.SessionInfo.TrackLayoutName = FromByteArray(data.LayoutName);
+
 
             //PEDAL INFO
             simData.PedalInfo.ThrottlePedalPosition = data.ThrottlePedal;
@@ -179,10 +317,10 @@ namespace SecondMonitor.R3EConnector
 
 
 
-            simData.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - data.CarDamage.TireFrontRight;
-            simData.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear = 1 - data.CarDamage.TireFrontRight;
-            simData.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear = 1 - data.CarDamage.TireRearLeft;
-            simData.PlayerCarInfo.WheelsInfo.RearRight.TyreWear = 1 - data.CarDamage.TireRearRight;
+            simData.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - data.TireWear.FrontRight;
+            simData.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear = 1 - data.TireWear.FrontRight;
+            simData.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear = 1 - data.TireWear.RearLeft;
+            simData.PlayerCarInfo.WheelsInfo.RearRight.TyreWear = 1 - data.TireWear.RearRight;
 
             //Front Left Tyre Temps
             simData.PlayerCarInfo.WheelsInfo.FrontLeft.LeftTyreTemp = Temperature.FromCelsius(data.TireTemp.FrontLeft_Left);
@@ -216,8 +354,17 @@ namespace SecondMonitor.R3EConnector
             simData.PlayerCarInfo.Acceleration.YInMS = data.LocalAcceleration.Y;
             simData.PlayerCarInfo.Acceleration.ZInMS = data.LocalAcceleration.Z;
 
+
+            AddDriversData(simData, data);
             return simData;
          }
+
+        private static string FromByteArray(byte[] buffer)
+        {
+            if(buffer[0]==(Char)0)
+                return "";
+            return System.Text.Encoding.UTF8.GetString(buffer).Split(new Char[] { (Char)0 }, StringSplitOptions.RemoveEmptyEntries)[0];
+        }
 
         private void RaiseConnectedEvent()
         {

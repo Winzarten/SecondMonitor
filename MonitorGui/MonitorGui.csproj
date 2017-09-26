@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecondMonitor.MonitorGui</RootNamespace>
     <AssemblyName>SecondMonitor</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -38,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,16 +48,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AGauge">
+    <Reference Include="AGauge, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Artifacts\AGauge.dll</HintPath>
-    </Reference>
-    <Reference Include="LCDLabel">
-      <HintPath>..\Artifacts\LCDLabel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,45 +76,9 @@
     <Compile Include="CarStatus\Forms\CarStatusForm.Designer.cs">
       <DependentUpon>CarStatusForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CarStatus\Forms\Controls\GMeter.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\GMeter.Designer.cs">
-      <DependentUpon>GMeter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\LedBulb.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\OilControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\OilControl.Designer.cs">
-      <DependentUpon>OilControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\PedalControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\PedalControl.Designer.cs">
-      <DependentUpon>PedalControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\WheelStatusControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CarStatus\Forms\Controls\WheelStatusControl.Designer.cs">
-      <DependentUpon>WheelStatusControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CarStatus\Forms\CarStatusForm.resx">
       <DependentUpon>CarStatusForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CarStatus\Forms\Controls\OilControl.resx">
-      <DependentUpon>OilControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CarStatus\Forms\Controls\PedalControl.resx">
-      <DependentUpon>PedalControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CarStatus\Forms\Controls\WheelStatusControl.resx">
-      <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -166,6 +130,11 @@
     <ProjectReference Include="..\PluginManager\PluginManager.csproj">
       <Project>{e61dbd85-bc10-4abd-9c0b-22770399de70}</Project>
       <Name>PluginManager</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
+      <Project>{ea13af3c-a4e0-4ad2-94ae-78006b04fc41}</Project>
+      <Name>WindowsControls</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
