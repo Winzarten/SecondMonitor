@@ -26,9 +26,9 @@
         <WindowsFormsHost Margin="594,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <controls:PedalControl x:Name="pedalControl"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
+        <!--<WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
             <controls1:GMeter x:Name="gMeter" GBallDiameter="4" GScale="1" HorizG="2" VertG="3" MaxG="4" GBallColor="Green"/>
-        </WindowsFormsHost>
+        </WindowsFormsHost>-->
         <DataGrid x:Name="dtTimig" Margin="10,52,10,368" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
                   HorizontalAlignment="Stretch" EnableRowVirtualization="True" EnableColumnVirtualization="True" ItemsSource="{Binding TimingInfo}"
                   >
@@ -58,7 +58,9 @@
                 <DataGridTextColumn Binding="{Binding PaceAsString}" ClipboardContentBinding="{x:Null}" Header="Pace" IsReadOnly="True" Width="200"/>
                 <DataGridTextColumn Binding="{Binding BestLapString}" ClipboardContentBinding="{x:Null}" Header="Best Lap" IsReadOnly="True" Width="200"/>
                 <DataGridTextColumn Binding="{Binding LastPitInfo}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True" Width="60"/>
+                <DataGridTextColumn Binding="{Binding LapPercentage, StringFormat=N2}" ClipboardContentBinding="{x:Null}" Header="Lap Progress" IsReadOnly="True" Width="200"/>
+                <DataGridTextColumn Binding="{Binding DistanceToPlayer, StringFormat=N0}" ClipboardContentBinding="{x:Null}" Header="Distance" IsReadOnly="True" Width="200"/>
+                <!--<DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True" Width="60"/>-->
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -87,7 +89,7 @@
         </DataGrid>
         <Label x:Name="lblTrack" Content="Label"  HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" Foreground="White"/>
         <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Width="235" Foreground="White" FontSize="20"/>
-        <Label x:Name="lblTime" Content="Label"  HorizontalAlignment="Right" FontSize="20" Margin="1382,10,0,0" VerticalAlignment="Top" Width="200" Foreground="White"/>
+        <Label x:Name="lblTime" Content="Label"  HorizontalAlignment="Right" FontSize="20" Margin="1382,10,0,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Center"/>
         <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="629,0,0,294" Width="76" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding Path=ResetCommand}">
             <Button.RenderTransform>
                 <TransformGroup>

@@ -11,14 +11,15 @@ namespace SecondMonitor.Timing.Model.Drivers
     public class Driver
     {
         private List<LapInfo> lapsInfo;
-        private List<PitInfo> pitStopInfo;
+        private List<PitInfo> pitStopInfo;        
 
         public Driver(DriverInfo driverInfo)
         {
             lapsInfo = new List<LapInfo>();
             pitStopInfo = new List<PitInfo>();
             DriverInfo = driverInfo;
-            Pace = new TimeSpan(0);            
+            Pace = new TimeSpan(0);
+            LapPercentage = 0;
         }
         public DriverInfo DriverInfo { get; internal set; }
         public bool IsPlayer { get => DriverInfo.IsPlayer; }
@@ -33,6 +34,8 @@ namespace SecondMonitor.Timing.Model.Drivers
         public string BestLapString { get => BestLap != null ? FormatTimeSpan(BestLap.LapTime) : "N/A"; }
         public int PitCount { get => pitStopInfo.Count; }
         public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
+        public Single LapPercentage { get; private set; }
+        public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
 
         public bool IsLastLapBestLap { get
             {
@@ -49,7 +52,9 @@ namespace SecondMonitor.Timing.Model.Drivers
             UpdateInPitsProperty(set);            
             if (lapsInfo.Count == 0)
             {
-                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this));
+                LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this);
+                firstLap.Valid = false;
+                lapsInfo.Add(firstLap);
             }
             LapInfo currentLap = CurrentLap;
             if (currentLap.LapNumber == DriverInfo.CompletedLaps + 1)
@@ -69,6 +74,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         private void UpdateCurrentLap(SessionInfo sessionInfo)
         {
             CurrentLap.Tick(sessionInfo.SessionTime);
+            LapPercentage = (DriverInfo.LapDistance / sessionInfo.LayoutLength)*100;
             if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid))
                 CurrentLap.Valid = false;
         }

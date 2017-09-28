@@ -141,9 +141,9 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
                     gui.whRightRear.UpdateControl(data);
-                    gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
-                    gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
-                    gui.gMeter.Refresh();
+                    //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
+                    //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
+                    //gui.gMeter.Refresh();
                     ViewSource.View.Refresh();
                 }));
             }
@@ -157,9 +157,9 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
                     gui.whRightRear.UpdateControl(data);
-                    gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
-                    gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
-                    gui.gMeter.Refresh();
+                    //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
+                    //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
+                    //gui.gMeter.Refresh();
                 }));
                 lastRefreshCarInfo = DateTime.Now;
             }
@@ -185,6 +185,7 @@ namespace SecondMonitor.Timing.DataHandler
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
                     ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));                    
+                    //ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
                     gui.dtTimig.DataContext = this;
                     gui.lblBestLap.DataContext = this;
                 }

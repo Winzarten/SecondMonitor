@@ -16,5 +16,7 @@ namespace SecondMonitor.DataModel.Drivers
         public int Position;
         public bool CurrentLapValid;
         public Single Speed;
+        public Single LapDistance;
+        public Single DistanceToPlayer;
     }
 }

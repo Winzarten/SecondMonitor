@@ -34,6 +34,7 @@ namespace SecondMonitor.R3EConnector
 
         private DateTime lastTick;
         private TimeSpan sessionTime;
+        private Double sessionStartR3RTime;
 
 
         public R3EConnector()
@@ -42,6 +43,7 @@ namespace SecondMonitor.R3EConnector
             inSession = false;
             sessionTime = new TimeSpan(0);
             lastTick = DateTime.Now;
+            sessionStartR3RTime = 0;
         }
 
         public bool IsConnected
@@ -125,7 +127,8 @@ namespace SecondMonitor.R3EConnector
                 DateTime tickTime = DateTime.Now;
                 if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay )
                 {
-                    sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
+                    //sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
+                    sessionTime = TimeSpan.FromSeconds(r3rData.Player.GameSimulationTime - sessionStartR3RTime);
                 }
                 lastTick = tickTime;
                 lock(queue)
@@ -194,6 +197,7 @@ namespace SecondMonitor.R3EConnector
             if(r3rData.SessionPhase != -1 && !inSession)
             {
                 inSession = true;
+                sessionStartR3RTime = r3rData.Player.GameSimulationTime;
                 return true;
             }
             if(inSession && r3rData.SessionPhase == -1)
@@ -231,6 +235,7 @@ namespace SecondMonitor.R3EConnector
                 return;
             data.DriversInfo = new DataModel.Drivers.DriverInfo[r3rData.NumCars];
             String playerName = FromByteArray(r3rData.PlayerName);
+            DataModel.Drivers.DriverInfo playersInfo = null;
             /*DataModel.Drivers.DriverInfo playerInfo = new DataModel.Drivers.DriverInfo();
             
             playerInfo.CompletedLaps = r3rData.CompletedLaps;
@@ -249,15 +254,32 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.IsPlayer = driverInfo.DriverName == playerName;
                 driverInfo.Position = r3rDriverData.Place;
                 driverInfo.Speed = r3rDriverData.CarSpeed;
-                if(driverInfo.IsPlayer)
+                driverInfo.LapDistance = r3rDriverData.LapDistance;
+                if (driverInfo.IsPlayer)
+                {
+                    playersInfo = driverInfo;
                     driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
+                }
                 else
                     driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
                 data.DriversInfo[i] = driverInfo;
             }
-            
-            
-            
+            ComputeDistanceToPlayer(playersInfo, data);
+        }
+
+        private static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, SimulatorDataSet data)
+        {
+            Single trackLength = data.SessionInfo.LayoutLength;
+            Single playerLapDistance = player.LapDistance;
+            foreach(var driverInfo in data.DriversInfo)
+            {
+                Single distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
+                if(distanceToPlayer < -(trackLength / 2))
+                    distanceToPlayer = distanceToPlayer + trackLength;
+                if (distanceToPlayer > (trackLength / 2))
+                    distanceToPlayer = distanceToPlayer - trackLength;
+                driverInfo.DistanceToPlayer = distanceToPlayer;
+            }
         }
 
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
@@ -267,6 +289,7 @@ namespace SecondMonitor.R3EConnector
 
             //Timing
             simData.SessionInfo.SessionTime = sessionTime; //TimeSpan.FromSeconds(data.Player.GameSimulationTime);
+            simData.SessionInfo.LayoutLength = data.LayoutLength;
             simData.SessionInfo.IsActive =   (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Green
                 || (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Checkered;
             switch((Constant.Session)data.SessionType)

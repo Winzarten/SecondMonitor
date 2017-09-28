@@ -12,7 +12,8 @@ namespace SecondMonitor.DataModel
         public TimeSpan SessionTime;
         public bool IsActive;
         public string TrackName;
-        public string TrackLayoutName;        
+        public string TrackLayoutName;
+        public Single LayoutLength;
 
         public SessionTypeEnum SessionType;
 
