@@ -130,12 +130,12 @@ namespace SecondMonitor.Timing.DataHandler
             TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
            
             
-            if (timeSpan.TotalMilliseconds >700)
+            if (timeSpan.TotalMilliseconds >500)
             {
                 lastRefreshTiming = DateTime.Now;
                 gui.Dispatcher.Invoke((Action)(() =>
-                {                                        
-                    gui.lblTime.Content = data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
+                {
+                    gui.lblTime.Content = "Session Time: " + data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
@@ -152,6 +152,7 @@ namespace SecondMonitor.Timing.DataHandler
             {
                 gui.Dispatcher.Invoke((Action)(() =>
                 {
+                    gui.lblTime.Content = "Session Time: " + data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);

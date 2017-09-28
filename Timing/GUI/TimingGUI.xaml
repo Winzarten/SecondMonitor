@@ -29,7 +29,65 @@
         <!--<WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
             <controls1:GMeter x:Name="gMeter" GBallDiameter="4" GScale="1" HorizG="2" VertG="3" MaxG="4" GBallColor="Green"/>
         </WindowsFormsHost>-->
-        <DataGrid x:Name="dtTimig" Margin="10,52,10,368" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
+        <ListView x:Name="dtTimig" Margin="10,52,10,368" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Position}" Header="#" Width="60"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps}" Header="Laps" Width="60"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime}" Header="Current Lap" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding LastLapTime}" Header="Last Lap" Width="180">
+
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding PaceAsString}" Header="Pace" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding BestLapString}" Header="Best Lap" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo}" Header="Pits" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180">
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPlayer}" Value="True">
+                            <Setter Property="Background" Value="Red"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InPits}" Value="True">
+                            <Setter Property="Background" Value="Blue">
+                            </Setter>
+                        </DataTrigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Background" Value="Black"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="Blue" />
+                    <Setter Property="BorderBrush"  Value="White" />
+                </Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
+                            <Setter Property="Foreground" Value="Green"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+
+        </ListView>
+
+        <!--<DataGrid x:Name="dtTimig" Margin="10,52,10,368" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
                   HorizontalAlignment="Stretch" EnableRowVirtualization="True" EnableColumnVirtualization="True" ItemsSource="{Binding TimingInfo}"
                   >
             <DataGrid.Columns>
@@ -60,8 +118,8 @@
                 <DataGridTextColumn Binding="{Binding LastPitInfo}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True" Width="200"/>
                 <DataGridTextColumn Binding="{Binding LapPercentage, StringFormat=N2}" ClipboardContentBinding="{x:Null}" Header="Lap Progress" IsReadOnly="True" Width="200"/>
                 <DataGridTextColumn Binding="{Binding DistanceToPlayer, StringFormat=N0}" ClipboardContentBinding="{x:Null}" Header="Distance" IsReadOnly="True" Width="200"/>
-                <!--<DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True" Width="60"/>-->
-            </DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True" Width="60"/>-->
+        <!--</DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -86,10 +144,10 @@
                     <Setter Property="BorderBrush"  Value="Red" />
                 </Style>
             </DataGrid.Resources>
-        </DataGrid>
+        </DataGrid>-->
         <Label x:Name="lblTrack" Content="Label"  HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" Foreground="White"/>
-        <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Width="235" Foreground="White" FontSize="20"/>
-        <Label x:Name="lblTime" Content="Label"  HorizontalAlignment="Right" FontSize="20" Margin="1382,10,0,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Center"/>
+        <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
+        <Label x:Name="lblTime" Content="Label"  HorizontalAlignment="Right" FontSize="20" Margin="0,10,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right"/>
         <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="629,0,0,294" Width="76" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding Path=ResetCommand}">
             <Button.RenderTransform>
                 <TransformGroup>
@@ -102,4 +160,5 @@
         </Button>
 
     </Grid>
+
 </Window>

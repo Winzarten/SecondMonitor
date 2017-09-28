@@ -31,7 +31,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public string PaceAsString { get => FormatTimeSpan(Pace);}
         public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
         public LapInfo BestLap { get; set; }
-        public string BestLapString { get => BestLap != null ? FormatTimeSpan(BestLap.LapTime) : "N/A"; }
+        public string BestLapString { get => BestLap != null ? BestLap.LapNumber+ ":" + FormatTimeSpan(BestLap.LapTime) : "N/A"; }
         public int PitCount { get => pitStopInfo.Count; }
         public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
@@ -52,7 +52,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             UpdateInPitsProperty(set);            
             if (lapsInfo.Count == 0)
             {
-                LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this);
+                LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true);                
                 firstLap.Valid = false;
                 lapsInfo.Add(firstLap);
             }
@@ -75,7 +75,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             CurrentLap.Tick(sessionInfo.SessionTime);
             LapPercentage = (DriverInfo.LapDistance / sessionInfo.LayoutLength)*100;
-            if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid))
+            if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && lapsInfo.Count > 1)
                 CurrentLap.Valid = false;
         }
 
