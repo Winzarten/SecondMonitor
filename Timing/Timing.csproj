@@ -48,6 +48,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataHandler\Commands\ResetCommand.cs" />
+    <Compile Include="DataHandler\Commands\TimingModeChangedCommand.cs" />
     <Compile Include="DataHandler\TimingDataHandler.cs" />
     <Compile Include="GUI\TimingGUI.xaml.cs">
       <DependentUpon>TimingGUI.xaml</DependentUpon>

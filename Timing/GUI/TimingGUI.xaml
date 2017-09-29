@@ -23,7 +23,7 @@
         <WindowsFormsHost Margin="280,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <controls:WheelStatusControl x:Name="whRightRear" WheelPostion="RearRight"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="594,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+        <WindowsFormsHost Margin="545,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <controls:PedalControl x:Name="pedalControl"/>
         </WindowsFormsHost>
         <!--<WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
@@ -148,16 +148,17 @@
         <Label x:Name="lblTrack" Content="Label"  HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" Foreground="White"/>
         <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
         <Label x:Name="lblTime" Content="Label"  HorizontalAlignment="Right" FontSize="20" Margin="0,10,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right"/>
-        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="629,0,0,294" Width="76" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding Path=ResetCommand}">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-1.46"/>
-                    <TranslateTransform X="-0.573" Y="0.057"/>
-                </TransformGroup>
-            </Button.RenderTransform>
+        <Button x:Name="btnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,10" Width="117" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding Path=ResetCommand}">
         </Button>
+        <GroupBox Header="Mode" HorizontalAlignment="Right" Height="160" VerticalAlignment="Bottom" Width="117" Foreground="White" Margin="0,0,10,199">
+            <Grid Height="100" Margin="0" Width="100">
+                <RadioButton x:Name="rbtAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" IsChecked="True" Command="{Binding Path=TimingModeChangedCommand}" />
+                <RadioButton x:Name="rbtAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding Path=TimingModeChangedCommand}"/>
+                <RadioButton x:Name="rbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding Path=TimingModeChangedCommand}"/>
+            </Grid>
+        </GroupBox>
+        
+        
 
     </Grid>
 
