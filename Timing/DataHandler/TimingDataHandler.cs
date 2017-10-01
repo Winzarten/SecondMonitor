@@ -88,7 +88,9 @@ namespace SecondMonitor.Timing.DataHandler
             {
                 if(_timingModeChangedCommand == null)
                 {
-                    _timingModeChangedCommand = new TimingModeChangedCommand(ScheduleReset);
+                    _timingModeChangedCommand = new TimingModeChangedCommand(ChangeTimingMode, () => {
+                        return ViewSource != null;
+                    });
                 }
                 return _timingModeChangedCommand;
             }
@@ -98,6 +100,21 @@ namespace SecondMonitor.Timing.DataHandler
         private void ScheduleReset()
         {
             shouldReset = true;
+        }
+
+        private void ChangeTimingMode()
+        {
+            var mode = gui.TimingMode;
+            if(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race))
+            {
+                ViewSource.SortDescriptions.Clear();
+                ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
+            }
+            else
+            {
+                ViewSource.SortDescriptions.Clear();
+                ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+            }
         }
 
         private void Gui_Closed(object sender, EventArgs e)
@@ -163,6 +180,7 @@ namespace SecondMonitor.Timing.DataHandler
             timing = SessionTiming.FromSimulatorData(args.Data);
             timing.BestLapChangedEvent += BestLapChangedHandler;
             InitializeGui(args.Data);
+            ChangeTimingMode();            
         }
 
         public ICollectionView TimingInfo { get => ViewSource.View; }
@@ -177,8 +195,8 @@ namespace SecondMonitor.Timing.DataHandler
                     Collection = new ObservableCollection<Driver>();
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
-                    ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));                    
-                    //ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+                    ChangeTimingMode();                    
+                    
                     gui.dtTimig.DataContext = this;
                     gui.lblBestLap.DataContext = this;
                 }

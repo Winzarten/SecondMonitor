@@ -36,17 +36,19 @@
             // 
             // pnlThrottle
             // 
+            this.pnlThrottle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlThrottle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.pnlThrottle.Location = new System.Drawing.Point(67, 3);
+            this.pnlThrottle.Location = new System.Drawing.Point(40, 0);
             this.pnlThrottle.Name = "pnlThrottle";
             this.pnlThrottle.Size = new System.Drawing.Size(28, 118);
             this.pnlThrottle.TabIndex = 0;
             // 
             // lblThrottle
             // 
+            this.lblThrottle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblThrottle.AutoSize = true;
             this.lblThrottle.ForeColor = System.Drawing.Color.White;
-            this.lblThrottle.Location = new System.Drawing.Point(122, 124);
+            this.lblThrottle.Location = new System.Drawing.Point(43, 124);
             this.lblThrottle.Name = "lblThrottle";
             this.lblThrottle.Size = new System.Drawing.Size(25, 13);
             this.lblThrottle.TabIndex = 1;
@@ -55,17 +57,19 @@
             // 
             // pnlBrake
             // 
+            this.pnlBrake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBrake.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.pnlBrake.Location = new System.Drawing.Point(3, 0);
+            this.pnlBrake.Location = new System.Drawing.Point(6, 0);
             this.pnlBrake.Name = "pnlBrake";
             this.pnlBrake.Size = new System.Drawing.Size(28, 118);
             this.pnlBrake.TabIndex = 2;
             // 
             // lblBrake
             // 
+            this.lblBrake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBrake.AutoSize = true;
             this.lblBrake.ForeColor = System.Drawing.Color.White;
-            this.lblBrake.Location = new System.Drawing.Point(70, 124);
+            this.lblBrake.Location = new System.Drawing.Point(9, 124);
             this.lblBrake.Name = "lblBrake";
             this.lblBrake.Size = new System.Drawing.Size(25, 13);
             this.lblBrake.TabIndex = 3;
@@ -81,6 +85,7 @@
             this.Controls.Add(this.lblThrottle);
             this.Controls.Add(this.pnlThrottle);
             this.Name = "PedalControl";
+            this.Size = new System.Drawing.Size(78, 150);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -125,7 +125,7 @@ namespace SecondMonitor.R3EConnector
                 if (CheckSessionStarted(r3rData))
                     RaiseSessionStartedEvent(data);
                 DateTime tickTime = DateTime.Now;
-                if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay )
+                if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay && r3rData.SessionPhase != (int) Constant.SessionPhase.Checkered)
                 {
                     //sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
                     sessionTime = TimeSpan.FromSeconds(r3rData.Player.GameSimulationTime - sessionStartR3RTime);
@@ -264,7 +264,8 @@ namespace SecondMonitor.R3EConnector
                     driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
                 data.DriversInfo[i] = driverInfo;
             }
-            ComputeDistanceToPlayer(playersInfo, data);
+            if(playersInfo!=null)
+                ComputeDistanceToPlayer(playersInfo, data);
         }
 
         private static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, SimulatorDataSet data)

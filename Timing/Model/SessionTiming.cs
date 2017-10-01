@@ -24,6 +24,7 @@ namespace SecondMonitor.Timing.Model
         }
         private LapInfo bestSessionLap;
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
+        public SessionInfo.SessionTypeEnum SessionType { get; private set; }
         
         private SessionTiming()
         {
@@ -46,17 +47,19 @@ namespace SecondMonitor.Timing.Model
                     count++;
                 }
                     
-                drivers.Add(name, Driver.FromModel(s));
+                drivers.Add(name, Driver.FromModel(s, timing));
                 });
             timing.Drivers = drivers;            
             return timing;
         }
 
+        public LapInfo BestSessionLap { get => bestSessionLap; }
         public string BestLapFormatted { get => bestSessionLap != null ? Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
         
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
+            SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
         }
 

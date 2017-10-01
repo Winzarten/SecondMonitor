@@ -11,16 +11,18 @@ namespace SecondMonitor.Timing.Model.Drivers
     public class Driver
     {
         private List<LapInfo> lapsInfo;
-        private List<PitInfo> pitStopInfo;        
+        private List<PitInfo> pitStopInfo;
 
-        public Driver(DriverInfo driverInfo)
+        public Driver(DriverInfo driverInfo, SessionTiming session)
         {
             lapsInfo = new List<LapInfo>();
             pitStopInfo = new List<PitInfo>();
             DriverInfo = driverInfo;
             Pace = new TimeSpan(0);
             LapPercentage = 0;
+            Session = session;
         }
+        private SessionTiming Session { get; set;}
         public DriverInfo DriverInfo { get; internal set; }
         public bool IsPlayer { get => DriverInfo.IsPlayer; }
         public string Name { get => DriverInfo.DriverName; }
@@ -31,7 +33,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public string PaceAsString { get => FormatTimeSpan(Pace);}
         public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
         public LapInfo BestLap { get; set; }
-        public string BestLapString { get => BestLap != null ? BestLap.LapNumber+ ":" + FormatTimeSpan(BestLap.LapTime) : "N/A"; }
+        public string BestLapString { get => BestLap != null ? "L"+BestLap.LapNumber+ "/" + FormatTimeSpan(BestLap.LapTime) : "N/A"; }
         public int PitCount { get => pitStopInfo.Count; }
         public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
@@ -41,8 +43,18 @@ namespace SecondMonitor.Timing.Model.Drivers
             {
                 if (BestLap == null)
                     return false;
-                return BestLap == LastCompletedLap;
+                return BestLap == LastLap;
             } }
+
+        public bool IsLastLapBestSessionLap
+        {
+            get
+            {
+                if (LastLap == null)
+                    return false;
+                return LastLap == Session.BestSessionLap;
+            }
+        }
 
         public bool UpdateLaps(SimulatorDataSet set)
         {
@@ -175,6 +187,16 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
         }
 
+        public LapInfo LastLap
+        {
+            get
+            {
+                if (lapsInfo.Count < 2)
+                    return null;
+                return lapsInfo[lapsInfo.Count - 2];                
+            }
+        }
+
         public string LastLapTime
         {
             get
@@ -195,9 +217,9 @@ namespace SecondMonitor.Timing.Model.Drivers
             return timeSpan.ToString("mm\\:ss\\.fff");
         }
 
-        public static Driver FromModel(DriverInfo modelDriverInfo)
+        public static Driver FromModel(DriverInfo modelDriverInfo, SessionTiming session)
         {
-            return new Driver(modelDriverInfo);
+            return new Driver(modelDriverInfo, session);
         }
     }
 }
