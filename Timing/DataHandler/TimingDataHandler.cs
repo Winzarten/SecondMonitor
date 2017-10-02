@@ -14,36 +14,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using SecondMonitor.Timing.DataHandler.Commands;
 
 namespace SecondMonitor.Timing.DataHandler
 {
-    public class ResetCommand : ICommand
-    {
-        public event EventHandler CanExecuteChanged;
-        private Action executeDelegate;
-        private Func<bool> canExecuteDelegate;
 
-        public ResetCommand(Action execute)
-        {
-            executeDelegate = execute;
-            canExecuteDelegate = () => { return true; };
-        }
-        public ResetCommand(Action execute, Func<bool> canExecute)
-        {
-            executeDelegate = execute;
-            canExecuteDelegate = canExecute;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return canExecuteDelegate();
-        }
-
-        public void Execute(object parameter)
-        {
-            executeDelegate();
-        }
-    }
     public class TimingDataHandler : ISecondMonitorPlugin, INotifyPropertyChanged
     {
         private TimingGUI gui;
@@ -85,13 +60,16 @@ namespace SecondMonitor.Timing.DataHandler
             gui.Show();
             gui.Closed += Gui_Closed;
             gui.btnReset.DataContext = this;
+            gui.rbtAbsolute.DataContext = this;
+            gui.rbtAutomatic.DataContext = this;
+            gui.rbtRelative.DataContext = this;
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
             shouldReset = false;
         }
 
-        private ICommand _resetCommand;
-        public ICommand ResetCommand
+        private ResetCommand _resetCommand;
+        public ResetCommand ResetCommand
         {
             get
             {
@@ -103,9 +81,40 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        private TimingModeChangedCommand _timingModeChangedCommand;
+        public TimingModeChangedCommand TimingModeChangedCommand
+        {
+            get
+            {
+                if(_timingModeChangedCommand == null)
+                {
+                    _timingModeChangedCommand = new TimingModeChangedCommand(ChangeTimingMode, () => {
+                        return ViewSource != null;
+                    });
+                }
+                return _timingModeChangedCommand;
+            }
+        }
+
+
         private void ScheduleReset()
         {
             shouldReset = true;
+        }
+
+        private void ChangeTimingMode()
+        {
+            var mode = gui.TimingMode;
+            if(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race))
+            {
+                ViewSource.SortDescriptions.Clear();
+                ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
+            }
+            else
+            {
+                ViewSource.SortDescriptions.Clear();
+                ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+            }
         }
 
         private void Gui_Closed(object sender, EventArgs e)
@@ -130,12 +139,12 @@ namespace SecondMonitor.Timing.DataHandler
             TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
            
             
-            if (timeSpan.TotalMilliseconds >700)
+            if (timeSpan.TotalMilliseconds >500)
             {
                 lastRefreshTiming = DateTime.Now;
                 gui.Dispatcher.Invoke((Action)(() =>
-                {                                        
-                    gui.lblTime.Content = data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
+                {
+                    gui.lblTime.Content = "Session Time: " + data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
@@ -152,6 +161,7 @@ namespace SecondMonitor.Timing.DataHandler
             {
                 gui.Dispatcher.Invoke((Action)(() =>
                 {
+                    gui.lblTime.Content = "Session Time: " + data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
@@ -170,6 +180,7 @@ namespace SecondMonitor.Timing.DataHandler
             timing = SessionTiming.FromSimulatorData(args.Data);
             timing.BestLapChangedEvent += BestLapChangedHandler;
             InitializeGui(args.Data);
+            ChangeTimingMode();            
         }
 
         public ICollectionView TimingInfo { get => ViewSource.View; }
@@ -184,8 +195,8 @@ namespace SecondMonitor.Timing.DataHandler
                     Collection = new ObservableCollection<Driver>();
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
-                    ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));                    
-                    //ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+                    ChangeTimingMode();                    
+                    
                     gui.dtTimig.DataContext = this;
                     gui.lblBestLap.DataContext = this;
                 }

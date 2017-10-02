@@ -19,10 +19,25 @@ namespace SecondMonitor.Timing.GUI
     /// Interaction logic for TimingGUI.xaml
     /// </summary>
     public partial class TimingGUI : Window
-    {
+    {        
+        public enum TimingModeOptions { Automatic, Absolute, Relative};
         public TimingGUI()
         {
             InitializeComponent();
+        }
+
+        public TimingModeOptions TimingMode
+        {
+            get
+            {
+                if ((bool)rbtAutomatic.IsChecked)
+                    return TimingModeOptions.Automatic;
+                if ((bool)rbtRelative.IsChecked)
+                    return TimingModeOptions.Relative;
+                if ((bool)rbtAbsolute.IsChecked)
+                    return TimingModeOptions.Absolute;
+                return TimingModeOptions.Automatic;
+            }
         }
     }
 }
