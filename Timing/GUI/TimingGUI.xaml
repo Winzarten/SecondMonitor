@@ -172,7 +172,7 @@
                 <RadioButton x:Name="rbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
             </Grid>
         </GroupBox>
-        <wpf:PositionCircle Margin="620,0,362,10" Background="Wheat" VerticalAlignment="Bottom" Height="374"/>
+        <wpf:PositionCircle x:Name="timingCircle" Margin="620,0,132,10" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="355"/>
     </Grid>
 
 </Window>

@@ -104,17 +104,20 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void ChangeTimingMode()
         {
-            var mode = gui.TimingMode;
-            if(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race))
+            gui.Dispatcher.Invoke(() =>
             {
-                ViewSource.SortDescriptions.Clear();
-                ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
-            }
-            else
-            {
-                ViewSource.SortDescriptions.Clear();
-                ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
-            }
+                var mode = gui.TimingMode;
+                if (mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race))
+                {
+                    ViewSource.SortDescriptions.Clear();
+                    ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
+                }
+                else
+                {
+                    ViewSource.SortDescriptions.Clear();
+                    ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+                }
+            });
         }
 
         private void Gui_Closed(object sender, EventArgs e)
@@ -153,6 +156,7 @@ namespace SecondMonitor.Timing.DataHandler
                     //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
                     //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     //gui.gMeter.Refresh();
+                    gui.timingCircle.RefreshSession(data);
                     ViewSource.View.Refresh();
                 }));
             }
@@ -166,7 +170,7 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
-                    gui.whRightRear.UpdateControl(data);
+                    gui.whRightRear.UpdateControl(data);                    
                     //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
                     //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     //gui.gMeter.Refresh();
@@ -214,6 +218,8 @@ namespace SecondMonitor.Timing.DataHandler
                 sb.Append(") - ");
                 sb.Append(data.SessionInfo.SessionType);
                 gui.lblTrack.Content = sb.ToString();
+
+                gui.timingCircle.SetSessionInfo(data);
                 
             });
             NotifyPropertyChanged();

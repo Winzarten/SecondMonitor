@@ -89,7 +89,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="wpf\PositionCircle.xaml.cs">
+    <Compile Include="Controls\wpf\PositionCircle.xaml.cs">
       <DependentUpon>PositionCircle.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -127,7 +127,7 @@
     <None Include="Resources\tirepressure300.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="wpf\PositionCircle.xaml">
+    <Page Include="Controls\wpf\PositionCircle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

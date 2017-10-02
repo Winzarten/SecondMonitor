@@ -8,6 +8,7 @@ namespace SecondMonitor.DataModel
     public class SessionInfo
     {
         public enum SessionTypeEnum { NA, Practice, Qualification, WarmUp, Race}
+        public enum SessionPhaseEnum { Countdown, Green, Checkered}
 
         public TimeSpan SessionTime;
         public bool IsActive;
@@ -16,6 +17,7 @@ namespace SecondMonitor.DataModel
         public Single LayoutLength;
 
         public SessionTypeEnum SessionType;
+        public SessionPhaseEnum SessionPhase;
 
         public SessionInfo()
         {

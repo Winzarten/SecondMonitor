@@ -69,6 +69,8 @@ namespace SecondMonitor.Timing.Model
         }
         private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo, SimulatorDataSet set)
         {
+            if (set.SessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Checkered)
+                return;
             timingInfo.DriverInfo = modelInfo;
             if(timingInfo.UpdateLaps(set) && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
             {

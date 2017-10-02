@@ -125,7 +125,7 @@ namespace SecondMonitor.R3EConnector
                 if (CheckSessionStarted(r3rData))
                     RaiseSessionStartedEvent(data);
                 DateTime tickTime = DateTime.Now;
-                if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay && r3rData.SessionPhase != (int) Constant.SessionPhase.Checkered)
+                if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay)
                 {
                     //sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
                     sessionTime = TimeSpan.FromSeconds(r3rData.Player.GameSimulationTime - sessionStartR3RTime);
@@ -310,6 +310,22 @@ namespace SecondMonitor.R3EConnector
                 case Constant.Session.Warmup:
                     simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.WarmUp;
                     break;
+            }
+            switch ((Constant.SessionPhase)data.SessionPhase)
+            {
+                case Constant.SessionPhase.Countdown:
+                case Constant.SessionPhase.Formation:
+                case Constant.SessionPhase.Gridwalk:
+                case Constant.SessionPhase.Garage:
+                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Countdown;
+                    break;
+                case Constant.SessionPhase.Green:
+                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+                    break;
+                case Constant.SessionPhase.Checkered:
+                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Checkered;
+                    break;
+
             }
             simData.SessionInfo.TrackName = FromByteArray(data.TrackName);
             simData.SessionInfo.TrackLayoutName = FromByteArray(data.LayoutName);
