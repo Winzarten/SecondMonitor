@@ -8,6 +8,11 @@
              d:DesignHeight="300" SizeChanged="UserControl_SizeChanged" Width="300">
     <Grid>
         <Canvas x:Name="canvas" SizeChanged="canvas_SizeChanged" >
+            <Line x:Name="finnishLine" X1="0" Y1="0" X2="0" Y2="20"
+                  Stroke="Cyan" VerticalAlignment="Center" Canvas.Left="150"
+                  StrokeThickness="4" 
+                  Panel.ZIndex="3"
+                />
             <!--<Ellipse
             Fill="Yellow"
                 Canvas.Left="0"

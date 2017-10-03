@@ -22,7 +22,9 @@ namespace SecondMonitor.WindowsControls.wpf
     /// </summary>
     public partial class PositionCircle : UserControl
     {
-        private Ellipse myCircle;
+
+        private readonly int circleMargin = 10;
+        private Ellipse myCircle;        
         private Dictionary<String, Ellipse> driversPoints;
         private Dictionary<String, TextBlock> driverTexts;
         float lapLength;
@@ -33,6 +35,7 @@ namespace SecondMonitor.WindowsControls.wpf
             driversPoints = new Dictionary<string, Ellipse>();
             driverTexts = new Dictionary<string, TextBlock>();
         }
+        
 
         private void CreateCircle()
         {
@@ -45,10 +48,11 @@ namespace SecondMonitor.WindowsControls.wpf
             myCircle.Fill = System.Windows.Media.Brushes.Black;
             myCircle.Width = 300;
             myCircle.Height = 300;
-            myCircle.StrokeThickness = 3;
+            myCircle.StrokeThickness = 3;            
             myCircle.Stroke = Brushes.Wheat;
-            Canvas.SetLeft(myCircle, 30);
-            Canvas.SetTop(myCircle, 30);
+            Canvas.SetLeft(myCircle, circleMargin);
+            Canvas.SetTop(myCircle, circleMargin);
+            Canvas.SetZIndex(myCircle, 0);
             canvas.Children.Add(myCircle);
         }
         
@@ -93,12 +97,12 @@ namespace SecondMonitor.WindowsControls.wpf
             if (driver.IsPlayer)
                 driverEllips.Fill = Brushes.Red;
             else
-                driverEllips.Fill = Brushes.Blue;
+                driverEllips.Fill = Brushes.Green;
             driverEllips.Width = 10;
             driverEllips.Height = 10;
             canvas.Children.Add(driverEllips);
-            double x = GetX(driver, canvas.ActualWidth) - 5;
-            double y = GetY(driver, canvas.ActualHeight) - 5;
+            double x = GetX(driver, canvas.ActualWidth - 10) - 5;
+            double y = GetY(driver, canvas.ActualHeight -10) - 5;
             Canvas.SetLeft(driverEllips, x);
             Canvas.SetTop(driverEllips, y);
             return driverEllips;
@@ -110,13 +114,15 @@ namespace SecondMonitor.WindowsControls.wpf
             if (driver.IsPlayer)
                 driverTextBlock.Foreground = Brushes.Red;
             else
-                driverTextBlock.Foreground = Brushes.Blue;
-            driverTextBlock.Width = 10;
-            driverTextBlock.Height = 10;
-            driverTextBlock.Text = driver.Position.ToString();
+                driverTextBlock.Foreground = Brushes.Green;
+            driverTextBlock.Width = 30;
+            driverTextBlock.Height = 30;
+            driverTextBlock.FontSize = 18;            
+            driverTextBlock.FontWeight = FontWeights.Bold;
+            driverTextBlock.Text = driver.Position.ToString();            
             canvas.Children.Add(driverTextBlock);
-            double x = GetX(driver, canvas.ActualWidth-20) - 5;
-            double y = GetY(driver, canvas.ActualHeight-20) - 5;
+            double x = GetX(driver, canvas.ActualWidth-15) - 5;
+            double y = GetY(driver, canvas.ActualHeight-15) - 5;
             Canvas.SetLeft(driverTextBlock, x);
             Canvas.SetTop(driverTextBlock, y);
             return driverTextBlock;
@@ -127,15 +133,18 @@ namespace SecondMonitor.WindowsControls.wpf
             foreach(var driver in set.DriversInfo)
             {
                 var driverEllipse = driversPoints[driver.DriverName];
-                double x = GetX(driver, canvas.ActualWidth) - 5;
-                double y = GetY(driver, canvas.ActualHeight) - 5;
+                int margin = circleMargin;
+                if (driver.InPits)
+                    margin = margin + 10;
+                double x = GetX(driver, canvas.ActualWidth- margin * 2) - 5;
+                double y = GetY(driver, canvas.ActualHeight- margin * 2) - 5;
                 Canvas.SetLeft(driverEllipse, x);
                 Canvas.SetTop(driverEllipse, y);
 
                 var text = driverTexts[driver.DriverName];
-                text.Text = driver.Position.ToString();
-                x = GetX(driver, canvas.ActualWidth-20) - 5;
-                y = GetY(driver, canvas.ActualHeight-20) - 5;
+                text.Text = driver.Position.ToString();                
+                x = GetX(driver, canvas.ActualWidth- margin * 2 - 40) - 10;
+                y = GetY(driver, canvas.ActualHeight- margin * 2 - 40) - 10;
                 Canvas.SetLeft(text, x);
                 Canvas.SetTop(text, y);
             }
@@ -167,13 +176,20 @@ namespace SecondMonitor.WindowsControls.wpf
                 size = canvas.ActualWidth;
             else
                 size = canvas.ActualHeight;
-            myCircle.Width = canvas.ActualWidth - 60;
-            myCircle.Height = canvas.ActualHeight - 60;
+            myCircle.Width = canvas.ActualWidth - circleMargin * 2;
+            myCircle.Height = canvas.ActualHeight - circleMargin * 2;
+        }
+
+        private void PositionFinishLine()
+        {
+            Canvas.SetLeft(finnishLine, canvas.ActualWidth / 2);
+            Canvas.SetZIndex(finnishLine, 3);
         }
 
         private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ResazeCircle();
+            PositionFinishLine();
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)

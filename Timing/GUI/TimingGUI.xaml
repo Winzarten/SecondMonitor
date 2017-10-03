@@ -93,7 +93,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding PaceAsString}" Header="Pace" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding BestLapString}" Header="Best Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo}" Header="Pits" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>
+                    <!--<GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>-->
                     <GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>
                 </GridView>
             </ListView.View>
