@@ -208,7 +208,7 @@ namespace SecondMonitor.Timing.DataHandler
                 foreach (Driver d in timing.Drivers.Values)
                 {
                     Collection.Add(d);
-                }
+                }                
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append(data.SessionInfo.TrackName);
