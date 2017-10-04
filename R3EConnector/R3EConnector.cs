@@ -20,7 +20,8 @@ namespace SecondMonitor.R3EConnector
         private readonly Queue<SimulatorDataSet> queue = new Queue<SimulatorDataSet>();
         private Thread daemonThread;
         private bool disconnect;
-        private bool inSession;        
+        private bool inSession;
+        private R3RDatabase database;
 
         private static readonly string r3EExcecutable = "RRRE";
         private static readonly string SharedMemoryName = "$R3E";
@@ -39,6 +40,8 @@ namespace SecondMonitor.R3EConnector
 
         public R3EConnector()
         {
+            database = new R3RDatabase();
+            database.Load();
             TickTime = 10;
             inSession = false;
             sessionTime = new TimeSpan(0);
@@ -229,7 +232,7 @@ namespace SecondMonitor.R3EConnector
             }
         }
 
-        private static void AddDriversData(SimulatorDataSet data, R3ESharedData r3rData)
+        private void AddDriversData(SimulatorDataSet data, R3ESharedData r3rData)
         {
             if (r3rData.NumCars == -1)
                 return;
@@ -255,6 +258,7 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.Position = r3rDriverData.Place;
                 driverInfo.Speed = r3rDriverData.CarSpeed;
                 driverInfo.LapDistance = r3rDriverData.LapDistance;
+                driverInfo.CarName = database.GetCarName(r3rDriverData.DriverInfo.ModelId);
                 if (driverInfo.IsPlayer)
                 {
                     playersInfo = driverInfo;

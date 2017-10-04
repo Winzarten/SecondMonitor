@@ -38,6 +38,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
         public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
+        public string CarName { get => DriverInfo.CarName; }
 
         public bool IsLastLapBestLap { get
             {
@@ -61,11 +62,13 @@ namespace SecondMonitor.Timing.Model.Drivers
             SessionInfo sessionInfo = set.SessionInfo;
             if (!sessionInfo.IsActive)
                 return false;
+            if (sessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown)
+                return false;
             UpdateInPitsProperty(set);            
             if (lapsInfo.Count == 0)
             {
-                LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true);                
-                firstLap.Valid = false;
+                LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true);
+                firstLap.Valid = sessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race;
                 lapsInfo.Add(firstLap);
             }
             LapInfo currentLap = CurrentLap;

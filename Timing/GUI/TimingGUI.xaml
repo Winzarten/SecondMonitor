@@ -87,6 +87,7 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Position}" Header="#" Width="60"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CarName}" Header="Car" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps}" Header="Laps" Width="60"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime}" Header="Current Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastLapTime}" Header="Last Lap" Width="180"/>

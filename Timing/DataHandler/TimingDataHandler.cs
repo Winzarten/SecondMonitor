@@ -137,8 +137,15 @@ namespace SecondMonitor.Timing.DataHandler
                 InitializeGui(data);
                 shouldReset = false;
             }
-            if (timing != null)
-                timing.UpdateTiming(data);
+            try
+            {
+                if (timing != null)
+                    timing.UpdateTiming(data);
+            }catch(SessionTiming.DriverNotFoundException)
+            {
+                shouldReset = true;
+                return;
+            }
             TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
            
             

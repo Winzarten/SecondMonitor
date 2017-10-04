@@ -13,6 +13,19 @@ namespace SecondMonitor.Timing.Model
     public class SessionTiming : IEnumerable
     {
 
+        public class DriverNotFoundException : Exception
+        {
+            public DriverNotFoundException(string message) : base(message)
+            {
+
+            }
+
+            public DriverNotFoundException(string message, Exception cause) : base(message, cause)
+            {
+
+            }
+        }
+
         public class BestLapChangedArgs : EventArgs
         {            
             public BestLapChangedArgs(LapInfo lap)
@@ -65,7 +78,14 @@ namespace SecondMonitor.Timing.Model
 
         private void UpdateDrivers(SimulatorDataSet dataSet)
         {
-            Array.ForEach(dataSet.DriversInfo, s => UpdateDriver(s, Drivers[s.DriverName], dataSet));
+            try
+            {
+                Array.ForEach(dataSet.DriversInfo, s => UpdateDriver(s, Drivers[s.DriverName], dataSet));
+            }catch(KeyNotFoundException ex)
+            {
+                throw new DriverNotFoundException("Driver nout found", ex);
+
+            }
         }
         private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo, SimulatorDataSet set)
         {
