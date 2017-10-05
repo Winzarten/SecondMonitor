@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:SecondMonitor.Timing.GUI"
         xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls;assembly=WindowsControls"
         xmlns:controls1="clr-namespace:SecondMonitor.MonitorGui.CarStatus.Forms.Controls;assembly=WindowsControls"
-        xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"
+        xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls" x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Grid Background="Black">
@@ -24,7 +24,7 @@
         <WindowsFormsHost Margin="280,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="260" Height="170">
             <controls:WheelStatusControl x:Name="whRightRear" WheelPostion="RearRight"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="545,0,0,10" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="170">
+        <WindowsFormsHost Margin="545,0,0,10" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="139">
             <controls:PedalControl x:Name="pedalControl"/>
         </WindowsFormsHost>
 
@@ -173,7 +173,9 @@
                 <RadioButton x:Name="rbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
             </Grid>
         </GroupBox>
-        <wpf:PositionCircle x:Name="timingCircle" Margin="620,0,132,10" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="355"/>
+        <wpf:PositionCircle x:Name="timingCircle" Margin="692,0,132,10" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="355"/>
+
+        <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="211" Margin="545,0,0,154" VerticalAlignment="Bottom" Width="142"/>
     </Grid>
 
 </Window>

@@ -164,6 +164,7 @@ namespace SecondMonitor.Timing.DataHandler
                     //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     //gui.gMeter.Refresh();
                     gui.timingCircle.RefreshSession(data);
+                    gui.fuelMonitor.ProcessDataSet(data);
                     ViewSource.View.Refresh();
                 }));
             }
@@ -227,7 +228,7 @@ namespace SecondMonitor.Timing.DataHandler
                 gui.lblTrack.Content = sb.ToString();
 
                 gui.timingCircle.SetSessionInfo(data);
-                
+                gui.fuelMonitor.ResetFuelMonitor();
             });
             NotifyPropertyChanged();
         }

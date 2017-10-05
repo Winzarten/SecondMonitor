@@ -50,7 +50,10 @@ namespace SecondMonitor.R3EConnector
 
         public string GetCarName(int id)
         {
+            if (!carNames.ContainsKey(id))
+                carNames[id] = "Unknown";
             return carNames[id];
+            
         }
     }
 }
