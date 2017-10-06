@@ -12,12 +12,14 @@ namespace SecondMonitor.Timing.Model.Drivers
     {
         private List<LapInfo> lapsInfo;
         private List<PitInfo> pitStopInfo;
+        private int paceLaps;
 
         public Driver(DriverInfo driverInfo, SessionTiming session)
         {
             lapsInfo = new List<LapInfo>();
             pitStopInfo = new List<PitInfo>();
             DriverInfo = driverInfo;
+            paceLaps = 4;
             Pace = new TimeSpan(0);
             LapPercentage = 0;
             Session = session;
@@ -39,6 +41,13 @@ namespace SecondMonitor.Timing.Model.Drivers
         public Single LapPercentage { get; private set; }
         public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
         public string CarName { get => DriverInfo.CarName; }
+        public int PaceLaps { get => paceLaps; set
+            {
+                paceLaps = value;
+                ComputePace();
+            }
+
+            }
 
         public bool IsLastLapBestLap { get
             {
@@ -128,7 +137,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
             int totalPaceLaps = 0;
             TimeSpan pace = new TimeSpan(0);
-            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps <= 3; i--)
+            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps < PaceLaps; i--)
             {
                 LapInfo lap = lapsInfo[i];
                 if (!lap.Valid)

@@ -11,8 +11,7 @@ using System.Threading.Tasks;
 namespace SecondMonitor.Timing.Model
 {
     public class SessionTiming : IEnumerable
-    {
-
+    {        
         public class DriverNotFoundException : Exception
         {
             public DriverNotFoundException(string message) : base(message)
@@ -35,16 +34,31 @@ namespace SecondMonitor.Timing.Model
             public LapInfo Lap { get; set; }
                 
         }
+
+        private int paceLaps;
         private LapInfo bestSessionLap;
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
         
         private SessionTiming()
         {
-            
+            paceLaps = 4;
         }
 
-        public Dictionary<string, Driver> Drivers { get; private set; }
+        public Dictionary<string, Driver> Drivers { get; private set; } 
+        public int PaceLaps
+        {
+            get
+            {
+                return paceLaps;
+            }
+            set
+            {
+                paceLaps = value;
+                foreach (var driver in Drivers.Values)
+                    driver.PaceLaps = value;
+            }
+        }
 
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet)
         {
@@ -59,8 +73,9 @@ namespace SecondMonitor.Timing.Model
                     name = s.DriverName + " dup" + count;
                     count++;
                 }
-                    
-                drivers.Add(name, Driver.FromModel(s, timing));
+                Driver newDriver = Driver.FromModel(s, timing);
+                newDriver.PaceLaps = timing.paceLaps;
+                drivers.Add(name, newDriver);
                 });
             timing.Drivers = drivers;            
             return timing;

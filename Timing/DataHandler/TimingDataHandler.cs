@@ -60,24 +60,52 @@ namespace SecondMonitor.Timing.DataHandler
             gui.Show();
             gui.Closed += Gui_Closed;
             gui.btnReset.DataContext = this;
+            gui.btnResetFuel.DataContext = this;
             gui.rbtAbsolute.DataContext = this;
             gui.rbtAutomatic.DataContext = this;
             gui.rbtRelative.DataContext = this;
+            gui.upDownPaceLaps.DataContext = this;
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
             shouldReset = false;
         }
 
-        private ResetCommand _resetCommand;
-        public ResetCommand ResetCommand
+        private NoArgumentCommand _resetCommand;
+        public NoArgumentCommand ResetCommand
         {
             get
             {
                 if(_resetCommand==null)
                 {
-                    _resetCommand = new ResetCommand(ScheduleReset);
+                    _resetCommand = new NoArgumentCommand(ScheduleReset);
                 }
                 return _resetCommand;
+            }
+        }
+
+        private NoArgumentCommand _resetFuelCommand;
+        public NoArgumentCommand ResetFuelCommand
+        {
+            get
+            {
+                if (_resetFuelCommand == null)
+                {
+                    _resetFuelCommand = new NoArgumentCommand(ResetFuel);
+                }
+                return _resetFuelCommand;
+            }
+        }
+
+        private NoArgumentCommand _paceLapsCommand;
+        public NoArgumentCommand PaceLapsCommand
+        {
+            get
+            {
+                if (_paceLapsCommand == null)
+                {
+                    _paceLapsCommand = new NoArgumentCommand(PaceLapsChanged);
+                }
+                return _paceLapsCommand;
             }
         }
 
@@ -97,6 +125,15 @@ namespace SecondMonitor.Timing.DataHandler
         }
 
 
+        private void PaceLapsChanged()
+        {
+            if(timing!=null)
+                timing.PaceLaps = (int) gui.upDownPaceLaps.Value;
+        }
+        private void ResetFuel()
+        {
+            gui.fuelMonitor.ResetFuelMonitor();
+        }
         private void ScheduleReset()
         {
             shouldReset = true;
@@ -133,6 +170,7 @@ namespace SecondMonitor.Timing.DataHandler
             if(shouldReset)
             {
                 timing = SessionTiming.FromSimulatorData(args.Data);
+                timing.PaceLaps = (int)gui.upDownPaceLaps.Value;
                 timing.BestLapChangedEvent += BestLapChangedHandler;
                 InitializeGui(data);
                 shouldReset = false;
