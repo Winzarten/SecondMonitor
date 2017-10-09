@@ -12,12 +12,14 @@ namespace SecondMonitor.Timing.Model.Drivers
     {
         private List<LapInfo> lapsInfo;
         private List<PitInfo> pitStopInfo;
+        private int paceLaps;
 
         public Driver(DriverInfo driverInfo, SessionTiming session)
         {
             lapsInfo = new List<LapInfo>();
             pitStopInfo = new List<PitInfo>();
             DriverInfo = driverInfo;
+            paceLaps = 4;
             Pace = new TimeSpan(0);
             LapPercentage = 0;
             Session = session;
@@ -38,6 +40,14 @@ namespace SecondMonitor.Timing.Model.Drivers
         public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
         public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
+        public string CarName { get => DriverInfo.CarName; }
+        public int PaceLaps { get => paceLaps; set
+            {
+                paceLaps = value;
+                ComputePace();
+            }
+
+            }
 
         public bool IsLastLapBestLap { get
             {
@@ -61,11 +71,13 @@ namespace SecondMonitor.Timing.Model.Drivers
             SessionInfo sessionInfo = set.SessionInfo;
             if (!sessionInfo.IsActive)
                 return false;
+            if (sessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown)
+                return false;
             UpdateInPitsProperty(set);            
             if (lapsInfo.Count == 0)
             {
-                LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true);                
-                firstLap.Valid = false;
+                LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true);
+                firstLap.Valid = sessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race;
                 lapsInfo.Add(firstLap);
             }
             LapInfo currentLap = CurrentLap;
@@ -125,7 +137,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
             int totalPaceLaps = 0;
             TimeSpan pace = new TimeSpan(0);
-            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps <= 3; i--)
+            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps < PaceLaps; i--)
             {
                 LapInfo lap = lapsInfo[i];
                 if (!lap.Valid)

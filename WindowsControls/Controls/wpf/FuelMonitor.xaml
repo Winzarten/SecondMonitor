@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="SecondMonitor.WindowsControls.Controls.wpf.FuelMonitor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf"
+             xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls"
+             xmlns:forms="clr-namespace:System.Windows.Forms;assembly=AGauge"
+             mc:Ignorable="d" 
+             d:DesignHeight="215.127" Width="131.934">
+    <Grid Background="Black">
+        <WindowsFormsHost HorizontalAlignment="Left" VerticalAlignment="Top" Background="Black" MinWidth="82" MinHeight="73" Width="82" Height="73">
+            <forms:AGauge x:Name="fuelGauge" BaseArcColor="Gray" BaseArcRadius="50" BaseArcStart="225" BaseArcSweep="90" BaseArcWidth="2" CausesValidation="False" ScaleLinesInterColor="White" ScaleLinesInterInnerRadius="45" ScaleLinesInterOuterRadius="50" ScaleLinesInterWidth="2" 
+                          ScaleLinesMajorColor="White" ScaleLinesMajorInnerRadius="40" ScaleLinesMajorOuterRadius="50" ScaleLinesMajorStepValue="30" ScaleLinesMajorWidth="3" ScaleLinesMinorColor="White" ScaleLinesMinorInnerRadius="40" ScaleLinesMinorOuterRadius="60" ScaleLinesMinorTicks="1" ScaleLinesMinorWidth="1" ScaleNumbersColor="White" ScaleNumbersRadius="95" ScaleNumbersStartScaleLine="4" ScaleNumbersStepScaleLines="3" MaxValue="100" MinValue="0" NeedleColor1="Red" NeedleColor2="White" NeedleRadius="40" NeedleWidth="2" 
+                          Center="40, 55">
+                <forms:AGauge.GaugeRanges>
+                    <forms:AGaugeRange Color="Red" EndValue="25" StartValue="0" InnerRadius="40" OuterRadius="50" InRange="False" />
+                </forms:AGauge.GaugeRanges>
+                <forms:AGauge.GaugeLabels>
+                    <forms:AGaugeLabel Color="Green" Position="70, 35" Text="F"/>
+                    <forms:AGaugeLabel Color="Red" Position="7, 35" Text="E"/>
+                </forms:AGauge.GaugeLabels>
+            </forms:AGauge>
+        </WindowsFormsHost>
+        <Label x:Name="lblFuel" Content="Total fuel" VerticalAlignment="Top" Margin="0,78,10,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
+        <Label x:Name="lblConsumtion" Content="Current" VerticalAlignment="Top" Margin="0,113,10,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
+        <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,148,10,0" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717"/>
+        <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,175,10,0" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717"/>
+    </Grid>
+</UserControl>

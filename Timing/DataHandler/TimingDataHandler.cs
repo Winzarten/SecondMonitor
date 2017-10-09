@@ -24,6 +24,7 @@ namespace SecondMonitor.Timing.DataHandler
         private TimingGUI gui;
         private PluginsManager pluginsManager;
         private SessionTiming timing;
+        private int paceLaps = 3;
         bool shouldReset;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,26 +59,55 @@ namespace SecondMonitor.Timing.DataHandler
         {
             gui = new TimingGUI();
             gui.Show();
+            gui.upDownPaceLaps.Value = paceLaps;
             gui.Closed += Gui_Closed;
             gui.btnReset.DataContext = this;
+            gui.btnResetFuel.DataContext = this;
             gui.rbtAbsolute.DataContext = this;
             gui.rbtAutomatic.DataContext = this;
             gui.rbtRelative.DataContext = this;
+            gui.upDownPaceLaps.DataContext = this;
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
             shouldReset = false;
         }
 
-        private ResetCommand _resetCommand;
-        public ResetCommand ResetCommand
+        private NoArgumentCommand _resetCommand;
+        public NoArgumentCommand ResetCommand
         {
             get
             {
                 if(_resetCommand==null)
                 {
-                    _resetCommand = new ResetCommand(ScheduleReset);
+                    _resetCommand = new NoArgumentCommand(ScheduleReset);
                 }
                 return _resetCommand;
+            }
+        }
+
+        private NoArgumentCommand _resetFuelCommand;
+        public NoArgumentCommand ResetFuelCommand
+        {
+            get
+            {
+                if (_resetFuelCommand == null)
+                {
+                    _resetFuelCommand = new NoArgumentCommand(ResetFuel);
+                }
+                return _resetFuelCommand;
+            }
+        }
+
+        private NoArgumentCommand _paceLapsCommand;
+        public NoArgumentCommand PaceLapsCommand
+        {
+            get
+            {
+                if (_paceLapsCommand == null)
+                {
+                    _paceLapsCommand = new NoArgumentCommand(PaceLapsChanged);
+                }
+                return _paceLapsCommand;
             }
         }
 
@@ -97,6 +127,17 @@ namespace SecondMonitor.Timing.DataHandler
         }
 
 
+        private void PaceLapsChanged()
+        {
+            paceLaps = (int)gui.upDownPaceLaps.Value;
+            if (timing != null)
+                timing.PaceLaps = paceLaps;
+
+        }
+        private void ResetFuel()
+        {
+            gui.fuelMonitor.ResetFuelMonitor();
+        }
         private void ScheduleReset()
         {
             shouldReset = true;
@@ -104,17 +145,20 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void ChangeTimingMode()
         {
-            var mode = gui.TimingMode;
-            if(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race))
+            gui.Dispatcher.Invoke(() =>
             {
-                ViewSource.SortDescriptions.Clear();
-                ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
-            }
-            else
-            {
-                ViewSource.SortDescriptions.Clear();
-                ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
-            }
+                var mode = gui.TimingMode;
+                if (mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race))
+                {
+                    ViewSource.SortDescriptions.Clear();
+                    ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
+                }
+                else
+                {
+                    ViewSource.SortDescriptions.Clear();
+                    ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+                }
+            });
         }
 
         private void Gui_Closed(object sender, EventArgs e)
@@ -130,12 +174,20 @@ namespace SecondMonitor.Timing.DataHandler
             if(shouldReset)
             {
                 timing = SessionTiming.FromSimulatorData(args.Data);
+                timing.PaceLaps = paceLaps;
                 timing.BestLapChangedEvent += BestLapChangedHandler;
                 InitializeGui(data);
                 shouldReset = false;
             }
-            if (timing != null)
-                timing.UpdateTiming(data);
+            try
+            {
+                if (timing != null)
+                    timing.UpdateTiming(data);
+            }catch(SessionTiming.DriverNotFoundException)
+            {
+                shouldReset = true;
+                return;
+            }
             TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
            
             
@@ -153,6 +205,10 @@ namespace SecondMonitor.Timing.DataHandler
                     //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
                     //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     //gui.gMeter.Refresh();
+                    gui.timingCircle.RefreshSession(data);
+                    gui.fuelMonitor.ProcessDataSet(data);
+                    gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1");
+                    gui.lblRemainig.Content = GetSessionRemainig(data);
                     ViewSource.View.Refresh();
                 }));
             }
@@ -166,7 +222,7 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
-                    gui.whRightRear.UpdateControl(data);
+                    gui.whRightRear.UpdateControl(data);                    
                     //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
                     //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     //gui.gMeter.Refresh();
@@ -175,10 +231,22 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        private string GetSessionRemainig(SimulatorDataSet dataSet)
+        {
+            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.NA)
+                return "NA";
+            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+                return "Time Remaining: "+((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":" + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60);
+            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
+                return "Laps: "+(dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
+            return "NA";
+        }
+
         private void OnSessionStarted(object sender, DataEventArgs args)
         {            
             timing = SessionTiming.FromSimulatorData(args.Data);
             timing.BestLapChangedEvent += BestLapChangedHandler;
+            timing.PaceLaps = paceLaps;
             InitializeGui(args.Data);
             ChangeTimingMode();            
         }
@@ -204,7 +272,7 @@ namespace SecondMonitor.Timing.DataHandler
                 foreach (Driver d in timing.Drivers.Values)
                 {
                     Collection.Add(d);
-                }
+                }                
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append(data.SessionInfo.TrackName);
@@ -214,7 +282,9 @@ namespace SecondMonitor.Timing.DataHandler
                 sb.Append(") - ");
                 sb.Append(data.SessionInfo.SessionType);
                 gui.lblTrack.Content = sb.ToString();
-                
+
+                gui.timingCircle.SetSessionInfo(data);
+                gui.fuelMonitor.ResetFuelMonitor();
             });
             NotifyPropertyChanged();
         }
