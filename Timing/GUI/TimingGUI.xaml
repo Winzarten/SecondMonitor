@@ -65,7 +65,7 @@
         <!--<WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
             <controls1:GMeter x:Name="gMeter" GBallDiameter="4" GScale="1" HorizG="2" VertG="3" MaxG="4" GBallColor="Green"/>
         </WindowsFormsHost>-->
-        <ListView x:Name="dtTimig" Margin="10,52,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False">
+        <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="FontWeight" Value="Bold"/>
@@ -164,9 +164,11 @@
                 </Style>
             </DataGrid.Resources>
         </DataGrid>-->
-        <Label x:Name="lblTrack" Content="Track"  HorizontalAlignment="Left" FontSize="20" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="lblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="lblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
         <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
-        <Label x:Name="lblTime" Content="Label"  HorizontalAlignment="Right" FontSize="20" Margin="0,10,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right"/>
+        <Label x:Name="lblTime" Content="Session Time"  HorizontalAlignment="Right" FontSize="20" Margin="0,3,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
+        <Label x:Name="lblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Button x:Name="btnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,10" Width="117" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
         <Button x:Name="btnResetFuel" Content="Reset Fuel" HorizontalAlignment="Left" Margin="692,0,0,327" VerticalAlignment="Bottom" Width="67" Height="47" Command="{Binding ResetFuelCommand}" Panel.ZIndex="4"/>
         <GroupBox Header="Mode" HorizontalAlignment="Right" Height="205" VerticalAlignment="Bottom" Width="117" Foreground="White" Margin="0,0,10,154">

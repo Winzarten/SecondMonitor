@@ -24,6 +24,7 @@ namespace SecondMonitor.Timing.DataHandler
         private TimingGUI gui;
         private PluginsManager pluginsManager;
         private SessionTiming timing;
+        private int paceLaps = 3;
         bool shouldReset;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,6 +59,7 @@ namespace SecondMonitor.Timing.DataHandler
         {
             gui = new TimingGUI();
             gui.Show();
+            gui.upDownPaceLaps.Value = paceLaps;
             gui.Closed += Gui_Closed;
             gui.btnReset.DataContext = this;
             gui.btnResetFuel.DataContext = this;
@@ -127,8 +129,10 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void PaceLapsChanged()
         {
-            if(timing!=null)
-                timing.PaceLaps = (int) gui.upDownPaceLaps.Value;
+            paceLaps = (int)gui.upDownPaceLaps.Value;
+            if (timing != null)
+                timing.PaceLaps = paceLaps;
+
         }
         private void ResetFuel()
         {
@@ -170,7 +174,7 @@ namespace SecondMonitor.Timing.DataHandler
             if(shouldReset)
             {
                 timing = SessionTiming.FromSimulatorData(args.Data);
-                timing.PaceLaps = (int)gui.upDownPaceLaps.Value;
+                timing.PaceLaps = paceLaps;
                 timing.BestLapChangedEvent += BestLapChangedHandler;
                 InitializeGui(data);
                 shouldReset = false;
@@ -203,6 +207,8 @@ namespace SecondMonitor.Timing.DataHandler
                     //gui.gMeter.Refresh();
                     gui.timingCircle.RefreshSession(data);
                     gui.fuelMonitor.ProcessDataSet(data);
+                    gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1");
+                    gui.lblRemainig.Content = GetSessionRemainig(data);
                     ViewSource.View.Refresh();
                 }));
             }
@@ -225,10 +231,22 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        private string GetSessionRemainig(SimulatorDataSet dataSet)
+        {
+            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.NA)
+                return "NA";
+            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+                return "Time Remaining: "+((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":" + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60);
+            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
+                return "Laps: "+(dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
+            return "NA";
+        }
+
         private void OnSessionStarted(object sender, DataEventArgs args)
         {            
             timing = SessionTiming.FromSimulatorData(args.Data);
             timing.BestLapChangedEvent += BestLapChangedHandler;
+            timing.PaceLaps = paceLaps;
             InitializeGui(args.Data);
             ChangeTimingMode();            
         }

@@ -6,6 +6,9 @@ using System.IO;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using SecondMonitor.Launcher.Dialog;
 
 namespace SecondMonitor.Launcher
 {
@@ -24,9 +27,23 @@ namespace SecondMonitor.Launcher
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                string gameConnector = "";
+                //WaitingDialog dialog = new WaitingDialog();
+                
+                while (String.IsNullOrEmpty(gameConnector))
+                {
+                    if (Process.GetProcessesByName("RRRE").Length > 0)
+                        gameConnector = "R3EConnector.dll";
 
-                LoadUsingGameConnectorAssembply(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultGameConnector));
-              
+                    if (Process.GetProcessesByName("pCARS64").Length > 0)
+                        gameConnector = "PCarsConnector.dll";
+                    Thread.Sleep(100);
+                    //if (dialog.DialogResult == DialogResult.Cancel)
+                        //Environment.Exit(0);
+                }
+                //dialog.Close();
+                //dialog.Dispose();
+                LoadUsingGameConnectorAssembply(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, gameConnector));
                 Application.Run();
 
             }

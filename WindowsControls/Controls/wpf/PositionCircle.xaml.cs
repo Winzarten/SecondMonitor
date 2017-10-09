@@ -68,13 +68,13 @@ namespace SecondMonitor.WindowsControls.wpf
         {
             if (driversPoints == null)
                 return;
-            foreach(var driver in driversPoints.Keys)
+            foreach(var driver in driversPoints.Values)
             {
-                canvas.Children.Remove(driversPoints[driver]);
+                canvas.Children.Remove(driver);
             }
-            foreach (var driver in driverTexts.Keys)
+            foreach (var driver in driverTexts.Values)
             {
-                canvas.Children.Remove(driverTexts[driver]);
+                canvas.Children.Remove(driver);
             }
         }
 
@@ -84,6 +84,8 @@ namespace SecondMonitor.WindowsControls.wpf
             driverTexts.Clear();
             foreach (var driver in drivers)
             {
+                if (driversPoints.ContainsKey(driver.DriverName))
+                    continue;
                 Ellipse driverEllips = CreateDriverEllipse(driver);
                 TextBlock driverTextBlock = CreateDriverText(driver);
                 driversPoints[driver.DriverName] = driverEllips;
