@@ -273,8 +273,11 @@ namespace SecondMonitor.R3EConnector
                 if (driverInfo.Position == 1)
                     data.SessionInfo.LeaderCurrentLap = driverInfo.CompletedLaps + 1;
             }
-            if(playersInfo!=null)
+            if (playersInfo != null)
+            {
                 ComputeDistanceToPlayer(playersInfo, data);
+                data.PlayerInfo = playersInfo;
+            }
         }
 
         private static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, SimulatorDataSet data)

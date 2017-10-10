@@ -24,7 +24,9 @@ namespace SecondMonitor.Timing.DataHandler
         private TimingGUI gui;
         private PluginsManager pluginsManager;
         private SessionTiming timing;
+        private SessionInfo.SessionTypeEnum sessionType = SessionInfo.SessionTypeEnum.NA;
         private int paceLaps = 3;
+        private bool scrollToPlayer = true;
         bool shouldReset;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -67,6 +69,8 @@ namespace SecondMonitor.Timing.DataHandler
             gui.rbtAutomatic.DataContext = this;
             gui.rbtRelative.DataContext = this;
             gui.upDownPaceLaps.DataContext = this;
+            gui.chkScrollToPlayer.DataContext = this;
+            gui.chkScrollToPlayer.IsChecked = scrollToPlayer;
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
             shouldReset = false;
@@ -111,6 +115,19 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        private NoArgumentCommand _scrollToPlayerCommand;
+        public NoArgumentCommand ScrollToPlayerCommand
+        {
+            get
+            {
+                if (_scrollToPlayerCommand == null)
+                {
+                    _scrollToPlayerCommand = new NoArgumentCommand(ScrollToPlayerChanged);
+                }
+                return _scrollToPlayerCommand;
+            }
+        }
+
         private TimingModeChangedCommand _timingModeChangedCommand;
         public TimingModeChangedCommand TimingModeChangedCommand
         {
@@ -126,6 +143,11 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+
+        private void ScrollToPlayerChanged()
+        {
+            scrollToPlayer = (bool)gui.chkScrollToPlayer.IsChecked;
+        }
 
         private void PaceLapsChanged()
         {
@@ -177,6 +199,7 @@ namespace SecondMonitor.Timing.DataHandler
                 timing.PaceLaps = paceLaps;
                 timing.BestLapChangedEvent += BestLapChangedHandler;
                 InitializeGui(data);
+                ChangeTimingMode();
                 shouldReset = false;
             }
             try
@@ -190,7 +213,11 @@ namespace SecondMonitor.Timing.DataHandler
             }
             TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
            
-            
+            if(sessionType!= timing.SessionType)
+            {
+                ChangeTimingMode();
+                sessionType = timing.SessionType;
+            }
             if (timeSpan.TotalMilliseconds >500)
             {
                 lastRefreshTiming = DateTime.Now;
@@ -207,10 +234,15 @@ namespace SecondMonitor.Timing.DataHandler
                     //gui.gMeter.Refresh();
                     gui.timingCircle.RefreshSession(data);
                     gui.fuelMonitor.ProcessDataSet(data);
+                    
                     gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1")
                     +"| Rain Intensity: "+data.SessionInfo.WeatherInfo.rainIntensity+"%";
                     gui.lblRemainig.Content = GetSessionRemainig(data);
                     ViewSource.View.Refresh();
+                    if (scrollToPlayer && timing.Player != null)
+                    {
+                        gui.dtTimig.ScrollIntoView(timing.Player);
+                    }
                 }));
             }
             TimeSpan timeSpanCarIno = DateTime.Now.Subtract(lastRefreshCarInfo);

@@ -16,5 +16,6 @@ namespace SecondMonitor.DataModel
         public PedalInfo PedalInfo;
         public SessionInfo SessionInfo;
         public DriverInfo[] DriversInfo;
+        public DriverInfo PlayerInfo;
     }
 }

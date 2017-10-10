@@ -37,6 +37,7 @@ namespace SecondMonitor.Timing.Model
 
         private int paceLaps;
         private LapInfo bestSessionLap;
+        public Driver Player { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
         
@@ -64,6 +65,7 @@ namespace SecondMonitor.Timing.Model
         {
             Dictionary<string, Driver> drivers = new Dictionary<string, Driver>();
             SessionTiming timing = new SessionTiming();
+            timing.SessionType = dataSet.SessionInfo.SessionType;
             //Driver[] drivers = Array.ConvertAll(dataSet.DriversInfo, s => Driver.FromModel(s));
             Array.ForEach(dataSet.DriversInfo, s => {
                 String name = s.DriverName;
@@ -76,7 +78,9 @@ namespace SecondMonitor.Timing.Model
                 Driver newDriver = Driver.FromModel(s, timing);
                 newDriver.PaceLaps = timing.paceLaps;
                 drivers.Add(name, newDriver);
-                });
+                if (newDriver.DriverInfo.IsPlayer)
+                    timing.Player = newDriver;
+                    });
             timing.Drivers = drivers;            
             return timing;
         }

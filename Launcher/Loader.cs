@@ -27,11 +27,11 @@ namespace SecondMonitor.Launcher
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                string gameConnector = "";
+                string gameConnector = defaultGameConnector;
                 //WaitingDialog dialog = new WaitingDialog();
                 
-                while (String.IsNullOrEmpty(gameConnector))
-                {
+                //while (String.IsNullOrEmpty(gameConnector))
+                //{
                     if (Process.GetProcessesByName("RRRE").Length > 0)
                         gameConnector = "R3EConnector.dll";
 
@@ -40,7 +40,7 @@ namespace SecondMonitor.Launcher
                     Thread.Sleep(100);
                     //if (dialog.DialogResult == DialogResult.Cancel)
                         //Environment.Exit(0);
-                }
+                //}
                 //dialog.Close();
                 //dialog.Dispose();
                 LoadUsingGameConnectorAssembply(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, gameConnector));

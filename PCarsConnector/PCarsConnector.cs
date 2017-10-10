@@ -250,7 +250,10 @@ namespace SecondMonitor.PCarsConnector
                     throw new NameNotFilledException("Name not filled for driver with index "+i);
             }
             if (playersInfo != null)
+            {
                 ComputeDistanceToPlayer(playersInfo, data);
+                data.PlayerInfo = playersInfo;
+            }
             AddPitsInfo(data);
         }
 

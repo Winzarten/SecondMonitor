@@ -13,7 +13,7 @@
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit" x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
-    <Grid Background="Black">
+    <Grid Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <WindowsFormsHost Margin="10,0,0,195" VerticalAlignment="Bottom" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" Width="260" Height="170">
             <controls:WheelStatusControl x:Name="whLeftFront"/>
         </WindowsFormsHost>
@@ -176,14 +176,16 @@
                 <RadioButton x:Name="rbtAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" IsChecked="True" Command="{Binding TimingModeChangedCommand}" />
                 <RadioButton x:Name="rbtAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
                 <RadioButton x:Name="rbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
-                <controls2:IntegerUpDown x:Name="upDownPaceLaps" Margin="10,0,0,57" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="4">
+                <controls2:IntegerUpDown x:Name="upDownPaceLaps" Margin="0,0,0,43" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="4">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="ValueChanged">
                             <i:InvokeCommandAction Command="{Binding Path=PaceLapsCommand}"></i:InvokeCommandAction>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </controls2:IntegerUpDown>
-                <Label Content="Pace Laps:" HorizontalAlignment="Left" Margin="9,73,0,0" VerticalAlignment="Top" Foreground="White"/>
+                <Label Content="Pace Laps:" HorizontalAlignment="Left" Margin="0,92,0,0" VerticalAlignment="Top" Foreground="White"/>
+                <CheckBox x:Name="chkScrollToPlayer" Content="Scroll To Player" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Width="100" Foreground="White" IsChecked="True"
+                          Command="{Binding Path=ScrollToPlayerCommand}"/>
             </Grid>
         </GroupBox>
         <wpf:PositionCircle x:Name="timingCircle" Margin="692,0,132,10" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="355"/>
