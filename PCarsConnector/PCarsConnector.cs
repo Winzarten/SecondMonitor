@@ -284,6 +284,7 @@ namespace SecondMonitor.PCarsConnector
 
             simData.SessionInfo.WeatherInfo.airTemperature = Temperature.FromCelsius(pCarsData.mAmbientTemperature);
             simData.SessionInfo.WeatherInfo.trackTemperature = Temperature.FromCelsius(pCarsData.mTrackTemperature);
+            simData.SessionInfo.WeatherInfo.rainIntensity = (int)(pCarsData.mRainDensity * 100);
             simData.SessionInfo.LayoutLength = pCarsData.mTrackLength;
             simData.SessionInfo.IsActive = true; // (eRaceState)pCarsData.mRaceState == eRaceState.RACESTATE_RACING 
                 //|| (eRaceState)pCarsData.mRaceState == eRaceState.RACESTATE_FINISHED;

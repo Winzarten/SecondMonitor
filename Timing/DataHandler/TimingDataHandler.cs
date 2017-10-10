@@ -207,7 +207,8 @@ namespace SecondMonitor.Timing.DataHandler
                     //gui.gMeter.Refresh();
                     gui.timingCircle.RefreshSession(data);
                     gui.fuelMonitor.ProcessDataSet(data);
-                    gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1");
+                    gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1")
+                    +"| Rain Intensity: "+data.SessionInfo.WeatherInfo.rainIntensity+"%";
                     gui.lblRemainig.Content = GetSessionRemainig(data);
                     ViewSource.View.Refresh();
                 }));
