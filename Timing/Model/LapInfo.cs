@@ -13,7 +13,7 @@ namespace SecondMonitor.Timing.Model
         private TimeSpan lapEnd;
         private TimeSpan lapProgressTime;
         private TimeSpan lapTime;
-
+        
         public LapInfo(TimeSpan startSeesionTine, int lapNumber, Driver driver)
         {
             Driver = driver;
@@ -22,6 +22,7 @@ namespace SecondMonitor.Timing.Model
             LapNumber = lapNumber;
             Valid = true;
             FirstLap = false;
+            PitLap = false;
         }
 
         public LapInfo(TimeSpan startSeesionTine, int lapNumber, Driver driver, bool firstLap)
@@ -32,12 +33,15 @@ namespace SecondMonitor.Timing.Model
             LapNumber = lapNumber;
             Valid = true;
             FirstLap = firstLap;
+            PitLap = false;
         }
         public TimeSpan LapStart { get; private set; }
         public int LapNumber { get; private set; }
         public bool Valid { get; set; }
         public Driver Driver { get => driver; private set => driver = value; } 
         public bool FirstLap { get; private set; }
+        public bool InvalidBySim { get; set; }
+        public bool PitLap { get; set; }
 
         public void FinishLap(TimeSpan sessionTime)
         {

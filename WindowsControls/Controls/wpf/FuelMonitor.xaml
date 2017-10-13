@@ -26,5 +26,9 @@
         <Label x:Name="lblConsumtion" Content="Current" VerticalAlignment="Top" Margin="0,113,10,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
         <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,148,10,0" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717"/>
         <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,175,10,0" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717"/>
+        <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Right" Margin="0,20,7,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
+        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Top" IsChecked="True" GroupName="grbMode" Checked="rbtMode_Checked"/>
     </Grid>
 </UserControl>
+
+    

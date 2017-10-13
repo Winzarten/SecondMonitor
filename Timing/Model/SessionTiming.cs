@@ -61,7 +61,7 @@ namespace SecondMonitor.Timing.Model
             }
         }
 
-        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet)
+        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap)
         {
             Dictionary<string, Driver> drivers = new Dictionary<string, Driver>();
             SessionTiming timing = new SessionTiming();
@@ -75,7 +75,7 @@ namespace SecondMonitor.Timing.Model
                     name = s.DriverName + " dup" + count;
                     count++;
                 }
-                Driver newDriver = Driver.FromModel(s, timing);
+                Driver newDriver = Driver.FromModel(s, timing, invalidateFirstLap);
                 newDriver.PaceLaps = timing.paceLaps;
                 drivers.Add(name, newDriver);
                 if (newDriver.DriverInfo.IsPlayer)

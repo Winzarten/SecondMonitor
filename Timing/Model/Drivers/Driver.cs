@@ -12,6 +12,7 @@ namespace SecondMonitor.Timing.Model.Drivers
     {
         private List<LapInfo> lapsInfo;
         private List<PitInfo> pitStopInfo;
+        private Single previousTickLapDistance;
         private int paceLaps;
 
         public Driver(DriverInfo driverInfo, SessionTiming session)
@@ -22,8 +23,11 @@ namespace SecondMonitor.Timing.Model.Drivers
             paceLaps = 4;
             Pace = new TimeSpan(0);
             LapPercentage = 0;
+            previousTickLapDistance = 0;
             Session = session;
         }
+        
+        public bool InvalidateFirstLap { get; set; }
         private SessionTiming Session { get; set;}
         public DriverInfo DriverInfo { get; internal set; }
         public bool IsPlayer { get => DriverInfo.IsPlayer; }
@@ -73,11 +77,11 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return false;
             if (sessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown)
                 return false;
-            UpdateInPitsProperty(set);            
+            UpdateInPitsProperty(set);
             if (lapsInfo.Count == 0)
             {
                 LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true);
-                firstLap.Valid = sessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race;
+                firstLap.Valid = !InvalidateFirstLap;
                 lapsInfo.Add(firstLap);
             }
             LapInfo currentLap = CurrentLap;
@@ -85,30 +89,45 @@ namespace SecondMonitor.Timing.Model.Drivers
             {
                 UpdateCurrentLap(sessionInfo);
             }
-            if (currentLap.LapNumber < DriverInfo.CompletedLaps + 1 ||
-                (!currentLap.Valid && DriverInfo.CurrentLapValid && SessionInfo.SessionTypeEnum.Race == sessionInfo.SessionType && !DriverInfo.IsPlayer)
-                || (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer))
+            if (ShouldFinishLap(sessionInfo, currentLap))
             {
                 FinishCurrentLap(sessionInfo);
+                previousTickLapDistance = DriverInfo.LapDistance;
                 return currentLap.Valid;
             }
+            previousTickLapDistance = DriverInfo.LapDistance;
+            return false;
+        }
+
+        private bool ShouldFinishLap(SessionInfo sessionInfo, LapInfo currentLap)
+        {            
+            if (currentLap.LapNumber < DriverInfo.CompletedLaps + 1)
+                return true;            
+            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && (currentLap.FirstLap && !InvalidateFirstLap))
+                return true;
+            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && previousTickLapDistance < DriverInfo.LapDistance && SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType)
+                return true;        
+            if (!currentLap.Valid && DriverInfo.CurrentLapValid && SessionInfo.SessionTypeEnum.Race == sessionInfo.SessionType && !DriverInfo.IsPlayer && (currentLap.FirstLap && !InvalidateFirstLap))
+                return true;
             return false;
         }
 
         private void UpdateCurrentLap(SessionInfo sessionInfo)
         {
             CurrentLap.Tick(sessionInfo.SessionTime);
+            CurrentLap.InvalidBySim = !DriverInfo.CurrentLapValid;
             LapPercentage = (DriverInfo.LapDistance / sessionInfo.LayoutLength)*100;
             if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && lapsInfo.Count > 1)
                 CurrentLap.Valid = false;
         }
+        
 
         private void FinishCurrentLap(SessionInfo sessionInfo)
         {
             CurrentLap.FinishLap(sessionInfo.SessionTime);
             if (CurrentLap.Valid && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
                 BestLap = CurrentLap;
-            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
+            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));            
             ComputePace();
         }
 
@@ -117,10 +136,14 @@ namespace SecondMonitor.Timing.Model.Drivers
             if(InPits && !LastPitStop.Completed )
             {
                 LastPitStop.Tick(set);
+                if (CurrentLap != null)
+                    CurrentLap.PitLap = true;
             }
             if (!InPits && DriverInfo.InPits)
             {
                 InPits = true;
+                if(CurrentLap!=null)
+                    CurrentLap.PitLap = true;
                 pitStopInfo.Add(new PitInfo(set, this, CurrentLap));
             }
             if(InPits && !DriverInfo.InPits)
@@ -229,9 +252,11 @@ namespace SecondMonitor.Timing.Model.Drivers
             return timeSpan.ToString("mm\\:ss\\.fff");
         }
 
-        public static Driver FromModel(DriverInfo modelDriverInfo, SessionTiming session)
+        public static Driver FromModel(DriverInfo modelDriverInfo, SessionTiming session, bool invalidateFirstLap)
         {
-            return new Driver(modelDriverInfo, session);
+            var driver = new Driver(modelDriverInfo, session);
+            driver.InvalidateFirstLap = invalidateFirstLap;
+            return driver;
         }
     }
 }
