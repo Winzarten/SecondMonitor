@@ -130,7 +130,7 @@
                             <Setter Property="Background" Value="Blue"/>
                         </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Black"/>
+                            <Setter Property="Background" Value="Transparent"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>

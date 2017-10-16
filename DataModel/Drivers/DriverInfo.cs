@@ -18,5 +18,7 @@ namespace SecondMonitor.DataModel.Drivers
         public Single Speed;
         public Single LapDistance;
         public Single DistanceToPlayer;
+
+        public CarInfo CarInfo = new CarInfo();
     }
 }

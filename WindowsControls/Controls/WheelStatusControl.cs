@@ -24,15 +24,23 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             {
                 case WheelPostionEnum.FrontLeft:
                     wear = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear;
+                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyreType;
+                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyreTypeFilled;
                     break;
                 case WheelPostionEnum.FrontRight:
                     wear = data.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear;
+                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.TyreType;
+                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.FrontRight.TyreTypeFilled;
                     break;
                 case WheelPostionEnum.RearLeft:
                     wear = data.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear;
+                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.TyreType;
+                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.RearLeft.TyreTypeFilled;
                     break;
                 case WheelPostionEnum.RearRight:
                     wear = data.PlayerCarInfo.WheelsInfo.RearRight.TyreWear;
+                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.RearRight.TyreType;
+                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.RearRight.TyreTypeFilled;
                     break;
 
             }

@@ -243,7 +243,8 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.lblRemainig.Content = GetSessionRemainig(data);
                     ViewSource.View.Refresh();
                     if (scrollToPlayer && timing.Player != null)
-                    {                        
+                    {
+                        gui.dtTimig.ScrollIntoView(gui.dtTimig.Items[0]);
                         gui.dtTimig.ScrollIntoView(timing.Player);
                     }
                 }));

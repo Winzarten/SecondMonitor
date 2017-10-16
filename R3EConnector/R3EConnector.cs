@@ -9,6 +9,7 @@ using SecondMonitor.PluginManager.GameConnector;
 using SecondMonitor.R3EConnector.Data;
 using SecondMonitor.DataModel.BasicProperties;
 using System.Collections.Generic;
+using static SecondMonitor.R3EConnector.Constant;
 
 namespace SecondMonitor.R3EConnector
 {
@@ -262,13 +263,24 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.Speed = r3rDriverData.CarSpeed;
                 driverInfo.LapDistance = r3rDriverData.LapDistance;
                 driverInfo.CarName = database.GetCarName(r3rDriverData.DriverInfo.ModelId);
+                
                 if (driverInfo.IsPlayer)
                 {
+                    driverInfo.CarInfo = data.PlayerCarInfo;
                     playersInfo = driverInfo;
                     driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
                 }
                 else
                     driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
+                driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = ((TireSubtype)r3rDriverData.TireSubtypeFront).ToString();
+                driverInfo.CarInfo.WheelsInfo.FrontRight.TyreTypeFilled = ((TireSubtype)r3rDriverData.TireSubtypeFront) != TireSubtype.Unavailable;
+                driverInfo.CarInfo.WheelsInfo.FrontRight.TyreType = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType;
+                driverInfo.CarInfo.WheelsInfo.FrontRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreTypeFilled;
+
+                driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled = ((TireSubtype)r3rDriverData.TireSubtypeRear) != TireSubtype.Unavailable;
+                driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType = ((TireSubtype)r3rDriverData.TireSubtypeRear).ToString();
+                driverInfo.CarInfo.WheelsInfo.RearRight.TyreType = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType;
+                driverInfo.CarInfo.WheelsInfo.RearRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled;
                 data.DriversInfo[i] = driverInfo;
                 if (driverInfo.Position == 1)
                     data.SessionInfo.LeaderCurrentLap = driverInfo.CompletedLaps + 1;

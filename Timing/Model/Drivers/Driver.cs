@@ -188,6 +188,14 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             get
             {
+                if(Session.SessionType != SessionInfo.SessionTypeEnum.Race)
+                {
+                    if (InPits)
+                        return "In Pits";
+                    else
+                        return "Out";
+                            
+                }
                 if (LastPitStop == null)
                     return "0";
                 else

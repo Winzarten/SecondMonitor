@@ -37,6 +37,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlWear = new System.Windows.Forms.Panel();
             this.lbWear = new System.Windows.Forms.Label();
+            this.lblTyreType = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -205,11 +206,23 @@
             this.lbWear.TabIndex = 0;
             this.lbWear.Text = "100%";
             // 
+            // lblTyreType
+            // 
+            this.lblTyreType.AutoSize = true;
+            this.lblTyreType.BackColor = System.Drawing.Color.Transparent;
+            this.lblTyreType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTyreType.Location = new System.Drawing.Point(90, 52);
+            this.lblTyreType.Name = "lblTyreType";
+            this.lblTyreType.Size = new System.Drawing.Size(45, 16);
+            this.lblTyreType.TabIndex = 8;
+            this.lblTyreType.Text = "100%";
+            // 
             // WheelStatusControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.Controls.Add(this.lblTyreType);
             this.Controls.Add(this.lbWear);
             this.Controls.Add(this.pnlWear);
             this.Controls.Add(this.pictureBox2);
@@ -239,5 +252,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel pnlWear;
         private System.Windows.Forms.Label lbWear;
+        private System.Windows.Forms.Label lblTyreType;
     }
 }
