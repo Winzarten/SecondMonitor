@@ -159,7 +159,7 @@
             this.lblTyrePressure.NumberOfCharacters = 3;
             this.lblTyrePressure.PixelHeight = 2;
             this.lblTyrePressure.PixelOff = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
-            this.lblTyrePressure.PixelOn = System.Drawing.Color.Yellow;
+            this.lblTyrePressure.PixelOn = System.Drawing.Color.Black;
             this.lblTyrePressure.PixelShape = LCDLabel.PixelShape.Shaped;
             this.lblTyrePressure.PixelSize = LCDLabel.PixelSize.pixCustom;
             this.lblTyrePressure.PixelSpacing = 0;

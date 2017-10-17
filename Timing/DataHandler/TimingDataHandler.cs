@@ -232,6 +232,7 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
                     gui.whRightRear.UpdateControl(data);
+                    gui.waterTemp.WaterTemperature = (float)data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius;
                     //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
                     //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     //gui.gMeter.Refresh();

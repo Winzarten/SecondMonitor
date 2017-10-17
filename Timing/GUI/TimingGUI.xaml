@@ -10,7 +10,7 @@
         xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls;assembly=WindowsControls"
         xmlns:controls1="clr-namespace:SecondMonitor.MonitorGui.CarStatus.Forms.Controls;assembly=WindowsControls"
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
-    xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit" x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"
+    xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:agc="http://www.arction.com/gauges/" x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Grid Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -180,18 +180,19 @@
                 <controls2:IntegerUpDown x:Name="upDownPaceLaps" Margin="0,0,0,43" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="4">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="ValueChanged">
-                            <i:InvokeCommandAction Command="{Binding Path=PaceLapsCommand}"></i:InvokeCommandAction>
+                            <i:InvokeCommandAction Command="{Binding PaceLapsCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </controls2:IntegerUpDown>
                 <Label Content="Pace Laps:" HorizontalAlignment="Left" Margin="0,92,0,0" VerticalAlignment="Top" Foreground="White"/>
                 <CheckBox x:Name="chkScrollToPlayer" Content="Scroll To Player" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Width="100" Foreground="White" IsChecked="True"
-                          Command="{Binding Path=ScrollToPlayerCommand}"/>
+                          Command="{Binding ScrollToPlayerCommand}"/>
             </Grid>
         </GroupBox>
         <wpf:PositionCircle x:Name="timingCircle" Margin="598,0,132,10" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="355"/>
 
         <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="172" Margin="85,0,0,10" VerticalAlignment="Bottom" Width="322"/>
+        <wpf1:WaterTemp x:Name="waterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138"/>
     </Grid>
 
 </Window>
