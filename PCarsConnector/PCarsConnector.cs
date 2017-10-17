@@ -329,7 +329,18 @@ namespace SecondMonitor.PCarsConnector
                 simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
             simData.SessionInfo.TrackName = pCarsData.mTrackLocation;
             simData.SessionInfo.TrackLayoutName = pCarsData.mTrackVariation;
-            
+
+            if (pCarsData.mEventTimeRemaining != -1)
+            {
+                simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Time;
+                simData.SessionInfo.SessionTimeRemaining = pCarsData.mEventTimeRemaining / 1000;
+            }
+            else if (pCarsData.mLapsInEvent != 0)
+            {
+                simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Laps;
+                simData.SessionInfo.TotalNumberOfLaps = (int)pCarsData.mLapsInEvent;
+            }
+
         }
 
         private bool ShouldCheckPits(SimulatorDataSet dataSet)

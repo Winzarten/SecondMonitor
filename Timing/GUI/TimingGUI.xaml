@@ -166,7 +166,7 @@
         </DataGrid>-->
         <Label x:Name="lblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
         <Label x:Name="lblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
-        <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1029,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
+        <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1035,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
         <Label x:Name="lblTime" Content="Session Time"  HorizontalAlignment="Right" FontSize="20" Margin="0,3,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Label x:Name="lblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Button x:Name="btnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,10" Width="117" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>

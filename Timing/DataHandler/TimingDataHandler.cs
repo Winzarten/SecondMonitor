@@ -42,7 +42,7 @@ namespace SecondMonitor.Timing.DataHandler
         public ObservableCollection<Driver> Collection { get; set; }
 
         private LapInfo bestSessionLap;
-        public string BestLapFormatted { get => bestSessionLap != null ? bestSessionLap.Driver.DriverInfo.DriverName +"-"+ Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
+        public string BestLapFormatted { get => bestSessionLap != null ? bestSessionLap.Driver.DriverInfo.DriverName +"-(L"+ bestSessionLap.LapNumber+"):"+ Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
 
         public PluginsManager PluginManager
         {
