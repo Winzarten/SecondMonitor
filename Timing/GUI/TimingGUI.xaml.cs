@@ -39,5 +39,11 @@ namespace SecondMonitor.Timing.GUI
                 return TimingModeOptions.Automatic;
             }
         }
+
+        private void dtTimig_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dtTimig.SelectedItem != null)
+                dtTimig.SelectedItem = null;
+        }
     }
 }

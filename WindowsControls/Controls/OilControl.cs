@@ -17,9 +17,11 @@ namespace SecondMonitor.CarStatus.Forms.Controls
 
         public void UpdateControl(SimulatorDataSet data)
         {
-            gTemperature.Value = (float) data.PlayerCarInfo.OilSystemInfo.OilTemperature.InCelsius;
-            gPressure.Value = (float) data.PlayerCarInfo.OilSystemInfo.OilPressure.InAtmospheres;
-            lblPressure.Text = data.PlayerCarInfo.OilSystemInfo.OilPressure.InAtmospheres.ToString("0.0");
+            if (data.PlayerInfo == null)
+                return;
+            gTemperature.Value = (float) data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature.InCelsius;
+            gPressure.Value = (float) data.PlayerInfo.CarInfo.OilSystemInfo.OilPressure.InAtmospheres;
+            lblPressure.Text = data.PlayerInfo.CarInfo.OilSystemInfo.OilPressure.InAtmospheres.ToString("0.0");
         }
     }
 }

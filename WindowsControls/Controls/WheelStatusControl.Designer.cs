@@ -47,24 +47,24 @@
             this.lblBreakTemp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.lblBreakTemp.BackGround = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.lblBreakTemp.BorderColor = System.Drawing.Color.BlanchedAlmond;
-            this.lblBreakTemp.BorderSpace = 3;
+            this.lblBreakTemp.BorderSpace = 0;
             this.lblBreakTemp.CharSpacing = 2;
             this.lblBreakTemp.DotMatrix = LCDLabel.DotMatrix.mat5x7;
             this.lblBreakTemp.ForeColor = System.Drawing.Color.Maroon;
             this.lblBreakTemp.LineSpacing = 2;
-            this.lblBreakTemp.Location = new System.Drawing.Point(3, 98);
+            this.lblBreakTemp.Location = new System.Drawing.Point(27, 67);
             this.lblBreakTemp.Name = "lblBreakTemp";
-            this.lblBreakTemp.NumberOfCharacters = 3;
-            this.lblBreakTemp.PixelHeight = 5;
+            this.lblBreakTemp.NumberOfCharacters = 4;
+            this.lblBreakTemp.PixelHeight = 2;
             this.lblBreakTemp.PixelOff = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.lblBreakTemp.PixelOn = System.Drawing.Color.Green;
             this.lblBreakTemp.PixelShape = LCDLabel.PixelShape.Shaped;
-            this.lblBreakTemp.PixelSize = LCDLabel.PixelSize.pix5x5;
-            this.lblBreakTemp.PixelSpacing = 1;
-            this.lblBreakTemp.PixelWidth = 5;
-            this.lblBreakTemp.Size = new System.Drawing.Size(99, 49);
+            this.lblBreakTemp.PixelSize = LCDLabel.PixelSize.pixCustom;
+            this.lblBreakTemp.PixelSpacing = 0;
+            this.lblBreakTemp.PixelWidth = 2;
+            this.lblBreakTemp.Size = new System.Drawing.Size(48, 16);
             this.lblBreakTemp.TabIndex = 0;
-            this.lblBreakTemp.Text = "300";
+            this.lblBreakTemp.Text = "3000";
             this.lblBreakTemp.TextLines = 1;
             // 
             // wheelTempLeft
@@ -85,9 +85,9 @@
             this.wheelTempLeft.PixelOn = System.Drawing.Color.Navy;
             this.wheelTempLeft.PixelShape = LCDLabel.PixelShape.Shaped;
             this.wheelTempLeft.PixelSize = LCDLabel.PixelSize.pix3x3;
-            this.wheelTempLeft.PixelSpacing = 1;
+            this.wheelTempLeft.PixelSpacing = 0;
             this.wheelTempLeft.PixelWidth = 3;
-            this.wheelTempLeft.Size = new System.Drawing.Size(69, 35);
+            this.wheelTempLeft.Size = new System.Drawing.Size(57, 29);
             this.wheelTempLeft.TabIndex = 1;
             this.wheelTempLeft.Text = "300";
             this.wheelTempLeft.TextLines = 1;
@@ -102,7 +102,7 @@
             this.wheelTempCenter.DotMatrix = LCDLabel.DotMatrix.dos5x7;
             this.wheelTempCenter.ForeColor = System.Drawing.Color.Maroon;
             this.wheelTempCenter.LineSpacing = 2;
-            this.wheelTempCenter.Location = new System.Drawing.Point(78, 3);
+            this.wheelTempCenter.Location = new System.Drawing.Point(66, 3);
             this.wheelTempCenter.Name = "wheelTempCenter";
             this.wheelTempCenter.NumberOfCharacters = 3;
             this.wheelTempCenter.PixelHeight = 3;
@@ -110,15 +110,16 @@
             this.wheelTempCenter.PixelOn = System.Drawing.Color.Navy;
             this.wheelTempCenter.PixelShape = LCDLabel.PixelShape.Shaped;
             this.wheelTempCenter.PixelSize = LCDLabel.PixelSize.pix3x3;
-            this.wheelTempCenter.PixelSpacing = 1;
+            this.wheelTempCenter.PixelSpacing = 0;
             this.wheelTempCenter.PixelWidth = 3;
-            this.wheelTempCenter.Size = new System.Drawing.Size(69, 35);
+            this.wheelTempCenter.Size = new System.Drawing.Size(57, 29);
             this.wheelTempCenter.TabIndex = 2;
             this.wheelTempCenter.Text = "300";
             this.wheelTempCenter.TextLines = 1;
             // 
             // wheelTempRight
             // 
+            this.wheelTempRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.wheelTempRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.wheelTempRight.BackGround = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.wheelTempRight.BorderColor = System.Drawing.Color.BlanchedAlmond;
@@ -127,7 +128,7 @@
             this.wheelTempRight.DotMatrix = LCDLabel.DotMatrix.dos5x7;
             this.wheelTempRight.ForeColor = System.Drawing.Color.Maroon;
             this.wheelTempRight.LineSpacing = 2;
-            this.wheelTempRight.Location = new System.Drawing.Point(153, 3);
+            this.wheelTempRight.Location = new System.Drawing.Point(136, 3);
             this.wheelTempRight.Name = "wheelTempRight";
             this.wheelTempRight.NumberOfCharacters = 3;
             this.wheelTempRight.PixelHeight = 3;
@@ -135,42 +136,44 @@
             this.wheelTempRight.PixelOn = System.Drawing.Color.Navy;
             this.wheelTempRight.PixelShape = LCDLabel.PixelShape.Shaped;
             this.wheelTempRight.PixelSize = LCDLabel.PixelSize.pix3x3;
-            this.wheelTempRight.PixelSpacing = 1;
+            this.wheelTempRight.PixelSpacing = 0;
             this.wheelTempRight.PixelWidth = 3;
-            this.wheelTempRight.Size = new System.Drawing.Size(69, 35);
+            this.wheelTempRight.Size = new System.Drawing.Size(57, 29);
             this.wheelTempRight.TabIndex = 3;
             this.wheelTempRight.Text = "300";
             this.wheelTempRight.TextLines = 1;
             // 
             // lblTyrePressure
             // 
+            this.lblTyrePressure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTyrePressure.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.lblTyrePressure.BackGround = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.lblTyrePressure.BorderColor = System.Drawing.Color.BlanchedAlmond;
-            this.lblTyrePressure.BorderSpace = 3;
-            this.lblTyrePressure.CharSpacing = 2;
+            this.lblTyrePressure.BorderSpace = 0;
+            this.lblTyrePressure.CharSpacing = 1;
             this.lblTyrePressure.DotMatrix = LCDLabel.DotMatrix.mat5x7;
             this.lblTyrePressure.ForeColor = System.Drawing.Color.Maroon;
             this.lblTyrePressure.LineSpacing = 2;
-            this.lblTyrePressure.Location = new System.Drawing.Point(123, 98);
+            this.lblTyrePressure.Location = new System.Drawing.Point(128, 67);
             this.lblTyrePressure.Name = "lblTyrePressure";
             this.lblTyrePressure.NumberOfCharacters = 3;
-            this.lblTyrePressure.PixelHeight = 5;
+            this.lblTyrePressure.PixelHeight = 2;
             this.lblTyrePressure.PixelOff = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.lblTyrePressure.PixelOn = System.Drawing.Color.Yellow;
             this.lblTyrePressure.PixelShape = LCDLabel.PixelShape.Shaped;
-            this.lblTyrePressure.PixelSize = LCDLabel.PixelSize.pix5x5;
-            this.lblTyrePressure.PixelSpacing = 1;
-            this.lblTyrePressure.PixelWidth = 5;
-            this.lblTyrePressure.Size = new System.Drawing.Size(99, 49);
+            this.lblTyrePressure.PixelSize = LCDLabel.PixelSize.pixCustom;
+            this.lblTyrePressure.PixelSpacing = 0;
+            this.lblTyrePressure.PixelWidth = 2;
+            this.lblTyrePressure.Size = new System.Drawing.Size(34, 16);
             this.lblTyrePressure.TabIndex = 4;
             this.lblTyrePressure.Text = "300";
             this.lblTyrePressure.TextLines = 1;
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.Image = global::SecondMonitor.WindowsControls.Properties.Resources.tirepressure300;
-            this.pictureBox2.Location = new System.Drawing.Point(197, 76);
+            this.pictureBox2.Location = new System.Drawing.Point(168, 65);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(25, 18);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -181,7 +184,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::SecondMonitor.WindowsControls.Properties.Resources.brake;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 76);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 65);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(18, 18);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -190,17 +193,21 @@
             // 
             // pnlWear
             // 
+            this.pnlWear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlWear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.pnlWear.Location = new System.Drawing.Point(3, 49);
+            this.pnlWear.Location = new System.Drawing.Point(3, 38);
             this.pnlWear.Name = "pnlWear";
-            this.pnlWear.Size = new System.Drawing.Size(219, 21);
+            this.pnlWear.Size = new System.Drawing.Size(190, 21);
             this.pnlWear.TabIndex = 7;
             // 
             // lbWear
             // 
+            this.lbWear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbWear.AutoSize = true;
             this.lbWear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbWear.Location = new System.Drawing.Point(91, 73);
+            this.lbWear.Location = new System.Drawing.Point(78, 67);
             this.lbWear.Name = "lbWear";
             this.lbWear.Size = new System.Drawing.Size(45, 16);
             this.lbWear.TabIndex = 0;
@@ -208,20 +215,23 @@
             // 
             // lblTyreType
             // 
+            this.lblTyreType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTyreType.AutoSize = true;
             this.lblTyreType.BackColor = System.Drawing.Color.Transparent;
+            this.lblTyreType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblTyreType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTyreType.Location = new System.Drawing.Point(90, 52);
+            this.lblTyreType.Location = new System.Drawing.Point(82, 40);
             this.lblTyreType.Name = "lblTyreType";
-            this.lblTyreType.Size = new System.Drawing.Size(45, 16);
+            this.lblTyreType.Size = new System.Drawing.Size(42, 16);
             this.lblTyreType.TabIndex = 8;
-            this.lblTyreType.Text = "100%";
+            this.lblTyreType.Text = "Hard";
             // 
             // WheelStatusControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(177)))), ((int)(((byte)(177)))), ((int)(((byte)(177)))));
             this.Controls.Add(this.lblTyreType);
             this.Controls.Add(this.lbWear);
             this.Controls.Add(this.pnlWear);
@@ -233,7 +243,8 @@
             this.Controls.Add(this.wheelTempLeft);
             this.Controls.Add(this.lblBreakTemp);
             this.Name = "WheelStatusControl";
-            this.Size = new System.Drawing.Size(225, 150);
+            this.Size = new System.Drawing.Size(196, 96);
+            this.Load += new System.EventHandler(this.WheelStatusControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

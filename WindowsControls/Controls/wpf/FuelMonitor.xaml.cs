@@ -53,13 +53,14 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         public void ProcessDataSet(SimulatorDataSet set)
         {
-            fuelGauge.Value = (float)((set.PlayerCarInfo.FuelSystemInfo.FuelRemaining.InLiters / set.PlayerCarInfo.FuelSystemInfo.FuelCapacity.InLiters) * 100);
-            lblFuel.Content = "Total: "+ set.PlayerCarInfo.FuelSystemInfo.FuelRemaining.InLiters.ToString("N2");
-
-            double fuelLeft = set.PlayerCarInfo.FuelSystemInfo.FuelRemaining.InLiters;
-            double fuelConsumed = lastFuelState - fuelLeft;
             if (set.PlayerInfo == null)
                 return;
+            fuelGauge.Value = (float)((set.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining.InLiters / set.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity.InLiters) * 100);
+            lblFuel.Content = "Total(L): "+ set.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining.InLiters.ToString("N2");
+
+            double fuelLeft = set.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining.InLiters;
+            double fuelConsumed = lastFuelState - fuelLeft;
+            
             var tickDistanceCovered = set.PlayerInfo.LapDistance - lastLapDistance;
             if (lastLapDistance != 0)
             {                
@@ -114,7 +115,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
             double remaining = fuelLeft / averageConsmption;
             TimeSpan timeLeft = TimeSpan.FromMinutes(remaining);
-            var output = $"{(int)timeLeft.TotalMinutes}:{timeLeft.Seconds:00}";
+            var output = $"Time Left:{(int)timeLeft.TotalMinutes}:{timeLeft.Seconds:00}";
             lblRemaining.Content = output;
         }
 

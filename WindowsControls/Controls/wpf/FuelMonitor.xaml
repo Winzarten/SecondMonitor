@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf"
              xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls"
              xmlns:forms="clr-namespace:System.Windows.Forms;assembly=AGauge"
-             mc:Ignorable="d" 
-             d:DesignHeight="215.127" Width="131.934">
+             mc:Ignorable="d" Width="300.016" Height="147.985">
     <Grid Background="Black">
         <WindowsFormsHost HorizontalAlignment="Left" VerticalAlignment="Top" Background="Black" MinWidth="82" MinHeight="73" Width="82" Height="73">
             <forms:AGauge x:Name="fuelGauge" BaseArcColor="Gray" BaseArcRadius="50" BaseArcStart="225" BaseArcSweep="90" BaseArcWidth="2" CausesValidation="False" ScaleLinesInterColor="White" ScaleLinesInterInnerRadius="45" ScaleLinesInterOuterRadius="50" ScaleLinesInterWidth="2" 
@@ -22,10 +21,10 @@
                 </forms:AGauge.GaugeLabels>
             </forms:AGauge>
         </WindowsFormsHost>
-        <Label x:Name="lblFuel" Content="Total fuel" VerticalAlignment="Top" Margin="0,78,10,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
-        <Label x:Name="lblConsumtion" Content="Current" VerticalAlignment="Top" Margin="0,113,10,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
-        <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,148,10,0" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717"/>
-        <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,175,10,0" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717"/>
+        <Label x:Name="lblFuel" Content="Total fuel" VerticalAlignment="Top" Margin="0,78,164,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
+        <Label x:Name="lblConsumtion" Content="Current" VerticalAlignment="Top" Margin="0,113,164,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
+        <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,113,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717" Width="149"/>
+        <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,78,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717" Width="149"/>
         <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Right" Margin="0,20,7,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
         <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Top" IsChecked="True" GroupName="grbMode" Checked="rbtMode_Checked"/>
     </Grid>

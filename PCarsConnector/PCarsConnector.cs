@@ -382,18 +382,21 @@ namespace SecondMonitor.PCarsConnector
             simData.PedalInfo.ThrottlePedalPosition = data.mThrottle;
             simData.PedalInfo.BrakePedalPosition = data.mBrake;
 
+            FillSessionInfo(data, simData);
+            AddDriversData(data, simData);
+
             //WaterSystemInfo
-            simData.PlayerCarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(data.mWaterTempCelsius);
+            simData.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(data.mWaterTempCelsius);
 
             //OilSystemInfo
-            simData.PlayerCarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.mOilPressureKPa);
-            simData.PlayerCarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.mOilTempCelsius);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.mOilPressureKPa);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.mOilTempCelsius);
 
             //Brakes Info            
-            simData.PlayerCarInfo.WheelsInfo.FrontLeft.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[0]);
-            simData.PlayerCarInfo.WheelsInfo.FrontRight.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[1]);
-            simData.PlayerCarInfo.WheelsInfo.RearLeft.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[2]);
-            simData.PlayerCarInfo.WheelsInfo.RearRight.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[3]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature = Temperature.FromCelsius(data.mBrakeTempCelsius[3]);
 
             //Tyre Pressure Info
             /*simData.PlayerCarInfo.WheelsInfo.FrontLeft.TyrePressure = Pressure.FromKiloPascals(data.ty TirePressure.FrontLeft);
@@ -402,41 +405,40 @@ namespace SecondMonitor.PCarsConnector
             simData.PlayerCarInfo.WheelsInfo.RearRight.TyrePressure = Pressure.FromKiloPascals(data.TirePressure.RearRight);*/
 
             //Front Left Tyre Temps
-            simData.PlayerCarInfo.WheelsInfo.FrontLeft.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[0]);
-            simData.PlayerCarInfo.WheelsInfo.FrontLeft.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[0]);
-            simData.PlayerCarInfo.WheelsInfo.FrontLeft.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[0]);
-            simData.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[0];
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[0];
 
             //Front Right Tyre Temps
-            simData.PlayerCarInfo.WheelsInfo.FrontRight.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[1]);
-            simData.PlayerCarInfo.WheelsInfo.FrontRight.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[1]);
-            simData.PlayerCarInfo.WheelsInfo.FrontRight.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[1]);
-            simData.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear = data.mTyreWear[1];
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = data.mTyreWear[1];
 
             //Rear Left Tyre Temps
-            simData.PlayerCarInfo.WheelsInfo.RearLeft.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[2]);
-            simData.PlayerCarInfo.WheelsInfo.RearLeft.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[2]);
-            simData.PlayerCarInfo.WheelsInfo.RearLeft.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[2]);
-            simData.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear = data.mTyreWear[2];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = data.mTyreWear[2];
 
             //Rear Right Tyre Temps
-            simData.PlayerCarInfo.WheelsInfo.RearRight.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[3]);
-            simData.PlayerCarInfo.WheelsInfo.RearRight.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[3]);
-            simData.PlayerCarInfo.WheelsInfo.RearRight.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[3]);
-            simData.PlayerCarInfo.WheelsInfo.RearRight.TyreWear = data.mTyreWear[3];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp = Temperature.FromCelsius(data.mTyreTemp[3]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp = Temperature.FromCelsius(data.mTyreTemp[3]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp = Temperature.FromCelsius(data.mTyreTemp[3]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = data.mTyreWear[3];
 
             //Fuel
-            simData.PlayerCarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(data.mFuelCapacity);
-            simData.PlayerCarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(data.mFuelCapacity * data.mFuelLevel);
-            simData.PlayerCarInfo.FuelSystemInfo.FuelPressure = Pressure.FromKiloPascals(data.mFuelPressureKPa);
+            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(data.mFuelCapacity);
+            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(data.mFuelCapacity * data.mFuelLevel);
+            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelPressure = Pressure.FromKiloPascals(data.mFuelPressureKPa);
 
             //Acceleration
-            simData.PlayerCarInfo.Acceleration.XInMS = data.mLocalAcceleration[0];
-            simData.PlayerCarInfo.Acceleration.YInMS = data.mLocalAcceleration[1];
-            simData.PlayerCarInfo.Acceleration.ZInMS = data.mLocalAcceleration[2];
+            simData.PlayerInfo.CarInfo.Acceleration.XInMS = data.mLocalAcceleration[0];
+            simData.PlayerInfo.CarInfo.Acceleration.YInMS = data.mLocalAcceleration[1];
+            simData.PlayerInfo.CarInfo.Acceleration.ZInMS = data.mLocalAcceleration[2];
 
-            FillSessionInfo(data, simData);
-            AddDriversData(data, simData);
+            
             return simData;
         }
 

@@ -51,13 +51,17 @@ namespace SecondMonitor.CarStatus.Forms
 
         private void UpdateWaterTemp(SimulatorDataSet data)
         {
-            if (data.PlayerCarInfo.WaterSystmeInfo.WaterTemperature.InCelsius != -1)
-                gWaterTemp.Value =(float) data.PlayerCarInfo.WaterSystmeInfo.WaterTemperature.InCelsius;
+            if (data.PlayerInfo == null)
+                return;
+            if (data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius != -1)
+                gWaterTemp.Value =(float) data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius;
         }
 
         private void UpdateFuelLevel(SimulatorDataSet data)
         {
-            gFuel.Value = (float)((data.PlayerCarInfo.FuelSystemInfo.FuelRemaining.InLiters/ data.PlayerCarInfo.FuelSystemInfo.FuelCapacity.InLiters) * 100);
+            if (data.PlayerInfo == null)
+                return;
+            gFuel.Value = (float)((data.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining.InLiters/ data.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity.InLiters) * 100);
         }
                    
         private void UpdateGui(SimulatorDataSet data)
@@ -83,10 +87,12 @@ namespace SecondMonitor.CarStatus.Forms
             ctlRearRight.UpdateControl(data);
             ctlFrontLeft.UpdateControl(data);
             ctlFrontRight.UpdateControl(data);
-            gMeter1.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
-            gMeter1.HorizG = data.PlayerCarInfo.Acceleration.XInG;
+            if(data.PlayerInfo == null)
+                return;
+            gMeter1.VertG = -data.PlayerInfo.CarInfo.Acceleration.ZInG;
+            gMeter1.HorizG = data.PlayerInfo.CarInfo.Acceleration.XInG;
             gMeter1.Refresh();
-            if (data.PlayerCarInfo.FuelSystemInfo.FuelPressure.InKpa > 10)
+            if (data.PlayerInfo.CarInfo.FuelSystemInfo.FuelPressure.InKpa > 10)
                 blbFuelPressure.Color = Color.Green;
             else
                 blbFuelPressure.Color = Color.Red;
@@ -97,7 +103,7 @@ namespace SecondMonitor.CarStatus.Forms
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
             SimulatorDataSet data = args.Data;
-            if (args.Data.PlayerCarInfo.WaterSystmeInfo.WaterTemperature.InCelsius == -1)
+            if (data.PlayerInfo == null || args.Data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius == -1)
                 return;
             UpdateGui(data);
         }

@@ -1,11 +1,17 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 using SecondMonitor.DataModel;
+using System.Drawing;
 
 namespace SecondMonitor.CarStatus.Forms.Controls
 {
     public partial class WheelStatusControl : UserControl
     {
+
+        private static readonly int MaxGreen = 155;
+        private static readonly int MaxRed = 255;
+        private static readonly int MaxBlue = 155;
+
         public enum WheelPostionEnum { FrontLeft, FrontRight, RearLeft, RearRight };
 
         [Description("PositionOfWheel"),
@@ -20,100 +26,108 @@ namespace SecondMonitor.CarStatus.Forms.Controls
         private void UpdateTyreWearControl(SimulatorDataSet data)
         {
             double wear = 0;
-            switch (WheelPostion)
-            {
-                case WheelPostionEnum.FrontLeft:
-                    wear = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyreWear;
-                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyreType;
-                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyreTypeFilled;
-                    break;
-                case WheelPostionEnum.FrontRight:
-                    wear = data.PlayerCarInfo.WheelsInfo.FrontRight.TyreWear;
-                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.TyreType;
-                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.FrontRight.TyreTypeFilled;
-                    break;
-                case WheelPostionEnum.RearLeft:
-                    wear = data.PlayerCarInfo.WheelsInfo.RearLeft.TyreWear;
-                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.TyreType;
-                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.RearLeft.TyreTypeFilled;
-                    break;
-                case WheelPostionEnum.RearRight:
-                    wear = data.PlayerCarInfo.WheelsInfo.RearRight.TyreWear;
-                    lblTyreType.Text = data.PlayerCarInfo.WheelsInfo.RearRight.TyreType;
-                    lblTyreType.Visible = data.PlayerCarInfo.WheelsInfo.RearRight.TyreTypeFilled;
-                    break;
-
-            }
+            if (data.PlayerInfo == null)
+                return;
+            WheelInfo wheel = GetWheelByPosition(data);
+            if (wheel == null)
+                return;
+            wear = wheel.TyreWear;
+            lblTyreType.Text = wheel.TyreType;
+            lblTyreType.Visible = wheel.TyreTypeFilled;
             pnlWear.Width = (int)((1 - wear) * this.Width);
             lbWear.Text = ((1 - wear) * 100).ToString("0");
         }
 
         private void UpdateBrakeControl(SimulatorDataSet data)
         {
-            switch(WheelPostion)
-            {
-                case WheelPostionEnum.FrontLeft:
-                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.BrakeTemperature.InCelsius.ToString("0");
-                    break;
-                case WheelPostionEnum.FrontRight:
-                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.BrakeTemperature.InCelsius.ToString("0");
-                    break;
-                case WheelPostionEnum.RearLeft:
-                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.BrakeTemperature.InCelsius.ToString("0");
-                    break;
-                case WheelPostionEnum.RearRight:
-                    lblBreakTemp.Text = data.PlayerCarInfo.WheelsInfo.RearRight.BrakeTemperature.InCelsius.ToString("0");
-                    break;
-
-            }
+            if (data.PlayerInfo == null)
+                return;
+            WheelInfo wheel = GetWheelByPosition(data);            
+            if (wheel == null)
+                return;
+            lblBreakTemp.Text = wheel.BrakeTemperature.InCelsius.ToString("0");
+            lblBreakTemp.PixelOn = ComputeColor(wheel.BrakeTemperature.InCelsius, wheel.OptimalBrakeTemperature.InCelsius, wheel.OptimpalBrakeWindow);
         }
 
-        private void UpdatePressureControl(SimulatorDataSet data)
-        {            
-            switch (WheelPostion)
-            {
-                case WheelPostionEnum.FrontLeft:
-                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.TyrePressure.InKpa.ToString("0");
-                    break;
-                case WheelPostionEnum.FrontRight:
-                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.TyrePressure.InKpa.ToString("0");
-                    break;
-                case WheelPostionEnum.RearLeft:
-                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.TyrePressure.InKpa.ToString("0");
-                    break;
-                case WheelPostionEnum.RearRight:
-                    lblTyrePressure.Text = data.PlayerCarInfo.WheelsInfo.RearRight.TyrePressure.InKpa.ToString("0");
-                    break;
-
-            }
-        }
-
-        private void UpdateWheelTemp(SimulatorDataSet data)
+        private WheelInfo GetWheelByPosition(SimulatorDataSet data)
         {
             switch (WheelPostion)
             {
                 case WheelPostionEnum.FrontLeft:
-                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.InCelsius.ToString("0");
-                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.InCelsius.ToString("0");
-                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.FrontLeft.RightTyreTemp.InCelsius.ToString("0");
+                    return data.PlayerInfo.CarInfo.WheelsInfo.FrontLeft;
+                case WheelPostionEnum.FrontRight:
+                    return data.PlayerInfo.CarInfo.WheelsInfo.FrontRight;                    
+                case WheelPostionEnum.RearLeft:
+                    return data.PlayerInfo.CarInfo.WheelsInfo.RearLeft;
+                case WheelPostionEnum.RearRight:
+                    return data.PlayerInfo.CarInfo.WheelsInfo.RearRight;                    
+            }
+            return null;
+        }
+
+        private void UpdatePressureControl(SimulatorDataSet data)
+        {
+            if (data.PlayerInfo == null)
+                return;
+            switch (WheelPostion)
+            {
+                case WheelPostionEnum.FrontLeft:
+                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure.InKpa.ToString("0");
                     break;
                 case WheelPostionEnum.FrontRight:
-                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.LeftTyreTemp.InCelsius.ToString("0");
-                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.CenterTyreTemp.InCelsius.ToString("0");
-                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.FrontRight.RightTyreTemp.InCelsius.ToString("0");
+                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure.InKpa.ToString("0");
                     break;
                 case WheelPostionEnum.RearLeft:
-                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.LeftTyreTemp.InCelsius.ToString("0");
-                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.CenterTyreTemp.InCelsius.ToString("0");
-                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.RearLeft.RightTyreTemp.InCelsius.ToString("0");
+                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure.InKpa.ToString("0");
                     break;
                 case WheelPostionEnum.RearRight:
-                    wheelTempLeft.Text = data.PlayerCarInfo.WheelsInfo.RearRight.LeftTyreTemp.InCelsius.ToString("0");
-                    wheelTempCenter.Text = data.PlayerCarInfo.WheelsInfo.RearRight.CenterTyreTemp.InCelsius.ToString("0");
-                    wheelTempRight.Text = data.PlayerCarInfo.WheelsInfo.RearRight.RightTyreTemp.InCelsius.ToString("0");
+                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.InKpa.ToString("0");
                     break;
 
             }
+        }
+
+        private Color ComputeColor(double value, double optimalValue, double window)
+        {
+            double threshold = window / 2;
+            int r =0, g =0 , b =0;
+            r = 0 + (int)((MaxRed - 0) * (value-optimalValue - threshold) / (threshold));
+            if (value > optimalValue + threshold)
+                g = MaxGreen + (int)((0 - MaxGreen) * (value - optimalValue - window) / (window));
+            else
+                g = 0 + (int)((MaxGreen - 0) * (value - optimalValue + window) / (window));
+
+            b = MaxBlue + (int)((0 - MaxBlue) * (value - optimalValue + window) / (threshold));
+            if (r < 0)
+                r = 0;
+            if (r > MaxRed)
+                r = MaxRed;
+            if (g < 0)
+                g = 0;
+            if (g > MaxGreen)
+                g = MaxGreen;
+            if (b < 0)
+                b = 0;
+            if (b > MaxBlue)
+                b = MaxBlue;
+            
+                
+            return Color.FromArgb(r, g, b);
+        }
+
+        private void UpdateWheelTemp(SimulatorDataSet data)
+        {
+            if (data.PlayerInfo == null)
+                return;
+            WheelInfo wheel = GetWheelByPosition(data);
+            if (wheel == null)
+                return;            
+            wheelTempLeft.Text = wheel.LeftTyreTemp.InCelsius.ToString("0");
+            wheelTempLeft.PixelOn = ComputeColor(wheel.LeftTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
+            wheelTempCenter.Text = wheel.CenterTyreTemp.InCelsius.ToString("0");
+            wheelTempCenter.PixelOn = ComputeColor(wheel.CenterTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
+            wheelTempRight.Text = wheel.RightTyreTemp.InCelsius.ToString("0");
+            wheelTempRight.PixelOn = ComputeColor(wheel.RightTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
         }
 
         public void UpdateControl(SimulatorDataSet data)
@@ -127,9 +141,18 @@ namespace SecondMonitor.CarStatus.Forms.Controls
         public WheelStatusControl()
         {            
             InitializeComponent();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.PerformAutoScale();
+            lblTyreType.Text = this.Width.ToString();
+            lbWear.Text = pnlWear.Width.ToString();
         }
 
         private void pictureBox2_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void WheelStatusControl_Load(object sender, System.EventArgs e)
         {
 
         }

@@ -175,12 +175,12 @@
             this.stayOnTopToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(162, 26);
             // 
             // stayOnTopToolStripMenuItem
             // 
             this.stayOnTopToolStripMenuItem.Name = "stayOnTopToolStripMenuItem";
-            this.stayOnTopToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.stayOnTopToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.stayOnTopToolStripMenuItem.Text = "Stay On Top";
             this.stayOnTopToolStripMenuItem.Click += new System.EventHandler(this.stayOnTopToolStripMenuItem_Click);
             // 
@@ -212,9 +212,10 @@
             // ctlRearRight
             // 
             this.ctlRearRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
-            this.ctlRearRight.Location = new System.Drawing.Point(243, 607);
+            this.ctlRearRight.Location = new System.Drawing.Point(243, 553);
+            this.ctlRearRight.MinimumSize = new System.Drawing.Size(218, 96);
             this.ctlRearRight.Name = "ctlRearRight";
-            this.ctlRearRight.Size = new System.Drawing.Size(225, 150);
+            this.ctlRearRight.Size = new System.Drawing.Size(218, 96);
             this.ctlRearRight.TabIndex = 7;
             this.ctlRearRight.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearRight;
             // 
@@ -222,8 +223,9 @@
             // 
             this.ctlFrontRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.ctlFrontRight.Location = new System.Drawing.Point(243, 451);
+            this.ctlFrontRight.MinimumSize = new System.Drawing.Size(218, 96);
             this.ctlFrontRight.Name = "ctlFrontRight";
-            this.ctlFrontRight.Size = new System.Drawing.Size(225, 150);
+            this.ctlFrontRight.Size = new System.Drawing.Size(218, 96);
             this.ctlFrontRight.TabIndex = 6;
             this.ctlFrontRight.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontRight;
             // 
@@ -231,17 +233,19 @@
             // 
             this.ctlFrontLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
             this.ctlFrontLeft.Location = new System.Drawing.Point(12, 451);
+            this.ctlFrontLeft.MinimumSize = new System.Drawing.Size(218, 96);
             this.ctlFrontLeft.Name = "ctlFrontLeft";
-            this.ctlFrontLeft.Size = new System.Drawing.Size(225, 150);
+            this.ctlFrontLeft.Size = new System.Drawing.Size(218, 96);
             this.ctlFrontLeft.TabIndex = 5;
             this.ctlFrontLeft.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.FrontLeft;
             // 
             // ctlRearLeft
             // 
             this.ctlRearLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
-            this.ctlRearLeft.Location = new System.Drawing.Point(12, 607);
+            this.ctlRearLeft.Location = new System.Drawing.Point(12, 553);
+            this.ctlRearLeft.MinimumSize = new System.Drawing.Size(218, 96);
             this.ctlRearLeft.Name = "ctlRearLeft";
-            this.ctlRearLeft.Size = new System.Drawing.Size(225, 150);
+            this.ctlRearLeft.Size = new System.Drawing.Size(218, 96);
             this.ctlRearLeft.TabIndex = 4;
             this.ctlRearLeft.WheelPostion = SecondMonitor.CarStatus.Forms.Controls.WheelStatusControl.WheelPostionEnum.RearLeft;
             // 

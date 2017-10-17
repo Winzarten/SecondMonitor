@@ -20,6 +20,13 @@
         public string TyreType;
         public bool TyreTypeFilled;
         public double TyreWear;
+
+        public Temperature OptimalTyreTemperature = Temperature.FromCelsius(85);
+        public double OptimpalTyreWindow = 15;
+
+        public Temperature OptimalBrakeTemperature = Temperature.FromCelsius(800);
+        public double OptimpalBrakeWindow = 200;
+
     }
 
 }

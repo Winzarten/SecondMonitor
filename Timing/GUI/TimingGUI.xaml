@@ -14,19 +14,20 @@
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Grid Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <WindowsFormsHost Margin="10,0,0,195" VerticalAlignment="Bottom" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" Width="260" Height="170">
-            <controls:WheelStatusControl x:Name="whLeftFront"/>
+        <WindowsFormsHost 
+            Margin="10,0,0,288" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
+            <controls:WheelStatusControl x:Name="whLeftFront" />
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="280,0,0,195" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="260" Height="170">
+        <WindowsFormsHost Margin="211,0,0,288" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
             <controls:WheelStatusControl x:Name="whRightFront" WheelPostion="FrontRight"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="10,0,0,10" MinWidth="225" MinHeight="150" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="260" Height="170">
+        <WindowsFormsHost Margin="10,0,0,187"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
             <controls:WheelStatusControl x:Name="whLeftRear" WheelPostion="RearLeft"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="280,0,0,10" MinWidth="225" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="260" Height="170">
+        <WindowsFormsHost Margin="211,0,0,187"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
             <controls:WheelStatusControl x:Name="whRightRear" WheelPostion="RearRight"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="545,0,0,10" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="139">
+        <WindowsFormsHost Margin="10,0,0,10" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="172">
             <controls:PedalControl x:Name="pedalControl"/>
         </WindowsFormsHost>
 
@@ -65,7 +66,7 @@
         <!--<WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
             <controls1:GMeter x:Name="gMeter" GBallDiameter="4" GScale="1" HorizG="2" VertG="3" MaxG="4" GBallColor="Green"/>
         </WindowsFormsHost>-->
-        <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False">
+        <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="FontWeight" Value="Bold"/>
@@ -170,7 +171,7 @@
         <Label x:Name="lblTime" Content="Session Time"  HorizontalAlignment="Right" FontSize="20" Margin="0,3,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Label x:Name="lblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Button x:Name="btnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,10" Width="117" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
-        <Button x:Name="btnResetFuel" Content="Reset Fuel" HorizontalAlignment="Left" Margin="692,0,0,327" VerticalAlignment="Bottom" Width="67" Height="47" Command="{Binding ResetFuelCommand}" Panel.ZIndex="4"/>
+        <Button x:Name="btnResetFuel" Content="Reset Fuel" HorizontalAlignment="Left" Margin="412,0,0,10" VerticalAlignment="Bottom" Width="67" Height="47" Command="{Binding ResetFuelCommand}" Panel.ZIndex="4"/>
         <GroupBox Header="Mode" HorizontalAlignment="Right" Height="205" VerticalAlignment="Bottom" Width="117" Foreground="White" Margin="0,0,10,154">
             <Grid Margin="2,0,3,2" Width="100" VerticalAlignment="Stretch">
                 <RadioButton x:Name="rbtAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" IsChecked="True" Command="{Binding TimingModeChangedCommand}" />
@@ -188,9 +189,9 @@
                           Command="{Binding Path=ScrollToPlayerCommand}"/>
             </Grid>
         </GroupBox>
-        <wpf:PositionCircle x:Name="timingCircle" Margin="692,0,132,10" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="355"/>
+        <wpf:PositionCircle x:Name="timingCircle" Margin="598,0,132,10" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="355"/>
 
-        <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="211" Margin="545,0,0,154" VerticalAlignment="Bottom" Width="142"/>
+        <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="172" Margin="85,0,0,10" VerticalAlignment="Bottom" Width="322"/>
     </Grid>
 
 </Window>

@@ -10,6 +10,8 @@ namespace SecondMonitor.CarStatus.Forms.Controls
         public PedalControl()
         {
             InitializeComponent();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.PerformAutoScale();
             UpdatePostions();
             
 
