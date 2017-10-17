@@ -127,9 +127,6 @@
     <None Include="Resources\brake.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\tirepressure300.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Controls\wpf\FuelMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,6 +135,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tirepressure300.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

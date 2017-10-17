@@ -128,7 +128,7 @@
             this.wheelTempRight.DotMatrix = LCDLabel.DotMatrix.dos5x7;
             this.wheelTempRight.ForeColor = System.Drawing.Color.Maroon;
             this.wheelTempRight.LineSpacing = 2;
-            this.wheelTempRight.Location = new System.Drawing.Point(136, 3);
+            this.wheelTempRight.Location = new System.Drawing.Point(149, 3);
             this.wheelTempRight.Name = "wheelTempRight";
             this.wheelTempRight.NumberOfCharacters = 3;
             this.wheelTempRight.PixelHeight = 3;
@@ -154,7 +154,7 @@
             this.lblTyrePressure.DotMatrix = LCDLabel.DotMatrix.mat5x7;
             this.lblTyrePressure.ForeColor = System.Drawing.Color.Maroon;
             this.lblTyrePressure.LineSpacing = 2;
-            this.lblTyrePressure.Location = new System.Drawing.Point(128, 67);
+            this.lblTyrePressure.Location = new System.Drawing.Point(132, 65);
             this.lblTyrePressure.Name = "lblTyrePressure";
             this.lblTyrePressure.NumberOfCharacters = 3;
             this.lblTyrePressure.PixelHeight = 2;
@@ -173,9 +173,9 @@
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.Image = global::SecondMonitor.WindowsControls.Properties.Resources.tirepressure300;
-            this.pictureBox2.Location = new System.Drawing.Point(168, 65);
+            this.pictureBox2.Location = new System.Drawing.Point(172, 62);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(25, 18);
+            this.pictureBox2.Size = new System.Drawing.Size(34, 31);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 6;
             this.pictureBox2.TabStop = false;
@@ -198,7 +198,7 @@
             this.pnlWear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.pnlWear.Location = new System.Drawing.Point(3, 38);
             this.pnlWear.Name = "pnlWear";
-            this.pnlWear.Size = new System.Drawing.Size(190, 21);
+            this.pnlWear.Size = new System.Drawing.Size(203, 21);
             this.pnlWear.TabIndex = 7;
             // 
             // lbWear
@@ -243,7 +243,7 @@
             this.Controls.Add(this.wheelTempLeft);
             this.Controls.Add(this.lblBreakTemp);
             this.Name = "WheelStatusControl";
-            this.Size = new System.Drawing.Size(196, 96);
+            this.Size = new System.Drawing.Size(209, 96);
             this.Load += new System.EventHandler(this.WheelStatusControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
