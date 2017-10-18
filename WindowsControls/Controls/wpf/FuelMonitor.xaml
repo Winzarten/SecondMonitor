@@ -25,8 +25,11 @@
         <Label x:Name="lblConsumtion" Content="Current" VerticalAlignment="Top" Margin="0,113,164,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
         <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,113,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717" Width="149"/>
         <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,78,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="LightCoral" RenderTransformOrigin="0.414,1.717" Width="149"/>
-        <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Right" Margin="0,30,116,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
-        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Right" Margin="0,10,114,0" VerticalAlignment="Top" IsChecked="True" GroupName="grbMode" Checked="rbtMode_Checked"/>
+        <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Right" Margin="0,31,178,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
+        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Right" Margin="0,10,176,0" VerticalAlignment="Top" IsChecked="True" GroupName="grbMode" Checked="rbtMode_Checked"/>
+        <Button Content="Reset Fuel" Margin="0,10,84,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" Height="39" Click="Button_Click"/>
+        <Image HorizontalAlignment="Left" Height="24" Margin="82,47,0,0"  Width="24" VerticalAlignment="Top"
+            Panel.ZIndex="5" Source="/WindowsControls;component/Resources/fuel.png"/>
     </Grid>
 </UserControl>
 

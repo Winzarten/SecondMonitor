@@ -64,8 +64,7 @@ namespace SecondMonitor.Timing.DataHandler
             gui.Show();
             gui.upDownPaceLaps.Value = paceLaps;
             gui.Closed += Gui_Closed;
-            gui.btnReset.DataContext = this;
-            gui.btnResetFuel.DataContext = this;
+            gui.btnReset.DataContext = this;           
             gui.rbtAbsolute.DataContext = this;
             gui.rbtAutomatic.DataContext = this;
             gui.rbtRelative.DataContext = this;
@@ -232,7 +231,8 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
                     gui.whRightRear.UpdateControl(data);
-                    gui.waterTemp.WaterTemperature = (float)data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius;
+                    gui.waterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
+                    gui.oilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
                     //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
                     //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
                     //gui.gMeter.Refresh();

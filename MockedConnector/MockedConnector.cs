@@ -38,7 +38,10 @@ namespace SecondMonitor.MockedConnector
         private int playerLaps = 0;
 
         private double engineWaterTemp = 30;
-        private double engineWaterTempStep = 0.01;        
+        private double engineWaterTempStep = 0.01;
+
+        private double oilTemp = 30;
+        private double oilTempStep = 0.1;
         DateTime lastTick = DateTime.Now;
         TimeSpan sessionTime = new TimeSpan(0, 0, 1);
 
@@ -71,6 +74,7 @@ namespace SecondMonitor.MockedConnector
                 tyreTemp += tyreStep;
                 fuel += fuelStep;
                 engineWaterTemp += engineWaterTempStep;
+                oilTemp += oilTempStep;
                 playerLocation += playerLocationStep;
                 if (brakeTemp > 1500 || brakeTemp <30)
                     brakeStep = -brakeStep;
@@ -80,6 +84,8 @@ namespace SecondMonitor.MockedConnector
                     fuel = totalFuel;
                 if (engineWaterTemp < 20 || engineWaterTemp > 130)
                     engineWaterTempStep = -engineWaterTempStep;
+                if (oilTemp < 20 || oilTemp > 180)
+                    oilTempStep = -oilTempStep;
                 if (playerLocation > layoutLength)
                 {
                     playerLocation = 0;
@@ -129,6 +135,7 @@ namespace SecondMonitor.MockedConnector
             driver.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(totalFuel);
             driver.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(fuel);
             driver.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(engineWaterTemp);
+            driver.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(oilTemp);
             return driver;
         }
 

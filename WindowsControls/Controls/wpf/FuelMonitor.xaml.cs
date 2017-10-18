@@ -126,5 +126,10 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             if((bool)rbtTime.IsChecked)
                 OutputType = FuelOutputEnum.TIME;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ResetFuelMonitor();
+        }
     }
 }

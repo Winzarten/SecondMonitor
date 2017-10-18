@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SecondMonitor.WindowsControls.Controls.wpf.WaterTemp"
+﻿<UserControl x:Class="SecondMonitor.WindowsControls.Controls.wpf.TemperatureControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf"
              xmlns:forms="clr-namespace:System.Windows.Forms;assembly=AGauge"
              mc:Ignorable="d" 
-             d:DesignHeight="138" d:DesignWidth="138"
+             d:DesignHeight="138" d:DesignWidth="138" Loaded="UserControl_Loaded"
              >
     <Grid>
-        <WindowsFormsHost VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" MinWidth="82" MinHeight="73">
+        <WindowsFormsHost VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" MinWidth="82" MinHeight="73" Panel.ZIndex="0">
             <forms:AGauge x:Name="waterGauge" BaseArcColor="White" BaseArcRadius="69" BaseArcStart="135" BaseArcSweep="270" BaseArcWidth="3" CausesValidation="False" ScaleLinesInterColor="White" ScaleLinesInterInnerRadius="60" ScaleLinesInterOuterRadius="69" ScaleLinesInterWidth="1" 
                           ScaleLinesMajorColor="White" ScaleLinesMajorInnerRadius="60" ScaleLinesMajorOuterRadius="69" ScaleLinesMajorStepValue="20" ScaleLinesMajorWidth="2" ScaleLinesMinorColor="Gray" ScaleLinesMinorInnerRadius="75" ScaleLinesMinorOuterRadius="75" ScaleLinesMinorTicks="1" ScaleLinesMinorWidth="1" ScaleNumbersRotation="0" ScaleNumbersColor="Green" ScaleNumbersRadius="50" ScaleNumbersStartScaleLine="2" ScaleNumbersStepScaleLines="1" MaxValue="120" MinValue="0" NeedleColor1="Green" NeedleColor2="0,64,9" NeedleRadius="69" NeedleWidth="3" 
                           Center="69, 69">
@@ -17,7 +17,7 @@
                     <forms:AGaugeRange Color="Red" EndValue="120" StartValue="100" InnerRadius="62" OuterRadius="72" InRange="False" />
                 </forms:AGauge.GaugeRanges>
                 <forms:AGauge.GaugeLabels>
-                    <forms:AGaugeLabel Color="Green" Position="35, 110" Text="Water Temp"/>
+                    <forms:AGaugeLabel Color="Green" Position="50, 110" Text="30"/>
                 </forms:AGauge.GaugeLabels>
             </forms:AGauge>
         </WindowsFormsHost>
