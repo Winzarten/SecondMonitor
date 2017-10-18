@@ -12,11 +12,11 @@
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:agc="http://www.arction.com/gauges/" x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"    
         mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Title="Timing" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
+             d:DesignHeight="300" d:DesignWidth="300" Title="Second Monitor (Timing)" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Grid Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <WindowsFormsHost 
             Margin="10,0,0,288" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="whLeftFront" />
+            <controls:WheelStatusControl x:Name="whLeftFront"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="211,0,0,288" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
             <controls:WheelStatusControl x:Name="whRightFront" WheelPostion="FrontRight"/>
@@ -192,7 +192,8 @@
 
         <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="172" Margin="85,0,0,10" VerticalAlignment="Bottom" Width="322"/>
         <wpf1:TemperatureControl x:Name="waterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="120" Panel.ZIndex="1"/>
-        <wpf1:TemperatureControl x:Name="oilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1"/>
+        <wpf1:TemperatureControl x:Name="oilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1"
+                                 />
         <Image HorizontalAlignment="Left" Height="24" Margin="550,0,0,123"  Width="24" VerticalAlignment="Bottom"
                Panel.ZIndex="5" Source="/Timing;component/Resources/oil.png"/>
         <Image HorizontalAlignment="Left" Height="24" Margin="550,0,0,307"  Width="24" VerticalAlignment="Bottom"

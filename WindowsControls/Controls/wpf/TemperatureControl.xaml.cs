@@ -25,19 +25,20 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         public TemperatureControl()
         {
-            InitializeComponent();
-            ChangeDisplayUnit();            
+            InitializeComponent();            
         }
 
         private Temperature.TemperatureUnits displayUnit;
         public Temperature.TemperatureUnits DisplayUnit { get => displayUnit;
             set
             {
-                displayUnit = value;               
+                displayUnit = value;
+                ChangeDisplayUnit();
             }
         }
 
         private Temperature temperature = Temperature.FromCelsius(0);
+        private Temperature minimumTemperature = Temperature.FromCelsius(0);
         private Temperature maximumTemperature = Temperature.FromCelsius(120);
         private Temperature redTemperatureStart = Temperature.FromCelsius(100);
 
@@ -47,6 +48,16 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             set
             {
                 maximumTemperature = Temperature.FromCelsius(value);
+                ChangeDisplayUnit();
+            }
+        }
+
+        public double MinimumTemperatureCelsius
+        {
+            get => minimumTemperature.InCelsius;
+            set
+            {
+                minimumTemperature = Temperature.FromCelsius(value);
                 ChangeDisplayUnit();
             }
         }
@@ -75,9 +86,9 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
                 if (temperature == value)
                     return;
                 temperature = value;
-                var displayValue = GetDisplayUnitValue(value);
+                var displayValue = value.GetValueInUnits(displayUnit);
                 waterGauge.Value = (float)displayValue;
-                waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + UnitLabel();
+                waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(displayUnit);
                 if(temperature < redTemperatureStart)
                 {
                     waterGauge.GaugeLabels[0].Color = System.Drawing.Color.Green;
@@ -91,32 +102,15 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         private void ChangeDisplayUnit()
         {
-
-            waterGauge.MaxValue = (float)GetDisplayUnitValue(maximumTemperature);
+            waterGauge.MaxValue = (float)maximumTemperature.GetValueInUnits(displayUnit);
+            waterGauge.MinValue = (float)minimumTemperature.GetValueInUnits(displayUnit);            
             waterGauge.GaugeRanges[0].EndValue = waterGauge.MaxValue;
-            waterGauge.GaugeRanges[0].StartValue = (float)GetDisplayUnitValue(redTemperatureStart);
+            waterGauge.GaugeRanges[0].StartValue = (float)redTemperatureStart.GetValueInUnits(displayUnit);
         }
-
-        public double GetDisplayUnitValue(Temperature temperature)
-        {
-
-            if (DisplayUnit == Temperature.TemperatureUnits.Ceslius)
-                return temperature.InCelsius;
-            else
-                return temperature.InFahrenheit;
-
-        }
-        private string UnitLabel()
-        {
-            if (DisplayUnit == Temperature.TemperatureUnits.Ceslius)
-                return "°C";
-            else
-                return "°F";
-        }
+        
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            ChangeDisplayUnit();
+        {            
         }
     }
 }

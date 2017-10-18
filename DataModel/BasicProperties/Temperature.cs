@@ -1,8 +1,10 @@
-﻿namespace SecondMonitor.DataModel
+﻿using System;
+
+namespace SecondMonitor.DataModel
 {
     public class Temperature
     {
-        public enum TemperatureUnits { Ceslius, Fahrenheit };
+        public enum TemperatureUnits { Celsius, Fahrenheit, Kelvin };
         private double valueInCelsius;
 
         public Temperature()
@@ -17,11 +19,16 @@
 
         public double InCelsius
         {
-            get { return valueInCelsius; }
+            get => valueInCelsius;
         }
         public double InFahrenheit
         {
-            get { return (valueInCelsius * 9) / 5 + 32; ; }
+            get => (valueInCelsius * 9) / 5 + 32; 
+        }
+
+        public double InKelvin
+        {
+            get => valueInCelsius + 273.15;
         }
 
         public static Temperature FromCelsius(double temperatureInCelsius)
@@ -31,6 +38,34 @@
         public static Temperature FromKelvin(double temperetureInKelvin)
         {
             return new Temperature( temperetureInKelvin - 273.15);
+        }
+
+        public double GetValueInUnits(TemperatureUnits units)
+        {
+            switch (units)
+            {
+                case TemperatureUnits.Celsius:
+                    return InCelsius;
+                case TemperatureUnits.Fahrenheit:
+                    return InFahrenheit;
+                case TemperatureUnits.Kelvin:
+                    return InKelvin;
+            }
+            throw new ArgumentException("Unable to return value in" + units.ToString());
+        }
+
+        static public string GetUnitSymbol(TemperatureUnits units)
+        {
+            switch (units)
+            {
+                case TemperatureUnits.Celsius:
+                    return "°C";
+                case TemperatureUnits.Fahrenheit:
+                    return "°F";
+                case TemperatureUnits.Kelvin:
+                    return "K";
+            }
+            throw new ArgumentException("Unable to return symbol fir" + units.ToString());
         }
 
         public static bool operator <(Temperature temp1, Temperature temp2)

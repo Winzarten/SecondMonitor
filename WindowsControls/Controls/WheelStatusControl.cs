@@ -23,6 +23,16 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             set;
         }
 
+        [Description("DisplayUnit"),
+        Category("Behaviour"),
+        DefaultValue(typeof(Temperature.TemperatureUnits), "Celsius")
+         ]
+        public Temperature.TemperatureUnits TemperatureDisplayUnit
+        {
+            get;
+            set;
+        }
+
         private void UpdateTyreWearControl(SimulatorDataSet data)
         {
             double wear = 0;
@@ -45,7 +55,7 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             WheelInfo wheel = GetWheelByPosition(data);            
             if (wheel == null)
                 return;
-            lblBreakTemp.Text = wheel.BrakeTemperature.InCelsius.ToString("0");
+            lblBreakTemp.Text = wheel.BrakeTemperature.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
             lblBreakTemp.PixelOn = ComputeColor(wheel.BrakeTemperature.InCelsius, wheel.OptimalBrakeTemperature.InCelsius, wheel.OptimpalBrakeWindow);
         }
 
@@ -122,11 +132,11 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             WheelInfo wheel = GetWheelByPosition(data);
             if (wheel == null)
                 return;            
-            wheelTempLeft.Text = wheel.LeftTyreTemp.InCelsius.ToString("0");
+            wheelTempLeft.Text = wheel.LeftTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
             wheelTempLeft.PixelOn = ComputeColor(wheel.LeftTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
-            wheelTempCenter.Text = wheel.CenterTyreTemp.InCelsius.ToString("0");
+            wheelTempCenter.Text = wheel.CenterTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
             wheelTempCenter.PixelOn = ComputeColor(wheel.CenterTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
-            wheelTempRight.Text = wheel.RightTyreTemp.InCelsius.ToString("0");
+            wheelTempRight.Text = wheel.RightTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
             wheelTempRight.PixelOn = ComputeColor(wheel.RightTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
         }
 
