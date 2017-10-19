@@ -21,6 +21,7 @@ namespace SecondMonitor.Timing.DataHandler
 
     public class TimingDataHandler : ISecondMonitorPlugin, INotifyPropertyChanged
     {
+        private readonly int refreshRate = 500;
         private enum ResetModeEnum {  NO_RESET, MANUAL, AUTOMATIC}
         private TimingGUI gui;
         private PluginsManager pluginsManager;
@@ -220,7 +221,7 @@ namespace SecondMonitor.Timing.DataHandler
                 sessionType = timing.SessionType;
                 return;
             }
-            if (timeSpan.TotalMilliseconds >500)
+            if (timeSpan.TotalMilliseconds > refreshRate)
             {
                 lastRefreshTiming = DateTime.Now;
                 gui.Dispatcher.Invoke((Action)(() =>

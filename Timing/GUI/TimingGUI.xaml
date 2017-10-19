@@ -31,41 +31,6 @@
             <controls:PedalControl x:Name="pedalControl"/>
         </WindowsFormsHost>
 
-        <!--<DataGrid x:Name="dtTimig" Margin="10,52,10,368" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserReorderColumns="False" FontSize="20" Foreground="White" Background="Black" HeadersVisibility="Column" ColumnWidth="*"
-                  HorizontalAlignment="Stretch" EnableRowVirtualization="True" EnableColumnVirtualization="True" ItemsSource="{Binding TimingInfo}"
-                  >
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Position}" ClipboardContentBinding="{x:Null}" SortDirection="Ascending" Header="#" Width="60" IsReadOnly="True">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Foreground" Value="Blue">
-                            </Setter>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding CompletedLaps}" ClipboardContentBinding="{x:Null}" Header="Laps" IsReadOnly="True" Width="60"/>
-                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime}" ClipboardContentBinding="{x:Null}" Header="Current Lap" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding LastLapTime}" ClipboardContentBinding="{x:Null}" Header="Last Lap" IsReadOnly="True" Width="200">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
-                                    <Setter Property="Foreground" Value="Green"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding PaceAsString}" ClipboardContentBinding="{x:Null}" Header="Pace" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding BestLapString}" ClipboardContentBinding="{x:Null}" Header="Best Lap" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding LastPitInfo}" ClipboardContentBinding="{x:Null}" Header="Pits" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding LapPercentage, StringFormat=N2}" ClipboardContentBinding="{x:Null}" Header="Lap Progress" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding DistanceToPlayer, StringFormat=N0}" ClipboardContentBinding="{x:Null}" Header="Distance" IsReadOnly="True" Width="200"/>
-                <DataGridTextColumn Binding="{Binding IsCurrentLapValid}" ClipboardContentBinding="{x:Null}" Header="Valid" IsReadOnly="True" Width="60"/>-->
-        <!--<WindowsFormsHost Margin="845,0,0,10" MinWidth="150" MinHeight="150" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="335" Width="419">
-            <controls1:GMeter x:Name="gMeter" GBallDiameter="4" GScale="1" HorizG="2" VertG="3" MaxG="4" GBallColor="Green"/>
-        </WindowsFormsHost>-->
         <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -138,33 +103,6 @@
             </ListView.ItemContainerStyle>
 
         </ListView>
-
-        <!--</DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsPlayer}" Value="True">
-                            <Setter Property="Background" Value="Red"></Setter>
-                            <Setter Property="FontWeight" Value="Bold"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsPlayer}" Value="False">
-                            <Setter Property="Background" Value="Black"></Setter>
-                            <Setter Property="FontWeight" Value="Normal"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding InPits}" Value="True">
-                            <Setter Property="Background" Value="Blue">
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
-            <DataGrid.Resources>
-                <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="Blue" />
-                    <Setter Property="BorderBrush"  Value="Red" />
-                </Style>
-            </DataGrid.Resources>
-        </DataGrid>-->
         <Label x:Name="lblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
         <Label x:Name="lblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
         <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1035,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>

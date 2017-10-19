@@ -24,7 +24,7 @@
         public Temperature OptimalTyreTemperature = Temperature.FromCelsius(85);
         public double OptimpalTyreWindow = 15;
 
-        public Temperature OptimalBrakeTemperature = Temperature.FromCelsius(800);
+        public Temperature OptimalBrakeTemperature = Temperature.FromCelsius(600);
         public double OptimpalBrakeWindow = 200;
 
     }

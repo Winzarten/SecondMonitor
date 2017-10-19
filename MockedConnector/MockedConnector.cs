@@ -128,7 +128,7 @@ namespace SecondMonitor.MockedConnector
             driver.CompletedLaps = playerLaps;
             driver.CurrentLapValid = true;
             driver.DistanceToPlayer = 0;
-            driver.DriverName = "Fedor Predkozka";
+            driver.DriverName = "Lorem Ipsum";
             driver.InPits = false;
             driver.IsPlayer = true;
             driver.LapDistance = (float)playerLocation;
