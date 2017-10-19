@@ -108,19 +108,17 @@
         <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="1035,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
         <Label x:Name="lblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Button x:Name="btnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,0,48" Width="117" RenderTransformOrigin="0.474,-0.628" VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
-        <GroupBox Header="Mode" HorizontalAlignment="Right" Height="205" VerticalAlignment="Bottom" Width="117" Foreground="White" Margin="0,0,10,154">
+        <GroupBox Header="Mode" HorizontalAlignment="Right" Height="223" VerticalAlignment="Bottom" Width="117" Foreground="White" Margin="0,0,10,136">
             <Grid Margin="2,0,3,2" Width="100" VerticalAlignment="Stretch">
                 <RadioButton x:Name="rbtAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" IsChecked="True" Command="{Binding TimingModeChangedCommand}" />
                 <RadioButton x:Name="rbtAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
                 <RadioButton x:Name="rbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
-                <controls2:IntegerUpDown x:Name="upDownPaceLaps" Margin="0,0,0,43" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="4">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="ValueChanged">
-                            <i:InvokeCommandAction Command="{Binding PaceLapsCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                <controls2:IntegerUpDown x:Name="upDownPaceLaps" Margin="0,0,0,56" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="{Binding PaceLaps}">
                 </controls2:IntegerUpDown>
                 <Label Content="Pace Laps:" HorizontalAlignment="Left" Margin="0,92,0,0" VerticalAlignment="Top" Foreground="White"/>
+                <Label Content="Refresh Rate:" HorizontalAlignment="Left" Margin="0,92,0,30" VerticalAlignment="Bottom" Foreground="White"/>
+                <controls2:IntegerUpDown x:Name="upDownRefreshRate" Margin="0,0,0,6" VerticalAlignment="Bottom" Minimum="50" Maximum="5000" Text="" Value="{Binding RefreshRate}" Increment="50">
+                </controls2:IntegerUpDown>
                 <CheckBox x:Name="chkScrollToPlayer" Content="Scroll To Player" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Width="100" Foreground="White" IsChecked="True"
                           Command="{Binding ScrollToPlayerCommand}"/>
             </Grid>

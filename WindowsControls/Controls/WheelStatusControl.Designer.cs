@@ -40,6 +40,7 @@
             this.lblTyreType = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pnlWear.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblBreakTemp
@@ -196,9 +197,10 @@
             this.pnlWear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlWear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.pnlWear.Location = new System.Drawing.Point(3, 38);
+            this.pnlWear.Controls.Add(this.lblTyreType);
+            this.pnlWear.Location = new System.Drawing.Point(3, 31);
             this.pnlWear.Name = "pnlWear";
-            this.pnlWear.Size = new System.Drawing.Size(203, 21);
+            this.pnlWear.Size = new System.Drawing.Size(203, 28);
             this.pnlWear.TabIndex = 7;
             // 
             // lbWear
@@ -221,18 +223,17 @@
             this.lblTyreType.BackColor = System.Drawing.Color.Transparent;
             this.lblTyreType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblTyreType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTyreType.Location = new System.Drawing.Point(82, 40);
+            this.lblTyreType.Location = new System.Drawing.Point(3, 4);
             this.lblTyreType.Name = "lblTyreType";
-            this.lblTyreType.Size = new System.Drawing.Size(42, 16);
+            this.lblTyreType.Size = new System.Drawing.Size(82, 16);
             this.lblTyreType.TabIndex = 8;
-            this.lblTyreType.Text = "Hard";
+            this.lblTyreType.Text = "Compound";
             // 
             // WheelStatusControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(177)))), ((int)(((byte)(177)))), ((int)(((byte)(177)))));
-            this.Controls.Add(this.lblTyreType);
             this.Controls.Add(this.lbWear);
             this.Controls.Add(this.pnlWear);
             this.Controls.Add(this.pictureBox2);
@@ -247,6 +248,8 @@
             this.Load += new System.EventHandler(this.WheelStatusControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pnlWear.ResumeLayout(false);
+            this.pnlWear.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

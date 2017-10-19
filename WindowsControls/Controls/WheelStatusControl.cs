@@ -153,8 +153,6 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             InitializeComponent();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.PerformAutoScale();
-            lblTyreType.Text = this.Width.ToString();
-            lbWear.Text = pnlWear.Width.ToString();
         }
 
         private void pictureBox2_Click(object sender, System.EventArgs e)

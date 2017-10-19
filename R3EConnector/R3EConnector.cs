@@ -50,7 +50,7 @@ namespace SecondMonitor.R3EConnector
             sessionTime = new TimeSpan(0);
             lastTick = DateTime.Now;
             sessionStartR3RTime = 0;
-            lastSessionType = -1;
+            lastSessionType = -2;
         }
 
         public bool IsConnected

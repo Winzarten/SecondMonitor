@@ -21,7 +21,7 @@ namespace SecondMonitor.Timing.DataHandler
 
     public class TimingDataHandler : ISecondMonitorPlugin, INotifyPropertyChanged
     {
-        private readonly int refreshRate = 500;
+        private int refreshRate = 1000;
         private enum ResetModeEnum {  NO_RESET, MANUAL, AUTOMATIC}
         private TimingGUI gui;
         private PluginsManager pluginsManager;
@@ -35,6 +35,7 @@ namespace SecondMonitor.Timing.DataHandler
 
         private DateTime lastRefreshTiming;
         private DateTime lastRefreshCarInfo;
+        private DateTime lastRefreshCircleInfo;
 
         // Gets or sets the CollectionViewSource
         public CollectionViewSource ViewSource { get; set; }    
@@ -142,6 +143,22 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        public int RefreshRate { get => refreshRate; set => refreshRate = value; }
+        public int PaceLaps { get => paceLaps; set => paceLaps = value; }
+
+        private NoArgumentCommand _refreshRateCommand;
+        public NoArgumentCommand RefreshRateCommand
+        {
+            get
+            {
+                if (_refreshRateCommand == null)
+                {
+                    _refreshRateCommand = new NoArgumentCommand(() => { refreshRate = (int)gui.upDownRefreshRate.Value; });
+                }
+                return _refreshRateCommand;
+            }
+        }
+
 
         private void ScrollToPlayerChanged()
         {
@@ -221,7 +238,6 @@ namespace SecondMonitor.Timing.DataHandler
             }
             if (timeSpan.TotalMilliseconds > refreshRate)
             {
-                lastRefreshTiming = DateTime.Now;
                 gui.Dispatcher.Invoke((Action)(() =>
                 {
                     NotifyPropertyChanged("SystemTime");
@@ -246,13 +262,14 @@ namespace SecondMonitor.Timing.DataHandler
                         gui.dtTimig.ScrollIntoView(timing.Player);
                     }
                 }));
+                lastRefreshTiming = DateTime.Now;
             }
             TimeSpan timeSpanCarIno = DateTime.Now.Subtract(lastRefreshCarInfo);
             if (timeSpanCarIno.TotalMilliseconds > 33)
             {
                 gui.Dispatcher.Invoke((Action)(() =>
                 {                    
-                    NotifyPropertyChanged("SessionTime");
+                    NotifyPropertyChanged("SessionTime");                    
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
@@ -261,6 +278,15 @@ namespace SecondMonitor.Timing.DataHandler
                     gui.fuelMonitor.ProcessDataSet(data);
                 }));
                 lastRefreshCarInfo = DateTime.Now;
+            }
+            timeSpanCarIno = DateTime.Now.Subtract(lastRefreshCircleInfo);
+            if (timeSpanCarIno.TotalMilliseconds > 200)
+            {
+                gui.Dispatcher.Invoke((Action)(() =>
+                {
+                    gui.timingCircle.RefreshSession(data);
+                }));
+                lastRefreshCircleInfo = DateTime.Now;
             }
         }
 

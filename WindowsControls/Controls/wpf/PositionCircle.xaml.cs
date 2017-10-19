@@ -134,7 +134,9 @@ namespace SecondMonitor.WindowsControls.wpf
         {
             foreach(var driver in set.DriversInfo)
             {
-                var driverEllipse = driversPoints[driver.DriverName];
+                Ellipse driverEllipse; 
+                if (!driversPoints.TryGetValue(driver.DriverName, out driverEllipse))
+                    continue;
                 int margin = circleMargin;
                 if (driver.InPits)
                     margin = margin + 10;
