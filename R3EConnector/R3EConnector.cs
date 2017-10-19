@@ -309,7 +309,7 @@ namespace SecondMonitor.R3EConnector
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
         private SimulatorDataSet FromR3EData(R3ESharedData data)
         {
-            SimulatorDataSet simData = new SimulatorDataSet();
+            SimulatorDataSet simData = new SimulatorDataSet("R3R");
             FillSessionInfo(data, simData);
             AddDriversData(simData, data);
 

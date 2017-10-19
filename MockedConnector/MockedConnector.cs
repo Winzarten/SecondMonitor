@@ -100,7 +100,7 @@ namespace SecondMonitor.MockedConnector
             DateTime tickTime = DateTime.Now;
             sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));                                    
             lastTick = tickTime;
-            SimulatorDataSet simulatorDataSet = new SimulatorDataSet();
+            SimulatorDataSet simulatorDataSet = new SimulatorDataSet("Test Source");            
             simulatorDataSet.SessionInfo.SessionTime = sessionTime;
             
 

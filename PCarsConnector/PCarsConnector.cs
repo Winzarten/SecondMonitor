@@ -377,7 +377,7 @@ namespace SecondMonitor.PCarsConnector
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
         private SimulatorDataSet FromR3EData(pCarsAPIStruct data)
         {
-            SimulatorDataSet simData = new SimulatorDataSet();
+            SimulatorDataSet simData = new SimulatorDataSet("PCars");
             //PEDAL INFO
             simData.PedalInfo.ThrottlePedalPosition = data.mThrottle;
             simData.PedalInfo.BrakePedalPosition = data.mBrake;

@@ -38,6 +38,7 @@ namespace SecondMonitor.Timing.Model
         private int paceLaps;
         private LapInfo bestSessionLap;
         public Driver Player { get; private set; }
+        public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
         
@@ -91,6 +92,7 @@ namespace SecondMonitor.Timing.Model
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
+            SessionTime = dataSet.SessionInfo.SessionTime;
             SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
         }

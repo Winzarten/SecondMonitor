@@ -44,6 +44,9 @@ namespace SecondMonitor.Timing.DataHandler
 
         private LapInfo bestSessionLap;
         public string BestLapFormatted { get => bestSessionLap != null ? bestSessionLap.Driver.DriverInfo.DriverName +"-(L"+ bestSessionLap.LapNumber+"):"+ Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
+        public string SessionTime { get => timing != null ? timing.SessionTime.ToString("mm\\:ss\\.fff") : ""; }
+        public string ConnectedSource { get; private set; }
+        public string SystemTime { get => DateTime.Now.ToString("HH:mm"); }
 
         public PluginsManager PluginManager
         {
@@ -61,17 +64,12 @@ namespace SecondMonitor.Timing.DataHandler
 
         public void RunPlugin()
         {
+            ConnectedSource = "Not Connected";
             gui = new TimingGUI();
             gui.Show();
             gui.upDownPaceLaps.Value = paceLaps;
             gui.Closed += Gui_Closed;
-            gui.btnReset.DataContext = this;           
-            gui.rbtAbsolute.DataContext = this;
-            gui.rbtAutomatic.DataContext = this;
-            gui.rbtRelative.DataContext = this;
-            gui.upDownPaceLaps.DataContext = this;
-            gui.chkScrollToPlayer.DataContext = this;
-            gui.chkScrollToPlayer.IsChecked = scrollToPlayer;
+            gui.DataContext = this;
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
             shouldReset = ResetModeEnum.NO_RESET;
@@ -191,7 +189,7 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
-            SimulatorDataSet data = args.Data;            
+            SimulatorDataSet data = args.Data;
             if (ViewSource == null)
                 return;
             if(shouldReset!=ResetModeEnum.NO_RESET)
@@ -226,25 +224,23 @@ namespace SecondMonitor.Timing.DataHandler
                 lastRefreshTiming = DateTime.Now;
                 gui.Dispatcher.Invoke((Action)(() =>
                 {
-                    gui.lblTime.Content = "Session Time: " + data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
+                    NotifyPropertyChanged("SystemTime");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
                     gui.whRightRear.UpdateControl(data);
                     gui.waterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
-                    gui.oilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
-                    //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
-                    //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
-                    //gui.gMeter.Refresh();
+                    gui.oilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;                    
                     gui.timingCircle.RefreshSession(data);
                     
 
                     gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1")
                     +"| Rain Intensity: "+data.SessionInfo.WeatherInfo.rainIntensity+"%";
                     gui.lblRemainig.Content = GetSessionRemainig(data);
-                    ViewSource.View.Refresh();
-                    if (scrollToPlayer && timing.Player != null)
+                    if(ViewSource!=null)
+                        ViewSource.View.Refresh();
+                    if (scrollToPlayer && gui!=null && timing.Player != null && gui.dtTimig.Items.Count>0)
                     {
                         gui.dtTimig.ScrollIntoView(gui.dtTimig.Items[0]);
                         gui.dtTimig.ScrollIntoView(timing.Player);
@@ -255,17 +251,14 @@ namespace SecondMonitor.Timing.DataHandler
             if (timeSpanCarIno.TotalMilliseconds > 33)
             {
                 gui.Dispatcher.Invoke((Action)(() =>
-                {
-                    gui.lblTime.Content = "Session Time: " + data.SessionInfo.SessionTime.ToString("mm\\:ss\\.fff");
+                {                    
+                    NotifyPropertyChanged("SessionTime");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
                     gui.whLeftRear.UpdateControl(data);
-                    gui.whRightRear.UpdateControl(data);  
+                    gui.whRightRear.UpdateControl(data);
                     gui.fuelMonitor.ProcessDataSet(data);
-                    //gui.gMeter.VertG = -data.PlayerCarInfo.Acceleration.ZInG;
-                    //gui.gMeter.HorizG = data.PlayerCarInfo.Acceleration.XInG;
-                    //gui.gMeter.Refresh();
                 }));
                 lastRefreshCarInfo = DateTime.Now;
             }
@@ -288,10 +281,12 @@ namespace SecondMonitor.Timing.DataHandler
             timing.BestLapChangedEvent += BestLapChangedHandler;
             timing.PaceLaps = paceLaps;
             InitializeGui(args.Data);
+            ConnectedSource =args.Data.Source;
+            NotifyPropertyChanged("ConnectedSource");
             ChangeTimingMode();            
         }
 
-        public ICollectionView TimingInfo { get => ViewSource.View; }
+        public ICollectionView TimingInfo { get => ViewSource!= null ? ViewSource.View : null; }
 
         private void InitializeGui(SimulatorDataSet data)
         {
@@ -303,10 +298,9 @@ namespace SecondMonitor.Timing.DataHandler
                     Collection = new ObservableCollection<Driver>();
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
-                    ChangeTimingMode();                    
-                    
+                    gui.dtTimig.DataContext = null;
                     gui.dtTimig.DataContext = this;
-                    gui.lblBestLap.DataContext = this;
+                    ChangeTimingMode();
                 }
                 Collection.Clear();
                 foreach (Driver d in timing.Drivers.Values)
@@ -326,18 +320,19 @@ namespace SecondMonitor.Timing.DataHandler
                 gui.timingCircle.SetSessionInfo(data);
                 gui.fuelMonitor.ResetFuelMonitor();
             });
-            NotifyPropertyChanged();
+            NotifyPropertyChanged("BestLapFormatted");
         }
 
         private void BestLapChangedHandler(object sender, SessionTiming.BestLapChangedArgs args)
         {
             bestSessionLap = args.Lap;
-            NotifyPropertyChanged();
+            NotifyPropertyChanged("BestLapFormatted");
         }
 
-        protected virtual void NotifyPropertyChanged()
+        protected virtual void NotifyPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BestLapFormatted"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }
