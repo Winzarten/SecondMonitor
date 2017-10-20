@@ -61,7 +61,7 @@ namespace SecondMonitor.Launcher
         }
         private static void LoadUsingGameConnectorAssembply(Assembly assembly)
         {
-            var connectorPluginType = typeof(IGameConnector);                          
+            var connectorPluginType = typeof(IGameConnector);
             IEnumerable<Type> types = assembly.GetTypes().Where(c => !(c.IsInterface) && connectorPluginType.IsAssignableFrom(c));
             foreach (Type type in types)
             {
@@ -75,7 +75,7 @@ namespace SecondMonitor.Launcher
         {
             
             PluginsManager pluginManager = new PluginsManager(connector);
-            pluginManager.InitializePlugins();                             
+            pluginManager.InitializePlugins(); 
             connector.AsynConnect();
         }
     }

@@ -145,6 +145,7 @@ namespace SecondMonitor.Timing.DataHandler
 
         public int RefreshRate { get => refreshRate; set => refreshRate = value; }
         public int PaceLaps { get => paceLaps; set => paceLaps = value; }
+        public int SessionCompletedPercentage { get => timing != null ? timing.SessionCompletedPercentage : 50; }
 
         private NoArgumentCommand _refreshRateCommand;
         public NoArgumentCommand RefreshRateCommand
@@ -241,6 +242,7 @@ namespace SecondMonitor.Timing.DataHandler
                 gui.Dispatcher.Invoke((Action)(() =>
                 {
                     NotifyPropertyChanged("SystemTime");
+                    NotifyPropertyChanged("SessionCompletedPercentage");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);
@@ -269,7 +271,7 @@ namespace SecondMonitor.Timing.DataHandler
             {
                 gui.Dispatcher.Invoke((Action)(() =>
                 {                    
-                    NotifyPropertyChanged("SessionTime");                    
+                    NotifyPropertyChanged("SessionTime");
                     gui.pedalControl.UpdateControl(data);
                     gui.whLeftFront.UpdateControl(data);
                     gui.whRightFront.UpdateControl(data);

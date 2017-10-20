@@ -55,15 +55,15 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Position}" Header="#" Width="60"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CarName}" Header="Car" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CarName}" Header="Car" Width="240"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps}" Header="Laps" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime}" Header="Current Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastLapTime}" Header="Last Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding PaceAsString}" Header="Pace" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding BestLapString}" Header="Best Lap" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime}" Header="Current Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo}" Header="Pits" Width="180"/>
                     <!--<GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>-->
-                    <GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>
+                    <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>-->
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -157,6 +157,9 @@
                 <TextBlock Name="SessionTime" Text="{Binding SessionTime, UpdateSourceTrigger=PropertyChanged}"/>
             </StatusBarItem>
             <Separator Grid.Column="3" />
+            <StatusBarItem Grid.Column="4" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch">
+                <ProgressBar Name="RaceProgrees" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="10" Minimum="0" Maximum="1000" Value="{Binding SessionCompletedPercentage, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
+            </StatusBarItem>
             <Separator Grid.Column="5"></Separator>
             <StatusBarItem Grid.Column="6">
                 <TextBlock Name="SystemTime" Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />

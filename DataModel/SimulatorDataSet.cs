@@ -13,10 +13,12 @@ namespace SecondMonitor.DataModel
             SessionInfo = new SessionInfo();
             DriversInfo = new DriverInfo[0];
             PlayerInfo = new DriverInfo();
-        }        
+            LeaderInfo = new DriverInfo();
+        }
         public PedalInfo PedalInfo;
         public SessionInfo SessionInfo;
         public DriverInfo[] DriversInfo;
         public DriverInfo PlayerInfo;
+        public DriverInfo LeaderInfo;
     }
 }

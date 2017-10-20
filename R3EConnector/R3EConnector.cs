@@ -40,6 +40,8 @@ namespace SecondMonitor.R3EConnector
         private int lastSessionType;
         private Double sessionStartR3RTime;
 
+        
+
 
         public R3EConnector()
         {
@@ -87,7 +89,7 @@ namespace SecondMonitor.R3EConnector
                 return false;
             try
             {
-                sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);                
+                sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
                 RaiseConnectedEvent();
                 StartDaemon();
                 return true;
@@ -137,10 +139,10 @@ namespace SecondMonitor.R3EConnector
                     //sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
                     sessionTime = TimeSpan.FromSeconds(r3rData.Player.GameSimulationTime - sessionStartR3RTime);
                 }
-                lastTick = tickTime;                
+                lastTick = tickTime;
                 lock(queue)
                 {
-                    queue.Enqueue(data);                    
+                    queue.Enqueue(data);
                 }
                 
             }
@@ -158,12 +160,12 @@ namespace SecondMonitor.R3EConnector
                 {
                     lock (queue)
                     {
-                        set = queue.Dequeue();                        
+                        set = queue.Dequeue();
                          
                     }
                     RaiseDataLoadedEvent(set);
                 }
-                Thread.Sleep(TickTime);                
+                Thread.Sleep(TickTime);
             }
             
         }
@@ -228,7 +230,7 @@ namespace SecondMonitor.R3EConnector
 
         private void RaiseDataLoadedEvent(SimulatorDataSet data)
         {
-            DataEventArgs args = new DataEventArgs(data);            
+            DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = DataLoaded;
             if (handler != null)
             {
@@ -282,7 +284,10 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.CarInfo.WheelsInfo.RearRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled;
                 data.DriversInfo[i] = driverInfo;
                 if (driverInfo.Position == 1)
+                {
                     data.SessionInfo.LeaderCurrentLap = driverInfo.CompletedLaps + 1;
+                    data.LeaderInfo = driverInfo;
+                }
             }
             if (playersInfo != null)
             {
@@ -310,6 +315,7 @@ namespace SecondMonitor.R3EConnector
         private SimulatorDataSet FromR3EData(R3ESharedData data)
         {
             SimulatorDataSet simData = new SimulatorDataSet("R3R");
+            //SimulatorDataSet simData = new SimulatorDataSet("R3R");
             FillSessionInfo(data, simData);
             AddDriversData(simData, data);
 

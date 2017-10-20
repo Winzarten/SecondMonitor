@@ -35,12 +35,15 @@ namespace SecondMonitor.Timing.Model
                 
         }
 
+        public float TotalSessionLength { get; private set; }
+
         private int paceLaps;
         private LapInfo bestSessionLap;
         public Driver Player { get; private set; }
         public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
+        private SimulatorDataSet lastSet;
         
         private SessionTiming()
         {
@@ -59,6 +62,18 @@ namespace SecondMonitor.Timing.Model
                 paceLaps = value;
                 foreach (var driver in Drivers.Values)
                     driver.PaceLaps = value;
+            }
+        }
+
+        public int SessionCompletedPercentage
+        {
+            get
+            {
+                if (lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
+                    return (int)(((lastSet.LeaderInfo.CompletedLaps + lastSet.LeaderInfo.LapDistance / lastSet.SessionInfo.LayoutLength) / lastSet.SessionInfo.TotalNumberOfLaps) * 1000);
+                if (lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+                    return (int)(1000-(lastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength ) * 1000);
+                return 0;
             }
         }
 
@@ -82,7 +97,9 @@ namespace SecondMonitor.Timing.Model
                 if (newDriver.DriverInfo.IsPlayer)
                     timing.Player = newDriver;
                     });
-            timing.Drivers = drivers;            
+            timing.Drivers = drivers;
+            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+                timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
             return timing;
         }
 
@@ -92,6 +109,7 @@ namespace SecondMonitor.Timing.Model
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
+            lastSet = dataSet;
             SessionTime = dataSet.SessionInfo.SessionTime;
             SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
