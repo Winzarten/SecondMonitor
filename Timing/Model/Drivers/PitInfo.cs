@@ -11,7 +11,7 @@ namespace SecondMonitor.Timing.Model.Drivers
     {
         public enum PitPhase { ENTRY, INPITS, EXIT, COMPLETED };
 
-        public PitInfo(SimulatorDataSet set, Driver driver, LapInfo entryLap)
+        public PitInfo(SimulatorDataSet set, DriverTiming driver, LapInfo entryLap)
         {
             this.Driver = driver;
             this.EntryLap = entryLap;
@@ -24,7 +24,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         }
         public PitPhase Phase { get; private set; }
         public bool Completed { get => Phase == PitPhase.COMPLETED; }
-        public Driver Driver { get; private set; }
+        public DriverTiming Driver { get; private set; }
         public LapInfo EntryLap { get; private set; }
         public TimeSpan PitEntry { get; private set; }
         public TimeSpan PitExit { get; private set; }

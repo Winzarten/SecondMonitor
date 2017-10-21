@@ -39,18 +39,20 @@ namespace SecondMonitor.Timing.Model
 
         private int paceLaps;
         private LapInfo bestSessionLap;
-        public Driver Player { get; private set; }
+        public DriverTiming Player { get; private set; }
         public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
+        public bool DisplayBindTimeRelative { get; set; }
         private SimulatorDataSet lastSet;
         
         private SessionTiming()
         {
             paceLaps = 4;
+            DisplayBindTimeRelative = false;
         }
 
-        public Dictionary<string, Driver> Drivers { get; private set; } 
+        public Dictionary<string, DriverTiming> Drivers { get; private set; } 
         public int PaceLaps
         {
             get
@@ -79,7 +81,7 @@ namespace SecondMonitor.Timing.Model
 
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap)
         {
-            Dictionary<string, Driver> drivers = new Dictionary<string, Driver>();
+            Dictionary<string, DriverTiming> drivers = new Dictionary<string, DriverTiming>();
             SessionTiming timing = new SessionTiming();
             timing.SessionType = dataSet.SessionInfo.SessionType;
             //Driver[] drivers = Array.ConvertAll(dataSet.DriversInfo, s => Driver.FromModel(s));
@@ -91,7 +93,7 @@ namespace SecondMonitor.Timing.Model
                     name = s.DriverName + " dup" + count;
                     count++;
                 }
-                Driver newDriver = Driver.FromModel(s, timing, invalidateFirstLap);
+                DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
                 newDriver.PaceLaps = timing.paceLaps;
                 drivers.Add(name, newDriver);
                 if (newDriver.DriverInfo.IsPlayer)
@@ -99,12 +101,12 @@ namespace SecondMonitor.Timing.Model
                     });
             timing.Drivers = drivers;
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
-                timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
+                timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;            
             return timing;
         }
 
         public LapInfo BestSessionLap { get => bestSessionLap; }
-        public string BestLapFormatted { get => bestSessionLap != null ? Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
+        public string BestLapFormatted { get => bestSessionLap != null ? DriverTiming.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
         
 
         public void UpdateTiming(SimulatorDataSet dataSet)
@@ -126,7 +128,7 @@ namespace SecondMonitor.Timing.Model
 
             }
         }
-        private void UpdateDriver(DriverInfo modelInfo, Driver timingInfo, SimulatorDataSet set)
+        private void UpdateDriver(DriverInfo modelInfo, DriverTiming timingInfo, SimulatorDataSet set)
         {
             if (set.SessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Checkered)
                 return;

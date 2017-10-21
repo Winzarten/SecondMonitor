@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace SecondMonitor.Timing.Model.Drivers
 {
-    public class Driver
+    public class DriverTiming
     {
         private List<LapInfo> lapsInfo;
         private List<PitInfo> pitStopInfo;
         private Single previousTickLapDistance;
         private int paceLaps;
 
-        public Driver(DriverInfo driverInfo, SessionTiming session)
+        public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
             lapsInfo = new List<LapInfo>();
             pitStopInfo = new List<PitInfo>();
@@ -36,10 +36,31 @@ namespace SecondMonitor.Timing.Model.Drivers
         public int CompletedLaps { get => DriverInfo.CompletedLaps; }
         public bool InPits { get; private set; }
         public TimeSpan Pace { get; private set; }
-        public string PaceAsString { get => FormatTimeSpan(Pace);}
+        public string PaceAsString
+        {
+            get
+            {
+                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.Pace == TimeSpan.Zero)
+                    return FormatTimeSpan(Pace);
+                else
+                    return FormatTimeSpanOnlySeconds(Pace.Subtract(Session.Player.Pace));
+            }
+        }
         public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
-        public LapInfo BestLap { get; set; }
-        public string BestLapString { get => BestLap != null ? "L"+BestLap.LapNumber+ "/" + FormatTimeSpan(BestLap.LapTime) : "N/A"; }
+        public LapInfo BestLap { get; private set; }
+        public string BestLapString
+        {
+            get
+            {
+                if (BestLap == null)
+                    return "N/A";
+                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.BestLap == null)
+                    return "L" + BestLap.LapNumber + "/" + FormatTimeSpan(BestLap.LapTime);
+                else
+                    return "L" + BestLap.LapNumber + "/" + FormatTimeSpanOnlySeconds(BestLap.LapTime.Subtract(Session.Player.BestLap.LapTime));
+
+            }
+        }
         public int PitCount { get => pitStopInfo.Count; }
         public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
@@ -127,7 +148,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             CurrentLap.FinishLap(sessionInfo.SessionTime);
             if (CurrentLap.Valid && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
                 BestLap = CurrentLap;
-            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));            
+            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
             ComputePace();
         }
 
@@ -210,7 +231,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                     return "";
                 if (!CurrentLap.Valid)
                     return "Lap Invalid";
-                TimeSpan progress = CurrentLap.LapProgressTime;            
+                TimeSpan progress = CurrentLap.LapProgressTime;
                 return FormatTimeSpan(progress);
             }
         }
@@ -246,7 +267,14 @@ namespace SecondMonitor.Timing.Model.Drivers
             {
                 LapInfo lastCompletedLap = LastCompletedLap;
                 if (lastCompletedLap != null)
-                    return FormatTimeSpan(lastCompletedLap.LapTime);
+                {
+                    if(DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.LastCompletedLap == null)
+                        return FormatTimeSpan(lastCompletedLap.LapTime);
+                    else
+                    {
+                        return FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(Session.Player.LastCompletedLap.LapTime));
+                    }
+                }
                 else
                     return "N/A";
             }
@@ -259,10 +287,21 @@ namespace SecondMonitor.Timing.Model.Drivers
             //return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
             return timeSpan.ToString("mm\\:ss\\.fff");
         }
-
-        public static Driver FromModel(DriverInfo modelDriverInfo, SessionTiming session, bool invalidateFirstLap)
+        public static string FormatTimeSpanOnlySeconds(TimeSpan timeSpan)
         {
-            var driver = new Driver(modelDriverInfo, session);
+            //return "FOO";
+            //String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            //String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            //return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
+            if (timeSpan < TimeSpan.Zero)
+                return "-" + timeSpan.ToString("ss\\.fff");
+            else
+                return "+" + timeSpan.ToString("ss\\.fff");
+        }
+
+        public static DriverTiming FromModel(DriverInfo modelDriverInfo, SessionTiming session, bool invalidateFirstLap)
+        {
+            var driver = new DriverTiming(modelDriverInfo, session);
             driver.InvalidateFirstLap = invalidateFirstLap;
             return driver;
         }

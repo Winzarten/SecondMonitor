@@ -41,10 +41,10 @@ namespace SecondMonitor.Timing.DataHandler
         public CollectionViewSource ViewSource { get; set; }    
 
         // Gets or sets the ObservableCollection
-        public ObservableCollection<Driver> Collection { get; set; }
+        public ObservableCollection<DriverTiming> Collection { get; set; }
 
         private LapInfo bestSessionLap;
-        public string BestLapFormatted { get => bestSessionLap != null ? bestSessionLap.Driver.DriverInfo.DriverName +"-(L"+ bestSessionLap.LapNumber+"):"+ Driver.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
+        public string BestLapFormatted { get => bestSessionLap != null ? bestSessionLap.Driver.DriverInfo.DriverName +"-(L"+ bestSessionLap.LapNumber+"):"+ DriverTiming.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
         public string SessionTime { get => timing != null ? timing.SessionTime.ToString("mm\\:ss\\.fff") : ""; }
         public string ConnectedSource { get; private set; }
         public string SystemTime { get => DateTime.Now.ToString("HH:mm"); }
@@ -143,6 +143,21 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        private TimingModeChangedCommand _timingDisplayModeChangedCommand;
+        public TimingModeChangedCommand TimingDisplayModeChangedCommand
+        {
+            get
+            {
+                if (_timingDisplayModeChangedCommand == null)
+                {
+                    _timingDisplayModeChangedCommand = new TimingModeChangedCommand(ChangeDisplayMode, () => {
+                        return timing != null;
+                    });
+                }
+                return _timingDisplayModeChangedCommand;
+            }
+        }
+
         public int RefreshRate { get => refreshRate; set => refreshRate = value; }
         public int PaceLaps { get => paceLaps; set => paceLaps = value; }
         public int SessionCompletedPercentage { get => timing != null ? timing.SessionCompletedPercentage : 50; }
@@ -200,6 +215,16 @@ namespace SecondMonitor.Timing.DataHandler
             });
         }
 
+        private void ChangeDisplayMode()
+        {
+            if (timing == null || gui == null)
+                return;
+            gui.Dispatcher.Invoke(() =>
+            {
+                timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked;
+            });
+        }
+
         private void Gui_Closed(object sender, EventArgs e)
         {
             pluginsManager.DeletePlugin(this);
@@ -214,6 +239,7 @@ namespace SecondMonitor.Timing.DataHandler
             {
                 bool invalidateLap = shouldReset == ResetModeEnum.MANUAL || data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
                 timing = SessionTiming.FromSimulatorData(args.Data, invalidateLap);
+                gui.Dispatcher.Invoke(() => timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked);
                 timing.PaceLaps = paceLaps;
                 timing.BestLapChangedEvent += BestLapChangedHandler;
                 InitializeGui(data);
@@ -308,6 +334,8 @@ namespace SecondMonitor.Timing.DataHandler
             timing = SessionTiming.FromSimulatorData(args.Data, args.Data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race);
             timing.BestLapChangedEvent += BestLapChangedHandler;
             timing.PaceLaps = paceLaps;
+            gui.Dispatcher.Invoke(()=> timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked );
+            
             InitializeGui(args.Data);
             ConnectedSource =args.Data.Source;
             NotifyPropertyChanged("ConnectedSource");
@@ -323,7 +351,7 @@ namespace SecondMonitor.Timing.DataHandler
             {
                 if (Collection == null)
                 {
-                    Collection = new ObservableCollection<Driver>();
+                    Collection = new ObservableCollection<DriverTiming>();
                     ViewSource = new CollectionViewSource();
                     ViewSource.Source = Collection;
                     gui.dtTimig.DataContext = null;
@@ -331,7 +359,7 @@ namespace SecondMonitor.Timing.DataHandler
                     ChangeTimingMode();
                 }
                 Collection.Clear();
-                foreach (Driver d in timing.Drivers.Values)
+                foreach (DriverTiming d in timing.Drivers.Values)
                 {
                     Collection.Add(d);
                 }                
