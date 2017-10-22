@@ -38,6 +38,7 @@ namespace SecondMonitor.R3EConnector
         private DateTime lastTick;
         private TimeSpan sessionTime;
         private int lastSessionType;
+        private int lastSessionPhase;
         private Double sessionStartR3RTime;
 
         
@@ -213,6 +214,12 @@ namespace SecondMonitor.R3EConnector
             {
                 inSession = false;
             }
+            if (lastSessionPhase >= 5 && r3rData.SessionPhase < 5 )
+            {
+                lastSessionPhase = r3rData.SessionPhase;
+                return true;
+            }
+            lastSessionPhase = r3rData.SessionPhase;
             return false;
         }
 
