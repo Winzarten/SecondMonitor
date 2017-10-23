@@ -120,11 +120,7 @@ namespace SecondMonitor.PluginManager.Core
         private void RaiseDataLoadedEvent(SimulatorDataSet data)
         {
             DataEventArgs args = new DataEventArgs(data);
-            EventHandler<DataEventArgs> handler = DataLoaded;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            DataLoaded?.Invoke(this, args);
         }
 
     }

@@ -4,7 +4,6 @@ namespace SecondMonitor.DataModel
 {
     public class Pressure
     {
-        public enum PressureUnits { Kpa, Atmosphere }
         private double valueInKpa;      
         
         public Pressure()
@@ -30,7 +29,11 @@ namespace SecondMonitor.DataModel
                 case PressureUnits.Kpa:
                     return InKpa;
                 case PressureUnits.Atmosphere:
-                    return InAtmospheres;               
+                    return InAtmospheres;
+                case PressureUnits.Bar:
+                    return InBars;
+                case PressureUnits.Psi:
+                    return InPsi;
             }
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
@@ -42,13 +45,27 @@ namespace SecondMonitor.DataModel
                 case PressureUnits.Kpa:
                     return " KPa";
                 case PressureUnits.Atmosphere:
-                    return " ATM";                
+                    return " ATM";
+                case PressureUnits.Bar:
+                    return "Bar";
+                case PressureUnits.Psi:
+                    return "Psi";
             }
             throw new ArgumentException("Unable to return symbol fir" + units.ToString());
         }
         public double InAtmospheres
         {
             get { return InKpa / 101.3; }
+        }
+
+        public double InBars
+        {
+            get { return InKpa * 0.01; }
+        }
+
+        public double InPsi
+        {
+            get { return InKpa * 0.145038; }
         }
 
         public static Pressure FromKiloPascals(double pressureInKpa)

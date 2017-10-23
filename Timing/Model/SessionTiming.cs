@@ -71,9 +71,9 @@ namespace SecondMonitor.Timing.Model
         {
             get
             {
-                if (lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
+                if (lastSet!=null && lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
                     return (int)(((lastSet.LeaderInfo.CompletedLaps + lastSet.LeaderInfo.LapDistance / lastSet.SessionInfo.LayoutLength) / lastSet.SessionInfo.TotalNumberOfLaps) * 1000);
-                if (lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+                if (lastSet != null && lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
                     return (int)(1000-(lastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength ) * 1000);
                 return 0;
             }

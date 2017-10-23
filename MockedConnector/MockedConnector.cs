@@ -145,6 +145,8 @@ namespace SecondMonitor.MockedConnector
             info.CenterTyreTemp = Temperature.FromCelsius(tyreTemp);
             info.RightTyreTemp = Temperature.FromCelsius(tyreTemp + 5);
             info.BrakeTemperature = Temperature.FromCelsius(brakeTemp);
+
+            info.TyrePressure = Pressure.FromKiloPascals(200);
         }
 
         private void RaiseConnectedEvent()

@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using SecondMonitor.Timing.DataHandler.Commands;
+using SecondMonitor.Timing.Model.Settings;
 
 namespace SecondMonitor.Timing.DataHandler
 {
@@ -31,6 +32,7 @@ namespace SecondMonitor.Timing.DataHandler
         private bool scrollToPlayer = true;
         ResetModeEnum shouldReset = ResetModeEnum.NO_RESET;
         public event PropertyChangedEventHandler PropertyChanged;
+        private DisplaySettings displaySettings = new DisplaySettings();
 
 
         private DateTime lastRefreshTiming;
@@ -66,6 +68,7 @@ namespace SecondMonitor.Timing.DataHandler
         public void RunPlugin()
         {
             ConnectedSource = "Not Connected";
+            displaySettings.DisplaySettingsChanged += OnDisplaySettingsChange;
             gui = new TimingGUI();
             gui.Show();
             gui.upDownPaceLaps.Value = paceLaps;
@@ -73,8 +76,11 @@ namespace SecondMonitor.Timing.DataHandler
             gui.DataContext = this;
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
-            shouldReset = ResetModeEnum.NO_RESET;
+            shouldReset = ResetModeEnum.NO_RESET;            
         }
+
+        public TemperatureUnits TemperatureUnits { get => displaySettings.TemperatureUnits; set => displaySettings.TemperatureUnits = value; }
+        public PressureUnits PressureUnits { get => displaySettings.PressureUnits; set => displaySettings.PressureUnits = value; }
 
         private NoArgumentCommand _resetCommand;
         public NoArgumentCommand ResetCommand
@@ -390,5 +396,32 @@ namespace SecondMonitor.Timing.DataHandler
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void OnDisplaySettingsChange(object sender, DisplaySettings.DisplaySettingsChangedArgs args)
+        {
+            ApplyDisplaySettings(args.Settings);
+        }
+
+        private void ApplyDisplaySettings(DisplaySettings settings)
+        {
+            if (gui == null)
+                return;
+            gui.Dispatcher.Invoke(() =>
+                {
+                    gui.whLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
+                    gui.whRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
+                    gui.whLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
+                    gui.whRightRear.TemperatureDisplayUnit = settings.TemperatureUnits;
+
+                    gui.whLeftFront.PressureDisplayUnits = settings.PressureUnits;
+                    gui.whRightFront.PressureDisplayUnits = settings.PressureUnits;
+                    gui.whLeftRear.PressureDisplayUnits = settings.PressureUnits;
+                    gui.whRightRear.PressureDisplayUnits = settings.PressureUnits;
+
+                    gui.oilTemp.DisplayUnit = settings.TemperatureUnits;
+                    gui.waterTemp.DisplayUnit = settings.TemperatureUnits;
+
+
+                });
+        }
     }
 }

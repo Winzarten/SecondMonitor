@@ -45,7 +45,10 @@
   <ItemGroup>
     <Compile Include="BasicProperties\Acceleration.cs" />
     <Compile Include="BasicProperties\PedalInfo.cs" />
+    <Compile Include="BasicProperties\PressureUnits.cs" />
+    <Compile Include="BasicProperties\TemperatureUnits.cs" />
     <Compile Include="BasicProperties\Volume.cs" />
+    <Compile Include="BasicProperties\VolumeUnits.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />
     <Compile Include="SessionInfo.cs" />

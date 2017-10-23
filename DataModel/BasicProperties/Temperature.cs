@@ -4,7 +4,6 @@ namespace SecondMonitor.DataModel
 {
     public class Temperature
     {
-        public enum TemperatureUnits { Celsius, Fahrenheit, Kelvin };
         private double valueInCelsius;
 
         public Temperature()

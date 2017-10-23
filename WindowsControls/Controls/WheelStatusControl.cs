@@ -23,11 +23,21 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             set;
         }
 
-        [Description("DisplayUnit"),
+        [Description("DisplayTemperatureUnit"),
         Category("Behaviour"),
-        DefaultValue(typeof(Temperature.TemperatureUnits), "Celsius")
+        DefaultValue(typeof(TemperatureUnits), "Celsius")
          ]
-        public Temperature.TemperatureUnits TemperatureDisplayUnit
+        public TemperatureUnits TemperatureDisplayUnit
+        {
+            get;
+            set;
+        }
+
+        [Description("DisplayPressureUnit"),
+        Category("Behaviour"),
+        DefaultValue(typeof(TemperatureUnits), "Kpa")
+         ]
+        public PressureUnits PressureDisplayUnits
         {
             get;
             set;
@@ -79,22 +89,10 @@ namespace SecondMonitor.CarStatus.Forms.Controls
         {
             if (data.PlayerInfo == null)
                 return;
-            switch (WheelPostion)
-            {
-                case WheelPostionEnum.FrontLeft:
-                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure.InKpa.ToString("0");
-                    break;
-                case WheelPostionEnum.FrontRight:
-                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure.InKpa.ToString("0");
-                    break;
-                case WheelPostionEnum.RearLeft:
-                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure.InKpa.ToString("0");
-                    break;
-                case WheelPostionEnum.RearRight:
-                    lblTyrePressure.Text = data.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.InKpa.ToString("0");
-                    break;
-
-            }
+            WheelInfo wheel = GetWheelByPosition(data);
+            if (wheel == null)
+                return;
+            lblTyrePressure.Text = wheel.TyrePressure.GetValueInUnits(PressureDisplayUnits).ToString("0");            
         }
 
         private Color ComputeColor(double value, double optimalValue, double window)
