@@ -25,7 +25,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         private static readonly Volume FuelConsumedMaximumThreshold = Volume.FromLiters(1);
         public enum FuelOutputEnum { TIME, LAPS}
-        public VolumeUnits DisplayUnits { get; set; } = VolumeUnits.Liters;
+        public VolumeUnits DisplayUnits { get; set; } = VolumeUnits.US_Gallons;
         private TimeSpan lastSessionTime;
         private Volume lastFuelState = Volume.FromLiters(0);
         private Volume totalFuelConsumed = Volume.FromLiters(0);

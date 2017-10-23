@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SecondMonitor.DataModel.BasicProperties
+namespace SecondMonitor.DataModel
 {
     public enum VolumeUnits { Liters, US_Gallons}
 }

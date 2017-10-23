@@ -28,9 +28,9 @@ namespace SecondMonitor.MockedConnector
         private double brakeTemp = 50;
         private double brakeStep = 1;
 
-        private double fuel = 200;
-        private double totalFuel = 200;
-        private double fuelStep = -0.05;
+        private double fuel = 2000;
+        private double totalFuel = 2000;
+        private double fuelStep = -0.01;
 
         private double layoutLength = 5000;
         private double playerLocation = 0;

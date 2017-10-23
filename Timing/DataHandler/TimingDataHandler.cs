@@ -74,6 +74,7 @@ namespace SecondMonitor.Timing.DataHandler
             gui.upDownPaceLaps.Value = paceLaps;
             gui.Closed += Gui_Closed;
             gui.DataContext = this;
+            OnDisplaySettingsChange(this, new DisplaySettings.DisplaySettingsChangedArgs(displaySettings));
             lastRefreshTiming = DateTime.Now;
             lastRefreshCarInfo = DateTime.Now;
             shouldReset = ResetModeEnum.NO_RESET;            
@@ -81,6 +82,7 @@ namespace SecondMonitor.Timing.DataHandler
 
         public TemperatureUnits TemperatureUnits { get => displaySettings.TemperatureUnits; set => displaySettings.TemperatureUnits = value; }
         public PressureUnits PressureUnits { get => displaySettings.PressureUnits; set => displaySettings.PressureUnits = value; }
+        public VolumeUnits VolumeUnits { get => displaySettings.VolumeUnits; set => displaySettings.VolumeUnits = value; }
 
         private NoArgumentCommand _resetCommand;
         public NoArgumentCommand ResetCommand
@@ -419,6 +421,8 @@ namespace SecondMonitor.Timing.DataHandler
 
                     gui.oilTemp.DisplayUnit = settings.TemperatureUnits;
                     gui.waterTemp.DisplayUnit = settings.TemperatureUnits;
+
+                    gui.fuelMonitor.DisplayUnits = settings.VolumeUnits;
 
 
                 });

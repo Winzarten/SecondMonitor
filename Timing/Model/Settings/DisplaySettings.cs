@@ -41,6 +41,17 @@ namespace SecondMonitor.Timing.Model.Settings
             }
         }
 
+        private VolumeUnits volumeUnits = VolumeUnits.Liters;
+        public VolumeUnits VolumeUnits
+        {
+            get => volumeUnits;
+            set
+            {
+                volumeUnits = value;
+                RaiseSettingsChangedEvent();
+            }
+        }
+
         private void RaiseSettingsChangedEvent()
         {
             DisplaySettingsChanged?.Invoke(this, new DisplaySettingsChangedArgs(this));
