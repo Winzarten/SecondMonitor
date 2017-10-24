@@ -115,6 +115,8 @@ namespace SecondMonitor.WindowsControls.wpf
             TextBlock driverTextBlock = new TextBlock();
             if (driver.IsPlayer)
                 driverTextBlock.Foreground = Brushes.Red;
+            else if(driver.InPits)
+                driverTextBlock.Foreground = Brushes.Blue;
             else
                 driverTextBlock.Foreground = Brushes.Green;
             driverTextBlock.Width = 30;

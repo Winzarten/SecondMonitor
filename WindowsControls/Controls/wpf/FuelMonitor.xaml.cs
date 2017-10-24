@@ -154,12 +154,12 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             if (OutputType == FuelOutputEnum.TIME)
             {
                 Volume requiredFuel = (int)upDownDistance.Value * averageConsmptionPerMinute;
-                txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1");
+                txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1")+Volume.GetUnitSymbol(DisplayUnits);
             }
             else
             {
                 Volume requiredFuel = (int)upDownDistance.Value * averageConsumptionPerLap;
-                txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1");
+                txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1") + Volume.GetUnitSymbol(DisplayUnits);
             }
         }
     }
