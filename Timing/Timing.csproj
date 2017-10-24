@@ -48,6 +48,8 @@
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\Artifacts\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+      <Aliases>global</Aliases>
     </Reference>
   </ItemGroup>
   <ItemGroup>

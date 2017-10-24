@@ -86,6 +86,14 @@ namespace SecondMonitor.DataModel.BasicProperties
         {
             return Volume.FromLiters(left.InLiters * right);
         }
+        public static Volume operator *(Volume left, int right)
+        {
+            return Volume.FromLiters(left.InLiters * right);
+        }
+        public static Volume operator *(int left, Volume right)
+        {
+            return Volume.FromLiters(left * right.InLiters);
+        }
         public static Volume operator /(Volume left, Volume right)
         {
             return Volume.FromLiters(left.InLiters / right.InLiters);

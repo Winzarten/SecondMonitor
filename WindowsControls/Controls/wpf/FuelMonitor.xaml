@@ -2,9 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf"
-             xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:forms="clr-namespace:System.Windows.Forms;assembly=AGauge"
              mc:Ignorable="d" Width="300.016" Height="147.985">
     <Grid Background="Black">
@@ -23,13 +22,17 @@
         </WindowsFormsHost>
         <Label x:Name="lblFuel" Content="Total fuel" VerticalAlignment="Top" Margin="0,78,164,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
         <Label x:Name="lblConsumtion" Content="Current" VerticalAlignment="Top" Margin="0,113,164,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
-        <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,113,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="White" RenderTransformOrigin="0.414,1.717" Width="149"/>
-        <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,78,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="LightCoral" RenderTransformOrigin="0.414,1.717" Width="149"/>
-        <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Right" Margin="0,31,178,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
-        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Right" Margin="0,10,176,0" VerticalAlignment="Top" IsChecked="True" GroupName="grbMode" Checked="rbtMode_Checked"/>
-        <Button Content="Reset Fuel" Margin="0,10,84,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" Height="39" Click="Button_Click"/>
+        <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,113,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="White" Width="149"/>
+        <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,78,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="LightCoral" Width="149"/>
+        <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Left" Margin="94,31,0,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
+        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" IsChecked="True" GroupName="grbMode" Checked="rbtMode_Checked"/>
+        <controls2:IntegerUpDown x:Name="upDownDistance" Margin="0,19,89,0" HorizontalAlignment="Right" VerticalAlignment="Top" Minimum="1" Text="" Width="70" Value="10" Height="27">
+        </controls2:IntegerUpDown>
+        <Button Content="Reset Fuel" Margin="0,49,89,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Height="24" Click="Button_Click"/>
         <Image HorizontalAlignment="Left" Height="24" Margin="82,47,0,0"  Width="24" VerticalAlignment="Top"
             Panel.ZIndex="5" Source="/WindowsControls;component/Resources/fuel.png"/>
+        <TextBox x:Name="txtFuel" Height="27" Margin="0,19,3,0" TextWrapping="Wrap" Text="1000 gal" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="81" IsReadOnly="True"/>
+        <Button Content="Compute" HorizontalAlignment="Right" Margin="0,49,3,0" VerticalAlignment="Top" Width="82" Height="24" Click="Button_Click_1"/>
     </Grid>
 </UserControl>
 
