@@ -8,6 +8,7 @@ namespace SecondMonitor.DataModel.Drivers
 {
     public class DriverInfo
     {
+        public enum DriverFinishStatus { NA, None, Finished, DNF, DNQ, DNS, DQ }
         public string DriverName;
         public string CarName;
         public int CompletedLaps;
@@ -17,7 +18,11 @@ namespace SecondMonitor.DataModel.Drivers
         public bool CurrentLapValid;
         public Single Speed;
         public Single LapDistance;
+        public Single TotalDistance;
         public Single DistanceToPlayer;
+        public bool IsBeingLappedByPlayer = false;
+        public bool IsLapingPlayer = false;
+        public DriverFinishStatus FinishStatus = DriverFinishStatus.NA;
 
         public CarInfo CarInfo = new CarInfo();
     }

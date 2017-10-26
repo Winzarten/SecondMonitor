@@ -40,11 +40,13 @@ namespace SecondMonitor.Timing.Model
         private int paceLaps;
         private LapInfo bestSessionLap;
         public DriverTiming Player { get; private set; }
+        public DriverTiming Leader { get; private set; }
         public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
         public bool DisplayBindTimeRelative { get; set; }
-        private SimulatorDataSet lastSet;
+        public bool DisplayGapToPlayerRelative { get; set; }
+        public SimulatorDataSet LastSet { get; private set; } = new SimulatorDataSet("None");
         
         private SessionTiming()
         {
@@ -71,10 +73,10 @@ namespace SecondMonitor.Timing.Model
         {
             get
             {
-                if (lastSet!=null && lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
-                    return (int)(((lastSet.LeaderInfo.CompletedLaps + lastSet.LeaderInfo.LapDistance / lastSet.SessionInfo.LayoutLength) / lastSet.SessionInfo.TotalNumberOfLaps) * 1000);
-                if (lastSet != null && lastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
-                    return (int)(1000-(lastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength ) * 1000);
+                if (LastSet!=null && LastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
+                    return (int)(((LastSet.LeaderInfo.CompletedLaps + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.LayoutLength) / LastSet.SessionInfo.TotalNumberOfLaps) * 1000);
+                if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+                    return (int)(1000-(LastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength ) * 1000);
                 return 0;
             }
         }
@@ -111,7 +113,7 @@ namespace SecondMonitor.Timing.Model
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
-            lastSet = dataSet;
+            LastSet = dataSet;
             SessionTime = dataSet.SessionInfo.SessionTime;
             SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
@@ -130,14 +132,14 @@ namespace SecondMonitor.Timing.Model
         }
         private void UpdateDriver(DriverInfo modelInfo, DriverTiming timingInfo, SimulatorDataSet set)
         {
-            if (set.SessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Checkered)
-                return;
             timingInfo.DriverInfo = modelInfo;
             if(timingInfo.UpdateLaps(set) && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
             {
                 bestSessionLap = timingInfo.LastCompletedLap;
                 RaiseBestLapChangedEvent(bestSessionLap);
             }
+            if (timingInfo.Position == 1)
+                Leader = timingInfo;
         }
 
         public IEnumerator GetEnumerator()

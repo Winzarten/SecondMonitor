@@ -73,13 +73,16 @@
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Position, Mode=OneWay}" Header="#" Width="60"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Name, Mode=OneWay}" Header="Name" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneWay}" Header="Car" Width="240"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneWay}" Header="Car" Width="250"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps" Width="60"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastLapTime, Mode=OneWay}" Header="Last Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding PaceAsString, Mode=OneWay}" Header="Pace" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding BestLapString, Mode=OneWay}" Header="Best Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" Width="180"/>
+                    <!--<GridViewColumn DisplayMemberBinding="{Binding Remark, Mode=OneWay}" Header="Remark" Width="180"/>-->
+                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayerFormatted, Mode=OneWay}" Header="Gap" Width="180"/>
+                    
                     <!--<GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>-->
                     <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>-->
                 </GridView>
@@ -107,11 +110,19 @@
                     </Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsPlayer}" Value="True">
-                            <Setter Property="Background" Value="Red"/>
+                            <Setter Property="Background" Value="Gray"/>
+                            <Setter Property="Foreground" Value="Black"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding IsLapped}" Value="True">
+                            <Setter Property="Foreground" Value="LightBlue"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsLapping}" Value="True">
+                            <Setter Property="Foreground" Value="Red"></Setter>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding InPits}" Value="True">
-                            <Setter Property="Background" Value="Blue"/>
+                            <Setter Property="Background" Value="Orange"/>
+                            <Setter Property="Foreground" Value="Black"/>
                         </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="Transparent"/>
@@ -146,8 +157,8 @@
                 <Label Content="Order:" Foreground="White" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="29" Width="74"/>
 
                 <Label Grid.Column="1" Content="Times:" Foreground="White" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="29" Width="74"/>
-                <RadioButton Grid.Column="1" x:Name="rbtTimeAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" IsChecked="True" Command="{Binding TimingDisplayModeChangedCommand}"/>
-                <RadioButton Grid.Column="1" x:Name="rbtTimeRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" Command="{Binding TimingDisplayModeChangedCommand}"/>
+                <RadioButton Grid.Column="1" x:Name="rbtTimeAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" Command="{Binding TimingDisplayModeChangedCommand}"/>
+                <RadioButton Grid.Column="1" x:Name="rbtTimeRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" IsChecked="True" Command="{Binding TimingDisplayModeChangedCommand}"/>
                 <ComboBox x:Name="cmbTemperature" Grid.Column="1" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource dataFromTemperatureEnum}}" SelectedItem="{Binding TemperatureUnits}"/>
                 <ComboBox x:Name="cmbPressure" Grid.Column="1" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource dataFromPressureEnum}}" SelectedItem="{Binding PressureUnits}"/>
                 <ComboBox x:Name="cmbVolume" Grid.Column="1" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource dataFromVolumeEnum}}" SelectedItem="{Binding VolumeUnits}"/>

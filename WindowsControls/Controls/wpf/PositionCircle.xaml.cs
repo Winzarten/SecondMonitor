@@ -146,12 +146,16 @@ namespace SecondMonitor.WindowsControls.wpf
 
                 if (driver.IsPlayer)
                 {
-                    driverEllipse.Fill = Brushes.Red;
+                    driverEllipse.Fill = Brushes.Gray;
                 }
                 else if (driver.InPits)
                 {
-                    driverEllipse.Fill = Brushes.Blue;
+                    driverEllipse.Fill = Brushes.Orange;
                 }
+                else if (driver.IsBeingLappedByPlayer)
+                    driverEllipse.Fill = Brushes.Blue;
+                else if (driver.IsLapingPlayer)
+                    driverEllipse.Fill = Brushes.Red;
                 else
                     driverEllipse.Fill = Brushes.Green;
                 double x = GetX(driver, canvas.ActualWidth- margin * 2) - 5;
@@ -160,6 +164,21 @@ namespace SecondMonitor.WindowsControls.wpf
                 Canvas.SetTop(driverEllipse, y);
 
                 var text = driverTexts[driver.DriverName];
+
+                if (driver.IsPlayer)
+                {
+                    text.Foreground = Brushes.Gray;
+                }
+                else if (driver.InPits)
+                {
+                    text.Foreground = Brushes.Orange;
+                }
+                else if (driver.IsBeingLappedByPlayer)
+                    text.Foreground = Brushes.Blue;
+                else if (driver.IsLapingPlayer)
+                    text.Foreground = Brushes.Red;
+                else
+                    text.Foreground = Brushes.Green;
                 text.Text = driver.Position.ToString();
                 x = GetX(driver, canvas.ActualWidth- margin * 2 - 40) - 10;
                 y = GetY(driver, canvas.ActualHeight- margin * 2 - 40) - 10;

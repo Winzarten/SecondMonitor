@@ -40,8 +40,10 @@ namespace SecondMonitor.R3EConnector
         private int lastSessionType;
         private int lastSessionPhase;
         private Double sessionStartR3RTime;
+        private SecondMonitor.DataModel.Drivers.DriverInfo lastPlayer = new SecondMonitor.DataModel.Drivers.DriverInfo();
 
-        
+
+
 
 
         public R3EConnector()
@@ -261,22 +263,26 @@ namespace SecondMonitor.R3EConnector
 
             for (int i = 0; i<r3rData.NumCars; i++)
             {
-                DriverData r3rDriverData =  r3rData.DriverData[i];                
+                DriverData r3rDriverData =  r3rData.DriverData[i];
                 DataModel.Drivers.DriverInfo driverInfo = new DataModel.Drivers.DriverInfo();
                 driverInfo.DriverName = FromByteArray(r3rDriverData.DriverInfo.Name);
                 driverInfo.CompletedLaps = r3rDriverData.CompletedLaps;
                 driverInfo.CarName = "";//System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.).Replace("\0", "");
                 driverInfo.InPits = r3rDriverData.InPitlane == 1;
                 driverInfo.IsPlayer = driverInfo.DriverName == playerName;
-                driverInfo.Position = r3rDriverData.Place;                
+                driverInfo.Position = r3rDriverData.Place;
                 driverInfo.Speed = r3rDriverData.CarSpeed;
                 driverInfo.LapDistance = r3rDriverData.LapDistance;
+                driverInfo.TotalDistance = r3rDriverData.CompletedLaps * r3rData.LayoutLength + r3rDriverData.LapDistance;
+                ComputeDistanceToPlayer(lastPlayer, driverInfo, r3rData);
                 driverInfo.CarName = database.GetCarName(r3rDriverData.DriverInfo.ModelId);
+                driverInfo.FinishStatus = FromR3RStatus(r3rDriverData.FinishStatus);
                 
                 if (driverInfo.IsPlayer)
                 {                    
                     playersInfo = driverInfo;
                     driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
+                    lastPlayer = driverInfo;
                 }
                 else
                     driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
@@ -295,27 +301,56 @@ namespace SecondMonitor.R3EConnector
                     data.SessionInfo.LeaderCurrentLap = driverInfo.CompletedLaps + 1;
                     data.LeaderInfo = driverInfo;
                 }
+                if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && lastPlayer != null && lastPlayer.CompletedLaps!=0)
+                {
+                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (lastPlayer.TotalDistance - r3rData.LayoutLength * 0.5);
+                    driverInfo.IsLapingPlayer = lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3rData.LayoutLength * 0.5);
+                }
+
             }
             if (playersInfo != null)
             {
-                ComputeDistanceToPlayer(playersInfo, data);
                 data.PlayerInfo = playersInfo;
             }
         }
 
-        private static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, SimulatorDataSet data)
+        private static SecondMonitor.DataModel.Drivers.DriverInfo.DriverFinishStatus FromR3RStatus(int finishStatus)
         {
-            Single trackLength = data.SessionInfo.LayoutLength;
-            Single playerLapDistance = player.LapDistance;
-            foreach(var driverInfo in data.DriversInfo)
+            switch((FinishStatus)finishStatus)
             {
-                Single distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
-                if(distanceToPlayer < -(trackLength / 2))
-                    distanceToPlayer = distanceToPlayer + trackLength;
-                if (distanceToPlayer > (trackLength / 2))
-                    distanceToPlayer = distanceToPlayer - trackLength;
-                driverInfo.DistanceToPlayer = distanceToPlayer;
+                case FinishStatus.Unavailable:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.NA;
+                case FinishStatus.DNF:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DNF;
+                case FinishStatus.DNQ:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DNQ;
+                case FinishStatus.DNS:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DNS;
+                case FinishStatus.DQ:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DQ;
+                case FinishStatus.Finished:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.Finished;
+                case FinishStatus.None:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.None;
             }
+            return DataModel.Drivers.DriverInfo.DriverFinishStatus.NA;
+
+        }
+
+        private static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, DataModel.Drivers.DriverInfo driverInfo, R3ESharedData r3rData)
+        {
+            if (player == null)
+                return;
+            Single trackLength = r3rData.LayoutLength;
+            Single playerLapDistance = player.LapDistance;
+
+            Single distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
+            if (distanceToPlayer < -(trackLength / 2))
+                distanceToPlayer = distanceToPlayer + trackLength;
+            if (distanceToPlayer > (trackLength / 2))
+                distanceToPlayer = distanceToPlayer - trackLength;
+            driverInfo.DistanceToPlayer = distanceToPlayer;
+
         }
 
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
@@ -329,6 +364,7 @@ namespace SecondMonitor.R3EConnector
             //PEDAL INFO
             simData.PedalInfo.ThrottlePedalPosition = data.ThrottlePedal;
             simData.PedalInfo.BrakePedalPosition = data.BrakePedal;
+            simData.PedalInfo.ClutchPedalPosition = data.ClutchPedal;
 
             //WaterSystemInfo
             simData.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);

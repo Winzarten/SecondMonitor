@@ -47,6 +47,9 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
         }
         public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
+        public double TotalDistanceTraveled { get => DriverInfo.TotalDistance; }
+        public bool IsLapped { get => DriverInfo.IsBeingLappedByPlayer; }
+        public bool IsLapping { get => DriverInfo.IsLapingPlayer; }
         public LapInfo BestLap { get; private set; }
         public string BestLapString
         {
@@ -91,12 +94,56 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
         }
 
+        public string Remark
+        {
+            get => DriverInfo.FinishStatus.ToString();
+        }
+
+        public string TimeToPlayerFormatted
+        {
+            get
+            {
+                if (Session.Player == null)
+                    return "";
+                if (DriverInfo.IsPlayer)
+                    return "";
+                if (Session.LastSet.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
+                    return "";
+                double distanceToUse;
+                if (Session.DisplayGapToPlayerRelative)
+                    distanceToUse = DriverInfo.DistanceToPlayer;
+                else
+                    distanceToUse = Session.Player.TotalDistanceTraveled - TotalDistanceTraveled;
+                if(Math.Abs(distanceToUse)> Session.LastSet.SessionInfo.LayoutLength)
+                    return ((int)(distanceToUse) / (int)Session.LastSet.SessionInfo.LayoutLength) +"LAP";
+                if (distanceToUse > 0)
+                {
+                    double requiredTime = distanceToUse / (DriverInfo.Speed);
+                    if (requiredTime < 30)
+                        return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
+                    else
+                        return "+30.000+";
+                }
+                else
+                {
+                    double requiredTime = distanceToUse / (Session.Player.DriverInfo.Speed);
+                    if (requiredTime > -30)
+                        return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
+                    else
+                        return "-30.000+";
+                }
+            }
+        }
+
+
         public bool UpdateLaps(SimulatorDataSet set)
         {
             SessionInfo sessionInfo = set.SessionInfo;
             if (!sessionInfo.IsActive)
                 return false;
             if (sessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown)
+                return false;
+            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.NA && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && LastLap.LapEnd != TimeSpan.Zero)
                 return false;
             UpdateInPitsProperty(set);
             if (lapsInfo.Count == 0)
@@ -130,6 +177,8 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return true;        
             if (!currentLap.Valid && DriverInfo.CurrentLapValid && SessionInfo.SessionTypeEnum.Race == sessionInfo.SessionType && !DriverInfo.IsPlayer && (currentLap.FirstLap && !InvalidateFirstLap))
                 return true;
+            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.NA && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None)
+                return true;
             return false;
         }
 
@@ -148,7 +197,8 @@ namespace SecondMonitor.Timing.Model.Drivers
             CurrentLap.FinishLap(sessionInfo.SessionTime);
             if (CurrentLap.Valid && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
                 BestLap = CurrentLap;
-            lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
+            if(DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.NA || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
+                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
             ComputePace();
         }
 

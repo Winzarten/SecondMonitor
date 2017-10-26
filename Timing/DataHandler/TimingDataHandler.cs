@@ -96,33 +96,7 @@ namespace SecondMonitor.Timing.DataHandler
                 return _resetCommand;
             }
         }
-
-        private NoArgumentCommand _resetFuelCommand;
-        public NoArgumentCommand ResetFuelCommand
-        {
-            get
-            {
-                if (_resetFuelCommand == null)
-                {
-                    _resetFuelCommand = new NoArgumentCommand(ResetFuel);
-                }
-                return _resetFuelCommand;
-            }
-        }
-
-        private NoArgumentCommand _paceLapsCommand;
-        public NoArgumentCommand PaceLapsCommand
-        {
-            get
-            {
-                if (_paceLapsCommand == null)
-                {
-                    _paceLapsCommand = new NoArgumentCommand(PaceLapsChanged);
-                }
-                return _paceLapsCommand;
-            }
-        }
-
+        
         private NoArgumentCommand _scrollToPlayerCommand;
         public NoArgumentCommand ScrollToPlayerCommand
         {
@@ -167,7 +141,13 @@ namespace SecondMonitor.Timing.DataHandler
         }
 
         public int RefreshRate { get => refreshRate; set => refreshRate = value; }
-        public int PaceLaps { get => paceLaps; set => paceLaps = value; }
+        public int PaceLaps { get => paceLaps;
+            set
+            {
+                paceLaps = value;
+                PaceLapsChanged();
+            }
+        }
         public int SessionCompletedPercentage { get => timing != null ? timing.SessionCompletedPercentage : 50; }
 
         private NoArgumentCommand _refreshRateCommand;
@@ -191,9 +171,9 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void PaceLapsChanged()
         {
-            paceLaps = (int)gui.upDownPaceLaps.Value;
             if (timing != null)
                 timing.PaceLaps = paceLaps;
+            gui.Dispatcher.Invoke(RefreshDatagrid);
 
         }
         private void ResetFuel()
@@ -214,11 +194,13 @@ namespace SecondMonitor.Timing.DataHandler
                 {
                     ViewSource.SortDescriptions.Clear();
                     ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
+                    timing.DisplayGapToPlayerRelative = false;
                 }
                 else
                 {
                     ViewSource.SortDescriptions.Clear();
                     ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+                    timing.DisplayGapToPlayerRelative = true;
                 }
             });
         }
@@ -229,7 +211,9 @@ namespace SecondMonitor.Timing.DataHandler
                 return;
             gui.Dispatcher.Invoke(() =>
             {
+                var mode = gui.TimingMode;
                 timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked;
+                timing.DisplayGapToPlayerRelative = !(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race));
             });
         }
 
@@ -243,11 +227,16 @@ namespace SecondMonitor.Timing.DataHandler
             SimulatorDataSet data = args.Data;
             if (ViewSource == null)
                 return;
-            if(shouldReset!=ResetModeEnum.NO_RESET)
+            if (shouldReset != ResetModeEnum.NO_RESET)
             {
                 bool invalidateLap = shouldReset == ResetModeEnum.MANUAL || data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
                 timing = SessionTiming.FromSimulatorData(args.Data, invalidateLap);
-                gui.Dispatcher.Invoke(() => timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked);
+                gui.Dispatcher.Invoke(() =>
+                {
+                    var mode = gui.TimingMode;
+                    timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked;
+                    timing.DisplayGapToPlayerRelative = !(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race));
+                });
                 timing.PaceLaps = paceLaps;
                 timing.BestLapChangedEvent += BestLapChangedHandler;
                 InitializeGui(data);
@@ -273,32 +262,7 @@ namespace SecondMonitor.Timing.DataHandler
             }
             if (timeSpan.TotalMilliseconds > refreshRate)
             {
-                gui.Dispatcher.Invoke((Action)(() =>
-                {
-                    NotifyPropertyChanged("SystemTime");
-                    NotifyPropertyChanged("SessionCompletedPercentage");
-                    gui.pedalControl.UpdateControl(data);
-                    gui.whLeftFront.UpdateControl(data);
-                    gui.whRightFront.UpdateControl(data);
-                    gui.whLeftRear.UpdateControl(data);
-                    gui.whRightRear.UpdateControl(data);
-                    gui.waterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
-                    gui.oilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;                    
-                    gui.timingCircle.RefreshSession(data);
-                    
-
-                    gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1")
-                    +"| Rain Intensity: "+data.SessionInfo.WeatherInfo.rainIntensity+"%";
-                    gui.lblRemainig.Content = GetSessionRemainig(data);
-                    if(ViewSource!=null)
-                        ViewSource.View.Refresh();
-                    if (scrollToPlayer && gui!=null && timing.Player != null && gui.dtTimig.Items.Count>0)
-                    {
-                        gui.dtTimig.ScrollIntoView(gui.dtTimig.Items[0]);
-                        gui.dtTimig.ScrollIntoView(timing.Player);
-                    }
-                }));
-                lastRefreshTiming = DateTime.Now;
+                RefreshGui(data);
             }
             TimeSpan timeSpanCarIno = DateTime.Now.Subtract(lastRefreshCarInfo);
             if (timeSpanCarIno.TotalMilliseconds > 33)
@@ -326,6 +290,41 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        private void RefreshGui(SimulatorDataSet data)
+        {
+            gui.Dispatcher.Invoke((Action)(() =>
+            {
+                NotifyPropertyChanged("SystemTime");
+                NotifyPropertyChanged("SessionCompletedPercentage");
+                gui.pedalControl.UpdateControl(data);
+                gui.whLeftFront.UpdateControl(data);
+                gui.whRightFront.UpdateControl(data);
+                gui.whLeftRear.UpdateControl(data);
+                gui.whRightRear.UpdateControl(data);
+                gui.waterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
+                gui.oilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
+                gui.timingCircle.RefreshSession(data);
+
+
+                gui.lblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.airTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.trackTemperature.InCelsius.ToString("n1")
+                + "| Rain Intensity: " + data.SessionInfo.WeatherInfo.rainIntensity + "%";
+                gui.lblRemainig.Content = GetSessionRemainig(data);
+                RefreshDatagrid();
+                if (scrollToPlayer && gui != null && timing.Player != null && gui.dtTimig.Items.Count > 0)
+                {
+                    gui.dtTimig.ScrollIntoView(gui.dtTimig.Items[0]);
+                    gui.dtTimig.ScrollIntoView(timing.Player);
+                }
+            }));
+            lastRefreshTiming = DateTime.Now;
+        }
+
+        private void RefreshDatagrid()
+        {
+            if (ViewSource != null)
+                ViewSource.View.Refresh();
+        }
+
         private string GetSessionRemainig(SimulatorDataSet dataSet)
         {
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.NA)
@@ -342,12 +341,19 @@ namespace SecondMonitor.Timing.DataHandler
             timing = SessionTiming.FromSimulatorData(args.Data, args.Data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race);
             timing.BestLapChangedEvent += BestLapChangedHandler;
             timing.PaceLaps = paceLaps;
-            gui.Dispatcher.Invoke(()=> timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked );
-            
+            bestSessionLap = null;
+            NotifyPropertyChanged("BestLapFormatted");
+            gui.Dispatcher.Invoke(() =>
+            {
+                var mode = gui.TimingMode;
+                timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked;
+                timing.DisplayGapToPlayerRelative = !(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race));
+            });
+
             InitializeGui(args.Data);
             ConnectedSource =args.Data.Source;
             NotifyPropertyChanged("ConnectedSource");
-            ChangeTimingMode();            
+            ChangeTimingMode();
         }
 
         public ICollectionView TimingInfo { get => ViewSource!= null ? ViewSource.View : null; }

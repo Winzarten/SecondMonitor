@@ -10,7 +10,6 @@ namespace SecondMonitor.DataModel
         public enum SessionTypeEnum { NA, Practice, Qualification, WarmUp, Race}
         public enum SessionPhaseEnum { Countdown, Green, Checkered}
         public enum SessionLengthTypeEnum { NA, Laps, Time}
-
         public TimeSpan SessionTime;
         public bool IsActive;
         public string TrackName;

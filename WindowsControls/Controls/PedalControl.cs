@@ -24,6 +24,9 @@ namespace SecondMonitor.CarStatus.Forms.Controls
 
             UpdateControlLocation(pnlBrake, 1);
             UpdateControlLocation(lblBrake, 1);
+
+            UpdateControlLocation(pnlClutch, 0);
+            UpdateControlLocation(lblClutch, 0);
         }
 
         private void UpdateControlLocation(Control control,int postion)
@@ -40,6 +43,7 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             UpdatePostions();
             UpdateControlsByValue(pnlThrottle, lblThrottle, data.PedalInfo.ThrottlePedalPosition);
             UpdateControlsByValue(pnlBrake, lblBrake, data.PedalInfo.BrakePedalPosition);
+            UpdateControlsByValue(pnlClutch, lblClutch, data.PedalInfo.ClutchPedalPosition);
         }
 
         private void UpdateControlsByValue(Panel panel, Label label, double  value)
