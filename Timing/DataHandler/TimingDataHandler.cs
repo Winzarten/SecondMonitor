@@ -80,9 +80,10 @@ namespace SecondMonitor.Timing.DataHandler
             shouldReset = ResetModeEnum.NO_RESET;            
         }
 
-        public TemperatureUnits TemperatureUnits { get => displaySettings.TemperatureUnits; set => displaySettings.TemperatureUnits = value; }
+        public DisplaySettings DisplaySettings { get => displaySettings; }
+        /*public TemperatureUnits TemperatureUnits { get => displaySettings.TemperatureUnits; set => displaySettings.TemperatureUnits = value; }
         public PressureUnits PressureUnits { get => displaySettings.PressureUnits; set => displaySettings.PressureUnits = value; }
-        public VolumeUnits VolumeUnits { get => displaySettings.VolumeUnits; set => displaySettings.VolumeUnits = value; }
+        public VolumeUnits VolumeUnits { get => displaySettings.VolumeUnits; set => displaySettings.VolumeUnits = value; }*/
 
         private NoArgumentCommand _resetCommand;
         public NoArgumentCommand ResetCommand

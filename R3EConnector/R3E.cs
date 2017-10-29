@@ -158,7 +158,7 @@ namespace SecondMonitor.R3EConnector
     namespace Data
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Vector3<T>
+        public struct Vector3<T>
         {
             public T X;
             public T Y;
@@ -166,7 +166,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Orientation<T>
+        public struct Orientation<T>
         {
             public T Pitch;
             public T Yaw;
@@ -174,7 +174,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct TireTemperature
+        public struct TireTemperature
         {
             public Single FrontLeft_Left;
             public Single FrontLeft_Center;
@@ -194,7 +194,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct PlayerData
+        public struct PlayerData
         {
             // Virtual physics time
             // Unit: Ticks (1 tick = 1/400th of a second)
@@ -243,7 +243,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Flags
+        public struct Flags
         {
             // Whether yellow flag is currently active
             // -1 = no data
@@ -265,7 +265,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct ExtendedFlags
+        public struct ExtendedFlags
         {
             // Whether green flag is currently active
             // -1 = no data
@@ -290,7 +290,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct ExtendedFlags2
+        public struct ExtendedFlags2
         {
             // Whether white flag is currently active
             // -1 = no data
@@ -318,7 +318,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct CarDamage
+        public struct CarDamage
         {
             // Range: 0.0 - 1.0
             // Note: -1.0 = N/A
@@ -335,7 +335,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct TireData
+        public struct TireData
         {
             public Single FrontLeft;
             public Single FrontRight;
@@ -344,7 +344,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct CutTrackPenalties
+        public struct CutTrackPenalties
         {
             public Int32 DriveThrough;
             public Int32 StopAndGo;
@@ -354,7 +354,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct DRS
+        public struct DRS
         {
             // If DRS is equipped and allowed
             // 0 = No, 1 = Yes, -1 = N/A
@@ -372,7 +372,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct PushToPass
+        public struct PushToPass
         {
             public Int32 Available;
             public Int32 Engaged;
@@ -382,7 +382,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct Sectors<T>
+        public struct Sectors<T>
         {
             public T Sector1;
             public T Sector2;
@@ -390,7 +390,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct R3EDriverInfo
+        public struct R3EDriverInfo
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
             public byte[] Name; // UTF-8
@@ -405,7 +405,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct DriverData
+        public struct DriverData
         {
             public R3EDriverInfo DriverInfo;
             // Note: See the R3E.Constant.FinishStatus enum
@@ -437,7 +437,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct R3ESharedData
+        public struct R3ESharedData
         {
             //////////////////////////////////////////////////////////////////////////
             // Version

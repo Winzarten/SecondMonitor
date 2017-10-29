@@ -48,6 +48,7 @@
     <Compile Include="R3E.cs" />
     <Compile Include="R3EConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="R3EDataConvertor.cs" />
     <Compile Include="R3RDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
