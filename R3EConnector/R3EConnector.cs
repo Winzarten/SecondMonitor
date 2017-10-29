@@ -10,6 +10,7 @@ using SecondMonitor.R3EConnector.Data;
 using SecondMonitor.DataModel.BasicProperties;
 using System.Collections.Generic;
 using static SecondMonitor.R3EConnector.Constant;
+using SecondMonitor.DataModel.Drivers;
 
 namespace SecondMonitor.R3EConnector
 {
@@ -40,7 +41,10 @@ namespace SecondMonitor.R3EConnector
         private int lastSessionType;
         private int lastSessionPhase;
         private Double sessionStartR3RTime;
-        private SecondMonitor.DataModel.Drivers.DriverInfo lastPlayer = new SecondMonitor.DataModel.Drivers.DriverInfo();
+        private DriverInfo lastPlayer = new DriverInfo();
+        private Dictionary<string, DriverInfo> lastTickInformation;
+        private Dictionary<string, Single> lastLapTimes;
+        
 
 
 
@@ -56,6 +60,8 @@ namespace SecondMonitor.R3EConnector
             lastTick = DateTime.Now;
             sessionStartR3RTime = 0;
             lastSessionType = -2;
+            lastTickInformation = new Dictionary<string, DriverInfo>();
+            lastLapTimes = new Dictionary<string, float>();
         }
 
         public bool IsConnected
@@ -135,7 +141,10 @@ namespace SecondMonitor.R3EConnector
                 R3ESharedData r3rData = Load();
                 SimulatorDataSet data = FromR3EData(r3rData);
                 if (CheckSessionStarted(r3rData))
+                {
+                    lastTickInformation.Clear();
                     RaiseSessionStartedEvent(data);
+                }
                 DateTime tickTime = DateTime.Now;
                 if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay)
                 {
@@ -173,11 +182,21 @@ namespace SecondMonitor.R3EConnector
             
         }
 
+        private DriverInfo GetLastTickInfo(string driverName)
+        {
+            if (lastTickInformation.ContainsKey(driverName))
+                return lastTickInformation[driverName];
+            return null;
+        }
 
+        private void StoreLastTickInfo(DriverInfo driverInfo)
+        {
+            lastTickInformation[driverInfo.DriverName] = driverInfo;
+        }
 
         private void Disconnect()
         {
-            disconnect = true;            
+            disconnect = true;
             sharedMemory = null;
             RaiseDisconnectedEvent();
         }
@@ -306,12 +325,27 @@ namespace SecondMonitor.R3EConnector
                     driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (lastPlayer.TotalDistance - r3rData.LayoutLength * 0.5);
                     driverInfo.IsLapingPlayer = lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3rData.LayoutLength * 0.5);
                 }
+                FillTimingInfor(driverInfo, r3rDriverData, r3rData);
+                if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished)
+                    driverInfo.CompletedLaps++;
+                StoreLastTickInfo(driverInfo);
 
             }
             if (playersInfo != null)
             {
                 data.PlayerInfo = playersInfo;
             }
+        }
+
+        private void FillTimingInfor(DataModel.Drivers.DriverInfo driverInfo, DriverData r3eDriverData, R3ESharedData r3rData)
+        {
+            if (driverInfo.IsPlayer)
+            {
+                driverInfo.Timing.LastLapTime = r3rData.LapTimePreviousSelf;
+                return;
+            }
+            else
+                driverInfo.Timing.LastLapTime = r3eDriverData.SectorTimePreviousSelf.Sector3;
         }
 
         private static SecondMonitor.DataModel.Drivers.DriverInfo.DriverFinishStatus FromR3RStatus(int finishStatus)

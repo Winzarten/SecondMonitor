@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -51,6 +52,7 @@
     <Compile Include="BasicProperties\VolumeUnits.cs" />
     <Compile Include="CarInfo.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />
+    <Compile Include="Drivers\DriverTimingInfo.cs" />
     <Compile Include="SessionInfo.cs" />
     <Compile Include="SimulatorDataSet.cs" />
     <Compile Include="FuelInfo.cs" />

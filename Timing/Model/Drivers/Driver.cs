@@ -194,7 +194,7 @@ namespace SecondMonitor.Timing.Model.Drivers
 
         private void FinishCurrentLap(SessionInfo sessionInfo)
         {
-            CurrentLap.FinishLap(sessionInfo.SessionTime);
+            CurrentLap.FinishLap(sessionInfo.SessionTime, DriverInfo.Timing.LastLapTime);
             if (CurrentLap.Valid && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
                 BestLap = CurrentLap;
             if(DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.NA || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)

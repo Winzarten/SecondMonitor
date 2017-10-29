@@ -43,9 +43,16 @@ namespace SecondMonitor.Timing.Model
         public bool InvalidBySim { get; set; }
         public bool PitLap { get; set; }
 
-        public void FinishLap(TimeSpan sessionTime)
+        public void FinishLap(TimeSpan sessionTime, Single modelLapTime)
         {
-            lapEnd = sessionTime;
+            if (modelLapTime == -1)
+            {
+                lapEnd = sessionTime;
+            }
+            else
+            {
+                lapEnd = LapStart.Add(TimeSpan.FromSeconds(modelLapTime));
+            }
             lapTime = LapEnd.Subtract(LapStart);
         }
         public void Tick(TimeSpan sessionTime)

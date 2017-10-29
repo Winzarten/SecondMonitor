@@ -150,7 +150,7 @@ namespace SecondMonitor.WindowsControls.wpf
                 }
                 else if (driver.InPits)
                 {
-                    driverEllipse.Fill = Brushes.Orange;
+                    driverEllipse.Fill = Brushes.Olive;
                 }
                 else if (driver.IsBeingLappedByPlayer)
                     driverEllipse.Fill = Brushes.Blue;
@@ -171,7 +171,7 @@ namespace SecondMonitor.WindowsControls.wpf
                 }
                 else if (driver.InPits)
                 {
-                    text.Foreground = Brushes.Orange;
+                    text.Foreground = Brushes.Olive;
                 }
                 else if (driver.IsBeingLappedByPlayer)
                     text.Foreground = Brushes.Blue;

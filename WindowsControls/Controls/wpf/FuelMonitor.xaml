@@ -31,7 +31,7 @@
         <Button Content="Reset Fuel" Margin="0,49,89,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Height="24" Click="Button_Click"/>
         <Image HorizontalAlignment="Left" Height="24" Margin="82,47,0,0"  Width="24" VerticalAlignment="Top"
             Panel.ZIndex="5" Source="/WindowsControls;component/Resources/fuel.png"/>
-        <TextBox x:Name="txtFuel" Height="27" Margin="0,19,3,0" TextWrapping="Wrap" Text="1000 gal" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="81" IsReadOnly="True"/>
+        <TextBox x:Name="txtFuel" Height="27" Margin="0,19,3,0" TextWrapping="Wrap" Text="Req Fuel" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="81" IsReadOnly="True"/>
         <Button Content="Compute" HorizontalAlignment="Right" Margin="0,49,3,0" VerticalAlignment="Top" Width="82" Height="24" Click="Button_Click_1"/>
     </Grid>
 </UserControl>

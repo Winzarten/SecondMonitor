@@ -121,7 +121,7 @@
                             <Setter Property="Foreground" Value="Red"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding InPits}" Value="True">
-                            <Setter Property="Background" Value="Orange"/>
+                            <Setter Property="Background" Value="Olive"/>
                             <Setter Property="Foreground" Value="Black"/>
                         </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">

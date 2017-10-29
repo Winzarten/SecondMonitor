@@ -390,7 +390,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct DriverInfo
+        internal struct R3EDriverInfo
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
             public byte[] Name; // UTF-8
@@ -407,7 +407,7 @@ namespace SecondMonitor.R3EConnector
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         internal struct DriverData
         {
-            public DriverInfo DriverInfo;
+            public R3EDriverInfo DriverInfo;
             // Note: See the R3E.Constant.FinishStatus enum
             public Int32 FinishStatus;
             public Int32 Place;
@@ -593,7 +593,7 @@ namespace SecondMonitor.R3EConnector
             // Vehicle information
             //////////////////////////////////////////////////////////////////////////
 
-            public DriverInfo VehicleInfo;
+            public R3EDriverInfo VehicleInfo;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
             public byte[] PlayerName; // UTF-8
 

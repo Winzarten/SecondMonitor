@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace SecondMonitor.R3EConnector
         public void Load()
         {
             //JsonTextReader reader = new JsonTextReader(File.OpenText("data.json"));
-            var jsonDb = JsonConvert.DeserializeObject<JObject>(File.ReadAllText("data.json"));
+            var jsonDb = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(Path.Combine(AssemblyDirectory, "data.json")));
             var cars = jsonDb.GetValue("cars");
             LoadCarNames(cars);
             
@@ -34,6 +35,18 @@ namespace SecondMonitor.R3EConnector
                     Console.WriteLine("Token: {0}", reader.TokenType);
                 }
             }*/
+        }
+
+
+        private string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
         }
 
         private void LoadCarNames(JToken carsJson)

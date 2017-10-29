@@ -39,8 +39,8 @@ namespace SecondMonitor.Timing.Model
 
         private int paceLaps;
         private LapInfo bestSessionLap;
-        public DriverTiming Player { get; private set; }
-        public DriverTiming Leader { get; private set; }
+        public Drivers.DriverTiming Player { get; private set; }
+        public Drivers.DriverTiming Leader { get; private set; }
         public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }

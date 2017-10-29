@@ -15,8 +15,8 @@ namespace SecondMonitor.Launcher
     static class Loader
     {
         //private static readonly string defaultGameConnector = "PCarsConnector.dll";// "R3EConnector.dll";
-        //private static readonly string defaultGameConnector = "R3EConnector.dll";
-        private static readonly string defaultGameConnector = "MockedConnector.dll";
+        private static readonly string defaultGameConnector = "Connectors\\R3E\\R3EConnector.dll";
+        //private static readonly string defaultGameConnector = "MockedConnector.dll";
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -33,12 +33,12 @@ namespace SecondMonitor.Launcher
                 
                 //while (String.IsNullOrEmpty(gameConnector))
                 //{
-                    if (Process.GetProcessesByName("RRRE").Length > 0)
-                        gameConnector = "R3EConnector.dll";
+                    //if (Process.GetProcessesByName("RRRE").Length > 0)
+                      //  gameConnector = "R3EConnector.dll";
 
-                    if (Process.GetProcessesByName("pCARS64").Length > 0)
-                        gameConnector = "PCarsConnector.dll";
-                    Thread.Sleep(100);
+                    //if (Process.GetProcessesByName("pCARS64").Length > 0)
+                      //  gameConnector = "PCarsConnector.dll";
+                    //Thread.Sleep(100);
                     //if (dialog.DialogResult == DialogResult.Cancel)
                         //Environment.Exit(0);
                 //}
@@ -56,7 +56,7 @@ namespace SecondMonitor.Launcher
 
         private static void LoadUsingGameConnectorAssembply(string assemblyPath)
         {
-            Assembly assembly = Assembly.LoadFile(assemblyPath);
+            Assembly assembly = Assembly.LoadFrom(assemblyPath);
             LoadUsingGameConnectorAssembply(assembly);
         }
         private static void LoadUsingGameConnectorAssembply(Assembly assembly)

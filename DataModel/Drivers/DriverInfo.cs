@@ -25,5 +25,6 @@ namespace SecondMonitor.DataModel.Drivers
         public DriverFinishStatus FinishStatus = DriverFinishStatus.NA;
 
         public CarInfo CarInfo = new CarInfo();
+        public DriverTimingInfo Timing { get; set; } = new DriverTimingInfo();
     }
 }
