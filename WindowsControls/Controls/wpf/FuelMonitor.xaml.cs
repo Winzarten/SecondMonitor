@@ -24,6 +24,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
     {
 
         private static readonly Volume FuelConsumedMaximumThreshold = Volume.FromLiters(1);
+        private static readonly double distanceMaxThreshold = 300;
         public enum FuelOutputEnum { TIME, LAPS}
         public VolumeUnits DisplayUnits { get; set; } = VolumeUnits.US_Gallons;
         private TimeSpan lastSessionTime;
@@ -80,10 +81,10 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             {                
                 if (tickDistanceCovered < 0)
                     tickDistanceCovered += set.SessionInfo.LayoutLength;
-                if (tickDistanceCovered < 100)
+                if (tickDistanceCovered < distanceMaxThreshold)
                     totalLapDistanceCovered += tickDistanceCovered;
             }
-            if (lastSessionTime.Ticks != 0 && fuelConsumed.InLiters>0 && fuelConsumed < FuelConsumedMaximumThreshold && totalLapDistanceCovered > 0)
+            if (lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold && tickDistanceCovered < distanceMaxThreshold && (fuelConsumed.InLiters > 0 || totalLapDistanceCovered > 0))
             {
                 double timeSpan = set.SessionInfo.SessionTime.TotalMilliseconds - lastSessionTime.TotalMilliseconds;
                 totalFuelConsumed += fuelConsumed;
@@ -97,7 +98,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             if (set.PlayerInfo == null)
                 return;
                         
-            lastLapDistance = set.PlayerInfo.LapDistance;            
+            lastLapDistance = set.PlayerInfo.LapDistance;
         }
 
         private void UpdateAsLaps(SimulatorDataSet set, Volume fuelLeft, Volume fuelConsumed, double tickDistnace)
@@ -113,10 +114,11 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
         private void UpdateAsTime(SimulatorDataSet set, Volume fuelLeft, Volume fuelConsumed, double timeSpan)
         {
             double ticksPerSecond = 1000 / timeSpan;
-            fuelPerMinute = fuelConsumed * ticksPerSecond * 60;                       
-            averageConsmptionPerMinute = (totalFuelConsumed / totalTime) * 60000;            
+            fuelPerMinute = fuelConsumed * ticksPerSecond * 60;
+            averageConsmptionPerMinute = (totalFuelConsumed / totalTime) * 60000;
             double remaining = fuelLeft.InLiters / averageConsmptionPerMinute.InLiters;
-            timeLeft = TimeSpan.FromMinutes(remaining);
+            if(!double.IsInfinity(remaining) && !double.IsNaN(remaining))
+                timeLeft = TimeSpan.FromMinutes(remaining);
         }
 
         private void DisplayConsumption()
@@ -124,6 +126,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             if (OutputType == FuelOutputEnum.TIME)
             {
                 lblConsumtion.Content = "Rate(" + Volume.GetUnitSymbol(DisplayUnits) + "/m):" + fuelPerMinute.GetValueInUnits(DisplayUnits).ToString("N2");
+                //lblConsumtion.Content = totalFuelConsumed.InLiters.ToString("N2");
                 lblAverage.Content = "Avg(" + Volume.GetUnitSymbol(DisplayUnits) + "/ m):" + averageConsmptionPerMinute.GetValueInUnits(DisplayUnits).ToString("N2");
                 var output = $"Time Left:{(int)timeLeft.TotalMinutes}:{timeLeft.Seconds:00}";
                 lblRemaining.Content = output;

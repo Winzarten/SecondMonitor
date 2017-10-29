@@ -55,7 +55,13 @@ namespace SecondMonitor.PCarsConnector
         public PCarsConnector()
         {
             TickTime = 10;
+            ResetConnector();
+        }
+
+        private void ResetConnector()
+        {
             sessionTime = new TimeSpan(0);
+            disconnect = false;
             pitTriggerTimes = new Dictionary<string, TimeSpan>();
         }
 
@@ -117,8 +123,9 @@ namespace SecondMonitor.PCarsConnector
 
         private void StartDaemon()
         {
-            if (daemonThread != null)
+            if (daemonThread != null && daemonThread.IsAlive)
                 throw new InvalidOperationException("Daemon is already running");
+            ResetConnector();
             daemonThread = new Thread(DaemonMethod);
             daemonThread.IsBackground = true;
             daemonThread.Start();
@@ -143,6 +150,8 @@ namespace SecondMonitor.PCarsConnector
 
                     lastSessionState = data.mSessionState;
                     RaiseDataLoadedEvent(simData);
+                    if (!IsPCarsRunning())
+                        disconnect = true;
                 }
                 catch (NameNotFilledException ex)
                 {
@@ -151,7 +160,6 @@ namespace SecondMonitor.PCarsConnector
             }
 
             sharedMemory = null;
-            disconnect = false;
             RaiseDisconnectedEvent();
         }
 
@@ -381,6 +389,7 @@ namespace SecondMonitor.PCarsConnector
             //PEDAL INFO
             simData.PedalInfo.ThrottlePedalPosition = data.mThrottle;
             simData.PedalInfo.BrakePedalPosition = data.mBrake;
+            simData.PedalInfo.ClutchPedalPosition = data.mClutch;
 
             FillSessionInfo(data, simData);
             AddDriversData(data, simData);
