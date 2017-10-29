@@ -15,7 +15,8 @@ namespace SecondMonitor.Launcher
     static class Loader
     {
         //private static readonly string defaultGameConnector = "PCarsConnector.dll";// "R3EConnector.dll";
-        private static readonly string defaultGameConnector = "Connectors\\R3E\\R3EConnector.dll";
+        //private static readonly string defaultGameConnector = "Connectors\\R3E\\R3EConnector.dll";
+        private static readonly string connectorsDir = "Connectors";
         //private static readonly string defaultGameConnector = "Connectors\\Mocked\\MockedConnector.dll";
         /// <summary>
         /// The main entry point for the application.
@@ -28,7 +29,7 @@ namespace SecondMonitor.Launcher
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                string gameConnector = defaultGameConnector;
+                //string gameConnector = defaultGameConnector;
                 //WaitingDialog dialog = new WaitingDialog();
                 
                 //while (String.IsNullOrEmpty(gameConnector))
@@ -44,7 +45,7 @@ namespace SecondMonitor.Launcher
                 //}
                 //dialog.Close();
                 //dialog.Dispose();
-                LoadUsingGameConnectorAssembply(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, gameConnector));
+                LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,connectorsDir));
                 Application.Run();
 
             }
@@ -54,29 +55,53 @@ namespace SecondMonitor.Launcher
             }                
         }
 
-        private static void LoadUsingGameConnectorAssembply(string assemblyPath)
+        private static void LoadUsingGameConnectorsFromDirectory(string connectorsDir)
         {
-            Assembly assembly = Assembly.LoadFrom(assemblyPath);
-            LoadUsingGameConnectorAssembply(assembly);
+            IEnumerable<string> files = Directory.EnumerateFiles(connectorsDir, "*.dll", SearchOption.AllDirectories);
+            List<IGameConnector> connectors = new List<IGameConnector>();
+            foreach (String file in files)
+            {
+                string assemblyPath = file;
+                connectors.AddRange(GetConnectorsFromAssembly(assemblyPath));
+
+            }
+            if (connectors.Count == 0)
+            {
+                MessageBox.Show("No connectors loaded. Please place connectores .dll into " + connectorsDir, "No connectos", MessageBoxButtons.OK);
+                System.Environment.Exit(1);
+            }
+            ConnectAndLoadPlugins(connectors.ToArray<IGameConnector>());
         }
-        private static void LoadUsingGameConnectorAssembply(Assembly assembly)
+
+        public static ICollection<IGameConnector> GetConnectorsFromAssembly(string assemblyPath)
         {
-            var connectorPluginType = typeof(IGameConnector);
-            IEnumerable<Type> types = assembly.GetTypes().Where(c => !(c.IsInterface) && connectorPluginType.IsAssignableFrom(c));
+            var connectorType = typeof(IGameConnector);
+            List<IGameConnector> plugins = new List<IGameConnector>();
+            Assembly assembly;
+            try
+            {
+                assembly = Assembly.LoadFrom(assemblyPath);
+
+            }
+            catch (Exception)
+            {
+                return new List<IGameConnector>();
+            }
+            IEnumerable<Type> types = assembly.GetTypes().Where(c => !(c.IsInterface) && connectorType.IsAssignableFrom(c));
             foreach (Type type in types)
             {
-                IGameConnector gameConnector = Activator.CreateInstance(type) as IGameConnector;
-                ConnectAndLoadPlugins(gameConnector);
-                return;
+                IGameConnector connectors = Activator.CreateInstance(type) as IGameConnector;
+                plugins.Add(connectors);
             }
-            
+            return plugins;
+
         }
-        private static void ConnectAndLoadPlugins(IGameConnector connector)
+       
+        private static void ConnectAndLoadPlugins(IGameConnector[] connectors)
         {
-            
-            PluginsManager pluginManager = new PluginsManager(connector);
-            pluginManager.InitializePlugins(); 
-            connector.AsynConnect();
+            PluginsManager pluginManager = new PluginsManager(connectors);
+            pluginManager.InitializePlugins();
+            pluginManager.Start();
         }
     }
 }

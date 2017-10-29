@@ -51,6 +51,11 @@ namespace SecondMonitor.R3EConnector
         {
             DataConvertor = new R3EDataConvertor(this);
             TickTime = 10;
+            ResetConnector();
+        }
+
+        private void ResetConnector()
+        {
             inSession = false;
             lastTick = DateTime.Now;
             lastTickInformation = new Dictionary<string, DriverInfo>();
@@ -116,8 +121,11 @@ namespace SecondMonitor.R3EConnector
 
         private void StartDaemon()
         {
-            if (daemonThread != null)
+            if (daemonThread != null && daemonThread.IsAlive)
                 throw new InvalidOperationException("Daemon is already running");
+            ResetConnector();
+            disconnect = false;
+            queue.Clear();
             daemonThread = new Thread(DaemonMethod);
             daemonThread.IsBackground = true;
             daemonThread.Start();
@@ -153,16 +161,16 @@ namespace SecondMonitor.R3EConnector
                 {
                     queue.Enqueue(data);
                 }
-                
+                if (r3rData.ControlType == -1 && !IsRrreRunning())
+                    disconnect = true;
             }
             sharedMemory = null;
-            disconnect = false;
             RaiseDisconnectedEvent();
         }
 
         private void QueueProcessor()
         {
-            while (true)
+            while (disconnect == false)
             {
                 SimulatorDataSet set;
                 while (queue.Count != 0)
@@ -170,13 +178,12 @@ namespace SecondMonitor.R3EConnector
                     lock (queue)
                     {
                         set = queue.Dequeue();
-                         
                     }
                     RaiseDataLoadedEvent(set);
                 }
                 Thread.Sleep(TickTime);
             }
-            
+            queue.Clear();
         }
 
         private DriverInfo GetLastTickInfo(string driverName)
@@ -200,24 +207,22 @@ namespace SecondMonitor.R3EConnector
 
         private R3ESharedData Load()
         {
-            
-                if (!IsConnected)
-                    throw new InvalidOperationException("Not connected");
-                R3ESharedData data;
-                var _view = sharedMemory.CreateViewStream();
-                BinaryReader _stream = new BinaryReader(_view);
-                byte[] buffer = _stream.ReadBytes(Marshal.SizeOf(typeof(R3ESharedData)));
-                GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-                data = (R3ESharedData)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(R3ESharedData));
-                handle.Free();
-                return data;
-            
+            if (!IsConnected)
+                throw new InvalidOperationException("Not connected");
+            R3ESharedData data;
+            var _view = sharedMemory.CreateViewStream();
+            BinaryReader _stream = new BinaryReader(_view);
+            byte[] buffer = _stream.ReadBytes(Marshal.SizeOf(typeof(R3ESharedData)));
+            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            data = (R3ESharedData)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(R3ESharedData));
+            handle.Free();
+            return data;
         }
 
 
         private bool CheckSessionStarted(R3ESharedData r3rData)
         {
-            if(r3rData.SessionType != lastSessionType)
+            if (r3rData.SessionType != lastSessionType)
             {
                 lastSessionType = r3rData.SessionType;
                 return true;
