@@ -108,7 +108,7 @@ namespace SecondMonitor.PluginManager.Core
             Assembly assembly;
             try
             {
-                assembly = Assembly.LoadFile(assemblyPath);
+                assembly = Assembly.UnsafeLoadFrom(assemblyPath);
                 
             }catch(Exception)
             {
@@ -160,11 +160,7 @@ namespace SecondMonitor.PluginManager.Core
         private void RaiseSessionStartedEvent(SimulatorDataSet data)
         {
             DataEventArgs args = new DataEventArgs(data);
-            EventHandler<DataEventArgs> handler = SessionStarted;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            SessionStarted?.Invoke(this, args);
         }
 
         private void RaiseDataLoadedEvent(SimulatorDataSet data)

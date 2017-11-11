@@ -80,7 +80,7 @@ namespace SecondMonitor.Launcher
             Assembly assembly;
             try
             {
-                assembly = Assembly.LoadFrom(assemblyPath);
+                assembly = Assembly.UnsafeLoadFrom(assemblyPath);
 
             }
             catch (Exception)

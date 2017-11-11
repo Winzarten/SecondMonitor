@@ -36,12 +36,12 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             if (Phase == PitPhase.COMPLETED)
                 return;
-            if (Phase == PitPhase.ENTRY && Driver.DriverInfo.Speed < 1)
+            if (Phase == PitPhase.ENTRY && Driver.DriverInfo.Speed.InKPH < 1)
             {
                 Phase = PitPhase.INPITS;
                 PitStopStart = set.SessionInfo.SessionTime;
             }
-            if (Phase == PitPhase.INPITS && Driver.DriverInfo.Speed > 1)
+            if (Phase == PitPhase.INPITS && Driver.DriverInfo.Speed.InKPH > 1)
             {
                 Phase = PitPhase.EXIT;
                 PitStopEnd = set.SessionInfo.SessionTime;

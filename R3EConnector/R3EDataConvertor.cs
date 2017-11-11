@@ -33,9 +33,9 @@ namespace SecondMonitor.R3EConnector
         {
             if (r3rData.NumCars == -1)
                 return;
-            data.DriversInfo = new DataModel.Drivers.DriverInfo[r3rData.NumCars];
+            data.DriversInfo = new DriverInfo[r3rData.NumCars];
             String playerName = FromByteArray(r3rData.PlayerName);
-            DataModel.Drivers.DriverInfo playersInfo = null;
+            DriverInfo playersInfo = null;
             /*DataModel.Drivers.DriverInfo playerInfo = new DataModel.Drivers.DriverInfo();
             
             playerInfo.CompletedLaps = r3rData.CompletedLaps;
@@ -46,19 +46,19 @@ namespace SecondMonitor.R3EConnector
             for (int i = 0; i < r3rData.NumCars; i++)
             {
                 DriverData r3rDriverData = r3rData.DriverData[i];
-                DriverInfo driverInfo = new DataModel.Drivers.DriverInfo();
+                DriverInfo driverInfo = new DriverInfo();
                 driverInfo.DriverName = FromByteArray(r3rDriverData.DriverInfo.Name);
                 driverInfo.CompletedLaps = r3rDriverData.CompletedLaps;
                 driverInfo.CarName = "";//System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.).Replace("\0", "");
                 driverInfo.InPits = r3rDriverData.InPitlane == 1;
                 driverInfo.IsPlayer = driverInfo.DriverName == playerName;
                 driverInfo.Position = r3rDriverData.Place;
-                driverInfo.Speed = r3rDriverData.CarSpeed;
+                driverInfo.Speed = Velocity.FromMs(r3rDriverData.CarSpeed);
                 driverInfo.LapDistance = r3rDriverData.LapDistance;
-                driverInfo.TotalDistance = r3rDriverData.CompletedLaps * r3rData.LayoutLength + r3rDriverData.LapDistance;
-                ComputeDistanceToPlayer(lastPlayer, driverInfo, r3rData);
+                driverInfo.TotalDistance = r3rDriverData.CompletedLaps * r3rData.LayoutLength + r3rDriverData.LapDistance;                
                 driverInfo.CarName = database.GetCarName(r3rDriverData.DriverInfo.ModelId);
                 driverInfo.FinishStatus = FromR3RStatus(r3rDriverData.FinishStatus);
+                ComputeDistanceToPlayer(lastPlayer, driverInfo, r3rData);
 
                 if (driverInfo.IsPlayer)
                 {
@@ -99,7 +99,7 @@ namespace SecondMonitor.R3EConnector
             }
         }
 
-        internal void FillTimingInfor(DataModel.Drivers.DriverInfo driverInfo, DriverData r3eDriverData, R3ESharedData r3rData)
+        internal void FillTimingInfor(DriverInfo driverInfo, DriverData r3eDriverData, R3ESharedData r3rData)
         {
             if (driverInfo.IsPlayer)
             {
@@ -133,10 +133,16 @@ namespace SecondMonitor.R3EConnector
 
         }
 
-        internal static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, DataModel.Drivers.DriverInfo driverInfo, R3ESharedData r3rData)
+        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, R3ESharedData r3rData)
         {
             if (player == null)
                 return;
+            if(driverInfo.FinishStatus==DriverInfo.DriverFinishStatus.DQ || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.DNF || 
+                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.DNQ || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.DNS)
+            {
+                driverInfo.DistanceToPlayer = Single.MaxValue;
+                return;
+            }
             Single trackLength = r3rData.LayoutLength;
             Single playerLapDistance = player.LapDistance;
 

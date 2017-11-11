@@ -23,8 +23,7 @@ namespace SecondMonitor.Timing.DataHandler
             private set
             {
                 _now = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("Now"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Now"));
             }
 
         }

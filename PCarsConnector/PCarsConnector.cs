@@ -9,6 +9,7 @@ using SecondMonitor.PluginManager.GameConnector;
 using SecondMonitor.DataModel.BasicProperties;
 using SecondMonitor.PCarsConnector.enums;
 using System.Collections.Generic;
+using SecondMonitor.DataModel.Drivers;
 
 namespace SecondMonitor.PCarsConnector
 {
@@ -43,12 +44,16 @@ namespace SecondMonitor.PCarsConnector
 
         private DateTime lastTick;
         private TimeSpan sessionTime;
+        private double nextSpeedComputation;
+        private SimulatorDataSet lastSpeedComputationSet;
 
         private readonly TimeSpan pitTimeDelay = TimeSpan.FromMilliseconds(2000);
         private readonly int pitRaceTimeCheckDelay = 20000;
 
         private uint lastSessionState = 0;
+        private SimulatorDataSet previousSet = new SimulatorDataSet("PCARS");
         private Dictionary<string, TimeSpan> pitTriggerTimes;
+        private Dictionary<string, DriverInfo> previousTickInfo = new Dictionary<string, DriverInfo>();
 
 
 
@@ -141,10 +146,15 @@ namespace SecondMonitor.PCarsConnector
                 pCarsAPIStruct data = Load();
                 try
                 {
-                    SimulatorDataSet simData = FromR3EData(data);
+                    DateTime tickTime = DateTime.Now;
+                    TimeSpan lastTickDuration = tickTime.Subtract(lastTick);
+                    SimulatorDataSet simData= FromPCARSData(data, lastTickDuration);
+
                     if (lastSessionState != data.mSessionState)
                     {
                         pitTriggerTimes.Clear();
+                        previousTickInfo.Clear();
+                        nextSpeedComputation = 0;
                         RaiseSessionStartedEvent(simData);
                     }
 
@@ -152,6 +162,8 @@ namespace SecondMonitor.PCarsConnector
                     RaiseDataLoadedEvent(simData);
                     if (!IsPCarsRunning())
                         disconnect = true;
+                    lastTick = tickTime;
+                    previousSet = simData;
                 }
                 catch (NameNotFilledException ex)
                 {
@@ -199,11 +211,7 @@ namespace SecondMonitor.PCarsConnector
         {
                        
             DataEventArgs args = new DataEventArgs(simData);
-            EventHandler<DataEventArgs> handler = DataLoaded;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            DataLoaded?.Invoke(this, args);
         }
 
         private void RaiseSessionStartedEvent(SimulatorDataSet data)
@@ -212,16 +220,15 @@ namespace SecondMonitor.PCarsConnector
             EventHandler<DataEventArgs> handler = SessionStarted;
             lastTick = DateTime.Now;
             sessionTime = new TimeSpan(0, 0, 1);
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            handler?.Invoke(this, args);
         }
 
-        private void AddDriversData(pCarsAPIStruct pCarsData, SimulatorDataSet data)
+        private void AddDriversData(pCarsAPIStruct pCarsData, SimulatorDataSet data, TimeSpan lastTickDuration)
         {
             if (pCarsData.mNumParticipants == -1)
                 return;
+            TrackDetails trackDetails =
+                TrackDetails.GetTrackDetails(data.SessionInfo.TrackName, data.SessionInfo.TrackLayoutName);
             data.DriversInfo = new DataModel.Drivers.DriverInfo[pCarsData.mNumParticipants];
             //String playerName = "Darkman";// FromByteArray(r3rData.PlayerName);
             DataModel.Drivers.DriverInfo playersInfo = null;
@@ -231,7 +238,7 @@ namespace SecondMonitor.PCarsConnector
             playerInfo.CarName = System.Text.Encoding.UTF8.GetString(r3rData.VehicleInfo.Name).Replace("\0", "");
             playerInfo.InPits = r3rData.InPitlane == 1;
             playerInfo.IsPlayer = true;*/
-
+            bool computeSpeed = data.SessionInfo.SessionTime.TotalSeconds > nextSpeedComputation;
             for (int i = 0; i < pCarsData.mNumParticipants; i++)
             {
                 pCarsAPIParticipantStruct r3rDriverData = pCarsData.mParticipantData[i];
@@ -242,10 +249,10 @@ namespace SecondMonitor.PCarsConnector
                 driverInfo.InPits = false;// r3rDriverData.InPitlane == 1;
                 driverInfo.IsPlayer = i == pCarsData.mViewedParticipantIndex;
                 driverInfo.Position =  (int)r3rDriverData.mRacePosition;
-                driverInfo.Speed = 0;// r3rDriverData.CarSpeed;
                 driverInfo.LapDistance = r3rDriverData.mCurrentLapDistance;
                 driverInfo.CarName = "NA";// database.GetCarName(r3rDriverData.DriverInfo.ModelId);
                 driverInfo.CurrentLapValid = true;
+                driverInfo.WorldPostion = new Point3D(r3rDriverData.mWorldPosition[0], r3rDriverData.mWorldPosition[1], r3rDriverData.mWorldPosition[2]);
                 if (driverInfo.IsPlayer)
                 {
                     playersInfo = driverInfo;
@@ -256,13 +263,35 @@ namespace SecondMonitor.PCarsConnector
                 data.DriversInfo[i] = driverInfo;
                 if (String.IsNullOrEmpty(driverInfo.DriverName))
                     throw new NameNotFilledException("Name not filled for driver with index "+i);
+                if(!computeSpeed && previousTickInfo.ContainsKey(driverInfo.DriverName))
+                {
+                    driverInfo.Speed = previousTickInfo[driverInfo.DriverName].Speed;
+                }
+                if(previousTickInfo.ContainsKey(driverInfo.DriverName) && computeSpeed)
+                {
+                    Point3D currentWorldPosition = driverInfo.WorldPostion;
+                    Point3D previousWorldPosition = previousTickInfo[driverInfo.DriverName].WorldPostion;
+                    double duration = data.SessionInfo.SessionTime.Subtract(lastSpeedComputationSet.SessionInfo.SessionTime).TotalSeconds;
+                    //double speed = lastTickDuration.TotalMilliseconds;
+                    double speed = Math.Sqrt(Math.Pow(currentWorldPosition.X - previousWorldPosition.X, 2) + Math.Pow(currentWorldPosition.Y - previousWorldPosition.Y, 2)+Math.Pow(currentWorldPosition.Z - previousWorldPosition.Z, 2))/ duration;
+                    if(speed < 200)
+                        driverInfo.Speed = Velocity.FromMs(speed);
+                }
+                if(computeSpeed)
+                {
+                    lastSpeedComputationSet = data;
+                    previousTickInfo[driverInfo.DriverName] = driverInfo;
+                }
             }
+            if (computeSpeed)
+                nextSpeedComputation += 0.5;
             if (playersInfo != null)
             {
                 ComputeDistanceToPlayer(playersInfo, data);
                 data.PlayerInfo = playersInfo;
             }
             AddPitsInfo(data);
+            
         }
 
         private static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, SimulatorDataSet data)
@@ -280,18 +309,18 @@ namespace SecondMonitor.PCarsConnector
             }
         }
 
-        private void FillSessionInfo(pCarsAPIStruct pCarsData, SimulatorDataSet simData)
+        private void FillSessionInfo(pCarsAPIStruct pCarsData, SimulatorDataSet simData, TimeSpan lastTickDuration)
         {
-            DateTime tickTime = DateTime.Now;
+            
             if (pCarsData.mGameState == 2)
             {
-                sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
+                sessionTime = sessionTime.Add(lastTickDuration);
             }
             if (pCarsData.mSessionState == (int)eSessionState.SESSION_INVALID || 
                 (pCarsData.mSessionState == (int)eSessionState.SESSION_RACE && pCarsData.mRaceState == 1))
                 sessionTime = new TimeSpan(0);
             simData.SessionInfo.SessionTime = sessionTime;
-            lastTick = tickTime;
+            
 
             simData.SessionInfo.WeatherInfo.airTemperature = Temperature.FromCelsius(pCarsData.mAmbientTemperature);
             simData.SessionInfo.WeatherInfo.trackTemperature = Temperature.FromCelsius(pCarsData.mTrackTemperature);
@@ -383,7 +412,7 @@ namespace SecondMonitor.PCarsConnector
         }
 
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
-        private SimulatorDataSet FromR3EData(pCarsAPIStruct data)
+        private SimulatorDataSet FromPCARSData(pCarsAPIStruct data, TimeSpan lastTickDuration)
         {
             SimulatorDataSet simData = new SimulatorDataSet("PCars");
             //PEDAL INFO
@@ -391,8 +420,8 @@ namespace SecondMonitor.PCarsConnector
             simData.PedalInfo.BrakePedalPosition = data.mBrake;
             simData.PedalInfo.ClutchPedalPosition = data.mClutch;
 
-            FillSessionInfo(data, simData);
-            AddDriversData(data, simData);
+            FillSessionInfo(data, simData, lastTickDuration);
+            AddDriversData(data, simData, lastTickDuration);
 
             //WaterSystemInfo
             simData.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(data.mWaterTempCelsius);
@@ -454,21 +483,13 @@ namespace SecondMonitor.PCarsConnector
         private void RaiseConnectedEvent()
         {
             EventArgs args = new EventArgs();
-            EventHandler<EventArgs> handler = ConnectedEvent;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            ConnectedEvent?.Invoke(this, args);
         }
 
         private void RaiseDisconnectedEvent()
         {
             EventArgs args = new EventArgs();
-            EventHandler<EventArgs> handler = Disconnected;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            Disconnected?.Invoke(this, args);
         }
     }
 }

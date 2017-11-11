@@ -10,7 +10,7 @@
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
     x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"     
         mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Title="Second Monitor (Timing)" Width="1600" Height="800" Left="1930" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
+             d:DesignHeight="300" d:DesignWidth="300" Title="Second Monitor (Timing)" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Window.Resources>
         <ObjectDataProvider x:Key="dataFromTemperatureEnum" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
@@ -75,13 +75,15 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Name, Mode=OneWay}" Header="Name" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneWay}" Header="Car" Width="250"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding LastLapTime, Mode=OneWay}" Header="Last Lap" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding PaceAsString, Mode=OneWay}" Header="Pace" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding LastLapTime, Mode=OneWay}" Header="Last Lap" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PaceAsString, Mode=OneWay}" Header="Pace" Width="150"/>
                     <GridViewColumn DisplayMemberBinding="{Binding BestLapString, Mode=OneWay}" Header="Best Lap" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" Width="150"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" Width="180"/>
                     <!--<GridViewColumn DisplayMemberBinding="{Binding Remark, Mode=OneWay}" Header="Remark" Width="180"/>-->
-                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayerFormatted, Mode=OneWay}" Header="Gap" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayerFormatted, Mode=OneWay}" Header="Gap" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TopSpeedString, Mode=OneWay}" Header="Top Speed" Width="100"/>
+                    <!--><GridViewColumn DisplayMemberBinding="{Binding Speed, Mode=OneWay}" Header="Top Speed" Width="100"/>-->
                     
                     <!--<GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>-->
                     <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>-->

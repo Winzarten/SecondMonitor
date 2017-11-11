@@ -152,21 +152,13 @@ namespace SecondMonitor.MockedConnector
         private void RaiseConnectedEvent()
         {
             EventArgs args = new EventArgs();
-            EventHandler<EventArgs> handler = ConnectedEvent;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            ConnectedEvent?.Invoke(this, args);
         }
 
         private void RaiseDisconnectedEvent()
         {
             EventArgs args = new EventArgs();
-            EventHandler<EventArgs> handler = Disconnected;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            Disconnected?.Invoke(this, args);
         }
 
         private void RaiseSessionStartedEvent(SimulatorDataSet data)
@@ -175,20 +167,13 @@ namespace SecondMonitor.MockedConnector
             EventHandler<DataEventArgs> handler = SessionStarted;
             lastTick = DateTime.Now;
             sessionTime = new TimeSpan(0, 0, 1);
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            handler?.Invoke(this, args);
         }
 
         private void RaiseDataLoadedEvent(SimulatorDataSet data)
         {
             DataEventArgs args = new DataEventArgs(data);
-            EventHandler<DataEventArgs> handler = DataLoaded;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            DataLoaded?.Invoke(this, args);
         }
     }
 }

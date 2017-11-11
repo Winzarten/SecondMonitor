@@ -84,7 +84,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
                 if (tickDistanceCovered < distanceMaxThreshold)
                     totalLapDistanceCovered += tickDistanceCovered;
             }
-            if (lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold && tickDistanceCovered < distanceMaxThreshold && (fuelConsumed.InLiters > 0 || totalLapDistanceCovered > 0))
+            if (!set.PlayerInfo.InPits && lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold && tickDistanceCovered < distanceMaxThreshold && (fuelConsumed.InLiters > 0 || totalLapDistanceCovered > 0))
             {
                 double timeSpan = set.SessionInfo.SessionTime.TotalMilliseconds - lastSessionTime.TotalMilliseconds;
                 totalFuelConsumed += fuelConsumed;

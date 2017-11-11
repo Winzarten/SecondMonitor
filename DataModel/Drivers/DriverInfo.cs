@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecondMonitor.DataModel.BasicProperties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace SecondMonitor.DataModel.Drivers
         public bool IsPlayer;
         public int Position;
         public bool CurrentLapValid;
-        public Single Speed;
+        public Velocity Speed= Velocity.Zero;
         public Single LapDistance;
         public Single TotalDistance;
         public Single DistanceToPlayer;
@@ -26,5 +27,6 @@ namespace SecondMonitor.DataModel.Drivers
 
         public CarInfo CarInfo = new CarInfo();
         public DriverTimingInfo Timing { get; set; } = new DriverTimingInfo();
+        public Point3D WorldPostion { get; set; } = new Point3D(0, 0, 0);
     }
 }
