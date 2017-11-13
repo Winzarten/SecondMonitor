@@ -55,6 +55,10 @@ namespace SecondMonitor.Timing.Model.Drivers
         public double TotalDistanceTraveled { get => DriverInfo.TotalDistance; }
         public bool IsLapped { get => DriverInfo.IsBeingLappedByPlayer; }
         public bool IsLapping { get => DriverInfo.IsLapingPlayer; }
+        public string DistanceToPits
+        {
+            get => DriverInfo.DistanceToPits.ToString("N2");
+        }
         public LapInfo BestLap { get; private set; }
         public string BestLapString
         {

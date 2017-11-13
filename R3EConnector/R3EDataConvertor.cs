@@ -16,7 +16,7 @@ namespace SecondMonitor.R3EConnector
         
         
         private R3RDatabase database;
-        private DriverInfo lastPlayer = new DriverInfo();
+        private DriverInfo _lastPlayer = new DriverInfo();
         private Dictionary<string, Single> lastLapTimes;
         private R3EConnector connector;
 
@@ -58,13 +58,13 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.TotalDistance = r3rDriverData.CompletedLaps * r3rData.LayoutLength + r3rDriverData.LapDistance;                
                 driverInfo.CarName = database.GetCarName(r3rDriverData.DriverInfo.ModelId);
                 driverInfo.FinishStatus = FromR3RStatus(r3rDriverData.FinishStatus);
-                ComputeDistanceToPlayer(lastPlayer, driverInfo, r3rData);
+                ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3rData);
 
                 if (driverInfo.IsPlayer)
                 {
                     playersInfo = driverInfo;
                     driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
-                    lastPlayer = driverInfo;
+                    _lastPlayer = driverInfo;
                 }
                 else
                     driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
@@ -83,10 +83,10 @@ namespace SecondMonitor.R3EConnector
                     data.SessionInfo.LeaderCurrentLap = driverInfo.CompletedLaps + 1;
                     data.LeaderInfo = driverInfo;
                 }
-                if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && lastPlayer != null && lastPlayer.CompletedLaps != 0)
+                if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && _lastPlayer != null && _lastPlayer.CompletedLaps != 0)
                 {
-                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (lastPlayer.TotalDistance - r3rData.LayoutLength * 0.5);
-                    driverInfo.IsLapingPlayer = lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3rData.LayoutLength * 0.5);
+                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - r3rData.LayoutLength * 0.5);
+                    driverInfo.IsLapingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3rData.LayoutLength * 0.5);
                 }
                 FillTimingInfor(driverInfo, r3rDriverData, r3rData);
                 if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished)
@@ -110,7 +110,7 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.Timing.LastLapTime = r3eDriverData.SectorTimePreviousSelf.Sector3;
         }
 
-        internal static SecondMonitor.DataModel.Drivers.DriverInfo.DriverFinishStatus FromR3RStatus(int finishStatus)
+        internal static DriverInfo.DriverFinishStatus FromR3RStatus(int finishStatus)
         {
             switch ((FinishStatus)finishStatus)
             {

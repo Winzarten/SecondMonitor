@@ -60,6 +60,7 @@
     <Compile Include="enums\eVector.cs" />
     <Compile Include="enums\_EnumGetDescription.cs" />
     <Compile Include="pCarsAPIData.cs" />
+    <Compile Include="PCarsConvertor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PCarsConnector.cs" />
     <Compile Include="TrackDefinition.cs" />

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SecondMonitor.DataModel.Drivers;
 
 namespace SecondMonitor.PCarsConnector
 {
     public class TrackDetails
     {
+        private static TrackDetails lastDetails;
+        private const int PitPointDetectionDistance = 2;
 
         private static List<TrackDetails> pcCarsTracks = new List<TrackDetails>()
         {
@@ -133,14 +136,30 @@ namespace SecondMonitor.PCarsConnector
                 new float[] {-705.5f, -2f})
         };
 
-        private static List<TrackDetails> definedTrack;
-
         public TrackDetails(string name, float[] pitEntryLocation, float[] pitExitLocation)
         {
             this.Name = name;
             this.PitEntryLocation = pitEntryLocation;
             this.PitExitLocation = pitExitLocation;
         }
+
+        public bool AtPitEntry(DriverInfo driver)
+        {
+            double distance = Math.Sqrt(Math.Pow(driver.WorldPostion.X - PitEntryLocation[0], 2) +
+                                        Math.Pow(driver.WorldPostion.Z - PitEntryLocation[1], 2));
+            driver.DistanceToPits = distance;
+            return distance < PitPointDetectionDistance;
+        }
+
+        public bool AtPitExit(DriverInfo driver)
+        {
+            double distance = Math.Sqrt(Math.Pow(driver.WorldPostion.X - PitExitLocation[0], 2) +
+                                        Math.Pow(driver.WorldPostion.Z - PitExitLocation[1], 2));
+            driver.DistanceToPits = distance;
+            return distance < PitPointDetectionDistance;
+        }
+
+
 
         public string Name { get; private set; }
 
@@ -150,8 +169,11 @@ namespace SecondMonitor.PCarsConnector
 
         public static TrackDetails GetTrackDetails(string trackName, string trackLayout)
         {
-            string trackID =String.IsNullOrEmpty(trackLayout) ? trackName : trackName +":"+ trackLayout;
+            var trackID =String.IsNullOrEmpty(trackLayout) ? trackName +":" : trackName +":"+ trackLayout;
+            if (trackID == lastDetails?.Name)
+                return lastDetails;
             TrackDetails trackDetails = pcCarsTracks.Find(p => p.Name == trackID);
+            lastDetails = trackDetails;
             return trackDetails;
         }
     }
