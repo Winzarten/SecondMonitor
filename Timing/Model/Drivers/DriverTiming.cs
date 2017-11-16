@@ -14,14 +14,13 @@ namespace SecondMonitor.Timing.Model.Drivers
         private List<LapInfo> lapsInfo;
         private List<PitInfo> pitStopInfo;
         private Single previousTickLapDistance;
-        private int paceLaps;
+
 
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
             lapsInfo = new List<LapInfo>();
             pitStopInfo = new List<PitInfo>();
-            DriverInfo = driverInfo;
-            paceLaps = 4;
+            DriverInfo = driverInfo;            
             Pace = new TimeSpan(0);
             LapPercentage = 0;
             previousTickLapDistance = 0;
@@ -84,13 +83,8 @@ namespace SecondMonitor.Timing.Model.Drivers
         public Single LapPercentage { get; private set; }
         public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
         public string CarName { get => DriverInfo.CarName; }
-        public int PaceLaps { get => paceLaps; set
-            {
-                paceLaps = value;
-                ComputePace();
-            }
-
-            }
+        public int PaceLaps { get => Session.PaceLaps; }
+            
 
         public bool IsLastLapBestLap { get
             {

@@ -56,7 +56,7 @@
     <Compile Include="DataHandler\Commands\ResetCommand.cs" />
     <Compile Include="DataHandler\Commands\TimingModeChangedCommand.cs" />
     <Compile Include="DataHandler\NotifyingDateTime.cs" />
-    <Compile Include="DataHandler\TimingDataHandler.cs" />
+    <Compile Include="DataHandler\TimingDataViewModel.cs" />
     <Compile Include="GUI\TimingGUI.xaml.cs">
       <DependentUpon>TimingGUI.xaml</DependentUpon>
     </Compile>

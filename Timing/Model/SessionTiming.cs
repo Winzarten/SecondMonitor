@@ -10,6 +10,20 @@ using System.Threading.Tasks;
 
 namespace SecondMonitor.Timing.Model
 {
+    public class DriverListModificationEventArgs : EventArgs
+    {
+
+        public DriverListModificationEventArgs(DriverTiming data)
+        {
+            this.Data = data;
+        }
+
+        public DriverTiming Data
+        {
+            get;
+            set;
+        }
+    }
     public class SessionTiming : IEnumerable
     {        
         public class DriverNotFoundException : Exception
@@ -35,9 +49,12 @@ namespace SecondMonitor.Timing.Model
                 
         }
 
+        public event EventHandler<DriverListModificationEventArgs> DriverAdded;
+        public event EventHandler<DriverListModificationEventArgs> DriverRemoved;
+
         public float TotalSessionLength { get; private set; }
 
-        private int paceLaps;
+        
         private LapInfo bestSessionLap;
         public Drivers.DriverTiming Player { get; private set; }
         public Drivers.DriverTiming Leader { get; private set; }
@@ -50,23 +67,15 @@ namespace SecondMonitor.Timing.Model
         
         private SessionTiming()
         {
-            paceLaps = 4;
+            PaceLaps = 4;
             DisplayBindTimeRelative = false;
         }
 
         public Dictionary<string, DriverTiming> Drivers { get; private set; } 
         public int PaceLaps
         {
-            get
-            {
-                return paceLaps;
-            }
-            set
-            {
-                paceLaps = value;
-                foreach (var driver in Drivers.Values)
-                    driver.PaceLaps = value;
-            }
+            get;
+            set;
         }
 
         public int SessionCompletedPercentage
@@ -89,14 +98,11 @@ namespace SecondMonitor.Timing.Model
             //Driver[] drivers = Array.ConvertAll(dataSet.DriversInfo, s => Driver.FromModel(s));
             Array.ForEach(dataSet.DriversInfo, s => {
                 String name = s.DriverName;
-                int count = 1;
-                while (drivers.Keys.Contains(name))
+                if (drivers.Keys.Contains(name))
                 {
-                    name = s.DriverName + " dup" + count;
-                    count++;
+                    return;
                 }
                 DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
-                newDriver.PaceLaps = timing.paceLaps;
                 drivers.Add(name, newDriver);
                 if (newDriver.DriverInfo.IsPlayer)
                     timing.Player = newDriver;
@@ -105,6 +111,15 @@ namespace SecondMonitor.Timing.Model
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
                 timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;            
             return timing;
+        }
+
+        private void AddNewDriver(DriverInfo newDriverInfo)
+        {
+            if (Drivers.ContainsKey(newDriverInfo.DriverName))
+                return;
+            DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionInfo.SessionTypeEnum.Race);
+            Drivers.Add(newDriver.Name, newDriver);
+            RaiseDriverAddedEvent(newDriver);
         }
 
         public LapInfo BestSessionLap { get => bestSessionLap; }
@@ -123,8 +138,34 @@ namespace SecondMonitor.Timing.Model
         {
             try
             {
-                Array.ForEach(dataSet.DriversInfo, s => UpdateDriver(s, Drivers[s.DriverName], dataSet));
-            }catch(KeyNotFoundException ex)
+                HashSet<string> updatedDrivers = new HashSet<string>();
+                Array.ForEach(dataSet.DriversInfo, s =>
+                {
+                    updatedDrivers.Add(s.DriverName);
+                    if (Drivers.ContainsKey(s.DriverName))
+                    {
+                        UpdateDriver(s, Drivers[s.DriverName], dataSet);
+                    }
+                    else
+                    {
+                        AddNewDriver(s);
+                    }
+                });
+                List<string> driversToRemove = new List<string>();
+                foreach (var opsoliteDriverName in Drivers.Keys.Where(s => !updatedDrivers.Contains(s)))
+                {
+                    driversToRemove.Add(opsoliteDriverName);
+                }
+                {                    
+                    driversToRemove.ForEach(s =>
+                    {
+                        RaiseDriverRemovedEvent(Drivers[s]);
+                        Drivers.Remove(s);
+                    });
+                }
+
+            }
+            catch(KeyNotFoundException ex)
             {
                 throw new DriverNotFoundException("Driver nout found", ex);
 
@@ -150,6 +191,16 @@ namespace SecondMonitor.Timing.Model
         public void RaiseBestLapChangedEvent(LapInfo lapInfo)
         {
             BestLapChangedEvent?.Invoke(this, new BestLapChangedArgs(lapInfo));
+        }
+
+        public void RaiseDriverAddedEvent(DriverTiming driver)
+        {
+            DriverAdded?.Invoke(this, new DriverListModificationEventArgs(driver));
+        }
+
+        public void RaiseDriverRemovedEvent(DriverTiming driver)
+        {
+            DriverRemoved?.Invoke(this, new DriverListModificationEventArgs(driver));
         }
     }
 }

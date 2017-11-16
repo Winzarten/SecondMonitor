@@ -19,7 +19,7 @@ namespace SecondMonitor.R3EConnector
     {
 
         private MemoryMappedFile sharedMemory;
-        private readonly Queue<SimulatorDataSet> queue = new Queue<SimulatorDataSet>();
+        private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
         private Thread daemonThread;
         private bool disconnect;
         private bool inSession;
@@ -125,7 +125,7 @@ namespace SecondMonitor.R3EConnector
                 throw new InvalidOperationException("Daemon is already running");
             ResetConnector();
             disconnect = false;
-            queue.Clear();
+            _queue.Clear();
             daemonThread = new Thread(DaemonMethod);
             daemonThread.IsBackground = true;
             daemonThread.Start();
@@ -157,9 +157,9 @@ namespace SecondMonitor.R3EConnector
                     sessionTime = TimeSpan.FromSeconds(r3rData.Player.GameSimulationTime - sessionStartR3RTime);
                 }
                 lastTick = tickTime;
-                lock(queue)
+                lock(_queue)
                 {
-                    queue.Enqueue(data);
+                    _queue.Enqueue(data);
                 }
                 if (r3rData.ControlType == -1 && !IsRrreRunning())
                     disconnect = true;
@@ -173,17 +173,17 @@ namespace SecondMonitor.R3EConnector
             while (disconnect == false)
             {
                 SimulatorDataSet set;
-                while (queue.Count != 0)
+                while (_queue.Count != 0)
                 {
-                    lock (queue)
+                    lock (_queue)
                     {
-                        set = queue.Dequeue();
+                        set = _queue.Dequeue();
                     }
                     RaiseDataLoadedEvent(set);
                 }
                 Thread.Sleep(TickTime);
             }
-            queue.Clear();
+            _queue.Clear();
         }
 
         private DriverInfo GetLastTickInfo(string driverName)
