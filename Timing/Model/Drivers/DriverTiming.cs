@@ -14,6 +14,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         private List<LapInfo> lapsInfo;
         private List<PitInfo> pitStopInfo;
         private Single previousTickLapDistance;
+        private readonly Velocity MaximumVelocity = Velocity.FromMs(85);
 
 
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
@@ -56,7 +57,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public bool IsLapping { get => DriverInfo.IsLapingPlayer; }
         public string DistanceToPits
         {
-            get => DriverInfo.DistanceToPits.ToString("N2");
+            get => DriverInfo.DriverDebugInfo.DistanceToPits.ToString("N2");
         }
         public LapInfo BestLap { get; private set; }
         public string BestLapString
@@ -120,7 +121,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             {
                 //if (!Session.DisplayBindTimeRelative || Session.Player == null || DriverInfo.IsPlayer)
                     return TopSpeed.InKPH.ToString("N0");
-                //return (TopSpeed - Session.Player.TopSpeed).InKPH.ToString("N0");
+                //return ((TopSpeed - Session.Player.TopSpeed).InKPH.ToString("N0");
             }
         }
 
@@ -210,7 +211,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return false;
             }
 
-            if (TopSpeed < DriverInfo.Speed)
+            if (TopSpeed < DriverInfo.Speed && DriverInfo.Speed < MaximumVelocity )
             {
                 TopSpeed = DriverInfo.Speed;
             }
@@ -223,13 +224,13 @@ namespace SecondMonitor.Timing.Model.Drivers
                 lapsInfo.Add(firstLap);
             }
             LapInfo currentLap = CurrentLap;
-            if (currentLap.LapNumber == DriverInfo.CompletedLaps + 1)
+            if (!currentLap.Completed)
             {
-                UpdateCurrentLap(sessionInfo);
+                UpdateCurrentLap(set);
             }
-            if (ShouldFinishLap(sessionInfo, currentLap))
+            if (ShouldFinishLap(set, currentLap))
             {
-                FinishCurrentLap(sessionInfo);
+                FinishCurrentLap(set);
                 previousTickLapDistance = DriverInfo.LapDistance;
                 return currentLap.Valid;
             }
@@ -237,9 +238,15 @@ namespace SecondMonitor.Timing.Model.Drivers
             return false;
         }
 
-        private bool ShouldFinishLap(SessionInfo sessionInfo, LapInfo currentLap)
-        {            
-            if (currentLap.LapNumber < DriverInfo.CompletedLaps + 1)
+        private bool ShouldFinishLap(SimulatorDataSet dataSet, LapInfo currentLap)
+        {
+            SessionInfo sessionInfo = dataSet.SessionInfo;
+            //Use completed laps indication to end lap, when we use the sim provided lap times. This gives us the biggest assurance that lap time is already properly set
+            if (dataSet.SimulatorSourceInfo.HasLapTimeInformation && currentLap.LapNumber < DriverInfo.CompletedLaps + 1)
+            {
+                return true;
+            }
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation &&  (DriverInfo.LapDistance - previousTickLapDistance < sessionInfo.LayoutLength * -0.90 ))
             {
                 return true;
             }
@@ -258,30 +265,31 @@ namespace SecondMonitor.Timing.Model.Drivers
             {
                 return true;
             }
-
+            //Driver is DNF/DQ -> finish timed lap, and set it to invalid
             if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.NA && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None)
             {
+                CurrentLap.Valid = false;
                 return true;
             }
 
             return false;
         }
 
-        private void UpdateCurrentLap(SessionInfo sessionInfo)
+        private void UpdateCurrentLap(SimulatorDataSet dataSet)
         {
-            CurrentLap.Tick(sessionInfo.SessionTime);
+            CurrentLap.Tick(dataSet, DriverInfo);
             CurrentLap.InvalidBySim = !DriverInfo.CurrentLapValid;
-            LapPercentage = (DriverInfo.LapDistance / sessionInfo.LayoutLength)*100;
-            if (SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && lapsInfo.Count > 1)
+            LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.LayoutLength)*100;
+            if (SessionInfo.SessionTypeEnum.Race != dataSet.SessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && lapsInfo.Count > 1)
             {
                 CurrentLap.Valid = false;
             }
         }
         
 
-        private void FinishCurrentLap(SessionInfo sessionInfo)
+        private void FinishCurrentLap(SimulatorDataSet dataSet)
         {
-            CurrentLap.FinishLap(sessionInfo.SessionTime, DriverInfo.Timing.LastLapTime);
+            CurrentLap.FinishLap(dataSet, DriverInfo);
             if (CurrentLap.Valid && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
             {
                 BestLap = CurrentLap;
@@ -289,7 +297,7 @@ namespace SecondMonitor.Timing.Model.Drivers
 
             if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.NA || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
             {
-                lapsInfo.Add(new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
+                lapsInfo.Add(new LapInfo(dataSet.SessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
             }
 
             ComputePace();
@@ -437,7 +445,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                     return null;
                 }
 
-                return lapsInfo[lapsInfo.Count - 2];                
+                return lapsInfo[lapsInfo.Count - 2];
             }
         }
 

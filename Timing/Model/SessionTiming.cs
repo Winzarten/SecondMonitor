@@ -145,6 +145,8 @@ namespace SecondMonitor.Timing.Model
                     if (Drivers.ContainsKey(s.DriverName))
                     {
                         UpdateDriver(s, Drivers[s.DriverName], dataSet);
+                        if (Drivers[s.DriverName].IsPlayer)
+                            Player = Drivers[s.DriverName];
                     }
                     else
                     {
@@ -174,7 +176,7 @@ namespace SecondMonitor.Timing.Model
         private void UpdateDriver(DriverInfo modelInfo, DriverTiming timingInfo, SimulatorDataSet set)
         {
             timingInfo.DriverInfo = modelInfo;
-            if(timingInfo.UpdateLaps(set) && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
+            if(timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
             {
                 bestSessionLap = timingInfo.LastCompletedLap;
                 RaiseBestLapChangedEvent(bestSessionLap);

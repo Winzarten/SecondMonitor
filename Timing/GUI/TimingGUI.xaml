@@ -84,7 +84,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayerFormatted, Mode=OneWay}" Header="Gap" Width="150"/>
                     <GridViewColumn DisplayMemberBinding="{Binding TopSpeedString, Mode=OneWay}" Header="Top Speed" Width="100"/>
                     <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPits, Mode=OneWay}" Header="DTP" Width="100"/>-->
-                    <GridViewColumn DisplayMemberBinding="{Binding Speed, Mode=OneWay}" Header="Speed" Width="100"/>
+                    <!--<GridViewColumn DisplayMemberBinding="{Binding Speed, Mode=OneWay}" Header="Speed" Width="100"/>-->
 
                     <!--<GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>-->
                     <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>-->

@@ -34,15 +34,8 @@ namespace SecondMonitor.PCarsConnector
             TrackDetails trackDetails =
                 TrackDetails.GetTrackDetails(data.SessionInfo.TrackName, data.SessionInfo.TrackLayoutName);
             data.DriversInfo = new DataModel.Drivers.DriverInfo[pCarsData.mNumParticipants];
-            //String playerName = "Darkman";// FromByteArray(r3rData.PlayerName);
-            DataModel.Drivers.DriverInfo playersInfo = null;
-            /*DataModel.Drivers.DriverInfo playerInfo = new DataModel.Drivers.DriverInfo();
-            
-            playerInfo.CompletedLaps = r3rData.CompletedLaps;
-            playerInfo.CarName = System.Text.Encoding.UTF8.GetString(r3rData.VehicleInfo.Name).Replace("\0", "");
-            playerInfo.InPits = r3rData.InPitlane == 1;
-            playerInfo.IsPlayer = true;*/
-            bool computeSpeed = data.SessionInfo.SessionTime.TotalSeconds > _pCarsConnector.NextSpeedComputation;
+            DriverInfo playersInfo = null;
+            var computeSpeed = data.SessionInfo.SessionTime.TotalSeconds > _pCarsConnector.NextSpeedComputation;
             for (int i = 0; i < pCarsData.mNumParticipants; i++)
             {
                 pCarsAPIParticipantStruct pcarsDriverData = pCarsData.mParticipantData[i];
@@ -80,6 +73,11 @@ namespace SecondMonitor.PCarsConnector
                 {
                     driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - data.SessionInfo.LayoutLength * 0.5);
                     driverInfo.IsLapingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - data.SessionInfo.LayoutLength * 0.5);
+                }
+                if (driverInfo.Position == 1)
+                {
+                    data.LeaderInfo = driverInfo;
+                    data.SessionInfo.LeaderCurrentLap = driverInfo.CompletedLaps + 1;
                 }
             }
             if (computeSpeed)
@@ -321,7 +319,7 @@ namespace SecondMonitor.PCarsConnector
                     driverInfo.InPits = true;
                     continue;
                 }
-                if (!trackDetails.AtPitEntry(driverInfo) &&
+                if (!trackDetails.AtPitEntry(driverInfo) && !AddPitsUsingTrackDistance(dataSet,driverInfo, true) &&
                     (dataSet.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race ||
                      (dataSet.SessionInfo.SessionTime.TotalSeconds > 5))) continue;
                 driverInfo.InPits = true;
@@ -337,36 +335,34 @@ namespace SecondMonitor.PCarsConnector
 
             foreach (var driverInfo in dataSet.DriversInfo)
             {
-                bool inPits = AddPitsUsingTrackDistance(dataSet, driverInfo);
+                var inPits = AddPitsUsingTrackDistance(dataSet, driverInfo, false);
                 driverInfo.InPits = inPits;
                 if (inPits && !_driversInPits.Contains(driverInfo.DriverName))
                     _driversInPits.Add(driverInfo.DriverName);
                 if (!inPits && _driversInPits.Contains(driverInfo.DriverName))
                     _driversInPits.Remove(driverInfo.DriverName);
-            }
+             }
         }
 
-        private bool AddPitsUsingTrackDistance(SimulatorDataSet dataSet, DriverInfo driverInfo)
+        private bool AddPitsUsingTrackDistance(SimulatorDataSet dataSet, DriverInfo driverInfo, bool includeSpeedCheck)
         {
-            bool inPits = false;
-            if (driverInfo.LapDistance != 0 && _pitTriggerTimes.ContainsKey(driverInfo.DriverName))
+            bool isSpeedZero = !includeSpeedCheck || driverInfo.Speed.InMs < 0.01;
+            if ((driverInfo.LapDistance != 0 || isSpeedZero) && _pitTriggerTimes.ContainsKey(driverInfo.DriverName))
                 _pitTriggerTimes.Remove(driverInfo.DriverName);
             if (driverInfo.LapDistance != 0)
             {
                 if (_driversInPits.Contains(driverInfo.DriverName))
                     _driversInPits.Remove(driverInfo.DriverName);
-                return inPits;
+                return false;
             }
-            if (driverInfo.LapDistance == 0)
+            if (driverInfo.LapDistance == 0 && isSpeedZero)
             {
                 if (!_pitTriggerTimes.ContainsKey(driverInfo.DriverName))
                 {
                     _pitTriggerTimes[driverInfo.DriverName] = dataSet.SessionInfo.SessionTime.Add(_pitTimeDelay);
-                    return inPits;
+                    return false;
                 }
-                if (dataSet.SessionInfo.SessionTime <= _pitTriggerTimes[driverInfo.DriverName]) return inPits;
-                return true;
-
+                return dataSet.SessionInfo.SessionTime > _pitTriggerTimes[driverInfo.DriverName];
             }
             return false;
         }

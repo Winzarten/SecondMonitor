@@ -54,6 +54,7 @@
     <Compile Include="BasicProperties\Volume.cs" />
     <Compile Include="BasicProperties\VolumeUnits.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="Drivers\DriverDebugInfo.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />
     <Compile Include="Drivers\DriverTimingInfo.cs" />
     <Compile Include="SessionInfo.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="BasicProperties\Pressure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicProperties\Temperature.cs" />
+    <Compile Include="SimulatorSourceInfo.cs" />
     <Compile Include="WaterInfo.cs" />
     <Compile Include="WeatherInfo.cs" />
     <Compile Include="WheelInfo.cs" />

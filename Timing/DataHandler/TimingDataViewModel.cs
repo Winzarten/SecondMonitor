@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using SecondMonitor.Timing.DataHandler.Commands;
 using SecondMonitor.Timing.Model.Settings;
@@ -217,35 +218,21 @@ namespace SecondMonitor.Timing.DataHandler
             SimulatorDataSet data = args.Data;
             if (ViewSource == null)
                 return;
+            //Reset state was detected (either reset button was pressed or timing detected a session change)
             if (_shouldReset != ResetModeEnum.NO_RESET)
             {
-                bool invalidateLap = _shouldReset == ResetModeEnum.MANUAL || data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
-                timing = SessionTiming.FromSimulatorData(args.Data, invalidateLap);
-                timing.DriverAdded += Timing_DriverAdded;
-                timing.DriverRemoved += Timing_DriverRemoved;
-
-                gui.Dispatcher.Invoke(() =>
-                {
-                    var mode = gui.TimingMode;
-                    timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked;
-                    timing.DisplayGapToPlayerRelative = !(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race));
-                });
-                timing.PaceLaps = paceLaps;
-                timing.BestLapChangedEvent += BestLapChangedHandler;
-                InitializeGui(data);
-                ChangeTimingMode();
+                CreateTiming(data);
                 _shouldReset = ResetModeEnum.NO_RESET;
             }
             try
             {
-                if (timing != null)
-                    timing.UpdateTiming(data);
+                timing?.UpdateTiming(data);
             }catch(SessionTiming.DriverNotFoundException)
             {
                 _shouldReset = ResetModeEnum.AUTOMATIC;
                 return;
             }
-            TimeSpan timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
+            var timeSpan = DateTime.Now.Subtract(lastRefreshTiming);
            
             if(sessionType!= timing.SessionType)
             {
@@ -283,14 +270,32 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
+        
+
+        private void SynchronizeTimingWithCollection(SimulatorDataSet data)
+        {
+            
+        }
+
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
         {
-            gui?.Dispatcher.Invoke(() => Collection?.Remove(e.Data));
+            gui?.Dispatcher.Invoke(() =>
+            {
+                gui.timingCircle.RemoveDriver(e.Data.DriverInfo);
+                Collection?.Remove(e.Data);
+            });
+
         }
 
         private void Timing_DriverAdded(object sender, DriverListModificationEventArgs e)
         {
-            gui?.Dispatcher.Invoke(() => Collection?.Add(e.Data));
+            gui?.Dispatcher.Invoke(() =>
+            {
+                Collection?.Add(e.Data);
+                gui.timingCircle.AddDriver(e.Data.DriverInfo);
+            });
+            
+
         }
 
         private void RefreshGui(SimulatorDataSet data)
@@ -339,24 +344,34 @@ namespace SecondMonitor.Timing.DataHandler
             return "NA";
         }
 
-        private void OnSessionStarted(object sender, DataEventArgs args)
-        {            
-            timing = SessionTiming.FromSimulatorData(args.Data, args.Data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race);
+        private void CreateTiming(SimulatorDataSet data)
+        {
+            var invalidateLap = _shouldReset == ResetModeEnum.MANUAL ||
+                                data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
+            timing = SessionTiming.FromSimulatorData(data, invalidateLap);
             timing.BestLapChangedEvent += BestLapChangedHandler;
+            timing.DriverAdded += Timing_DriverAdded;
+            timing.DriverRemoved += Timing_DriverRemoved;
             timing.PaceLaps = paceLaps;
-            bestSessionLap = null;
-            NotifyPropertyChanged("BestLapFormatted");
+
             gui.Dispatcher.Invoke(() =>
             {
                 var mode = gui.TimingMode;
                 timing.DisplayBindTimeRelative = (bool)gui.rbtTimeRelative.IsChecked;
-                timing.DisplayGapToPlayerRelative = !(mode == TimingGUI.TimingModeOptions.Absolute || (mode == TimingGUI.TimingModeOptions.Automatic && timing.SessionType != SessionInfo.SessionTypeEnum.Race));
-            });
-
-            InitializeGui(args.Data);
-            ConnectedSource =args.Data.Source;
-            NotifyPropertyChanged("ConnectedSource");
+                timing.DisplayGapToPlayerRelative = !(mode == TimingGUI.TimingModeOptions.Absolute ||
+                                                      (mode == TimingGUI.TimingModeOptions.Automatic &&
+                                                       timing.SessionType != SessionInfo.SessionTypeEnum.Race));
+            });            
+            InitializeGui(data);
             ChangeTimingMode();
+            ConnectedSource = data.Source;
+            NotifyPropertyChanged("BestLapFormatted");
+            NotifyPropertyChanged("ConnectedSource");
+        }
+
+        private void OnSessionStarted(object sender, DataEventArgs args)
+        {            
+            CreateTiming(args.Data);
         }
 
         public ICollectionView TimingInfo { get => ViewSource!= null ? ViewSource.View : null; }

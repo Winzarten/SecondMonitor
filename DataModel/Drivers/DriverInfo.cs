@@ -24,10 +24,11 @@ namespace SecondMonitor.DataModel.Drivers
         public bool IsBeingLappedByPlayer = false;
         public bool IsLapingPlayer = false;
         public DriverFinishStatus FinishStatus = DriverFinishStatus.NA;
-        public double DistanceToPits;
 
         public CarInfo CarInfo = new CarInfo();
         public DriverTimingInfo Timing { get; set; } = new DriverTimingInfo();
         public Point3D WorldPostion { get; set; } = new Point3D(0, 0, 0);
+
+        public DriverDebugInfo DriverDebugInfo { get; } = new DriverDebugInfo();
     }
 }

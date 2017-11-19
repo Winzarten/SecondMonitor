@@ -225,6 +225,7 @@ namespace SecondMonitor.R3EConnector
             if (r3rData.SessionType != lastSessionType)
             {
                 lastSessionType = r3rData.SessionType;
+                sessionStartR3RTime = r3rData.Player.GameSimulationTime;
                 return true;
             }
             if(r3rData.SessionPhase != -1 && !inSession)

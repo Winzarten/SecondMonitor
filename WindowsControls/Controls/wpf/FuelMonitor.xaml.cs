@@ -77,6 +77,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             Volume fuelConsumed = lastFuelState - fuelLeft;
             
             var tickDistanceCovered = set.PlayerInfo.LapDistance - lastLapDistance;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator, because its initialization check
             if (lastLapDistance != 0)
             {                
                 if (tickDistanceCovered < 0)
@@ -84,7 +85,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
                 if (tickDistanceCovered < distanceMaxThreshold)
                     totalLapDistanceCovered += tickDistanceCovered;
             }
-            if (!set.PlayerInfo.InPits && lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold && tickDistanceCovered < distanceMaxThreshold && (fuelConsumed.InLiters > 0 || totalLapDistanceCovered > 0))
+            if (!set.PlayerInfo.InPits && lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold && tickDistanceCovered < distanceMaxThreshold && tickDistanceCovered > 0.01 && (fuelConsumed.InLiters > 0 || totalLapDistanceCovered > 0.01))
             {
                 double timeSpan = set.SessionInfo.SessionTime.TotalMilliseconds - lastSessionTime.TotalMilliseconds;
                 totalFuelConsumed += fuelConsumed;

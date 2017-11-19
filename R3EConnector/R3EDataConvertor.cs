@@ -159,6 +159,7 @@ namespace SecondMonitor.R3EConnector
         internal SimulatorDataSet FromR3EData(R3ESharedData data)
         {
             SimulatorDataSet simData = new SimulatorDataSet("R3R");
+            simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             //SimulatorDataSet simData = new SimulatorDataSet("R3R");
             FillSessionInfo(data, simData);
             AddDriversData(simData, data);

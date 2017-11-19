@@ -179,7 +179,7 @@ namespace SecondMonitor.PCarsConnector
                     if (data.mSessionState == 0 && data.mGameState == 2)
                     {
                         continue;
-                    }
+                    }                    
                     DateTime tickTime = DateTime.Now;
                     TimeSpan lastTickDuration = tickTime.Subtract(lastTick);
                     SimulatorDataSet simData= _pCarsConvertor.FromPCARSData(data, lastTickDuration);

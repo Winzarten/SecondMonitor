@@ -61,7 +61,7 @@ namespace SecondMonitor.WindowsControls.wpf
         {
             lapLength = set.SessionInfo.LayoutLength;
             UnregisterDrivers();
-            RegisterNewDrivers(set.DriversInfo);
+            AddDrivers(set.DriversInfo);
         }
 
         private void UnregisterDrivers()
@@ -78,7 +78,7 @@ namespace SecondMonitor.WindowsControls.wpf
             }
         }
 
-        private void RegisterNewDrivers(DriverInfo[] drivers)
+        public void AddDrivers(DriverInfo[] drivers)
         {
             driversPoints.Clear();
             driverTexts.Clear();
@@ -86,10 +86,29 @@ namespace SecondMonitor.WindowsControls.wpf
             {
                 if (driversPoints.ContainsKey(driver.DriverName))
                     continue;
-                Ellipse driverEllips = CreateDriverEllipse(driver);
-                TextBlock driverTextBlock = CreateDriverText(driver);
-                driversPoints[driver.DriverName] = driverEllips;
-                driverTexts[driver.DriverName] = driverTextBlock;
+                AddDriver(driver);
+            }
+        }
+
+        public void AddDriver(DriverInfo driver)
+        {
+            Ellipse driverEllips = CreateDriverEllipse(driver);
+            TextBlock driverTextBlock = CreateDriverText(driver);
+            driversPoints[driver.DriverName] = driverEllips;
+            driverTexts[driver.DriverName] = driverTextBlock;
+        }
+
+        public void RemoveDriver(DriverInfo driver)
+        {
+            if (driversPoints.ContainsKey(driver.DriverName))
+            {
+                canvas.Children.Remove(driversPoints[driver.DriverName]);
+                driversPoints.Remove(driver.DriverName);
+            }
+            if (driverTexts.ContainsKey(driver.DriverName))
+            {
+                canvas.Children.Remove(driverTexts[driver.DriverName]);
+                driverTexts.Remove(driver.DriverName);
             }
         }
 

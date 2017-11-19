@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SecondMonitor.DataModel;
+using SecondMonitor.DataModel.Drivers;
 
 namespace SecondMonitor.Timing.Model
 {
@@ -42,22 +44,27 @@ namespace SecondMonitor.Timing.Model
         public bool FirstLap { get; private set; }
         public bool InvalidBySim { get; set; }
         public bool PitLap { get; set; }
+        public bool Completed { get; private set; }
 
-        public void FinishLap(TimeSpan sessionTime, Single modelLapTime)
+        public void FinishLap(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            if (modelLapTime == -1)
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation)
             {
-                lapEnd = sessionTime;
+                lapEnd = dataSet.SessionInfo.SessionTime;
             }
             else
             {
-                lapEnd = LapStart.Add(TimeSpan.FromSeconds(modelLapTime));
+                lapEnd = LapStart.Add(TimeSpan.FromSeconds(driverInfo.Timing.LastLapTime));
             }
             lapTime = LapEnd.Subtract(LapStart);
+            Completed = true;
         }
-        public void Tick(TimeSpan sessionTime)
+        public void Tick(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            lapProgressTime = sessionTime.Subtract(LapStart);
+            lapProgressTime = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
+            //Let 5 seconds for the source data noise, when lap count might not be properly updated at instance creation
+            if (lapProgressTime.TotalSeconds < 5 && LapNumber != driverInfo.CompletedLaps + 1)
+                LapNumber = driverInfo.CompletedLaps + 1;
         }
 
         public TimeSpan LapEnd { get => lapEnd; }
