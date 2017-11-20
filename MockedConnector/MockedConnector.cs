@@ -23,27 +23,27 @@ namespace SecondMonitor.MockedConnector
         public event EventHandler<EventArgs> Disconnected;
         public event EventHandler<DataEventArgs> SessionStarted;
 
-        private double tyreTemp = 50;
-        private double tyreStep = 0.1;
-        private double brakeTemp = 50;
-        private double brakeStep = 1;
+        private double _tyreTemp = 50;
+        private double _tyreStep = 0.1;
+        private double _brakeTemp = 50;
+        private double _brakeStep = 1;
 
-        private double fuel = 2000;
-        private double totalFuel = 2000;
-        private double fuelStep = -0.01;
+        private double _fuel = 2000;
+        private double _totalFuel = 2000;
+        private double _fuelStep = -0.01;
 
-        private double layoutLength = 5000;
-        private double playerLocation = 0;
-        private double playerLocationStep = 1;
-        private int playerLaps = 0;
+        private double _layoutLength = 5000;
+        private double _playerLocation = 0;
+        private double _playerLocationStep = 1;
+        private int _playerLaps = 0;
 
-        private double engineWaterTemp = 30;
-        private double engineWaterTempStep = 0.01;
+        private double _engineWaterTemp = 30;
+        private double _engineWaterTempStep = 0.01;
 
-        private double oilTemp = 30;
-        private double oilTempStep = 0.1;
-        DateTime lastTick = DateTime.Now;
-        TimeSpan sessionTime = new TimeSpan(0, 0, 1);
+        private double _oilTemp = 30;
+        private double _oilTempStep = 0.1;
+        DateTime _lastTick = DateTime.Now;
+        TimeSpan _sessionTime = new TimeSpan(0, 0, 1);
 
         public void AsynConnect()
         {
@@ -70,26 +70,26 @@ namespace SecondMonitor.MockedConnector
                 set = PrepareDataSet();
                 RaiseDataLoadedEvent(set);
 
-                brakeTemp += brakeStep;
-                tyreTemp += tyreStep;
-                fuel += fuelStep;
-                engineWaterTemp += engineWaterTempStep;
-                oilTemp += oilTempStep;
-                playerLocation += playerLocationStep;
-                if (brakeTemp > 1500 || brakeTemp <30)
-                    brakeStep = -brakeStep;
-                if (tyreTemp > 150 || tyreTemp < 30)
-                    tyreStep = -tyreStep;
-                if (fuel < 0)
-                    fuel = totalFuel;
-                if (engineWaterTemp < 20 || engineWaterTemp > 130)
-                    engineWaterTempStep = -engineWaterTempStep;
-                if (oilTemp < 20 || oilTemp > 180)
-                    oilTempStep = -oilTempStep;
-                if (playerLocation > layoutLength)
+                _brakeTemp += _brakeStep;
+                _tyreTemp += _tyreStep;
+                _fuel += _fuelStep;
+                _engineWaterTemp += _engineWaterTempStep;
+                _oilTemp += _oilTempStep;
+                _playerLocation += _playerLocationStep;
+                if (_brakeTemp > 1500 || _brakeTemp <30)
+                    _brakeStep = -_brakeStep;
+                if (_tyreTemp > 150 || _tyreTemp < 30)
+                    _tyreStep = -_tyreStep;
+                if (_fuel < 0)
+                    _fuel = _totalFuel;
+                if (_engineWaterTemp < 20 || _engineWaterTemp > 130)
+                    _engineWaterTempStep = -_engineWaterTempStep;
+                if (_oilTemp < 20 || _oilTemp > 180)
+                    _oilTempStep = -_oilTempStep;
+                if (_playerLocation > _layoutLength)
                 {
-                    playerLocation = 0;
-                    playerLaps++;
+                    _playerLocation = 0;
+                    _playerLaps++;
                 }
 
             }
@@ -98,15 +98,15 @@ namespace SecondMonitor.MockedConnector
         private SimulatorDataSet PrepareDataSet()
         {
             DateTime tickTime = DateTime.Now;
-            sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));                                    
-            lastTick = tickTime;
+            _sessionTime = _sessionTime.Add(tickTime.Subtract(_lastTick));                                    
+            _lastTick = tickTime;
             SimulatorDataSet simulatorDataSet = new SimulatorDataSet("Test Source");            
-            simulatorDataSet.SessionInfo.SessionTime = sessionTime;
+            simulatorDataSet.SessionInfo.SessionTime = _sessionTime;
             
 
             
             simulatorDataSet.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
-            simulatorDataSet.SessionInfo.LayoutLength = (float)layoutLength;
+            simulatorDataSet.SessionInfo.LayoutLength = (float)_layoutLength;
             simulatorDataSet.SessionInfo.IsActive = true;
             simulatorDataSet.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Qualification;
             
@@ -125,26 +125,26 @@ namespace SecondMonitor.MockedConnector
         {
             DriverInfo driver = new DriverInfo();
             driver.CarName = "Foo car";
-            driver.CompletedLaps = playerLaps;
+            driver.CompletedLaps = _playerLaps;
             driver.CurrentLapValid = true;
             driver.DistanceToPlayer = 0;
             driver.DriverName = "Lorem Ipsum";
             driver.InPits = false;
             driver.IsPlayer = true;
-            driver.LapDistance = (float)playerLocation;
-            driver.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(totalFuel);
-            driver.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(fuel);
-            driver.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(engineWaterTemp);
-            driver.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(oilTemp);
+            driver.LapDistance = (float)_playerLocation;
+            driver.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
+            driver.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
+            driver.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
+            driver.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(_oilTemp);
             return driver;
         }
 
         private void UpdateWheelInfo(WheelInfo info)
         {
-            info.LeftTyreTemp = Temperature.FromCelsius(tyreTemp - 5);
-            info.CenterTyreTemp = Temperature.FromCelsius(tyreTemp);
-            info.RightTyreTemp = Temperature.FromCelsius(tyreTemp + 5);
-            info.BrakeTemperature = Temperature.FromCelsius(brakeTemp);
+            info.LeftTyreTemp = Temperature.FromCelsius(_tyreTemp - 5);
+            info.CenterTyreTemp = Temperature.FromCelsius(_tyreTemp);
+            info.RightTyreTemp = Temperature.FromCelsius(_tyreTemp + 5);
+            info.BrakeTemperature = Temperature.FromCelsius(_brakeTemp);
 
             info.TyrePressure = Pressure.FromKiloPascals(200);
         }
@@ -165,8 +165,8 @@ namespace SecondMonitor.MockedConnector
         {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
-            lastTick = DateTime.Now;
-            sessionTime = new TimeSpan(0, 0, 1);
+            _lastTick = DateTime.Now;
+            _sessionTime = new TimeSpan(0, 0, 1);
             handler?.Invoke(this, args);
         }
 
