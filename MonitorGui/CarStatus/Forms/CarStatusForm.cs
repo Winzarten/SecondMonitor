@@ -25,17 +25,17 @@ namespace SecondMonitor.CarStatus.Forms
             }
         }
 
-        private PluginsManager pluginManager;
+        private PluginsManager _pluginManager;
         public PluginsManager PluginManager
         {
             get
             {
-                return pluginManager;
+                return _pluginManager;
             }
             set
             {
-                pluginManager = value;
-                pluginManager.DataLoaded += OnDataLoaded;
+                _pluginManager = value;
+                _pluginManager.DataLoaded += OnDataLoaded;
             }
         }
 
@@ -89,8 +89,8 @@ namespace SecondMonitor.CarStatus.Forms
             ctlFrontRight.UpdateControl(data);
             if(data.PlayerInfo == null)
                 return;
-            gMeter1.VertG = -data.PlayerInfo.CarInfo.Acceleration.ZInG;
-            gMeter1.HorizG = data.PlayerInfo.CarInfo.Acceleration.XInG;
+            gMeter1.VertG = -data.PlayerInfo.CarInfo.Acceleration.ZinG;
+            gMeter1.HorizG = data.PlayerInfo.CarInfo.Acceleration.XinG;
             gMeter1.Refresh();
             if (data.PlayerInfo.CarInfo.FuelSystemInfo.FuelPressure.InKpa > 10)
                 blbFuelPressure.Color = Color.Green;

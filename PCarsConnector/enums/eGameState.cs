@@ -10,17 +10,17 @@ namespace  SecondMonitor.PCarsConnector.enums
 {
     //public class eGameState {public eGameState eGameState { get; set; }}
 
-    public enum eGameState
+    public enum EGameState
     {
         [Description("Waiting for game to start...")]
-        GAME_EXITED = 0,
+        GameExited = 0,
         [Description("In Menus")]
-        GAME_FRONT_END,
+        GameFrontEnd,
         [Description("In Session")]
-        GAME_INGAME_PLAYING,
+        GameIngamePlaying,
         [Description("Game Paused")]
-        GAME_INGAME_PAUSED,
+        GameIngamePaused,
         //-------------
-        GAME_MAX
+        GameMax
     }
 }

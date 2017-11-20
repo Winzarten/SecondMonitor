@@ -7,9 +7,9 @@ namespace SecondMonitor.DataModel
 {
     public class SessionInfo
     {
-        public enum SessionTypeEnum { NA, Practice, Qualification, WarmUp, Race}
+        public enum SessionTypeEnum { Na, Practice, Qualification, WarmUp, Race}
         public enum SessionPhaseEnum { Countdown, Green, Checkered}
-        public enum SessionLengthTypeEnum { NA, Laps, Time}
+        public enum SessionLengthTypeEnum { Na, Laps, Time}
         public TimeSpan SessionTime;
         public bool IsActive;
         public string TrackName;
@@ -18,7 +18,7 @@ namespace SecondMonitor.DataModel
 
         public SessionTypeEnum SessionType;
         public SessionPhaseEnum SessionPhase;
-        public SessionLengthTypeEnum SessionLengthType = SessionInfo.SessionLengthTypeEnum.NA;
+        public SessionLengthTypeEnum SessionLengthType = SessionInfo.SessionLengthTypeEnum.Na;
         public Single SessionTimeRemaining = 0;
         public int TotalNumberOfLaps = 0;
         public int LeaderCurrentLap;

@@ -4,21 +4,21 @@ namespace SecondMonitor.DataModel
 {
     public class Pressure
     {
-        private double valueInKpa;      
+        private double _valueInKpa;      
         
         public Pressure()
         {
-            valueInKpa = -1;
+            _valueInKpa = -1;
         }
 
         private Pressure(double valueInKpa)
         {
-            this.valueInKpa = valueInKpa;
+            this._valueInKpa = valueInKpa;
         }
 
         public double InKpa
         {
-            get { return valueInKpa; }
+            get { return _valueInKpa; }
 
         }
 

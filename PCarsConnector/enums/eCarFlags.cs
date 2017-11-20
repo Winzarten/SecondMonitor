@@ -9,22 +9,22 @@ using System.Xml.Linq;
 namespace  SecondMonitor.PCarsConnector.enums
 {
     [Flags]
-    public enum eCarFlags
+    public enum ECarFlags
     {
         [Description("None")]
-        NONE = 0,
+        None = 0,
         [Description("Headlight")]
-        CAR_HEADLIGHT = 1,
+        CarHeadlight = 1,
         [Description("Engine Active")]
-        CAR_ENGINE_ACTIVE = 2,
+        CarEngineActive = 2,
         [Description("Engine Warning")]
-        CAR_ENGINE_WARNING = 4,
+        CarEngineWarning = 4,
         [Description("Speed Limiter")]
-        CAR_SPEED_LIMITER = 8,
+        CarSpeedLimiter = 8,
         [Description("ABS")]
-        CAR_ABS = 16,
+        CarAbs = 16,
         [Description("Handbrake")]
-        CAR_HANDBRAKE = 32
+        CarHandbrake = 32
     }
 
 }

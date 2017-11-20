@@ -9,10 +9,10 @@ namespace SecondMonitor.PCarsConnector
 {
     public class TrackDetails
     {
-        private static TrackDetails lastDetails;
+        private static TrackDetails _lastDetails;
         private const int PitPointDetectionDistance = 2;
 
-        private static List<TrackDetails> pcCarsTracks = new List<TrackDetails>()
+        private static List<TrackDetails> _pcCarsTracks = new List<TrackDetails>()
         {
             new TrackDetails("Autodromo Nazionale Monza:Grand Prix", new float[] {22.20312f, -437.1672f},
                 new float[] {63.60915f, -1.117797f}),
@@ -169,11 +169,11 @@ namespace SecondMonitor.PCarsConnector
 
         public static TrackDetails GetTrackDetails(string trackName, string trackLayout)
         {
-            var trackID =String.IsNullOrEmpty(trackLayout) ? trackName +":" : trackName +":"+ trackLayout;
-            if (trackID == lastDetails?.Name)
-                return lastDetails;
-            TrackDetails trackDetails = pcCarsTracks.Find(p => p.Name == trackID);
-            lastDetails = trackDetails;
+            var trackId =String.IsNullOrEmpty(trackLayout) ? trackName +":" : trackName +":"+ trackLayout;
+            if (trackId == _lastDetails?.Name)
+                return _lastDetails;
+            TrackDetails trackDetails = _pcCarsTracks.Find(p => p.Name == trackId);
+            _lastDetails = trackDetails;
             return trackDetails;
         }
     }

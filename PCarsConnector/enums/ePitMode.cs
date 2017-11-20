@@ -8,19 +8,19 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum ePitMode
+    public enum EPitMode
     {
         [Description("None")]
-        PIT_MODE_NONE = 0,
+        PitModeNone = 0,
         [Description("Pit Entry")]
-        PIT_MODE_DRIVING_INTO_PITS,
+        PitModeDrivingIntoPits,
         [Description("In Pits")]
-        PIT_MODE_IN_PIT,
+        PitModeInPit,
         [Description("Pit Exit")]
-        PIT_MODE_DRIVING_OUT_OF_PITS,
+        PitModeDrivingOutOfPits,
         [Description("Pit Garage")]
-        PIT_MODE_IN_GARAGE,
+        PitModeInGarage,
         //-------------
-        PIT_MODE_MAX
+        PitModeMax
     }
 }

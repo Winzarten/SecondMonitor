@@ -4,16 +4,16 @@ namespace SecondMonitor.DataModel.BasicProperties
 {
     public class Volume
     {
-        private double valueInLiters;
+        private double _valueInLiters;
 
         public Volume()
         {
-            valueInLiters = -1;
+            _valueInLiters = -1;
         }
 
         private Volume(double valueInLiters)
         {
-            this.valueInLiters = valueInLiters;
+            this._valueInLiters = valueInLiters;
         }
         public static Volume FromLiters(double volumeInLiters)
         {
@@ -26,8 +26,8 @@ namespace SecondMonitor.DataModel.BasicProperties
             {
                 case VolumeUnits.Liters:
                     return InLiters;
-                case VolumeUnits.US_Gallons:
-                    return InUSGallons;
+                case VolumeUnits.UsGallons:
+                    return InUsGallons;
             }
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
@@ -38,7 +38,7 @@ namespace SecondMonitor.DataModel.BasicProperties
             {
                 case VolumeUnits.Liters:
                     return "L";
-                case VolumeUnits.US_Gallons:
+                case VolumeUnits.UsGallons:
                     return "gal";
             }
             throw new ArgumentException("Unable to return symbol fir" + units.ToString());
@@ -54,20 +54,20 @@ namespace SecondMonitor.DataModel.BasicProperties
         public override int GetHashCode()
         {
             var hashCode = 1337393187;
-            hashCode = hashCode * -1521134295 + valueInLiters.GetHashCode();
+            hashCode = hashCode * -1521134295 + _valueInLiters.GetHashCode();
             hashCode = hashCode * -1521134295 + InLiters.GetHashCode();
-            hashCode = hashCode * -1521134295 + InUSGallons.GetHashCode();
+            hashCode = hashCode * -1521134295 + InUsGallons.GetHashCode();
             return hashCode;
         }
 
         public double InLiters
         {
-            get { return valueInLiters; }
+            get { return _valueInLiters; }
         }
 
-        public double InUSGallons
+        public double InUsGallons
         {
-            get { return valueInLiters * 0.264172; }
+            get { return _valueInLiters * 0.264172; }
         }
 
         public static Volume operator +(Volume left, Volume right)

@@ -8,17 +8,17 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eFlagReason
+    public enum EFlagReason
     {
         [Description("No Reason")]
-        FLAG_REASON_NONE = 0,
+        FlagReasonNone = 0,
         [Description("Solo Crash")]
-        FLAG_REASON_SOLO_CRASH,
+        FlagReasonSoloCrash,
         [Description("Vehicle Crash")]
-        FLAG_REASON_VEHICLE_CRASH,
+        FlagReasonVehicleCrash,
         [Description("Vehicle Obstruction")]
-        FLAG_REASON_VEHICLE_OBSTRUCTION,
+        FlagReasonVehicleObstruction,
         //-------------
-        FLAG_REASON_MAX
+        FlagReasonMax
     }
 }

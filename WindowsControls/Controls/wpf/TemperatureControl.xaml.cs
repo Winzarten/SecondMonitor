@@ -28,38 +28,38 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             InitializeComponent();            
         }
 
-        private TemperatureUnits displayUnit;
-        public TemperatureUnits DisplayUnit { get => displayUnit;
+        private TemperatureUnits _displayUnit;
+        public TemperatureUnits DisplayUnit { get => _displayUnit;
             set
             {
-                if (displayUnit == value)
+                if (_displayUnit == value)
                     return;
-                displayUnit = value;
+                _displayUnit = value;
                 ChangeDisplayUnit();
             }
         }
 
-        private Temperature temperature = Temperature.FromCelsius(0);
-        private Temperature minimumTemperature = Temperature.FromCelsius(0);
-        private Temperature maximumTemperature = Temperature.FromCelsius(120);
-        private Temperature redTemperatureStart = Temperature.FromCelsius(100);
+        private Temperature _temperature = Temperature.FromCelsius(0);
+        private Temperature _minimumTemperature = Temperature.FromCelsius(0);
+        private Temperature _maximumTemperature = Temperature.FromCelsius(120);
+        private Temperature _redTemperatureStart = Temperature.FromCelsius(100);
 
         public double MaximumTemperatureCelsius
         {
-            get => maximumTemperature.InCelsius;
+            get => _maximumTemperature.InCelsius;
             set
             {
-                maximumTemperature = Temperature.FromCelsius(value);
+                _maximumTemperature = Temperature.FromCelsius(value);
                 ChangeDisplayUnit();
             }
         }
 
         public double MinimumTemperatureCelsius
         {
-            get => minimumTemperature.InCelsius;
+            get => _minimumTemperature.InCelsius;
             set
             {
-                minimumTemperature = Temperature.FromCelsius(value);
+                _minimumTemperature = Temperature.FromCelsius(value);
                 ChangeDisplayUnit();
             }
         }
@@ -72,28 +72,28 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         public double RedTemperatureStart
         {
-            get => redTemperatureStart.InCelsius;
+            get => _redTemperatureStart.InCelsius;
             set
             {
-                redTemperatureStart = Temperature.FromCelsius(value);
+                _redTemperatureStart = Temperature.FromCelsius(value);
                 ChangeDisplayUnit();
             }
         }
 
         public Temperature Temperature
         {
-            get { return temperature; }
+            get { return _temperature; }
             set
             {
-                if (temperature == value)
+                if (_temperature == value)
                     return;
-                temperature = value;
-                var displayValue = value.GetValueInUnits(displayUnit);
+                _temperature = value;
+                var displayValue = value.GetValueInUnits(_displayUnit);
                 lock (waterGauge)
                 {
                     waterGauge.Value = (float)displayValue;
-                    waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(displayUnit);
-                    if (temperature < redTemperatureStart)
+                    waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(_displayUnit);
+                    if (_temperature < _redTemperatureStart)
                     {
                         waterGauge.GaugeLabels[0].Color = System.Drawing.Color.Green;
                     }
@@ -115,12 +115,12 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
                 waterGauge.GaugeRanges[0].EndValue = 1000;
                 waterGauge.GaugeRanges[0].StartValue = -1000;
                 waterGauge.Value = 500;                
-                waterGauge.GaugeRanges[0].EndValue = (float)maximumTemperature.GetValueInUnits(displayUnit);
-                waterGauge.GaugeRanges[0].StartValue = (float)redTemperatureStart.GetValueInUnits(displayUnit);
-                waterGauge.MaxValue = (float)maximumTemperature.GetValueInUnits(displayUnit);
-                waterGauge.MinValue = (float)minimumTemperature.GetValueInUnits(displayUnit);
-                var displayValue = temperature.GetValueInUnits(displayUnit);
-                waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(displayUnit);
+                waterGauge.GaugeRanges[0].EndValue = (float)_maximumTemperature.GetValueInUnits(_displayUnit);
+                waterGauge.GaugeRanges[0].StartValue = (float)_redTemperatureStart.GetValueInUnits(_displayUnit);
+                waterGauge.MaxValue = (float)_maximumTemperature.GetValueInUnits(_displayUnit);
+                waterGauge.MinValue = (float)_minimumTemperature.GetValueInUnits(_displayUnit);
+                var displayValue = _temperature.GetValueInUnits(_displayUnit);
+                waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(_displayUnit);
                 waterGauge.Update();
             }
         }

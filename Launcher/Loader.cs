@@ -16,7 +16,7 @@ namespace SecondMonitor.Launcher
     {
         //private static readonly string defaultGameConnector = "PCarsConnector.dll";// "R3EConnector.dll";
         //private static readonly string defaultGameConnector = "Connectors\\R3E\\R3EConnector.dll";
-        private static readonly string connectorsDir = "Connectors";
+        private static readonly string ConnectorsDir = "Connectors";
         //private static readonly string defaultGameConnector = "Connectors\\Mocked\\MockedConnector.dll";
         /// <summary>
         /// The main entry point for the application.
@@ -45,7 +45,7 @@ namespace SecondMonitor.Launcher
                 //}
                 //dialog.Close();
                 //dialog.Dispose();
-                LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,connectorsDir));
+                LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,ConnectorsDir));
                 Application.Run();
 
             }

@@ -10,13 +10,13 @@ namespace SecondMonitor.R3EConnector
         public enum VersionMajor
         {
             // Major version number to test against
-            R3E_VERSION_MAJOR = 1
+            R3EVersionMajor = 1
         };
 
         public enum VersionMinor
         {
             // Minor version number to test against
-            R3E_VERSION_MINOR = 7
+            R3EVersionMinor = 7
         };
 
         public enum Session
@@ -59,7 +59,7 @@ namespace SecondMonitor.R3EConnector
             Player = 0,
 
             // Controlled by AI
-            AI = 1,
+            Ai = 1,
 
             // Controlled by a network entity of some sort
             Remote = 2,
@@ -112,16 +112,16 @@ namespace SecondMonitor.R3EConnector
             Finished = 1,
 
             // Did not finish
-            DNF = 2,
+            Dnf = 2,
 
             // Did not qualify
-            DNQ = 3,
+            Dnq = 3,
 
             // Did not start
-            DNS = 4,
+            Dns = 4,
 
             // Disqualified
-            DQ = 5,
+            Dq = 5,
         };
 
         public enum SessionLengthFormat
@@ -354,7 +354,7 @@ namespace SecondMonitor.R3EConnector
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct DRS
+        public struct Drs
         {
             // If DRS is equipped and allowed
             // 0 = No, 1 = Yes, -1 = N/A
@@ -656,7 +656,7 @@ namespace SecondMonitor.R3EConnector
             public Single ClutchPedal;
 
             // DRS data
-            public DRS Drs;
+            public Drs Drs;
 
             // Pit limiter (-1 = N/A, 0 = inactive, 1 = active)
             public Int32 PitLimiter;

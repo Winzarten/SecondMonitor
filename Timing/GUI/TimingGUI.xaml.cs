@@ -18,10 +18,10 @@ namespace SecondMonitor.Timing.GUI
     /// <summary>
     /// Interaction logic for TimingGUI.xaml
     /// </summary>
-    public partial class TimingGUI : Window
+    public partial class TimingGui : Window
     {        
         public enum TimingModeOptions { Automatic, Absolute, Relative};
-        public TimingGUI()
+        public TimingGui()
         {
             InitializeComponent();
         }

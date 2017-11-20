@@ -55,7 +55,7 @@ namespace SecondMonitor.Timing.Model
         public float TotalSessionLength { get; private set; }
 
         
-        private LapInfo bestSessionLap;
+        private LapInfo _bestSessionLap;
         public Drivers.DriverTiming Player { get; private set; }
         public Drivers.DriverTiming Leader { get; private set; }
         public TimeSpan SessionTime { get; private set; }
@@ -122,8 +122,8 @@ namespace SecondMonitor.Timing.Model
             RaiseDriverAddedEvent(newDriver);
         }
 
-        public LapInfo BestSessionLap { get => bestSessionLap; }
-        public string BestLapFormatted { get => bestSessionLap != null ? DriverTiming.FormatTimeSpan(bestSessionLap.LapTime) : "Best Session Lap"; }
+        public LapInfo BestSessionLap { get => _bestSessionLap; }
+        public string BestLapFormatted { get => _bestSessionLap != null ? DriverTiming.FormatTimeSpan(_bestSessionLap.LapTime) : "Best Session Lap"; }
         
 
         public void UpdateTiming(SimulatorDataSet dataSet)
@@ -176,10 +176,10 @@ namespace SecondMonitor.Timing.Model
         private void UpdateDriver(DriverInfo modelInfo, DriverTiming timingInfo, SimulatorDataSet set)
         {
             timingInfo.DriverInfo = modelInfo;
-            if(timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && (bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < bestSessionLap.LapTime))
+            if(timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && (_bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < _bestSessionLap.LapTime))
             {
-                bestSessionLap = timingInfo.LastCompletedLap;
-                RaiseBestLapChangedEvent(bestSessionLap);
+                _bestSessionLap = timingInfo.LastCompletedLap;
+                RaiseBestLapChangedEvent(_bestSessionLap);
             }
             if (timingInfo.Position == 1)
                 Leader = timingInfo;

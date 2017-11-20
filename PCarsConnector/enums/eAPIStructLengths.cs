@@ -1,8 +1,8 @@
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eAPIStructLengths
+    public enum EApiStructLengths
     {
-        STRING_LENGTH_MAX = 64,
-        NUM_PARTICIPANTS = 64
+        StringLengthMax = 64,
+        NumParticipants = 64
     }
 }

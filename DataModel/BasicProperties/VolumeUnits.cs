@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace SecondMonitor.DataModel
 {
-    public enum VolumeUnits { Liters, US_Gallons}
+    public enum VolumeUnits { Liters, UsGallons}
 }

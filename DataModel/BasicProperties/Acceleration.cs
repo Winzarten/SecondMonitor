@@ -8,51 +8,51 @@ namespace SecondMonitor.DataModel.BasicProperties
     public class Acceleration
     {
 
-        private double x;
-        private double y;
-        private double z;
+        private double _x;
+        private double _y;
+        private double _z;
 
-        private static readonly double gConst = 9.8;
+        private static readonly double GConst = 9.8;
 
         public Acceleration()
         {
 
         }
 
-        public double XInG
+        public double XinG
         {
-            get { return x / gConst; }
-            set { x = value * gConst; }
+            get { return _x / GConst; }
+            set { _x = value * GConst; }
         }
 
-        public double YInG
+        public double YinG
         {
-            get { return y / gConst; }
-            set { y = value * gConst; }
+            get { return _y / GConst; }
+            set { _y = value * GConst; }
         }
 
-        public double ZInG
+        public double ZinG
         {
-            get { return z / gConst; }
-            set { z = value * gConst; }
+            get { return _z / GConst; }
+            set { _z = value * GConst; }
         }
 
-        public double XInMS
+        public double XinMs
         {
-            get { return x;  }
-            set { x = value; }
+            get { return _x;  }
+            set { _x = value; }
         }
 
-        public double YInMS
+        public double YinMs
         {
-            get { return y; }
-            set { y = value; }
+            get { return _y; }
+            set { _y = value; }
         }
 
-        public double ZInMS
+        public double ZinMs
         {
-            get { return z; }
-            set { z = value; }
+            get { return _z; }
+            set { _z = value; }
         }
 
 

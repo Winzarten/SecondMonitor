@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace SecondMonitor.DataModel.BasicProperties
 {
-    public enum VelocityUnits { Kph, ms}
+    public enum VelocityUnits { Kph, Ms}
 }

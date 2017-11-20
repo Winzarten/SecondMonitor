@@ -8,13 +8,13 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eTyres
+    public enum ETyres
     {
-        TYRE_FRONT_LEFT = 0,
-        TYRE_FRONT_RIGHT,
-        TYRE_REAR_LEFT,
-        TYRE_REAR_RIGHT,
+        TyreFrontLeft = 0,
+        TyreFrontRight,
+        TyreRearLeft,
+        TyreRearRight,
         //--------------
-        TYRE_MAX
+        TyreMax
     }
 }

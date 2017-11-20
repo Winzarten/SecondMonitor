@@ -8,14 +8,14 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eCrashDamageState
+    public enum ECrashDamageState
     {
-        CRASH_DAMAGE_NONE = 0,
-        CRASH_DAMAGE_OFFTRACK,
-        CRASH_DAMAGE_LARGE_PROP,
-        CRASH_DAMAGE_SPINNING,
-        CRASH_DAMAGE_ROLLING,
+        CrashDamageNone = 0,
+        CrashDamageOfftrack,
+        CrashDamageLargeProp,
+        CrashDamageSpinning,
+        CrashDamageRolling,
         //-------------
-        CRASH_MAX
+        CrashMax
     }
 }

@@ -18,25 +18,25 @@ namespace SecondMonitor.R3EConnector
     public class R3EConnector : IGameConnector
     {
 
-        private MemoryMappedFile sharedMemory;
+        private MemoryMappedFile _sharedMemory;
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
-        private Thread daemonThread;
-        private bool disconnect;
-        private bool inSession;
-        private int lastSessionType;
-        private int lastSessionPhase;
-        private Dictionary<string, DriverInfo> lastTickInformation;
+        private Thread _daemonThread;
+        private bool _disconnect;
+        private bool _inSession;
+        private int _lastSessionType;
+        private int _lastSessionPhase;
+        private Dictionary<string, DriverInfo> _lastTickInformation;
 
-        private DateTime lastTick;
-        private TimeSpan sessionTime;
-        private Double sessionStartR3RTime;
+        private DateTime _lastTick;
+        private TimeSpan _sessionTime;
+        private Double _sessionStartR3RTime;
 
 
 
-        private static readonly string r3EExcecutable = "RRRE";
+        private static readonly string R3EExcecutable = "RRRE";
         private static readonly string SharedMemoryName = "$R3E";
 
-        private TimeSpan timeInterval = TimeSpan.FromMilliseconds(100);
+        private TimeSpan _timeInterval = TimeSpan.FromMilliseconds(100);
 
         public event EventHandler<DataEventArgs> DataLoaded;
         public event EventHandler<DataEventArgs> SessionStarted;
@@ -56,17 +56,17 @@ namespace SecondMonitor.R3EConnector
 
         private void ResetConnector()
         {
-            inSession = false;
-            lastTick = DateTime.Now;
-            lastTickInformation = new Dictionary<string, DriverInfo>();
-            lastSessionType = -2;
-            sessionTime = new TimeSpan(0);
-            sessionStartR3RTime = 0;
+            _inSession = false;
+            _lastTick = DateTime.Now;
+            _lastTickInformation = new Dictionary<string, DriverInfo>();
+            _lastSessionType = -2;
+            _sessionTime = new TimeSpan(0);
+            _sessionStartR3RTime = 0;
         }
 
         public bool IsConnected
         {
-            get { return (sharedMemory != null); }
+            get { return (_sharedMemory != null); }
         }
 
         public int TickTime
@@ -77,10 +77,10 @@ namespace SecondMonitor.R3EConnector
 
         public static bool IsRrreRunning()
         {
-            return Process.GetProcessesByName(r3EExcecutable).Length > 0;
+            return Process.GetProcessesByName(R3EExcecutable).Length > 0;
         }
 
-        internal TimeSpan SessionTime { get => sessionTime; }
+        internal TimeSpan SessionTime { get => _sessionTime; }
 
         public void AsynConnect()
         {
@@ -100,7 +100,7 @@ namespace SecondMonitor.R3EConnector
                 return false;
             try
             {
-                sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
+                _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
                 RaiseConnectedEvent();
                 StartDaemon();
                 return true;
@@ -121,14 +121,14 @@ namespace SecondMonitor.R3EConnector
 
         private void StartDaemon()
         {
-            if (daemonThread != null && daemonThread.IsAlive)
+            if (_daemonThread != null && _daemonThread.IsAlive)
                 throw new InvalidOperationException("Daemon is already running");
             ResetConnector();
-            disconnect = false;
+            _disconnect = false;
             _queue.Clear();
-            daemonThread = new Thread(DaemonMethod);
-            daemonThread.IsBackground = true;
-            daemonThread.Start();
+            _daemonThread = new Thread(DaemonMethod);
+            _daemonThread.IsBackground = true;
+            _daemonThread.Start();
 
             Thread queueProcessorThread = new Thread(QueueProcessor);
             queueProcessorThread.IsBackground = true;
@@ -139,38 +139,38 @@ namespace SecondMonitor.R3EConnector
         private void DaemonMethod()
         {
 
-            while (!disconnect)
+            while (!_disconnect)
             {
 
                 Thread.Sleep(TickTime);
-                R3ESharedData r3rData = Load();
-                SimulatorDataSet data = DataConvertor.FromR3EData(r3rData);
-                if (CheckSessionStarted(r3rData))
+                R3ESharedData r3RData = Load();
+                SimulatorDataSet data = DataConvertor.FromR3EData(r3RData);
+                if (CheckSessionStarted(r3RData))
                 {
-                    lastTickInformation.Clear();
+                    _lastTickInformation.Clear();
                     RaiseSessionStartedEvent(data);
                 }
                 DateTime tickTime = DateTime.Now;
-                if (r3rData.GamePaused != 1 && r3rData.ControlType != (int) Constant.Control.Replay)
+                if (r3RData.GamePaused != 1 && r3RData.ControlType != (int) Constant.Control.Replay)
                 {
                     //sessionTime = sessionTime.Add(tickTime.Subtract(lastTick));
-                    sessionTime = TimeSpan.FromSeconds(r3rData.Player.GameSimulationTime - sessionStartR3RTime);
+                    _sessionTime = TimeSpan.FromSeconds(r3RData.Player.GameSimulationTime - _sessionStartR3RTime);
                 }
-                lastTick = tickTime;
+                _lastTick = tickTime;
                 lock(_queue)
                 {
                     _queue.Enqueue(data);
                 }
-                if (r3rData.ControlType == -1 && !IsRrreRunning())
-                    disconnect = true;
+                if (r3RData.ControlType == -1 && !IsRrreRunning())
+                    _disconnect = true;
             }
-            sharedMemory = null;
+            _sharedMemory = null;
             RaiseDisconnectedEvent();
         }
 
         private void QueueProcessor()
         {
-            while (disconnect == false)
+            while (_disconnect == false)
             {
                 SimulatorDataSet set;
                 while (_queue.Count != 0)
@@ -188,20 +188,20 @@ namespace SecondMonitor.R3EConnector
 
         private DriverInfo GetLastTickInfo(string driverName)
         {
-            if (lastTickInformation.ContainsKey(driverName))
-                return lastTickInformation[driverName];
+            if (_lastTickInformation.ContainsKey(driverName))
+                return _lastTickInformation[driverName];
             return null;
         }
 
         internal void StoreLastTickInfo(DriverInfo driverInfo)
         {
-            lastTickInformation[driverInfo.DriverName] = driverInfo;
+            _lastTickInformation[driverInfo.DriverName] = driverInfo;
         }
 
         private void Disconnect()
         {
-            disconnect = true;
-            sharedMemory = null;
+            _disconnect = true;
+            _sharedMemory = null;
             RaiseDisconnectedEvent();
         }
 
@@ -210,9 +210,9 @@ namespace SecondMonitor.R3EConnector
             if (!IsConnected)
                 throw new InvalidOperationException("Not connected");
             R3ESharedData data;
-            var _view = sharedMemory.CreateViewStream();
-            BinaryReader _stream = new BinaryReader(_view);
-            byte[] buffer = _stream.ReadBytes(Marshal.SizeOf(typeof(R3ESharedData)));
+            var view = _sharedMemory.CreateViewStream();
+            BinaryReader stream = new BinaryReader(view);
+            byte[] buffer = stream.ReadBytes(Marshal.SizeOf(typeof(R3ESharedData)));
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
             data = (R3ESharedData)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(R3ESharedData));
             handle.Free();
@@ -220,30 +220,30 @@ namespace SecondMonitor.R3EConnector
         }
 
 
-        private bool CheckSessionStarted(R3ESharedData r3rData)
+        private bool CheckSessionStarted(R3ESharedData r3RData)
         {
-            if (r3rData.SessionType != lastSessionType)
+            if (r3RData.SessionType != _lastSessionType)
             {
-                lastSessionType = r3rData.SessionType;
-                sessionStartR3RTime = r3rData.Player.GameSimulationTime;
+                _lastSessionType = r3RData.SessionType;
+                _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
                 return true;
             }
-            if(r3rData.SessionPhase != -1 && !inSession)
+            if(r3RData.SessionPhase != -1 && !_inSession)
             {
-                inSession = true;
-                sessionStartR3RTime = r3rData.Player.GameSimulationTime;
+                _inSession = true;
+                _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
                 return true;
             }
-            if(inSession && r3rData.SessionPhase == -1)
+            if(_inSession && r3RData.SessionPhase == -1)
             {
-                inSession = false;
+                _inSession = false;
             }
-            if (lastSessionPhase >= 5 && r3rData.SessionPhase < 5 )
+            if (_lastSessionPhase >= 5 && r3RData.SessionPhase < 5 )
             {
-                lastSessionPhase = r3rData.SessionPhase;
+                _lastSessionPhase = r3RData.SessionPhase;
                 return true;
             }
-            lastSessionPhase = r3rData.SessionPhase;
+            _lastSessionPhase = r3RData.SessionPhase;
             return false;
         }
 
@@ -251,8 +251,8 @@ namespace SecondMonitor.R3EConnector
         {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
-            lastTick = DateTime.Now;
-            sessionTime = new TimeSpan(0,0,1);
+            _lastTick = DateTime.Now;
+            _sessionTime = new TimeSpan(0,0,1);
             handler?.Invoke(this, args);
         }
 

@@ -86,7 +86,7 @@ namespace SecondMonitor.CarStatus.Forms.Controls
 			using (System.Drawing.Graphics g = Graphics.FromImage(offScreenBmp)) {
 				g.SmoothingMode = SmoothingMode.HighQuality;
 				// Draw the control
-				drawControl(g, this.On);
+				DrawControl(g, this.On);
 				// Draw the image to the screen
 				e.Graphics.DrawImageUnscaled(offScreenBmp, 0, 0);
 			}
@@ -95,7 +95,7 @@ namespace SecondMonitor.CarStatus.Forms.Controls
 		/// <summary>
 		/// Renders the control to an image
 		/// </summary>
-		private void drawControl(Graphics g, bool on) {
+		private void DrawControl(Graphics g, bool on) {
 			// Is the bulb on or off
 			Color lightColor = (on)? this.Color : Color.FromArgb(150, this.DarkColor);
 			Color darkColor = (on) ? this.DarkColor : this.DarkDarkColor;

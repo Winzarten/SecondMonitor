@@ -8,23 +8,23 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eSessionState
+    public enum ESessionState
     {
         [Description("No Session")]
-        SESSION_INVALID = 0,
+        SessionInvalid = 0,
         [Description("Practise")]
-        SESSION_PRACTICE,
+        SessionPractice,
         [Description("Testing")]
-        SESSION_TEST,
+        SessionTest,
         [Description("Qualifying")]
-        SESSION_QUALIFY,
+        SessionQualify,
         [Description("Formation Lap")]
-        SESSION_FORMATIONLAP,
+        SessionFormationlap,
         [Description("Racing")]
-        SESSION_RACE,
+        SessionRace,
         [Description("Time Trial")]
-        SESSION_TIME_ATTACK,
+        SessionTimeAttack,
         //-------------
-        SESSION_MAX
+        SessionMax
     }
 }

@@ -20,28 +20,28 @@ namespace SecondMonitor.Timing.DataHandler.Commands
                 CommandManager.RequerySuggested -= value;
             }
         }
-        private Action executeDelegate;
-        private Func<bool> canExecuteDelegate;
+        private Action _executeDelegate;
+        private Func<bool> _canExecuteDelegate;
 
         public TimingModeChangedCommand(Action execute)
         {
-            executeDelegate = execute;
-            canExecuteDelegate = () => { return true; };
+            _executeDelegate = execute;
+            _canExecuteDelegate = () => { return true; };
         }
         public TimingModeChangedCommand(Action execute, Func<bool> canExecute)
         {
-            executeDelegate = execute;
-            canExecuteDelegate = canExecute;
+            _executeDelegate = execute;
+            _canExecuteDelegate = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecuteDelegate();
+            return _canExecuteDelegate();
         }
 
         public void Execute(object parameter)
         {
-            executeDelegate();
+            _executeDelegate();
         }
     }
 }

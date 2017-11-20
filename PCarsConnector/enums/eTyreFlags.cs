@@ -11,11 +11,11 @@ using System.Xml.Linq;
 namespace  SecondMonitor.PCarsConnector.enums
 {
 
-    public enum eTyreFlags
+    public enum ETyreFlags
     {
-        TYRE_ATTACHED = (1 << 0),
-        TYRE_INFLATED = (1 << 1),
-        TYRE_IS_ON_GROUND = (1 << 2),
+        TyreAttached = (1 << 0),
+        TyreInflated = (1 << 1),
+        TyreIsOnGround = (1 << 2),
     }
 
 }

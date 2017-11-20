@@ -24,21 +24,21 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
     {
 
         private static readonly Volume FuelConsumedMaximumThreshold = Volume.FromLiters(1);
-        private static readonly double distanceMaxThreshold = 300;
-        public enum FuelOutputEnum { TIME, LAPS}
-        public VolumeUnits DisplayUnits { get; set; } = VolumeUnits.US_Gallons;
-        private TimeSpan lastSessionTime;
-        private Volume averageConsumptionPerLap;
-        private Volume averageConsmptionPerMinute;
-        private Volume lastFuelState = Volume.FromLiters(0);
-        private Volume totalFuelConsumed = Volume.FromLiters(0);
-        private TimeSpan timeLeft;
-        Volume fuelPerMinute;
-        private Volume fuelPerTickDistance;
-        private double totalTime;
-        private double totalLapDistanceCovered;
-        private double lastLapDistance;
-        private double remainingLaps;
+        private static readonly double DistanceMaxThreshold = 300;
+        public enum FuelOutputEnum { Time, Laps}
+        public VolumeUnits DisplayUnits { get; set; } = VolumeUnits.UsGallons;
+        private TimeSpan _lastSessionTime;
+        private Volume _averageConsumptionPerLap;
+        private Volume _averageConsmptionPerMinute;
+        private Volume _lastFuelState = Volume.FromLiters(0);
+        private Volume _totalFuelConsumed = Volume.FromLiters(0);
+        private TimeSpan _timeLeft;
+        Volume _fuelPerMinute;
+        private Volume _fuelPerTickDistance;
+        private double _totalTime;
+        private double _totalLapDistanceCovered;
+        private double _lastLapDistance;
+        private double _remainingLaps;
         public FuelMonitor()
         {
             InitializeComponent();
@@ -47,21 +47,21 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         public void ResetFuelMonitor()
         {
-            lastFuelState = Volume.FromLiters(0);
-            totalFuelConsumed = Volume.FromLiters(0);
-            fuelPerTickDistance = Volume.FromLiters(0);
-            averageConsumptionPerLap = Volume.FromLiters(0);
-            averageConsmptionPerMinute = Volume.FromLiters(0);
-            fuelPerMinute = Volume.FromLiters(0);
-            totalTime = 0;
-            totalLapDistanceCovered = 0;
-            lastLapDistance = 0;
-            remainingLaps = 0;
-            lastSessionTime = new TimeSpan(0);
+            _lastFuelState = Volume.FromLiters(0);
+            _totalFuelConsumed = Volume.FromLiters(0);
+            _fuelPerTickDistance = Volume.FromLiters(0);
+            _averageConsumptionPerLap = Volume.FromLiters(0);
+            _averageConsmptionPerMinute = Volume.FromLiters(0);
+            _fuelPerMinute = Volume.FromLiters(0);
+            _totalTime = 0;
+            _totalLapDistanceCovered = 0;
+            _lastLapDistance = 0;
+            _remainingLaps = 0;
+            _lastSessionTime = new TimeSpan(0);
             if ((bool)rbtLaps.IsChecked)
-                OutputType = FuelOutputEnum.LAPS;
+                OutputType = FuelOutputEnum.Laps;
             if ((bool)rbtTime.IsChecked)
-                OutputType = FuelOutputEnum.TIME;
+                OutputType = FuelOutputEnum.Time;
         }
 
         public FuelOutputEnum OutputType { get; set; }
@@ -74,68 +74,68 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             lblFuel.Content = "Total("+Volume.GetUnitSymbol(DisplayUnits)+"): "+ set.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining.GetValueInUnits(DisplayUnits).ToString("N2");
 
             Volume fuelLeft = set.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining;
-            Volume fuelConsumed = lastFuelState - fuelLeft;
+            Volume fuelConsumed = _lastFuelState - fuelLeft;
             
-            var tickDistanceCovered = set.PlayerInfo.LapDistance - lastLapDistance;
+            var tickDistanceCovered = set.PlayerInfo.LapDistance - _lastLapDistance;
             // ReSharper disable once CompareOfFloatsByEqualityOperator, because its initialization check
-            if (lastLapDistance != 0)
+            if (_lastLapDistance != 0)
             {                
                 if (tickDistanceCovered < 0)
                     tickDistanceCovered += set.SessionInfo.LayoutLength;
-                if (tickDistanceCovered < distanceMaxThreshold)
-                    totalLapDistanceCovered += tickDistanceCovered;
+                if (tickDistanceCovered < DistanceMaxThreshold)
+                    _totalLapDistanceCovered += tickDistanceCovered;
             }
-            if (!set.PlayerInfo.InPits && lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold && tickDistanceCovered < distanceMaxThreshold && tickDistanceCovered > 0.01 && (fuelConsumed.InLiters > 0 || totalLapDistanceCovered > 0.01))
+            if (!set.PlayerInfo.InPits && _lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold && tickDistanceCovered < DistanceMaxThreshold && tickDistanceCovered > 0.01 && (fuelConsumed.InLiters > 0 || _totalLapDistanceCovered > 0.01))
             {
-                double timeSpan = set.SessionInfo.SessionTime.TotalMilliseconds - lastSessionTime.TotalMilliseconds;
-                totalFuelConsumed += fuelConsumed;
-                totalTime += timeSpan;
+                double timeSpan = set.SessionInfo.SessionTime.TotalMilliseconds - _lastSessionTime.TotalMilliseconds;
+                _totalFuelConsumed += fuelConsumed;
+                _totalTime += timeSpan;
                 UpdateAsTime(set, fuelLeft, fuelConsumed, timeSpan);
                 UpdateAsLaps(set, fuelLeft, fuelConsumed, tickDistanceCovered);
             }
             DisplayConsumption();
-            lastFuelState = fuelLeft;
-            lastSessionTime = set.SessionInfo.SessionTime;
+            _lastFuelState = fuelLeft;
+            _lastSessionTime = set.SessionInfo.SessionTime;
             if (set.PlayerInfo == null)
                 return;
                         
-            lastLapDistance = set.PlayerInfo.LapDistance;
+            _lastLapDistance = set.PlayerInfo.LapDistance;
         }
 
         private void UpdateAsLaps(SimulatorDataSet set, Volume fuelLeft, Volume fuelConsumed, double tickDistnace)
         {
             double ticksToLap = set.SessionInfo.LayoutLength / tickDistnace;
-            fuelPerTickDistance = fuelConsumed * ticksToLap;
-            double totalLapsCovered = totalLapDistanceCovered / set.SessionInfo.LayoutLength;
-            averageConsumptionPerLap = totalFuelConsumed / totalLapsCovered;
-            remainingLaps = fuelLeft.InLiters/ averageConsumptionPerLap.InLiters;
+            _fuelPerTickDistance = fuelConsumed * ticksToLap;
+            double totalLapsCovered = _totalLapDistanceCovered / set.SessionInfo.LayoutLength;
+            _averageConsumptionPerLap = _totalFuelConsumed / totalLapsCovered;
+            _remainingLaps = fuelLeft.InLiters/ _averageConsumptionPerLap.InLiters;
 
         }
 
         private void UpdateAsTime(SimulatorDataSet set, Volume fuelLeft, Volume fuelConsumed, double timeSpan)
         {
             double ticksPerSecond = 1000 / timeSpan;
-            fuelPerMinute = fuelConsumed * ticksPerSecond * 60;
-            averageConsmptionPerMinute = (totalFuelConsumed / totalTime) * 60000;
-            double remaining = fuelLeft.InLiters / averageConsmptionPerMinute.InLiters;
+            _fuelPerMinute = fuelConsumed * ticksPerSecond * 60;
+            _averageConsmptionPerMinute = (_totalFuelConsumed / _totalTime) * 60000;
+            double remaining = fuelLeft.InLiters / _averageConsmptionPerMinute.InLiters;
             if(!double.IsInfinity(remaining) && !double.IsNaN(remaining))
-                timeLeft = TimeSpan.FromMinutes(remaining);
+                _timeLeft = TimeSpan.FromMinutes(remaining);
         }
 
         private void DisplayConsumption()
         {
-            if (OutputType == FuelOutputEnum.TIME)
+            if (OutputType == FuelOutputEnum.Time)
             {
-                lblConsumtion.Content = "Rate(" + Volume.GetUnitSymbol(DisplayUnits) + "/m):" + fuelPerMinute.GetValueInUnits(DisplayUnits).ToString("N2");
+                lblConsumtion.Content = "Rate(" + Volume.GetUnitSymbol(DisplayUnits) + "/m):" + _fuelPerMinute.GetValueInUnits(DisplayUnits).ToString("N2");
                 //lblConsumtion.Content = totalFuelConsumed.InLiters.ToString("N2");
-                lblAverage.Content = "Avg(" + Volume.GetUnitSymbol(DisplayUnits) + "/ m):" + averageConsmptionPerMinute.GetValueInUnits(DisplayUnits).ToString("N2");
-                var output = $"Time Left:{(int)timeLeft.TotalMinutes}:{timeLeft.Seconds:00}";
+                lblAverage.Content = "Avg(" + Volume.GetUnitSymbol(DisplayUnits) + "/ m):" + _averageConsmptionPerMinute.GetValueInUnits(DisplayUnits).ToString("N2");
+                var output = $"Time Left:{(int)_timeLeft.TotalMinutes}:{_timeLeft.Seconds:00}";
                 lblRemaining.Content = output;
             }else
             {
-                lblConsumtion.Content = "Rate (" + Volume.GetUnitSymbol(DisplayUnits) + "/lap):" + fuelPerTickDistance.GetValueInUnits(DisplayUnits).ToString("N2");
-                lblAverage.Content = "Avg (" + Volume.GetUnitSymbol(DisplayUnits) + "/ lap):" + averageConsumptionPerLap.GetValueInUnits(DisplayUnits).ToString("N2");
-                var output = "Laps left:" + remainingLaps.ToString("N2");
+                lblConsumtion.Content = "Rate (" + Volume.GetUnitSymbol(DisplayUnits) + "/lap):" + _fuelPerTickDistance.GetValueInUnits(DisplayUnits).ToString("N2");
+                lblAverage.Content = "Avg (" + Volume.GetUnitSymbol(DisplayUnits) + "/ lap):" + _averageConsumptionPerLap.GetValueInUnits(DisplayUnits).ToString("N2");
+                var output = "Laps left:" + _remainingLaps.ToString("N2");
                 lblRemaining.Content = output;
             }
         }
@@ -143,9 +143,9 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
         private void rbtMode_Checked(object sender, RoutedEventArgs e)
         {
             if ((bool)rbtLaps.IsChecked)
-                OutputType = FuelOutputEnum.LAPS;
+                OutputType = FuelOutputEnum.Laps;
             if((bool)rbtTime.IsChecked)
-                OutputType = FuelOutputEnum.TIME;
+                OutputType = FuelOutputEnum.Time;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -155,14 +155,14 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (OutputType == FuelOutputEnum.TIME)
+            if (OutputType == FuelOutputEnum.Time)
             {
-                Volume requiredFuel = (int)upDownDistance.Value * averageConsmptionPerMinute;
+                Volume requiredFuel = (int)upDownDistance.Value * _averageConsmptionPerMinute;
                 txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1")+Volume.GetUnitSymbol(DisplayUnits);
             }
             else
             {
-                Volume requiredFuel = (int)upDownDistance.Value * averageConsumptionPerLap;
+                Volume requiredFuel = (int)upDownDistance.Value * _averageConsumptionPerLap;
                 txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1") + Volume.GetUnitSymbol(DisplayUnits);
             }
         }

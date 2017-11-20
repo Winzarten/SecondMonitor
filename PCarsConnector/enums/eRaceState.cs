@@ -8,23 +8,23 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eRaceState
+    public enum ERaceState
     {
         [Description("Invalid")]
-        RACESTATE_INVALID = 0,
+        RacestateInvalid = 0,
         [Description("Not started")]
-        RACESTATE_NOT_STARTED,
+        RacestateNotStarted,
         [Description("Racing")]
-        RACESTATE_RACING,
+        RacestateRacing,
         [Description("Finished")]
-        RACESTATE_FINISHED,
+        RacestateFinished,
         [Description("Disqualified")]
-        RACESTATE_DISQUALIFIED,
+        RacestateDisqualified,
         [Description("Retired")]
-        RACESTATE_RETIRED,
+        RacestateRetired,
         [Description("DNF")]
-        RACESTATE_DNF,
+        RacestateDnf,
         //-------------
-        RACESTATE_MAX
+        RacestateMax
     }
 }

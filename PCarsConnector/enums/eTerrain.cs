@@ -8,80 +8,80 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eTerrain
+    public enum ETerrain
     {
         [Description("TERRAIN_ROAD")]
-        TERRAIN_ROAD = 0,
+        TerrainRoad = 0,
         [Description("TERRAIN_LOW_GRIP_ROAD")]
-        TERRAIN_LOW_GRIP_ROAD,
+        TerrainLowGripRoad,
         [Description("TERRAIN_BUMPY_ROAD1")]
-        TERRAIN_BUMPY_ROAD1,
+        TerrainBumpyRoad1,
         [Description("TERRAIN_BUMPY_ROAD2")]
-        TERRAIN_BUMPY_ROAD2,
+        TerrainBumpyRoad2,
         [Description("TERRAIN_BUMPY_ROAD3")]
-        TERRAIN_BUMPY_ROAD3,
+        TerrainBumpyRoad3,
         [Description("TERRAIN_MARBLES")]
-        TERRAIN_MARBLES,
+        TerrainMarbles,
         [Description("TERRAIN_GRASSY_BERMS")]
-        TERRAIN_GRASSY_BERMS,
+        TerrainGrassyBerms,
         [Description("TERRAIN_GRASS")]
-        TERRAIN_GRASS,
+        TerrainGrass,
         [Description("TERRAIN_GRAVEL")]
-        TERRAIN_GRAVEL,
+        TerrainGravel,
         [Description("TERRAIN_BUMPY_GRAVEL")]
-        TERRAIN_BUMPY_GRAVEL,
+        TerrainBumpyGravel,
         [Description("TERRAIN_RUMBLE_STRIPS")]
-        TERRAIN_RUMBLE_STRIPS,
+        TerrainRumbleStrips,
         [Description("TERRAIN_DRAINS")]
-        TERRAIN_DRAINS,
+        TerrainDrains,
         [Description("TERRAIN_TYREWALLS")]
-        TERRAIN_TYREWALLS,
+        TerrainTyrewalls,
         [Description("TERRAIN_CEMENTWALLS")]
-        TERRAIN_CEMENTWALLS,
+        TerrainCementwalls,
         [Description("TERRAIN_GUARDRAILS")]
-        TERRAIN_GUARDRAILS,
+        TerrainGuardrails,
         [Description("TERRAIN_SAND")]
-        TERRAIN_SAND,
+        TerrainSand,
         [Description("TERRAIN_BUMPY_SAND")]
-        TERRAIN_BUMPY_SAND,
+        TerrainBumpySand,
         [Description("TERRAIN_DIRT")]
-        TERRAIN_DIRT,
+        TerrainDirt,
         [Description("TERRAIN_BUMPY_DIRT")]
-        TERRAIN_BUMPY_DIRT,
+        TerrainBumpyDirt,
         [Description("TERRAIN_DIRT_ROAD")]
-        TERRAIN_DIRT_ROAD,
+        TerrainDirtRoad,
         [Description("TERRAIN_BUMPY_DIRT_ROAD")]
-        TERRAIN_BUMPY_DIRT_ROAD,
+        TerrainBumpyDirtRoad,
         [Description("TERRAIN_PAVEMENT")]
-        TERRAIN_PAVEMENT,
+        TerrainPavement,
         [Description("TERRAIN_DIRT_BANK")]
-        TERRAIN_DIRT_BANK,
+        TerrainDirtBank,
         [Description("TERRAIN_WOOD")]
-        TERRAIN_WOOD,
+        TerrainWood,
         [Description("TERRAIN_DRY_VERGE")]
-        TERRAIN_DRY_VERGE,
+        TerrainDryVerge,
         [Description("TERRAIN_EXIT_RUMBLE_STRIPS")]
-        TERRAIN_EXIT_RUMBLE_STRIPS,
+        TerrainExitRumbleStrips,
         [Description("TERRAIN_GRASSCRETE")]
-        TERRAIN_GRASSCRETE,
+        TerrainGrasscrete,
         [Description("TERRAIN_LONG_GRASS")]
-        TERRAIN_LONG_GRASS,
+        TerrainLongGrass,
         [Description("TERRAIN_SLOPE_GRASS")]
-        TERRAIN_SLOPE_GRASS,
+        TerrainSlopeGrass,
         [Description("TERRAIN_COBBLES")]
-        TERRAIN_COBBLES,
+        TerrainCobbles,
         [Description("TERRAIN_SAND_ROAD")]
-        TERRAIN_SAND_ROAD,
+        TerrainSandRoad,
         [Description("TERRAIN_BAKED_CLAY")]
-        TERRAIN_BAKED_CLAY,
+        TerrainBakedClay,
         [Description("TERRAIN_ASTROTURF")]
-        TERRAIN_ASTROTURF,
+        TerrainAstroturf,
         [Description("TERRAIN_SNOWHALF")]
-        TERRAIN_SNOWHALF,
+        TerrainSnowhalf,
         [Description("TERRAIN_SNOWFULL")]
-        TERRAIN_SNOWFULL,
+        TerrainSnowfull,
         //-------------
         [Description("TERRAIN_MAX")]
-        TERRAIN_MAX
+        TerrainMax
     }
 }

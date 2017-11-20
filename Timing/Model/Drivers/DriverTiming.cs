@@ -11,20 +11,20 @@ namespace SecondMonitor.Timing.Model.Drivers
 {
     public class DriverTiming
     {
-        private List<LapInfo> lapsInfo;
-        private List<PitInfo> pitStopInfo;
-        private Single previousTickLapDistance;
-        private readonly Velocity MaximumVelocity = Velocity.FromMs(85);
+        private List<LapInfo> _lapsInfo;
+        private List<PitInfo> _pitStopInfo;
+        private Single _previousTickLapDistance;
+        private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
 
 
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
-            lapsInfo = new List<LapInfo>();
-            pitStopInfo = new List<PitInfo>();
+            _lapsInfo = new List<LapInfo>();
+            _pitStopInfo = new List<PitInfo>();
             DriverInfo = driverInfo;            
             Pace = new TimeSpan(0);
             LapPercentage = 0;
-            previousTickLapDistance = 0;
+            _previousTickLapDistance = 0;
             Session = session;
         }
         
@@ -79,8 +79,8 @@ namespace SecondMonitor.Timing.Model.Drivers
                 }
             }
         }
-        public int PitCount { get => pitStopInfo.Count; }
-        public PitInfo LastPitStop { get => pitStopInfo.Count != 0 ? pitStopInfo[pitStopInfo.Count - 1] : null; }
+        public int PitCount { get => _pitStopInfo.Count; }
+        public PitInfo LastPitStop { get => _pitStopInfo.Count != 0 ? _pitStopInfo[_pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
         public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
         public string CarName { get => DriverInfo.CarName; }
@@ -115,12 +115,12 @@ namespace SecondMonitor.Timing.Model.Drivers
             get => DriverInfo.FinishStatus.ToString();
         }
 
-        public string Speed { get => DriverInfo.Speed.InKPH.ToString("N0"); }
+        public string Speed { get => DriverInfo.Speed.InKph.ToString("N0"); }
         public  Velocity TopSpeed { get; private set; } = Velocity.Zero;
         public string TopSpeedString { get
             {
                 //if (!Session.DisplayBindTimeRelative || Session.Player == null || DriverInfo.IsPlayer)
-                    return TopSpeed.InKPH.ToString("N0");
+                    return TopSpeed.InKph.ToString("N0");
                 //return ((TopSpeed - Session.Player.TopSpeed).InKPH.ToString("N0");
             }
         }
@@ -135,7 +135,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                     return "";
                 }
 
-                if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.NA)
+                if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na)
                 {
                     return DriverInfo.FinishStatus.ToString();
                 }
@@ -206,22 +206,22 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return false;
             }
 
-            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.NA && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && LastLap != null && LastLap.LapEnd != TimeSpan.Zero)
+            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && LastLap != null && LastLap.LapEnd != TimeSpan.Zero)
             {
                 return false;
             }
 
-            if (TopSpeed < DriverInfo.Speed && DriverInfo.Speed < MaximumVelocity )
+            if (TopSpeed < DriverInfo.Speed && DriverInfo.Speed < _maximumVelocity )
             {
                 TopSpeed = DriverInfo.Speed;
             }
 
             UpdateInPitsProperty(set);
-            if (lapsInfo.Count == 0)
+            if (_lapsInfo.Count == 0)
             {
                 LapInfo firstLap = new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true);
                 firstLap.Valid = !InvalidateFirstLap;
-                lapsInfo.Add(firstLap);
+                _lapsInfo.Add(firstLap);
             }
             LapInfo currentLap = CurrentLap;
             if (!currentLap.Completed)
@@ -231,10 +231,10 @@ namespace SecondMonitor.Timing.Model.Drivers
             if (ShouldFinishLap(set, currentLap))
             {
                 FinishCurrentLap(set);
-                previousTickLapDistance = DriverInfo.LapDistance;
+                _previousTickLapDistance = DriverInfo.LapDistance;
                 return currentLap.Valid;
             }
-            previousTickLapDistance = DriverInfo.LapDistance;
+            _previousTickLapDistance = DriverInfo.LapDistance;
             return false;
         }
 
@@ -246,7 +246,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             {
                 return true;
             }
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation &&  (DriverInfo.LapDistance - previousTickLapDistance < sessionInfo.LayoutLength * -0.90 ))
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation &&  (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.LayoutLength * -0.90 ))
             {
                 return true;
             }
@@ -256,7 +256,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return true;
             }
 
-            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && previousTickLapDistance < DriverInfo.LapDistance && SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType)
+            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && _previousTickLapDistance < DriverInfo.LapDistance && SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType)
             {
                 return true;
             }
@@ -266,7 +266,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                 return true;
             }
             //Driver is DNF/DQ -> finish timed lap, and set it to invalid
-            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.NA && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None)
+            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None)
             {
                 CurrentLap.Valid = false;
                 return true;
@@ -280,7 +280,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             CurrentLap.Tick(dataSet, DriverInfo);
             CurrentLap.InvalidBySim = !DriverInfo.CurrentLapValid;
             LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.LayoutLength)*100;
-            if (SessionInfo.SessionTypeEnum.Race != dataSet.SessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && lapsInfo.Count > 1)
+            if (SessionInfo.SessionTypeEnum.Race != dataSet.SessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && _lapsInfo.Count > 1)
             {
                 CurrentLap.Valid = false;
             }
@@ -295,9 +295,9 @@ namespace SecondMonitor.Timing.Model.Drivers
                 BestLap = CurrentLap;
             }
 
-            if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.NA || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
+            if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Na || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
             {
-                lapsInfo.Add(new LapInfo(dataSet.SessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
+                _lapsInfo.Add(new LapInfo(dataSet.SessionInfo.SessionTime, DriverInfo.CompletedLaps + 1,this));
             }
 
             ComputePace();
@@ -321,7 +321,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                     CurrentLap.PitLap = true;
                 }
 
-                pitStopInfo.Add(new PitInfo(set, this, CurrentLap));
+                _pitStopInfo.Add(new PitInfo(set, this, CurrentLap));
             }
             if(InPits && !DriverInfo.InPits)
             {
@@ -339,9 +339,9 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
             int totalPaceLaps = 0;
             TimeSpan pace = new TimeSpan(0);
-            for(int i = lapsInfo.Count -2; i>=0 && totalPaceLaps < PaceLaps; i--)
+            for(int i = _lapsInfo.Count -2; i>=0 && totalPaceLaps < PaceLaps; i--)
             {
-                LapInfo lap = lapsInfo[i];
+                LapInfo lap = _lapsInfo[i];
                 if (!lap.Valid)
                 {
                     continue;
@@ -364,12 +364,12 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             get
             {
-                if (lapsInfo.Count == 0)
+                if (_lapsInfo.Count == 0)
                 {
                     return null;
                 }
 
-                return lapsInfo.Last();
+                return _lapsInfo.Last();
             }
         }
         public string LastPitInfo
@@ -420,16 +420,16 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             get
             {
-                if (lapsInfo.Count < 2)
+                if (_lapsInfo.Count < 2)
                 {
                     return null;
                 }
 
-                for (int i = lapsInfo.Count - 2; i >= 0; i--)
+                for (int i = _lapsInfo.Count - 2; i >= 0; i--)
                 {
-                    if (lapsInfo[i].Valid)
+                    if (_lapsInfo[i].Valid)
                     {
-                        return lapsInfo[i];
+                        return _lapsInfo[i];
                     }
                 }
                 return null;
@@ -440,12 +440,12 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             get
             {
-                if (lapsInfo.Count < 2)
+                if (_lapsInfo.Count < 2)
                 {
                     return null;
                 }
 
-                return lapsInfo[lapsInfo.Count - 2];
+                return _lapsInfo[_lapsInfo.Count - 2];
             }
         }
 

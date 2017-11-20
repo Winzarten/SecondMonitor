@@ -8,7 +8,7 @@
     xmlns:DataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
     xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
-    x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGUI"     
+    x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"     
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="Second Monitor (Timing)" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Window.Resources>

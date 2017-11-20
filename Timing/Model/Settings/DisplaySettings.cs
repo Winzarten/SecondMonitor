@@ -1,60 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SecondMonitor.DataModel;
 using SecondMonitor.DataModel.BasicProperties;
+using SecondMonitor.Timing.Annotations;
 
 namespace SecondMonitor.Timing.Model.Settings
 {
-    public class DisplaySettings
+    public class DisplaySettings : INotifyPropertyChanged
     {
-        public class DisplaySettingsChangedArgs : EventArgs
-        {
-            public DisplaySettings Settings { get; private set; }
-            public DisplaySettingsChangedArgs(DisplaySettings settings)
-            {
-                Settings = settings;
-            }
-        }
 
-        public event EventHandler<DisplaySettingsChangedArgs> DisplaySettingsChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private TemperatureUnits temperatureUnits = TemperatureUnits.Celsius;
-        public TemperatureUnits TemperatureUnits { get => temperatureUnits;
+        private TemperatureUnits _temperatureUnits = TemperatureUnits.Celsius;
+        public TemperatureUnits TemperatureUnits { get => _temperatureUnits;
             set
             {
-                temperatureUnits = value;
-                RaiseSettingsChangedEvent();
+                _temperatureUnits = value;
+                OnPropertyChanged(); 
             }
         }
 
-        private PressureUnits pressureUnits = PressureUnits.Kpa;
+        private PressureUnits _pressureUnits = PressureUnits.Kpa;
         public PressureUnits PressureUnits
         {
-            get => pressureUnits;
+            get => _pressureUnits;
             set
             {
-                pressureUnits = value;
-                RaiseSettingsChangedEvent();
+                _pressureUnits = value;
+                OnPropertyChanged(); ;
             }
         }
 
-        private VolumeUnits volumeUnits = VolumeUnits.Liters;
+        private VolumeUnits _volumeUnits = VolumeUnits.Liters;
         public VolumeUnits VolumeUnits
         {
-            get => volumeUnits;
+            get => _volumeUnits;
             set
             {
-                volumeUnits = value;
-                RaiseSettingsChangedEvent();
+                _volumeUnits = value;
+                OnPropertyChanged();;
             }
         }
 
-        private void RaiseSettingsChangedEvent()
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            DisplaySettingsChanged?.Invoke(this, new DisplaySettingsChangedArgs(this));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

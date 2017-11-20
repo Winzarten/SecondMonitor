@@ -9,21 +9,21 @@ namespace SecondMonitor.DataModel.BasicProperties
     public class Velocity
     {
         public static readonly Velocity Zero = Velocity.FromMs(0);
-        private double inMs;
+        private double _inMs;
 
         private Velocity(double ms)
         {
-            inMs = ms;
+            _inMs = ms;
         }
 
-        public double InKPH
+        public double InKph
         {
-            get => inMs * 3.6;
+            get => _inMs * 3.6;
         }
 
         public double InMs
         {
-            get => inMs;
+            get => _inMs;
         }
 
         static public Velocity FromMs(double inMs)

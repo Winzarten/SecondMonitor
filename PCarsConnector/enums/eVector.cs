@@ -8,12 +8,12 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eVector
+    public enum EVector
     {
-        VEC_X = 0,
-        VEC_Y,
-        VEC_Z,
+        VecX = 0,
+        VecY,
+        VecZ,
         //-------------
-        VEC_MAX
+        VecMax
     }
 }

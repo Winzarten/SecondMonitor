@@ -8,21 +8,21 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    public enum eCurrentSector
+    public enum ECurrentSector
     {
         [Description("Invalid Sector")]
-        SECTOR_INVALID = 0,
+        SectorInvalid = 0,
         [Description("Sector Start")]
-        SECTOR_START,
+        SectorStart,
         [Description("Sector 1")]
-        SECTOR_SECTOR1,
+        SectorSector1,
         [Description("Sector 2")]
-        SECTOR_SECTOR2,
+        SectorSector2,
         [Description("Sector 3")]
-        SECTOR_FINISH,
+        SectorFinish,
         [Description("Sector Stop??")]
-        SECTOR_STOP,
+        SectorStop,
         //-------------
-        SECTOR_MAX
+        SectorMax
     }
 }

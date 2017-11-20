@@ -14,40 +14,40 @@ namespace SecondMonitor.PluginManager.Core
     {
         public event EventHandler<DataEventArgs> DataLoaded;
         public event EventHandler<DataEventArgs> SessionStarted;
-        private List<ISecondMonitorPlugin> plugins;
-        private IGameConnector activeConnector;
-        private Thread connectorDaemon;
+        private List<ISecondMonitorPlugin> _plugins;
+        private IGameConnector _activeConnector;
+        private Thread _connectorDaemon;
 
         public PluginsManager(IGameConnector[] connectors)
         {
-            plugins = new List<ISecondMonitorPlugin>();
+            _plugins = new List<ISecondMonitorPlugin>();
             Connectors = connectors;
         }
 
         private void Connector_Disconnected(object sender, EventArgs e)
         {
-            if (activeConnector == sender)
+            if (_activeConnector == sender)
             {
-                activeConnector.DataLoaded -= OnDataLoaded;
-                activeConnector.SessionStarted -= OnSessionStarted;
-                activeConnector.Disconnected -= Connector_Disconnected;
-                activeConnector = null;
+                _activeConnector.DataLoaded -= OnDataLoaded;
+                _activeConnector.SessionStarted -= OnSessionStarted;
+                _activeConnector.Disconnected -= Connector_Disconnected;
+                _activeConnector = null;
                 RaiseSessionStartedEvent(new SimulatorDataSet("Not Connected"));
             }
         }
 
         public void Start()
         {
-            connectorDaemon = new Thread(ConnectorDaemonMethod);
-            connectorDaemon.IsBackground = true;
-            connectorDaemon.Start();
+            _connectorDaemon = new Thread(ConnectorDaemonMethod);
+            _connectorDaemon.IsBackground = true;
+            _connectorDaemon.Start();
         }
 
         private void ConnectorDaemonMethod()
         {
             while(true)
             {
-                if(activeConnector == null)
+                if(_activeConnector == null)
                     ConnectLoop();
                 Thread.Sleep(1000);
             }
@@ -63,10 +63,10 @@ namespace SecondMonitor.PluginManager.Core
                 {
                     if (connector.TryConnect())
                     {
-                        activeConnector = connector;
-                        activeConnector.DataLoaded += OnDataLoaded;
-                        activeConnector.SessionStarted += OnSessionStarted;
-                        activeConnector.Disconnected += Connector_Disconnected;
+                        _activeConnector = connector;
+                        _activeConnector.DataLoaded += OnDataLoaded;
+                        _activeConnector.SessionStarted += OnSessionStarted;
+                        _activeConnector.Disconnected += Connector_Disconnected;
                         return;
                     }
                 }
@@ -80,15 +80,15 @@ namespace SecondMonitor.PluginManager.Core
             foreach(String file in files)
             {
                 string assemblyPath = Path.Combine(pluginsDirectory, file);
-                plugins.AddRange(GetPluginsFromAssembly(assemblyPath));
+                _plugins.AddRange(GetPluginsFromAssembly(assemblyPath));
                 
             }
-            if(plugins.Count == 0)
+            if(_plugins.Count == 0)
             {
                 MessageBox.Show("No plugins loaded. Please place plugins .dll into " + pluginsDirectory, "No plugins", MessageBoxButtons.OK);
                 System.Environment.Exit(1);
             }
-            foreach(ISecondMonitorPlugin plugin in plugins)
+            foreach(ISecondMonitorPlugin plugin in _plugins)
             {
                 plugin.PluginManager = this;
                 plugin.RunPlugin();
@@ -127,11 +127,11 @@ namespace SecondMonitor.PluginManager.Core
         
 
         public void DeletePlugin(ISecondMonitorPlugin plugin)
-        {   lock (plugins)
+        {   lock (_plugins)
             {
-                plugins.Remove(plugin);
+                _plugins.Remove(plugin);
                 bool allDaemons = true;
-                foreach(ISecondMonitorPlugin activePlugin in plugins)
+                foreach(ISecondMonitorPlugin activePlugin in _plugins)
                 {
                     allDaemons = allDaemons && activePlugin.IsDaemon;
                 }

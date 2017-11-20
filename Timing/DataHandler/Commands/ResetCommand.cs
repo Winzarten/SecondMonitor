@@ -10,28 +10,28 @@ namespace SecondMonitor.Timing.DataHandler.Commands
     public class NoArgumentCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private Action executeDelegate;
-        private Func<bool> canExecuteDelegate;
+        private Action _executeDelegate;
+        private Func<bool> _canExecuteDelegate;
 
         public NoArgumentCommand(Action execute)
         {
-            executeDelegate = execute;
-            canExecuteDelegate = () => { return true; };
+            _executeDelegate = execute;
+            _canExecuteDelegate = () => { return true; };
         }
         public NoArgumentCommand(Action execute, Func<bool> canExecute)
         {
-            executeDelegate = execute;
-            canExecuteDelegate = canExecute;
+            _executeDelegate = execute;
+            _canExecuteDelegate = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecuteDelegate();
+            return _canExecuteDelegate();
         }
 
         public void Execute(object parameter)
         {
-            executeDelegate();
+            _executeDelegate();
         }
     }
 }

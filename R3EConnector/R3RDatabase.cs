@@ -12,10 +12,10 @@ namespace SecondMonitor.R3EConnector
 {
     public class R3RDatabase
     {
-        private Dictionary<int, string> carNames;
+        private Dictionary<int, string> _carNames;
         public R3RDatabase()
         {
-            carNames = new Dictionary<int, string>();
+            _carNames = new Dictionary<int, string>();
         }
         public void Load()
         {
@@ -51,21 +51,21 @@ namespace SecondMonitor.R3EConnector
 
         private void LoadCarNames(JToken carsJson)
         {
-            carNames.Clear();
+            _carNames.Clear();
             foreach(var carJson in carsJson)
             {
                 var carDefinition = carJson.First;
                 int id = carDefinition.Value<int>("Id");
                 string name = carDefinition.Value<string>("Name");
-                carNames[id] = name;
+                _carNames[id] = name;
             }
         }
 
         public string GetCarName(int id)
         {
-            if (!carNames.ContainsKey(id))
-                carNames[id] = "Unknown";
-            return carNames[id];
+            if (!_carNames.ContainsKey(id))
+                _carNames[id] = "Unknown";
+            return _carNames[id];
             
         }
     }

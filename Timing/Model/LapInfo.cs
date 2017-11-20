@@ -11,16 +11,16 @@ namespace SecondMonitor.Timing.Model
 {
     public class LapInfo
     {
-        private DriverTiming driver;
-        private TimeSpan lapEnd;
-        private TimeSpan lapProgressTime;
-        private TimeSpan lapTime;
+        private DriverTiming _driver;
+        private TimeSpan _lapEnd;
+        private TimeSpan _lapProgressTime;
+        private TimeSpan _lapTime;
         
         public LapInfo(TimeSpan startSeesionTine, int lapNumber, DriverTiming driver)
         {
             Driver = driver;
             LapStart = startSeesionTine;
-            lapProgressTime = new TimeSpan(0, 0, 0);
+            _lapProgressTime = new TimeSpan(0, 0, 0);
             LapNumber = lapNumber;
             Valid = true;
             FirstLap = false;
@@ -31,7 +31,7 @@ namespace SecondMonitor.Timing.Model
         {
             Driver = driver;
             LapStart = startSeesionTine;
-            lapProgressTime = new TimeSpan(0, 0, 0);
+            _lapProgressTime = new TimeSpan(0, 0, 0);
             LapNumber = lapNumber;
             Valid = true;
             FirstLap = firstLap;
@@ -40,7 +40,7 @@ namespace SecondMonitor.Timing.Model
         public TimeSpan LapStart { get; private set; }
         public int LapNumber { get; private set; }
         public bool Valid { get; set; }
-        public DriverTiming Driver { get => driver; private set => driver = value; } 
+        public DriverTiming Driver { get => _driver; private set => _driver = value; } 
         public bool FirstLap { get; private set; }
         public bool InvalidBySim { get; set; }
         public bool PitLap { get; set; }
@@ -50,25 +50,25 @@ namespace SecondMonitor.Timing.Model
         {
             if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation)
             {
-                lapEnd = dataSet.SessionInfo.SessionTime;
+                _lapEnd = dataSet.SessionInfo.SessionTime;
             }
             else
             {
-                lapEnd = LapStart.Add(TimeSpan.FromSeconds(driverInfo.Timing.LastLapTime));
+                _lapEnd = LapStart.Add(TimeSpan.FromSeconds(driverInfo.Timing.LastLapTime));
             }
-            lapTime = LapEnd.Subtract(LapStart);
+            _lapTime = LapEnd.Subtract(LapStart);
             Completed = true;
         }
         public void Tick(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            lapProgressTime = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
+            _lapProgressTime = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
             //Let 5 seconds for the source data noise, when lap count might not be properly updated at instance creation
-            if (lapProgressTime.TotalSeconds < 5 && LapNumber != driverInfo.CompletedLaps + 1)
+            if (_lapProgressTime.TotalSeconds < 5 && LapNumber != driverInfo.CompletedLaps + 1)
                 LapNumber = driverInfo.CompletedLaps + 1;
         }
 
-        public TimeSpan LapEnd { get => lapEnd; }
-        public TimeSpan LapTime { get => lapTime; }
-        public TimeSpan LapProgressTime { get => lapProgressTime; }
+        public TimeSpan LapEnd { get => _lapEnd; }
+        public TimeSpan LapTime { get => _lapTime; }
+        public TimeSpan LapProgressTime { get => _lapProgressTime; }
     }
 }

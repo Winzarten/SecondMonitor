@@ -8,8 +8,8 @@ using System.Xml.Linq;
 
 namespace  SecondMonitor.PCarsConnector.enums
 {
-    enum eHeaderVersion
+    enum EHeaderVersion
     {
-        SHARED_MEMORY_VERSION = 5
+        SharedMemoryVersion = 5
     }
 }

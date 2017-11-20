@@ -15,26 +15,26 @@ namespace SecondMonitor.R3EConnector
     {
         
         
-        private R3RDatabase database;
+        private R3RDatabase _database;
         private DriverInfo _lastPlayer = new DriverInfo();
-        private Dictionary<string, Single> lastLapTimes;
-        private R3EConnector connector;
+        private Dictionary<string, Single> _lastLapTimes;
+        private R3EConnector _connector;
 
         internal R3EDataConvertor(R3EConnector connector)
         {
-            this.connector = connector;
-            database = new R3RDatabase();
-            database.Load();
-            lastLapTimes = new Dictionary<string, float>();
+            this._connector = connector;
+            _database = new R3RDatabase();
+            _database.Load();
+            _lastLapTimes = new Dictionary<string, float>();
         }
 
 
-        internal void AddDriversData(SimulatorDataSet data, R3ESharedData r3rData)
+        internal void AddDriversData(SimulatorDataSet data, R3ESharedData r3RData)
         {
-            if (r3rData.NumCars == -1)
+            if (r3RData.NumCars == -1)
                 return;
-            data.DriversInfo = new DriverInfo[r3rData.NumCars];
-            String playerName = FromByteArray(r3rData.PlayerName);
+            data.DriversInfo = new DriverInfo[r3RData.NumCars];
+            String playerName = FromByteArray(r3RData.PlayerName);
             DriverInfo playersInfo = null;
             /*DataModel.Drivers.DriverInfo playerInfo = new DataModel.Drivers.DriverInfo();
             
@@ -43,38 +43,38 @@ namespace SecondMonitor.R3EConnector
             playerInfo.InPits = r3rData.InPitlane == 1;
             playerInfo.IsPlayer = true;*/
 
-            for (int i = 0; i < r3rData.NumCars; i++)
+            for (int i = 0; i < r3RData.NumCars; i++)
             {
-                DriverData r3rDriverData = r3rData.DriverData[i];
+                DriverData r3RDriverData = r3RData.DriverData[i];
                 DriverInfo driverInfo = new DriverInfo();
-                driverInfo.DriverName = FromByteArray(r3rDriverData.DriverInfo.Name);
-                driverInfo.CompletedLaps = r3rDriverData.CompletedLaps;
+                driverInfo.DriverName = FromByteArray(r3RDriverData.DriverInfo.Name);
+                driverInfo.CompletedLaps = r3RDriverData.CompletedLaps;
                 driverInfo.CarName = "";//System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.).Replace("\0", "");
-                driverInfo.InPits = r3rDriverData.InPitlane == 1;
+                driverInfo.InPits = r3RDriverData.InPitlane == 1;
                 driverInfo.IsPlayer = driverInfo.DriverName == playerName;
-                driverInfo.Position = r3rDriverData.Place;
-                driverInfo.Speed = Velocity.FromMs(r3rDriverData.CarSpeed);
-                driverInfo.LapDistance = r3rDriverData.LapDistance;
-                driverInfo.TotalDistance = r3rDriverData.CompletedLaps * r3rData.LayoutLength + r3rDriverData.LapDistance;                
-                driverInfo.CarName = database.GetCarName(r3rDriverData.DriverInfo.ModelId);
-                driverInfo.FinishStatus = FromR3RStatus(r3rDriverData.FinishStatus);
-                ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3rData);
+                driverInfo.Position = r3RDriverData.Place;
+                driverInfo.Speed = Velocity.FromMs(r3RDriverData.CarSpeed);
+                driverInfo.LapDistance = r3RDriverData.LapDistance;
+                driverInfo.TotalDistance = r3RDriverData.CompletedLaps * r3RData.LayoutLength + r3RDriverData.LapDistance;                
+                driverInfo.CarName = _database.GetCarName(r3RDriverData.DriverInfo.ModelId);
+                driverInfo.FinishStatus = FromR3RStatus(r3RDriverData.FinishStatus);
+                ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3RData);
 
                 if (driverInfo.IsPlayer)
                 {
                     playersInfo = driverInfo;
-                    driverInfo.CurrentLapValid = r3rData.CurrentLapValid == 1;
+                    driverInfo.CurrentLapValid = r3RData.CurrentLapValid == 1;
                     _lastPlayer = driverInfo;
                 }
                 else
-                    driverInfo.CurrentLapValid = r3rDriverData.CurrentLapValid == 1;
-                driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = ((TireSubtype)r3rDriverData.TireSubtypeFront).ToString();
-                driverInfo.CarInfo.WheelsInfo.FrontRight.TyreTypeFilled = ((TireSubtype)r3rDriverData.TireSubtypeFront) != TireSubtype.Unavailable;
+                    driverInfo.CurrentLapValid = r3RDriverData.CurrentLapValid == 1;
+                driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = ((TireSubtype)r3RDriverData.TireSubtypeFront).ToString();
+                driverInfo.CarInfo.WheelsInfo.FrontRight.TyreTypeFilled = ((TireSubtype)r3RDriverData.TireSubtypeFront) != TireSubtype.Unavailable;
                 driverInfo.CarInfo.WheelsInfo.FrontRight.TyreType = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType;
                 driverInfo.CarInfo.WheelsInfo.FrontRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreTypeFilled;
 
-                driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled = ((TireSubtype)r3rDriverData.TireSubtypeRear) != TireSubtype.Unavailable;
-                driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType = ((TireSubtype)r3rDriverData.TireSubtypeRear).ToString();
+                driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled = ((TireSubtype)r3RDriverData.TireSubtypeRear) != TireSubtype.Unavailable;
+                driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType = ((TireSubtype)r3RDriverData.TireSubtypeRear).ToString();
                 driverInfo.CarInfo.WheelsInfo.RearRight.TyreType = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType;
                 driverInfo.CarInfo.WheelsInfo.RearRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled;
                 data.DriversInfo[i] = driverInfo;
@@ -85,13 +85,13 @@ namespace SecondMonitor.R3EConnector
                 }
                 if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && _lastPlayer != null && _lastPlayer.CompletedLaps != 0)
                 {
-                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - r3rData.LayoutLength * 0.5);
-                    driverInfo.IsLapingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3rData.LayoutLength * 0.5);
+                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - r3RData.LayoutLength * 0.5);
+                    driverInfo.IsLapingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3RData.LayoutLength * 0.5);
                 }
-                FillTimingInfor(driverInfo, r3rDriverData, r3rData);
+                FillTimingInfor(driverInfo, r3RDriverData, r3RData);
                 if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished)
                     driverInfo.CompletedLaps++;
-                connector.StoreLastTickInfo(driverInfo);
+                _connector.StoreLastTickInfo(driverInfo);
             }
             if (playersInfo != null)
             {
@@ -99,15 +99,15 @@ namespace SecondMonitor.R3EConnector
             }
         }
 
-        internal void FillTimingInfor(DriverInfo driverInfo, DriverData r3eDriverData, R3ESharedData r3rData)
+        internal void FillTimingInfor(DriverInfo driverInfo, DriverData r3EDriverData, R3ESharedData r3RData)
         {
             if (driverInfo.IsPlayer)
             {
-                driverInfo.Timing.LastLapTime = r3rData.LapTimePreviousSelf;
+                driverInfo.Timing.LastLapTime = r3RData.LapTimePreviousSelf;
                 return;
             }
             else
-                driverInfo.Timing.LastLapTime = r3eDriverData.SectorTimePreviousSelf.Sector3;
+                driverInfo.Timing.LastLapTime = r3EDriverData.SectorTimePreviousSelf.Sector3;
         }
 
         internal static DriverInfo.DriverFinishStatus FromR3RStatus(int finishStatus)
@@ -115,35 +115,35 @@ namespace SecondMonitor.R3EConnector
             switch ((FinishStatus)finishStatus)
             {
                 case FinishStatus.Unavailable:
-                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.NA;
-                case FinishStatus.DNF:
-                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DNF;
-                case FinishStatus.DNQ:
-                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DNQ;
-                case FinishStatus.DNS:
-                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DNS;
-                case FinishStatus.DQ:
-                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.DQ;
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.Na;
+                case FinishStatus.Dnf:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.Dnf;
+                case FinishStatus.Dnq:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.Dnq;
+                case FinishStatus.Dns:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.Dns;
+                case FinishStatus.Dq:
+                    return DataModel.Drivers.DriverInfo.DriverFinishStatus.Dq;
                 case FinishStatus.Finished:
                     return DataModel.Drivers.DriverInfo.DriverFinishStatus.Finished;
                 case FinishStatus.None:
                     return DataModel.Drivers.DriverInfo.DriverFinishStatus.None;
             }
-            return DataModel.Drivers.DriverInfo.DriverFinishStatus.NA;
+            return DataModel.Drivers.DriverInfo.DriverFinishStatus.Na;
 
         }
 
-        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, R3ESharedData r3rData)
+        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, R3ESharedData r3RData)
         {
             if (player == null)
                 return;
-            if(driverInfo.FinishStatus==DriverInfo.DriverFinishStatus.DQ || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.DNF || 
-                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.DNQ || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.DNS)
+            if(driverInfo.FinishStatus==DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf || 
+                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
             {
                 driverInfo.DistanceToPlayer = Single.MaxValue;
                 return;
             }
-            Single trackLength = r3rData.LayoutLength;
+            Single trackLength = r3RData.LayoutLength;
             Single playerLapDistance = player.LapDistance;
 
             Single distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
@@ -188,9 +188,9 @@ namespace SecondMonitor.R3EConnector
 
         private static void AddAcceleration(R3ESharedData data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.Acceleration.XInMS = data.LocalAcceleration.X;
-            simData.PlayerInfo.CarInfo.Acceleration.YInMS = data.LocalAcceleration.Y;
-            simData.PlayerInfo.CarInfo.Acceleration.ZInMS = data.LocalAcceleration.Z;
+            simData.PlayerInfo.CarInfo.Acceleration.XinMs = data.LocalAcceleration.X;
+            simData.PlayerInfo.CarInfo.Acceleration.YinMs = data.LocalAcceleration.Y;
+            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.LocalAcceleration.Z;
         }
 
         private static void AddTyresInfo(R3ESharedData data, SimulatorDataSet simData)
@@ -264,7 +264,7 @@ namespace SecondMonitor.R3EConnector
         internal void FillSessionInfo(R3ESharedData data, SimulatorDataSet simData)
         {
             //Timing
-            simData.SessionInfo.SessionTime = connector.SessionTime; //TimeSpan.FromSeconds(data.Player.GameSimulationTime);
+            simData.SessionInfo.SessionTime = _connector.SessionTime; //TimeSpan.FromSeconds(data.Player.GameSimulationTime);
             simData.SessionInfo.LayoutLength = data.LayoutLength;
             simData.SessionInfo.IsActive = (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Green
                 || (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Checkered;
@@ -280,7 +280,7 @@ namespace SecondMonitor.R3EConnector
                     simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Race;
                     break;
                 case Constant.Session.Unavailable:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.NA;
+                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Na;
                     break;
                 case Constant.Session.Warmup:
                     simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.WarmUp;
