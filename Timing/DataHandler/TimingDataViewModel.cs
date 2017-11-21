@@ -163,11 +163,7 @@ namespace SecondMonitor.Timing.DataHandler
                 _timing.PaceLaps = _paceLaps;
             _gui.Dispatcher.Invoke(RefreshDatagrid);
 
-        }
-        private void ResetFuel()
-        {
-            _gui.fuelMonitor.ResetFuelMonitor();
-        }
+        }        
         private void ScheduleReset()
         {
             _shouldReset = ResetModeEnum.Manual;
@@ -355,6 +351,7 @@ namespace SecondMonitor.Timing.DataHandler
             InitializeGui(data);
             ChangeTimingMode();
             ConnectedSource = data.Source;
+            _bestSessionLap = null;
             NotifyPropertyChanged("BestLapFormatted");
             NotifyPropertyChanged("ConnectedSource");
         }

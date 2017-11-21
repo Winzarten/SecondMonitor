@@ -189,10 +189,10 @@ namespace SecondMonitor.PCarsConnector
                 {
                     //This a state that sometimes occurs when saving pit preset during race
                     //This state is ignored, otherwise it would trigger a session reset
-                    if (data.MSessionState == 0 && data.MGameState == 2)
+                    if (data.MSessionState == 0 && (data.MGameState == 2 || data.MGameState == 3))
                     {
                         continue;
-                    }                    
+                    }
                     DateTime tickTime = DateTime.Now;
                     TimeSpan lastTickDuration = tickTime.Subtract(_lastTick);
                     SimulatorDataSet simData= _pCarsConvertor.FromPcarsData(data, lastTickDuration);
