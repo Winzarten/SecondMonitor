@@ -35,6 +35,7 @@ namespace SecondMonitor.PCarsConnector
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
 
         private DateTime _lastTick;
+        private TimeSpan _lastSessionTimeLeft;
         private TimeSpan _sessionTime;
 
         private static readonly string[] PCarsExecutables = new string[] {"pCARS64", "pCARS2" };
@@ -86,8 +87,12 @@ namespace SecondMonitor.PCarsConnector
 
         public bool IsPCarsRunning()
         {
-            if (_process != null && _process.HasExited)
-                return false;
+            if (_process != null)
+            {
+                if (!_process.HasExited) return false;
+                _process = null;
+                return true;
+            }
             foreach (var processName in PCarsExecutables)
             {
                 var processes = Process.GetProcessesByName(processName);

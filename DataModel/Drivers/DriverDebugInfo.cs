@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.DataModel.Drivers
+﻿using System;
+
+namespace SecondMonitor.DataModel.Drivers
 {
     public class DriverDebugInfo
     {

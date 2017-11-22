@@ -49,6 +49,7 @@ namespace SecondMonitor.Timing.DataHandler
         private LapInfo _bestSessionLap;
         public string BestLapFormatted { get => _bestSessionLap != null ? _bestSessionLap.Driver.DriverInfo.DriverName +"-(L"+ _bestSessionLap.LapNumber+"):"+ DriverTiming.FormatTimeSpan(_bestSessionLap.LapTime) : "Best Session Lap"; }
         public string SessionTime { get => _timing != null ? _timing.SessionTime.ToString("mm\\:ss\\.fff") : ""; }
+
         public string ConnectedSource { get; private set; }
         public string SystemTime { get => DateTime.Now.ToString("HH:mm"); }
 

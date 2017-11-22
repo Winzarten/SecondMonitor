@@ -39,8 +39,8 @@ namespace SecondMonitor.PCarsConnector
             for (int i = 0; i < pCarsData.MNumParticipants; i++)
             {
                 PCarsApiParticipantStruct pcarsDriverData = pCarsData.MParticipantData[i];
-                DataModel.Drivers.DriverInfo driverInfo =
-                    new DataModel.Drivers.DriverInfo
+                DriverInfo driverInfo =
+                    new DriverInfo
                     {
                         DriverName = pcarsDriverData.MName,
                         CompletedLaps = (int) pcarsDriverData.MLapsCompleted,
@@ -55,9 +55,13 @@ namespace SecondMonitor.PCarsConnector
                             pcarsDriverData.MWorldPosition[2])
                         
             };
+                if (_lastPlayer != null)
+                {
+                    ComputeDistanceToPlayer(_lastPlayer, driverInfo, data);
+                }
                 driverInfo.TotalDistance = driverInfo.CompletedLaps * data.SessionInfo.LayoutLength + driverInfo.LapDistance;
                 //System.Text.Encoding.UTF8.GetString(r3rDriverData.DriverInfo.).Replace("\0", "");
-                // r3rDriverData.InPitlane == 1;                                                
+                // r3rDriverData.InPitlane == 1;
                 if (driverInfo.IsPlayer)
                 {
                     playersInfo = driverInfo;
@@ -84,7 +88,6 @@ namespace SecondMonitor.PCarsConnector
                 _pCarsConnector.NextSpeedComputation += 0.5;
             if (playersInfo != null)
             {
-                ComputeDistanceToPlayer(playersInfo, data);
                 data.PlayerInfo = playersInfo;
                 _lastPlayer = playersInfo;
             }
@@ -126,19 +129,18 @@ namespace SecondMonitor.PCarsConnector
             DriversInPits.Clear();
         }
 
-        private static void ComputeDistanceToPlayer(DataModel.Drivers.DriverInfo player, SimulatorDataSet data)
+        private static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, SimulatorDataSet data)
         {
             Single trackLength = data.SessionInfo.LayoutLength;
             Single playerLapDistance = player.LapDistance;
-            foreach (var driverInfo in data.DriversInfo)
-            {
+            
                 Single distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
                 if (distanceToPlayer < -(trackLength / 2))
                     distanceToPlayer = distanceToPlayer + trackLength;
                 if (distanceToPlayer > (trackLength / 2))
                     distanceToPlayer = distanceToPlayer - trackLength;
                 driverInfo.DistanceToPlayer = distanceToPlayer;
-            }
+            
         }
 
         //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
