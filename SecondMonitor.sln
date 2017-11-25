@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorGui", "MonitorGui\MonitorGui.csproj", "{D94FAD38-42AF-4FAE-8E42-826D776E674A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -29,6 +29,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsControls", "WindowsControls\WindowsControls.csproj", "{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockedConnector", "MockedConnector\MockedConnector.csproj", "{93ED0FE3-E7C1-4419-9B05-AC15B8332211}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WixInstaller", "WixInstaller\WixInstaller.wixproj", "{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -148,6 +150,14 @@ Global
 		{93ED0FE3-E7C1-4419-9B05-AC15B8332211}.Release|x64.Build.0 = Release|Any CPU
 		{93ED0FE3-E7C1-4419-9B05-AC15B8332211}.Release|x86.ActiveCfg = Release|Any CPU
 		{93ED0FE3-E7C1-4419-9B05-AC15B8332211}.Release|x86.Build.0 = Release|Any CPU
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Debug|x64.ActiveCfg = Debug|x86
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Debug|x86.ActiveCfg = Debug|x86
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Debug|x86.Build.0 = Debug|x86
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Release|Any CPU.ActiveCfg = Release|x86
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Release|x64.ActiveCfg = Release|x86
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Release|x86.ActiveCfg = Release|x86
+		{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

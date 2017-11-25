@@ -1,0 +1,1 @@
+heat dir Deployment -dr Deployment -cg DeploymentGroup -out WixInstaller/Fragments.wxs 

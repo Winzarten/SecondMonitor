@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="MyDirName">
+            <Directory Id="dirF4AE41F952138C62C0C79DA5F48A19C7" Name="Deployment" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="SampleGroup">
+            <Component Id="cmpA01BD8A066CC87095FB707F884D2894C" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil37BB968AA80456B6D42A68402340CDF9" KeyPath="yes" Source="SourceDir\AGauge.dll" />
+            </Component>
+            <Component Id="cmp284618B77C1CA28B9125EA29DBD2C516" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil229B6DF9982A86863AA452D46B5BDE64" KeyPath="yes" Source="SourceDir\DataModel.dll" />
+            </Component>
+            <Component Id="cmp2C548CA03731B41CDCA8AF0014C8915D" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil8BC2A6378E16A8DFC7C45ADCDDBC96F1" KeyPath="yes" Source="SourceDir\DataModel.pdb" />
+            </Component>
+            <Component Id="cmp2233C7396F5F75665D3132E757759F6A" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil15D576DACAC92D4304C8AA1DEEC0FEB0" KeyPath="yes" Source="SourceDir\LCDLabel.dll" />
+            </Component>
+            <Component Id="cmp4EACC6294FAD4D691955B09C9A9B7D8D" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="filEBF7820CA16711835EBFEC1BF6276BFE" KeyPath="yes" Source="SourceDir\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmpEE68929CCD2A265F46C2632B0BF45375" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="filF1CB20A6F2B2E500E22A9DDEB3D3921E" KeyPath="yes" Source="SourceDir\Newtonsoft.Json.xml" />
+            </Component>
+            <Component Id="cmpF177372CB38937E77798D20A6E009B1B" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil579388623D887B9A08EACB3A119AD1FE" KeyPath="yes" Source="SourceDir\NLog.config" />
+            </Component>
+            <Component Id="cmp0D215C7CB972B8A04E50B40EFDDDA46F" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil6EF44591935E9707A16D109E44AB7BF7" KeyPath="yes" Source="SourceDir\NLog.dll" />
+            </Component>
+            <Component Id="cmp1D768AED8011E2FEAC5EEACBABC34802" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil40597B22789344825026B4D784AAED54" KeyPath="yes" Source="SourceDir\NLog.xml" />
+            </Component>
+            <Component Id="cmp5AB4728EA0012EBDDC5609213F0403D4" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil4E1BBA3E12EB0CC92E02A8D96BAFBDB2" KeyPath="yes" Source="SourceDir\PluginManager.dll" />
+            </Component>
+            <Component Id="cmp461628C8C8AFE37379207ED36146AE2F" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil03FD809DA6208B6A1F14AA32335A71AB" KeyPath="yes" Source="SourceDir\PluginManager.pdb" />
+            </Component>
+            <Component Id="cmp7AFB4914C804F7214F63001FF3E8AC88" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil92C3168E6CE7013EC0F006062F622CA9" KeyPath="yes" Source="SourceDir\SecondMonitor.exe" />
+            </Component>
+            <Component Id="cmp0F757A041C652467BABD363B1ACDF7AE" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil4077D1E15DED836ACAEE00908B88BCA1" KeyPath="yes" Source="SourceDir\SecondMonitor.exe.config" />
+            </Component>
+            <Component Id="cmpAF9793E6B8E7C4B370F1FC314497489E" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="filE9FA2D7D8E146FB31CEA5861522829DB" KeyPath="yes" Source="SourceDir\SecondMonitor.pdb" />
+            </Component>
+            <Component Id="cmpC58D581E71A92D3AF92CC5F5532A4D48" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="filDF283538757733D75683893E70A64BC3" KeyPath="yes" Source="SourceDir\WindowsControls.dll" />
+            </Component>
+            <Component Id="cmp516798BB7938259D2DFAA0AEF403FD14" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="fil75FAC2E864E249954573B900141A7E0B" KeyPath="yes" Source="SourceDir\WindowsControls.pdb" />
+            </Component>
+            <Component Id="cmpC06C4FC2AB1BE1A1F1524EF6F89430E8" Directory="dirF4AE41F952138C62C0C79DA5F48A19C7" Guid="PUT-GUID-HERE">
+                <File Id="filAD2610D54FC6CE6CE9F4FD262F416A48" KeyPath="yes" Source="SourceDir\Xceed.Wpf.Toolkit.dll" />
+            </Component>
+            <Component Id="cmp2228A0774A48FF047A50F20218932B17" Directory="dir2DFFBB018FE516651EDA979FF51BD968" Guid="PUT-GUID-HERE">
+                <File Id="fil68CFECA639C2D1295DEEA4A25F5CD98D" KeyPath="yes" Source="SourceDir\Connectors\Pcars\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmpCAE93578D4FEE08B805BE9488868DBE1" Directory="dir2DFFBB018FE516651EDA979FF51BD968" Guid="PUT-GUID-HERE">
+                <File Id="filD105343FA33DD5121B3B0BCA8F773760" KeyPath="yes" Source="SourceDir\Connectors\Pcars\Newtonsoft.Json.xml" />
+            </Component>
+            <Component Id="cmpB6E0AC0094EE6619E5B7F854BA96685A" Directory="dir2DFFBB018FE516651EDA979FF51BD968" Guid="PUT-GUID-HERE">
+                <File Id="filD39574F635978F3A57D920A40609BC5A" KeyPath="yes" Source="SourceDir\Connectors\Pcars\PCarsConnector.dll" />
+            </Component>
+            <Component Id="cmp4762E5161111FBD4518374C8A49FC930" Directory="dir2DFFBB018FE516651EDA979FF51BD968" Guid="PUT-GUID-HERE">
+                <File Id="fil49B4346B75C2943A26E74A0E6B6F49E8" KeyPath="yes" Source="SourceDir\Connectors\Pcars\PCarsConnector.pdb" />
+            </Component>
+            <Component Id="cmpBC7A3A90DAAE31A8E10FCC0787D26459" Directory="dir56A5A7DE81BFB83E5528FE0D24C468E8" Guid="PUT-GUID-HERE">
+                <File Id="fil9D44DB5AEFACFC5BD324EDA9BFEC4049" KeyPath="yes" Source="SourceDir\Connectors\R3E\data.json" />
+            </Component>
+            <Component Id="cmp059997D84B8FBFE4339D6F3F3A3D4C45" Directory="dir56A5A7DE81BFB83E5528FE0D24C468E8" Guid="PUT-GUID-HERE">
+                <File Id="fil543FEF4CBCB948BF32700E1BD3568487" KeyPath="yes" Source="SourceDir\Connectors\R3E\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmpE0E4C7778A4C2BDBCA7F6E72C639DE46" Directory="dir56A5A7DE81BFB83E5528FE0D24C468E8" Guid="PUT-GUID-HERE">
+                <File Id="fil8814781A128CB857DC4AEB00E01BAAE9" KeyPath="yes" Source="SourceDir\Connectors\R3E\Newtonsoft.Json.xml" />
+            </Component>
+            <Component Id="cmpFAAB1C93E8092DE1A959B25F9C425F2E" Directory="dir56A5A7DE81BFB83E5528FE0D24C468E8" Guid="PUT-GUID-HERE">
+                <File Id="fil259B74838EE1D4A2BCE7EA7A9D4DD81D" KeyPath="yes" Source="SourceDir\Connectors\R3E\R3EConnector.dll" />
+            </Component>
+            <Component Id="cmp1C6B407A73AEE7376C58637400B28C09" Directory="dir56A5A7DE81BFB83E5528FE0D24C468E8" Guid="PUT-GUID-HERE">
+                <File Id="filDC06D61135A22D6E55E6BF2DFD17CD1B" KeyPath="yes" Source="SourceDir\Connectors\R3E\R3EConnector.pdb" />
+            </Component>
+            <Component Id="cmpA484FA04381BD5899A8BB04B3C3367BB" Directory="dir80EA0364032E0F1EADFEDA8539B913EF" Guid="PUT-GUID-HERE">
+                <File Id="filC3428C5A9AE5747D78A3FF4D86B4BFF9" KeyPath="yes" Source="SourceDir\Disabled\AGauge.dll" />
+            </Component>
+            <Component Id="cmpB767ECD52460DF0A46385A6D1451D051" Directory="dir80EA0364032E0F1EADFEDA8539B913EF" Guid="PUT-GUID-HERE">
+                <File Id="filE171486AF63FB393D2659BE53E7FF2B1" KeyPath="yes" Source="SourceDir\Disabled\SecondMonitor.dll" />
+            </Component>
+            <Component Id="cmp976FCCB453FBAED4BC5C16E45BFAEA78" Directory="dir80EA0364032E0F1EADFEDA8539B913EF" Guid="PUT-GUID-HERE">
+                <File Id="fil4443C5F6DF3257CBDE68635DD107B2A7" KeyPath="yes" Source="SourceDir\Disabled\SecondMonitor.dll.config" />
+            </Component>
+            <Component Id="cmp67912C0322CD5BA864EEFA58E3DD8149" Directory="dir80EA0364032E0F1EADFEDA8539B913EF" Guid="PUT-GUID-HERE">
+                <File Id="filBC08047EACAAC9CC1EC1ABFBAC6684D6" KeyPath="yes" Source="SourceDir\Disabled\SecondMonitor.pdb" />
+            </Component>
+            <Component Id="cmpD9E28813765E954FFCCF47F43C6D8858" Directory="dir938F83A541B1D99BAB48884C6027F161" Guid="PUT-GUID-HERE">
+                <File Id="fil9A258378D1719508B20730ACF6D21FB5" KeyPath="yes" Source="SourceDir\plugins\Timing.dll" />
+            </Component>
+            <Component Id="cmp4B5D3FDA5B2FDA74AF5BDB646DB82598" Directory="dir938F83A541B1D99BAB48884C6027F161" Guid="PUT-GUID-HERE">
+                <File Id="filACAD15E0883634248F27E4A6229D7C03" KeyPath="yes" Source="SourceDir\plugins\Timing.pdb" />
+            </Component>
+            <Component Id="cmpA8E23897E3F7B3245C102E88C0975879" Directory="dir938F83A541B1D99BAB48884C6027F161" Guid="PUT-GUID-HERE">
+                <File Id="fil1BD5E4D157C2CFF3FC4BC97239A39A07" KeyPath="yes" Source="SourceDir\plugins\Xceed.Wpf.Toolkit.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF40CB52316FBB34989287CF1E93E9912">
+            <Directory Id="dir2DFFBB018FE516651EDA979FF51BD968" Name="Pcars" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF40CB52316FBB34989287CF1E93E9912">
+            <Directory Id="dir56A5A7DE81BFB83E5528FE0D24C468E8" Name="R3E" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF4AE41F952138C62C0C79DA5F48A19C7">
+            <Directory Id="dir80EA0364032E0F1EADFEDA8539B913EF" Name="Disabled" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF4AE41F952138C62C0C79DA5F48A19C7">
+            <Directory Id="dir938F83A541B1D99BAB48884C6027F161" Name="plugins" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirF4AE41F952138C62C0C79DA5F48A19C7">
+            <Directory Id="dirF40CB52316FBB34989287CF1E93E9912" Name="Connectors" />
+        </DirectoryRef>
+    </Fragment>
+</Wix>
