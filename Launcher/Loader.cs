@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using NLog;
 using SecondMonitor.Launcher.Dialog;
 
 namespace SecondMonitor.Launcher
@@ -51,8 +52,9 @@ namespace SecondMonitor.Launcher
             }
             catch(Exception ex)
             {
+                LogManager.GetCurrentClassLogger().Error(ex, "Application experienced an error");
                 MessageBox.Show(ex.ToString());
-            }                
+            }
         }
 
         private static void LoadUsingGameConnectorsFromDirectory(string connectorsDir)

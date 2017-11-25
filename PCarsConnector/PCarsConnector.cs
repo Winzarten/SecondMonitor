@@ -89,9 +89,9 @@ namespace SecondMonitor.PCarsConnector
         {
             if (_process != null)
             {
-                if (!_process.HasExited) return false;
+                if (!_process.HasExited) return true;
                 _process = null;
-                return true;
+                return false;
             }
             foreach (var processName in PCarsExecutables)
             {

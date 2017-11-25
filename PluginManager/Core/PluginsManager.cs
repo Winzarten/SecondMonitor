@@ -7,19 +7,24 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using NLog;
+using NLog.Fluent;
 
 namespace SecondMonitor.PluginManager.Core
 {
     public class PluginsManager
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         public event EventHandler<DataEventArgs> DataLoaded;
         public event EventHandler<DataEventArgs> SessionStarted;
         private List<ISecondMonitorPlugin> _plugins;
         private IGameConnector _activeConnector;
         private Thread _connectorDaemon;
+        private SimulatorDataSet _olDataSet;
 
         public PluginsManager(IGameConnector[] connectors)
         {
+            _logger.Info().TimeStamp(DateTime.Now).Message("Fooo");
             _plugins = new List<ISecondMonitorPlugin>();
             Connectors = connectors;
         }
@@ -28,6 +33,7 @@ namespace SecondMonitor.PluginManager.Core
         {
             if (_activeConnector == sender)
             {
+                _logger.Info("Connector Disconnected: " + _activeConnector.GetType());
                 _activeConnector.DataLoaded -= OnDataLoaded;
                 _activeConnector.SessionStarted -= OnSessionStarted;
                 _activeConnector.Disconnected -= Connector_Disconnected;
@@ -41,6 +47,7 @@ namespace SecondMonitor.PluginManager.Core
             _connectorDaemon = new Thread(ConnectorDaemonMethod);
             _connectorDaemon.IsBackground = true;
             _connectorDaemon.Start();
+            _logger.Info("-----------------------Application Started------------------------------------");
         }
 
         private void ConnectorDaemonMethod()
@@ -55,14 +62,14 @@ namespace SecondMonitor.PluginManager.Core
 
         private void ConnectLoop()
         {
-            bool connected = false;
-            while (!connected)
+            while (true)
             {
                 Thread.Sleep(100);
                 foreach (var connector in Connectors)
                 {
                     if (connector.TryConnect())
                     {
+                        _logger.Info("Connector Connected: "+connector.GetType());
                         _activeConnector = connector;
                         _activeConnector.DataLoaded += OnDataLoaded;
                         _activeConnector.SessionStarted += OnSessionStarted;
@@ -90,6 +97,7 @@ namespace SecondMonitor.PluginManager.Core
             }
             foreach(ISecondMonitorPlugin plugin in _plugins)
             {
+                _logger.Info("Running plugin " + plugin.GetType());
                 plugin.PluginManager = this;
                 plugin.RunPlugin();
             }
@@ -109,8 +117,10 @@ namespace SecondMonitor.PluginManager.Core
             try
             {
                 assembly = Assembly.UnsafeLoadFrom(assemblyPath);
-                
-            }catch(Exception)
+                _logger.Info("Searching Assembly: " + assemblyPath);
+
+            }
+            catch(Exception)
             {
                 return new List<ISecondMonitorPlugin>();
             }
@@ -119,6 +129,8 @@ namespace SecondMonitor.PluginManager.Core
             {
                 ISecondMonitorPlugin plugin = Activator.CreateInstance(type) as ISecondMonitorPlugin;
                 plugins.Add(plugin);
+                _logger.Info("Found plugin:" + type.ToString());
+                
             }
             return plugins;
             
@@ -129,6 +141,7 @@ namespace SecondMonitor.PluginManager.Core
         public void DeletePlugin(ISecondMonitorPlugin plugin)
         {   lock (_plugins)
             {
+                _logger.Info("Plugin " + plugin.GetType() + " closed");
                 _plugins.Remove(plugin);
                 bool allDaemons = true;
                 foreach(ISecondMonitorPlugin activePlugin in _plugins)
@@ -136,9 +149,12 @@ namespace SecondMonitor.PluginManager.Core
                     allDaemons = allDaemons && activePlugin.IsDaemon;
                 }
                 if (allDaemons)
+                {
+                    _logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
                     Application.Exit();
-                
-             }
+                }
+
+            }
         }
 
         public IGameConnector[] Connectors
@@ -160,13 +176,28 @@ namespace SecondMonitor.PluginManager.Core
         private void RaiseSessionStartedEvent(SimulatorDataSet data)
         {
             DataEventArgs args = new DataEventArgs(data);
+            _logger.Info("New Session starting");
+            if (_olDataSet != null)
+            {
+                _logger.Info("Old set:");
+                LogSimulatorDataSet(_olDataSet);
+            }
+            _olDataSet = data;
+            _logger.Info("New set:");
+            LogSimulatorDataSet(_olDataSet);
             SessionStarted?.Invoke(this, args);
         }
 
         private void RaiseDataLoadedEvent(SimulatorDataSet data)
         {
             DataEventArgs args = new DataEventArgs(data);
+            _olDataSet = data;
             DataLoaded?.Invoke(this, args);
+        }
+
+        private void LogSimulatorDataSet(SimulatorDataSet dataSet)
+        {
+            _logger.Info("Simulator set: {0}", DatamodeSerializerHelper.ToJson(dataSet));
         }
 
     }

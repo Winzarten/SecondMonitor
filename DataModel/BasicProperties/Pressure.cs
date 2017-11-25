@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace SecondMonitor.DataModel
 {
@@ -53,16 +54,17 @@ namespace SecondMonitor.DataModel
             }
             throw new ArgumentException("Unable to return symbol fir" + units.ToString());
         }
+        [JsonIgnore]
         public double InAtmospheres
         {
             get { return InKpa / 101.3; }
         }
-
+        [JsonIgnore]
         public double InBars
         {
             get { return InKpa * 0.01; }
         }
-
+        [JsonIgnore]
         public double InPsi
         {
             get { return InKpa * 0.145038; }

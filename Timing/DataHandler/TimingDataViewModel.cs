@@ -12,6 +12,8 @@ using SecondMonitor.Timing.Model.Drivers;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Input;
@@ -53,6 +55,16 @@ namespace SecondMonitor.Timing.DataHandler
         public string ConnectedSource { get; private set; }
         public string SystemTime { get => DateTime.Now.ToString("HH:mm"); }
 
+        public string Title
+        {
+            get
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                String version = AssemblyName.GetAssemblyName(assembly.Location).Version.ToString();
+                return "Second Monitor (Timing)(v" + version +" )";
+            }
+        }
+
         public PluginsManager PluginManager
         {
             get => _pluginsManager;
@@ -79,7 +91,7 @@ namespace SecondMonitor.Timing.DataHandler
             OnDisplaySettingsChange(this, null);
             _lastRefreshTiming = DateTime.Now;
             _lastRefreshCarInfo = DateTime.Now;
-            _shouldReset = ResetModeEnum.NoReset;
+            _shouldReset = ResetModeEnum.NoReset;            
         }
 
         public DisplaySettings DisplaySettings { get => _displaySettings; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace SecondMonitor.DataModel
 {
@@ -20,11 +21,12 @@ namespace SecondMonitor.DataModel
         {
             get => _valueInCelsius;
         }
+        [JsonIgnore]
         public double InFahrenheit
         {
             get => (_valueInCelsius * 9) / 5 + 32; 
         }
-
+        [JsonIgnore]
         public double InKelvin
         {
             get => _valueInCelsius + 273.15;

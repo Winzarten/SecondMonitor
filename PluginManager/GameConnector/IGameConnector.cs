@@ -27,7 +27,7 @@ namespace SecondMonitor.PluginManager.GameConnector
 
         bool IsConnected
         {
-            get;            
+            get;
         }
         int TickTime
         {

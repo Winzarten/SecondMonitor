@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace SecondMonitor.DataModel.BasicProperties
 {
@@ -32,7 +33,7 @@ namespace SecondMonitor.DataModel.BasicProperties
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
 
-        static public string GetUnitSymbol(VolumeUnits units)
+        public static string GetUnitSymbol(VolumeUnits units)
         {
             switch (units)
             {
@@ -48,7 +49,7 @@ namespace SecondMonitor.DataModel.BasicProperties
         {
             var volume = obj as Volume;
             return volume != null &&
-                   InLiters == volume.InLiters;                   
+                   InLiters == volume.InLiters;
         }
 
         public override int GetHashCode()
@@ -64,7 +65,7 @@ namespace SecondMonitor.DataModel.BasicProperties
         {
             get { return _valueInLiters; }
         }
-
+        [JsonIgnore]
         public double InUsGallons
         {
             get { return _valueInLiters * 0.264172; }

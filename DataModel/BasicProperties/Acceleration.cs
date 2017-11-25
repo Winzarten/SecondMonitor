@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace SecondMonitor.DataModel.BasicProperties
 {
@@ -18,19 +19,19 @@ namespace SecondMonitor.DataModel.BasicProperties
         {
 
         }
-
+        [JsonIgnore]
         public double XinG
         {
             get { return _x / GConst; }
             set { _x = value * GConst; }
         }
-
+        [JsonIgnore]
         public double YinG
         {
             get { return _y / GConst; }
             set { _y = value * GConst; }
         }
-
+        [JsonIgnore]
         public double ZinG
         {
             get { return _z / GConst; }

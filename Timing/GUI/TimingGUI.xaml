@@ -10,7 +10,7 @@
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
     x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"     
         mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Title="Second Monitor (Timing)" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
+             d:DesignHeight="300" d:DesignWidth="300" Title="{Binding Title}" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
     <Window.Resources>
         <ObjectDataProvider x:Key="dataFromTemperatureEnum" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
