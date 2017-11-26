@@ -1,21 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="4E5C342E-8BB1-417C-97B2-F531991861C5" Name="Second Monitor" Language="1033" Version="0.1.0.0" Manufacturer="Matus Celko" UpgradeCode="4E5C342E-8BB1-417C-97B2-F531991861C5">
+    
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-    <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />    
+    <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
 
     <Feature Id="ProductFeature" Title="Installation" Level="1">
-      <ComponentGroupRef Id="DeploymentGroup" />    
+      <ComponentGroupRef Id="DeploymentGroup" />
+      <ComponentRef Id="StartMenuDirectory"/>
+      <ComponentRef Id="ApplicationShortcut"/>
     </Feature>
   </Product>
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="APPLICATIONROOTDIRECTORY" Name="SecondWindow"/>
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="SecondMonitor"/>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="SecondMonitor" />
       </Directory>
     </Directory>
+  </Fragment>
+  
+  <Fragment>
+  <DirectoryRef Id="ProgramFilesFolder">
+    <Component Id="StartMenuDirectory" Guid="3dff5e61-7fbb-4410-a729-c260994df147">
+      <CreateFolder Directory="ApplicationProgramsFolder"/>
+      <RemoveFolder Id="RemoveStartMenu" Directory="ApplicationProgramsFolder" On="uninstall" />
+
+      <RegistryValue Root="HKCU" Key="Software\SecondMonitor" Name="InstalledStartMenuShortcuts" Type="integer" Value="1" />
+    </Component>
+  </DirectoryRef>
+  </Fragment>
+  
+  
+  <Fragment>
+    
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id ="ApplicationShortcut" Guid="beae9dc1-2f51-4ee9-bb5a-d2aee07c80b6">
+        <File Id="fil42EAB4386C5922FE1D7E856B72D3851D" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe" >
+          <Shortcut Id="SecondMonitorShortcut" Advertise="yes" Directory="ApplicationProgramsFolder" Name="Second Monitor" WorkingDirectory='APPLICATIONROOTDIRECTORY' Icon="SecondMonitor.exe" Show="normal">
+            <Icon Id="SecondMonitor.exe" SourceFile="..\Deployment\SecondMonitor.exe" />
+          </Shortcut>
+        </File>
+      </Component>
+    </DirectoryRef>
   </Fragment>
   
   <Fragment>
@@ -52,10 +85,7 @@
       </Component>
       <Component Id="cmpEF93B9F414F3965333001DDE4B23CE57" Directory="APPLICATIONROOTDIRECTORY" Guid="ad22ca40-4ea2-4b90-a2a0-a22cbb0b83b6">
         <File Id="fil43B4877E35EB7B90BFAA6ABDFEB9F781" KeyPath="yes" Source="..\Deployment\PluginManager.pdb" />
-      </Component>
-      <Component Id="cmp63DB230D284D6500DF902AD56D02C58B" Directory="APPLICATIONROOTDIRECTORY" Guid="7643e201-dd3d-4d69-be0a-5a73bf0776eb">
-        <File Id="fil42EAB4386C5922FE1D7E856B72D3851D" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe" />
-      </Component>
+      </Component>      
       <Component Id="cmpBF276D04790C4EA6EAA0D4906CCF8782" Directory="APPLICATIONROOTDIRECTORY" Guid="4650b298-f5c8-41d3-9153-2f686ace5614">
         <File Id="filFD7A7C4C272CCAF2F7343286DC5B80B5" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe.config" />
       </Component>
@@ -119,6 +149,7 @@
       <Component Id="cmp99EF67A96B9B383E24C15F8ED150CB1C" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="a4085e6e-747d-4986-bb0d-1a541f16385b">
         <File Id="fil528D48BA638F5F951682A59A70319029" KeyPath="yes" Source="..\Deployment\plugins\Xceed.Wpf.Toolkit.dll" />
       </Component>
+    
     </ComponentGroup>
   </Fragment>
   <Fragment>
