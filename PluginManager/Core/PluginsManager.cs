@@ -190,9 +190,17 @@ namespace SecondMonitor.PluginManager.Core
 
         private void RaiseDataLoadedEvent(SimulatorDataSet data)
         {
-            DataEventArgs args = new DataEventArgs(data);
-            _olDataSet = data;
-            DataLoaded?.Invoke(this, args);
+            try
+            {
+                DataEventArgs args = new DataEventArgs(data);
+                _olDataSet = data;
+                DataLoaded?.Invoke(this, args);
+            }
+            catch (Exception)
+            {
+                LogSimulatorDataSet(_olDataSet);
+                throw;
+            }
         }
 
         private void LogSimulatorDataSet(SimulatorDataSet dataSet)
