@@ -176,6 +176,9 @@
       <!--<ComponentRef Id="StartMenuDirectory"/>-->
       <ComponentRef Id="ApplicationShortcut"/>
     </Feature>
+    
+    <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
+    <UIRef Id="WixUI_InstallDir" />
 
   </Product>
 </Wix>
