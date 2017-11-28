@@ -12,7 +12,7 @@ namespace SecondMonitor.Timing.Model.Drivers
     public class DriverTiming
     {
         private List<LapInfo> _lapsInfo;
-        private List<PitInfo> _pitStopInfo;
+        private List<PitStopInfo> _pitStopInfo;
         private Single _previousTickLapDistance;
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
 
@@ -20,7 +20,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
             _lapsInfo = new List<LapInfo>();
-            _pitStopInfo = new List<PitInfo>();
+            _pitStopInfo = new List<PitStopInfo>();
             DriverInfo = driverInfo;            
             Pace = new TimeSpan(0);
             LapPercentage = 0;
@@ -80,7 +80,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
         }
         public int PitCount { get => _pitStopInfo.Count; }
-        public PitInfo LastPitStop { get => _pitStopInfo.Count != 0 ? _pitStopInfo[_pitStopInfo.Count - 1] : null; }
+        public PitStopInfo LastPitStopStop { get => _pitStopInfo.Count != 0 ? _pitStopInfo[_pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
         public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
         public string CarName { get => DriverInfo.CarName; }
@@ -305,9 +305,9 @@ namespace SecondMonitor.Timing.Model.Drivers
 
         private void UpdateInPitsProperty(SimulatorDataSet set)
         {
-            if(InPits && !LastPitStop.Completed )
+            if(InPits && !LastPitStopStop.Completed )
             {
-                LastPitStop.Tick(set);
+                LastPitStopStop.Tick(set);
                 if (CurrentLap != null)
                 {
                     CurrentLap.PitLap = true;
@@ -321,7 +321,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                     CurrentLap.PitLap = true;
                 }
 
-                _pitStopInfo.Add(new PitInfo(set, this, CurrentLap));
+                _pitStopInfo.Add(new PitStopInfo(set, this, CurrentLap));
             }
             if(InPits && !DriverInfo.InPits)
             {
@@ -387,13 +387,13 @@ namespace SecondMonitor.Timing.Model.Drivers
                         return "Out";
                     }
                 }
-                if (LastPitStop == null)
+                if (LastPitStopStop == null)
                 {
                     return "0";
                 }
                 else
                 {
-                    return PitCount + ":(" + LastPitStop.PitInfoFormatted + ")";
+                    return PitCount + ":(" + LastPitStopStop.PitInfoFormatted + ")";
                 }
             }
         }

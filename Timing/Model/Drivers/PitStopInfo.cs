@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SecondMonitor.Timing.Model.Drivers
 {
-    public class PitInfo
+    public class PitStopInfo
     {
         public enum PitPhase { Entry, Inpits, Exit, Completed };
 
-        public PitInfo(SimulatorDataSet set, DriverTiming driver, LapInfo entryLap)
+        public PitStopInfo(SimulatorDataSet set, DriverTiming driver, LapInfo entryLap)
         {
             this.Driver = driver;
             this.EntryLap = entryLap;
@@ -51,9 +51,9 @@ namespace SecondMonitor.Timing.Model.Drivers
                 Phase = PitPhase.Completed;
                 PitExit = set.SessionInfo.SessionTime;
                 this.PitStopDuration = PitExit.Subtract(PitEntry);
-            }            
+            }
             if(Phase == PitPhase.Entry)
-            {                                                
+            {
                 this.PitStopStart = set.SessionInfo.SessionTime;
                 this.PitStopEnd = set.SessionInfo.SessionTime; ;
             }
@@ -82,14 +82,15 @@ namespace SecondMonitor.Timing.Model.Drivers
                         phaseAsString = "Stop-";
                         break;
                     case PitPhase.Exit:
-                        phaseAsString = "Out-";
+                        phaseAsString = "Exit-";
                         break;
                     case PitPhase.Completed:
                         phaseAsString = EntryLap != null ? EntryLap.LapNumber.ToString() + "-": "0-";
                         break;
 
                 }
-                return phaseAsString + PitStopDuration.ToString("ss\\.fff");
+                
+                return phaseAsString + $"{(int) PitStopDuration.TotalSeconds}.{PitStopDuration.Milliseconds:N0}";
             }
         }
 

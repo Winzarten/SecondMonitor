@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="4E5C342E-8BB1-417C-97B2-F531991861C5" Name="Second Monitor" Language="1033" Version="0.1.0.0" Manufacturer="Matus Celko" UpgradeCode="4E5C342E-8BB1-417C-97B2-F531991861C5">
-
+  
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
-
-
-
-
+    <WixVariable Id="WixUILicenseRtf" Value="..\Artifacts\eula.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="..\Artifacts\banner.bmp" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
@@ -18,22 +16,6 @@
         <Directory Id="ApplicationProgramsFolder" Name="SecondMonitor" />
       </Directory>
     </Directory>
-
-
-    <!--<DirectoryRef Id="ProgramFilesFolder">
-      <Component Id="StartMenuDirectory" Guid="3dff5e61-7fbb-4410-a729-c260994df147">
-        <CreateFolder Directory="ApplicationProgramsFolder"/>
-        <RemoveFolder Id="RemoveStartMenu" Directory="ApplicationProgramsFolder" On="uninstall" />
-
-        <RegistryValue Root="HKCU" Key="Software\SecondMonitor" Name="InstalledStartMenuShortcuts" Type="integer" Value="1" />
-      </Component>
-    </DirectoryRef>-->
-
-
-
-
-
-
 
     <ComponentGroup Id="DeploymentGroup">
       <Component Id="myapplication.exe" Directory="APPLICATIONROOTDIRECTORY" Guid="c99525a0-e8e2-4e69-abf1-62c90e00201c">
@@ -179,6 +161,7 @@
     
     <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
     <UIRef Id="WixUI_InstallDir" />
+
 
   </Product>
 </Wix>
