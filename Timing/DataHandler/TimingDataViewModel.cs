@@ -19,6 +19,8 @@ using System.Threading;
 using System.Windows.Input;
 using SecondMonitor.Timing.DataHandler.Commands;
 using SecondMonitor.Timing.Model.Settings;
+using SecondMonitor.Timing.Model.Settings.Model;
+using SecondMonitor.Timing.Model.Settings.ModelView;
 
 namespace SecondMonitor.Timing.DataHandler
 {
@@ -35,7 +37,7 @@ namespace SecondMonitor.Timing.DataHandler
         private bool _scrollToPlayer = true;
         ResetModeEnum _shouldReset = ResetModeEnum.NoReset;
         public event PropertyChangedEventHandler PropertyChanged;
-        private DisplaySettings _displaySettings = new DisplaySettings();
+        private DisplaySettingsModelView _displaySettingsModelView = new DisplaySettingsModelView();
 
 
         private DateTime _lastRefreshTiming;
@@ -82,7 +84,8 @@ namespace SecondMonitor.Timing.DataHandler
         public void RunPlugin()
         {
             ConnectedSource = "Not Connected";
-            _displaySettings.PropertyChanged += OnDisplaySettingsChange;
+            _displaySettingsModelView.FromModel(new DisplaySettings());
+            _displaySettingsModelView.PropertyChanged += OnDisplaySettingsChange;
             _gui = new TimingGui();
             _gui.Show();
             _gui.upDownPaceLaps.Value = _paceLaps;
@@ -91,10 +94,10 @@ namespace SecondMonitor.Timing.DataHandler
             OnDisplaySettingsChange(this, null);
             _lastRefreshTiming = DateTime.Now;
             _lastRefreshCarInfo = DateTime.Now;
-            _shouldReset = ResetModeEnum.NoReset;            
+            _shouldReset = ResetModeEnum.NoReset;
         }
 
-        public DisplaySettings DisplaySettings { get => _displaySettings; }
+        public DisplaySettingsModelView DisplaySettings { get => _displaySettingsModelView; }
 
         private NoArgumentCommand _resetCommand;
         public NoArgumentCommand ResetCommand
@@ -426,29 +429,27 @@ namespace SecondMonitor.Timing.DataHandler
             ApplyDisplaySettings(DisplaySettings);
         }
 
-        private void ApplyDisplaySettings(DisplaySettings settings)
+        private void ApplyDisplaySettings(DisplaySettingsModelView settings)
         {
-            if (_gui == null)
-                return;
-            _gui.Dispatcher.Invoke(() =>
-                {
-                    _gui.whLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-                    _gui.whRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-                    _gui.whLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
-                    _gui.whRightRear.TemperatureDisplayUnit = settings.TemperatureUnits;
+            _gui?.Dispatcher.Invoke(() =>
+            {
+                _gui.whLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
+                _gui.whRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
+                _gui.whLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
+                _gui.whRightRear.TemperatureDisplayUnit = settings.TemperatureUnits;
 
-                    _gui.whLeftFront.PressureDisplayUnits = settings.PressureUnits;
-                    _gui.whRightFront.PressureDisplayUnits = settings.PressureUnits;
-                    _gui.whLeftRear.PressureDisplayUnits = settings.PressureUnits;
-                    _gui.whRightRear.PressureDisplayUnits = settings.PressureUnits;
+                _gui.whLeftFront.PressureDisplayUnits = settings.PressureUnits;
+                _gui.whRightFront.PressureDisplayUnits = settings.PressureUnits;
+                _gui.whLeftRear.PressureDisplayUnits = settings.PressureUnits;
+                _gui.whRightRear.PressureDisplayUnits = settings.PressureUnits;
 
-                    _gui.oilTemp.DisplayUnit = settings.TemperatureUnits;
-                    _gui.waterTemp.DisplayUnit = settings.TemperatureUnits;
+                _gui.oilTemp.DisplayUnit = settings.TemperatureUnits;
+                _gui.waterTemp.DisplayUnit = settings.TemperatureUnits;
 
-                    _gui.fuelMonitor.DisplayUnits = settings.VolumeUnits;
+                _gui.fuelMonitor.DisplayUnits = settings.VolumeUnits;
 
 
-                });
+            });
         }
     }
 }

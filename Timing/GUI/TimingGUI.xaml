@@ -8,9 +8,12 @@
     xmlns:DataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
     xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
-    x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"     
+    xmlns:ModelView="clr-namespace:SecondMonitor.Timing.DataHandler"
+    xmlns:DriverModelView="clr-namespace:SecondMonitor.Timing.Model.Drivers"
+    x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="{Binding Title}" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized">
+
     <Window.Resources>
         <ObjectDataProvider x:Key="dataFromTemperatureEnum" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
@@ -48,9 +51,10 @@
         <WindowsFormsHost Margin="10,0,0,26" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="156">
             <controls:PedalControl x:Name="pedalControl"/>
         </WindowsFormsHost>
-
-        <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged">
-            <ListView.Resources>
+        
+        <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged"
+                 >
+            <ListView.Resources >
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Foreground" Value="White"/>
