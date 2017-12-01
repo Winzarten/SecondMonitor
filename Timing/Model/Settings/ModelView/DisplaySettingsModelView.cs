@@ -14,6 +14,9 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
         public static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumeUnits", typeof(VolumeUnits), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty FuelCalculationScopeProperty = DependencyProperty.Register("FuelCalculationScope", typeof(FuelCalculationScope), typeof(DisplaySettingsModelView), new PropertyMetadata{ PropertyChangedCallback = PropertyChangedCallback});
+        public static readonly DependencyProperty PaceLapsProperty = DependencyProperty.Register("PaceLaps", typeof(int), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty RefreshRateProperty = DependencyProperty.Register("RefreshRate", typeof(int), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty ScrollToPlayerProperty = DependencyProperty.Register("ScrollToPlayer", typeof(bool), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -40,7 +43,25 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             get => (FuelCalculationScope) GetValue(FuelCalculationScopeProperty);
             set => SetValue(FuelCalculationScopeProperty, value);
         }
-        
+
+        public int PaceLaps
+        {
+            get => (int) GetValue(PaceLapsProperty);
+            set => SetValue(PaceLapsProperty, value);
+        }
+
+        public int RefreshRate
+        {
+            get => (int) GetValue(RefreshRateProperty);
+            set => SetValue(RefreshRateProperty, value);
+        }
+
+        public bool ScrollToPlayer
+        {
+            get => (bool) GetValue(ScrollToPlayerProperty);
+            set => SetValue(ScrollToPlayerProperty, value);
+        }
+
 
         public void FromModel(DisplaySettings settings)
         {
@@ -48,6 +69,9 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             PressureUnits = settings.PressureUnits;
             VolumeUnits = settings.VolumeUnits;
             FuelCalculationScope = settings.FuelCalculationScope;
+            PaceLaps = settings.PaceLaps;
+            RefreshRate = settings.RefreshRate;
+            ScrollToPlayer = settings.ScrollToPlayer;
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)

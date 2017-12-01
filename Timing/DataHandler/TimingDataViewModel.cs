@@ -23,16 +23,14 @@ namespace SecondMonitor.Timing.DataHandler
 
         public static readonly DependencyProperty DisplaySettingsProperty = DependencyProperty.Register("DisplaySettings", typeof(DisplaySettingsModelView), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
 
-        
 
-        private int _refreshRate = 1000;
         private enum ResetModeEnum {  NoReset, Manual, Automatic}
         private TimingGui _gui;
         private PluginsManager _pluginsManager;
         private SessionTiming _timing;
-        private SessionInfo.SessionTypeEnum _sessionType = SessionInfo.SessionTypeEnum.Na;
-        private int _paceLaps = 3;
+        private SessionInfo.SessionTypeEnum _sessionType = SessionInfo.SessionTypeEnum.Na;        
         private bool _scrollToPlayer = true;
+        private int _refreshRate = 1000;
         ResetModeEnum _shouldReset = ResetModeEnum.NoReset;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -83,8 +81,7 @@ namespace SecondMonitor.Timing.DataHandler
             ConnectedSource = "Not Connected";
             CreateDisplaySettings();
             _gui = new TimingGui();
-            _gui.Show();
-            _gui.upDownPaceLaps.Value = _paceLaps;
+            _gui.Show();            
             _gui.Closed += Gui_Closed;
             _gui.DataContext = this;
             OnDisplaySettingsChange(this, null);
@@ -152,28 +149,7 @@ namespace SecondMonitor.Timing.DataHandler
             }
         }
 
-        public int RefreshRate { get => _refreshRate; set => _refreshRate = value; }
-        public int PaceLaps { get => _paceLaps;
-            set
-            {
-                _paceLaps = value;
-                PaceLapsChanged();
-            }
-        }
         public int SessionCompletedPercentage => _timing != null ? _timing.SessionCompletedPercentage : 50;
-
-        private NoArgumentCommand _refreshRateCommand;
-        public NoArgumentCommand RefreshRateCommand
-        {
-            get
-            {
-                return _refreshRateCommand ?? (_refreshRateCommand = new NoArgumentCommand(() =>
-                           {
-                               _refreshRate = (int) _gui.upDownRefreshRate.Value;
-                           }));
-            }
-        }
-
 
         private void ScrollToPlayerChanged()
         {
@@ -183,7 +159,7 @@ namespace SecondMonitor.Timing.DataHandler
         private void PaceLapsChanged()
         {
             if (_timing != null)
-                _timing.PaceLaps = _paceLaps;
+                _timing.PaceLaps = DisplaySettings.PaceLaps;
             _gui.Dispatcher.Invoke(RefreshDatagrid);
 
         }        
@@ -361,16 +337,16 @@ namespace SecondMonitor.Timing.DataHandler
             _timing.BestLapChangedEvent += BestLapChangedHandler;
             _timing.DriverAdded += Timing_DriverAdded;
             _timing.DriverRemoved += Timing_DriverRemoved;
-            _timing.PaceLaps = _paceLaps;
-
+            
             _gui.Dispatcher.Invoke(() =>
             {
                 var mode = _gui.TimingMode;
+                _timing.PaceLaps = DisplaySettings.PaceLaps;
                 _timing.DisplayBindTimeRelative = (bool)_gui.rbtTimeRelative.IsChecked;
                 _timing.DisplayGapToPlayerRelative = !(mode == TimingGui.TimingModeOptions.Absolute ||
                                                       (mode == TimingGui.TimingModeOptions.Automatic &&
                                                        _timing.SessionType != SessionInfo.SessionTypeEnum.Race));
-            });            
+            });
             InitializeGui(data);
             ChangeTimingMode();
             ConnectedSource = data.Source;
@@ -434,6 +410,10 @@ namespace SecondMonitor.Timing.DataHandler
         private void OnDisplaySettingsChange(object sender, PropertyChangedEventArgs args)
         {
             ApplyDisplaySettings(DisplaySettings);
+            if (args?.PropertyName == "PaceLaps")
+                PaceLapsChanged();
+            if (args?.PropertyName == "RefreshRate")
+                _refreshRate = DisplaySettings.RefreshRate;
         }
 
         private void ApplyDisplaySettings(DisplaySettingsModelView settings)
@@ -460,6 +440,7 @@ namespace SecondMonitor.Timing.DataHandler
             DisplaySettingsModelView newDisplaySettingsModelView =
                 (DisplaySettingsModelView) dependencyPropertyChangedEventArgs.NewValue;
             newDisplaySettingsModelView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
+            
         }
     }
 }

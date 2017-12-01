@@ -14,5 +14,11 @@ namespace SecondMonitor.Timing.Model.Settings.Model
         public VolumeUnits VolumeUnits { get; set; } = VolumeUnits.Liters;
 
         public FuelCalculationScope FuelCalculationScope { get; set; } = FuelCalculationScope.Lap;
+
+        public int PaceLaps { get; set; } = 3;
+
+        public int RefreshRate { get; set; } = 1000;
+
+        public bool ScrollToPlayer { get; set; } = true;
     }
 }
