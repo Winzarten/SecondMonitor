@@ -30,10 +30,11 @@ namespace SecondMonitor.R3EConnector
         private DateTime _lastTick;
         private TimeSpan _sessionTime;
         private Double _sessionStartR3RTime;
+        private Process _process;
 
 
 
-        private static readonly string R3EExcecutable = "RRRE";
+        private static readonly string[] R3EExcecutables = new string[] { "RRRE", "RRRE64" };
         private static readonly string SharedMemoryName = "$R3E";
 
         private TimeSpan _timeInterval = TimeSpan.FromMilliseconds(100);
@@ -75,9 +76,24 @@ namespace SecondMonitor.R3EConnector
             set;
         }
 
-        public static bool IsRrreRunning()
+        public bool IsRrreRunning()
         {
-            return Process.GetProcessesByName(R3EExcecutable).Length > 0;
+            if (_process != null)
+            {
+                if (!_process.HasExited) return true;
+                _process = null;
+                return false;
+            }
+            foreach (var processName in R3EExcecutables)
+            {
+                var processes = Process.GetProcessesByName(processName);
+                if (processes.Length > 0)
+                {
+                    _process = processes[0];
+                    return true;
+                }
+            }
+            return false;
         }
 
         internal TimeSpan SessionTime { get => _sessionTime; }
