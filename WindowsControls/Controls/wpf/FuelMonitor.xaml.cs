@@ -1,19 +1,8 @@
 ﻿using SecondMonitor.DataModel;
 using SecondMonitor.DataModel.BasicProperties;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SecondMonitor.WindowsControls.Controls.wpf
 {
@@ -23,10 +12,12 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
     public partial class FuelMonitor : UserControl
     {
 
+        public static readonly DependencyProperty DisplayUnitsProperty = DependencyProperty.Register("DisplayUnits", typeof(VolumeUnits), typeof(FuelMonitor));
+        public static readonly DependencyProperty FuelCalculationScopeeeProperty = DependencyProperty.Register("FuelCalculationScopeee", typeof(FuelCalculationScope), typeof(FuelMonitor), new PropertyMetadata{ PropertyChangedCallback  = FuelPropertyChangedCallback});
+
         private static readonly Volume FuelConsumedMaximumThreshold = Volume.FromLiters(1);
         private static readonly double DistanceMaxThreshold = 300;
-        public enum FuelOutputEnum { Time, Laps}
-        public VolumeUnits DisplayUnits { get; set; } = VolumeUnits.UsGallons;
+        
         private TimeSpan _lastSessionTime;
         private Volume _averageConsumptionPerLap;
         private Volume _averageConsmptionPerMinute;
@@ -39,6 +30,18 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
         private double _totalLapDistanceCovered;
         private double _lastLapDistance;
         private double _remainingLaps;
+
+        public VolumeUnits DisplayUnits {
+            get => (VolumeUnits)GetValue(DisplayUnitsProperty);
+            set => SetValue(DisplayUnitsProperty, value);
+        }
+
+        public FuelCalculationScope FuelCalculationScopeee
+        {
+            get => (FuelCalculationScope) GetValue(FuelCalculationScopeeeProperty);
+            set => SetValue(FuelCalculationScopeeeProperty, value);
+        }
+
         public FuelMonitor()
         {
             InitializeComponent();
@@ -58,13 +61,9 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             _lastLapDistance = 0;
             _remainingLaps = 0;
             _lastSessionTime = new TimeSpan(0);
-            if ((bool)rbtLaps.IsChecked)
-                OutputType = FuelOutputEnum.Laps;
-            if ((bool)rbtTime.IsChecked)
-                OutputType = FuelOutputEnum.Time;
+            UpdateByFuelCalculationScope();
         }
-
-        public FuelOutputEnum OutputType { get; set; }
+        
 
         public void ProcessDataSet(SimulatorDataSet set)
         {
@@ -98,7 +97,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
             _lastSessionTime = set.SessionInfo.SessionTime;
             if (set.PlayerInfo == null)
                 return;
-                        
+
             _lastLapDistance = set.PlayerInfo.LapDistance;
         }
 
@@ -124,7 +123,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         private void DisplayConsumption()
         {
-            if (OutputType == FuelOutputEnum.Time)
+            if (FuelCalculationScopeee == FuelCalculationScope.Time)
             {
                 lblConsumtion.Content = "Rate(" + Volume.GetUnitSymbol(DisplayUnits) + "/m):" + _fuelPerMinute.GetValueInUnits(DisplayUnits).ToString("N2");
                 //lblConsumtion.Content = totalFuelConsumed.InLiters.ToString("N2");
@@ -142,10 +141,14 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         private void rbtMode_Checked(object sender, RoutedEventArgs e)
         {
-            if ((bool)rbtLaps.IsChecked)
-                OutputType = FuelOutputEnum.Laps;
-            if((bool)rbtTime.IsChecked)
-                OutputType = FuelOutputEnum.Time;
+            if ((bool) rbtLaps.IsChecked)
+            {
+                FuelCalculationScopeee = FuelCalculationScope.Lap;
+            }
+            if ((bool) rbtTime.IsChecked)
+            {
+                FuelCalculationScopeee = FuelCalculationScope.Time;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -155,7 +158,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (OutputType == FuelOutputEnum.Time)
+            if (FuelCalculationScopeee == FuelCalculationScope.Time)
             {
                 Volume requiredFuel = (int)upDownDistance.Value * _averageConsmptionPerMinute;
                 txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1")+Volume.GetUnitSymbol(DisplayUnits);
@@ -165,6 +168,18 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
                 Volume requiredFuel = (int)upDownDistance.Value * _averageConsumptionPerLap;
                 txtFuel.Text = requiredFuel.GetValueInUnits(DisplayUnits).ToString("N1") + Volume.GetUnitSymbol(DisplayUnits);
             }
+        }
+
+        private void UpdateByFuelCalculationScope()
+        {
+            rbtLaps.IsChecked = FuelCalculationScopeee == FuelCalculationScope.Lap;
+            rbtTime.IsChecked = !rbtLaps.IsChecked;
+        }
+
+        private static void FuelPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            FuelMonitor fuelMonitor = (FuelMonitor) dependencyObject;
+            fuelMonitor.UpdateByFuelCalculationScope();
         }
     }
 }

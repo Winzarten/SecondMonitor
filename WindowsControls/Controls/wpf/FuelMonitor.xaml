@@ -25,7 +25,7 @@
         <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,113,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="White" Width="149"/>
         <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,78,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="LightCoral" Width="149"/>
         <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Left" Margin="94,31,0,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
-        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" IsChecked="True" GroupName="grbMode" Checked="rbtMode_Checked"/>
+        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
         <controls2:IntegerUpDown x:Name="upDownDistance" Margin="0,19,89,0" HorizontalAlignment="Right" VerticalAlignment="Top" Minimum="1" Text="" Width="70" Value="10" Height="27">
         </controls2:IntegerUpDown>
         <Button Content="Reset Fuel" Margin="0,49,89,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Height="24" Click="Button_Click"/>

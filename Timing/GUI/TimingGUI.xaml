@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls;assembly=WindowsControls"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:DataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
+    xmlns:DMBasicProperties ="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
     xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:ModelView="clr-namespace:SecondMonitor.Timing.DataHandler"
@@ -33,6 +34,12 @@
                 <x:Type TypeName="DataModel:VolumeUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider x:Key="dataFromFuelEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="DMBasicProperties:FuelCalculationScope"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
     <Grid Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <WindowsFormsHost 
@@ -53,6 +60,7 @@
         </WindowsFormsHost>
         
         <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged"
+                  d:DataContext="{d:DesignInstance Type=DriverModelView:DriverTiming}"
                  >
             <ListView.Resources >
                 <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -177,9 +185,12 @@
         </GroupBox>
         <wpf:PositionCircle x:Name="timingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
 
-        <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322"/>
-        <wpf1:TemperatureControl x:Name="waterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="120" Panel.ZIndex="1"/>
-        <wpf1:TemperatureControl x:Name="oilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1"
+        <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScopeee="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
+                         
+                          d:DataContext="{d:DesignInstance Type=ModelView:TimingDataViewModel}"/>
+        <wpf1:TemperatureControl x:Name="waterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="120" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=ModelView:TimingDataViewModel}" />
+        <wpf1:TemperatureControl  x:Name="oilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                 d:DataContext="{d:DesignInstance Type=ModelView:TimingDataViewModel}" 
                                  />
         <Image HorizontalAlignment="Left" Height="24" Margin="550,0,0,123"  Width="24" VerticalAlignment="Bottom"
                Panel.ZIndex="5" Source="/Timing;component/Resources/oil.png"/>

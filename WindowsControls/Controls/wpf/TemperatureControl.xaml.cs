@@ -1,18 +1,6 @@
 ﻿using SecondMonitor.DataModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SecondMonitor.WindowsControls.Controls.wpf
 {
@@ -21,22 +9,17 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
     /// </summary>
     public partial class TemperatureControl : UserControl
     {
-        
+        public static readonly DependencyProperty DisplayUnitsProperty = DependencyProperty.Register("DisplayUnits", typeof(TemperatureUnits), typeof(TemperatureControl), new PropertyMetadata(TemperatureUnits.Celsius, PropertyChangedCallback ));
 
         public TemperatureControl()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
-
-        private TemperatureUnits _displayUnit;
-        public TemperatureUnits DisplayUnit { get => _displayUnit;
-            set
-            {
-                if (_displayUnit == value)
-                    return;
-                _displayUnit = value;
-                ChangeDisplayUnit();
-            }
+        
+        public TemperatureUnits DisplayUnits
+        {
+            get => (TemperatureUnits) GetValue(DisplayUnitsProperty);
+            set => SetValue(DisplayUnitsProperty, value);
         }
 
         private Temperature _temperature = Temperature.FromCelsius(0);
@@ -88,11 +71,11 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
                 if (_temperature == value)
                     return;
                 _temperature = value;
-                var displayValue = value.GetValueInUnits(_displayUnit);
+                var displayValue = value.GetValueInUnits(DisplayUnits);
                 lock (waterGauge)
                 {
                     waterGauge.Value = (float)displayValue;
-                    waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(_displayUnit);
+                    waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(DisplayUnits);
                     if (_temperature < _redTemperatureStart)
                     {
                         waterGauge.GaugeLabels[0].Color = System.Drawing.Color.Green;
@@ -114,20 +97,26 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
                 waterGauge.MinValue = -1000;
                 waterGauge.GaugeRanges[0].EndValue = 1000;
                 waterGauge.GaugeRanges[0].StartValue = -1000;
-                waterGauge.Value = 500;                
-                waterGauge.GaugeRanges[0].EndValue = (float)_maximumTemperature.GetValueInUnits(_displayUnit);
-                waterGauge.GaugeRanges[0].StartValue = (float)_redTemperatureStart.GetValueInUnits(_displayUnit);
-                waterGauge.MaxValue = (float)_maximumTemperature.GetValueInUnits(_displayUnit);
-                waterGauge.MinValue = (float)_minimumTemperature.GetValueInUnits(_displayUnit);
-                var displayValue = _temperature.GetValueInUnits(_displayUnit);
-                waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(_displayUnit);
+                waterGauge.Value = 500;
+                waterGauge.GaugeRanges[0].EndValue = (float)_maximumTemperature.GetValueInUnits(DisplayUnits);
+                waterGauge.GaugeRanges[0].StartValue = (float)_redTemperatureStart.GetValueInUnits(DisplayUnits);
+                waterGauge.MaxValue = (float)_maximumTemperature.GetValueInUnits(DisplayUnits);
+                waterGauge.MinValue = (float)_minimumTemperature.GetValueInUnits(DisplayUnits);
+                var displayValue = _temperature.GetValueInUnits(DisplayUnits);
+                waterGauge.GaugeLabels[0].Text = displayValue.ToString("N1") + Temperature.GetUnitSymbol(DisplayUnits);
                 waterGauge.Update();
             }
         }
         
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
+        }
+
+        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            TemperatureControl control = (TemperatureControl) dependencyObject;
+            control.ChangeDisplayUnit();
         }
     }
 }

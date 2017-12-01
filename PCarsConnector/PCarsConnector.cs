@@ -6,8 +6,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.GameConnector;
-using SecondMonitor.DataModel.BasicProperties;
-using SecondMonitor.PCarsConnector.enums;
 using System.Collections.Generic;
 using SecondMonitor.DataModel.Drivers;
 

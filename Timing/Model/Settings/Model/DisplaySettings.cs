@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System;
 using SecondMonitor.DataModel;
-using SecondMonitor.Timing.Annotations;
+using SecondMonitor.DataModel.BasicProperties;
 
 namespace SecondMonitor.Timing.Model.Settings.Model
 {
+    [Serializable]
     public class DisplaySettings
     {
         public TemperatureUnits TemperatureUnits { get; set; } = TemperatureUnits.Celsius;
@@ -12,5 +12,7 @@ namespace SecondMonitor.Timing.Model.Settings.Model
         public PressureUnits PressureUnits { get; set; } = PressureUnits.Kpa;
 
         public VolumeUnits VolumeUnits { get; set; } = VolumeUnits.Liters;
+
+        public FuelCalculationScope FuelCalculationScope { get; set; } = FuelCalculationScope.Lap;
     }
 }

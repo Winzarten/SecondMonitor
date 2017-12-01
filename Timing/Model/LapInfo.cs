@@ -1,9 +1,5 @@
 ﻿using SecondMonitor.Timing.Model.Drivers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SecondMonitor.DataModel;
 using SecondMonitor.DataModel.Drivers;
 

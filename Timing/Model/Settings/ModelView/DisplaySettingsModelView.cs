@@ -2,17 +2,18 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using SecondMonitor.DataModel;
+using SecondMonitor.DataModel.BasicProperties;
 using SecondMonitor.Timing.Annotations;
 using SecondMonitor.Timing.Model.Settings.Model;
 
 namespace SecondMonitor.Timing.Model.Settings.ModelView
 {
     public class DisplaySettingsModelView : DependencyObject, INotifyPropertyChanged
-    {        
-
-        public static readonly DependencyProperty TemperatureUnitsProperty = DependencyProperty.Register("TemperatureUnits", typeof(TemperatureUnits),typeof(DisplaySettingsModelView), new PropertyMetadata(TemperatureUnits.Celsius, PropertyChangedCallback));
-        public static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(DisplaySettingsModelView), new PropertyMetadata(PressureUnits.Kpa, PropertyChangedCallback));
-        public static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumneUnits", typeof(VolumeUnits), typeof(DisplaySettingsModelView), new PropertyMetadata(VolumeUnits.Liters, PropertyChangedCallback));
+    {
+        public static readonly DependencyProperty TemperatureUnitsProperty = DependencyProperty.Register("TemperatureUnits", typeof(TemperatureUnits),typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumeUnits", typeof(VolumeUnits), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty FuelCalculationScopeProperty = DependencyProperty.Register("FuelCalculationScope", typeof(FuelCalculationScope), typeof(DisplaySettingsModelView), new PropertyMetadata{ PropertyChangedCallback = PropertyChangedCallback});
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,6 +34,12 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             get => (VolumeUnits)GetValue(VolumeUnitsProperty);
             set => SetValue(VolumeUnitsProperty, value);
         }
+
+        public FuelCalculationScope FuelCalculationScope
+        {
+            get => (FuelCalculationScope) GetValue(FuelCalculationScopeProperty);
+            set => SetValue(FuelCalculationScopeProperty, value);
+        }
         
 
         public void FromModel(DisplaySettings settings)
@@ -40,6 +47,7 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             TemperatureUnits = settings.TemperatureUnits;
             PressureUnits = settings.PressureUnits;
             VolumeUnits = settings.VolumeUnits;
+            FuelCalculationScope = settings.FuelCalculationScope;
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)

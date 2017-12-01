@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using SecondMonitor.PluginManager.GameConnector;
 using System.Threading;
 using SecondMonitor.DataModel;
@@ -62,8 +57,10 @@ namespace SecondMonitor.MockedConnector
         private void TestingThreadExecutor()
         {
             RaiseConnectedEvent();
+            Thread.Sleep(2000);
             SimulatorDataSet set = PrepareDataSet();
             RaiseSessionStartedEvent(set);
+            Thread.Sleep(1000);
             while (true)
             {
                 Thread.Sleep(10);

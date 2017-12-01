@@ -7,9 +7,7 @@ using System.Threading;
 using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.GameConnector;
 using SecondMonitor.R3EConnector.Data;
-using SecondMonitor.DataModel.BasicProperties;
 using System.Collections.Generic;
-using static SecondMonitor.R3EConnector.Constant;
 using SecondMonitor.DataModel.Drivers;
 
 namespace SecondMonitor.R3EConnector

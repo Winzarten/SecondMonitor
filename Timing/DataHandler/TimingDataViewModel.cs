@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using SecondMonitor.PluginManager.Core;
 using SecondMonitor.DataModel;
 using SecondMonitor.PluginManager.GameConnector;
@@ -12,21 +9,22 @@ using SecondMonitor.Timing.Model.Drivers;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Windows.Input;
+using System.Windows;
 using SecondMonitor.Timing.DataHandler.Commands;
-using SecondMonitor.Timing.Model.Settings;
 using SecondMonitor.Timing.Model.Settings.Model;
 using SecondMonitor.Timing.Model.Settings.ModelView;
 
 namespace SecondMonitor.Timing.DataHandler
 {
 
-    public class TimingDataViewModel : ISecondMonitorPlugin, INotifyPropertyChanged
+    public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
+
+        public static readonly DependencyProperty DisplaySettingsProperty = DependencyProperty.Register("DisplaySettings", typeof(DisplaySettingsModelView), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
+
+        
+
         private int _refreshRate = 1000;
         private enum ResetModeEnum {  NoReset, Manual, Automatic}
         private TimingGui _gui;
@@ -37,7 +35,6 @@ namespace SecondMonitor.Timing.DataHandler
         private bool _scrollToPlayer = true;
         ResetModeEnum _shouldReset = ResetModeEnum.NoReset;
         public event PropertyChangedEventHandler PropertyChanged;
-        private DisplaySettingsModelView _displaySettingsModelView = new DisplaySettingsModelView();
 
 
         private DateTime _lastRefreshTiming;
@@ -45,7 +42,7 @@ namespace SecondMonitor.Timing.DataHandler
         private DateTime _lastRefreshCircleInfo;
 
         // Gets or sets the CollectionViewSource
-        public CollectionViewSource ViewSource { get; set; }    
+        public CollectionViewSource ViewSource { get; set; } 
 
         // Gets or sets the ObservableCollection
         public ObservableCollection<DriverTiming> Collection { get; set; } = new ObservableCollection<DriverTiming>();
@@ -84,8 +81,7 @@ namespace SecondMonitor.Timing.DataHandler
         public void RunPlugin()
         {
             ConnectedSource = "Not Connected";
-            _displaySettingsModelView.FromModel(new DisplaySettings());
-            _displaySettingsModelView.PropertyChanged += OnDisplaySettingsChange;
+            CreateDisplaySettings();
             _gui = new TimingGui();
             _gui.Show();
             _gui.upDownPaceLaps.Value = _paceLaps;
@@ -97,7 +93,18 @@ namespace SecondMonitor.Timing.DataHandler
             _shouldReset = ResetModeEnum.NoReset;
         }
 
-        public DisplaySettingsModelView DisplaySettings { get => _displaySettingsModelView; }
+        private void CreateDisplaySettings()
+        {
+            DisplaySettingsModelView displaySettingsModelView = new DisplaySettingsModelView();
+            displaySettingsModelView.FromModel(new DisplaySettings());
+            DisplaySettings = displaySettingsModelView;
+        }
+
+        public DisplaySettingsModelView DisplaySettings
+        {
+            get => (DisplaySettingsModelView) GetValue(DisplaySettingsProperty);
+            set => SetValue(DisplaySettingsProperty, value);
+        }
 
         private NoArgumentCommand _resetCommand;
         public NoArgumentCommand ResetCommand
@@ -431,6 +438,8 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void ApplyDisplaySettings(DisplaySettingsModelView settings)
         {
+            if(settings==null)
+                return;
             _gui?.Dispatcher.Invoke(() =>
             {
                 _gui.whLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
@@ -442,14 +451,15 @@ namespace SecondMonitor.Timing.DataHandler
                 _gui.whRightFront.PressureDisplayUnits = settings.PressureUnits;
                 _gui.whLeftRear.PressureDisplayUnits = settings.PressureUnits;
                 _gui.whRightRear.PressureDisplayUnits = settings.PressureUnits;
-
-                _gui.oilTemp.DisplayUnit = settings.TemperatureUnits;
-                _gui.waterTemp.DisplayUnit = settings.TemperatureUnits;
-
-                _gui.fuelMonitor.DisplayUnits = settings.VolumeUnits;
-
-
             });
+        }
+
+        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            TimingDataViewModel timingDataViewModel = (TimingDataViewModel) dependencyObject;
+            DisplaySettingsModelView newDisplaySettingsModelView =
+                (DisplaySettingsModelView) dependencyPropertyChangedEventArgs.NewValue;
+            newDisplaySettingsModelView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
         }
     }
 }

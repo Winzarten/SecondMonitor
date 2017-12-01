@@ -4,9 +4,6 @@ using SecondMonitor.DataModel.Drivers;
 using SecondMonitor.R3EConnector.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static SecondMonitor.R3EConnector.Constant;
 
 namespace SecondMonitor.R3EConnector
