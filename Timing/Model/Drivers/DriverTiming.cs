@@ -35,20 +35,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         public int CompletedLaps { get => DriverInfo.CompletedLaps; }
         public bool InPits { get; private set; }
         public TimeSpan Pace { get; private set; }
-        public string PaceAsString
-        {
-            get
-            {
-                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.DriverTiming.Pace == TimeSpan.Zero)
-                {
-                    return FormatTimeSpan(Pace);
-                }
-                else
-                {
-                    return FormatTimeSpanOnlySeconds(Pace.Subtract(Session.Player.DriverTiming.Pace));
-                }
-            }
-        }
+       
         public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
         public double TotalDistanceTraveled { get => DriverInfo.TotalDistance; }
         public bool IsLapped { get => DriverInfo.IsBeingLappedByPlayer; }
@@ -58,25 +45,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             get => DriverInfo.DriverDebugInfo.DistanceToPits.ToString("N2");
         }
         public LapInfo BestLap { get; private set; }
-        public string BestLapString
-        {
-            get
-            {
-                if (BestLap == null)
-                {
-                    return "N/A";
-                }
-
-                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.DriverTiming.BestLap == null)
-                {
-                    return "L" + BestLap.LapNumber + "/" + FormatTimeSpan(BestLap.LapTime);
-                }
-                else
-                {
-                    return "L" + BestLap.LapNumber + "/" + FormatTimeSpanOnlySeconds(BestLap.LapTime.Subtract(Session.Player.DriverTiming.BestLap.LapTime));
-                }
-            }
-        }
+       
         public int PitCount { get => _pitStopInfo.Count; }
         public PitStopInfo LastPitStopStop { get => _pitStopInfo.Count != 0 ? _pitStopInfo[_pitStopInfo.Count - 1] : null; }
         public Single LapPercentage { get; private set; }
@@ -114,81 +83,9 @@ namespace SecondMonitor.Timing.Model.Drivers
         }
 
         public string Speed { get => DriverInfo.Speed.InKph.ToString("N0"); }
-        public  Velocity TopSpeed { get; private set; } = Velocity.Zero;
-        public string TopSpeedString { get
-            {
-                //if (!Session.DisplayBindTimeRelative || Session.Player == null || DriverInfo.IsPlayer)
-                    return TopSpeed.InKph.ToString("N0");
-                //return ((TopSpeed - Session.Player.TopSpeed).InKPH.ToString("N0");
-            }
-        }
+        public  Velocity TopSpeed { get; private set; } = Velocity.Zero;        
 
-
-        public string TimeToPlayerFormatted
-        {
-            get
-            {
-                if (Session.Player == null)
-                {
-                    return "";
-                }
-
-                if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na)
-                {
-                    return DriverInfo.FinishStatus.ToString();
-                }
-
-                if (DriverInfo.IsPlayer)
-                {
-                    return "";
-                }
-
-                if (Session.LastSet.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
-                {
-                    return "";
-                }
-
-                double distanceToUse;
-                if (Session.DisplayGapToPlayerRelative)
-                {
-                    distanceToUse = DriverInfo.DistanceToPlayer;
-                }
-                else
-                {
-                    distanceToUse = Session.Player.DriverTiming.TotalDistanceTraveled - TotalDistanceTraveled;
-                }
-
-                if (Math.Abs(distanceToUse)> Session.LastSet.SessionInfo.LayoutLength)
-                {
-                    return ((int)(distanceToUse) / (int)Session.LastSet.SessionInfo.LayoutLength) +"LAP";
-                }
-
-                if (distanceToUse > 0)
-                {
-                    double requiredTime = distanceToUse / (DriverInfo.Speed.InMs);
-                    if (requiredTime < 30)
-                    {
-                        return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
-                    }
-                    else
-                    {
-                        return "+30.000+";
-                    }
-                }
-                else
-                {
-                    double requiredTime = distanceToUse / (Session.Player.DriverTiming.DriverInfo.Speed.InMs);
-                    if (requiredTime > -30)
-                    {
-                        return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
-                    }
-                    else
-                    {
-                        return "-30.000+";
-                    }
-                }
-            }
-        }
+       
 
 
         public bool UpdateLaps(SimulatorDataSet set)

@@ -87,17 +87,17 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Position, Mode=OneWay}" Header="#" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name, Mode=OneWay}" Header="Name" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneWay}" Header="Car" Width="250"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name, Mode=OneTime}" Header="Name" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneTime}" Header="Car" Width="250"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps" Width="60"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastLapTime, Mode=OneWay}" Header="Last Lap" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding PaceAsString, Mode=OneWay}" Header="Pace" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding BestLapString, Mode=OneWay}" Header="Best Lap" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Pace, Mode=OneWay}" Header="Pace" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding BestLap, Mode=OneWay}" Header="Best Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" Width="150"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" Width="180"/>
                     <!--<GridViewColumn DisplayMemberBinding="{Binding Remark, Mode=OneWay}" Header="Remark" Width="180"/>-->
-                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayerFormatted, Mode=OneWay}" Header="Gap" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding TopSpeedString, Mode=OneWay}" Header="Top Speed" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayer, Mode=OneWay}" Header="Gap" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TopSpeed, Mode=OneWay}" Header="Top Speed" Width="100"/>
                     <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPits, Mode=OneWay}" Header="DTP" Width="100"/>-->
                     <!--<GridViewColumn DisplayMemberBinding="{Binding Speed, Mode=OneWay}" Header="Speed" Width="100"/>-->
 
@@ -127,18 +127,18 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsPlayer}" Value="True">
+                        <DataTrigger Binding="{Binding IsPlayer, Mode=OneWay}" Value="True">
                             <Setter Property="Background" Value="Gray"/>
                             <Setter Property="Foreground" Value="Black"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsLapped}" Value="True">
+                        <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
                             <Setter Property="Foreground" Value="LightBlue"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsLapping}" Value="True">
+                        <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
                             <Setter Property="Foreground" Value="Red"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding InPits}" Value="True">
+                        <DataTrigger Binding="{Binding InPits, Mode=OneWay}" Value="True">
                             <Setter Property="Background" Value="Olive"/>
                             <Setter Property="Foreground" Value="Black"/>
                         </DataTrigger>

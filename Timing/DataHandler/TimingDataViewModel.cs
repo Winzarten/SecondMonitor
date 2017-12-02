@@ -10,6 +10,8 @@ using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using SecondMonitor.Timing.DataHandler.Commands;
 using SecondMonitor.Timing.Model.Drivers.Visualizer;
@@ -34,12 +36,8 @@ namespace SecondMonitor.Timing.DataHandler
         private int _refreshRate = 1000;
         ResetModeEnum _shouldReset = ResetModeEnum.NoReset;
         public event PropertyChangedEventHandler PropertyChanged;
-
-
-        private DateTime _lastRefreshTiming;
-        private DateTime _lastRefreshCarInfo;
-        private DateTime _lastRefreshCircleInfo;
-
+        private SimulatorDataSet _lastDataSet;
+      
         // Gets or sets the CollectionViewSource
         public CollectionViewSource ViewSource { get; set; } 
 
@@ -85,9 +83,10 @@ namespace SecondMonitor.Timing.DataHandler
             _gui.Show();            
             _gui.Closed += Gui_Closed;
             _gui.DataContext = this;
+            SchedulePeriodicAction(new Action(() => RefreshGui(_lastDataSet)), 10000, this, CancellationToken.None);
+            SchedulePeriodicAction(new Action(() => RefreshBasicInfo(_lastDataSet)), 33, this, CancellationToken.None);
+            SchedulePeriodicAction(new Action(() => RefreshTimingCircle(_lastDataSet)), 300, this, CancellationToken.None);
             OnDisplaySettingsChange(this, null);
-            _lastRefreshTiming = DateTime.Now;
-            _lastRefreshCarInfo = DateTime.Now;
             _shouldReset = ResetModeEnum.NoReset;
         }
 
@@ -177,13 +176,13 @@ namespace SecondMonitor.Timing.DataHandler
                 if (mode == TimingGui.TimingModeOptions.Absolute || (mode == TimingGui.TimingModeOptions.Automatic && _timing.SessionType != SessionInfo.SessionTypeEnum.Race))
                 {
                     ViewSource.SortDescriptions.Clear();
-                    ViewSource.SortDescriptions.Add(new SortDescription("Position", ListSortDirection.Ascending));
+                    ViewSource.SortDescriptions.Add(new SortDescription("DriverTiming.Position", ListSortDirection.Ascending));
                     _timing.DisplayGapToPlayerRelative = false;
                 }
                 else
                 {
                     ViewSource.SortDescriptions.Clear();
-                    ViewSource.SortDescriptions.Add(new SortDescription("DistanceToPlayer", ListSortDirection.Ascending));
+                    ViewSource.SortDescriptions.Add(new SortDescription("DriverTiming.DistanceToPlayer", ListSortDirection.Ascending));
                     _timing.DisplayGapToPlayerRelative = true;
                 }
             });
@@ -208,6 +207,7 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
+            _lastDataSet = args.Data;
             if (this.Dispatcher.CheckAccess())
             {
                 SimulatorDataSet data = args.Data;
@@ -227,8 +227,7 @@ namespace SecondMonitor.Timing.DataHandler
                 {
                     _shouldReset = ResetModeEnum.Automatic;
                     return;
-                }
-                var timeSpan = DateTime.Now.Subtract(_lastRefreshTiming);
+                }               
 
                 if (_sessionType != _timing.SessionType)
                 {
@@ -236,37 +235,31 @@ namespace SecondMonitor.Timing.DataHandler
                     _sessionType = _timing.SessionType;
                     return;
                 }
-                if (timeSpan.TotalMilliseconds > _refreshRate)
-                {
-                    //RefreshGui(data);
-                }
-                TimeSpan timeSpanCarIno = DateTime.Now.Subtract(_lastRefreshCarInfo);
-                if (timeSpanCarIno.TotalMilliseconds > 33)
-                {
-
-                    NotifyPropertyChanged("SessionTime");
-                    _gui.PedalControl.UpdateControl(data);
-                    _gui.WhLeftFront.UpdateControl(data);
-                    _gui.WhRightFront.UpdateControl(data);
-                    _gui.WhLeftRear.UpdateControl(data);
-                    _gui.WhRightRear.UpdateControl(data);
-                    _gui.FuelMonitor.ProcessDataSet(data);
-
-                    _lastRefreshCarInfo = DateTime.Now;
-                }
-                timeSpanCarIno = DateTime.Now.Subtract(_lastRefreshCircleInfo);
-                if (timeSpanCarIno.TotalMilliseconds > 200)
-                {
-
-                    _gui.TimingCircle.RefreshSession(data);
-
-                    _lastRefreshCircleInfo = DateTime.Now;
-                }
             }
             else
             {
                 this.Dispatcher.Invoke(new Action(() => OnDataLoaded(sender, args)));
             }
+        }
+
+        private void RefreshTimingCircle(SimulatorDataSet data)
+        {
+            if (data == null)
+                return;
+            _gui.TimingCircle.RefreshSession(data);
+        }
+
+        private void RefreshBasicInfo(SimulatorDataSet data)
+        {
+            if (data == null)
+                return;
+            NotifyPropertyChanged("SessionTime");
+            _gui.PedalControl.UpdateControl(data);
+            _gui.WhLeftFront.UpdateControl(data);
+            _gui.WhRightFront.UpdateControl(data);
+            _gui.WhLeftRear.UpdateControl(data);
+            _gui.WhRightRear.UpdateControl(data);
+            _gui.FuelMonitor.ProcessDataSet(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
@@ -292,7 +285,9 @@ namespace SecondMonitor.Timing.DataHandler
 
         private void RefreshGui(SimulatorDataSet data)
         {
-            _gui.Dispatcher.Invoke((Action)(() =>
+            if(data == null)
+                return;
+            if(this.Dispatcher.CheckAccess())
             {
                 NotifyPropertyChanged("SystemTime");
                 NotifyPropertyChanged("SessionCompletedPercentage");
@@ -315,12 +310,15 @@ namespace SecondMonitor.Timing.DataHandler
                     _gui.DtTimig.ScrollIntoView(_gui.DtTimig.Items[0]);
                     _gui.DtTimig.ScrollIntoView(_timing.Player);
                 }
-            }));
-            _lastRefreshTiming = DateTime.Now;
+            }
+            else
+            {
+                this.Dispatcher.Invoke(new Action(()=> RefreshGui(data)));
+            }
         }
 
         private void RefreshDatagrid()
-        {
+        {            
             if (ViewSource != null)
                 ViewSource.View.Refresh();
         }
@@ -342,9 +340,9 @@ namespace SecondMonitor.Timing.DataHandler
                                 data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
             
             
-            _gui.Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
-                _timing = SessionTiming.FromSimulatorData(data, invalidateLap);
+                _timing = SessionTiming.FromSimulatorData(data, invalidateLap, this);
                 _timing.BestLapChangedEvent += BestLapChangedHandler;
                 _timing.DriverAdded += Timing_DriverAdded;
                 _timing.DriverRemoved += Timing_DriverRemoved;
@@ -449,6 +447,17 @@ namespace SecondMonitor.Timing.DataHandler
                 (DisplaySettingsModelView) dependencyPropertyChangedEventArgs.NewValue;
             newDisplaySettingsModelView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
             
+        }
+
+        private static async Task SchedulePeriodicAction(Action action, int periodInMS, object sender, CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay(periodInMS, cancellationToken);
+
+                if (!cancellationToken.IsCancellationRequested)
+                    action();
+            }
         }
     }
 }

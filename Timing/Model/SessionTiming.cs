@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using SecondMonitor.Timing.DataHandler;
 using SecondMonitor.Timing.Model.Drivers.Visualizer;
 
 namespace SecondMonitor.Timing.Model
@@ -24,7 +25,7 @@ namespace SecondMonitor.Timing.Model
             set;
         }
     }
-    public class SessionTiming : IEnumerable
+    public class SessionTiming : DependencyObject, IEnumerable
     {        
         public class DriverNotFoundException : Exception
         {
@@ -63,12 +64,14 @@ namespace SecondMonitor.Timing.Model
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
         public bool DisplayBindTimeRelative { get; set; }
         public bool DisplayGapToPlayerRelative { get; set; }
+        public TimingDataViewModel TimingDataViewModel { get; private set; }
         public SimulatorDataSet LastSet { get; private set; } = new SimulatorDataSet("None");
         
-        private SessionTiming()
+        private SessionTiming(TimingDataViewModel timingDataViewModel)
         {
             PaceLaps = 4;
             DisplayBindTimeRelative = false;
+            TimingDataViewModel = timingDataViewModel;
         }
 
         public Dictionary<string, DriverTimingVisualizer> Drivers { get; private set; } 
@@ -90,10 +93,10 @@ namespace SecondMonitor.Timing.Model
             }
         }
 
-        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap)
+        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel)
         {
             Dictionary<string, DriverTimingVisualizer> drivers = new Dictionary<string, DriverTimingVisualizer>();
-            SessionTiming timing = new SessionTiming();
+            SessionTiming timing = new SessionTiming(timingDataViewModel);
             timing.SessionType = dataSet.SessionInfo.SessionType;
             //Driver[] drivers = Array.ConvertAll(dataSet.DriversInfo, s => Driver.FromModel(s));
             Array.ForEach(dataSet.DriversInfo, s => {
