@@ -5,18 +5,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using SecondMonitor.Timing.Model.Drivers.Visualizer;
 
 namespace SecondMonitor.Timing.Model
 {
     public class DriverListModificationEventArgs : EventArgs
     {
 
-        public DriverListModificationEventArgs(DriverTiming data)
+        public DriverListModificationEventArgs(DriverTimingVisualizer data)
         {
-            this.Data = data;
+            Data = data;
         }
 
-        public DriverTiming Data
+        public DriverTimingVisualizer Data
         {
             get;
             set;
@@ -54,8 +56,8 @@ namespace SecondMonitor.Timing.Model
 
         
         private LapInfo _bestSessionLap;
-        public Drivers.DriverTiming Player { get; private set; }
-        public Drivers.DriverTiming Leader { get; private set; }
+        public DriverTimingVisualizer Player { get; private set; }
+        public DriverTimingVisualizer Leader { get; private set; }
         public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
@@ -69,7 +71,7 @@ namespace SecondMonitor.Timing.Model
             DisplayBindTimeRelative = false;
         }
 
-        public Dictionary<string, DriverTiming> Drivers { get; private set; } 
+        public Dictionary<string, DriverTimingVisualizer> Drivers { get; private set; } 
         public int PaceLaps
         {
             get;
@@ -90,7 +92,7 @@ namespace SecondMonitor.Timing.Model
 
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap)
         {
-            Dictionary<string, DriverTiming> drivers = new Dictionary<string, DriverTiming>();
+            Dictionary<string, DriverTimingVisualizer> drivers = new Dictionary<string, DriverTimingVisualizer>();
             SessionTiming timing = new SessionTiming();
             timing.SessionType = dataSet.SessionInfo.SessionType;
             //Driver[] drivers = Array.ConvertAll(dataSet.DriversInfo, s => Driver.FromModel(s));
@@ -101,9 +103,10 @@ namespace SecondMonitor.Timing.Model
                     return;
                 }
                 DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
-                drivers.Add(name, newDriver);
+                DriverTimingVisualizer  newDriverTimingVisualizer = new DriverTimingVisualizer(newDriver);
+                drivers.Add(name, newDriverTimingVisualizer);
                 if (newDriver.DriverInfo.IsPlayer)
-                    timing.Player = newDriver;
+                    timing.Player = newDriverTimingVisualizer;
                     });
             timing.Drivers = drivers;
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
@@ -116,8 +119,9 @@ namespace SecondMonitor.Timing.Model
             if (Drivers.ContainsKey(newDriverInfo.DriverName))
                 return;
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionInfo.SessionTypeEnum.Race);
-            Drivers.Add(newDriver.Name, newDriver);
-            RaiseDriverAddedEvent(newDriver);
+            DriverTimingVisualizer newDriverTimingVisualizer = new DriverTimingVisualizer(newDriver);
+            Drivers.Add(newDriver.Name, newDriverTimingVisualizer);
+            RaiseDriverAddedEvent(newDriverTimingVisualizer);
         }
 
         public LapInfo BestSessionLap { get => _bestSessionLap; }
@@ -143,7 +147,8 @@ namespace SecondMonitor.Timing.Model
                     if (Drivers.ContainsKey(s.DriverName))
                     {
                         UpdateDriver(s, Drivers[s.DriverName], dataSet);
-                        if (Drivers[s.DriverName].IsPlayer)
+                        
+                        if (Drivers[s.DriverName].DriverTiming.IsPlayer)
                             Player = Drivers[s.DriverName];
                     }
                     else
@@ -171,8 +176,9 @@ namespace SecondMonitor.Timing.Model
 
             }
         }
-        private void UpdateDriver(DriverInfo modelInfo, DriverTiming timingInfo, SimulatorDataSet set)
+        private void UpdateDriver(DriverInfo modelInfo, DriverTimingVisualizer driverTimingVisualizer, SimulatorDataSet set)
         {
+            DriverTiming timingInfo = driverTimingVisualizer.DriverTiming;
             timingInfo.DriverInfo = modelInfo;
             if(timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && (_bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < _bestSessionLap.LapTime))
             {
@@ -180,7 +186,9 @@ namespace SecondMonitor.Timing.Model
                 RaiseBestLapChangedEvent(_bestSessionLap);
             }
             if (timingInfo.Position == 1)
-                Leader = timingInfo;
+                Leader = driverTimingVisualizer;
+
+            driverTimingVisualizer.RefreshProperties();
         }
 
         public IEnumerator GetEnumerator()
@@ -193,12 +201,12 @@ namespace SecondMonitor.Timing.Model
             BestLapChangedEvent?.Invoke(this, new BestLapChangedArgs(lapInfo));
         }
 
-        public void RaiseDriverAddedEvent(DriverTiming driver)
+        public void RaiseDriverAddedEvent(DriverTimingVisualizer driver)
         {
             DriverAdded?.Invoke(this, new DriverListModificationEventArgs(driver));
         }
 
-        public void RaiseDriverRemovedEvent(DriverTiming driver)
+        public void RaiseDriverRemovedEvent(DriverTimingVisualizer driver)
         {
             DriverRemoved?.Invoke(this, new DriverListModificationEventArgs(driver));
         }

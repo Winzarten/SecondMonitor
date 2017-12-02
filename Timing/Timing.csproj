@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="Model\Drivers\DriverTiming.cs" />
     <Compile Include="Model\Drivers\PitStopInfo.cs" />
+    <Compile Include="Model\Drivers\Visualizer\DriverTimingVisualiser.cs" />
     <Compile Include="Model\LapInfo.cs" />
     <Compile Include="Model\SessionTiming.cs" />
     <Compile Include="Model\Settings\ModelView\DisplaySettingsModelView.cs" />

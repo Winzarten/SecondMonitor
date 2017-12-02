@@ -19,7 +19,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             _lapsInfo = new List<LapInfo>();
             _pitStopInfo = new List<PitStopInfo>();
-            DriverInfo = driverInfo;            
+            DriverInfo = driverInfo;
             Pace = new TimeSpan(0);
             LapPercentage = 0;
             _previousTickLapDistance = 0;
@@ -27,7 +27,7 @@ namespace SecondMonitor.Timing.Model.Drivers
         }
         
         public bool InvalidateFirstLap { get; set; }
-        private SessionTiming Session { get; set;}
+        public SessionTiming Session { get; private set;}
         public DriverInfo DriverInfo { get; internal set; }
         public bool IsPlayer { get => DriverInfo.IsPlayer; }
         public string Name { get => DriverInfo.DriverName; }
@@ -39,13 +39,13 @@ namespace SecondMonitor.Timing.Model.Drivers
         {
             get
             {
-                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.Pace == TimeSpan.Zero)
+                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.DriverTiming.Pace == TimeSpan.Zero)
                 {
                     return FormatTimeSpan(Pace);
                 }
                 else
                 {
-                    return FormatTimeSpanOnlySeconds(Pace.Subtract(Session.Player.Pace));
+                    return FormatTimeSpanOnlySeconds(Pace.Subtract(Session.Player.DriverTiming.Pace));
                 }
             }
         }
@@ -67,13 +67,13 @@ namespace SecondMonitor.Timing.Model.Drivers
                     return "N/A";
                 }
 
-                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.BestLap == null)
+                if (DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.DriverTiming.BestLap == null)
                 {
                     return "L" + BestLap.LapNumber + "/" + FormatTimeSpan(BestLap.LapTime);
                 }
                 else
                 {
-                    return "L" + BestLap.LapNumber + "/" + FormatTimeSpanOnlySeconds(BestLap.LapTime.Subtract(Session.Player.BestLap.LapTime));
+                    return "L" + BestLap.LapNumber + "/" + FormatTimeSpanOnlySeconds(BestLap.LapTime.Subtract(Session.Player.DriverTiming.BestLap.LapTime));
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                 }
                 else
                 {
-                    distanceToUse = Session.Player.TotalDistanceTraveled - TotalDistanceTraveled;
+                    distanceToUse = Session.Player.DriverTiming.TotalDistanceTraveled - TotalDistanceTraveled;
                 }
 
                 if (Math.Abs(distanceToUse)> Session.LastSet.SessionInfo.LayoutLength)
@@ -177,7 +177,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                 }
                 else
                 {
-                    double requiredTime = distanceToUse / (Session.Player.DriverInfo.Speed.InMs);
+                    double requiredTime = distanceToUse / (Session.Player.DriverTiming.DriverInfo.Speed.InMs);
                     if (requiredTime > -30)
                     {
                         return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
@@ -395,24 +395,7 @@ namespace SecondMonitor.Timing.Model.Drivers
                 }
             }
         }
-        public string CurrentLapProgressTime
-        {
-            get
-            {
-                if (CurrentLap == null)
-                {
-                    return "";
-                }
-
-                if (!CurrentLap.Valid)
-                {
-                    return "Lap Invalid";
-                }
-
-                TimeSpan progress = CurrentLap.LapProgressTime;
-                return FormatTimeSpan(progress);
-            }
-        }
+       
 
         public LapInfo LastCompletedLap
         {
@@ -447,28 +430,7 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
         }
 
-        public string LastLapTime
-        {
-            get
-            {
-                LapInfo lastCompletedLap = LastCompletedLap;
-                if (lastCompletedLap != null)
-                {
-                    if(DriverInfo.IsPlayer || !Session.DisplayBindTimeRelative || Session.Player.LastCompletedLap == null)
-                    {
-                        return FormatTimeSpan(lastCompletedLap.LapTime);
-                    }
-                    else
-                    {
-                        return FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(Session.Player.LastCompletedLap.LapTime));
-                    }
-                }
-                else
-                {
-                    return "N/A";
-                }
-            }
-        }
+        
 
         public static string FormatTimeSpan(TimeSpan timeSpan)
         {
