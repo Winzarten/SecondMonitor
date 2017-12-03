@@ -80,12 +80,15 @@ namespace SecondMonitor.Timing.DataHandler
             ConnectedSource = "Not Connected";
             CreateDisplaySettings();
             _gui = new TimingGui();
-            _gui.Show();            
+            _gui.Show();
             _gui.Closed += Gui_Closed;
             _gui.DataContext = this;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            //This is expected as these are refresh tasks that should exist during the instance life
             SchedulePeriodicAction(new Action(() => RefreshGui(_lastDataSet)), 10000, this, CancellationToken.None);
             SchedulePeriodicAction(new Action(() => RefreshBasicInfo(_lastDataSet)), 33, this, CancellationToken.None);
             SchedulePeriodicAction(new Action(() => RefreshTimingCircle(_lastDataSet)), 300, this, CancellationToken.None);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             OnDisplaySettingsChange(this, null);
             _shouldReset = ResetModeEnum.NoReset;
         }
@@ -238,7 +241,7 @@ namespace SecondMonitor.Timing.DataHandler
             }
             else
             {
-                this.Dispatcher.Invoke(new Action(() => OnDataLoaded(sender, args)));
+                this.Dispatcher.Invoke(() => OnDataLoaded(sender, args));
             }
         }
 
@@ -254,12 +257,20 @@ namespace SecondMonitor.Timing.DataHandler
             if (data == null)
                 return;
             NotifyPropertyChanged("SessionTime");
+            NotifyPropertyChanged("SystemTime");
+            NotifyPropertyChanged("SessionCompletedPercentage");
             _gui.PedalControl.UpdateControl(data);
             _gui.WhLeftFront.UpdateControl(data);
             _gui.WhRightFront.UpdateControl(data);
             _gui.WhLeftRear.UpdateControl(data);
             _gui.WhRightRear.UpdateControl(data);
             _gui.FuelMonitor.ProcessDataSet(data);
+            _gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
+            _gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
+
+            _gui.LblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.AirTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.TrackTemperature.InCelsius.ToString("n1")
+                                      + "| Rain Intensity: " + data.SessionInfo.WeatherInfo.RainIntensity + "%";
+            _gui.LblRemainig.Content = GetSessionRemainig(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
@@ -289,21 +300,12 @@ namespace SecondMonitor.Timing.DataHandler
                 return;
             if(this.Dispatcher.CheckAccess())
             {
-                NotifyPropertyChanged("SystemTime");
-                NotifyPropertyChanged("SessionCompletedPercentage");
                 _gui.PedalControl.UpdateControl(data);
                 _gui.WhLeftFront.UpdateControl(data);
                 _gui.WhRightFront.UpdateControl(data);
                 _gui.WhLeftRear.UpdateControl(data);
                 _gui.WhRightRear.UpdateControl(data);
-                _gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
-                _gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
                 _gui.TimingCircle.RefreshSession(data);
-
-
-                _gui.LblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.AirTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.TrackTemperature.InCelsius.ToString("n1")
-                + "| Rain Intensity: " + data.SessionInfo.WeatherInfo.RainIntensity + "%";
-                _gui.LblRemainig.Content = GetSessionRemainig(data);
                 RefreshDatagrid();
                 if (_scrollToPlayer && _gui != null && _timing.Player != null && _gui.DtTimig.Items.Count > 0)
                 {
@@ -313,7 +315,7 @@ namespace SecondMonitor.Timing.DataHandler
             }
             else
             {
-                this.Dispatcher.Invoke(new Action(()=> RefreshGui(data)));
+                this.Dispatcher.Invoke(()=> RefreshGui(data));
             }
         }
 

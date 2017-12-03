@@ -25,7 +25,7 @@ namespace SecondMonitor.WindowsControls.Controls.wpf
         private Temperature _temperature = Temperature.FromCelsius(0);
         private Temperature _minimumTemperature = Temperature.FromCelsius(0);
         private Temperature _maximumTemperature = Temperature.FromCelsius(120);
-        private Temperature _redTemperatureStart = Temperature.FromCelsius(100);
+        private Temperature _redTemperatureStart = Temperature.FromCelsius(110);
 
         public double MaximumTemperatureCelsius
         {

@@ -17,7 +17,7 @@ namespace SecondMonitor.Timing.Model.Settings.Model
 
         public int PaceLaps { get; set; } = 3;
 
-        public int RefreshRate { get; set; } = 1000;
+        public int RefreshRate { get; set; } = 300;
 
         public bool ScrollToPlayer { get; set; } = true;
     }

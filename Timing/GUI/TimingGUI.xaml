@@ -95,14 +95,8 @@
                     <GridViewColumn DisplayMemberBinding="{Binding BestLap, Mode=OneWay}" Header="Best Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" Width="150"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" Width="180"/>
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding Remark, Mode=OneWay}" Header="Remark" Width="180"/>-->
                     <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayer, Mode=OneWay}" Header="Gap" Width="150"/>
                     <GridViewColumn DisplayMemberBinding="{Binding TopSpeed, Mode=OneWay}" Header="Top Speed" Width="100"/>
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPits, Mode=OneWay}" Header="DTP" Width="100"/>-->
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding Speed, Mode=OneWay}" Header="Speed" Width="100"/>-->
-
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>-->
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>-->
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -191,7 +185,7 @@
         <wpf1:FuelMonitor x:Name="FuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScopeee="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
                          
                           d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}"/>
-        <wpf1:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="120" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}" />
+        <wpf1:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="130" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}" />
         <wpf1:TemperatureControl  x:Name="OilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
                                  d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}" 
                                  />
