@@ -4,64 +4,66 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls;assembly=WindowsControls"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
-    xmlns:DataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
-    xmlns:DMBasicProperties ="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:dataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
+    xmlns:dmBasicProperties ="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
     xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
     xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
-    xmlns:ModelView="clr-namespace:SecondMonitor.Timing.DataHandler"
-    xmlns:DriverModelView="clr-namespace:SecondMonitor.Timing.Model.Drivers"
-    x:Name="mainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"
+    xmlns:modelView="clr-namespace:SecondMonitor.Timing.DataHandler"
+    xmlns:driverModelView="clr-namespace:SecondMonitor.Timing.Model.Drivers"
+    xmlns:driverModelVis ="clr-namespace:SecondMonitor.Timing.Model.Drivers.Visualizer"
+    
+    x:Name="MainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="{Binding Title}" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized"
-    d:DataContext="{d:DesignInstance Type=ModelView:TimingDataViewModel}">
+    d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}">
 
     <Window.Resources>
-        <ObjectDataProvider x:Key="dataFromTemperatureEnum" MethodName="GetValues"
-                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
+                            ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="DataModel:TemperatureUnits"/>
+                <x:Type TypeName="dataModel:TemperatureUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <ObjectDataProvider x:Key="dataFromPressureEnum" MethodName="GetValues"
-                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider x:Key="DataFromPressureEnum" MethodName="GetValues"
+                            ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="DataModel:PressureUnits"/>
+                <x:Type TypeName="dataModel:PressureUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <ObjectDataProvider x:Key="dataFromVolumeEnum" MethodName="GetValues"
-                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider x:Key="DataFromVolumeEnum" MethodName="GetValues"
+                            ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="DataModel:VolumeUnits"/>
+                <x:Type TypeName="dataModel:VolumeUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <ObjectDataProvider x:Key="dataFromFuelEnum" MethodName="GetValues"
-                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider x:Key="DataFromFuelEnum" MethodName="GetValues"
+                            ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="DMBasicProperties:FuelCalculationScope"/>
+                <x:Type TypeName="dmBasicProperties:FuelCalculationScope"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
     <Grid Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <WindowsFormsHost 
             Margin="10,0,0,288" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="whLeftFront"/>
+            <controls:WheelStatusControl x:Name="WhLeftFront"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="211,0,0,288" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="whRightFront" WheelPostion="FrontRight"/>
+            <controls:WheelStatusControl x:Name="WhRightFront" WheelPostion="FrontRight"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="10,0,0,187"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="whLeftRear" WheelPostion="RearLeft"/>
+            <controls:WheelStatusControl x:Name="WhLeftRear" WheelPostion="RearLeft"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="211,0,0,187"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="whRightRear" WheelPostion="RearRight"/>
+            <controls:WheelStatusControl x:Name="WhRightRear" WheelPostion="RearRight"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="10,0,0,26" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="156">
-            <controls:PedalControl x:Name="pedalControl"/>
+            <controls:PedalControl x:Name="PedalControl"/>
         </WindowsFormsHost>
         
-        <ListView x:Name="dtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged"
-                  d:DataContext="{d:DesignInstance Type=DriverModelView:DriverTiming}"
+        <ListView x:Name="DtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged"
+                  d:DataContext="{d:DesignInstance Type=driverModelVis:DriverTimingVisualizer}"
                  >
             <ListView.Resources >
                 <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -85,22 +87,16 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Position, Mode=OneWay}" Header="#" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name, Mode=OneWay}" Header="Name" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneWay}" Header="Car" Width="250"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name, Mode=OneTime}" Header="Name" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneTime}" Header="Car" Width="250"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps" Width="60"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastLapTime, Mode=OneWay}" Header="Last Lap" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding PaceAsString, Mode=OneWay}" Header="Pace" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding BestLapString, Mode=OneWay}" Header="Best Lap" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Pace, Mode=OneWay}" Header="Pace" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding BestLap, Mode=OneWay}" Header="Best Lap" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" Width="150"/>
                     <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" Width="180"/>
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding Remark, Mode=OneWay}" Header="Remark" Width="180"/>-->
-                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayerFormatted, Mode=OneWay}" Header="Gap" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding TopSpeedString, Mode=OneWay}" Header="Top Speed" Width="100"/>
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPits, Mode=OneWay}" Header="DTP" Width="100"/>-->
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding Speed, Mode=OneWay}" Header="Speed" Width="100"/>-->
-
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding LapPercentage, StringFormat=N2}" Header="Lap Progress (%)" Width="180"/>-->
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding DistanceToPlayer, StringFormat=N0}" Header="Distance (m)" Width="180"/>-->
+                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayer, Mode=OneWay}" Header="Gap" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding TopSpeed, Mode=OneWay}" Header="Top Speed" Width="100"/>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -125,18 +121,18 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsPlayer}" Value="True">
+                        <DataTrigger Binding="{Binding IsPlayer, Mode=OneWay}" Value="True">
                             <Setter Property="Background" Value="Gray"/>
                             <Setter Property="Foreground" Value="Black"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsLapped}" Value="True">
+                        <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
                             <Setter Property="Foreground" Value="LightBlue"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsLapping}" Value="True">
+                        <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
                             <Setter Property="Foreground" Value="Red"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding InPits}" Value="True">
+                        <DataTrigger Binding="{Binding InPits, Mode=OneWay}" Value="True">
                             <Setter Property="Background" Value="Olive"/>
                             <Setter Property="Foreground" Value="Black"/>
                         </DataTrigger>
@@ -148,50 +144,50 @@
             </ListView.ItemContainerStyle>
 
         </ListView>
-        <Label x:Name="lblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
-        <Label x:Name="lblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
-        <Label x:Name="lblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="1035,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
-        <Label x:Name="lblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
-        <Button x:Name="btnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,26" Width="117"  VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
+        <Label x:Name="LblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="LblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
+        <Label x:Name="LblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="1035,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
+        <Label x:Name="LblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
+        <Button x:Name="BtnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,26" Width="117"  VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
         <GroupBox Header="Settings" HorizontalAlignment="Right" Height="248" VerticalAlignment="Bottom" Width="240" Foreground="White" Margin="0,0,10,111">
             <Grid Margin="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*" />
                     <ColumnDefinition Width="0.5*" />
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="rbtAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" IsChecked="True" Command="{Binding TimingModeChangedCommand}" />
-                <RadioButton x:Name="rbtAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
-                <RadioButton x:Name="rbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,79,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
-                <controls2:IntegerUpDown x:Name="upDownPaceLaps" Margin="10,0,10,56" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="{Binding DisplaySettings.PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <RadioButton x:Name="RbtAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" IsChecked="True" Command="{Binding TimingModeChangedCommand}" />
+                <RadioButton x:Name="RbtAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
+                <RadioButton x:Name="RbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,79,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
+                <controls2:IntegerUpDown x:Name="UpDownPaceLaps" Margin="10,0,10,56" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="{Binding DisplaySettings.PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </controls2:IntegerUpDown>
                 <Label Content="Pace Laps:" HorizontalAlignment="Left" Margin="0,119,0,0" VerticalAlignment="Top" Foreground="White"/>
                 <Label Content="Refresh Rate:" HorizontalAlignment="Left" Margin="0,92,0,30" VerticalAlignment="Bottom" Foreground="White"/>
-                <controls2:IntegerUpDown x:Name="upDownRefreshRate" Margin="10,0,10,10" VerticalAlignment="Bottom" Minimum="50" Maximum="5000" Text="" Value="{Binding DisplaySettings.RefreshRate}" Increment="50">
+                <controls2:IntegerUpDown x:Name="UpDownRefreshRate" Margin="10,0,10,10" VerticalAlignment="Bottom" Minimum="50" Maximum="5000" Text="" Value="{Binding DisplaySettings.RefreshRate}" Increment="50">
                 </controls2:IntegerUpDown>
-                <CheckBox x:Name="chkScrollToPlayer" Content="Scroll To Player" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="100" Foreground="White" IsChecked="True"
+                <CheckBox x:Name="ChkScrollToPlayer" Content="Scroll To Player" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="100" Foreground="White" IsChecked="True"
                           Command="{Binding ScrollToPlayerCommand}"/>
                 <Label Content="Order:" Foreground="White" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="29" Width="74"/>
 
                 <Label Grid.Column="1" Content="Times:" Foreground="White" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="29" Width="74"/>
-                <RadioButton Grid.Column="1" x:Name="rbtTimeAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" Command="{Binding TimingDisplayModeChangedCommand}"/>
-                <RadioButton Grid.Column="1" x:Name="rbtTimeRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" IsChecked="True" Command="{Binding TimingDisplayModeChangedCommand}"/>
-                <ComboBox x:Name="cmbTemperature" Grid.Column="1" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource dataFromTemperatureEnum}}" SelectedItem="{Binding DisplaySettings.TemperatureUnits}"/>
-                <ComboBox x:Name="cmbPressure" Grid.Column="1" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource dataFromPressureEnum}}" SelectedItem="{Binding DisplaySettings.PressureUnits}"/>
-                <ComboBox x:Name="cmbVolume" Grid.Column="1" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource dataFromVolumeEnum}}" SelectedItem="{Binding DisplaySettings.VolumeUnits}"/>
+                <RadioButton Grid.Column="1" x:Name="RbtTimeAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" Command="{Binding TimingDisplayModeChangedCommand}"/>
+                <RadioButton Grid.Column="1" x:Name="RbtTimeRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" IsChecked="True" Command="{Binding TimingDisplayModeChangedCommand}"/>
+                <ComboBox x:Name="CmbTemperature" Grid.Column="1" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}" SelectedItem="{Binding DisplaySettings.TemperatureUnits}"/>
+                <ComboBox x:Name="CmbPressure" Grid.Column="1" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}" SelectedItem="{Binding DisplaySettings.PressureUnits}"/>
+                <ComboBox x:Name="CmbVolume" Grid.Column="1" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}" SelectedItem="{Binding DisplaySettings.VolumeUnits}"/>
                 <Label Content="Volume" Grid.Column="1" HorizontalAlignment="Left" Margin="6,74,0,0" VerticalAlignment="Top" Foreground="White"/>
                 <Label Content="Temperature" Grid.Column="1" HorizontalAlignment="Left" Margin="6,122,0,0" VerticalAlignment="Top" Foreground="White"/>
                 <Label Content="Pressure" Grid.Column="1" HorizontalAlignment="Left" Margin="6,170,0,0" VerticalAlignment="Top" Foreground="White"/>
 
             </Grid>
         </GroupBox>
-        <wpf:PositionCircle x:Name="timingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
+        <wpf:PositionCircle x:Name="TimingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
 
-        <wpf1:FuelMonitor x:Name="fuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScopeee="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
+        <wpf1:FuelMonitor x:Name="FuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScopeee="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
                          
-                          d:DataContext="{d:DesignInstance Type=ModelView:TimingDataViewModel}"/>
-        <wpf1:TemperatureControl x:Name="waterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="120" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=ModelView:TimingDataViewModel}" />
-        <wpf1:TemperatureControl  x:Name="oilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                 d:DataContext="{d:DesignInstance Type=ModelView:TimingDataViewModel}" 
+                          d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}"/>
+        <wpf1:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="130" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}" />
+        <wpf1:TemperatureControl  x:Name="OilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                 d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}" 
                                  />
         <Image HorizontalAlignment="Left" Height="24" Margin="550,0,0,123"  Width="24" VerticalAlignment="Bottom"
                Panel.ZIndex="5" Source="/Timing;component/Resources/oil.png"/>

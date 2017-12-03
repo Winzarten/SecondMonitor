@@ -87,7 +87,7 @@ namespace SecondMonitor.PCarsConnector
                 new float[] {-154.9505f, 278.1627f}),
             new TrackDetails("Sakitto:National", new float[] {-265.1671f, 472.4344f},
                 new float[] {-154.9505f, 278.1627f}),
-            new TrackDetails("Sakitto:Sprint", new float[] {576.6671f - 142.1608f},
+            new TrackDetails("Sakitto:Sprint", new float[] {576.6671f, -142.1608f},
                 new float[] {607.291f, -646.9218f}),
             new TrackDetails("Silverstone:Grand Prix", new float[] {-504.739f, -1274.686f},
                 new float[] {-273.1427f, -861.1436f}),

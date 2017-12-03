@@ -18,11 +18,11 @@ namespace SecondMonitor.Timing.GUI
         {
             get
             {
-                if ((bool)rbtAutomatic.IsChecked)
+                if ((bool)RbtAutomatic.IsChecked)
                     return TimingModeOptions.Automatic;
-                if ((bool)rbtRelative.IsChecked)
+                if ((bool)RbtRelative.IsChecked)
                     return TimingModeOptions.Relative;
-                if ((bool)rbtAbsolute.IsChecked)
+                if ((bool)RbtAbsolute.IsChecked)
                     return TimingModeOptions.Absolute;
                 return TimingModeOptions.Automatic;
             }
@@ -30,8 +30,8 @@ namespace SecondMonitor.Timing.GUI
 
         private void dtTimig_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dtTimig.SelectedItem != null)
-                dtTimig.SelectedItem = null;
+            if (DtTimig.SelectedItem != null)
+                DtTimig.SelectedItem = null;
         }
     }
 }
