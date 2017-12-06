@@ -74,6 +74,21 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             ScrollToPlayer = settings.ScrollToPlayer;
         }
 
+        public DisplaySettings ToModel()
+        {
+            return new DisplaySettings()
+            {
+                TemperatureUnits = TemperatureUnits,
+                PressureUnits = PressureUnits,
+                VolumeUnits = VolumeUnits,
+                FuelCalculationScope = FuelCalculationScope,
+                PaceLaps = PaceLaps,
+                RefreshRate = RefreshRate,
+                ScrollToPlayer = ScrollToPlayer,
+
+            };
+        }
+
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             DisplaySettingsModelView sender = (DisplaySettingsModelView) dependencyObject;

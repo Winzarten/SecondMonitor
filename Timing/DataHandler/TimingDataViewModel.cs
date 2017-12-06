@@ -9,6 +9,7 @@ using SecondMonitor.Timing.Model.Drivers;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,10 +26,13 @@ namespace SecondMonitor.Timing.DataHandler
     {
 
         public static readonly DependencyProperty DisplaySettingsProperty = DependencyProperty.Register("DisplaySettings", typeof(DisplaySettingsModelView), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
+        private static readonly string  SettingsPath = Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.ApplicationData), "SecondMonitor\\settings.json");
 
 
         private enum ResetModeEnum {  NoReset, Manual, Automatic}
         private TimingGui _gui;
+        private DisplaySettingAutoSaver _settingAutoSaver;
         private PluginsManager _pluginsManager;
         private SessionTiming _timing;
         private SessionInfo.SessionTypeEnum _sessionType = SessionInfo.SessionTypeEnum.Na;        
@@ -50,6 +54,11 @@ namespace SecondMonitor.Timing.DataHandler
 
         public string ConnectedSource { get; private set; }
         public string SystemTime { get => DateTime.Now.ToString("HH:mm"); }
+
+        static TimingDataViewModel()
+        {
+            
+        }
 
         public string Title
         {
@@ -83,6 +92,8 @@ namespace SecondMonitor.Timing.DataHandler
             _gui.Show();
             _gui.Closed += Gui_Closed;
             _gui.DataContext = this;
+            _settingAutoSaver = new DisplaySettingAutoSaver(SettingsPath);
+            _settingAutoSaver.DisplaySettingsModelView = DisplaySettings;
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             //This is expected as these are refresh tasks that should exist during the instance life
             SchedulePeriodicAction(new Action(() => RefreshGui(_lastDataSet)), 10000, this, CancellationToken.None);
@@ -307,7 +318,7 @@ namespace SecondMonitor.Timing.DataHandler
                 _gui.WhRightRear.UpdateControl(data);
                 _gui.TimingCircle.RefreshSession(data);
                 RefreshDatagrid();
-                if (_scrollToPlayer && _gui != null && _timing.Player != null && _gui.DtTimig.Items.Count > 0)
+                if (_scrollToPlayer && _gui != null && _timing?.Player != null && _gui.DtTimig.Items.Count > 0)
                 {
                     _gui.DtTimig.ScrollIntoView(_gui.DtTimig.Items[0]);
                     _gui.DtTimig.ScrollIntoView(_timing.Player);
@@ -448,7 +459,10 @@ namespace SecondMonitor.Timing.DataHandler
             DisplaySettingsModelView newDisplaySettingsModelView =
                 (DisplaySettingsModelView) dependencyPropertyChangedEventArgs.NewValue;
             newDisplaySettingsModelView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
-            
+
+            if(timingDataViewModel._settingAutoSaver != null)
+                timingDataViewModel._settingAutoSaver.DisplaySettingsModelView =newDisplaySettingsModelView;
+
         }
 
         private static async Task SchedulePeriodicAction(Action action, int periodInMS, object sender, CancellationToken cancellationToken)

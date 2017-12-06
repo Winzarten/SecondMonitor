@@ -4,6 +4,7 @@ using System.Windows.Controls;
 
 namespace SecondMonitor.WindowsControls.Controls.wpf
 {
+    /// <inheritdoc cref="UserControl" />
     /// <summary>
     /// Interaction logic for WaterTemp.xaml
     /// </summary>
