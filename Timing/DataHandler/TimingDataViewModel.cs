@@ -94,12 +94,11 @@ namespace SecondMonitor.Timing.DataHandler
             _gui.DataContext = this;
             _settingAutoSaver = new DisplaySettingAutoSaver(SettingsPath);
             _settingAutoSaver.DisplaySettingsModelView = DisplaySettings;
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            //This is expected as these are refresh tasks that should exist during the instance life
+
             SchedulePeriodicAction(new Action(() => RefreshGui(_lastDataSet)), 10000, this, CancellationToken.None);
             SchedulePeriodicAction(new Action(() => RefreshBasicInfo(_lastDataSet)), 33, this, CancellationToken.None);
             SchedulePeriodicAction(new Action(() => RefreshTimingCircle(_lastDataSet)), 300, this, CancellationToken.None);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
             OnDisplaySettingsChange(this, null);
             _shouldReset = ResetModeEnum.NoReset;
         }
@@ -107,7 +106,8 @@ namespace SecondMonitor.Timing.DataHandler
         private void CreateDisplaySettings()
         {
             DisplaySettingsModelView displaySettingsModelView = new DisplaySettingsModelView();
-            displaySettingsModelView.FromModel(new DisplaySettings());
+            displaySettingsModelView.FromModel(
+                new DisplaySettingsLoader().LoadDisplaySettingsFromFileSafe(SettingsPath));
             DisplaySettings = displaySettingsModelView;
         }
 
@@ -465,11 +465,11 @@ namespace SecondMonitor.Timing.DataHandler
 
         }
 
-        private static async Task SchedulePeriodicAction(Action action, int periodInMS, object sender, CancellationToken cancellationToken)
+        private static async void SchedulePeriodicAction(Action action, int periodInMs, object sender, CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(periodInMS, cancellationToken);
+                await Task.Delay(periodInMs, cancellationToken);
 
                 if (!cancellationToken.IsCancellationRequested)
                     action();

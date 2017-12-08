@@ -12,6 +12,7 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
     public class DisplaySettingAutoSaver
     {
         private DisplaySettingsModelView _displaySettings;
+        private bool _inSave = false;
 
         public DisplaySettingAutoSaver(string filePath) => FilePath = filePath;
 
@@ -47,8 +48,13 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             Save();
         }
 
-        public void Save()
+        public async void Save()
         {
+            if (_inSave)
+                return;
+            _inSave = true;
+            await Task.Delay(5000);
+            _inSave = false;
             File.WriteAllText(FilePath, JsonConvert.SerializeObject(_displaySettings.ToModel()));
         }
     

@@ -72,6 +72,7 @@
     <Compile Include="Model\LapInfo.cs" />
     <Compile Include="Model\SessionTiming.cs" />
     <Compile Include="Model\Settings\ModelView\DisplaySettingAutoSaver.cs" />
+    <Compile Include="Model\Settings\ModelView\DisplaySettingsLoader.cs" />
     <Compile Include="Model\Settings\ModelView\DisplaySettingsModelView.cs" />
     <Compile Include="Model\Settings\Model\DisplaySettings.cs" />
     <Compile Include="Properties\Annotations.cs" />

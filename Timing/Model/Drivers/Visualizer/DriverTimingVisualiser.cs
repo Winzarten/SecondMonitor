@@ -66,7 +66,7 @@ namespace SecondMonitor.Timing.Model.Drivers.Visualizer
             BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
         }
 
-        private static async Task ScheduleRefresh(DriverTimingVisualizer sender, CancellationToken cancellationToken)
+        private static async void ScheduleRefresh(DriverTimingVisualizer sender, CancellationToken cancellationToken)
         {
 
             while (!cancellationToken.IsCancellationRequested)
