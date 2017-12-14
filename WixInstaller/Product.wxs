@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="4E5C342E-8BB1-417C-97B2-F531991861C5" Name="Second Monitor" Language="1033" Version="0.1.0.0" Manufacturer="Matus Celko" UpgradeCode="4E5C342E-8BB1-417C-97B2-F531991861C5">
-  
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+  <Product Id="4E5C342E-8BB1-417C-97B2-F531991861C5" Name="Second Monitor" Language="1033" Version="0.2.0.0" Manufacturer="Matus Celko" UpgradeCode="4E5C342E-8BB1-417C-97B2-F531991861C5">    
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
     <WixVariable Id="WixUILicenseRtf" Value="..\Artifacts\eula.rtf" />
@@ -26,10 +25,7 @@
       </Component>
       <Component Id="cmpA5CBA5AEBA67AF3740096B2C71AA5E30" Directory="APPLICATIONROOTDIRECTORY" Guid="b957aee4-905f-4894-8044-abce46beade4">
         <File Id="fil82C32F720D16C0F30EB4769A24E1D5A1" KeyPath="yes" Source="..\Deployment\DataModel.dll" />
-      </Component>
-      <Component Id="cmpFCF8CAC78C02A6BFE0C933265D5321BA" Directory="APPLICATIONROOTDIRECTORY" Guid="f34e2d9e-5df3-4fc9-b596-cde4d0fcc448">
-        <File Id="fil4C3DA13ABC2A7B97237FFF14FD955617" KeyPath="yes" Source="..\Deployment\DataModel.pdb" />
-      </Component>
+      </Component>      
       <Component Id="cmp5F5AF01C9C167A061943BE1B97309D29" Directory="APPLICATIONROOTDIRECTORY" Guid="1ab8a162-b020-423f-969f-b93b861d6b95">
         <File Id="fil31680B1E52306E3391EF0F687D0EE629" KeyPath="yes" Source="..\Deployment\LCDLabel.dll" />
       </Component>
@@ -50,22 +46,13 @@
       </Component>
       <Component Id="cmpA1FC9EC3991DE249BC5D4B6B86612376" Directory="APPLICATIONROOTDIRECTORY" Guid="f69f5713-a962-4b0e-96c2-f581ae822682">
         <File Id="fil0789929666268B2E394FC6E7182639D4" KeyPath="yes" Source="..\Deployment\PluginManager.dll" />
-      </Component>
-      <Component Id="cmpEF93B9F414F3965333001DDE4B23CE57" Directory="APPLICATIONROOTDIRECTORY" Guid="ad22ca40-4ea2-4b90-a2a0-a22cbb0b83b6">
-        <File Id="fil43B4877E35EB7B90BFAA6ABDFEB9F781" KeyPath="yes" Source="..\Deployment\PluginManager.pdb" />
-      </Component>
+      </Component>      
       <Component Id="cmpBF276D04790C4EA6EAA0D4906CCF8782" Directory="APPLICATIONROOTDIRECTORY" Guid="4650b298-f5c8-41d3-9153-2f686ace5614">
         <File Id="filFD7A7C4C272CCAF2F7343286DC5B80B5" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe.config" />
-      </Component>
-      <Component Id="cmp5B3C357255832C88CEA22F66BAEF1567" Directory="APPLICATIONROOTDIRECTORY" Guid="4cd7f165-2533-4fcd-9e9b-dc51ffa9fdc9">
-        <File Id="fil7F6FA04ACF768EF2AA48FDC910114425" KeyPath="yes" Source="..\Deployment\SecondMonitor.pdb" />
-      </Component>
+      </Component>      
       <Component Id="cmpB166FB7BF3EEA0A0A49BA3ADC2CFEC38" Directory="APPLICATIONROOTDIRECTORY" Guid="617732db-ef1d-4b8d-a32e-46a82016ea7b">
         <File Id="fil97545F8961B4711D742F55DF31B887D9" KeyPath="yes" Source="..\Deployment\WindowsControls.dll" />
-      </Component>
-      <Component Id="cmpFBCA6C50AFA9F68C9F3F14BF1F02B1A0" Directory="APPLICATIONROOTDIRECTORY" Guid="e47706d7-602a-4273-90df-7bb9c451782b">
-        <File Id="filAA07D46782AA5597BA2859478BB290CF" KeyPath="yes" Source="..\Deployment\WindowsControls.pdb" />
-      </Component>
+      </Component>      
       <Component Id="cmp6BD68D5FC864E8490172D609DD696672" Directory="APPLICATIONROOTDIRECTORY" Guid="0add0428-7c55-4964-9e77-221211e4d628">
         <File Id="filB4677748F9834FAF0208AB97B0FBC456" KeyPath="yes" Source="..\Deployment\Xceed.Wpf.Toolkit.dll" />
       </Component>
@@ -77,10 +64,7 @@
       </Component>
       <Component Id="cmpCE0B948FB3A1396EC1B07D453C2D7BEF" Directory="dirF09AC222E5E846B669ECCC3285BC0D7B" Guid="6661867f-4544-42ae-94dd-7f5f87bcb5a9">
         <File Id="filC5770A7C732AB6E9B75256BDAC22C5D6" KeyPath="yes" Source="..\Deployment\Connectors\Pcars\PCarsConnector.dll" />
-      </Component>
-      <Component Id="cmp4A3E81D3691C8EBD9A00916EA393EB45" Directory="dirF09AC222E5E846B669ECCC3285BC0D7B" Guid="8af75078-45ff-4eb0-ba11-59a9da345600">
-        <File Id="fil0A8174A5C5534490FC66898461D09C30" KeyPath="yes" Source="..\Deployment\Connectors\Pcars\PCarsConnector.pdb" />
-      </Component>
+      </Component>      
       <Component Id="cmp6468344C577FF92207D7E17BD6BA1891" Directory="dir96FE386770022CE1F8679CB1A2875FE0" Guid="ef0424bb-cf3e-49a3-8f4b-148e7d64cbd5">
         <File Id="fil147E14539226BA6D83432417F3A46D33" KeyPath="yes" Source="..\Deployment\Connectors\R3E\data.json" />
       </Component>
@@ -92,10 +76,7 @@
       </Component>
       <Component Id="cmp1455472C77F0F8A00F5331F0387A95E3" Directory="dir96FE386770022CE1F8679CB1A2875FE0" Guid="8e45e5a1-24e5-4484-bbe7-02ef9da7255c">
         <File Id="fil79143611C2CADB725A9F374B99FD6957" KeyPath="yes" Source="..\Deployment\Connectors\R3E\R3EConnector.dll" />
-      </Component>
-      <Component Id="cmp23B1C9D33EEF357D8918DEA17E8A5616" Directory="dir96FE386770022CE1F8679CB1A2875FE0" Guid="d7c4082c-13fb-451a-9ae5-a8ea6528e69d">
-        <File Id="filCF44EE7CA6E61CDBA3C3C7597E319463" KeyPath="yes" Source="..\Deployment\Connectors\R3E\R3EConnector.pdb" />
-      </Component>
+      </Component>      
       <Component Id="cmpF8AE75AC5E1EAD7BF39AD3DEC2F20714" Directory="dir663302E9CFD7647C1B14AA38991E5CF3" Guid="102a5bc6-92ed-45f9-a838-a23d0f9db45f">
         <File Id="filF957E844FB90879D04640393AB02A97B" KeyPath="yes" Source="..\Deployment\Disabled\AGauge.dll" />
       </Component>
@@ -104,18 +85,9 @@
       </Component>
       <Component Id="cmpFD59FCBEFBD18D608B98D91E08875FA7" Directory="dir663302E9CFD7647C1B14AA38991E5CF3" Guid="4bc78621-4867-4cbb-99b1-faa4fdb5d76c">
         <File Id="fil472B7D4FCB98122E58DE8160C1811C8F" KeyPath="yes" Source="..\Deployment\Disabled\SecondMonitor.dll.config" />
-      </Component>
-      <Component Id="cmpA93A2739EB560B8B783B68D9F796594B" Directory="dir663302E9CFD7647C1B14AA38991E5CF3" Guid="1d0186a0-325a-4087-b954-1f35d021231c">
-        <File Id="fil589123C06B07EA80E6C4F236EE330EAA" KeyPath="yes" Source="..\Deployment\Disabled\SecondMonitor.pdb" />
-      </Component>
+      </Component>      
       <Component Id="cmp0D63D3874720241B51B7BBF3A4190E62" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="65aee27f-cd89-4c3b-8ce1-b9e49e8871da">
         <File Id="filC5739C76B912710700AA88AC8C075019" KeyPath="yes" Source="..\Deployment\plugins\Timing.dll" />
-      </Component>
-      <Component Id="cmpD9761B8E5B560DCCD567FFA99A18C0D1" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="113c19e9-4bf5-4c80-9bd8-19faae45bb4b">
-        <File Id="filAF7D0AE519DFAEC46F898E9B21855BA6" KeyPath="yes" Source="..\Deployment\plugins\Timing.pdb" />
-      </Component>
-      <Component Id="cmp99EF67A96B9B383E24C15F8ED150CB1C" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="a4085e6e-747d-4986-bb0d-1a541f16385b">
-        <File Id="fil528D48BA638F5F951682A59A70319029" KeyPath="yes" Source="..\Deployment\plugins\Xceed.Wpf.Toolkit.dll" />
       </Component>
 
     </ComponentGroup>
@@ -161,6 +133,7 @@
     
     <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
     <UIRef Id="WixUI_InstallDir" />
+    <Property Id="MSIUSEREALADMINDETECTION" Value="1" />
 
 
   </Product>
