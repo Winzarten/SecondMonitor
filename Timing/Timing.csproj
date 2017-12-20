@@ -54,7 +54,7 @@
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\Artifacts\Xceed.Wpf.Toolkit.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
       <Aliases>global</Aliases>
     </Reference>
   </ItemGroup>
@@ -63,6 +63,11 @@
     <Compile Include="DataHandler\Commands\TimingModeChangedCommand.cs" />
     <Compile Include="DataHandler\NotifyingDateTime.cs" />
     <Compile Include="DataHandler\TimingDataViewModel.cs" />
+    <Compile Include="GUI\BindingProxy.cs" />
+    <Compile Include="GUI\DisplaySettingsWindow.xaml.cs">
+      <DependentUpon>DisplaySettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\DoubleToDatagridLenghtValueConverter.cs" />
     <Compile Include="GUI\TimingGUI.xaml.cs">
       <DependentUpon>TimingGUI.xaml</DependentUpon>
     </Compile>
@@ -71,10 +76,18 @@
     <Compile Include="Model\Drivers\Visualizer\DriverTimingVisualiser.cs" />
     <Compile Include="Model\LapInfo.cs" />
     <Compile Include="Model\SessionTiming.cs" />
-    <Compile Include="Model\Settings\ModelView\DisplaySettingAutoSaver.cs" />
-    <Compile Include="Model\Settings\ModelView\DisplaySettingsLoader.cs" />
-    <Compile Include="Model\Settings\ModelView\DisplaySettingsModelView.cs" />
-    <Compile Include="Model\Settings\Model\DisplaySettings.cs" />
+    <Compile Include="Settings\ModelView\ColumnSettingsModelView.cs" />
+    <Compile Include="Settings\ModelView\ColumnsSettingsModelView.cs" />
+    <Compile Include="Settings\DisplaySettingAutoSaver.cs" />
+    <Compile Include="Settings\ModelView\DisplaySettingsLoader.cs" />
+    <Compile Include="Settings\ModelView\DisplaySettingsModelView.cs" />
+    <Compile Include="Settings\ModelView\EnumBooleanConverter.cs" />
+    <Compile Include="Settings\ModelView\SessionOptionsModelView.cs" />
+    <Compile Include="Settings\Model\ColumnSettings.cs" />
+    <Compile Include="Settings\Model\ColumnsSettings.cs" />
+    <Compile Include="Settings\Model\DisplaySettings.cs" />
+    <Compile Include="Settings\Model\DisplayModeEnum.cs" />
+    <Compile Include="Settings\Model\SessionOptions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -106,6 +119,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="GUI\DisplaySettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\TimingGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

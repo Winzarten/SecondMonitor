@@ -62,7 +62,12 @@ namespace SecondMonitor.Timing.Model
         public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
-        public bool DisplayBindTimeRelative { get; set; }
+
+        public bool DisplayBindTimeRelative
+        {
+            get;
+            set;
+        }
         public bool DisplayGapToPlayerRelative { get; set; }
         public TimingDataViewModel TimingDataViewModel { get; private set; }
         public SimulatorDataSet LastSet { get; private set; } = new SimulatorDataSet("None");

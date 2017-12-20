@@ -1,10 +1,7 @@
 ﻿using SecondMonitor.DataModel.Drivers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,10 +9,14 @@ using System.Windows.Data;
 using NLog;
 using SecondMonitor.DataModel;
 using SecondMonitor.Timing.Annotations;
-using SecondMonitor.Timing.Model.Settings.ModelView;
 
 namespace SecondMonitor.Timing.Model.Drivers.Visualizer
 {
+    using System.Windows.Input;
+
+    using SecondMonitor.Timing.DataHandler.Commands;
+    using SecondMonitor.Timing.Settings.ModelView;
+
     public class DriverTimingVisualizer : DependencyObject
     {
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",typeof(string), typeof(DriverTimingVisualizer));
@@ -37,15 +38,17 @@ namespace SecondMonitor.Timing.Model.Drivers.Visualizer
         public static readonly DependencyProperty IsLastLapBestLapProperty = DependencyProperty.Register("IsLastLapBestLap", typeof(bool), typeof(DriverTimingVisualizer));
         public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingVisualizer));
         public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsModelView), typeof(DriverTimingVisualizer));
-      
+
+
+        private DriverTiming _driverTiming;
+
+        private bool _shouldRefresh;
 
         public DriverTimingVisualizer(DriverTiming driverTiming)
         {
             DriverTiming = driverTiming;
             ScheduleRefresh(this, CancellationToken.None);
-        } 
-        private DriverTiming _driverTiming;
-        private bool _shouldRefresh = false;
+        }
 
         public DriverTiming DriverTiming
         {
@@ -72,12 +75,16 @@ namespace SecondMonitor.Timing.Model.Drivers.Visualizer
             while (!cancellationToken.IsCancellationRequested)
             {
                 int refreshRate = 1000;
-                if(sender.DisplaySettingsModelView!=null)
+                if (sender.DisplaySettingsModelView != null)
+                {
                     refreshRate = sender.DisplaySettingsModelView.RefreshRate;
+                }
                 await Task.Delay(refreshRate, cancellationToken);
 
                 if (!cancellationToken.IsCancellationRequested)
+                {
                     sender._shouldRefresh = true;
+                }
             }
         }
 

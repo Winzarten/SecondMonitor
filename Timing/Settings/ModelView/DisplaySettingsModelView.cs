@@ -1,22 +1,28 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using SecondMonitor.DataModel;
-using SecondMonitor.DataModel.BasicProperties;
-using SecondMonitor.Timing.Annotations;
-using SecondMonitor.Timing.Model.Settings.Model;
-
-namespace SecondMonitor.Timing.Model.Settings.ModelView
+﻿namespace SecondMonitor.Timing.Settings.ModelView
 {
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using System.Windows;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.Timing.Annotations;
+    using SecondMonitor.Timing.Model.Settings.Model;
+    using SecondMonitor.Timing.Model.Settings.ModelView;
+
     public class DisplaySettingsModelView : DependencyObject, INotifyPropertyChanged
     {
         public static readonly DependencyProperty TemperatureUnitsProperty = DependencyProperty.Register("TemperatureUnits", typeof(TemperatureUnits),typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumeUnits", typeof(VolumeUnits), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty VelocityUnitsProperty = DependencyProperty.Register("VelocityUnits", typeof(VelocityUnits), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty FuelCalculationScopeProperty = DependencyProperty.Register("FuelCalculationScope", typeof(FuelCalculationScope), typeof(DisplaySettingsModelView), new PropertyMetadata{ PropertyChangedCallback = PropertyChangedCallback});
         public static readonly DependencyProperty PaceLapsProperty = DependencyProperty.Register("PaceLaps", typeof(int), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty RefreshRateProperty = DependencyProperty.Register("RefreshRate", typeof(int), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty ScrollToPlayerProperty = DependencyProperty.Register("ScrollToPlayer", typeof(bool), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty ScrollToPlayerProperty = DependencyProperty.Register("ScrollToPlayer", typeof(bool), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });        
+        public static readonly DependencyProperty PracticeSessionDisplayOptionsProperty = DependencyProperty.Register("PracticeSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty QualificationSessionDisplayOptionsProperty = DependencyProperty.Register("QualificationSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty RaceSessionDisplayOptionsProperty = DependencyProperty.Register("RaceSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -36,6 +42,12 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
         {
             get => (VolumeUnits)GetValue(VolumeUnitsProperty);
             set => SetValue(VolumeUnitsProperty, value);
+        }
+
+        public VelocityUnits VelocityUnits
+        {
+            get => (VelocityUnits)GetValue(VelocityUnitsProperty);
+            set => SetValue(VelocityUnitsProperty, value);
         }
 
         public FuelCalculationScope FuelCalculationScope
@@ -61,7 +73,24 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             get => (bool) GetValue(ScrollToPlayerProperty);
             set => SetValue(ScrollToPlayerProperty, value);
         }
+        
+        public SessionOptionsModelView PracticeSessionDisplayOptions
+        {
+            get => (SessionOptionsModelView)GetValue(PracticeSessionDisplayOptionsProperty);
+            set => SetValue(PracticeSessionDisplayOptionsProperty, value);
+        }
 
+        public SessionOptionsModelView QualificationSessionDisplayOptions
+        {
+            get => (SessionOptionsModelView)GetValue(QualificationSessionDisplayOptionsProperty);
+            set => SetValue(QualificationSessionDisplayOptionsProperty, value);
+        }
+
+        public SessionOptionsModelView RaceSessionDisplayOptions
+        {
+            get => (SessionOptionsModelView)GetValue(RaceSessionDisplayOptionsProperty);
+            set => SetValue(RaceSessionDisplayOptionsProperty, value);
+        }        
 
         public void FromModel(DisplaySettings settings)
         {
@@ -72,6 +101,10 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
             PaceLaps = settings.PaceLaps;
             RefreshRate = settings.RefreshRate;
             ScrollToPlayer = settings.ScrollToPlayer;
+
+            PracticeSessionDisplayOptions = SessionOptionsModelView.CreateFromModel(settings.PracticeOptions);
+            QualificationSessionDisplayOptions = SessionOptionsModelView.CreateFromModel(settings.QualificationOptions);
+            RaceSessionDisplayOptions = SessionOptionsModelView.CreateFromModel(settings.RaceOptions);
         }
 
         public DisplaySettings ToModel()
@@ -85,7 +118,9 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
                 PaceLaps = PaceLaps,
                 RefreshRate = RefreshRate,
                 ScrollToPlayer = ScrollToPlayer,
-
+                PracticeOptions = PracticeSessionDisplayOptions.ToModel(),
+                QualificationOptions = QualificationSessionDisplayOptions.ToModel(),
+                RaceOptions = RaceSessionDisplayOptions.ToModel()
             };
         }
 

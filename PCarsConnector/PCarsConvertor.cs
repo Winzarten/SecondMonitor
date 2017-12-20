@@ -313,7 +313,7 @@ namespace SecondMonitor.PCarsConnector
                 var driverName = driverInfo.DriverName;
                 if (_driversInPits.Contains(driverName))
                 {
-                    if (trackDetails.AtPitExit(driverInfo) || (driverInfo.LapDistance > 300 && dataSet.SessionInfo.LayoutLength - driverInfo.LapDistance > 500))
+                    if (trackDetails.AtPitExit(driverInfo) || (driverInfo.LapDistance > 300 && dataSet.SessionInfo.LayoutLength - driverInfo.LapDistance > 700))
                     {
                         _driversInPits.Remove(driverName);
                         continue;

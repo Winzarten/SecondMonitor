@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="4E5C342E-8BB1-417C-97B2-F531991861C5" Name="Second Monitor" Language="1033" Version="0.2.0.0" Manufacturer="Matus Celko" UpgradeCode="4E5C342E-8BB1-417C-97B2-F531991861C5">    
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">  
+  <?define ProductCode = "*"?>
+  <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
+  <?define ProductVersion = "0.5.0.0"?>
+  <Product Id="$(var.ProductCode)" Name="Second Monitor 0.7.0.0" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />       
+    
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
     <WixVariable Id="WixUILicenseRtf" Value="..\Artifacts\eula.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="..\Artifacts\banner.bmp" />
 
+    <Upgrade Id='$(var.UpgradeCode)'>
+      <UpgradeVersion Minimum='$(var.ProductVersion)'
+                      IncludeMinimum='no'
+                      OnlyDetect='yes'
+                      Property='NEWPRODUCTFOUND' />
+      <UpgradeVersion Minimum='0.1.0.0'
+                      IncludeMinimum='yes'
+                      Maximum='$(var.ProductVersion)'
+                      IncludeMaximum='no'
+                      Property='UPGRADEFOUND' />
+    </Upgrade>
+
+
+    <InstallExecuteSequence>
+      <Custom Action='PreventDowngrading'
+              After='FindRelatedProducts'>NEWPRODUCTFOUND</Custom>
+      <RemoveExistingProducts Before="InstallInitialize" />
+    </InstallExecuteSequence>
+
+    <InstallUISequence>
+      <Custom Action='PreventDowngrading'
+              After='FindRelatedProducts'>NEWPRODUCTFOUND</Custom>
+    </InstallUISequence>
+
+    <CustomAction Id='PreventDowngrading'
+                  Error='Newer version already installed' />
+    
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="APPLICATIONROOTDIRECTORY" Name="SecondMonitor"/>
@@ -88,8 +118,7 @@
       </Component>      
       <Component Id="cmp0D63D3874720241B51B7BBF3A4190E62" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="65aee27f-cd89-4c3b-8ce1-b9e49e8871da">
         <File Id="filC5739C76B912710700AA88AC8C075019" KeyPath="yes" Source="..\Deployment\plugins\Timing.dll" />
-      </Component>
-
+      </Component>      
     </ComponentGroup>
 
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">

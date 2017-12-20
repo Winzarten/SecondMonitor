@@ -12,8 +12,11 @@
     xmlns:modelView="clr-namespace:SecondMonitor.Timing.DataHandler"
     xmlns:driverModelView="clr-namespace:SecondMonitor.Timing.Model.Drivers"
     xmlns:driverModelVis ="clr-namespace:SecondMonitor.Timing.Model.Drivers.Visualizer"
-    
+    xmlns:model="clr-namespace:SecondMonitor.Timing.Model.Settings.Model"
+    xmlns:gui="clr-namespace:SecondMonitor.Timing.GUI"
+
     x:Name="MainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"
+    
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="{Binding Title}" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized"
     d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}">
@@ -43,8 +46,14 @@
                 <x:Type TypeName="dmBasicProperties:FuelCalculationScope"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider x:Key="DataFromDisplayModeEnum" MethodName="GetValues"
+        ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:DisplayModeEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
-    <Grid Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid x:Name="MainGrid" Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <WindowsFormsHost 
             Margin="10,0,0,288" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
             <controls:WheelStatusControl x:Name="WhLeftFront"/>
@@ -61,18 +70,28 @@
         <WindowsFormsHost Margin="10,0,0,26" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="156">
             <controls:PedalControl x:Name="PedalControl"/>
         </WindowsFormsHost>
-        
-        <ListView x:Name="DtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch" Focusable="False" SelectionChanged="dtTimig_SelectionChanged"
+
+        <DataGrid x:Name="DtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
                   d:DataContext="{d:DesignInstance Type=driverModelVis:DriverTimingVisualizer}"
-                 >
-            <ListView.Resources >
-                <Style TargetType="{x:Type GridViewColumnHeader}">
+                 AutoGenerateColumns="False" HeadersVisibility="Column" CanUserSortColumns="False" CanUserReorderColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
+                  EnableColumnVirtualization ="False" EnableRowVirtualization="False"
+                  >
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="RightClick" Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Resources >
+                <gui:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext , RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                <gui:DoubleToDataGridLengthValueConverter x:Key="lengthConverter"/>
+                <BooleanToVisibilityConverter x:Key="BoolToVis" />
+                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Foreground" Value="White"/>
                     <Setter Property="Background" Value="Blue" />
                     <Setter Property="BorderBrush"  Value="White" />
+                    <Setter Property="BorderThickness" Value="1"></Setter>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
                 </Style>
-                <Style TargetType="{x:Type TextBlock}">
+                <Style x:Key="TextBoxStyle" TargetType="TextBlock">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
                             <Setter Property="Background" Value="Green"/>
@@ -82,45 +101,80 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </ListView.Resources>
-
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Position, Mode=OneWay}" Header="#" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Name, Mode=OneTime}" Header="Name" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CarName, Mode=OneTime}" Header="Car" Width="250"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps" Width="60"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding LastLapTime, Mode=OneWay}" Header="Last Lap" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Pace, Mode=OneWay}" Header="Pace" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding BestLap, Mode=OneWay}" Header="Best Lap" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" Width="180"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding TimeToPlayer, Mode=OneWay}" Header="Gap" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding TopSpeed, Mode=OneWay}" Header="Top Speed" Width="100"/>
-                </GridView>
-            </ListView.View>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
+                <Style TargetType="{x:Type DataGridRow}">
                     <Style.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Black"/>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Black"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
                     </Style.Resources>
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                    <Setter Property="BorderBrush" Value="White"/>
-                    <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border
-                         BorderBrush="Transparent"
-                         BorderThickness="0"
-                         Background="{TemplateBinding Background}">
-                                    <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Position, Mode=OneWay}" Header="#"
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Visible, Mode=TwoWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}">
+                    </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Name, Mode=OneTime}" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    Header="Name" ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding CarName, Mode=OneTime}"  Header="Car" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding LastLapTime, Mode=OneWay}" Header="Last Lap"
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding Pace, Mode=OneWay}" Header="Pace" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding BestLap, Mode=OneWay}" Header="Best Lap"
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding TimeToPlayer, Mode=OneWay}" Header="Gap" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding TopSpeed, Mode=OneWay}" Header="Top Speed" 
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyle}"/>
+            </DataGrid.Columns>
+           
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
                     <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="Black"></Setter>
+                    <Setter Property="BorderBrush" Value="Gray"></Setter>
+                    <Setter Property="BorderThickness" Value="0.5"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Black"></Setter>
+                        </Trigger>
                         <DataTrigger Binding="{Binding IsPlayer, Mode=OneWay}" Value="True">
                             <Setter Property="Background" Value="Gray"/>
                             <Setter Property="Foreground" Value="Black"/>
@@ -136,47 +190,28 @@
                             <Setter Property="Background" Value="Olive"/>
                             <Setter Property="Foreground" Value="Black"/>
                         </DataTrigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Transparent"/>
-                        </Trigger>
                     </Style.Triggers>
                 </Style>
-            </ListView.ItemContainerStyle>
+            </DataGrid.ItemContainerStyle>
 
-        </ListView>
+        </DataGrid>
         <Label x:Name="LblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
         <Label x:Name="LblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
         <Label x:Name="LblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="1035,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
         <Label x:Name="LblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Button x:Name="BtnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,26" Width="117"  VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
-        <GroupBox Header="Settings" HorizontalAlignment="Right" Height="248" VerticalAlignment="Bottom" Width="240" Foreground="White" Margin="0,0,10,111">
-            <Grid Margin="0">
+        <Button Content="Configure" HorizontalAlignment="Right" Margin="0,0,132,26"  VerticalAlignment="Bottom" Width="102" Height="55" Command="{Binding OpenSettingsCommand }"/>
+        <GroupBox Header="Session Settings" HorizontalAlignment="Right" Height="107" VerticalAlignment="Bottom" Width="240" Foreground="White" Margin="0,0,10,272">
+            <Grid Margin="0" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*" />
                     <ColumnDefinition Width="0.5*" />
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="RbtAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" IsChecked="True" Command="{Binding TimingModeChangedCommand}" />
-                <RadioButton x:Name="RbtAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
-                <RadioButton x:Name="RbtRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,79,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupMode" Command="{Binding TimingModeChangedCommand}"/>
-                <controls2:IntegerUpDown x:Name="UpDownPaceLaps" Margin="10,0,10,56" VerticalAlignment="Bottom" Minimum="1" Maximum="10" Text="" Value="{Binding DisplaySettings.PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                </controls2:IntegerUpDown>
-                <Label Content="Pace Laps:" HorizontalAlignment="Left" Margin="0,119,0,0" VerticalAlignment="Top" Foreground="White"/>
-                <Label Content="Refresh Rate:" HorizontalAlignment="Left" Margin="0,92,0,30" VerticalAlignment="Bottom" Foreground="White"/>
-                <controls2:IntegerUpDown x:Name="UpDownRefreshRate" Margin="10,0,10,10" VerticalAlignment="Bottom" Minimum="50" Maximum="5000" Text="" Value="{Binding DisplaySettings.RefreshRate}" Increment="50">
-                </controls2:IntegerUpDown>
-                <CheckBox x:Name="ChkScrollToPlayer" Content="Scroll To Player" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="100" Foreground="White" IsChecked="True"
-                          Command="{Binding ScrollToPlayerCommand}"/>
+                <CheckBox x:Name="ChkScrollToPlayer" Content="Scroll To Player" HorizontalAlignment="Left" Margin="10,64,0,-3" VerticalAlignment="Top" Width="100" Foreground="White" IsChecked="{Binding DisplaySettings.ScrollToPlayer}"/>
                 <Label Content="Order:" Foreground="White" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="29" Width="74"/>
-
+                <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top" ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}" SelectedItem="{Binding CurrentSessionOptions.OrderingMode}"/>
                 <Label Grid.Column="1" Content="Times:" Foreground="White" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Height="29" Width="74"/>
-                <RadioButton Grid.Column="1" x:Name="RbtTimeAbsolute" Content="Absolute" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" Command="{Binding TimingDisplayModeChangedCommand}"/>
-                <RadioButton Grid.Column="1" x:Name="RbtTimeRelative" Content="Relative" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Foreground="White" GroupName="groupTimeMode" IsChecked="True" Command="{Binding TimingDisplayModeChangedCommand}"/>
-                <ComboBox x:Name="CmbTemperature" Grid.Column="1" HorizontalAlignment="Left" Margin="10,148,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}" SelectedItem="{Binding DisplaySettings.TemperatureUnits}"/>
-                <ComboBox x:Name="CmbPressure" Grid.Column="1" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}" SelectedItem="{Binding DisplaySettings.PressureUnits}"/>
-                <ComboBox x:Name="CmbVolume" Grid.Column="1" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}" SelectedItem="{Binding DisplaySettings.VolumeUnits}"/>
-                <Label Content="Volume" Grid.Column="1" HorizontalAlignment="Left" Margin="6,74,0,0" VerticalAlignment="Top" Foreground="White"/>
-                <Label Content="Temperature" Grid.Column="1" HorizontalAlignment="Left" Margin="6,122,0,0" VerticalAlignment="Top" Foreground="White"/>
-                <Label Content="Pressure" Grid.Column="1" HorizontalAlignment="Left" Margin="6,170,0,0" VerticalAlignment="Top" Foreground="White"/>
+                <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top" ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}" SelectedItem="{Binding CurrentSessionOptions.TimesDisplayMode}"/>
 
             </Grid>
         </GroupBox>
@@ -225,6 +260,7 @@
                 <TextBlock Name="SystemTime" Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />
             </StatusBarItem>
         </StatusBar>
+
 
     </Grid>
 
