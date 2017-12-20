@@ -221,7 +221,7 @@
                 BestLap = GetBestLap();
                 Remark = DriverTiming.Remark;
                 LastPitInfo = DriverTiming.LastPitInfo;
-                TopSpeed = GetTopSpeed().GetValueInUnits(DriverTiming.Session.TimingDataViewModel.DisplaySettings.VelocityUnits).ToString("D0");
+                TopSpeed = GetTopSpeed().GetValueInUnits(DriverTiming.Session.TimingDataViewModel.DisplaySettings.VelocityUnits).ToString("N0");
                 TimeToPlayer = GetTimeToPlayer();
                 IsPlayer = DriverTiming.IsPlayer;
                 IsLapped = DriverTiming.IsLapped;

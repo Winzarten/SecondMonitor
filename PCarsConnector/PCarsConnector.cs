@@ -32,9 +32,9 @@ namespace SecondMonitor.PCarsConnector
         private bool _disconnect;
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
 
-        private DateTime _lastTick;
+        private DateTime _lastTick = DateTime.Now;
         private TimeSpan _lastSessionTimeLeft;
-        private TimeSpan _sessionTime;
+        private TimeSpan _sessionTime = TimeSpan.Zero;
 
         private static readonly string[] PCarsExecutables = new string[] {"pCARS64", "pCARS2" };
         private static readonly string SharedMemoryName = "$pcars$";
@@ -87,7 +87,11 @@ namespace SecondMonitor.PCarsConnector
         {
             if (_process != null)
             {
-                if (!_process.HasExited) return true;
+                if (!_process.HasExited)
+                {
+                    return true;
+                }
+
                 _process = null;
                 return false;
             }
@@ -120,7 +124,9 @@ namespace SecondMonitor.PCarsConnector
         private bool Connect()
         {
             if (!IsPCarsRunning())
+            {
                 return false;
+            }
             try
             {
                 _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
@@ -166,7 +172,9 @@ namespace SecondMonitor.PCarsConnector
         private void StartDaemon()
         {
             if (_daemonThread != null && _daemonThread.IsAlive)
+            {
                 throw new InvalidOperationException("Daemon is already running");
+            }
             lock (_queue)
             {
                 _queue.Clear();
@@ -200,7 +208,7 @@ namespace SecondMonitor.PCarsConnector
                     TimeSpan lastTickDuration = tickTime.Subtract(_lastTick);
                     SimulatorDataSet simData= _pCarsConvertor.FromPcarsData(data, lastTickDuration);
                     
-                    if (_lastSessionState != data.MSessionState)
+                    if (ShouldResetSession(data))
                     {
                         _pCarsConvertor.Reset();
                         _previousTickInfo.Clear();
@@ -212,9 +220,11 @@ namespace SecondMonitor.PCarsConnector
                     lock (_queue)
                     {
                         _queue.Enqueue(simData);
-                    }                    
+                    }
                     if (!IsPCarsRunning())
+                    {
                         _disconnect = true;
+                    }
                     _lastTick = tickTime;
                     _previousSet = simData;
                 }
@@ -226,6 +236,20 @@ namespace SecondMonitor.PCarsConnector
 
             _sharedMemory = null;
             RaiseDisconnectedEvent();
+        }
+       
+
+        private bool ShouldResetSession(PCarsApiStruct data)
+        {
+            if (_lastSessionState != data.MSessionState)
+            {
+                return true;
+            }
+            if (this._previousSet.SessionInfo.SessionTimeRemaining - data.MEventTimeRemaining < -5)
+            {
+                return true;
+            }
+            return false;
         }
 
         private void QueueProcessor()

@@ -343,8 +343,12 @@
             _gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
             _gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
 
-            _gui.LblWeather.Content = "Air: " + data.SessionInfo.WeatherInfo.AirTemperature.InCelsius.ToString("n1") + " |Track: " + data.SessionInfo.WeatherInfo.TrackTemperature.InCelsius.ToString("n1")
-                                      + "| Rain Intensity: " + data.SessionInfo.WeatherInfo.RainIntensity + "%";
+            _gui.LblWeather.Content =
+                "Air: "
+                + data.SessionInfo.WeatherInfo.AirTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
+                    .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits) + " |Track: "
+                + data.SessionInfo.WeatherInfo.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits).ToString("n1")
+                + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits);
             _gui.LblRemainig.Content = this.GetSessionRemaining(data);
         }
 
