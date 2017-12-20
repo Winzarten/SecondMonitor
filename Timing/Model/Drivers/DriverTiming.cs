@@ -11,7 +11,7 @@ namespace SecondMonitor.Timing.Model.Drivers
     {
         private List<LapInfo> _lapsInfo;
         private List<PitStopInfo> _pitStopInfo;
-        private Single _previousTickLapDistance;
+        private double _previousTickLapDistance;
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
 
 
@@ -27,42 +27,51 @@ namespace SecondMonitor.Timing.Model.Drivers
         }
         
         public bool InvalidateFirstLap { get; set; }
+
         public SessionTiming Session { get; private set;}
+
         public DriverInfo DriverInfo { get; internal set; }
+
         public bool IsPlayer { get => DriverInfo.IsPlayer; }
+
         public string Name { get => DriverInfo.DriverName; }
+
         public int Position { get => DriverInfo.Position; }
+
         public int CompletedLaps { get => DriverInfo.CompletedLaps; }
+
         public bool InPits { get; private set; }
+
         public TimeSpan Pace { get; private set; }
        
         public bool IsCurrentLapValid { get => CurrentLap != null ? CurrentLap.Valid : false; }
+
         public double TotalDistanceTraveled { get => DriverInfo.TotalDistance; }
+
         public bool IsLapped { get => DriverInfo.IsBeingLappedByPlayer; }
-        public bool IsLapping { get => DriverInfo.IsLapingPlayer; }
+
+        public bool IsLapping { get => DriverInfo.IsLappingPlayer; }
+
         public string DistanceToPits
         {
             get => DriverInfo.DriverDebugInfo.DistanceToPits.ToString("N2");
         }
+
         public LapInfo BestLap { get; private set; }
        
         public int PitCount { get => _pitStopInfo.Count; }
+
         public PitStopInfo LastPitStopStop { get => _pitStopInfo.Count != 0 ? _pitStopInfo[_pitStopInfo.Count - 1] : null; }
-        public Single LapPercentage { get; private set; }
-        public Single DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
+
+        public double LapPercentage { get; private set; }
+
+        public double DistanceToPlayer { get => DriverInfo.DistanceToPlayer; }
+
         public string CarName { get => DriverInfo.CarName; }
+
         public int PaceLaps { get => Session.PaceLaps; }
-            
 
-        public bool IsLastLapBestLap { get
-            {
-                if (BestLap == null)
-                {
-                    return false;
-                }
-
-                return BestLap == LastLap;
-            } }
+        public bool IsLastLapBestLap => BestLap != null && BestLap == LastLap;
 
         public bool IsLastLapBestSessionLap
         {
@@ -77,16 +86,11 @@ namespace SecondMonitor.Timing.Model.Drivers
             }
         }
 
-        public string Remark
-        {
-            get => DriverInfo.FinishStatus.ToString();
-        }
+        public string Remark => DriverInfo.FinishStatus.ToString();
 
         public string Speed { get => DriverInfo.Speed.InKph.ToString("N0"); }
-        public  Velocity TopSpeed { get; private set; } = Velocity.Zero;        
 
-       
-
+        public  Velocity TopSpeed { get; private set; } = Velocity.Zero;
 
         public bool UpdateLaps(SimulatorDataSet set)
         {

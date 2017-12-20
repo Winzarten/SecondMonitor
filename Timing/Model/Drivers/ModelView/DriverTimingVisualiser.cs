@@ -1,50 +1,49 @@
-﻿using SecondMonitor.DataModel.Drivers;
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
-using NLog;
-using SecondMonitor.DataModel;
-using SecondMonitor.Timing.Annotations;
-
-namespace SecondMonitor.Timing.Model.Drivers.Visualizer
+﻿namespace SecondMonitor.Timing.Model.Drivers.ModelView
 {
-    using System.Windows.Input;
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Data;
 
-    using SecondMonitor.Timing.DataHandler.Commands;
+    using NLog;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.Timing.Annotations;
     using SecondMonitor.Timing.Settings.ModelView;
 
-    public class DriverTimingVisualizer : DependencyObject
+    public class DriverTimingModelView : DependencyObject
     {
-        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty LastLapTimeProperty = DependencyProperty.Register("LastLapTime", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty CurrentLapProgressTimeProperty = DependencyProperty.Register("CurrentLapProgressTime", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty PaceProperty = DependencyProperty.Register("Pace", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty LastPitInfoProperty = DependencyProperty.Register("LastPitInfo", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty RemarkProperty = DependencyProperty.Register("Remark", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty TimeToPlayerProperty = DependencyProperty.Register("TimeToPlayer", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty TopSpeedProperty = DependencyProperty.Register("TopSpeed", typeof(string), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty IsPlayerProperty = DependencyProperty.Register("IsPlayer", typeof(bool), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty IsLappedProperty = DependencyProperty.Register("IsLapped", typeof(bool), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty IsLappingProperty = DependencyProperty.Register("IsLapping", typeof(bool), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty InPitsProperty = DependencyProperty.Register("InPits", typeof(bool), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty IsLastLapBestLapProperty = DependencyProperty.Register("IsLastLapBestLap", typeof(bool), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingVisualizer));
-        public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsModelView), typeof(DriverTimingVisualizer));
+        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty LastLapTimeProperty = DependencyProperty.Register("LastLapTime", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty CurrentLapProgressTimeProperty = DependencyProperty.Register("CurrentLapProgressTime", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty PaceProperty = DependencyProperty.Register("Pace", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty LastPitInfoProperty = DependencyProperty.Register("LastPitInfo", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty RemarkProperty = DependencyProperty.Register("Remark", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty TimeToPlayerProperty = DependencyProperty.Register("TimeToPlayer", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty TopSpeedProperty = DependencyProperty.Register("TopSpeed", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsPlayerProperty = DependencyProperty.Register("IsPlayer", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLappedProperty = DependencyProperty.Register("IsLapped", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLappingProperty = DependencyProperty.Register("IsLapping", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty InPitsProperty = DependencyProperty.Register("InPits", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastLapBestLapProperty = DependencyProperty.Register("IsLastLapBestLap", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsModelView), typeof(DriverTimingModelView));
 
 
         private DriverTiming _driverTiming;
 
         private bool _shouldRefresh;
 
-        public DriverTimingVisualizer(DriverTiming driverTiming)
+        public DriverTimingModelView(DriverTiming driverTiming)
         {
             DriverTiming = driverTiming;
             ScheduleRefresh(this, CancellationToken.None);
@@ -69,7 +68,7 @@ namespace SecondMonitor.Timing.Model.Drivers.Visualizer
             BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
         }
 
-        private static async void ScheduleRefresh(DriverTimingVisualizer sender, CancellationToken cancellationToken)
+        private static async void ScheduleRefresh(DriverTimingModelView sender, CancellationToken cancellationToken)
         {
 
             while (!cancellationToken.IsCancellationRequested)
@@ -222,7 +221,7 @@ namespace SecondMonitor.Timing.Model.Drivers.Visualizer
                 BestLap = GetBestLap();
                 Remark = DriverTiming.Remark;
                 LastPitInfo = DriverTiming.LastPitInfo;
-                TopSpeed = GetTopSpeed();
+                TopSpeed = GetTopSpeed().GetValueInUnits(DriverTiming.Session.TimingDataViewModel.DisplaySettings.VelocityUnits).ToString("D0");
                 TimeToPlayer = GetTimeToPlayer();
                 IsPlayer = DriverTiming.IsPlayer;
                 IsLapped = DriverTiming.IsLapped;
@@ -311,9 +310,9 @@ namespace SecondMonitor.Timing.Model.Drivers.Visualizer
             
         }
 
-        public string GetTopSpeed()
+        public Velocity GetTopSpeed()
         {
-            return DriverTiming.TopSpeed.InKph.ToString("N0");
+            return DriverTiming.TopSpeed;
         }
 
         public string GetTimeToPlayer()

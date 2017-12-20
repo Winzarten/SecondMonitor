@@ -1,25 +1,26 @@
-﻿using SecondMonitor.DataModel;
-using SecondMonitor.DataModel.Drivers;
-using SecondMonitor.Timing.Model.Drivers;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using SecondMonitor.Timing.DataHandler;
-using SecondMonitor.Timing.Model.Drivers.Visualizer;
-
-namespace SecondMonitor.Timing.Model
+﻿namespace SecondMonitor.Timing.Model
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.Timing.DataHandler;
+    using SecondMonitor.Timing.Model.Drivers;
+    using SecondMonitor.Timing.Model.Drivers.ModelView;
+
     public class DriverListModificationEventArgs : EventArgs
     {
 
-        public DriverListModificationEventArgs(DriverTimingVisualizer data)
+        public DriverListModificationEventArgs(DriverTimingModelView data)
         {
             Data = data;
         }
 
-        public DriverTimingVisualizer Data
+        public DriverTimingModelView Data
         {
             get;
             set;
@@ -57,8 +58,8 @@ namespace SecondMonitor.Timing.Model
 
         
         private LapInfo _bestSessionLap;
-        public DriverTimingVisualizer Player { get; private set; }
-        public DriverTimingVisualizer Leader { get; private set; }
+        public DriverTimingModelView Player { get; private set; }
+        public DriverTimingModelView Leader { get; private set; }
         public TimeSpan SessionTime { get; private set; }
         public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
@@ -79,7 +80,7 @@ namespace SecondMonitor.Timing.Model
             TimingDataViewModel = timingDataViewModel;
         }
 
-        public Dictionary<string, DriverTimingVisualizer> Drivers { get; private set; } 
+        public Dictionary<string, DriverTimingModelView> Drivers { get; private set; } 
         public int PaceLaps
         {
             get;
@@ -100,7 +101,7 @@ namespace SecondMonitor.Timing.Model
 
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel)
         {
-            Dictionary<string, DriverTimingVisualizer> drivers = new Dictionary<string, DriverTimingVisualizer>();
+            Dictionary<string, DriverTimingModelView> drivers = new Dictionary<string, DriverTimingModelView>();
             SessionTiming timing = new SessionTiming(timingDataViewModel);
             timing.SessionType = dataSet.SessionInfo.SessionType;
             //Driver[] drivers = Array.ConvertAll(dataSet.DriversInfo, s => Driver.FromModel(s));
@@ -111,10 +112,10 @@ namespace SecondMonitor.Timing.Model
                     return;
                 }
                 DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
-                DriverTimingVisualizer  newDriverTimingVisualizer = new DriverTimingVisualizer(newDriver);
-                drivers.Add(name, newDriverTimingVisualizer);
+                DriverTimingModelView  newDriverTimingModelView = new DriverTimingModelView(newDriver);
+                drivers.Add(name, newDriverTimingModelView);
                 if (newDriver.DriverInfo.IsPlayer)
-                    timing.Player = newDriverTimingVisualizer;
+                    timing.Player = newDriverTimingModelView;
                     });
             timing.Drivers = drivers;
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
@@ -127,9 +128,9 @@ namespace SecondMonitor.Timing.Model
             if (Drivers.ContainsKey(newDriverInfo.DriverName))
                 return;
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionInfo.SessionTypeEnum.Race);
-            DriverTimingVisualizer newDriverTimingVisualizer = new DriverTimingVisualizer(newDriver);
-            Drivers.Add(newDriver.Name, newDriverTimingVisualizer);
-            RaiseDriverAddedEvent(newDriverTimingVisualizer);
+            DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
+            Drivers.Add(newDriver.Name, newDriverTimingModelView);
+            RaiseDriverAddedEvent(newDriverTimingModelView);
         }
 
         public LapInfo BestSessionLap { get => _bestSessionLap; }
@@ -184,9 +185,9 @@ namespace SecondMonitor.Timing.Model
 
             }
         }
-        private void UpdateDriver(DriverInfo modelInfo, DriverTimingVisualizer driverTimingVisualizer, SimulatorDataSet set)
+        private void UpdateDriver(DriverInfo modelInfo, DriverTimingModelView DriverTimingModelView, SimulatorDataSet set)
         {
-            DriverTiming timingInfo = driverTimingVisualizer.DriverTiming;
+            DriverTiming timingInfo = DriverTimingModelView.DriverTiming;
             timingInfo.DriverInfo = modelInfo;
             if(timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && (_bestSessionLap==null || timingInfo.LastCompletedLap.LapTime < _bestSessionLap.LapTime))
             {
@@ -194,9 +195,9 @@ namespace SecondMonitor.Timing.Model
                 RaiseBestLapChangedEvent(_bestSessionLap);
             }
             if (timingInfo.Position == 1)
-                Leader = driverTimingVisualizer;
+                Leader = DriverTimingModelView;
 
-            driverTimingVisualizer.RefreshProperties();
+            DriverTimingModelView.RefreshProperties();
         }
 
         public IEnumerator GetEnumerator()
@@ -209,12 +210,12 @@ namespace SecondMonitor.Timing.Model
             BestLapChangedEvent?.Invoke(this, new BestLapChangedArgs(lapInfo));
         }
 
-        public void RaiseDriverAddedEvent(DriverTimingVisualizer driver)
+        public void RaiseDriverAddedEvent(DriverTimingModelView driver)
         {
             DriverAdded?.Invoke(this, new DriverListModificationEventArgs(driver));
         }
 
-        public void RaiseDriverRemovedEvent(DriverTimingVisualizer driver)
+        public void RaiseDriverRemovedEvent(DriverTimingModelView driver)
         {
             DriverRemoved?.Invoke(this, new DriverListModificationEventArgs(driver));
         }

@@ -83,7 +83,7 @@ namespace SecondMonitor.R3EConnector
                 if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && _lastPlayer != null && _lastPlayer.CompletedLaps != 0)
                 {
                     driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - r3RData.LayoutLength * 0.5);
-                    driverInfo.IsLapingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3RData.LayoutLength * 0.5);
+                    driverInfo.IsLappingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - r3RData.LayoutLength * 0.5);
                 }
                 FillTimingInfor(driverInfo, r3RDriverData, r3RData);
                 if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished)
@@ -140,10 +140,10 @@ namespace SecondMonitor.R3EConnector
                 driverInfo.DistanceToPlayer = Single.MaxValue;
                 return;
             }
-            Single trackLength = r3RData.LayoutLength;
-            Single playerLapDistance = player.LapDistance;
+            double trackLength = r3RData.LayoutLength;
+            double playerLapDistance = player.LapDistance;
 
-            Single distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
+            double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
             if (distanceToPlayer < -(trackLength / 2))
                 distanceToPlayer = distanceToPlayer + trackLength;
             if (distanceToPlayer > (trackLength / 2))

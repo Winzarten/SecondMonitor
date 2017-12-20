@@ -51,7 +51,7 @@ namespace SecondMonitor.PCarsConnector
                         LapDistance = pcarsDriverData.MCurrentLapDistance,
                         FinishStatus = DriverInfo.DriverFinishStatus.None,
                         CurrentLapValid = true,                        
-                        WorldPostion = new Point3D(pcarsDriverData.MWorldPosition[0], pcarsDriverData.MWorldPosition[1],
+                        WorldPosition = new Point3D(pcarsDriverData.MWorldPosition[0], pcarsDriverData.MWorldPosition[1],
                             pcarsDriverData.MWorldPosition[2])
                         
             };
@@ -76,7 +76,7 @@ namespace SecondMonitor.PCarsConnector
                 if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && _lastPlayer != null && _lastPlayer.CompletedLaps != 0)
                 {
                     driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - data.SessionInfo.LayoutLength * 0.5);
-                    driverInfo.IsLapingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - data.SessionInfo.LayoutLength * 0.5);
+                    driverInfo.IsLappingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - data.SessionInfo.LayoutLength * 0.5);
                 }
                 if (driverInfo.Position == 1)
                 {
@@ -105,9 +105,9 @@ namespace SecondMonitor.PCarsConnector
             }
             if (_pCarsConnector.PreviousTickInfo.ContainsKey(driverInfo.DriverName) && computeNewSpeed && _lastSpeedComputationSet != null)  
             {
-                Point3D currentWorldPosition = driverInfo.WorldPostion;
+                Point3D currentWorldPosition = driverInfo.WorldPosition;
                 Point3D previousWorldPosition =
-                    _pCarsConnector.PreviousTickInfo[driverInfo.DriverName].WorldPostion;
+                    _pCarsConnector.PreviousTickInfo[driverInfo.DriverName].WorldPosition;
                 double duration = data.SessionInfo.SessionTime
                     .Subtract(_lastSpeedComputationSet.SessionInfo.SessionTime).TotalSeconds;
                 //double speed = lastTickDuration.TotalMilliseconds;
@@ -131,10 +131,10 @@ namespace SecondMonitor.PCarsConnector
 
         private static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, SimulatorDataSet data)
         {
-            Single trackLength = data.SessionInfo.LayoutLength;
-            Single playerLapDistance = player.LapDistance;
-            
-                Single distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
+            double trackLength = data.SessionInfo.LayoutLength;
+            double playerLapDistance = player.LapDistance;
+
+            double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
                 if (distanceToPlayer < -(trackLength / 2))
                     distanceToPlayer = distanceToPlayer + trackLength;
                 if (distanceToPlayer > (trackLength / 2))

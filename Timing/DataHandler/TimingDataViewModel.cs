@@ -18,7 +18,7 @@
     using SecondMonitor.Timing.GUI;
     using SecondMonitor.Timing.Model;
     using SecondMonitor.Timing.Model.Drivers;
-    using SecondMonitor.Timing.Model.Drivers.Visualizer;
+    using SecondMonitor.Timing.Model.Drivers.ModelView;
     using SecondMonitor.Timing.Model.Settings.Model;
     using SecondMonitor.Timing.Model.Settings.ModelView;
     using SecondMonitor.Timing.Settings;
@@ -60,7 +60,7 @@
         public CollectionViewSource ViewSource { get; set; } 
 
         // Gets or sets the ObservableCollection
-        public ObservableCollection<DriverTimingVisualizer> Collection { get; set; } = new ObservableCollection<DriverTimingVisualizer>();
+        public ObservableCollection<DriverTimingModelView> Collection { get; set; } = new ObservableCollection<DriverTimingModelView>();
 
         private LapInfo _bestSessionLap;
 
@@ -478,7 +478,7 @@
                 _gui.DtTimig.DataContext = this;                
             }
             Collection.Clear();
-            foreach (DriverTimingVisualizer d in _timing.Drivers.Values)
+            foreach (DriverTimingModelView d in _timing.Drivers.Values)
             {
                 Collection.Add(d);
             }

@@ -164,7 +164,7 @@ namespace SecondMonitor.WindowsControls.wpf
                 }
                 else if (driver.IsBeingLappedByPlayer)
                     driverEllipse.Fill = Brushes.Blue;
-                else if (driver.IsLapingPlayer)
+                else if (driver.IsLappingPlayer)
                     driverEllipse.Fill = Brushes.Red;
                 else
                     driverEllipse.Fill = Brushes.Green;
@@ -185,7 +185,7 @@ namespace SecondMonitor.WindowsControls.wpf
                 }
                 else if (driver.IsBeingLappedByPlayer)
                     text.Foreground = Brushes.Blue;
-                else if (driver.IsLapingPlayer)
+                else if (driver.IsLappingPlayer)
                     text.Foreground = Brushes.Red;
                 else
                     text.Foreground = Brushes.Green;

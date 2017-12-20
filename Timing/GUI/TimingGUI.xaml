@@ -8,10 +8,8 @@
     xmlns:dataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
     xmlns:dmBasicProperties ="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
     xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
-    xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:modelView="clr-namespace:SecondMonitor.Timing.DataHandler"
-    xmlns:driverModelView="clr-namespace:SecondMonitor.Timing.Model.Drivers"
-    xmlns:driverModelVis ="clr-namespace:SecondMonitor.Timing.Model.Drivers.Visualizer"
+    xmlns:driverModelVis ="clr-namespace:SecondMonitor.Timing.Model.Drivers.ModelView"
     xmlns:model="clr-namespace:SecondMonitor.Timing.Model.Settings.Model"
     xmlns:gui="clr-namespace:SecondMonitor.Timing.GUI"
 
@@ -72,7 +70,7 @@
         </WindowsFormsHost>
 
         <DataGrid x:Name="DtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
-                  d:DataContext="{d:DesignInstance Type=driverModelVis:DriverTimingVisualizer}"
+                  d:DataContext="{d:DesignInstance Type=driverModelVis:DriverTimingModelView}"
                  AutoGenerateColumns="False" HeadersVisibility="Column" CanUserSortColumns="False" CanUserReorderColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
                   EnableColumnVirtualization ="False" EnableRowVirtualization="False"
                   >

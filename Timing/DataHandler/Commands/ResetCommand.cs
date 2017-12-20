@@ -14,6 +14,7 @@ namespace SecondMonitor.Timing.DataHandler.Commands
             _executeDelegate = execute;
             _canExecuteDelegate = () => { return true; };
         }
+
         public NoArgumentCommand(Action execute, Func<bool> canExecute)
         {
             _executeDelegate = execute;
