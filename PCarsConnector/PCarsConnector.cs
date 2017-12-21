@@ -107,7 +107,7 @@ namespace SecondMonitor.PCarsConnector
             return false;
         }
 
-        public void AsynConnect()
+        public void ASyncConnect()
         {
             Thread asyncConnectThread = new Thread(AsynConnector);
             asyncConnectThread.IsBackground = true;

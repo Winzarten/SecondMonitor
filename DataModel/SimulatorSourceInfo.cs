@@ -2,6 +2,6 @@
 {
     public class SimulatorSourceInfo
     {
-        public bool HasLapTimeInformation { get; set; };
+        public bool HasLapTimeInformation { get; set; }
     }
 }

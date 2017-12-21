@@ -12,6 +12,7 @@
     using System.Windows.Data;
 
     using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.PluginManager.Core;
     using SecondMonitor.PluginManager.GameConnector;
     using SecondMonitor.Timing.DataHandler.Commands;

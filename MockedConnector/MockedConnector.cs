@@ -40,7 +40,7 @@ namespace SecondMonitor.MockedConnector
         DateTime _lastTick = DateTime.Now;
         TimeSpan _sessionTime = new TimeSpan(0, 0, 1);
 
-        public void AsynConnect()
+        public void ASyncConnect()
         {
             TryConnect();
         }

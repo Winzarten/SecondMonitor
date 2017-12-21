@@ -1,41 +1,30 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-
-namespace SecondMonitor.R3EConnector
+﻿namespace SecondMonitor.R3EConnector
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     public class R3RDatabase
     {
-        private Dictionary<int, string> _carNames;
+        private readonly Dictionary<int, string> _carNames;
+
         public R3RDatabase()
         {
             _carNames = new Dictionary<int, string>();
         }
+
         public void Load()
-        {
-            //JsonTextReader reader = new JsonTextReader(File.OpenText("data.json"));
-            var jsonDb = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(Path.Combine(AssemblyDirectory, "data.json")));
-            var cars = jsonDb.GetValue("cars");
-            LoadCarNames(cars);
-            
-            /*while (reader.Read())
-            {
-                if (reader.Value != null)
-                {
-                    Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
-                }
-                else
-                {
-                    Console.WriteLine("Token: {0}", reader.TokenType);
-                }
-            }*/
+        {            
+            JObject jsonDb = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(Path.Combine(AssemblyDirectory, "data.json")));
+            JToken cars = jsonDb.GetValue("cars");
+            LoadCarNames(cars);        
         }
 
-
-        private string AssemblyDirectory
+        private static string AssemblyDirectory
         {
             get
             {
@@ -61,9 +50,10 @@ namespace SecondMonitor.R3EConnector
         public string GetCarName(int id)
         {
             if (!_carNames.ContainsKey(id))
+            {
                 _carNames[id] = "Unknown";
+            }
             return _carNames[id];
-            
         }
     }
 }
