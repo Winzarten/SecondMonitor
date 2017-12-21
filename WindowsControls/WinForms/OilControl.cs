@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.WindowsControls.Controls
+﻿namespace SecondMonitor.WindowsControls.WinForms
 {
     using System.Windows.Forms;
 

@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.WindowsControls.Controls.wpf
+﻿namespace SecondMonitor.WindowsControls.WPF
 {
     using System;
     using System.Collections.Generic;

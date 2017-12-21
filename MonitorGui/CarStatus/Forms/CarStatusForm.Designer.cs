@@ -2,8 +2,8 @@
 {
     using System.ComponentModel;
     using System.Windows.Forms;
-
-    using SecondMonitor.WindowsControls.Controls;
+    
+    using SecondMonitor.WindowsControls.WinForms;
 
     partial class CarStatusForm
     {

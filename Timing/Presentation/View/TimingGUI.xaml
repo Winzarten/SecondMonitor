@@ -5,11 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:dmBasicProperties ="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
-    xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
     xmlns:model="clr-namespace:SecondMonitor.Timing.Settings.Model"
-    xmlns:controls="clr-namespace:SecondMonitor.WindowsControls.Controls;assembly=WindowsControls"
     xmlns:view="clr-namespace:SecondMonitor.Timing.Presentation.View"
     xmlns:viewModel="clr-namespace:SecondMonitor.Timing.Presentation.ViewModel"
+    xmlns:winForms="clr-namespace:SecondMonitor.WindowsControls.WinForms;assembly=WindowsControls"
+    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
+    xmlns:viewModel1="clr-namespace:SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel"
 
     x:Name="MainWindow" x:Class="SecondMonitor.Timing.Presentation.View.TimingGui"
     
@@ -52,19 +53,19 @@
     <Grid x:Name="MainGrid" Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <WindowsFormsHost 
             Margin="10,0,0,288" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="WhLeftFront"/>
+            <winForms:WheelStatusControl x:Name="WhLeftFront"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="211,0,0,288" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="WhRightFront" WheelPostion="FrontRight"/>
+            <winForms:WheelStatusControl x:Name="WhRightFront" WheelPostion="FrontRight"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="10,0,0,187"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="WhLeftRear" WheelPostion="RearLeft"/>
+            <winForms:WheelStatusControl x:Name="WhLeftRear" WheelPostion="RearLeft"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="211,0,0,187"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
-            <controls:WheelStatusControl x:Name="WhRightRear" WheelPostion="RearRight"/>
+            <winForms:WheelStatusControl x:Name="WhRightRear" WheelPostion="RearRight"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="10,0,0,26" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="156">
-            <controls:PedalControl x:Name="PedalControl"/>
+            <winForms:PedalControl x:Name="PedalControl"/>
         </WindowsFormsHost>
 
         <DataGrid x:Name="DtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
@@ -211,13 +212,13 @@
 
             </Grid>
         </GroupBox>
-        <wpf1:PositionCircle x:Name="TimingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
+        <wpf:PositionCircle x:Name="TimingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
 
-        <wpf1:FuelMonitor x:Name="FuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScopeee="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
+        <wpf:FuelMonitor x:Name="FuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScope="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
                          
                           d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"/>
-        <wpf1:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="130" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}" />
-        <wpf1:TemperatureControl  x:Name="OilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+        <wpf:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="130" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}" />
+        <wpf:TemperatureControl  x:Name="OilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
                                  d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}" 
                                  />
         <Image HorizontalAlignment="Left" Height="24" Margin="550,0,0,123"  Width="24" VerticalAlignment="Bottom"

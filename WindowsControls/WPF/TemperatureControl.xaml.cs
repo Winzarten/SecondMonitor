@@ -1,10 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-using SecondMonitor.DataModel;
-
-namespace SecondMonitor.WindowsControls.Controls.wpf
+﻿namespace SecondMonitor.WindowsControls.WPF
 {
+    using System.Windows;
+    using System.Windows.Controls;
+
     using SecondMonitor.DataModel.BasicProperties;
 
     /// <inheritdoc cref="UserControl" />

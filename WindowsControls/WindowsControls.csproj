@@ -60,37 +60,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\GMeter.cs">
+    <Compile Include="WinForms\GMeter.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\GMeter.Designer.cs">
+    <Compile Include="WinForms\GMeter.Designer.cs">
       <DependentUpon>GMeter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LedBulb.cs">
+    <Compile Include="WinForms\LedBulb.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\OilControl.cs">
+    <Compile Include="WinForms\OilControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\OilControl.Designer.cs">
+    <Compile Include="WinForms\OilControl.Designer.cs">
       <DependentUpon>OilControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PedalControl.cs">
+    <Compile Include="WinForms\PedalControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\PedalControl.Designer.cs">
+    <Compile Include="WinForms\PedalControl.Designer.cs">
       <DependentUpon>PedalControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WheelStatusControl.cs">
+    <Compile Include="WinForms\WheelStatusControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\WheelStatusControl.Designer.cs">
+    <Compile Include="WinForms\WheelStatusControl.Designer.cs">
       <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\wpf\FuelMonitor.xaml.cs">
+    <Compile Include="WPF\FuelMonitor.xaml.cs">
       <DependentUpon>FuelMonitor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\wpf\TemperatureControl.xaml.cs">
+    <Compile Include="WPF\TemperatureControl.xaml.cs">
       <DependentUpon>TemperatureControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,18 +99,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Controls\wpf\PositionCircle.xaml.cs">
+    <Compile Include="WPF\PositionCircle.xaml.cs">
       <DependentUpon>PositionCircle.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\OilControl.resx">
+    <EmbeddedResource Include="WinForms\OilControl.resx">
       <DependentUpon>OilControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\PedalControl.resx">
+    <EmbeddedResource Include="WinForms\PedalControl.resx">
       <DependentUpon>PedalControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WheelStatusControl.resx">
+    <EmbeddedResource Include="WinForms\WheelStatusControl.resx">
       <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -135,15 +135,15 @@
     <Resource Include="Resources\brake.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\wpf\FuelMonitor.xaml">
+    <Page Include="WPF\FuelMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\wpf\PositionCircle.xaml">
+    <Page Include="WPF\PositionCircle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\wpf\TemperatureControl.xaml">
+    <Page Include="WPF\TemperatureControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
