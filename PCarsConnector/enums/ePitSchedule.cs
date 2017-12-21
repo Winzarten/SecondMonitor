@@ -12,7 +12,7 @@ namespace  SecondMonitor.PCarsConnector.enums
         PitScheduleDriveThrough,   // Used for drive-through penalty
         [Description("Stop Go")]
         PitScheduleStopGo,         // Used for stop-go penalty
-        //-------------
+        // -------------
         PitScheduleMax
     }
 }

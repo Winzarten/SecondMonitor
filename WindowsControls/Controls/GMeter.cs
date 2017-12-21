@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace SecondMonitor.MonitorGui.CarStatus.Forms.Controls
+﻿namespace SecondMonitor.WindowsControls.Controls
 {
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows.Forms;
+
     public partial class GMeter : UserControl
     {
         public GMeter()
@@ -80,17 +80,17 @@ namespace SecondMonitor.MonitorGui.CarStatus.Forms.Controls
 
         private void DrawGrid(Graphics g)
         {
-            if (this.Width == 0 || this.Height == 0)
+            if (Width == 0 || Height == 0)
                 return;
-            Point center = new Point(this.Width / 2, this.Height / 2);
+            Point center = new Point(Width / 2, Height / 2);
             Pen pen = new Pen(GridColor);
 
-            g.DrawLine(pen, this.Width / 2, 0, this.Width / 2, this.Height);
-            g.DrawLine(pen, 0, this.Height/2, this.Width, this.Height/2);
+            g.DrawLine(pen, Width / 2, 0, Width / 2, Height);
+            g.DrawLine(pen, 0, Height/2, Width, Height/2);
 
             int currentG = 0 + GScale;
-            int xScalePerG = this.Width / (MaxG * 2);
-            int yScalePerG = this.Height / (MaxG * 2);
+            int xScalePerG = Width / (MaxG * 2);
+            int yScalePerG = Height / (MaxG * 2);
             while (currentG <= MaxG)
             {
                 int currentXScalePerG = xScalePerG * currentG;
@@ -107,12 +107,12 @@ namespace SecondMonitor.MonitorGui.CarStatus.Forms.Controls
         private void DrawGBall(Graphics g)
         {
 
-            if (this.Width == 0 || this.Height == 0)
+            if (Width == 0 || Height == 0)
                 return;
            
-            Point center = new Point(this.Width / 2, this.Height / 2);
-            int xScalePerG = this.Width / (MaxG * 2);
-            int yScalePerG = this.Height / (MaxG * 2);
+            Point center = new Point(Width / 2, Height / 2);
+            int xScalePerG = Width / (MaxG * 2);
+            int yScalePerG = Height / (MaxG * 2);
 
             Point ballLocation = new Point(center.X + (int)(xScalePerG * HorizG), center.Y + (int)(yScalePerG * VertG));
 

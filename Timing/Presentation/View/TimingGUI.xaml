@@ -3,39 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:controls="clr-namespace:SecondMonitor.CarStatus.Forms.Controls;assembly=WindowsControls"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:dataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
     xmlns:dmBasicProperties ="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
-    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.wpf;assembly=WindowsControls" xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
-    xmlns:modelView="clr-namespace:SecondMonitor.Timing.DataHandler"
-    xmlns:driverModelVis ="clr-namespace:SecondMonitor.Timing.Model.Drivers.ModelView"
-    xmlns:model="clr-namespace:SecondMonitor.Timing.Model.Settings.Model"
-    xmlns:gui="clr-namespace:SecondMonitor.Timing.GUI"
+    xmlns:wpf1="clr-namespace:SecondMonitor.WindowsControls.Controls.wpf;assembly=WindowsControls"
+    xmlns:model="clr-namespace:SecondMonitor.Timing.Settings.Model"
+    xmlns:controls="clr-namespace:SecondMonitor.WindowsControls.Controls;assembly=WindowsControls"
+    xmlns:view="clr-namespace:SecondMonitor.Timing.Presentation.View"
+    xmlns:viewModel="clr-namespace:SecondMonitor.Timing.Presentation.ViewModel"
 
-    x:Name="MainWindow" x:Class="SecondMonitor.Timing.GUI.TimingGui"
+    x:Name="MainWindow" x:Class="SecondMonitor.Timing.Presentation.View.TimingGui"
     
         mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Title="{Binding Title}" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized"
-    d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}">
+    d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}">
 
     <Window.Resources>
         <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dataModel:TemperatureUnits"/>
+                <x:Type TypeName="dmBasicProperties:TemperatureUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="DataFromPressureEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dataModel:PressureUnits"/>
+                <x:Type TypeName="dmBasicProperties:PressureUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="DataFromVolumeEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dataModel:VolumeUnits"/>
+                <x:Type TypeName="dmBasicProperties:VolumeUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="DataFromFuelEnum" MethodName="GetValues"
@@ -70,7 +68,7 @@
         </WindowsFormsHost>
 
         <DataGrid x:Name="DtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
-                  d:DataContext="{d:DesignInstance Type=driverModelVis:DriverTimingModelView}"
+                  d:DataContext="{d:DesignInstance Type=viewModel1:DriverTimingModelView}"
                  AutoGenerateColumns="False" HeadersVisibility="Column" CanUserSortColumns="False" CanUserReorderColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
                   EnableColumnVirtualization ="False" EnableRowVirtualization="False"
                   >
@@ -78,8 +76,8 @@
                 <MouseBinding Gesture="RightClick" Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
             </DataGrid.InputBindings>
             <DataGrid.Resources >
-                <gui:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext , RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                <gui:DoubleToDataGridLengthValueConverter x:Key="lengthConverter"/>
+                <view:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext , RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                <view:DoubleToDataGridLengthValueConverter x:Key="lengthConverter"/>
                 <BooleanToVisibilityConverter x:Key="BoolToVis" />
                  <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="FontWeight" Value="Bold"/>
@@ -213,14 +211,14 @@
 
             </Grid>
         </GroupBox>
-        <wpf:PositionCircle x:Name="TimingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
+        <wpf1:PositionCircle x:Name="TimingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
 
         <wpf1:FuelMonitor x:Name="FuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScopeee="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
                          
-                          d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}"/>
-        <wpf1:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="130" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}" />
+                          d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"/>
+        <wpf1:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="130" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}" />
         <wpf1:TemperatureControl  x:Name="OilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                 d:DataContext="{d:DesignInstance Type=modelView:TimingDataViewModel}" 
+                                 d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}" 
                                  />
         <Image HorizontalAlignment="Left" Height="24" Margin="550,0,0,123"  Width="24" VerticalAlignment="Bottom"
                Panel.ZIndex="5" Source="/Timing;component/Resources/oil.png"/>

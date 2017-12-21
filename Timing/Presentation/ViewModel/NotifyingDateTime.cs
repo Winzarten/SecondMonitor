@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.DataHandler
+﻿namespace SecondMonitor.Timing.Presentation.ViewModel
 {
     using System;
     using System.ComponentModel;

@@ -20,7 +20,7 @@ namespace  SecondMonitor.PCarsConnector.enums
         FlagColourBlack,          // Participant disqualified
         [Description("Chequered Flag")]
         FlagColourChequered,      // Chequered flag
-        //-------------
+        // -------------
         FlagColourMax
     }
 }

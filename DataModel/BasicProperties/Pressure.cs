@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
 
@@ -13,7 +13,7 @@
 
         private Pressure(double valueInKpa)
         {
-            this.InKpa = valueInKpa;
+            InKpa = valueInKpa;
         }
 
         public double InKpa { get; }

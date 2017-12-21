@@ -1,26 +1,23 @@
-﻿using System;
-using System.Windows.Input;
-
-namespace SecondMonitor.Timing.DataHandler.Commands
+﻿namespace SecondMonitor.Timing.Presentation.ViewModel.Commands
 {
-    public class TimingModeChangedCommand : ICommand    
-    {
-        public event EventHandler CanExecuteChanged
-        {
-            add => CommandManager.RequerySuggested += value;
-            remove => CommandManager.RequerySuggested -= value;
-        }
+    using System;
+    using System.Windows.Input;
 
+    public class NoArgumentCommand : ICommand
+    {        
         private readonly Action _executeDelegate;
+
         private readonly Func<bool> _canExecuteDelegate;
 
-        public TimingModeChangedCommand(Action execute)
+        public event EventHandler CanExecuteChanged;
+
+        public NoArgumentCommand(Action execute)
         {
             _executeDelegate = execute;
             _canExecuteDelegate = () => true;
         }
 
-        public TimingModeChangedCommand(Action execute, Func<bool> canExecute)
+        public NoArgumentCommand(Action execute, Func<bool> canExecute)
         {
             _executeDelegate = execute;
             _canExecuteDelegate = canExecute;

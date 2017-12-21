@@ -1,9 +1,10 @@
 ﻿using System;
-using SecondMonitor.PluginManager.GameConnector;
 using System.Threading;
+
 using SecondMonitor.DataModel;
 using SecondMonitor.DataModel.BasicProperties;
 using SecondMonitor.DataModel.Drivers;
+using SecondMonitor.PluginManager.GameConnector;
 
 namespace SecondMonitor.MockedConnector
 {
@@ -110,7 +111,7 @@ namespace SecondMonitor.MockedConnector
 
             DriverInfo player = PrepareDriver();
             simulatorDataSet.PlayerInfo = player;
-            simulatorDataSet.DriversInfo = new DriverInfo[] { player };
+            simulatorDataSet.DriversInfo = new[] { player };
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight);

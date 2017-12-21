@@ -4,7 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.Timing.Annotations;
+    using SecondMonitor.Timing.Properties;
     using SecondMonitor.Timing.Settings.Model;
 
     public class ColumnSettingsModelView : DependencyObject, INotifyPropertyChanged
@@ -47,7 +47,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

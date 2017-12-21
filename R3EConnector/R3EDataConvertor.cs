@@ -92,6 +92,7 @@
             {
                 return string.Empty;
             }
+
             return System.Text.Encoding.UTF8.GetString(buffer).Split(new[] { (char)0 }, StringSplitOptions.RemoveEmptyEntries)[0];
         }
 

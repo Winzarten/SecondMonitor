@@ -1,11 +1,16 @@
-﻿namespace SecondMonitor.CarStatus.Forms.Controls
+﻿namespace SecondMonitor.WindowsControls.Controls
 {
+    using System.ComponentModel;
+    using System.Windows.Forms;
+
+    using LCDLabel;
+
     partial class OilControl
     {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -17,6 +22,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -28,15 +34,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.AGaugeLabel aGaugeLabel4 = new System.Windows.Forms.AGaugeLabel();
-            System.Windows.Forms.AGaugeRange aGaugeRange4 = new System.Windows.Forms.AGaugeRange();
+            AGaugeLabel aGaugeLabel4 = new System.Windows.Forms.AGaugeLabel();
+            AGaugeRange aGaugeRange4 = new System.Windows.Forms.AGaugeRange();
             this.gTemperature = new System.Windows.Forms.AGauge();
             this.gPressure = new System.Windows.Forms.AGauge();
             this.lblPressure = new LCDLabel.LcdLabel();
             this.SuspendLayout();
-            // 
+
             // gTemperature
-            // 
             this.gTemperature.BaseArcColor = System.Drawing.Color.SteelBlue;
             this.gTemperature.BaseArcRadius = 80;
             this.gTemperature.BaseArcStart = 150;
@@ -44,7 +49,12 @@
             this.gTemperature.BaseArcWidth = 2;
             this.gTemperature.Center = new System.Drawing.Point(100, 100);
             aGaugeLabel4.Color = System.Drawing.Color.DarkRed;
-            aGaugeLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            aGaugeLabel4.Font = new System.Drawing.Font(
+                "Microsoft Sans Serif",
+                12F,
+                System.Drawing.FontStyle.Regular,
+                System.Drawing.GraphicsUnit.Point,
+                (byte)(0));
             aGaugeLabel4.Name = "GaugeLabel1";
             aGaugeLabel4.Position = new System.Drawing.Point(70, 50);
             aGaugeLabel4.Text = "Oil Temp";
@@ -90,9 +100,8 @@
             this.gTemperature.TabIndex = 0;
             this.gTemperature.Text = "aGauge1";
             this.gTemperature.Value = 0F;
-            // 
+
             // gPressure
-            // 
             this.gPressure.BaseArcColor = System.Drawing.Color.Green;
             this.gPressure.BaseArcRadius = 70;
             this.gPressure.BaseArcStart = 180;
@@ -132,10 +141,10 @@
             this.gPressure.TabIndex = 1;
             this.gPressure.Text = "aGauge1";
             this.gPressure.Value = 0F;
-            this.gPressure.ValueInRangeChanged += new System.EventHandler<System.Windows.Forms.ValueInRangeChangedEventArgs>(this.gPressure_ValueInRangeChanged);
-            // 
+            this.gPressure.ValueInRangeChanged +=
+                new System.EventHandler<ValueInRangeChangedEventArgs>(this.gPressure_ValueInRangeChanged);
+
             // lblPressure
-            // 
             this.lblPressure.BackGround = System.Drawing.Color.Silver;
             this.lblPressure.BorderColor = System.Drawing.Color.Black;
             this.lblPressure.BorderSpace = 0;
@@ -157,9 +166,8 @@
             this.lblPressure.TabIndex = 2;
             this.lblPressure.Text = "4.5";
             this.lblPressure.TextLines = 1;
-            // 
+
             // OilControl
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -169,13 +177,12 @@
             this.Name = "OilControl";
             this.Size = new System.Drawing.Size(221, 318);
             this.ResumeLayout(false);
-
         }
 
         #endregion
 
-        private System.Windows.Forms.AGauge gTemperature;
-        private System.Windows.Forms.AGauge gPressure;
-        private LCDLabel.LcdLabel lblPressure;
+        private AGauge gTemperature;
+        private AGauge gPressure;
+        private LcdLabel lblPressure;
     }
 }

@@ -1,36 +1,33 @@
-﻿<Window x:Class="SecondMonitor.Timing.GUI.DisplaySettingsWindow"
+﻿<Window x:Class="SecondMonitor.Timing.Presentation.View.DisplaySettingsWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SecondMonitor.Timing.GUI"
-             xmlns:modelView="clr-namespace:SecondMonitor.Timing.Model.Settings.ModelView"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:dataModel="clr-namespace:SecondMonitor.DataModel;assembly=DataModel"
-             xmlns:model="clr-namespace:SecondMonitor.Timing.Model.Settings.Model"
-             xmlns:modelView1="clr-namespace:SecondMonitor.Timing.Settings.ModelView"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=modelView1:DisplaySettingsModelView, IsDesignTimeCreatable=True}"
+        xmlns:modelView1="clr-namespace:SecondMonitor.Timing.Settings.ModelView"
+        xmlns:model="clr-namespace:SecondMonitor.Timing.Settings.Model"
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=modelView1:DisplaySettingsModelView, IsDesignTimeCreatable=True}"
         Title="Settings" Width="772.325" Height="536.989"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dataModel:TemperatureUnits"/>
+                <x:Type TypeName="dmBasicProperties:TemperatureUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="DataFromPressureEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dataModel:PressureUnits"/>
+                <x:Type TypeName="dmBasicProperties:PressureUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="DataFromVolumeEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dataModel:VolumeUnits"/>
+                <x:Type TypeName="dmBasicProperties:VolumeUnits"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="DataFromFuelEnum" MethodName="GetValues"
@@ -51,7 +48,7 @@
                 <x:Type TypeName="model:DisplayModeEnum"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <DataTemplate DataType="{x:Type modelView:SessionOptionsModelView}">
+        <DataTemplate DataType="{x:Type modelView1:SessionOptionsModelView}">
             <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
                 <Grid>
                     <ComboBox  HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}" SelectedItem="{Binding TimesDisplayMode}"/>

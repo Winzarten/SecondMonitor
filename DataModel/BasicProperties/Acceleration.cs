@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace SecondMonitor.DataModel.BasicProperties
+﻿namespace SecondMonitor.DataModel.BasicProperties
 {
+    using Newtonsoft.Json;
+
     public class Acceleration
     {
 

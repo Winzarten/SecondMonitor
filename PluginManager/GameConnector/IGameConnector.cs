@@ -9,7 +9,7 @@
 
         public DataEventArgs(SimulatorDataSet data)
         {
-            this.Data = data;
+            Data = data;
         }
 
         public SimulatorDataSet Data

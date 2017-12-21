@@ -25,7 +25,7 @@ namespace SecondMonitor.DataModel
 
         public SessionPhaseEnum SessionPhase { get; set; }
 
-        public SessionLengthTypeEnum SessionLengthType { get; set; } = SessionInfo.SessionLengthTypeEnum.Na;
+        public SessionLengthTypeEnum SessionLengthType { get; set; } = SessionLengthTypeEnum.Na;
 
 
         public float SessionTimeRemaining { get; set; } = 0;

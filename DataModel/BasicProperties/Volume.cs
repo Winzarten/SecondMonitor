@@ -13,49 +13,49 @@
 
         private Volume(double valueInLiters)
         {
-            this.InLiters = valueInLiters;
+            InLiters = valueInLiters;
         }
 
         #region Operators
 
         public static Volume operator +(Volume left, Volume right)
         {
-            return Volume.FromLiters(left.InLiters + right.InLiters);
+            return FromLiters(left.InLiters + right.InLiters);
         }
 
         public static Volume operator -(Volume left, Volume right)
         {
-            return Volume.FromLiters(left.InLiters - right.InLiters);
+            return FromLiters(left.InLiters - right.InLiters);
         }
 
         public static Volume operator *(Volume left, Volume right)
         {
-            return Volume.FromLiters(left.InLiters * right.InLiters);
+            return FromLiters(left.InLiters * right.InLiters);
         }
 
         public static Volume operator *(Volume left, double right)
         {
-            return Volume.FromLiters(left.InLiters * right);
+            return FromLiters(left.InLiters * right);
         }
 
         public static Volume operator *(Volume left, int right)
         {
-            return Volume.FromLiters(left.InLiters * right);
+            return FromLiters(left.InLiters * right);
         }
 
         public static Volume operator *(int left, Volume right)
         {
-            return Volume.FromLiters(left * right.InLiters);
+            return FromLiters(left * right.InLiters);
         }
 
         public static Volume operator /(Volume left, Volume right)
         {
-            return Volume.FromLiters(left.InLiters / right.InLiters);
+            return FromLiters(left.InLiters / right.InLiters);
         }
 
         public static Volume operator /(Volume left, double right)
         {
-            return Volume.FromLiters(left.InLiters / right);
+            return FromLiters(left.InLiters / right);
         }
 
         public static bool operator ==(Volume left, Volume right)
@@ -87,6 +87,7 @@
         {
             return left.InLiters >= right.InLiters;
         }
+
         #endregion
 
         public static string GetUnitSymbol(VolumeUnits units)

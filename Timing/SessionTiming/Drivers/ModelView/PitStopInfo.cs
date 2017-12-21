@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Model.Drivers
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
 {
     using System;
 
@@ -10,25 +10,25 @@
 
         public PitStopInfo(SimulatorDataSet set, DriverTiming driver, LapInfo entryLap)
         {
-            this.Driver = driver;
-            this.EntryLap = entryLap;
-            this.Phase = PitPhase.Entry;
-            this.PitEntry = set.SessionInfo.SessionTime;
-            this.PitStopDuration = new TimeSpan(0);
-            this.PitExit = PitEntry;
-            this.PitStopStart = PitEntry;
-            this.PitStopEnd = PitEntry;
+            Driver = driver;
+            EntryLap = entryLap;
+            Phase = PitPhase.Entry;
+            PitEntry = set.SessionInfo.SessionTime;
+            PitStopDuration = new TimeSpan(0);
+            PitExit = PitEntry;
+            PitStopStart = PitEntry;
+            PitStopEnd = PitEntry;
         }
 
         public PitPhase Phase { get; private set; }
 
         public bool Completed => Phase == PitPhase.Completed;
 
-        public DriverTiming Driver { get; private set; }
+        public DriverTiming Driver { get; }
 
-        public LapInfo EntryLap { get; private set; }
+        public LapInfo EntryLap { get; }
 
-        public TimeSpan PitEntry { get; private set; }
+        public TimeSpan PitEntry { get; }
 
         public TimeSpan PitExit { get; private set; }
 
@@ -61,24 +61,24 @@
             {
                 Phase = PitPhase.Completed;
                 PitExit = set.SessionInfo.SessionTime;
-                this.PitStopDuration = PitExit.Subtract(PitEntry);
+                PitStopDuration = PitExit.Subtract(PitEntry);
             }
 
             if(Phase == PitPhase.Entry)
             {
-                this.PitStopStart = set.SessionInfo.SessionTime;
-                this.PitStopEnd = set.SessionInfo.SessionTime;
+                PitStopStart = set.SessionInfo.SessionTime;
+                PitStopEnd = set.SessionInfo.SessionTime;
             }
 
             if(Phase == PitPhase.InPits)
             {
-                this.PitStopEnd = set.SessionInfo.SessionTime;
+                PitStopEnd = set.SessionInfo.SessionTime;
             }
 
             if (Phase != PitPhase.Completed)
             {
-                this.PitExit = set.SessionInfo.SessionTime;
-                this.PitStopDuration = PitExit.Subtract(PitEntry);
+                PitExit = set.SessionInfo.SessionTime;
+                PitStopDuration = PitExit.Subtract(PitEntry);
             }
         }
 
@@ -101,6 +101,8 @@
                     case PitPhase.Completed:
                         phaseAsString = EntryLap != null ? EntryLap.LapNumber + "-": "0-";
                         break;
+                    default:
+                        return string.Empty;
                 }
                 return phaseAsString + $"{(int) PitStopDuration.TotalSeconds}.{PitStopDuration.Milliseconds:N0}";
             }

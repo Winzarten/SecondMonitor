@@ -1,8 +1,8 @@
-﻿namespace SecondMonitor.Timing.GUI
+﻿namespace SecondMonitor.Timing.Presentation.View
 {
     using System.Windows;
 
-    using SecondMonitor.Timing.DataHandler;
+    using SecondMonitor.Timing.Presentation.ViewModel;
 
     public class BindingProxy : Freezable
     {

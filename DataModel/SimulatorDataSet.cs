@@ -7,7 +7,7 @@
     {        
         public SimulatorDataSet(string source)
         {
-            this.Source = source;
+            Source = source;
             PedalInfo = new PedalInfo();
             SessionInfo = new SessionInfo();
             DriversInfo = new DriverInfo[0];

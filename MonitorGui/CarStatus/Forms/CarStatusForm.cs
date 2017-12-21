@@ -1,12 +1,13 @@
-﻿using System;
-using System.Windows.Forms;
-using SecondMonitor.DataModel;
-using SecondMonitor.PluginManager.Core;
-using SecondMonitor.PluginManager.GameConnector;
-using System.Drawing;
-
-namespace SecondMonitor.CarStatus.Forms
+﻿namespace SecondMonitor.MonitorGui.CarStatus.Forms
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.PluginManager.Core;
+    using SecondMonitor.PluginManager.GameConnector;
+
     public partial class CarStatusForm : Form, ISecondMonitorPlugin
     {
 
@@ -32,6 +33,7 @@ namespace SecondMonitor.CarStatus.Forms
             {
                 return _pluginManager;
             }
+
             set
             {
                 _pluginManager = value;
@@ -41,7 +43,7 @@ namespace SecondMonitor.CarStatus.Forms
 
         public void RunPlugin()
         {
-            this.Show();
+            Show();
         }
 
         private void CarStatusForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -79,6 +81,7 @@ namespace SecondMonitor.CarStatus.Forms
                     return;
                 }
             }
+
             UpdateWaterTemp(data);
             UpdateFuelLevel(data);
             pedalControl1.UpdateControl(data);
@@ -110,7 +113,7 @@ namespace SecondMonitor.CarStatus.Forms
 
         private void stayOnTopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.TopMost = !this.TopMost;
+            TopMost = !TopMost;
         }
     }
 }

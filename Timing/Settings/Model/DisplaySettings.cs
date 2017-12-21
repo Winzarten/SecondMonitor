@@ -1,9 +1,9 @@
-﻿using System;
-using SecondMonitor.DataModel;
-using SecondMonitor.DataModel.BasicProperties;
-
-namespace SecondMonitor.Timing.Model.Settings.Model
+﻿namespace SecondMonitor.Timing.Settings.Model
 {
+    using System;
+
+    using SecondMonitor.DataModel.BasicProperties;
+
     [Serializable]
     public class DisplaySettings
     {

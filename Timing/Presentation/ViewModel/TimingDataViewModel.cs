@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.DataHandler
+﻿namespace SecondMonitor.Timing.Presentation.ViewModel
 {
     using System;
     using System.Collections.ObjectModel;
@@ -15,15 +15,17 @@
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.PluginManager.Core;
     using SecondMonitor.PluginManager.GameConnector;
-    using SecondMonitor.Timing.DataHandler.Commands;
-    using SecondMonitor.Timing.GUI;
-    using SecondMonitor.Timing.Model;
-    using SecondMonitor.Timing.Model.Drivers;
-    using SecondMonitor.Timing.Model.Drivers.ModelView;
-    using SecondMonitor.Timing.Model.Settings.Model;
-    using SecondMonitor.Timing.Model.Settings.ModelView;
+    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
+    using SecondMonitor.Timing.SessionTiming.Drivers;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+    using SecondMonitor.Timing.SessionTiming.ViewModel;
     using SecondMonitor.Timing.Settings;
+    using SecondMonitor.Timing.Settings.Model;
     using SecondMonitor.Timing.Settings.ModelView;
+
+    using DisplaySettingsWindow = SecondMonitor.Timing.Presentation.View.DisplaySettingsWindow;
+    using TimingGui = SecondMonitor.Timing.Presentation.View.TimingGui;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -103,7 +105,7 @@
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(this.RunPlugin);
+                Dispatcher.Invoke(RunPlugin);
                 return;
             }
 
@@ -162,11 +164,11 @@
 
         private NoArgumentCommand _resetCommand;
 
-        public NoArgumentCommand ResetCommand => this._resetCommand ?? (this._resetCommand = new NoArgumentCommand(this.ScheduleReset));
+        public NoArgumentCommand ResetCommand => _resetCommand ?? (_resetCommand = new NoArgumentCommand(ScheduleReset));
 
         public NoArgumentCommand OpenSettingsCommand => new NoArgumentCommand(OpenSettingsWindow);
 
-        public NoArgumentCommand RightClickCommand => new NoArgumentCommand(this.UnSelectItem);
+        public NoArgumentCommand RightClickCommand => new NoArgumentCommand(UnSelectItem);
 
 
         private void OpenSettingsWindow()
@@ -179,7 +181,7 @@
 
             _settingsWindow = new DisplaySettingsWindow();
             _settingsWindow.DataContext = DisplaySettings;
-            this._settingsWindow.Owner = this._gui;
+            _settingsWindow.Owner = _gui;
             _settingsWindow.Show();
         }
 
@@ -203,14 +205,14 @@
 
         private void ChangeOrderingMode()
         {
-            if (ViewSource == null || this._timing == null)
+            if (ViewSource == null || _timing == null)
             {
                 return;
             }
 
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(this.ChangeOrderingMode);
+                Dispatcher.Invoke(ChangeOrderingMode);
                 return;
             }
 
@@ -239,7 +241,7 @@
 
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(this.ChangeTimeDisplayMode);
+                Dispatcher.Invoke(ChangeTimeDisplayMode);
                 return;
             }
 
@@ -288,12 +290,12 @@
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
             _lastDataSet = args.Data;
-            if (ViewSource == null || this._timing == null)
+            if (ViewSource == null || _timing == null)
             {
                 return;
             }
 
-            if (this.Dispatcher.CheckAccess())
+            if (Dispatcher.CheckAccess())
             {
                 SimulatorDataSet data = args.Data;
 
@@ -322,7 +324,7 @@
             }
             else
             {
-                this.Dispatcher.Invoke(() => OnDataLoaded(sender, args));
+                Dispatcher.Invoke(() => OnDataLoaded(sender, args));
             }
         }
 
@@ -373,7 +375,7 @@
                     .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits) + " |Track: "
                 + data.SessionInfo.WeatherInfo.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits).ToString("n1")
                 + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits);
-            _gui.LblRemainig.Content = this.GetSessionRemaining(data);
+            _gui.LblRemainig.Content = GetSessionRemaining(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
@@ -401,7 +403,8 @@
             {
                 return;
             }
-            if (!this.Dispatcher.CheckAccess())
+
+            if (!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke(() => RefreshGui(data));
                 return;
@@ -424,7 +427,7 @@
 
         private void RefreshDataGrid()
         {
-            this.ViewSource?.View.Refresh();
+            ViewSource?.View.Refresh();
         }
 
         private string GetSessionRemaining(SimulatorDataSet dataSet)
@@ -458,7 +461,7 @@
 
             var invalidateLap = _shouldReset == ResetModeEnum.Manual ||
                                 data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
-            this._lastDataSet = data;
+            _lastDataSet = data;
 
             _timing = SessionTiming.FromSimulatorData(data, invalidateLap, this);
             _timing.BestLapChangedEvent += BestLapChangedHandler;
@@ -467,8 +470,8 @@
             _timing.PaceLaps = DisplaySettings.PaceLaps;
 
             InitializeGui(data);
-            this.ChangeTimeDisplayMode();
-            this.ChangeOrderingMode();
+            ChangeTimeDisplayMode();
+            ChangeOrderingMode();
             ConnectedSource = data.Source;
             _bestSessionLap = null;
             NotifyPropertyChanged("BestLapFormatted");
@@ -504,7 +507,7 @@
 
             if (ViewSource == null)
             {
-                ViewSource = new CollectionViewSource { Source = this.Collection };
+                ViewSource = new CollectionViewSource { Source = Collection };
                 _gui.DtTimig.DataContext = null;
                 _gui.DtTimig.DataContext = this;                
             }
@@ -551,19 +554,19 @@
 
             if (args?.PropertyName == SessionOptionsModelView.OrderingModeProperty.Name)
             {
-                this.ChangeOrderingMode();
+                ChangeOrderingMode();
             }
 
             if (args?.PropertyName == SessionOptionsModelView.TimesDisplayModeProperty.Name)
             {
-                this.ChangeTimeDisplayMode();
+                ChangeTimeDisplayMode();
             }
 
         }
 
         private void ApplyDisplaySettings(DisplaySettingsModelView settings)
         {
-            if (settings == null || this._gui == null)
+            if (settings == null || _gui == null)
             {
                 return;
             }
@@ -627,12 +630,12 @@
 
         private void UnSelectItem()
         {
-            if (this._gui == null)
+            if (_gui == null)
             {
                 return;
             }
 
-            this._gui.DtTimig.SelectedItem = null;
+            _gui.DtTimig.SelectedItem = null;
         }
 
     }

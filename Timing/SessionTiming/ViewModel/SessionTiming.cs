@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Model
+﻿namespace SecondMonitor.Timing.SessionTiming.ViewModel
 {
     using System;
     using System.Collections;
@@ -8,9 +8,10 @@
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.Drivers;
-    using SecondMonitor.Timing.DataHandler;
-    using SecondMonitor.Timing.Model.Drivers;
-    using SecondMonitor.Timing.Model.Drivers.ModelView;
+    using SecondMonitor.Timing.Presentation.ViewModel;
+    using SecondMonitor.Timing.SessionTiming.Drivers;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
 
     public class SessionTiming : DependencyObject, IEnumerable
     {
@@ -93,10 +94,12 @@
                                    + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.LayoutLength)
                                   / LastSet.SessionInfo.TotalNumberOfLaps) * 1000);
                 }
+
                 if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
                 {
                     return (int)(1000 - (LastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength) * 1000);
                 }
+
                 return 0;
             }
         }
@@ -114,6 +117,7 @@
                 {
                     return;
                 }
+
                 DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
                 DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
                 drivers.Add(name, newDriverTimingModelView);
@@ -125,7 +129,7 @@
             timing.Drivers = drivers;
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
             {
-                timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining
+                timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
             }
 
             return timing;
@@ -193,6 +197,7 @@
 
             }
         }
+
         private void UpdateDriver(DriverInfo modelInfo, DriverTimingModelView DriverTimingModelView, SimulatorDataSet set)
         {
             DriverTiming timingInfo = DriverTimingModelView.DriverTiming;
@@ -202,6 +207,7 @@
                 _bestSessionLap = timingInfo.LastCompletedLap;
                 RaiseBestLapChangedEvent(_bestSessionLap);
             }
+
             if (timingInfo.Position == 1)
                 Leader = DriverTimingModelView;
 

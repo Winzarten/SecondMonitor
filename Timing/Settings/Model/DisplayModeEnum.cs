@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace SecondMonitor.Timing.Model.Settings.Model
+﻿namespace SecondMonitor.Timing.Settings.Model
 {
+    using System;
+
     [Serializable]
     public enum DisplayModeEnum
     {

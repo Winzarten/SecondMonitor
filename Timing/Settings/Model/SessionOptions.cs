@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace SecondMonitor.Timing.Model.Settings.Model
+﻿namespace SecondMonitor.Timing.Settings.Model
 {
-    using SecondMonitor.Timing.Settings.Model;
+    using System;
 
     [Serializable]
     public class SessionOptions

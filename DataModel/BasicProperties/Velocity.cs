@@ -6,7 +6,7 @@
 
     public class Velocity
     {
-        public static readonly Velocity Zero = Velocity.FromMs(0);
+        public static readonly Velocity Zero = FromMs(0);
 
         private Velocity(double ms)
         {
@@ -62,7 +62,7 @@
 
         public static Velocity operator -(Velocity v1, Velocity v2)
         {
-            return Velocity.FromMs(v1.InMs - v2.InMs);
+            return FromMs(v1.InMs - v2.InMs);
         }
 
         public double GetValueInUnits(VelocityUnits units)

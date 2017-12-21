@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
-using System.Windows.Forms;
-using SecondMonitor.DataModel;
-using System.Drawing;
-
-namespace SecondMonitor.CarStatus.Forms.Controls
+﻿namespace SecondMonitor.WindowsControls.Controls
 {
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.BasicProperties;
+
     public partial class WheelStatusControl : UserControl
     {
 
@@ -54,7 +57,7 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             wear = wheel.TyreWear;
             lblTyreType.Text = wheel.TyreType;
             lblTyreType.Visible = wheel.TyreTypeFilled;
-            pnlWear.Width = (int)((1 - wear) * this.Width);
+            pnlWear.Width = (int)((1 - wear) * Width);
             lbWear.Text = ((1 - wear) * 100).ToString("0");
         }
 
@@ -99,13 +102,13 @@ namespace SecondMonitor.CarStatus.Forms.Controls
         {
             double threshold = window / 2;
             int r =0, g =0 , b =0;
-            r = 0 + (int)((MaxRed - 0) * (value-optimalValue - threshold) / (threshold));
+            r = 0 + (int)((MaxRed - 0) * (value-optimalValue - threshold) / threshold);
             if (value > optimalValue + threshold)
-                g = MaxGreen + (int)((0 - MaxGreen) * (value - optimalValue - window) / (window));
+                g = MaxGreen + (int)((0 - MaxGreen) * (value - optimalValue - window) / window);
             else
-                g = 0 + (int)((MaxGreen - 0) * (value - optimalValue + window) / (window));
+                g = 0 + (int)((MaxGreen - 0) * (value - optimalValue + window) / window);
 
-            b = MaxBlue + (int)((0 - MaxBlue) * (value - optimalValue + window) / (threshold));
+            b = MaxBlue + (int)((0 - MaxBlue) * (value - optimalValue + window) / threshold);
             if (r < 0)
                 r = 0;
             if (r > MaxRed)
@@ -149,16 +152,16 @@ namespace SecondMonitor.CarStatus.Forms.Controls
         public WheelStatusControl()
         {            
             InitializeComponent();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.PerformAutoScale();
+            AutoScaleMode = AutoScaleMode.Dpi;
+            PerformAutoScale();
         }
 
-        private void pictureBox2_Click(object sender, System.EventArgs e)
+        private void pictureBox2_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void WheelStatusControl_Load(object sender, System.EventArgs e)
+        private void WheelStatusControl_Load(object sender, EventArgs e)
         {
 
         }

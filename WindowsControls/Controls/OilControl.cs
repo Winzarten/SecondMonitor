@@ -1,8 +1,9 @@
-﻿using System.Windows.Forms;
-using SecondMonitor.DataModel;
-
-namespace SecondMonitor.CarStatus.Forms.Controls
+﻿namespace SecondMonitor.WindowsControls.Controls
 {
+    using System.Windows.Forms;
+
+    using SecondMonitor.DataModel;
+
     public partial class OilControl : UserControl
     {
         public OilControl()

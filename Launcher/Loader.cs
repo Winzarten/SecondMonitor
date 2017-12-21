@@ -17,6 +17,7 @@
         
         private static readonly string ConnectorsDir = "Connectors";
         
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -27,7 +28,7 @@
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,ConnectorsDir));
+                LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConnectorsDir));
                 Application.Run();
 
             }
@@ -52,8 +53,9 @@
             if (connectors.Count == 0)
             {
                 MessageBox.Show("No connectors loaded. Please place connectors .dll into " + connectorsDir, "No connectors", MessageBoxButtons.OK);
-                System.Environment.Exit(1);
+                Environment.Exit(1);
             }
+
             ConnectAndLoadPlugins(connectors.ToArray<IGameConnector>());
         }
 

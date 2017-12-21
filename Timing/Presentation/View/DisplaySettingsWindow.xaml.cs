@@ -1,7 +1,7 @@
-﻿using System.Windows;
-
-namespace SecondMonitor.Timing.GUI
+﻿namespace SecondMonitor.Timing.Presentation.View
 {
+    using System.Windows;
+
     /// <summary>
     /// Interaction logic for DisplaySettingsWindow.xaml
     /// </summary>

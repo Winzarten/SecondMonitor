@@ -70,7 +70,7 @@
             _disconnect = false;
         }
 
-        public bool IsConnected => (_sharedMemory != null && _isSharedMemoryInitialized);
+        public bool IsConnected => _sharedMemory != null && _isSharedMemoryInitialized;
 
         public int TickTime
         {
@@ -90,6 +90,7 @@
                 _process = null;
                 return false;
             }
+
             foreach (var processName in PCarsExecutables)
             {
                 var processes = Process.GetProcessesByName(processName);
@@ -99,6 +100,7 @@
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -120,6 +122,7 @@
             {
                 return false;
             }
+
             try
             {
                 _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
@@ -156,6 +159,7 @@
             {
                 throw new InvalidOperationException("Daemon is already running");
             }
+
             lock (_queue)
             {
                 _queue.Clear();
@@ -178,12 +182,13 @@
                 PCarsApiStruct data = Load();
                 try
                 {
-                    //This a state that sometimes occurs when saving pit preset during race
-                    //This state is ignored, otherwise it would trigger a session reset
+                    // This a state that sometimes occurs when saving pit preset during race
+                    // This state is ignored, otherwise it would trigger a session reset
                     if (data.MSessionState == 0 && (data.MGameState == 2 || data.MGameState == 3))
                     {
                         continue;
                     }
+
                     DateTime tickTime = DateTime.Now;
                     TimeSpan lastTickDuration = tickTime.Subtract(_lastTick);
                     SimulatorDataSet simData= _pCarsConvertor.FromPcarsData(data, lastTickDuration);
@@ -201,16 +206,18 @@
                     {
                         _queue.Enqueue(simData);
                     }
+
                     if (!IsPCarsRunning())
                     {
                         _disconnect = true;
                     }
+
                     _lastTick = tickTime;
                     _previousSet = simData;
                 }
                 catch (NameNotFilledException)
                 {
-                    //Ignore, names are sometimes not set in the shared memory
+                    // Ignore, names are sometimes not set in the shared memory
                 }
             }
 
@@ -226,7 +233,7 @@
                 return true;
             }
 
-            return this._previousSet.SessionInfo.SessionTimeRemaining - data.MEventTimeRemaining < -5;
+            return _previousSet.SessionInfo.SessionTimeRemaining - data.MEventTimeRemaining < -5;
         }
 
         private void QueueProcessor()
@@ -240,10 +247,13 @@
                     {
                         set = _queue.Dequeue();
                     }
+
                     RaiseDataLoadedEvent(set);
                 }
+
                 Thread.Sleep(TickTime);
             }
+
             _queue.Clear();
         }
 

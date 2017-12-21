@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.GUI
+﻿namespace SecondMonitor.Timing.Presentation.View
 {
     using System;
     using System.Globalization;

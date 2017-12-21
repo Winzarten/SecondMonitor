@@ -1,17 +1,18 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using SecondMonitor.DataModel;
-
-namespace SecondMonitor.CarStatus.Forms.Controls
+﻿namespace SecondMonitor.WindowsControls.Controls
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using SecondMonitor.DataModel;
+
     public partial class PedalControl : UserControl
     {
         public PedalControl()
         {
             InitializeComponent();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.PerformAutoScale();
+            AutoScaleMode = AutoScaleMode.Dpi;
+            PerformAutoScale();
             UpdatePostions();
             
 
@@ -29,17 +30,17 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             UpdateControlLocation(lblClutch, 0);
         }
 
-        private void UpdateControlLocation(Control control,int postion)
+        private void UpdateControlLocation(Control control, int postion)
         {
             Point loc = control.Location;
-            loc.X = (this.Width / 3) * postion;
+            loc.X = (Width / 3) * postion;
             control.Location = loc;
-            control.Width = this.Width / 3;
+            control.Width = Width / 3;
         }
 
         public void UpdateControl(SimulatorDataSet data)
         {
-            int refHeight = this.Height - 30;
+            int refHeight = Height - 30;
             UpdatePostions();
             UpdateControlsByValue(pnlThrottle, lblThrottle, data.PedalInfo.ThrottlePedalPosition);
             UpdateControlsByValue(pnlBrake, lblBrake, data.PedalInfo.BrakePedalPosition);
@@ -48,7 +49,7 @@ namespace SecondMonitor.CarStatus.Forms.Controls
 
         private void UpdateControlsByValue(Panel panel, Label label, double  value)
         {
-            int refHeight = this.Height - 30;
+            int refHeight = Height - 30;
 
             Point loc = panel.Location;
             loc.Y = 0;

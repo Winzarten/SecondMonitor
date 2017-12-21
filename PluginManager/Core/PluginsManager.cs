@@ -72,6 +72,7 @@
                 {
                     ConnectLoop();
                 }
+
                 Thread.Sleep(1000);
             }
         }
@@ -99,7 +100,7 @@
         public void InitializePlugins()
         {
             string pluginsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
-            IEnumerable<string> files = Directory.EnumerateFiles(pluginsDirectory, "*.dll",SearchOption.AllDirectories);
+            IEnumerable<string> files = Directory.EnumerateFiles(pluginsDirectory, "*.dll", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 string assemblyPath = Path.Combine(pluginsDirectory, file);
@@ -109,7 +110,7 @@
             if (_plugins.Count == 0)
             {
                 MessageBox.Show("No plugins loaded. Please place plugins .dll into " + pluginsDirectory, "No plugins", MessageBoxButtons.OK);
-                System.Environment.Exit(1);
+                Environment.Exit(1);
             }
 
             foreach (ISecondMonitorPlugin plugin in _plugins)
@@ -135,6 +136,7 @@
             {
                 return new List<ISecondMonitorPlugin>();
             }
+
             var types = assembly.GetTypes().Where(c => !c.IsInterface && secondMonitorPluginType.IsAssignableFrom(c));
             foreach (Type type in types)
             {
@@ -142,6 +144,7 @@
                 plugins.Add(plugin);
                 Logger.Info("Found plugin:" + type);
             }
+
             return plugins;
             
         }
@@ -156,7 +159,8 @@
                 if (!allDaemons)
                 {
                     return;
-                }            
+                }
+            
                 Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
                 Application.Exit();
             }
@@ -186,6 +190,7 @@
                 Logger.Info("Old set:");
                 LogSimulatorDataSet(_oldDataSet);
             }
+
             _oldDataSet = data;
             Logger.Info("New set:");
             LogSimulatorDataSet(_oldDataSet);

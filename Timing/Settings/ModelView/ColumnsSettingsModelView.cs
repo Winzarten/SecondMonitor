@@ -4,7 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.Timing.Annotations;
+    using SecondMonitor.Timing.Properties;
     using SecondMonitor.Timing.Settings.Model;
 
     public class ColumnsSettingsModelView : DependencyObject, INotifyPropertyChanged
@@ -91,17 +91,17 @@
 
         public void FromModel(ColumnsSettings columnsSettings)
         {
-            this.Position = ColumnSettingsModelView.CreateFromModel(columnsSettings.Position);
-            this.Name = ColumnSettingsModelView.CreateFromModel(columnsSettings.Name);
-            this.CarName = ColumnSettingsModelView.CreateFromModel(columnsSettings.CarName);
-            this.CompletedLaps = ColumnSettingsModelView.CreateFromModel(columnsSettings.CompletedLaps);
-            this.LastLapTime = ColumnSettingsModelView.CreateFromModel(columnsSettings.LastLapTime);
-            this.Pace = ColumnSettingsModelView.CreateFromModel(columnsSettings.Pace);
-            this.BestLap = ColumnSettingsModelView.CreateFromModel(columnsSettings.BestLap);
-            this.CurrentLapProgressTime = ColumnSettingsModelView.CreateFromModel(columnsSettings.CurrentLapProgressTime);
-            this.LastPitInfo = ColumnSettingsModelView.CreateFromModel(columnsSettings.LastPitInfo);
-            this.TimeToPlayer = ColumnSettingsModelView.CreateFromModel(columnsSettings.TimeToPlayer);
-            this.TopSpeed = ColumnSettingsModelView.CreateFromModel(columnsSettings.TopSpeed);
+            Position = ColumnSettingsModelView.CreateFromModel(columnsSettings.Position);
+            Name = ColumnSettingsModelView.CreateFromModel(columnsSettings.Name);
+            CarName = ColumnSettingsModelView.CreateFromModel(columnsSettings.CarName);
+            CompletedLaps = ColumnSettingsModelView.CreateFromModel(columnsSettings.CompletedLaps);
+            LastLapTime = ColumnSettingsModelView.CreateFromModel(columnsSettings.LastLapTime);
+            Pace = ColumnSettingsModelView.CreateFromModel(columnsSettings.Pace);
+            BestLap = ColumnSettingsModelView.CreateFromModel(columnsSettings.BestLap);
+            CurrentLapProgressTime = ColumnSettingsModelView.CreateFromModel(columnsSettings.CurrentLapProgressTime);
+            LastPitInfo = ColumnSettingsModelView.CreateFromModel(columnsSettings.LastPitInfo);
+            TimeToPlayer = ColumnSettingsModelView.CreateFromModel(columnsSettings.TimeToPlayer);
+            TopSpeed = ColumnSettingsModelView.CreateFromModel(columnsSettings.TopSpeed);
         }
 
         public static ColumnsSettingsModelView CreateFromModel(ColumnsSettings columnsSettings)
@@ -115,17 +115,17 @@
         {
             return new ColumnsSettings
                        {
-                           Position = this.Position.ToModel(),
-                           Name = this.Name.ToModel(),
-                           CarName = this.CarName.ToModel(),
-                           CompletedLaps = this.CompletedLaps.ToModel(),
-                           LastLapTime = this.LastLapTime.ToModel(),
-                           Pace = this.Pace.ToModel(),
-                           BestLap = this.BestLap.ToModel(),
-                           CurrentLapProgressTime = this.CurrentLapProgressTime.ToModel(),
-                           LastPitInfo = this.LastPitInfo.ToModel(),
-                           TimeToPlayer = this.TimeToPlayer.ToModel(),
-                           TopSpeed = this.TopSpeed.ToModel(),
+                           Position = Position.ToModel(),
+                           Name = Name.ToModel(),
+                           CarName = CarName.ToModel(),
+                           CompletedLaps = CompletedLaps.ToModel(),
+                           LastLapTime = LastLapTime.ToModel(),
+                           Pace = Pace.ToModel(),
+                           BestLap = BestLap.ToModel(),
+                           CurrentLapProgressTime = CurrentLapProgressTime.ToModel(),
+                           LastPitInfo = LastPitInfo.ToModel(),
+                           TimeToPlayer = TimeToPlayer.ToModel(),
+                           TopSpeed = TopSpeed.ToModel(),
             };
 
         }
@@ -133,7 +133,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

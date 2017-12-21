@@ -58,7 +58,7 @@
             _sessionStartR3RTime = 0;
         }
 
-        public bool IsConnected => (_sharedMemory != null);
+        public bool IsConnected => _sharedMemory != null;
 
         public int TickTime
         {
@@ -74,9 +74,11 @@
                 {
                     return true;
                 }
+
                 _process = null;
                 return false;
             }
+
             foreach (var processName in R3EExecutables)
             {
                 var processes = Process.GetProcessesByName(processName);
@@ -84,9 +86,11 @@
                 {
                     continue;
                 }
+
                 _process = processes[0];
                 return true;
             }
+
             return false;
         }
 
@@ -109,6 +113,7 @@
             {
                 return false;
             }
+
             try
             {
                 _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
@@ -135,7 +140,8 @@
             if (_daemonThread != null && _daemonThread.IsAlive)
             {
                 throw new InvalidOperationException("Daemon is already running");
-            }        
+            }
+        
             ResetConnector();
             _disconnect = false;
             _queue.Clear();
@@ -160,19 +166,23 @@
                     _lastTickInformation.Clear();
                     RaiseSessionStartedEvent(data);
                 }
+
                 if (r3RData.GamePaused != 1 && r3RData.ControlType != (int) Constant.Control.Replay)
                 {
                     _sessionTime = TimeSpan.FromSeconds(r3RData.Player.GameSimulationTime - _sessionStartR3RTime);
                 }
+
                 lock(_queue)
                 {
                     _queue.Enqueue(data);
                 }
+
                 if (r3RData.ControlType == -1 && !IsR3ERunning())
                 {
                     _disconnect = true;
                 }
             }
+
             _sharedMemory = null;
             RaiseDisconnectedEvent();
         }
@@ -188,10 +198,13 @@
                     {
                         set = _queue.Dequeue();
                     }
+
                     RaiseDataLoadedEvent(set);
                 }
+
                 Thread.Sleep(TickTime);
             }
+
             _queue.Clear();
         }
 
@@ -213,6 +226,7 @@
             {
                 throw new InvalidOperationException("Not connected");
             }
+
             MemoryMappedViewStream view = _sharedMemory.CreateViewStream();
             BinaryReader stream = new BinaryReader(view);
             byte[] buffer = stream.ReadBytes(Marshal.SizeOf(typeof(R3ESharedData)));
@@ -249,6 +263,7 @@
                 _lastSessionPhase = r3RData.SessionPhase;
                 return true;
             }
+
             _lastSessionPhase = r3RData.SessionPhase;
             return false;
         }
@@ -257,7 +272,7 @@
         {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
-            _sessionTime = new TimeSpan(0,0,1);
+            _sessionTime = new TimeSpan(0, 0, 1);
             handler?.Invoke(this, args);
         }
 

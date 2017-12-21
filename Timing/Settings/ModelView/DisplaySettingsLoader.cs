@@ -1,12 +1,14 @@
-﻿using System;
-using System.IO;
-
-using Newtonsoft.Json;
-using NLog;
-using SecondMonitor.Timing.Model.Settings.Model;
-
-namespace SecondMonitor.Timing.Model.Settings.ModelView
+﻿namespace SecondMonitor.Timing.Settings.ModelView
 {
+    using System;
+    using System.IO;
+
+    using Newtonsoft.Json;
+
+    using NLog;
+
+    using SecondMonitor.Timing.Settings.Model;
+
     public class DisplaySettingsLoader
     {
         public DisplaySettings LoadDisplaySettingsFromFileSafe(string fileName)
@@ -18,6 +20,7 @@ namespace SecondMonitor.Timing.Model.Settings.ModelView
                 {
                     return new DisplaySettings();
                 }
+
                 return (DisplaySettings)deserializedOptions;
             }
             catch (Exception ex)

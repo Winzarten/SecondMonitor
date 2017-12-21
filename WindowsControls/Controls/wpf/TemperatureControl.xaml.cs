@@ -1,6 +1,7 @@
-﻿using SecondMonitor.DataModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+
+using SecondMonitor.DataModel;
 
 namespace SecondMonitor.WindowsControls.Controls.wpf
 {

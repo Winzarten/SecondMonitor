@@ -1,17 +1,16 @@
-﻿namespace SecondMonitor.Timing.Model
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
 {
     using System;
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.Drivers;
-    using SecondMonitor.Timing.Model.Drivers;
 
     public class LapInfo
     {
-        public LapInfo(TimeSpan startSeesionTine, int lapNumber, DriverTiming driver)
+        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver)
         {
             Driver = driver;
-            LapStart = startSeesionTine;
+            LapStart = startSessionTime;
             LapProgressTime = new TimeSpan(0, 0, 0);
             LapNumber = lapNumber;
             Valid = true;
@@ -19,10 +18,10 @@
             PitLap = false;
         }
 
-        public LapInfo(TimeSpan startSeesionTine, int lapNumber, DriverTiming driver, bool firstLap)
+        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver, bool firstLap)
         {
             Driver = driver;
-            LapStart = startSeesionTine;
+            LapStart = startSessionTime;
             LapProgressTime = new TimeSpan(0, 0, 0);
             LapNumber = lapNumber;
             Valid = true;

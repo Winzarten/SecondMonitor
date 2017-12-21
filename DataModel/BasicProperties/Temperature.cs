@@ -13,7 +13,7 @@
 
         private Temperature(double valueInCelsius)
         {
-            this.InCelsius = valueInCelsius;
+            InCelsius = valueInCelsius;
         }
 
         public double InCelsius { get; }

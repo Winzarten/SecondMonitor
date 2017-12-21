@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Model.Drivers.ModelView
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
     using System.ComponentModel;
@@ -13,12 +13,13 @@
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Drivers;
-    using SecondMonitor.Timing.Annotations;
+    using SecondMonitor.Timing.Properties;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
     using SecondMonitor.Timing.Settings.ModelView;
 
     public class DriverTimingModelView : DependencyObject
     {
-        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(string), typeof(DriverTimingModelView));
@@ -48,6 +49,7 @@
             DriverTiming = driverTiming;
             ScheduleRefresh(this, CancellationToken.None);
         }
+
         private static async void ScheduleRefresh(DriverTimingModelView sender, CancellationToken cancellationToken)
         {
 
@@ -58,6 +60,7 @@
                 {
                     refreshRate = sender.DisplaySettingsModelView.RefreshRate;
                 }
+
                 await Task.Delay(refreshRate, cancellationToken);
 
                 if (!cancellationToken.IsCancellationRequested)
@@ -251,6 +254,7 @@
                 {
                     return FormatTimeSpan(lastCompletedLap.LapTime);
                 }
+
                 return FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime));
             }
 
@@ -263,7 +267,7 @@
 
             if (DriverTiming.CurrentLap == null)
             {
-                return "";
+                return string.Empty;
             }
 
             if (!DriverTiming.CurrentLap.Valid)
@@ -319,7 +323,7 @@
 
             if (DriverTiming.Session.Player == null)
             {
-                return "";
+                return string.Empty;
             }
 
             if (DriverTiming.DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && DriverTiming.DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na)
@@ -329,12 +333,12 @@
 
             if (DriverTiming.DriverInfo.IsPlayer)
             {
-                return "";
+                return string.Empty;
             }
 
             if (DriverTiming.Session.LastSet.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
             {
-                return "";
+                return string.Empty;
             }
 
             double distanceToUse;
@@ -349,12 +353,12 @@
 
             if (Math.Abs(distanceToUse) > DriverTiming.Session.LastSet.SessionInfo.LayoutLength)
             {
-                return ((int)(distanceToUse) / (int)DriverTiming.Session.LastSet.SessionInfo.LayoutLength) + "LAP";
+                return ((int)distanceToUse / (int)DriverTiming.Session.LastSet.SessionInfo.LayoutLength) + "LAP";
             }
 
             if (distanceToUse > 0)
             {
-                double requiredTime = distanceToUse / (DriverTiming.DriverInfo.Speed.InMs);
+                double requiredTime = distanceToUse / DriverTiming.DriverInfo.Speed.InMs;
                 if (requiredTime < 30)
                 {
                     return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
@@ -366,7 +370,7 @@
             }
             else
             {
-                double requiredTime = distanceToUse / (DriverTiming.Session.Player.DriverTiming.DriverInfo.Speed.InMs);
+                double requiredTime = distanceToUse / DriverTiming.Session.Player.DriverTiming.DriverInfo.Speed.InMs;
                 if (requiredTime > -30)
                 {
                     return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
@@ -382,17 +386,18 @@
 
         public static string FormatTimeSpan(TimeSpan timeSpan)
         {
-            //String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            //String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            //return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
+            // String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            // String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            // return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
             return timeSpan.ToString("mm\\:ss\\.fff");
         }
+
         public static string FormatTimeSpanOnlySeconds(TimeSpan timeSpan)
         {
-            //return "FOO";
-            //String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            //String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            //return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
+            // return "FOO";
+            // String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            // String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
+            // return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
             if (timeSpan < TimeSpan.Zero)
             {
                 return "-" + timeSpan.ToString("ss\\.fff");

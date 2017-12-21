@@ -1,8 +1,8 @@
-﻿namespace SecondMonitor.Timing.Model
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers
 {
     using System;
 
-    using SecondMonitor.Timing.Model.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
 
     public class DriverListModificationEventArgs : EventArgs
     {

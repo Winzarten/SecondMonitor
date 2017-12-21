@@ -40,10 +40,12 @@
             {
                 distanceToPlayer = distanceToPlayer + trackLength;
             }
+
             if (distanceToPlayer > (trackLength / 2))
             {
                 distanceToPlayer = distanceToPlayer - trackLength;
             }
+
             driverInfo.DistanceToPlayer = distanceToPlayer;
 
         }
@@ -257,6 +259,7 @@
             {
                 _pcarsConnector.SessionTime = new TimeSpan(0);
             }
+
             simData.SessionInfo.SessionTime = _pcarsConnector.SessionTime;
 
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(pCarsData.MAmbientTemperature);
@@ -312,6 +315,7 @@
             {
                 simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
             }
+
             simData.SessionInfo.TrackName = pCarsData.MTrackLocation;
             simData.SessionInfo.TrackLayoutName = pCarsData.MTrackVariation;
 
@@ -334,6 +338,7 @@
             {
                 return dataSet.SessionInfo.IsActive;
             }
+
             return dataSet.SessionInfo.SessionTime.TotalMilliseconds > _pitRaceTimeCheckDelay;
         }
 
@@ -369,6 +374,7 @@
                 {
                     continue;
                 }
+
                 driverInfo.InPits = true;
                 _driversInPits.Add(driverInfo.DriverName);
             }
@@ -394,16 +400,17 @@
         private bool AddPitsUsingTrackDistance(SimulatorDataSet dataSet, DriverInfo driverInfo, bool includeSpeedCheck)
         {
             bool isSpeedZero = !includeSpeedCheck || driverInfo.Speed.InMs < 0.01;
+
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if ((driverInfo.LapDistance != 0 || isSpeedZero) && _pitTriggerTimes.ContainsKey(driverInfo.DriverName))
             {
                 _pitTriggerTimes.Remove(driverInfo.DriverName);
             }
+
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (driverInfo.LapDistance != 0)
             {
-                if (_driversInPits.Contains(driverInfo.DriverName))
-                    _driversInPits.Remove(driverInfo.DriverName);
+                if (_driversInPits.Contains(driverInfo.DriverName)) _driversInPits.Remove(driverInfo.DriverName);
                 return false;
             }
 

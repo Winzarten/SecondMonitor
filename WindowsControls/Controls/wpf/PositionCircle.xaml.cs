@@ -1,14 +1,15 @@
-﻿using SecondMonitor.DataModel;
-using SecondMonitor.DataModel.Drivers;
-using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
-
-namespace SecondMonitor.WindowsControls.wpf
+﻿namespace SecondMonitor.WindowsControls.Controls.wpf
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+    using System.Windows.Shapes;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.Drivers;
+
     /// <summary>
     /// Interaction logic for PositionCircle.xaml
     /// </summary>
@@ -17,8 +18,8 @@ namespace SecondMonitor.WindowsControls.wpf
         private const int CircleMargin = 15;
         private const int CircleDiameter = CircleMargin / 2;
         private Ellipse _myCircle;        
-        private Dictionary<String, Ellipse> _driversPoints;
-        private Dictionary<String, TextBlock> _driverTexts;
+        private Dictionary<string, Ellipse> _driversPoints;
+        private Dictionary<string, TextBlock> _driverTexts;
         float _lapLength;
         public PositionCircle()
         {            
@@ -37,14 +38,14 @@ namespace SecondMonitor.WindowsControls.wpf
             else
                 size = mainControl.Height / 2;
             _myCircle = new Ellipse();
-            _myCircle.Fill = System.Windows.Media.Brushes.Black;
+            _myCircle.Fill = Brushes.Black;
             _myCircle.Width = 300;
             _myCircle.Height = 300;
             _myCircle.StrokeThickness = 3;
             _myCircle.Stroke = Brushes.Wheat;
             Canvas.SetLeft(_myCircle, CircleMargin);
             Canvas.SetTop(_myCircle, CircleMargin);
-            Canvas.SetZIndex(_myCircle, 0);
+            Panel.SetZIndex(_myCircle, 0);
             canvas.Children.Add(_myCircle);
         }
         
@@ -64,6 +65,7 @@ namespace SecondMonitor.WindowsControls.wpf
             {
                 canvas.Children.Remove(driver);
             }
+
             foreach (var driver in _driverTexts.Values)
             {
                 canvas.Children.Remove(driver);
@@ -97,6 +99,7 @@ namespace SecondMonitor.WindowsControls.wpf
                 canvas.Children.Remove(_driversPoints[driver.DriverName]);
                 _driversPoints.Remove(driver.DriverName);
             }
+
             if (_driverTexts.ContainsKey(driver.DriverName))
             {
                 canvas.Children.Remove(_driverTexts[driver.DriverName]);
@@ -230,7 +233,7 @@ namespace SecondMonitor.WindowsControls.wpf
         private void PositionFinishLine()
         {
             Canvas.SetLeft(finnishLine, canvas.ActualWidth / 2);
-            Canvas.SetZIndex(finnishLine, 3);
+            Panel.SetZIndex(finnishLine, 3);
         }
 
         private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)

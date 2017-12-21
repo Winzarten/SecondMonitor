@@ -13,98 +13,101 @@
         private DisplaySettingsModelView _displaySettings;
         private bool _inSave;
 
-        public DisplaySettingAutoSaver(string filePath) => this.FilePath = filePath;
+        public DisplaySettingAutoSaver(string filePath) => FilePath = filePath;
 
         public string FilePath { get; private set; }
 
         public DisplaySettingsModelView DisplaySettingsModelView
         {
-            get => this._displaySettings;
+            get => _displaySettings;
             set
             {
-                this.UnregisteredDisplaySettings();
-                this._displaySettings = value;
-                this.RegisterDisplaySettings();
+                UnregisteredDisplaySettings();
+                _displaySettings = value;
+                RegisterDisplaySettings();
             }
         }
 
         private void UnregisteredDisplaySettings()
         {
-            if (this._displaySettings == null)
+            if (_displaySettings == null)
             {
                 return;
             }
-            this._displaySettings.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            this._displaySettings.PracticeSessionDisplayOptions.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            this._displaySettings.QualificationSessionDisplayOptions.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            this._displaySettings.RaceSessionDisplayOptions.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            UnRegisterColumnsProperties(this._displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
-            UnRegisterColumnsProperties(this._displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
-            UnRegisterColumnsProperties(this._displaySettings.RaceSessionDisplayOptions.ColumnsSettings);
+
+            _displaySettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            _displaySettings.PracticeSessionDisplayOptions.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            _displaySettings.QualificationSessionDisplayOptions.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            _displaySettings.RaceSessionDisplayOptions.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            UnRegisterColumnsProperties(_displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
+            UnRegisterColumnsProperties(_displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
+            UnRegisterColumnsProperties(_displaySettings.RaceSessionDisplayOptions.ColumnsSettings);
         }
 
         private void UnRegisterColumnsProperties(ColumnsSettingsModelView columnsSettingsModelView)
         {
-            columnsSettingsModelView.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Position.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Name.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CarName.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CompletedLaps.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastLapTime.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Pace.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.BestLap.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CurrentLapProgressTime.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastPitInfo.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TimeToPlayer.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TopSpeed.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.Position.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.Name.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.CarName.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.CompletedLaps.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.LastLapTime.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.Pace.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.BestLap.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.CurrentLapProgressTime.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.LastPitInfo.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.TimeToPlayer.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.TopSpeed.PropertyChanged -= DisplaySettingsOnPropertyChanged;
         }
 
         private void RegisterColumnsProperties(ColumnsSettingsModelView columnsSettingsModelView)
         {
-            columnsSettingsModelView.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Position.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Name.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CarName.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CompletedLaps.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastLapTime.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Pace.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.BestLap.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CurrentLapProgressTime.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastPitInfo.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TimeToPlayer.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TopSpeed.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.Position.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.Name.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.CarName.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.CompletedLaps.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.LastLapTime.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.Pace.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.BestLap.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.CurrentLapProgressTime.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.LastPitInfo.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.TimeToPlayer.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsModelView.TopSpeed.PropertyChanged += DisplaySettingsOnPropertyChanged;
         }
 
         private void RegisterDisplaySettings()
         {
-            if (this._displaySettings == null)
+            if (_displaySettings == null)
             {
                 return;
             }
-            this._displaySettings.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            this._displaySettings.PracticeSessionDisplayOptions.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            this._displaySettings.QualificationSessionDisplayOptions.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            this._displaySettings.RaceSessionDisplayOptions.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            RegisterColumnsProperties(this._displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
-            RegisterColumnsProperties(this._displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
-            RegisterColumnsProperties(this._displaySettings.RaceSessionDisplayOptions.ColumnsSettings);        
+
+            _displaySettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            _displaySettings.PracticeSessionDisplayOptions.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            _displaySettings.QualificationSessionDisplayOptions.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            _displaySettings.RaceSessionDisplayOptions.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            RegisterColumnsProperties(_displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
+            RegisterColumnsProperties(_displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
+            RegisterColumnsProperties(_displaySettings.RaceSessionDisplayOptions.ColumnsSettings);        
         }
 
         private void DisplaySettingsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            this.Save();
+            Save();
         }
 
         public async void Save()
         {
-            if (this._inSave)
+            if (_inSave)
             {
                 return;
             }
-            this._inSave = true;
+
+            _inSave = true;
             await Task.Delay(1000);
-            this._inSave = false;
-            File.WriteAllText(this.FilePath, JsonConvert.SerializeObject(this._displaySettings.ToModel(),Formatting.Indented));
+            _inSave = false;
+            File.WriteAllText(FilePath, JsonConvert.SerializeObject(_displaySettings.ToModel(), Formatting.Indented));
         }
     
     }

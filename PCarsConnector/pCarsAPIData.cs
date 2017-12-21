@@ -24,7 +24,7 @@ namespace SecondMonitor.PCarsConnector
 
     public struct PCarsApiStruct
     {
-        //SMS supplied data structure
+        // SMS supplied data structure
         // Version Number
         public uint MVersion;                           // [ RANGE = 0->... ]
         public uint MBuildVersion;                      // [ RANGE = 0->... ]   [ UNSET = 0 ]

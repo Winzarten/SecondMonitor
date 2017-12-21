@@ -1,11 +1,11 @@
-﻿namespace SecondMonitor.Timing.Model.Settings.ModelView
+﻿namespace SecondMonitor.Timing.Settings.ModelView
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
-    using SecondMonitor.Timing.Annotations;
-    using SecondMonitor.Timing.Model.Settings.Model;
-    using SecondMonitor.Timing.Settings.ModelView;
+
+    using SecondMonitor.Timing.Properties;
+    using SecondMonitor.Timing.Settings.Model;
 
     public class SessionOptionsModelView : DependencyObject, INotifyPropertyChanged
     {

@@ -59,24 +59,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataHandler\Commands\ResetCommand.cs" />
-    <Compile Include="DataHandler\Commands\TimingModeChangedCommand.cs" />
-    <Compile Include="DataHandler\NotifyingDateTime.cs" />
-    <Compile Include="DataHandler\TimingDataViewModel.cs" />
-    <Compile Include="GUI\BindingProxy.cs" />
-    <Compile Include="GUI\DisplaySettingsWindow.xaml.cs">
+    <Compile Include="Presentation\ViewModel\Commands\ResetCommand.cs" />
+    <Compile Include="Presentation\ViewModel\Commands\DelegatedCommand.cs" />
+    <Compile Include="Presentation\ViewModel\NotifyingDateTime.cs" />
+    <Compile Include="Presentation\ViewModel\TimingDataViewModel.cs" />
+    <Compile Include="Presentation\View\BindingProxy.cs" />
+    <Compile Include="Presentation\View\DisplaySettingsWindow.xaml.cs">
       <DependentUpon>DisplaySettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\DoubleToDatagridLenghtValueConverter.cs" />
-    <Compile Include="GUI\TimingGUI.xaml.cs">
+    <Compile Include="Presentation\View\DoubleToDatagridLenghtValueConverter.cs" />
+    <Compile Include="Presentation\View\TimingGUI.xaml.cs">
       <DependentUpon>TimingGUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\DriverListModificationEventArgs.cs" />
-    <Compile Include="Model\Drivers\DriverTiming.cs" />
-    <Compile Include="Model\Drivers\PitStopInfo.cs" />
-    <Compile Include="Model\Drivers\ModelView\DriverTimingVisualiser.cs" />
-    <Compile Include="Model\LapInfo.cs" />
-    <Compile Include="Model\SessionTiming.cs" />
+    <Compile Include="SessionTiming\Drivers\DriverListModificationEventArgs.cs" />
+    <Compile Include="SessionTiming\Drivers\ModelView\DriverTiming.cs" />
+    <Compile Include="SessionTiming\Drivers\ModelView\PitStopInfo.cs" />
+    <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingVisualiser.cs" />
+    <Compile Include="SessionTiming\Drivers\ModelView\LapInfo.cs" />
+    <Compile Include="SessionTiming\ViewModel\SessionTiming.cs" />
     <Compile Include="Settings\ModelView\ColumnSettingsModelView.cs" />
     <Compile Include="Settings\ModelView\ColumnsSettingsModelView.cs" />
     <Compile Include="Settings\DisplaySettingAutoSaver.cs" />
@@ -120,11 +120,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="GUI\DisplaySettingsWindow.xaml">
+    <Page Include="Presentation\View\DisplaySettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\TimingGUI.xaml">
+    <Page Include="Presentation\View\TimingGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
