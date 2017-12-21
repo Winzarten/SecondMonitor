@@ -10,8 +10,11 @@ namespace SecondMonitor.DataModel
             FuelRemaining = new Volume();
             FuelPressure = new Pressure();
         }
-        public Volume FuelCapacity;
-        public Volume FuelRemaining;
-        public Pressure FuelPressure;
+
+        public Volume FuelCapacity { get; set; }
+
+        public Volume FuelRemaining { get; set; }
+
+        public Pressure FuelPressure { get; set; }
     }
 }

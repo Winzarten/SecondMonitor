@@ -1,41 +1,34 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.BasicProperties
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     public class Temperature
     {
-        private double _valueInCelsius;
-
         public Temperature()
         {
-            _valueInCelsius = -1;
+            InCelsius = -1;
         }
 
         private Temperature(double valueInCelsius)
         {
-            this._valueInCelsius = valueInCelsius;
+            this.InCelsius = valueInCelsius;
         }
 
-        public double InCelsius
-        {
-            get => _valueInCelsius;
-        }
+        public double InCelsius { get; }
+
         [JsonIgnore]
-        public double InFahrenheit
-        {
-            get => (_valueInCelsius * 9) / 5 + 32; 
-        }
+        public double InFahrenheit => (InCelsius * 9) / 5 + 32;
+
         [JsonIgnore]
-        public double InKelvin
-        {
-            get => _valueInCelsius + 273.15;
-        }
+        public double InKelvin => InCelsius + 273.15;
 
         public static Temperature FromCelsius(double temperatureInCelsius)
         {
             return new Temperature(temperatureInCelsius);
         }
+
         public static Temperature FromKelvin(double temperetureInKelvin)
         {
             return new Temperature( temperetureInKelvin - 273.15);
@@ -126,11 +119,9 @@ namespace SecondMonitor.DataModel
             if (temp1.InCelsius < temp2.InCelsius)
 
                 return -1;
-
             else if (temp1.InCelsius == temp2.InCelsius)
 
                 return 0;
-
             else if (temp1.InCelsius > temp2.InCelsius)
 
                 return 1;
@@ -142,7 +133,7 @@ namespace SecondMonitor.DataModel
         public override int GetHashCode()
         {
             var hashCode = 1054699813;
-            hashCode = hashCode * -1521134295 + _valueInCelsius.GetHashCode();
+            hashCode = hashCode * -1521134295 + InCelsius.GetHashCode();
             hashCode = hashCode * -1521134295 + InCelsius.GetHashCode();
             hashCode = hashCode * -1521134295 + InFahrenheit.GetHashCode();
             return hashCode;

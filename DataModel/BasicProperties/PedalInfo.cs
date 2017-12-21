@@ -8,8 +8,11 @@
             ThrottlePedalPosition = -1;
             ClutchPedalPosition = -1;
         }
-        public double BrakePedalPosition;
-        public double ThrottlePedalPosition;
-        public double ClutchPedalPosition;
+
+        public double BrakePedalPosition { get; set; }
+
+        public double ThrottlePedalPosition { get; set; }
+
+        public double ClutchPedalPosition { get; set; }
     }
 }

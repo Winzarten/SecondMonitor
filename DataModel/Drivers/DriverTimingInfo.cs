@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace SecondMonitor.DataModel.Drivers
+﻿namespace SecondMonitor.DataModel.Drivers
 {
     public class DriverTimingInfo
     {
-        public Single LastLapTime { get; set; } = -1;
+        public float LastLapTime { get; set; } = -1;
     }
 }

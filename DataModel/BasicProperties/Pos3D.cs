@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SecondMonitor.DataModel.BasicProperties
+﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     public class Point3D
     {
@@ -10,8 +8,11 @@ namespace SecondMonitor.DataModel.BasicProperties
             Y = y;
             Z = z;
         }
-        public Double X { get; private set; } = 0;
-        public Double Y { get; private set; } = 0;
-        public Double Z { get; private set; } = 0;
+
+        public double X { get; }
+
+        public double Y { get; }
+
+        public double Z { get; }
     }
 }

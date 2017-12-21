@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-
-namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel
 {
-    public class DatamodeSerializerHelper
+    using Newtonsoft.Json;
+
+    public class DataModelSerializerHelper
     {
         public static string ToJson(SimulatorDataSet value)
         {

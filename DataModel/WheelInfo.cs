@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.DataModel
 {
+    using SecondMonitor.DataModel.BasicProperties;
+
     public class WheelInfo
     {                
         public WheelInfo()
@@ -12,20 +14,30 @@
             TyreWear = 0;
             TyreTypeFilled = false;
         }
-        public Temperature BrakeTemperature;
-        public Pressure TyrePressure;
-        public Temperature LeftTyreTemp;
-        public Temperature RightTyreTemp;
-        public Temperature CenterTyreTemp;
-        public string TyreType;
-        public bool TyreTypeFilled;
-        public double TyreWear;
 
-        public Temperature OptimalTyreTemperature = Temperature.FromCelsius(85);
-        public double OptimpalTyreWindow = 15;
+        public Temperature BrakeTemperature { get; set; }
 
-        public Temperature OptimalBrakeTemperature = Temperature.FromCelsius(350);
-        public double OptimpalBrakeWindow = 200;
+        public Pressure TyrePressure { get; set; }
+
+        public Temperature LeftTyreTemp { get; set; }
+
+        public Temperature RightTyreTemp { get; set; }
+
+        public Temperature CenterTyreTemp { get; set; }
+
+        public string TyreType { get; set; }
+
+        public bool TyreTypeFilled { get; set; }
+
+        public double TyreWear { get; set; }
+
+        public Temperature OptimalTyreTemperature { get; set; } = Temperature.FromCelsius(85);
+
+        public double OptimalTyreWindow { get; set; } = 15;
+
+        public Temperature OptimalBrakeTemperature { get; set; } = Temperature.FromCelsius(350);
+
+        public double OptimalBrakeWindow { get; set; } = 200;
 
     }
 

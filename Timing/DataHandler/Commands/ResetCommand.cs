@@ -4,10 +4,12 @@ using System.Windows.Input;
 namespace SecondMonitor.Timing.DataHandler.Commands
 {
     public class NoArgumentCommand : ICommand
-    {
+    {        
+        private readonly Action _executeDelegate;
+
+        private readonly Func<bool> _canExecuteDelegate;
+
         public event EventHandler CanExecuteChanged;
-        private Action _executeDelegate;
-        private Func<bool> _canExecuteDelegate;
 
         public NoArgumentCommand(Action execute)
         {

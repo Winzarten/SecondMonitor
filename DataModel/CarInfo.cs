@@ -1,7 +1,7 @@
-﻿using SecondMonitor.DataModel.BasicProperties;
-
-namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel
 {
+    using SecondMonitor.DataModel.BasicProperties;
+
     public class CarInfo
     {
         public class Wheels
@@ -13,10 +13,14 @@ namespace SecondMonitor.DataModel
                 RearRight = new WheelInfo();
                 RearLeft = new WheelInfo();
             }
-            public WheelInfo FrontLeft;
-            public WheelInfo FrontRight;
-            public WheelInfo RearLeft;
-            public WheelInfo RearRight;
+
+            public WheelInfo FrontLeft { get; set; }
+
+            public WheelInfo FrontRight { get; set; }
+
+            public WheelInfo RearLeft { get; set; }
+
+            public WheelInfo RearRight { get; set; }
         }
 
         public CarInfo()
@@ -28,11 +32,15 @@ namespace SecondMonitor.DataModel
             Acceleration = new Acceleration();
         }
 
-        public Wheels WheelsInfo;
-        public OilInfo OilSystemInfo;
-        public FuelInfo FuelSystemInfo;
-        public WaterInfo WaterSystmeInfo;
-        public Acceleration Acceleration;
-        
+        public Wheels WheelsInfo { get; set; }
+
+        public OilInfo OilSystemInfo { get; set; }
+
+        public FuelInfo FuelSystemInfo { get; set; }
+
+        public WaterInfo WaterSystmeInfo { get; set; }
+
+        public Acceleration Acceleration { get; set; }
+
     }
 }

@@ -66,7 +66,7 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             if (wheel == null)
                 return;
             lblBreakTemp.Text = wheel.BrakeTemperature.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            lblBreakTemp.PixelOn = ComputeColor(wheel.BrakeTemperature.InCelsius, wheel.OptimalBrakeTemperature.InCelsius, wheel.OptimpalBrakeWindow);
+            lblBreakTemp.PixelOn = ComputeColor(wheel.BrakeTemperature.InCelsius, wheel.OptimalBrakeTemperature.InCelsius, wheel.OptimalBrakeWindow);
         }
 
         private WheelInfo GetWheelByPosition(SimulatorDataSet data)
@@ -131,11 +131,11 @@ namespace SecondMonitor.CarStatus.Forms.Controls
             if (wheel == null)
                 return;            
             wheelTempLeft.Text = wheel.LeftTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            wheelTempLeft.PixelOn = ComputeColor(wheel.LeftTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
+            wheelTempLeft.PixelOn = ComputeColor(wheel.LeftTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimalTyreWindow);
             wheelTempCenter.Text = wheel.CenterTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            wheelTempCenter.PixelOn = ComputeColor(wheel.CenterTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
+            wheelTempCenter.PixelOn = ComputeColor(wheel.CenterTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimalTyreWindow);
             wheelTempRight.Text = wheel.RightTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            wheelTempRight.PixelOn = ComputeColor(wheel.RightTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimpalTyreWindow);
+            wheelTempRight.PixelOn = ComputeColor(wheel.RightTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimalTyreWindow);
         }
 
         public void UpdateControl(SimulatorDataSet data)

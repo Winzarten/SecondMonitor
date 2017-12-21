@@ -1,7 +1,5 @@
 ﻿namespace SecondMonitor.DataModel.Drivers
 {
-    using System;
-
     using SecondMonitor.DataModel.BasicProperties;
 
     public class DriverInfo

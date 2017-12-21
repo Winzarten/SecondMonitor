@@ -1,26 +1,42 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     public class Pressure
     {
-        private double _valueInKpa;      
-        
         public Pressure()
         {
-            _valueInKpa = -1;
+            InKpa = -1;
         }
 
         private Pressure(double valueInKpa)
         {
-            this._valueInKpa = valueInKpa;
+            this.InKpa = valueInKpa;
         }
 
-        public double InKpa
-        {
-            get { return _valueInKpa; }
+        public double InKpa { get; }
 
+        public static string GetUnitSymbol(PressureUnits units)
+        {
+            switch (units)
+            {
+                case PressureUnits.Kpa:
+                    return " KPa";
+                case PressureUnits.Atmosphere:
+                    return " ATM";
+                case PressureUnits.Bar:
+                    return "Bar";
+                case PressureUnits.Psi:
+                    return "Psi";
+            }
+            throw new ArgumentException("Unable to return symbol fir" + units.ToString());
+        }
+
+        public static Pressure FromKiloPascals(double pressureInKpa)
+        {
+            return new Pressure(pressureInKpa);
         }
 
         public double GetValueInUnits(PressureUnits units)
@@ -39,40 +55,13 @@ namespace SecondMonitor.DataModel
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
 
-        static public string GetUnitSymbol(PressureUnits units)
-        {
-            switch (units)
-            {
-                case PressureUnits.Kpa:
-                    return " KPa";
-                case PressureUnits.Atmosphere:
-                    return " ATM";
-                case PressureUnits.Bar:
-                    return "Bar";
-                case PressureUnits.Psi:
-                    return "Psi";
-            }
-            throw new ArgumentException("Unable to return symbol fir" + units.ToString());
-        }
         [JsonIgnore]
-        public double InAtmospheres
-        {
-            get { return InKpa / 101.3; }
-        }
-        [JsonIgnore]
-        public double InBars
-        {
-            get { return InKpa * 0.01; }
-        }
-        [JsonIgnore]
-        public double InPsi
-        {
-            get { return InKpa * 0.145038; }
-        }
+        public double InAtmospheres => InKpa / 101.3;
 
-        public static Pressure FromKiloPascals(double pressureInKpa)
-        {
-            return new Pressure(pressureInKpa);
-        }
+        [JsonIgnore]
+        public double InBars => InKpa * 0.01;
+
+        [JsonIgnore]
+        public double InPsi => InKpa * 0.145038;       
     }
 }

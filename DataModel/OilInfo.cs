@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.DataModel
 {
+    using SecondMonitor.DataModel.BasicProperties;
+
     public class OilInfo
     {
         public OilInfo()
@@ -7,7 +9,9 @@
             OilPressure = new Pressure();
             OilTemperature = new Temperature();
         }
-        public Temperature OilTemperature;
-        public Pressure OilPressure;
+
+        public Temperature OilTemperature { get; set; }
+
+        public Pressure OilPressure { get; set; }
     }
 }
