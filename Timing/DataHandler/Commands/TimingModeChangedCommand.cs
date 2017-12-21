@@ -7,23 +7,19 @@ namespace SecondMonitor.Timing.DataHandler.Commands
     {
         public event EventHandler CanExecuteChanged
         {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-            }
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-            }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
-        private Action _executeDelegate;
-        private Func<bool> _canExecuteDelegate;
+
+        private readonly Action _executeDelegate;
+        private readonly Func<bool> _canExecuteDelegate;
 
         public TimingModeChangedCommand(Action execute)
         {
             _executeDelegate = execute;
-            _canExecuteDelegate = () => { return true; };
+            _canExecuteDelegate = () => true;
         }
+
         public TimingModeChangedCommand(Action execute, Func<bool> canExecute)
         {
             _executeDelegate = execute;

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using SecondMonitor.DataModel;
-using SecondMonitor.DataModel.BasicProperties;
-using SecondMonitor.DataModel.Drivers;
-using SecondMonitor.PCarsConnector.enums;
-
-namespace SecondMonitor.PCarsConnector
+﻿namespace SecondMonitor.PCarsConnector
 {
+    using System;
+    using System.Collections.Generic;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.PCarsConnector.enums;
+
     public class PCarsConvertor
     {
 
@@ -20,25 +21,43 @@ namespace SecondMonitor.PCarsConnector
 
         public PCarsConvertor(PCarsConnector pcarsConnector)
         {
-            this._pcarsConnector = pcarsConnector;
+            _pcarsConnector = pcarsConnector;
             _pitTriggerTimes = new Dictionary<string, TimeSpan>();
             _driversInPits = new HashSet<string>();
         }
 
         public Dictionary<string, TimeSpan> PitTriggerTimes => _pitTriggerTimes;
+
         public HashSet<string> DriversInPits => _driversInPits;
 
-        private void AddDriversData(PCarsApiStruct pcarsData, SimulatorDataSet data, TimeSpan lastTickDuration)
+        private static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, SimulatorDataSet data)
+        {
+            double trackLength = data.SessionInfo.LayoutLength;
+            double playerLapDistance = player.LapDistance;
+
+            double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
+            if (distanceToPlayer < -(trackLength / 2))
+            {
+                distanceToPlayer = distanceToPlayer + trackLength;
+            }
+            if (distanceToPlayer > (trackLength / 2))
+            {
+                distanceToPlayer = distanceToPlayer - trackLength;
+            }
+            driverInfo.DistanceToPlayer = distanceToPlayer;
+
+        }
+
+        private void AddDriversData(PCarsApiStruct pcarsData, SimulatorDataSet data)
         {
             if (pcarsData.MNumParticipants == -1)
             {
                 return;
             }
-            TrackDetails trackDetails =
-                TrackDetails.GetTrackDetails(data.SessionInfo.TrackName, data.SessionInfo.TrackLayoutName);
-            data.DriversInfo = new DataModel.Drivers.DriverInfo[pcarsData.MNumParticipants];
+
+            data.DriversInfo = new DriverInfo[pcarsData.MNumParticipants];
             DriverInfo playersInfo = null;
-            var computeSpeed = data.SessionInfo.SessionTime.TotalSeconds > this._pcarsConnector.NextSpeedComputation;
+            var computeSpeed = data.SessionInfo.SessionTime.TotalSeconds > _pcarsConnector.NextSpeedComputation;
             for (int i = 0; i < pcarsData.MNumParticipants; i++)
             {
                 PCarsApiParticipantStruct pcarsDriverData = pcarsData.MParticipantData[i];
@@ -46,11 +65,11 @@ namespace SecondMonitor.PCarsConnector
                     new DriverInfo
                     {
                         DriverName = pcarsDriverData.MName,
-                        CompletedLaps = (int) pcarsDriverData.MLapsCompleted,
+                        CompletedLaps = (int)pcarsDriverData.MLapsCompleted,
                         CarName = pcarsData.MCarClassName,
                         InPits = false,
                         IsPlayer = i == pcarsData.MViewedParticipantIndex,
-                        Position = (int) pcarsDriverData.MRacePosition,
+                        Position = (int)pcarsDriverData.MRacePosition,
                         LapDistance = pcarsDriverData.MCurrentLapDistance,
                         FinishStatus = DriverInfo.DriverFinishStatus.None,
                         CurrentLapValid = true,
@@ -73,6 +92,7 @@ namespace SecondMonitor.PCarsConnector
                 {
                     driverInfo.CurrentLapValid = true;
                 }
+
                 data.DriversInfo[i] = driverInfo;
                 if (string.IsNullOrEmpty(driverInfo.DriverName))
                 {
@@ -92,15 +112,18 @@ namespace SecondMonitor.PCarsConnector
                     data.SessionInfo.LeaderCurrentLap = driverInfo.CompletedLaps + 1;
                 }
             }
+
             if (computeSpeed)
             {
-                this._pcarsConnector.NextSpeedComputation += 0.5;
+                _pcarsConnector.NextSpeedComputation += 0.5;
             }
+
             if (playersInfo != null)
             {
                 data.PlayerInfo = playersInfo;
                 _lastPlayer = playersInfo;
             }
+
             AddPitsInfo(data);
             if (computeSpeed)
             {
@@ -111,27 +134,32 @@ namespace SecondMonitor.PCarsConnector
 
         private void AddSpeedInfo(SimulatorDataSet data, bool computeNewSpeed, DriverInfo driverInfo)
         {
-            if (!computeNewSpeed && this._pcarsConnector.PreviousTickInfo.ContainsKey(driverInfo.DriverName))
+            if (!computeNewSpeed && _pcarsConnector.PreviousTickInfo.ContainsKey(driverInfo.DriverName))
             {
-                driverInfo.Speed = this._pcarsConnector.PreviousTickInfo[driverInfo.DriverName].Speed;
+                driverInfo.Speed = _pcarsConnector.PreviousTickInfo[driverInfo.DriverName].Speed;
             }
-            if (this._pcarsConnector.PreviousTickInfo.ContainsKey(driverInfo.DriverName) && computeNewSpeed && _lastSpeedComputationSet != null)  
+
+            if (_pcarsConnector.PreviousTickInfo.ContainsKey(driverInfo.DriverName) && computeNewSpeed && _lastSpeedComputationSet != null)
             {
                 Point3D currentWorldPosition = driverInfo.WorldPosition;
-                Point3D previousWorldPosition =
-                    this._pcarsConnector.PreviousTickInfo[driverInfo.DriverName].WorldPosition;
+                Point3D previousWorldPosition = _pcarsConnector.PreviousTickInfo[driverInfo.DriverName].WorldPosition;
                 double duration = data.SessionInfo.SessionTime
                     .Subtract(_lastSpeedComputationSet.SessionInfo.SessionTime).TotalSeconds;
-                //double speed = lastTickDuration.TotalMilliseconds;
-                double speed = Math.Sqrt(Math.Pow(currentWorldPosition.X - previousWorldPosition.X, 2) +
-                                         Math.Pow(currentWorldPosition.Y - previousWorldPosition.Y, 2) +
-                                         Math.Pow(currentWorldPosition.Z - previousWorldPosition.Z, 2)) / duration;
-                //if (speed < 200)
-                    driverInfo.Speed = Velocity.FromMs(speed);
+
+                // double speed = lastTickDuration.TotalMilliseconds;
+                double speed = Math.Sqrt(
+                                   Math.Pow(currentWorldPosition.X - previousWorldPosition.X, 2)
+                                   + Math.Pow(currentWorldPosition.Y - previousWorldPosition.Y, 2) + Math.Pow(
+                                       currentWorldPosition.Z - previousWorldPosition.Z,
+                                       2)) / duration;
+
+                // if (speed < 200)
+                driverInfo.Speed = Velocity.FromMs(speed);
             }
+
             if (computeNewSpeed)
-            {                
-                this._pcarsConnector.PreviousTickInfo[driverInfo.DriverName] = driverInfo;
+            {
+                _pcarsConnector.PreviousTickInfo[driverInfo.DriverName] = driverInfo;
             }
         }
 
@@ -141,41 +169,28 @@ namespace SecondMonitor.PCarsConnector
             DriversInPits.Clear();
         }
 
-        private static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, SimulatorDataSet data)
-        {
-            double trackLength = data.SessionInfo.LayoutLength;
-            double playerLapDistance = player.LapDistance;
-
-            double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
-                if (distanceToPlayer < -(trackLength / 2))
-                    distanceToPlayer = distanceToPlayer + trackLength;
-                if (distanceToPlayer > (trackLength / 2))
-                    distanceToPlayer = distanceToPlayer - trackLength;
-                driverInfo.DistanceToPlayer = distanceToPlayer;
-            
-        }
-
-        //NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
+        // NEED EXTRACT WHEN SUPPORT FOR OTHER SIMS IS ADDED
         public SimulatorDataSet FromPcarsData(PCarsApiStruct data, TimeSpan lastTickDuration)
         {
             SimulatorDataSet simData = new SimulatorDataSet("PCars");
-            //PEDAL INFO
+
+            // PEDAL INFO
             simData.PedalInfo.ThrottlePedalPosition = data.MThrottle;
             simData.PedalInfo.BrakePedalPosition = data.MBrake;
             simData.PedalInfo.ClutchPedalPosition = data.MClutch;
 
             FillSessionInfo(data, simData, lastTickDuration);
-            AddDriversData(data, simData, lastTickDuration);
+            AddDriversData(data, simData);
 
-            //WaterSystemInfo
+            // WaterSystemInfo
             simData.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature =
                 Temperature.FromCelsius(data.MWaterTempCelsius);
 
-            //OilSystemInfo
+            // OilSystemInfo
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.MOilPressureKPa);
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.MOilTempCelsius);
 
-            //Brakes Info            
+            // Brakes Info            
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature =
                 Temperature.FromCelsius(data.MBrakeTempCelsius[0]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature =
@@ -185,72 +200,73 @@ namespace SecondMonitor.PCarsConnector
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature =
                 Temperature.FromCelsius(data.MBrakeTempCelsius[3]);
 
-            //Tyre Pressure Info
+            // Tyre Pressure Info
             /*simData.PlayerCarInfo.WheelsInfo.FrontLeft.TyrePressure = Pressure.FromKiloPascals(data.ty TirePressure.FrontLeft);
             simData.PlayerCarInfo.WheelsInfo.FrontRight.TyrePressure = Pressure.FromKiloPascals(data.TirePressure.FrontRight);
             simData.PlayerCarInfo.WheelsInfo.RearLeft.TyrePressure = Pressure.FromKiloPascals(data.TirePressure.RearLeft);
             simData.PlayerCarInfo.WheelsInfo.RearRight.TyrePressure = Pressure.FromKiloPascals(data.TirePressure.RearRight);*/
 
-            //Front Left Tyre Temps
+            // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp = Temperature.FromCelsius(data.MTyreTemp[0]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp = Temperature.FromCelsius(data.MTyreTemp[0]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp = Temperature.FromCelsius(data.MTyreTemp[0]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.MTyreWear[0];
 
-            //Front Right Tyre Temps
+            // Front Right Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp = Temperature.FromCelsius(data.MTyreTemp[1]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp = Temperature.FromCelsius(data.MTyreTemp[1]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp =
                 Temperature.FromCelsius(data.MTyreTemp[1]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = data.MTyreWear[1];
 
-            //Rear Left Tyre Temps
+            // Rear Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.LeftTyreTemp = Temperature.FromCelsius(data.MTyreTemp[2]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp = Temperature.FromCelsius(data.MTyreTemp[2]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp = Temperature.FromCelsius(data.MTyreTemp[2]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = data.MTyreWear[2];
 
-            //Rear Right Tyre Temps
+            // Rear Right Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp = Temperature.FromCelsius(data.MTyreTemp[3]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp = Temperature.FromCelsius(data.MTyreTemp[3]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp = Temperature.FromCelsius(data.MTyreTemp[3]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = data.MTyreWear[3];
 
-            //Fuel
+            // Fuel
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(data.MFuelCapacity);
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining =
                 Volume.FromLiters(data.MFuelCapacity * data.MFuelLevel);
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelPressure = Pressure.FromKiloPascals(data.MFuelPressureKPa);
 
-            //Acceleration
+            // Acceleration
             simData.PlayerInfo.CarInfo.Acceleration.XinMs = data.MLocalAcceleration[0];
             simData.PlayerInfo.CarInfo.Acceleration.YinMs = data.MLocalAcceleration[1];
             simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.MLocalAcceleration[2];
-
 
             return simData;
         }
 
         private void FillSessionInfo(PCarsApiStruct pCarsData, SimulatorDataSet simData, TimeSpan lastTickDuration)
         {
-
             if (pCarsData.MGameState == 2)
             {
-                this._pcarsConnector.SessionTime = this._pcarsConnector.SessionTime.Add(lastTickDuration);
+                _pcarsConnector.SessionTime = _pcarsConnector.SessionTime.Add(lastTickDuration);
             }
-            if (pCarsData.MSessionState == (int) ESessionState.SessionInvalid ||
-                (pCarsData.MSessionState == (int) ESessionState.SessionRace && pCarsData.MRaceState == 1))
-                this._pcarsConnector.SessionTime = new TimeSpan(0);
-            simData.SessionInfo.SessionTime = this._pcarsConnector.SessionTime;
 
+            if (pCarsData.MSessionState == (int)ESessionState.SessionInvalid
+                || (pCarsData.MSessionState == (int)ESessionState.SessionRace && pCarsData.MRaceState == 1))
+            {
+                _pcarsConnector.SessionTime = new TimeSpan(0);
+            }
+            simData.SessionInfo.SessionTime = _pcarsConnector.SessionTime;
 
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(pCarsData.MAmbientTemperature);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(pCarsData.MTrackTemperature);
-            simData.SessionInfo.WeatherInfo.RainIntensity = (int) (pCarsData.MRainDensity * 100);
+            simData.SessionInfo.WeatherInfo.RainIntensity = (int)(pCarsData.MRainDensity * 100);
             simData.SessionInfo.LayoutLength = pCarsData.MTrackLength;
             simData.SessionInfo.IsActive = true; // (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_RACING 
-            //|| (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_FINISHED;
-            switch ((ESessionState) pCarsData.MSessionState)
+
+            // || (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_FINISHED;
+            switch ((ESessionState)pCarsData.MSessionState)
             {
                 case ESessionState.SessionPractice:
                 case ESessionState.SessionTest:
@@ -266,9 +282,9 @@ namespace SecondMonitor.PCarsConnector
                 case ESessionState.SessionInvalid:
                     simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Na;
                     break;
-
             }
-            switch ((ERaceState) pCarsData.MRaceState)
+
+            switch ((ERaceState)pCarsData.MRaceState)
             {
                 case ERaceState.RacestateNotStarted:
                     simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Countdown;
@@ -282,14 +298,24 @@ namespace SecondMonitor.PCarsConnector
                 case ERaceState.RacestateFinished:
                     simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Checkered;
                     break;
+                case ERaceState.RacestateInvalid:
+                    break;
+                case ERaceState.RacestateMax:
+                    break;
+                default:
+                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+                    break;
 
             }
-            if (simData.SessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown &&
-                simData.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
+            if (simData.SessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown
+                && simData.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
+            {
                 simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+            }
             simData.SessionInfo.TrackName = pCarsData.MTrackLocation;
             simData.SessionInfo.TrackLayoutName = pCarsData.MTrackVariation;
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (pCarsData.MEventTimeRemaining != -1)
             {
                 simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Time;
@@ -298,15 +324,16 @@ namespace SecondMonitor.PCarsConnector
             else if (pCarsData.MLapsInEvent != 0)
             {
                 simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Laps;
-                simData.SessionInfo.TotalNumberOfLaps = (int) pCarsData.MLapsInEvent;
+                simData.SessionInfo.TotalNumberOfLaps = (int)pCarsData.MLapsInEvent;
             }
-
         }
 
         private bool ShouldCheckPits(SimulatorDataSet dataSet)
         {
             if (dataSet.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
+            {
                 return dataSet.SessionInfo.IsActive;
+            }
             return dataSet.SessionInfo.SessionTime.TotalMilliseconds > _pitRaceTimeCheckDelay;
         }
 
@@ -319,6 +346,7 @@ namespace SecondMonitor.PCarsConnector
                 AddPitsUsingTrackDistance(dataSet);
                 return;
             }
+
             foreach (var driverInfo in dataSet.DriversInfo)
             {
                 driverInfo.InPits = false;
@@ -330,17 +358,22 @@ namespace SecondMonitor.PCarsConnector
                         _driversInPits.Remove(driverName);
                         continue;
                     }
+
                     driverInfo.InPits = true;
                     continue;
                 }
-                if (!trackDetails.AtPitEntry(driverInfo) && !AddPitsUsingTrackDistance(dataSet,driverInfo, true) &&
-                    (dataSet.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race ||
-                     (dataSet.SessionInfo.SessionTime.TotalSeconds > 5))) continue;
+
+                if (!trackDetails.AtPitEntry(driverInfo) && !AddPitsUsingTrackDistance(dataSet, driverInfo, true)
+                    && (dataSet.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race
+                        || (dataSet.SessionInfo.SessionTime.TotalSeconds > 5)))
+                {
+                    continue;
+                }
                 driverInfo.InPits = true;
                 _driversInPits.Add(driverInfo.DriverName);
             }
         }
-        
+
 
         private void AddPitsUsingTrackDistance(SimulatorDataSet dataSet)
         {
@@ -355,20 +388,26 @@ namespace SecondMonitor.PCarsConnector
                     _driversInPits.Add(driverInfo.DriverName);
                 if (!inPits && _driversInPits.Contains(driverInfo.DriverName))
                     _driversInPits.Remove(driverInfo.DriverName);
-             }
+            }
         }
 
         private bool AddPitsUsingTrackDistance(SimulatorDataSet dataSet, DriverInfo driverInfo, bool includeSpeedCheck)
         {
             bool isSpeedZero = !includeSpeedCheck || driverInfo.Speed.InMs < 0.01;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if ((driverInfo.LapDistance != 0 || isSpeedZero) && _pitTriggerTimes.ContainsKey(driverInfo.DriverName))
+            {
                 _pitTriggerTimes.Remove(driverInfo.DriverName);
+            }
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (driverInfo.LapDistance != 0)
             {
                 if (_driversInPits.Contains(driverInfo.DriverName))
                     _driversInPits.Remove(driverInfo.DriverName);
                 return false;
             }
+
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (driverInfo.LapDistance == 0 && isSpeedZero)
             {
                 if (!_pitTriggerTimes.ContainsKey(driverInfo.DriverName))
@@ -376,8 +415,10 @@ namespace SecondMonitor.PCarsConnector
                     _pitTriggerTimes[driverInfo.DriverName] = dataSet.SessionInfo.SessionTime.Add(_pitTimeDelay);
                     return false;
                 }
+
                 return dataSet.SessionInfo.SessionTime > _pitTriggerTimes[driverInfo.DriverName];
             }
+
             return false;
         }
     }

@@ -9,20 +9,12 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-            {
-                return DataGridLength.Auto;
-            }
-            return new DataGridLength((double)value);
+            return value == null ? DataGridLength.Auto : new DataGridLength((double)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value == null)
-            {
-                return 0;
-            }
-            return ((DataGridLength)value).Value;
+            return ((DataGridLength?)value)?.Value ?? 0;
         }
     }
 }

@@ -1,33 +1,34 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Threading;
-
-namespace SecondMonitor.Timing.DataHandler
+﻿namespace SecondMonitor.Timing.DataHandler
 {
+    using System;
+    using System.ComponentModel;
+    using System.Windows.Threading;
+
     public class NotifyingDateTime : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private DateTime _now;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        
         public NotifyingDateTime()
         {
             _now = DateTime.Now;
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(1000);
-            timer.Tick += new EventHandler(timer_Tick);
+            DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1000) };
+            timer.Tick += TimerTick;
             timer.Start();
         }
 
         public DateTime Now
         {
-            get { return _now; }
+            get => _now;
             private set
             {
                 _now = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Now"));
             }
-
         }
-        void timer_Tick(object sender, EventArgs e)
+
+        private void TimerTick(object sender, EventArgs e)
         {
             Now = DateTime.Now;
         }

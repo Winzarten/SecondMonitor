@@ -65,22 +65,18 @@
 
         private LapInfo _bestSessionLap;
 
-        public string BestLapFormatted
-        {
-            get => _bestSessionLap != null
-                       ? _bestSessionLap.Driver.DriverInfo.DriverName + "-(L" + _bestSessionLap.LapNumber + "):"
-                         + DriverTiming.FormatTimeSpan(_bestSessionLap.LapTime)
-                       : "Best Session Lap";
-        }
+        public string BestLapFormatted => _bestSessionLap != null
+                                              ? _bestSessionLap.Driver.DriverInfo.DriverName + "-(L" + _bestSessionLap.LapNumber + "):"
+                                                + DriverTiming.FormatTimeSpan(_bestSessionLap.LapTime)
+                                              : "Best Session Lap";
 
-        public string SessionTime { get => _timing != null ? _timing.SessionTime.ToString("mm\\:ss\\.fff") : string.Empty; }
+        public string SessionTime => _timing?.SessionTime.ToString("mm\\:ss\\.fff") ?? string.Empty;
 
         public string ConnectedSource { get; private set; }
 
-        public string SystemTime { get => DateTime.Now.ToString("HH:mm"); }
-        
+        public string SystemTime => DateTime.Now.ToString("HH:mm");
 
-        public string Title
+        public static string Title
         {
             get
             {
@@ -110,21 +106,37 @@
                 Dispatcher.Invoke(this.RunPlugin);
                 return;
             }
+
             ConnectedSource = "Not Connected";
             CreateDisplaySettings();
+            CreateGuiInstance();
+            CreateAutoSaver();
+
+            ScheduleRefreshActions();
+
+            OnDisplaySettingsChange(this, null);
+            _shouldReset = ResetModeEnum.NoReset;
+        }
+
+        private void CreateAutoSaver()
+        {
+            _settingAutoSaver = new DisplaySettingAutoSaver(SettingsPath);
+            _settingAutoSaver.DisplaySettingsModelView = DisplaySettings;
+        }
+
+        private void ScheduleRefreshActions()
+        {
+            SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this, CancellationToken.None);
+            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 33, this, CancellationToken.None);
+            SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this, CancellationToken.None);
+        }
+
+        private void CreateGuiInstance()
+        {
             _gui = new TimingGui();
             _gui.Show();
             _gui.Closed += Gui_Closed;
             _gui.DataContext = this;
-            _settingAutoSaver = new DisplaySettingAutoSaver(SettingsPath);
-            _settingAutoSaver.DisplaySettingsModelView = DisplaySettings;            
-
-            SchedulePeriodicAction(new Action(() => RefreshGui(_lastDataSet)), 10000, this, CancellationToken.None);
-            SchedulePeriodicAction(new Action(() => RefreshBasicInfo(_lastDataSet)), 33, this, CancellationToken.None);
-            SchedulePeriodicAction(new Action(() => RefreshTimingCircle(_lastDataSet)), 300, this, CancellationToken.None);
-
-            OnDisplaySettingsChange(this, null);
-            _shouldReset = ResetModeEnum.NoReset;
         }
 
         private void CreateDisplaySettings()
@@ -164,21 +176,23 @@
                 _settingsWindow.Focus();
                 return;
             }
+
             _settingsWindow = new DisplaySettingsWindow();
             _settingsWindow.DataContext = DisplaySettings;
             this._settingsWindow.Owner = this._gui;
             _settingsWindow.Show();
         }
 
-        public int SessionCompletedPercentage => _timing != null ? _timing.SessionCompletedPercentage : 50;
+        public int SessionCompletedPercentage => _timing?.SessionCompletedPerMiles ?? 50;
 
         private void PaceLapsChanged()
         {
             if (_timing != null)
             {
                 _timing.PaceLaps = DisplaySettings.PaceLaps;
-            }            
-            _gui.Dispatcher.Invoke(RefreshDatagrid);
+            }
+            
+            _gui.Dispatcher.Invoke(RefreshDataGrid);
 
         }
 
@@ -222,6 +236,7 @@
             {
                 return;
             }
+
             if (!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke(this.ChangeTimeDisplayMode);
@@ -249,6 +264,7 @@
             {
                 return new SessionOptionsModelView();
             }
+
             switch (dataSet.SessionInfo.SessionType)
             {
                 case SessionInfo.SessionTypeEnum.Practice:
@@ -258,6 +274,7 @@
                     return DisplaySettings.QualificationSessionDisplayOptions;
                 case SessionInfo.SessionTypeEnum.Race:
                     return DisplaySettings.RaceSessionDisplayOptions;
+                case SessionInfo.SessionTypeEnum.Na:
                 default:
                     return new SessionOptionsModelView();
             }
@@ -275,16 +292,18 @@
             {
                 return;
             }
+
             if (this.Dispatcher.CheckAccess())
             {
                 SimulatorDataSet data = args.Data;
-                //Reset state was detected (either reset button was pressed or timing detected a session change)
 
+                // Reset state was detected (either reset button was pressed or timing detected a session change)
                 if (_shouldReset != ResetModeEnum.NoReset)
                 {
                     CreateTiming(data);
                     _shouldReset = ResetModeEnum.NoReset;
                 }
+
                 try
                 {
                     _timing?.UpdateTiming(data);
@@ -293,7 +312,7 @@
                 {
                     _shouldReset = ResetModeEnum.Automatic;
                     return;
-                }               
+                }
 
                 if (_sessionType != _timing.SessionType)
                 {
@@ -313,28 +332,32 @@
             {
                 return;
             }
+
             if (!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke(() => RefreshTimingCircle(data));
                 return;
             }
+
             _gui.TimingCircle.RefreshSession(data);
         }
 
         private void RefreshBasicInfo(SimulatorDataSet data)
         {
+            if (data == null)
+            {
+                return;
+            }
+
             if (!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke(() => RefreshBasicInfo(data));
                 return;
             }
-            if (data == null)
-            {
-                return;
-            }
+            
             NotifyPropertyChanged("SessionTime");
             NotifyPropertyChanged("SystemTime");
-            NotifyPropertyChanged("SessionCompletedPercentage");
+            NotifyPropertyChanged("SessionCompletedPerMiles");
             _gui.PedalControl.UpdateControl(data);
             _gui.WhLeftFront.UpdateControl(data);
             _gui.WhRightFront.UpdateControl(data);
@@ -370,8 +393,6 @@
                 Collection?.Add(e.Data);
                 _gui.TimingCircle.AddDriver(e.Data.DriverTiming.DriverInfo);
             });
-            
-
         }
 
         private void RefreshGui(SimulatorDataSet data)
@@ -380,28 +401,28 @@
             {
                 return;
             }
-            if(this.Dispatcher.CheckAccess())
+            if (!this.Dispatcher.CheckAccess())
             {
-                _gui.PedalControl.UpdateControl(data);
-                _gui.WhLeftFront.UpdateControl(data);
-                _gui.WhRightFront.UpdateControl(data);
-                _gui.WhLeftRear.UpdateControl(data);
-                _gui.WhRightRear.UpdateControl(data);
-                _gui.TimingCircle.RefreshSession(data);
-                RefreshDatagrid();
-                if (DisplaySettings.ScrollToPlayer && _gui != null && _timing?.Player != null && _gui.DtTimig.Items.Count > 0)
-                {
-                    _gui.DtTimig.ScrollIntoView(_gui.DtTimig.Items[0]);
-                    _gui.DtTimig.ScrollIntoView(_timing.Player);
-                }
+                Dispatcher.Invoke(() => RefreshGui(data));
+                return;
             }
-            else
+
+            _gui.PedalControl.UpdateControl(data);
+            _gui.WhLeftFront.UpdateControl(data);
+            _gui.WhRightFront.UpdateControl(data);
+            _gui.WhLeftRear.UpdateControl(data);
+            _gui.WhRightRear.UpdateControl(data);
+            _gui.TimingCircle.RefreshSession(data);
+            RefreshDataGrid();
+            if (DisplaySettings.ScrollToPlayer && _gui != null && _timing?.Player != null && _gui.DtTimig.Items.Count > 0)
             {
-                this.Dispatcher.Invoke(()=> RefreshGui(data));
+                _gui.DtTimig.ScrollIntoView(_gui.DtTimig.Items[0]);
+                _gui.DtTimig.ScrollIntoView(_timing.Player);
             }
+
         }
 
-        private void RefreshDatagrid()
+        private void RefreshDataGrid()
         {
             this.ViewSource?.View.Refresh();
         }
@@ -412,15 +433,18 @@
             {
                 return "NA";
             }
+
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
             {
                 return "Time Remaining: " + ((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":"
                        + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60).ToString("00");
             }
+
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
             {
                 return "Laps: " + (dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
             }
+
             return "NA";
         }
 
@@ -431,6 +455,7 @@
                 Dispatcher.Invoke(() => CreateTiming(data));
                 return;
             }
+
             var invalidateLap = _shouldReset == ResetModeEnum.Manual ||
                                 data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
             this._lastDataSet = data;
@@ -457,6 +482,7 @@
                 Dispatcher.Invoke(() => OnSessionStarted(sender, args));
                 return;
             }
+
             CreateTiming(args.Data);
             UpdateCurrentSessionOption(args.Data);
         }
@@ -482,6 +508,7 @@
                 _gui.DtTimig.DataContext = null;
                 _gui.DtTimig.DataContext = this;                
             }
+
             Collection.Clear();
             foreach (DriverTimingModelView d in _timing.Drivers.Values)
             {
@@ -540,11 +567,13 @@
             {
                 return;
             }
+
             if (!Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke(() => ApplyDisplaySettings(settings));
                 return;
             }
+
             _gui.WhLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
             _gui.WhRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
             _gui.WhLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
@@ -602,6 +631,7 @@
             {
                 return;
             }
+
             this._gui.DtTimig.SelectedItem = null;
         }
 

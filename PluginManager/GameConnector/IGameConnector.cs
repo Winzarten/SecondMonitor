@@ -6,7 +6,7 @@
 
     public class DataEventArgs : EventArgs
     {
-        
+
         public DataEventArgs(SimulatorDataSet data)
         {
             this.Data = data;

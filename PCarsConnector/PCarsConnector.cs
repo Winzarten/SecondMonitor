@@ -1,16 +1,16 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
-using System.Threading;
-using SecondMonitor.DataModel;
-using SecondMonitor.PluginManager.GameConnector;
-using System.Collections.Generic;
-using SecondMonitor.DataModel.Drivers;
-
-namespace SecondMonitor.PCarsConnector
+﻿namespace SecondMonitor.PCarsConnector
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.IO.MemoryMappedFiles;
+    using System.Runtime.InteropServices;
+    using System.Threading;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.PluginManager.GameConnector;
 
     public class PCarsConnector : IGameConnector
     {
@@ -22,26 +22,28 @@ namespace SecondMonitor.PCarsConnector
             }
         }
 
+        private static readonly string[] PCarsExecutables =  { "pCARS64", "pCARS2" };
+        private static readonly string SharedMemoryName = "$pcars$";
+        private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
+        private readonly PCarsConvertor _pCarsConvertor;
+
+        private int _sharedMemorySize;
+        private byte[] _sharedMemoryReadBuffer;
+        private bool _isSharedMemoryInitialized;
+        private GCHandle _handle;
         private MemoryMappedFile _sharedMemory;
-        private static int _sharedmemorysize;
-        private static byte[] _sharedMemoryReadBuffer;
-        private static bool _isSharedMemoryInitialised = false;
-        private static GCHandle _handle;
         private Process _process;
         private Thread _daemonThread;
         private bool _disconnect;
-        private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
-
+        
         private DateTime _lastTick = DateTime.Now;
-        private TimeSpan _lastSessionTimeLeft;
-        private TimeSpan _sessionTime = TimeSpan.Zero;
-
-        private static readonly string[] PCarsExecutables = new string[] {"pCARS64", "pCARS2" };
-        private static readonly string SharedMemoryName = "$pcars$";
 
         public event EventHandler<DataEventArgs> DataLoaded;
+
         public event EventHandler<EventArgs> ConnectedEvent;
+
         public event EventHandler<EventArgs> Disconnected;
+
         public event EventHandler<DataEventArgs> SessionStarted;
         
         private double _nextSpeedComputation;
@@ -51,12 +53,8 @@ namespace SecondMonitor.PCarsConnector
             get  => _nextSpeedComputation;
             set => _nextSpeedComputation = value;
         }
-       
-        private uint _lastSessionState = 0;
-        private SimulatorDataSet _previousSet = new SimulatorDataSet("PCARS");
-        private Dictionary<string, DriverInfo> _previousTickInfo = new Dictionary<string, DriverInfo>();
-        private readonly PCarsConvertor _pCarsConvertor;
 
+        private SimulatorDataSet _previousSet = new SimulatorDataSet("PCARS");
 
         public PCarsConnector()
         {
@@ -67,15 +65,12 @@ namespace SecondMonitor.PCarsConnector
 
         private void ResetConnector()
         {
-            _sessionTime = new TimeSpan(0);
+            SessionTime = new TimeSpan(0);
             _process = null;
             _disconnect = false;
         }
 
-        public bool IsConnected
-        {
-            get { return (_sharedMemory != null && _isSharedMemoryInitialised); }
-        }
+        public bool IsConnected => (_sharedMemory != null && _isSharedMemoryInitialized);
 
         public int TickTime
         {
@@ -109,7 +104,7 @@ namespace SecondMonitor.PCarsConnector
 
         public void ASyncConnect()
         {
-            Thread asyncConnectThread = new Thread(AsynConnector);
+            Thread asyncConnectThread = new Thread(ASynConnector);
             asyncConnectThread.IsBackground = true;
             asyncConnectThread.Start();
         }
@@ -118,8 +113,6 @@ namespace SecondMonitor.PCarsConnector
         {
             return Connect();
         }
-
-
 
         private bool Connect()
         {
@@ -130,9 +123,9 @@ namespace SecondMonitor.PCarsConnector
             try
             {
                 _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
-                _sharedmemorysize = Marshal.SizeOf(typeof(PCarsApiStruct));
-                _sharedMemoryReadBuffer = new byte[_sharedmemorysize];
-                _isSharedMemoryInitialised = true;
+                _sharedMemorySize = Marshal.SizeOf(typeof(PCarsApiStruct));
+                _sharedMemoryReadBuffer = new byte[_sharedMemorySize];
+                _isSharedMemoryInitialized = true;
                 RaiseConnectedEvent();
                 StartDaemon();
                 return true;
@@ -143,19 +136,11 @@ namespace SecondMonitor.PCarsConnector
             }
         }
 
-        internal TimeSpan SessionTime
-        {
-            get => _sessionTime;
-            set => _sessionTime = value;
-        }
+        internal TimeSpan SessionTime { get; set; } = TimeSpan.Zero;
 
-        internal uint LastSessionState
-        {
-            get => _lastSessionState;
-            set => _lastSessionState = value;
-        }
+        internal uint LastSessionState { get; set; } = 0;
 
-        private void AsynConnector()
+        private void ASynConnector()
         {
             while (!TryConnect())
             {
@@ -163,11 +148,7 @@ namespace SecondMonitor.PCarsConnector
             }
         }
 
-        internal Dictionary<string, DriverInfo> PreviousTickInfo
-        {
-            get => _previousTickInfo;
-            set => _previousTickInfo = value;
-        }
+        internal Dictionary<string, DriverInfo> PreviousTickInfo { get; set; } = new Dictionary<string, DriverInfo>();
 
         private void StartDaemon()
         {
@@ -179,6 +160,7 @@ namespace SecondMonitor.PCarsConnector
             {
                 _queue.Clear();
             }
+
             ResetConnector();
             _daemonThread = new Thread(DaemonMethod);
             _daemonThread.IsBackground = true;
@@ -190,10 +172,8 @@ namespace SecondMonitor.PCarsConnector
 
         private void DaemonMethod()
         {
-
             while (!_disconnect)
             {
-
                 Thread.Sleep(TickTime);
                 PCarsApiStruct data = Load();
                 try
@@ -211,12 +191,12 @@ namespace SecondMonitor.PCarsConnector
                     if (ShouldResetSession(data))
                     {
                         _pCarsConvertor.Reset();
-                        _previousTickInfo.Clear();
+                        PreviousTickInfo.Clear();
                         _nextSpeedComputation = 0;
                         RaiseSessionStartedEvent(simData);
                     }
 
-                    _lastSessionState = data.MSessionState;
+                    LastSessionState = data.MSessionState;
                     lock (_queue)
                     {
                         _queue.Enqueue(simData);
@@ -228,7 +208,7 @@ namespace SecondMonitor.PCarsConnector
                     _lastTick = tickTime;
                     _previousSet = simData;
                 }
-                catch (PCarsConnector.NameNotFilledException)
+                catch (NameNotFilledException)
                 {
                     //Ignore, names are sometimes not set in the shared memory
                 }
@@ -241,15 +221,12 @@ namespace SecondMonitor.PCarsConnector
 
         private bool ShouldResetSession(PCarsApiStruct data)
         {
-            if (_lastSessionState != data.MSessionState)
+            if (LastSessionState != data.MSessionState)
             {
                 return true;
             }
-            if (this._previousSet.SessionInfo.SessionTimeRemaining - data.MEventTimeRemaining < -5)
-            {
-                return true;
-            }
-            return false;
+
+            return this._previousSet.SessionInfo.SessionTimeRemaining - data.MEventTimeRemaining < -5;
         }
 
         private void QueueProcessor()
@@ -270,34 +247,26 @@ namespace SecondMonitor.PCarsConnector
             _queue.Clear();
         }
 
-
-
-        private void Disconnect()
-        {
-            _disconnect = true;
-
-            _sharedMemory = null;
-            RaiseDisconnectedEvent();
-        }
-
         private PCarsApiStruct Load()
         {
             lock (_sharedMemory)
             {
-                PCarsApiStruct pcarsapistruct = new PCarsApiStruct();
+                PCarsApiStruct pCarsApiStruct;
                 if (!IsConnected)
+                {
                     throw new InvalidOperationException("Not connected");
+                }
 
                 using (var sharedMemoryStreamView = _sharedMemory.CreateViewStream())
                 {
                     BinaryReader sharedMemoryStream = new BinaryReader(sharedMemoryStreamView);
-                    _sharedMemoryReadBuffer = sharedMemoryStream.ReadBytes(_sharedmemorysize);
+                    _sharedMemoryReadBuffer = sharedMemoryStream.ReadBytes(_sharedMemorySize);
                     _handle = GCHandle.Alloc(_sharedMemoryReadBuffer, GCHandleType.Pinned);
-                    pcarsapistruct = (PCarsApiStruct)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(PCarsApiStruct));
+                    pCarsApiStruct = (PCarsApiStruct)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(PCarsApiStruct));
                     _handle.Free();
                 }
 
-                return pcarsapistruct;
+                return pCarsApiStruct;
             }
         }
 
@@ -314,11 +283,9 @@ namespace SecondMonitor.PCarsConnector
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
             _lastTick = DateTime.Now;
-            _sessionTime = new TimeSpan(0, 0, 1);
+            SessionTime = new TimeSpan(0, 0, 1);
             handler?.Invoke(this, args);
         }
-
-       
 
         private void RaiseConnectedEvent()
         {

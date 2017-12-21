@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using SecondMonitor.DataModel;
-using SecondMonitor.PluginManager.GameConnector;
-using System.Windows.Forms;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using NLog;
-using NLog.Fluent;
-
-namespace SecondMonitor.PluginManager.Core
+﻿namespace SecondMonitor.PluginManager.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using NLog;
+    using NLog.Fluent;
+
+    using SecondMonitor.DataModel;
+    using SecondMonitor.PluginManager.GameConnector;
+
     public class PluginsManager
     {
         
@@ -41,15 +43,17 @@ namespace SecondMonitor.PluginManager.Core
 
         private void Connector_Disconnected(object sender, EventArgs e)
         {
-            if (_activeConnector == sender)
+            if (_activeConnector != sender)
             {
-                Logger.Info("Connector Disconnected: " + _activeConnector.GetType());
-                _activeConnector.DataLoaded -= OnDataLoaded;
-                _activeConnector.SessionStarted -= OnSessionStarted;
-                _activeConnector.Disconnected -= Connector_Disconnected;
-                _activeConnector = null;
-                RaiseSessionStartedEvent(new SimulatorDataSet("Not Connected"));
+                return;
             }
+            
+            Logger.Info("Connector Disconnected: " + _activeConnector.GetType());
+            _activeConnector.DataLoaded -= OnDataLoaded;
+            _activeConnector.SessionStarted -= OnSessionStarted;
+            _activeConnector.Disconnected -= Connector_Disconnected;
+            _activeConnector = null;
+            RaiseSessionStartedEvent(new SimulatorDataSet("Not Connected"));
         }
 
         public void Start()
@@ -96,18 +100,19 @@ namespace SecondMonitor.PluginManager.Core
         {
             string pluginsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
             IEnumerable<string> files = Directory.EnumerateFiles(pluginsDirectory, "*.dll",SearchOption.AllDirectories);
-            foreach(String file in files)
+            foreach (var file in files)
             {
                 string assemblyPath = Path.Combine(pluginsDirectory, file);
                 _plugins.AddRange(GetPluginsFromAssembly(assemblyPath));
-                
             }
-            if(_plugins.Count == 0)
+
+            if (_plugins.Count == 0)
             {
                 MessageBox.Show("No plugins loaded. Please place plugins .dll into " + pluginsDirectory, "No plugins", MessageBoxButtons.OK);
                 System.Environment.Exit(1);
             }
-            foreach(ISecondMonitorPlugin plugin in _plugins)
+
+            foreach (ISecondMonitorPlugin plugin in _plugins)
             {
                 Logger.Info("Running plugin " + plugin.GetType());
                 plugin.PluginManager = this;
@@ -118,7 +123,7 @@ namespace SecondMonitor.PluginManager.Core
         public ICollection<ISecondMonitorPlugin> GetPluginsFromAssembly(string assemblyPath)
         {
             var secondMonitorPluginType = typeof(ISecondMonitorPlugin);
-            List<ISecondMonitorPlugin> plugins = new List<ISecondMonitorPlugin>();
+            var plugins = new List<ISecondMonitorPlugin>();
             Assembly assembly;
             try
             {
@@ -126,17 +131,16 @@ namespace SecondMonitor.PluginManager.Core
                 Logger.Info("Searching Assembly: " + assemblyPath);
 
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return new List<ISecondMonitorPlugin>();
             }
-            IEnumerable<Type> types = assembly.GetTypes().Where(c => !(c.IsInterface) && secondMonitorPluginType.IsAssignableFrom(c));
-            foreach(Type type in types)
+            var types = assembly.GetTypes().Where(c => !c.IsInterface && secondMonitorPluginType.IsAssignableFrom(c));
+            foreach (Type type in types)
             {
                 ISecondMonitorPlugin plugin = Activator.CreateInstance(type) as ISecondMonitorPlugin;
                 plugins.Add(plugin);
-                Logger.Info("Found plugin:" + type.ToString());
-                
+                Logger.Info("Found plugin:" + type);
             }
             return plugins;
             
@@ -148,23 +152,19 @@ namespace SecondMonitor.PluginManager.Core
             {
                 Logger.Info("Plugin " + plugin.GetType() + " closed");
                 _plugins.Remove(plugin);
-                bool allDaemons = true;
-                foreach (ISecondMonitorPlugin activePlugin in _plugins)
+                bool allDaemons = _plugins.Aggregate(true, (current, activePlugin) => current && activePlugin.IsDaemon);
+                if (!allDaemons)
                 {
-                    allDaemons = allDaemons && activePlugin.IsDaemon;
-                }
-                if (allDaemons)
-                {
-                    Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
-                    Application.Exit();
-                }
+                    return;
+                }            
+                Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
+                Application.Exit();
             }
         }
 
         public IGameConnector[] Connectors
         {
             get;
-            private set;
         }
 
         private void OnDataLoaded(object sender, DataEventArgs args)

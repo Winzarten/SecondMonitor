@@ -68,12 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialog\WaitingDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialog\WaitingDialog.Designer.cs">
-      <DependentUpon>WaitingDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -109,11 +103,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Dialog\WaitingDialog.resx">
-      <DependentUpon>WaitingDialog.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="chronometer.ico" />

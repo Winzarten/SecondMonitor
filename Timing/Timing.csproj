@@ -71,6 +71,7 @@
     <Compile Include="GUI\TimingGUI.xaml.cs">
       <DependentUpon>TimingGUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\DriverListModificationEventArgs.cs" />
     <Compile Include="Model\Drivers\DriverTiming.cs" />
     <Compile Include="Model\Drivers\PitStopInfo.cs" />
     <Compile Include="Model\Drivers\ModelView\DriverTimingVisualiser.cs" />

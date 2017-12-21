@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Input;
-
-namespace SecondMonitor.Timing.DataHandler.Commands
+﻿namespace SecondMonitor.Timing.DataHandler.Commands
 {
+    using System;
+    using System.Windows.Input;
+
     public class NoArgumentCommand : ICommand
     {        
         private readonly Action _executeDelegate;
@@ -14,7 +14,7 @@ namespace SecondMonitor.Timing.DataHandler.Commands
         public NoArgumentCommand(Action execute)
         {
             _executeDelegate = execute;
-            _canExecuteDelegate = () => { return true; };
+            _canExecuteDelegate = () => true;
         }
 
         public NoArgumentCommand(Action execute, Func<bool> canExecute)

@@ -48,26 +48,6 @@
             DriverTiming = driverTiming;
             ScheduleRefresh(this, CancellationToken.None);
         }
-
-        public DriverTiming DriverTiming
-        {
-            get => _driverTiming;
-            set
-            {
-                _driverTiming = value;
-                InitializeOneTimeValues();
-                CreateBinding();
-            }
-        }
-
-        private void CreateBinding()
-        {
-            Binding newBinding = new Binding("DisplaySettings");
-            newBinding.Mode = BindingMode.OneWay;
-            newBinding.Source = _driverTiming.Session.TimingDataViewModel;
-            BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
-        }
-
         private static async void ScheduleRefresh(DriverTimingModelView sender, CancellationToken cancellationToken)
         {
 
@@ -87,6 +67,25 @@
             }
         }
 
+        public DriverTiming DriverTiming
+        {
+            get => _driverTiming;
+            set
+            {
+                _driverTiming = value;
+                InitializeOneTimeValues();
+                CreateBinding();
+            }
+        }
+
+        private void CreateBinding()
+        {
+            Binding newBinding = new Binding("DisplaySettings");
+            newBinding.Mode = BindingMode.OneWay;
+            newBinding.Source = _driverTiming.Session.TimingDataViewModel;
+            BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
+        }
+       
         private void InitializeOneTimeValues()
         {
             CarName = DriverTiming.CarName;

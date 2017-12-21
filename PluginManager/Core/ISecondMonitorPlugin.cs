@@ -9,6 +9,7 @@
         }
 
         void RunPlugin();
+
         bool IsDaemon
         {
             get;
