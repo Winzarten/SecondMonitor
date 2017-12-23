@@ -83,6 +83,11 @@
                     ComputeDistanceToPlayer(_lastPlayer, driverInfo, data);
                 }
 
+                if (pcarsData.MLapsInEvent > 0 && driverInfo.CompletedLaps >= pcarsData.MLapsInEvent)
+                {
+                    driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.Finished;
+                }
+
                 driverInfo.TotalDistance = driverInfo.CompletedLaps * data.SessionInfo.LayoutLength + driverInfo.LapDistance;
 
                 if (driverInfo.IsPlayer)
@@ -384,16 +389,22 @@
         private void AddPitsUsingTrackDistance(SimulatorDataSet dataSet)
         {
             if (!ShouldCheckPits(dataSet))
+            {
                 return;
+            }
 
             foreach (var driverInfo in dataSet.DriversInfo)
             {
                 var inPits = AddPitsUsingTrackDistance(dataSet, driverInfo, false);
                 driverInfo.InPits = inPits;
                 if (inPits && !_driversInPits.Contains(driverInfo.DriverName))
+                {
                     _driversInPits.Add(driverInfo.DriverName);
+                }
                 if (!inPits && _driversInPits.Contains(driverInfo.DriverName))
+                {
                     _driversInPits.Remove(driverInfo.DriverName);
+                }
             }
         }
 
@@ -410,7 +421,10 @@
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (driverInfo.LapDistance != 0)
             {
-                if (_driversInPits.Contains(driverInfo.DriverName)) _driversInPits.Remove(driverInfo.DriverName);
+                if (_driversInPits.Contains(driverInfo.DriverName))
+                {
+                    _driversInPits.Remove(driverInfo.DriverName);
+                }
                 return false;
             }
 

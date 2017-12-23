@@ -138,7 +138,9 @@
         private void AddNewDriver(DriverInfo newDriverInfo)
         {
             if (Drivers.ContainsKey(newDriverInfo.DriverName))
+            {
                 return;
+            }
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionInfo.SessionTypeEnum.Race);
             DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
             Drivers.Add(newDriver.Name, newDriverTimingModelView);

@@ -15,6 +15,7 @@
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.PluginManager.Core;
     using SecondMonitor.PluginManager.GameConnector;
+    using SecondMonitor.Timing.Presentation.View;
     using SecondMonitor.Timing.Presentation.ViewModel.Commands;
     using SecondMonitor.Timing.SessionTiming.Drivers;
     using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
@@ -23,9 +24,6 @@
     using SecondMonitor.Timing.Settings;
     using SecondMonitor.Timing.Settings.Model;
     using SecondMonitor.Timing.Settings.ModelView;
-
-    using DisplaySettingsWindow = SecondMonitor.Timing.Presentation.View.DisplaySettingsWindow;
-    using TimingGui = SecondMonitor.Timing.Presentation.View.TimingGui;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -359,7 +357,7 @@
             
             NotifyPropertyChanged("SessionTime");
             NotifyPropertyChanged("SystemTime");
-            NotifyPropertyChanged("SessionCompletedPerMiles");
+            NotifyPropertyChanged("SessionCompletedPercentage");
             _gui.PedalControl.UpdateControl(data);
             _gui.WhLeftFront.UpdateControl(data);
             _gui.WhRightFront.UpdateControl(data);
