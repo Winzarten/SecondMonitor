@@ -3,7 +3,7 @@
   <?define ProductCode = "*"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
   <?define ProductVersion = "0.5.0.0"?>
-  <Product Id="$(var.ProductCode)" Name="Second Monitor 0.7.0.0" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
+  <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />       
     
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
