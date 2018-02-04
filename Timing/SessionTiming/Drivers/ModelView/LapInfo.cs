@@ -7,7 +7,23 @@
 
     public class LapInfo
     {
-        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver)
+
+        public class SectorCompletedArgs : EventArgs
+        {
+            public SectorCompletedArgs(SectorTiming sectorTiming)
+            {
+                SectorTiming = sectorTiming;
+            }
+
+            public SectorTiming SectorTiming { get; }
+
+        }
+
+        private bool _valid;
+
+        private bool _completed;
+
+        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver, LapInfo previousLapInfo)
         {
             Driver = driver;
             LapStart = startSessionTime;
@@ -16,9 +32,10 @@
             Valid = true;
             FirstLap = false;
             PitLap = false;
+            PreviousLap = previousLapInfo;
         }
 
-        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver, bool firstLap)
+        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver, bool firstLap, LapInfo previousLapInfo)
         {
             Driver = driver;
             LapStart = startSessionTime;
@@ -27,13 +44,31 @@
             Valid = true;
             FirstLap = firstLap;
             PitLap = false;
+            PreviousLap = previousLapInfo;
         }
+
+        public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;
+
+        public event EventHandler<DriverTiming.LapEventArgs> LapInvalidatedEvent;
+        public event EventHandler<DriverTiming.LapEventArgs> LapCompletedEvent;
 
         public TimeSpan LapStart { get; }
 
         public int LapNumber { get; private set; }
-
-        public bool Valid { get; set; }
+        
+        public bool Valid
+        {
+            get => this._valid;
+            set
+            {
+                if (Valid && !value)
+                {
+                    OnLapInvalidatedEvent(new DriverTiming.LapEventArgs(this));
+                }
+                this._valid = value;
+                
+            }
+    }
 
         public DriverTiming Driver { get; }
 
@@ -43,7 +78,30 @@
 
         public bool PitLap { get; set; }
 
-        public bool Completed { get; private set; }
+        public bool Completed
+        {
+            get => this._completed;
+            private set
+            {
+                this._completed = value;
+                if (Completed)
+                {
+                    OnLapCompletedEvent(new DriverTiming.LapEventArgs(this));
+                }
+            }
+
+        }
+    
+
+        public LapInfo PreviousLap { get; }
+
+        public SectorTiming Sector1 { get; private set; }
+
+        public SectorTiming Sector2 { get; private set; }
+
+        public SectorTiming Sector3 { get; private set; }
+
+        public SectorTiming CurrentSector { get; private set; }
 
         public void FinishLap(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
@@ -53,7 +111,7 @@
             }
             else
             {
-                LapEnd = LapStart.Add(TimeSpan.FromSeconds(driverInfo.Timing.LastLapTime));
+                LapEnd = LapStart.Add(driverInfo.Timing.LastLapTime);
             }
 
             LapTime = LapEnd.Subtract(LapStart);
@@ -69,6 +127,67 @@
             {
                 LapNumber = driverInfo.CompletedLaps + 1;
             }
+            if (dataSet.SimulatorSourceInfo.SectorTimingSupport != DataInputSupport.NONE)
+            {
+                TickSectors(dataSet, driverInfo);
+            }
+        }
+
+        private void TickSectors(SimulatorDataSet dataSet, DriverInfo driverInfo)
+        {
+            if ((dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.PLAYER_ONLY && !driverInfo.IsPlayer) || !Valid)
+            {
+                return;
+            }
+
+            if (this.CurrentSector == null && driverInfo.Timing.CurrentSector != 1)
+            {
+                return;
+            }
+            if (this.CurrentSector == null && driverInfo.Timing.CurrentSector == 1)
+            {
+                Sector1 = new SectorTiming(1, dataSet, this);
+                CurrentSector = Sector1;
+                return;
+            }
+            if (driverInfo.Timing.CurrentSector == 0)
+            {
+                return;
+            }
+            SectorTiming shouldBeActive = PickSector(driverInfo.Timing.CurrentSector);
+            if (shouldBeActive == CurrentSector)
+            {
+                CurrentSector.Tick(dataSet, driverInfo);
+                return;
+            }
+            CurrentSector.Finish(driverInfo);
+            OnSectorCompleted(new SectorCompletedArgs(CurrentSector));
+            switch (driverInfo.Timing.CurrentSector)
+            {
+                case 2:
+                    Sector2 = new SectorTiming(2, dataSet, this);
+                    CurrentSector = Sector2;
+                    return;
+                case 3:
+                    Sector3 = new SectorTiming(3, dataSet, this);
+                    CurrentSector = Sector3;
+                    return;
+            }
+        }
+
+        private SectorTiming PickSector(int sectorNumber)
+        {
+            switch (sectorNumber)
+            {
+                case 1:
+                    return Sector1;
+                case 2:
+                    return Sector2;
+                case 3:
+                    return Sector3;
+                default:
+                    return null;
+            }
         }
 
         public TimeSpan LapEnd { get; private set; }
@@ -76,5 +195,20 @@
         public TimeSpan LapTime { get; private set; }
 
         public TimeSpan LapProgressTime { get; private set; }
+
+        protected virtual void OnSectorCompleted(SectorCompletedArgs e)
+        {
+            this.SectorCompletedEvent?.Invoke(this, e);
+        }
+
+        protected virtual void OnLapInvalidatedEvent(DriverTiming.LapEventArgs e)
+        {
+            this.LapInvalidatedEvent?.Invoke(this, e);
+        }
+
+        protected virtual void OnLapCompletedEvent(DriverTiming.LapEventArgs e)
+        {
+            this.LapCompletedEvent?.Invoke(this, e);
+        }
     }
 }

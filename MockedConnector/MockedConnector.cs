@@ -28,7 +28,7 @@ namespace SecondMonitor.MockedConnector
         private double _totalFuel = 2000;
         private double _fuelStep = -0.01;
 
-        private double _layoutLength = 5000;
+        private double _layoutLength = 2000;
         private double _playerLocation = 0;
         private double _playerLocationStep = 1;
         private int _playerLaps = 0;

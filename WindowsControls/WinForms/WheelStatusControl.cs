@@ -95,7 +95,16 @@
             WheelInfo wheel = GetWheelByPosition(data);
             if (wheel == null)
                 return;
-            lblTyrePressure.Text = wheel.TyrePressure.GetValueInUnits(PressureDisplayUnits).ToString("0");            
+            var value = wheel.TyrePressure.GetValueInUnits(PressureDisplayUnits);
+            if (value < 10)
+            {
+                lblTyrePressure.Text =  value.ToString("N2");
+            }
+            else
+            {
+                lblTyrePressure.Text = value.ToString("0");
+            }
+            
         }
 
         private Color ComputeColor(double value, double optimalValue, double window)

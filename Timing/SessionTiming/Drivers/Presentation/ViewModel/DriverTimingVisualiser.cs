@@ -13,6 +13,7 @@
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.Properties;
     using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
     using SecondMonitor.Timing.Settings.ModelView;
@@ -24,6 +25,9 @@
         public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty LastLapTimeProperty = DependencyProperty.Register("LastLapTime", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty Sector1Property = DependencyProperty.Register("Sector1", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty Sector2Property = DependencyProperty.Register("Sector2", typeof(string), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty Sector3Property = DependencyProperty.Register("Sector3", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty CurrentLapProgressTimeProperty = DependencyProperty.Register("CurrentLapProgressTime", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty PaceProperty = DependencyProperty.Register("Pace", typeof(string), typeof(DriverTimingModelView));
         public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(string), typeof(DriverTimingModelView));
@@ -36,6 +40,12 @@
         public static readonly DependencyProperty IsLappingProperty = DependencyProperty.Register("IsLapping", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty InPitsProperty = DependencyProperty.Register("InPits", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty IsLastLapBestLapProperty = DependencyProperty.Register("IsLastLapBestLap", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastSector1PersonalBestProperty = DependencyProperty.Register("IsLastSector1PersonalBest", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastSector2PersonalBestProperty = DependencyProperty.Register("IsLastSector2PersonalBest", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastSector3PersonalBestProperty = DependencyProperty.Register("IsLastSector3PersonalBest", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastSector1SessionBestProperty = DependencyProperty.Register("IsLastSector1SessionBest", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastSector2SessionBestProperty = DependencyProperty.Register("IsLastSector2SessionBest", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastSector3SessionBestProperty = DependencyProperty.Register("IsLastSector3SessionBest", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsModelView), typeof(DriverTimingModelView));
 
@@ -209,12 +219,68 @@
             set => SetValue(DisplaySettingModelViewProperty, value);
         }
 
+        public string Sector1
+        {
+            get => (string)GetValue(Sector1Property);
+            set => SetValue(Sector1Property, value);
+        }
+
+        public string Sector2
+        {
+            get => (string)GetValue(Sector2Property);
+            set => SetValue(Sector2Property, value);
+        }
+
+        public string Sector3
+        {
+            get => (string)GetValue(Sector3Property);
+            set => SetValue(Sector3Property, value);
+        }
+
+        public bool IsLastSector1PersonalBest
+        {
+            get => (bool)GetValue(IsLastSector1PersonalBestProperty);
+            set => SetCurrentValue(IsLastSector1PersonalBestProperty, value);
+        }
+
+        public bool IsLastSector2PersonalBest
+        {
+            get => (bool)GetValue(IsLastSector2PersonalBestProperty);
+            set => SetCurrentValue(IsLastSector2PersonalBestProperty, value);
+        }
+
+        public bool IsLastSector3PersonalBest
+        {
+            get => (bool)GetValue(IsLastSector3PersonalBestProperty);
+            set => SetCurrentValue(IsLastSector3PersonalBestProperty, value);
+        }
+
+        public bool IsLastSector1SessionBest
+        {
+            get => (bool)GetValue(IsLastSector1SessionBestProperty);
+            set => SetCurrentValue(IsLastSector1SessionBestProperty, value);
+        }
+
+        public bool IsLastSector2SessionBest
+        {
+            get => (bool)GetValue(IsLastSector2SessionBestProperty);
+            set => SetCurrentValue(IsLastSector2SessionBestProperty, value);
+        }
+
+        public bool IsLastSector3SessionBest
+        {
+            get => (bool)GetValue(IsLastSector3SessionBestProperty);
+            set => SetCurrentValue(IsLastSector3SessionBestProperty, value);
+        }
+
         public void RefreshProperties()
         {
             try
             {
                 if (!_shouldRefresh)
+                {
                     return;
+                }
                 Position = DriverTiming.Position.ToString();
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();
                 LastLapTime = GetLastLapTime();
@@ -231,6 +297,16 @@
                 InPits = DriverTiming.InPits;
                 IsLastLapBestSessionLap = DriverTiming.IsLastLapBestSessionLap;
                 IsLastLapBestLap = DriverTiming.IsLastLapBestLap;
+                Sector1 = this.GetSector1();
+                Sector2 = this.GetSector2();
+                Sector3 = this.GetSector3();
+                IsLastSector1SessionBest = this.GetIsSector1SessionBest();
+                IsLastSector2SessionBest = this.GetIsSector2SessionBest();
+                IsLastSector3SessionBest = this.GetIsSector3SessionBest();
+                IsLastSector1PersonalBest = this.GetIsSector1PersonalBest();
+                IsLastSector2PersonalBest = this.GetIsSector2PersonalBest();
+                IsLastSector3PersonalBest = this.GetIsSector3PersonalBest();
+                
 
             }
             catch (Exception ex)
@@ -244,6 +320,144 @@
 
         }
 
+        private bool GetIsSector1SessionBest()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = this.GetSector1Timing();
+            return sector != null && sector == this.DriverTiming.Session.BestSector1;
+        }
+
+        private bool GetIsSector2SessionBest()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = this.GetSector2Timing();
+            return sector != null && sector == this.DriverTiming.Session.BestSector2;
+        }
+
+        private bool GetIsSector3SessionBest()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = this.GetSector3Timing();
+            return sector != null && sector == this.DriverTiming.Session.BestSector3;
+        }
+
+        private bool GetIsSector1PersonalBest()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = this.GetSector1Timing();
+            return sector != null && sector == this.DriverTiming.BestSector1;
+        }
+
+        private bool GetIsSector2PersonalBest()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = this.GetSector2Timing();
+            return sector != null && sector == this.DriverTiming.BestSector2;
+        }
+
+        private bool GetIsSector3PersonalBest()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = this.GetSector3Timing();
+            return sector != null && sector == this.DriverTiming.BestSector3;
+        }
+
+        private string GetSector1()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return "N/A";
+            }
+            var sector = this.GetSector1Timing();
+            return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
+        }
+
+        private SectorTiming GetSector1Timing()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return null;
+            }
+            SectorTiming sector = this.DriverTiming.CurrentLap.Sector1;
+            if (sector == null && this.DriverTiming.CurrentLap.PreviousLap != null)
+            {
+                sector = this.DriverTiming.CurrentLap.PreviousLap.Sector1;
+            }
+            return sector;
+        }
+
+        private SectorTiming GetSector2Timing()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return null;
+            }
+            SectorTiming sector = this.DriverTiming.CurrentLap.Sector2;
+            if (sector == null && this.DriverTiming.CurrentLap.PreviousLap != null)
+            {
+                sector = this.DriverTiming.CurrentLap.PreviousLap.Sector2;
+            }
+            return sector;
+        }
+
+        private SectorTiming GetSector3Timing()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return null;
+            }
+            SectorTiming sector = this.DriverTiming.CurrentLap.Sector3;
+            if (sector == null && this.DriverTiming.CurrentLap.PreviousLap != null)
+            {
+                sector = this.DriverTiming.CurrentLap.PreviousLap.Sector3;
+            }
+            return sector;
+        }
+
+        private string GetSector2()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return "N/A";
+            }
+            SectorTiming sector = this.GetSector2Timing();
+            return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
+        }
+
+        private string GetSector3()
+        {
+            if (DriverTiming.CurrentLap == null)
+            {
+                return "N/A";
+            }
+            SectorTiming sector = this.GetSector3Timing();
+            return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
+        }
+
         private string GetLastLapTime()
         {
             DriverInfo driverInfo = DriverTiming.DriverInfo;
@@ -252,10 +466,10 @@
             {
                 if (driverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player.DriverTiming.LastCompletedLap == null)
                 {
-                    return FormatTimeSpan(lastCompletedLap.LapTime);
+                    return TimeSpanFormatHelper.FormatTimeSpan(lastCompletedLap.LapTime);
                 }
 
-                return FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime));
+                return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime), true);
             }
 
             return "N/A";
@@ -276,7 +490,7 @@
             }
 
             TimeSpan progress = DriverTiming.CurrentLap.LapProgressTime;
-            return FormatTimeSpan(progress);
+            return TimeSpanFormatHelper.FormatTimeSpan(progress);
 
         }
 
@@ -285,11 +499,11 @@
             
                 if (DriverTiming.DriverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player.DriverTiming.Pace == TimeSpan.Zero)
                 {
-                    return FormatTimeSpan(DriverTiming.Pace);
+                    return TimeSpanFormatHelper.FormatTimeSpan(DriverTiming.Pace);
                 }
                 else
                 {
-                    return FormatTimeSpanOnlySeconds(DriverTiming.Pace.Subtract(DriverTiming.Session.Player.DriverTiming.Pace));
+                    return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.Pace.Subtract(DriverTiming.Session.Player.DriverTiming.Pace), true);
                 }
             
         }
@@ -304,11 +518,11 @@
 
                 if (DriverTiming.DriverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player.DriverTiming.BestLap == null)
                 {
-                    return "L" + DriverTiming.BestLap.LapNumber + "/" + FormatTimeSpan(DriverTiming.BestLap.LapTime);
+                    return "L" + DriverTiming.BestLap.LapNumber + "/" + TimeSpanFormatHelper.FormatTimeSpan(DriverTiming.BestLap.LapTime);
                 }
                 else
                 {
-                    return "L" + DriverTiming.BestLap.LapNumber + "/" + FormatTimeSpanOnlySeconds(DriverTiming.BestLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.BestLap.LapTime));
+                    return "L" + DriverTiming.BestLap.LapNumber + "/" + TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.BestLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.BestLap.LapTime), true);
                 }
             
         }
@@ -361,7 +575,7 @@
                 double requiredTime = distanceToUse / DriverTiming.DriverInfo.Speed.InMs;
                 if (requiredTime < 30)
                 {
-                    return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
+                    return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime), true);
                 }
                 else
                 {
@@ -373,7 +587,7 @@
                 double requiredTime = distanceToUse / DriverTiming.Session.Player.DriverTiming.DriverInfo.Speed.InMs;
                 if (requiredTime > -30)
                 {
-                    return FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime));
+                    return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime), true);
                 }
                 else
                 {
@@ -381,31 +595,6 @@
                 }
             }
 
-        }
-
-
-        public static string FormatTimeSpan(TimeSpan timeSpan)
-        {
-            // String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            // String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            // return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
-            return timeSpan.ToString("mm\\:ss\\.fff");
-        }
-
-        public static string FormatTimeSpanOnlySeconds(TimeSpan timeSpan)
-        {
-            // return "FOO";
-            // String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            // String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
-            // return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;
-            if (timeSpan < TimeSpan.Zero)
-            {
-                return "-" + timeSpan.ToString("ss\\.fff");
-            }
-            else
-            {
-                return "+" + timeSpan.ToString("ss\\.fff");
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

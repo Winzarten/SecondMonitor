@@ -11,10 +11,28 @@
 
     public class DriverTiming
     {
+
+        public class LapEventArgs : EventArgs
+        {
+            public LapEventArgs(LapInfo lapInfo)
+            {
+                Lap = lapInfo;
+            }
+
+            public LapInfo Lap
+            {
+                get;
+            }
+        }
+
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
         private readonly List<LapInfo> _lapsInfo;
         private readonly List<PitStopInfo> _pitStopInfo;
-        private double _previousTickLapDistance;        
+        private double _previousTickLapDistance;
+
+        private SectorTiming _bestSector1;
+        private SectorTiming _bestSector2;
+        private SectorTiming _bestSector3;
 
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
@@ -26,6 +44,12 @@
             _previousTickLapDistance = 0;
             Session = session;
         }
+
+        public event EventHandler<LapEventArgs> NewLapStarted;
+        public event EventHandler<LapEventArgs> LapInvalidated;
+        public event EventHandler<LapEventArgs> LapCompleted;
+
+        public event EventHandler<LapInfo.SectorCompletedArgs> SectorCompletedEvent;
         
         public bool InvalidateFirstLap { get; set; }
 
@@ -71,6 +95,48 @@
 
         public bool IsLastLapBestLap => BestLap != null && BestLap == LastLap;
 
+        public SectorTiming BestSector1
+        {
+            get => this._bestSector1;
+            private set
+            {
+                this.PreviousBestSector1 = BestSector1;
+                this._bestSector1 = value;
+            }
+            
+        }
+
+        public SectorTiming BestSector2
+        {
+            get => this._bestSector2;
+            private set
+            {
+                this.PreviousBestSector2 = BestSector2;
+                _bestSector2 = value;
+            }
+
+        }
+
+        public SectorTiming BestSector3
+        {
+            get => this._bestSector3;
+            private set
+            {
+                this.PreviousBestSector3 = BestSector3;
+                _bestSector3 = value;
+            }
+
+        }
+
+        public SectorTiming PreviousBestSector1 { get; private set; }
+
+        public SectorTiming PreviousBestSector2 { get; private set; }
+
+        public SectorTiming PreviousBestSector3 { get; private set; }
+
+        public IReadOnlyCollection<LapInfo> Laps => this._lapsInfo.AsReadOnly();
+        
+
         public bool IsLastLapBestSessionLap
         {
             get
@@ -88,7 +154,7 @@
 
         public string Speed => DriverInfo.Speed.InKph.ToString("N0");
 
-        public  Velocity TopSpeed { get; private set; } = Velocity.Zero;
+        public Velocity TopSpeed { get; private set; } = Velocity.Zero;
 
         public static string FormatTimeSpan(TimeSpan timeSpan)
         {
@@ -142,12 +208,16 @@
             if (_lapsInfo.Count == 0)
             {
                 LapInfo firstLap =
-                    new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true)
+                    new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true, null)
                         {
                             Valid =
                                 !InvalidateFirstLap
                         };
+                firstLap.SectorCompletedEvent += this.LapSectorCompletedEvent;
+                firstLap.LapInvalidatedEvent += this.LapInvalidatedHandler;
+                firstLap.LapCompletedEvent += this.LapCompletedHandler;
                 _lapsInfo.Add(firstLap);
+                OnNewLapStarted(new LapEventArgs(firstLap));
             }
 
             LapInfo currentLap = CurrentLap;
@@ -165,6 +235,16 @@
 
             _previousTickLapDistance = DriverInfo.LapDistance;
             return false;
+        }
+
+        private void LapCompletedHandler(object sender, LapEventArgs e)
+        {
+            OnLapCompleted(e);
+        }
+
+        private void LapInvalidatedHandler(object sender, LapEventArgs e)
+        {
+            OnLapInvalidated(e);
         }
 
         private bool ShouldFinishLap(SimulatorDataSet dataSet, LapInfo currentLap)
@@ -229,10 +309,43 @@
 
             if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Na || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
             {
-                _lapsInfo.Add(new LapInfo(dataSet.SessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this));
+                CurrentLap.SectorCompletedEvent -= this.LapSectorCompletedEvent;
+                var newLap = new LapInfo(dataSet.SessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, CurrentLap);
+                newLap.SectorCompletedEvent += this.LapSectorCompletedEvent;
+                newLap.LapCompletedEvent += this.LapCompletedHandler;
+                newLap.LapInvalidatedEvent += this.LapInvalidatedHandler;
+                _lapsInfo.Add(newLap);
+                OnNewLapStarted(new LapEventArgs(newLap));
             }
 
             ComputePace();
+        }
+
+        private void LapSectorCompletedEvent(object sender, LapInfo.SectorCompletedArgs e)
+        {
+            SectorTiming completedSector = e.SectorTiming;
+            switch (completedSector.SectorNumber)
+            {
+                case 1:
+                    if (BestSector1 == null || BestSector1.Duration > completedSector.Duration)
+                    {
+                        BestSector1 = completedSector;
+                    }
+                    break;
+                case 2:
+                    if (BestSector2 == null || BestSector2.Duration > completedSector.Duration)
+                    {
+                        BestSector2 = completedSector;
+                    }
+                    break;
+                case 3:
+                    if (BestSector3 == null || BestSector3.Duration > completedSector.Duration)
+                    {
+                        BestSector3 = completedSector;
+                    }
+                    break;
+            }
+            OnSectorCompletedEvent(e);
         }
 
         private void UpdateInPitsProperty(SimulatorDataSet set)
@@ -362,6 +475,45 @@
 
                 return _lapsInfo[_lapsInfo.Count - 2];
             }
-        }        
+        }
+
+        protected virtual void OnSectorCompletedEvent(LapInfo.SectorCompletedArgs e)
+        {
+            this.SectorCompletedEvent?.Invoke(this, e);
+        }
+
+        protected virtual void OnNewLapStarted(LapEventArgs e)
+        {
+            this.NewLapStarted?.Invoke(this, e);
+        }
+
+        protected virtual void OnLapInvalidated(LapEventArgs e)
+        {
+            RevertSectorChanges(e.Lap);
+            this.LapInvalidated?.Invoke(this, e);
+        }
+
+        protected virtual void OnLapCompleted(LapEventArgs e)
+        {
+            this.LapCompleted?.Invoke(this, e);
+        }
+
+        private void RevertSectorChanges(LapInfo lap)
+        {
+            if (BestSector1 != null && BestSector1 == lap.Sector1)
+            {
+                _bestSector1 = PreviousBestSector1;
+            }
+
+            if (BestSector2 != null && BestSector2 == lap.Sector2)
+            {
+                _bestSector2 = PreviousBestSector2;
+            }
+
+            if (BestSector3 != null && BestSector3 == lap.Sector3)
+            {
+                _bestSector3 = PreviousBestSector3;
+            }
+        }
     }
 }

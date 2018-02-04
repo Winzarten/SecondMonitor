@@ -68,19 +68,20 @@
             <winForms:PedalControl x:Name="PedalControl"/>
         </WindowsFormsHost>
 
-        <DataGrid x:Name="DtTimig" Margin="10,79,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
+        <DataGrid x:Name="DtTimig" Margin="10,112,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
                   d:DataContext="{d:DesignInstance Type=viewModel1:DriverTimingModelView}"
                  AutoGenerateColumns="False" HeadersVisibility="Column" CanUserSortColumns="False" CanUserReorderColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
                   EnableColumnVirtualization ="False" EnableRowVirtualization="False"
                   >
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="RightClick" Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.DoubleLeftClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
             </DataGrid.InputBindings>
             <DataGrid.Resources >
                 <view:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext , RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                 <view:DoubleToDataGridLengthValueConverter x:Key="lengthConverter"/>
                 <BooleanToVisibilityConverter x:Key="BoolToVis" />
-                 <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Foreground" Value="White"/>
                     <Setter Property="Background" Value="Blue" />
@@ -94,6 +95,36 @@
                             <Setter Property="Background" Value="Green"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsLastLapBestSessionLap}" Value="True">
+                            <Setter Property="Background" Value="Purple"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="TextBoxStyleSector1" TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLastSector1PersonalBest}" Value="True">
+                            <Setter Property="Background" Value="Green"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsLastSector1SessionBest}" Value="True">
+                            <Setter Property="Background" Value="Purple"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="TextBoxStyleSector2" TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLastSector2PersonalBest}" Value="True">
+                            <Setter Property="Background" Value="Green"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsLastSector2SessionBest}" Value="True">
+                            <Setter Property="Background" Value="Purple"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style x:Key="TextBoxStyleSector3" TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLastSector3PersonalBest}" Value="True">
+                            <Setter Property="Background" Value="Green"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsLastSector3SessionBest}" Value="True">
                             <Setter Property="Background" Value="Purple"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -112,7 +143,7 @@
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Visible, Mode=TwoWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}">
-                    </DataGridTextColumn>
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Name, Mode=OneTime}" 
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
@@ -129,6 +160,18 @@
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
+                <DataGridTextColumn Binding="{Binding Sector1, Mode=OneWay}" Header="S1"
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyleSector1}"/>
+                <DataGridTextColumn Binding="{Binding Sector2, Mode=OneWay}" Header="S2"
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector2.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector2.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyleSector2}"/>
+                <DataGridTextColumn Binding="{Binding Sector3, Mode=OneWay}" Header="S3"
+                                    Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                    Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                    ElementStyle="{StaticResource TextBoxStyleSector3}"/>
                 <DataGridTextColumn Binding="{Binding Pace, Mode=OneWay}" Header="Pace" 
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
@@ -154,7 +197,7 @@
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
             </DataGrid.Columns>
-           
+
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Triggers>
@@ -194,8 +237,6 @@
         </DataGrid>
         <Label x:Name="LblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
         <Label x:Name="LblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
-        <Label x:Name="LblBestLap" Content="{Binding BestLapFormatted, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="1035,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" MinWidth="250" MinHeight="30"/>
-        <Label x:Name="LblRemainig" Content="Session Remaining"  HorizontalAlignment="Right" FontSize="20" Margin="0,37,10,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
         <Button x:Name="BtnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,26" Width="117"  VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
         <Button Content="Configure" HorizontalAlignment="Right" Margin="0,0,132,26"  VerticalAlignment="Bottom" Width="102" Height="55" Command="{Binding OpenSettingsCommand }"/>
         <GroupBox Header="Session Settings" HorizontalAlignment="Right" Height="107" VerticalAlignment="Bottom" Width="240" Foreground="White" Margin="0,0,10,272">
@@ -257,8 +298,6 @@
                 <TextBlock Name="SystemTime" Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />
             </StatusBarItem>
         </StatusBar>
-
-
+        <view:SessionInfoView DataContext="{Binding SessionInfoViewModel}" HorizontalAlignment="Right"  Margin="0,10,10,0" VerticalAlignment="Top"/>
     </Grid>
-
 </Window>

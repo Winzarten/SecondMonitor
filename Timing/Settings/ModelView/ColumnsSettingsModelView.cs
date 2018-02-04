@@ -20,6 +20,9 @@
         public static readonly DependencyProperty LastPitInfoProperty = DependencyProperty.Register("LastPitInfo", typeof(ColumnSettingsModelView), typeof(ColumnsSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty TimeToPlayerProperty = DependencyProperty.Register("TimeToPlayer", typeof(ColumnSettingsModelView), typeof(ColumnsSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty TopSpeedProperty = DependencyProperty.Register("TopSpeed", typeof(ColumnSettingsModelView), typeof(ColumnsSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty Sector1Property = DependencyProperty.Register("Sector1", typeof(ColumnSettingsModelView), typeof(ColumnsSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty Sector2Property = DependencyProperty.Register("Sector2", typeof(ColumnSettingsModelView), typeof(ColumnsSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty Sector3Property = DependencyProperty.Register("Sector3", typeof(ColumnSettingsModelView), typeof(ColumnsSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -89,6 +92,24 @@
             set => SetValue(TopSpeedProperty, value);
         }
 
+        public ColumnSettingsModelView Sector1
+        {
+            get => (ColumnSettingsModelView)GetValue(Sector1Property);
+            set => SetValue(Sector1Property, value);
+        }
+
+        public ColumnSettingsModelView Sector2
+        {
+            get => (ColumnSettingsModelView)GetValue(Sector2Property);
+            set => SetValue(Sector2Property, value);
+        }
+
+        public ColumnSettingsModelView Sector3
+        {
+            get => (ColumnSettingsModelView)GetValue(Sector3Property);
+            set => SetValue(Sector3Property, value);
+        }
+
         public void FromModel(ColumnsSettings columnsSettings)
         {
             Position = ColumnSettingsModelView.CreateFromModel(columnsSettings.Position);
@@ -102,6 +123,9 @@
             LastPitInfo = ColumnSettingsModelView.CreateFromModel(columnsSettings.LastPitInfo);
             TimeToPlayer = ColumnSettingsModelView.CreateFromModel(columnsSettings.TimeToPlayer);
             TopSpeed = ColumnSettingsModelView.CreateFromModel(columnsSettings.TopSpeed);
+            Sector1 = ColumnSettingsModelView.CreateFromModel(columnsSettings.Sector1);
+            Sector2 = ColumnSettingsModelView.CreateFromModel(columnsSettings.Sector2);
+            Sector3 = ColumnSettingsModelView.CreateFromModel(columnsSettings.Sector3);
         }
 
         public static ColumnsSettingsModelView CreateFromModel(ColumnsSettings columnsSettings)
@@ -126,7 +150,10 @@
                            LastPitInfo = LastPitInfo.ToModel(),
                            TimeToPlayer = TimeToPlayer.ToModel(),
                            TopSpeed = TopSpeed.ToModel(),
-            };
+                           Sector1 = Sector1.ToModel(),
+                           Sector2 = Sector2.ToModel(),
+                           Sector3 = Sector3.ToModel()
+        };
 
         }
 

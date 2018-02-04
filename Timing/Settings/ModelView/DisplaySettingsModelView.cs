@@ -4,7 +4,6 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.Timing.Properties;
     using SecondMonitor.Timing.Settings.Model;

@@ -10,11 +10,13 @@
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Data;
+    using System.Windows.Input;
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.PluginManager.Core;
     using SecondMonitor.PluginManager.GameConnector;
+    using SecondMonitor.Timing.LapTimings.ViewModel;
     using SecondMonitor.Timing.Presentation.View;
     using SecondMonitor.Timing.Presentation.ViewModel.Commands;
     using SecondMonitor.Timing.SessionTiming.Drivers;
@@ -24,6 +26,8 @@
     using SecondMonitor.Timing.Settings;
     using SecondMonitor.Timing.Settings.Model;
     using SecondMonitor.Timing.Settings.ModelView;
+
+    using DriverLapsWindow = SecondMonitor.Timing.LapTimings.View.DriverLapsWindow;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -45,30 +49,29 @@
         }
 
         private ResetModeEnum _shouldReset = ResetModeEnum.NoReset;
-        private TimingGui _gui;
+
         private DisplaySettingAutoSaver _settingAutoSaver;
         private PluginsManager _pluginsManager;
         private SessionTiming _timing;
         private DisplaySettingsWindow _settingsWindow;
-        private SessionInfo.SessionTypeEnum _sessionType = SessionInfo.SessionTypeEnum.Na;        
-        
+        private SessionInfo.SessionTypeEnum _sessionType = SessionInfo.SessionTypeEnum.Na;
+        private SimulatorDataSet _lastDataSet;
+        private readonly DriverLapsWindowManager _driverLapsWindowManager;
+
+        public TimingDataViewModel()
+        {
+            SessionInfoViewModel = new SessionInfoViewModel();
+            _driverLapsWindowManager = new DriverLapsWindowManager(() => Gui, () => SelectedDriverTiming);
+            DoubleLeftClickCommand = this._driverLapsWindowManager.OpenWindowCommand;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private SimulatorDataSet _lastDataSet;
-      
         // Gets or sets the CollectionViewSource
         public CollectionViewSource ViewSource { get; set; } 
 
         // Gets or sets the ObservableCollection
         public ObservableCollection<DriverTimingModelView> Collection { get; set; } = new ObservableCollection<DriverTimingModelView>();
-
-        private LapInfo _bestSessionLap;
-
-        public string BestLapFormatted => _bestSessionLap != null
-                                              ? _bestSessionLap.Driver.DriverInfo.DriverName + "-(L" + _bestSessionLap.LapNumber + "):"
-                                                + DriverTiming.FormatTimeSpan(_bestSessionLap.LapTime)
-                                              : "Best Session Lap";
 
         public string SessionTime => _timing?.SessionTime.ToString("mm\\:ss\\.fff") ?? string.Empty;
 
@@ -76,7 +79,7 @@
 
         public string SystemTime => DateTime.Now.ToString("HH:mm");
 
-        public static string Title
+        public string Title
         {
             get
             {
@@ -85,6 +88,12 @@
                 return "Second Monitor (Timing)(v" + version + " )";
             }
         }
+
+        public SessionInfoViewModel SessionInfoViewModel { get; }
+
+        public TimingGui Gui { get; private set; }
+
+        public DriverTiming SelectedDriverTiming => ((DriverTimingModelView)Gui?.DtTimig.SelectedItem)?.DriverTiming;
 
         public PluginsManager PluginManager
         {
@@ -133,10 +142,16 @@
 
         private void CreateGuiInstance()
         {
-            _gui = new TimingGui();
-            _gui.Show();
-            _gui.Closed += Gui_Closed;
-            _gui.DataContext = this;
+            this.Gui = new TimingGui();
+            this.Gui.Show();
+            this.Gui.Closed += Gui_Closed;
+            this.Gui.MouseLeave += GuiOnMouseLeave;
+            this.Gui.DataContext = this;
+        }
+
+        private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
+        {
+            this.Gui.DtTimig.SelectedItem = null;
         }
 
         private void CreateDisplaySettings()
@@ -160,14 +175,19 @@
             set => SetValue(CurrentSessionOptionsProperty, value);
         }
 
-        private NoArgumentCommand _resetCommand;
+        private ICommand _resetCommand;
 
-        public NoArgumentCommand ResetCommand => _resetCommand ?? (_resetCommand = new NoArgumentCommand(ScheduleReset));
+        public ICommand ResetCommand => _resetCommand ?? (_resetCommand = new NoArgumentCommand(ScheduleReset));
 
-        public NoArgumentCommand OpenSettingsCommand => new NoArgumentCommand(OpenSettingsWindow);
+        public ICommand OpenSettingsCommand => new NoArgumentCommand(OpenSettingsWindow);
 
-        public NoArgumentCommand RightClickCommand => new NoArgumentCommand(UnSelectItem);
+        public ICommand RightClickCommand => new NoArgumentCommand(UnSelectItem);
 
+        public ICommand DoubleLeftClickCommand
+        {
+            get;
+            set;
+        }
 
         private void OpenSettingsWindow()
         {
@@ -177,9 +197,11 @@
                 return;
             }
 
-            _settingsWindow = new DisplaySettingsWindow();
-            _settingsWindow.DataContext = DisplaySettings;
-            _settingsWindow.Owner = _gui;
+            _settingsWindow = new DisplaySettingsWindow
+            {
+                DataContext = DisplaySettings,
+                Owner = this.Gui
+            };
             _settingsWindow.Show();
         }
 
@@ -192,7 +214,7 @@
                 _timing.PaceLaps = DisplaySettings.PaceLaps;
             }
             
-            _gui.Dispatcher.Invoke(RefreshDataGrid);
+            this.Gui.Dispatcher.Invoke(RefreshDataGrid);
 
         }
 
@@ -232,7 +254,7 @@
 
         private void ChangeTimeDisplayMode()
         {
-            if (_timing == null || _gui == null)
+            if (_timing == null || this.Gui == null)
             {
                 return;
             }
@@ -339,7 +361,7 @@
                 return;
             }
 
-            _gui.TimingCircle.RefreshSession(data);
+            this.Gui.TimingCircle.RefreshSession(data);
         }
 
         private void RefreshBasicInfo(SimulatorDataSet data)
@@ -358,29 +380,29 @@
             NotifyPropertyChanged("SessionTime");
             NotifyPropertyChanged("SystemTime");
             NotifyPropertyChanged("SessionCompletedPercentage");
-            _gui.PedalControl.UpdateControl(data);
-            _gui.WhLeftFront.UpdateControl(data);
-            _gui.WhRightFront.UpdateControl(data);
-            _gui.WhLeftRear.UpdateControl(data);
-            _gui.WhRightRear.UpdateControl(data);
-            _gui.FuelMonitor.ProcessDataSet(data);
-            _gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
-            _gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
+            this.Gui.PedalControl.UpdateControl(data);
+            this.Gui.WhLeftFront.UpdateControl(data);
+            this.Gui.WhRightFront.UpdateControl(data);
+            this.Gui.WhLeftRear.UpdateControl(data);
+            this.Gui.WhRightRear.UpdateControl(data);
+            this.Gui.FuelMonitor.ProcessDataSet(data);
+            this.Gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
+            this.Gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
 
-            _gui.LblWeather.Content =
+            this.Gui.LblWeather.Content =
                 "Air: "
                 + data.SessionInfo.WeatherInfo.AirTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
                     .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits) + " |Track: "
                 + data.SessionInfo.WeatherInfo.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits).ToString("n1")
                 + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits);
-            _gui.LblRemainig.Content = GetSessionRemaining(data);
+            SessionInfoViewModel.SessionRemaining = GetSessionRemaining(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
         {
-            _gui?.Dispatcher.Invoke(() =>
+            this.Gui?.Dispatcher.Invoke(() =>
             {
-                _gui.TimingCircle.RemoveDriver(e.Data.DriverTiming.DriverInfo);
+                this.Gui.TimingCircle.RemoveDriver(e.Data.DriverTiming.DriverInfo);
                 Collection?.Remove(e.Data);
             });
 
@@ -388,11 +410,12 @@
 
         private void Timing_DriverAdded(object sender, DriverListModificationEventArgs e)
         {
-            _gui?.Dispatcher.Invoke(() =>
+            this.Gui?.Dispatcher.Invoke(() =>
             {
                 Collection?.Add(e.Data);
-                _gui.TimingCircle.AddDriver(e.Data.DriverTiming.DriverInfo);
+                this.Gui.TimingCircle.AddDriver(e.Data.DriverTiming.DriverInfo);
             });
+            this._driverLapsWindowManager.Rebind(e.Data.DriverTiming);
         }
 
         private void RefreshGui(SimulatorDataSet data)
@@ -408,17 +431,17 @@
                 return;
             }
 
-            _gui.PedalControl.UpdateControl(data);
-            _gui.WhLeftFront.UpdateControl(data);
-            _gui.WhRightFront.UpdateControl(data);
-            _gui.WhLeftRear.UpdateControl(data);
-            _gui.WhRightRear.UpdateControl(data);
-            _gui.TimingCircle.RefreshSession(data);
+            this.Gui.PedalControl.UpdateControl(data);
+            this.Gui.WhLeftFront.UpdateControl(data);
+            this.Gui.WhRightFront.UpdateControl(data);
+            this.Gui.WhLeftRear.UpdateControl(data);
+            this.Gui.WhRightRear.UpdateControl(data);
+            this.Gui.TimingCircle.RefreshSession(data);
             RefreshDataGrid();
-            if (DisplaySettings.ScrollToPlayer && _gui != null && _timing?.Player != null && _gui.DtTimig.Items.Count > 0)
+            if (DisplaySettings.ScrollToPlayer && this.Gui != null && _timing?.Player != null && this.Gui.DtTimig.Items.Count > 0)
             {
-                _gui.DtTimig.ScrollIntoView(_gui.DtTimig.Items[0]);
-                _gui.DtTimig.ScrollIntoView(_timing.Player);
+                this.Gui.DtTimig.ScrollIntoView(this.Gui.DtTimig.Items[0]);
+                this.Gui.DtTimig.ScrollIntoView(_timing.Player);
             }
 
         }
@@ -462,7 +485,11 @@
             _lastDataSet = data;
 
             _timing = SessionTiming.FromSimulatorData(data, invalidateLap, this);
-            _timing.BestLapChangedEvent += BestLapChangedHandler;
+            foreach (var driverTimingModelView in this._timing.Drivers.Values)
+            {
+                this._driverLapsWindowManager.Rebind(driverTimingModelView.DriverTiming);
+            }
+            SessionInfoViewModel.SessionTiming = this._timing;
             _timing.DriverAdded += Timing_DriverAdded;
             _timing.DriverRemoved += Timing_DriverRemoved;
             _timing.PaceLaps = DisplaySettings.PaceLaps;
@@ -471,7 +498,6 @@
             ChangeTimeDisplayMode();
             ChangeOrderingMode();
             ConnectedSource = data.Source;
-            _bestSessionLap = null;
             NotifyPropertyChanged("BestLapFormatted");
             NotifyPropertyChanged("ConnectedSource");
         }
@@ -506,8 +532,8 @@
             if (ViewSource == null)
             {
                 ViewSource = new CollectionViewSource { Source = Collection };
-                _gui.DtTimig.DataContext = null;
-                _gui.DtTimig.DataContext = this;                
+                this.Gui.DtTimig.DataContext = null;
+                this.Gui.DtTimig.DataContext = this;
             }
 
             Collection.Clear();
@@ -523,19 +549,14 @@
 
             sb.Append(") - ");
             sb.Append(data.SessionInfo.SessionType);
-            _gui.LblTrack.Content = sb.ToString();
+            this.Gui.LblTrack.Content = sb.ToString();
 
-            _gui.TimingCircle.SetSessionInfo(data);
-            _gui.FuelMonitor.ResetFuelMonitor();
+            this.Gui.TimingCircle.SetSessionInfo(data);
+            this.Gui.FuelMonitor.ResetFuelMonitor();
 
             NotifyPropertyChanged("BestLapFormatted");
         }
 
-        private void BestLapChangedHandler(object sender, SessionTiming.BestLapChangedArgs args)
-        {
-            _bestSessionLap = args.Lap;
-            NotifyPropertyChanged("BestLapFormatted");
-        }
 
         protected virtual void NotifyPropertyChanged(string propertyName)
         {
@@ -564,7 +585,7 @@
 
         private void ApplyDisplaySettings(DisplaySettingsModelView settings)
         {
-            if (settings == null || _gui == null)
+            if (settings == null || this.Gui == null)
             {
                 return;
             }
@@ -575,15 +596,15 @@
                 return;
             }
 
-            _gui.WhLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-            _gui.WhRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-            _gui.WhLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
-            _gui.WhRightRear.TemperatureDisplayUnit = settings.TemperatureUnits;
+            this.Gui.WhLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
+            this.Gui.WhRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
+            this.Gui.WhLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
+            this.Gui.WhRightRear.TemperatureDisplayUnit = settings.TemperatureUnits;
 
-            _gui.WhLeftFront.PressureDisplayUnits = settings.PressureUnits;
-            _gui.WhRightFront.PressureDisplayUnits = settings.PressureUnits;
-            _gui.WhLeftRear.PressureDisplayUnits = settings.PressureUnits;
-            _gui.WhRightRear.PressureDisplayUnits = settings.PressureUnits;
+            this.Gui.WhLeftFront.PressureDisplayUnits = settings.PressureUnits;
+            this.Gui.WhRightFront.PressureDisplayUnits = settings.PressureUnits;
+            this.Gui.WhLeftRear.PressureDisplayUnits = settings.PressureUnits;
+            this.Gui.WhRightRear.PressureDisplayUnits = settings.PressureUnits;
 
         }
 
@@ -628,12 +649,12 @@
 
         private void UnSelectItem()
         {
-            if (_gui == null)
+            if (this.Gui == null)
             {
                 return;
             }
 
-            _gui.DtTimig.SelectedItem = null;
+            this.Gui.DtTimig.SelectedItem = null;
         }
 
     }

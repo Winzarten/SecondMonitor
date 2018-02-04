@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">  
   <?define ProductCode = "*"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "0.5.0.0"?>
+  <?define ProductVersion = "0.9.0.0"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />       
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
     
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
     <WixVariable Id="WixUILicenseRtf" Value="..\Artifacts\eula.rtf" />

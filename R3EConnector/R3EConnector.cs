@@ -117,6 +117,7 @@
             try
             {
                 _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
+                this.ResetConnector();
                 RaiseConnectedEvent();
                 StartDaemon();
                 return true;

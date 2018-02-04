@@ -16,6 +16,10 @@
         public ColumnSettings LastPitInfo { get; set; } = new ColumnSettings { Visible = true, Width = 180 };
         public ColumnSettings TimeToPlayer { get; set; } = new ColumnSettings { Visible = true, Width = 150 };
         public ColumnSettings TopSpeed { get; set; } = new ColumnSettings { Visible = true, Width = 100 };
+        public ColumnSettings Sector1 { get; set; } = new ColumnSettings { Visible = true, Width = 80 };
+        public ColumnSettings Sector2 { get; set; } = new ColumnSettings { Visible = true, Width = 80 };
+        public ColumnSettings Sector3 { get; set; } = new ColumnSettings { Visible = true, Width = 80 };
+
 
     }
 

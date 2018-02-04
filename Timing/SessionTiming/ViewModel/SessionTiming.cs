@@ -3,17 +3,20 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Windows;
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
+    using SecondMonitor.Timing.Properties;
     using SecondMonitor.Timing.SessionTiming.Drivers;
     using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
 
-    public class SessionTiming : DependencyObject, IEnumerable
+    public class SessionTiming : DependencyObject, IEnumerable, INotifyPropertyChanged
     {
         public class DriverNotFoundException : Exception
         {
@@ -28,16 +31,11 @@
             }
         }
 
-        public class BestLapChangedArgs : EventArgs
-        {
-            public BestLapChangedArgs(LapInfo lap)
-            {
-                Lap = lap;
-            }
+        private List<SectorTiming> _sector1Times = new List<SectorTiming>();
 
-            public LapInfo Lap { get; set; }
+        private List<SectorTiming> _sector2Times = new List<SectorTiming>();
 
-        }
+        private List<SectorTiming> _sector3Times = new List<SectorTiming>();
 
         public event EventHandler<DriverListModificationEventArgs> DriverAdded;
 
@@ -47,13 +45,22 @@
 
         private LapInfo _bestSessionLap;
 
+        public LapInfo BestSessionLap
+        {
+            get => this._bestSessionLap;
+            set
+            {
+                this._bestSessionLap = value;
+                this.OnPropertyChanged();
+            }
+        }
+
         public DriverTimingModelView Player { get; private set; }
 
         public DriverTimingModelView Leader { get; private set; }
 
         public TimeSpan SessionTime { get; private set; }
 
-        public event EventHandler<BestLapChangedArgs> BestLapChangedEvent;
 
         public SessionInfo.SessionTypeEnum SessionType { get; private set; }
 
@@ -83,6 +90,12 @@
             get;
             set;
         }
+
+        public SectorTiming BestSector1 => this._sector1Times.Any() ? _sector1Times.First() : null;
+
+        public SectorTiming BestSector2 => this._sector2Times.Any() ? this._sector2Times.First() : null;
+
+        public SectorTiming BestSector3 => this._sector3Times.Any() ? this._sector3Times.First() : null;
 
         public int SessionCompletedPerMiles
         {
@@ -119,6 +132,8 @@
                 }
 
                 DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
+                newDriver.SectorCompletedEvent += timing.OnSectorCompletedEvent;
+                newDriver.LapInvalidated += timing.LapInvalidatedHandler;
                 DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
                 drivers.Add(name, newDriverTimingModelView);
                 if (newDriver.DriverInfo.IsPlayer)
@@ -130,9 +145,49 @@
             if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
             {
                 timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
-            }
-
+            }            
             return timing;
+        }
+
+        private void OnSectorCompletedEvent(object sender, LapInfo.SectorCompletedArgs e)
+        {
+            SectorTiming completedSector = e.SectorTiming;
+            switch (completedSector.SectorNumber)
+            {
+                case 1:
+                    if (BestSector1 == null || BestSector1 > completedSector)
+                    {
+                        _sector1Times.Insert(0, completedSector);
+                        if (this._sector1Times.Count > 50)
+                        {
+                            this._sector1Times.RemoveAt(this._sector1Times.Count - 1);
+                        }
+                        this.OnPropertyChanged(nameof(BestSector1));
+                    }
+                    break;
+                case 2:
+                    if (BestSector2 == null || BestSector2 > completedSector)
+                    {
+                        _sector2Times.Insert(0, completedSector);
+                        if (this._sector2Times.Count > 50)
+                        {
+                            this._sector2Times.RemoveAt(this._sector2Times.Count - 1);
+                        }
+                        this.OnPropertyChanged(nameof(BestSector2));
+                    }
+                    break;
+                case 3:
+                    if (BestSector3 == null || BestSector3 > completedSector)
+                    {
+                        _sector3Times.Insert(0, completedSector);
+                        if (this._sector3Times.Count > 50)
+                        {
+                            this._sector3Times.RemoveAt(this._sector3Times.Count - 1);
+                        }
+                        this.OnPropertyChanged(nameof(BestSector3));
+                    }
+                    break;
+            }
         }
 
         private void AddNewDriver(DriverInfo newDriverInfo)
@@ -142,14 +197,33 @@
                 return;
             }
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionInfo.SessionTypeEnum.Race);
+            newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
+            newDriver.LapInvalidated += LapInvalidatedHandler;
             DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
             Drivers.Add(newDriver.Name, newDriverTimingModelView);
             RaiseDriverAddedEvent(newDriverTimingModelView);
         }
 
-        public LapInfo BestSessionLap => _bestSessionLap;
+        private void LapInvalidatedHandler(object sender, DriverTiming.LapEventArgs e)
+        {
+            if (this._sector1Times.Contains(e.Lap.Sector1))
+            {
+                this._sector1Times.Remove(e.Lap.Sector1);
+                this.OnPropertyChanged(nameof(this.BestSector1));
+            }
 
-        public string BestLapFormatted => _bestSessionLap != null ? DriverTiming.FormatTimeSpan(_bestSessionLap.LapTime) : "Best Session Lap";
+            if (this._sector2Times.Contains(e.Lap.Sector2))
+            {
+                this._sector2Times.Remove(e.Lap.Sector2);
+                this.OnPropertyChanged(nameof(this.BestSector2));
+            }
+
+            if (this._sector3Times.Contains(e.Lap.Sector3))
+            {
+                this._sector3Times.Remove(e.Lap.Sector3);
+                this.OnPropertyChanged(nameof(this.BestSector3));
+            }
+        }
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
@@ -172,7 +246,9 @@
                         UpdateDriver(s, Drivers[s.DriverName], dataSet);
 
                         if (Drivers[s.DriverName].DriverTiming.IsPlayer)
+                        {
                             Player = Drivers[s.DriverName];
+                        }
                     }
                     else
                     {
@@ -200,30 +276,26 @@
             }
         }
 
-        private void UpdateDriver(DriverInfo modelInfo, DriverTimingModelView DriverTimingModelView, SimulatorDataSet set)
+        private void UpdateDriver(DriverInfo modelInfo, DriverTimingModelView driverTimingModelView, SimulatorDataSet set)
         {
-            DriverTiming timingInfo = DriverTimingModelView.DriverTiming;
+            DriverTiming timingInfo = driverTimingModelView.DriverTiming;
             timingInfo.DriverInfo = modelInfo;
             if (timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && (_bestSessionLap == null || timingInfo.LastCompletedLap.LapTime < _bestSessionLap.LapTime))
             {
-                _bestSessionLap = timingInfo.LastCompletedLap;
-                RaiseBestLapChangedEvent(_bestSessionLap);
+                BestSessionLap = timingInfo.LastCompletedLap;
             }
 
             if (timingInfo.Position == 1)
-                Leader = DriverTimingModelView;
+            {
+                Leader = driverTimingModelView;
+            }
 
-            DriverTimingModelView.RefreshProperties();
+            driverTimingModelView.RefreshProperties();
         }
 
         public IEnumerator GetEnumerator()
         {
             return Drivers.Values.GetEnumerator();
-        }
-
-        public void RaiseBestLapChangedEvent(LapInfo lapInfo)
-        {
-            BestLapChangedEvent?.Invoke(this, new BestLapChangedArgs(lapInfo));
         }
 
         public void RaiseDriverAddedEvent(DriverTimingModelView driver)
@@ -234,6 +306,14 @@
         public void RaiseDriverRemovedEvent(DriverTimingModelView driver)
         {
             DriverRemoved?.Invoke(this, new DriverListModificationEventArgs(driver));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

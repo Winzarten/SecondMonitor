@@ -59,21 +59,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LapTimings\ViewModel\DriverLapsWindowManager.cs" />
     <Compile Include="Presentation\ViewModel\Commands\ResetCommand.cs" />
     <Compile Include="Presentation\ViewModel\Commands\DelegatedCommand.cs" />
+    <Compile Include="LapTimings\ViewModel\DriverLapsViewModel.cs" />
+    <Compile Include="LapTimings\ViewModel\LapViewModel.cs" />
     <Compile Include="Presentation\ViewModel\NotifyingDateTime.cs" />
+    <Compile Include="Presentation\ViewModel\SessionInfoViewModel.cs" />
+    <Compile Include="Presentation\ViewModel\TimeSpanFormatHelper.cs" />
     <Compile Include="Presentation\ViewModel\TimingDataViewModel.cs" />
     <Compile Include="Presentation\View\BindingProxy.cs" />
     <Compile Include="Presentation\View\DisplaySettingsWindow.xaml.cs">
       <DependentUpon>DisplaySettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\View\DoubleToDatagridLenghtValueConverter.cs" />
+    <Compile Include="LapTimings\View\DriverLapsWindow.xaml.cs">
+      <DependentUpon>DriverLapsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\View\SessionInfoView.xaml.cs">
+      <DependentUpon>SessionInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\View\TimingGUI.xaml.cs">
       <DependentUpon>TimingGUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="SessionTiming\Drivers\DriverListModificationEventArgs.cs" />
     <Compile Include="SessionTiming\Drivers\ModelView\DriverTiming.cs" />
     <Compile Include="SessionTiming\Drivers\ModelView\PitStopInfo.cs" />
+    <Compile Include="SessionTiming\Drivers\ModelView\SectorTiming.cs" />
     <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingVisualiser.cs" />
     <Compile Include="SessionTiming\Drivers\ModelView\LapInfo.cs" />
     <Compile Include="SessionTiming\ViewModel\SessionTiming.cs" />
@@ -124,6 +136,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LapTimings\View\DriverLapsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\View\SessionInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presentation\View\TimingGUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -149,5 +169,6 @@
   <ItemGroup>
     <Resource Include="Resources\water.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

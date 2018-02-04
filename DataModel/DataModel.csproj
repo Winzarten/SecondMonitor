@@ -58,6 +58,7 @@
     <Compile Include="BasicProperties\Volume.cs" />
     <Compile Include="BasicProperties\VolumeUnits.cs" />
     <Compile Include="CarInfo.cs" />
+    <Compile Include="DataInputSupport.cs" />
     <Compile Include="DatamodelSerializerHelper.cs" />
     <Compile Include="Drivers\DriverDebugInfo.cs" />
     <Compile Include="Drivers\DriverInfo.cs" />

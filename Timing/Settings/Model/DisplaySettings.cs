@@ -28,5 +28,13 @@
         public SessionOptions QualificationOptions { get; set; } = new SessionOptions { OrderingDisplayMode = DisplayModeEnum.Absolute, TimesDisplayMode = DisplayModeEnum.Absolute, SessionName = "Quali" };
 
         public SessionOptions RaceOptions { get; set; } = new SessionOptions { OrderingDisplayMode = DisplayModeEnum.Relative, TimesDisplayMode = DisplayModeEnum.Relative, SessionName = "Race" };
+
+        public DisplaySettings()
+        {
+            RaceOptions.ColumnsSettings.Sector1.Visible = false;
+            RaceOptions.ColumnsSettings.Sector2.Visible = false;
+            RaceOptions.ColumnsSettings.Sector3.Visible = false;
+        }
     }
+
 }
