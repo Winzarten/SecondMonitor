@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.DataModel
 {
+    using System;
+
     using SecondMonitor.DataModel.BasicProperties;
 
     public class CarInfo
@@ -28,7 +30,7 @@
             WheelsInfo = new Wheels();
             OilSystemInfo = new OilInfo();
             FuelSystemInfo = new FuelInfo();
-            WaterSystmeInfo = new WaterInfo();
+            this.WaterSystemInfo = new WaterInfo();
             Acceleration = new Acceleration();
         }
 
@@ -38,9 +40,11 @@
 
         public FuelInfo FuelSystemInfo { get; set; }
 
-        public WaterInfo WaterSystmeInfo { get; set; }
+        public WaterInfo WaterSystemInfo { get; set; }
 
         public Acceleration Acceleration { get; set; }
+
+        public string CurrentGear { get; set; } = string.Empty;
 
     }
 }

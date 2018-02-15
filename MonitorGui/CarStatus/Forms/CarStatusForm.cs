@@ -55,8 +55,8 @@
         {
             if (data.PlayerInfo == null)
                 return;
-            if (data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius != -1)
-                gWaterTemp.Value =(float) data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius;
+            if (data.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature.InCelsius != -1)
+                gWaterTemp.Value =(float) data.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature.InCelsius;
         }
 
         private void UpdateFuelLevel(SimulatorDataSet data)
@@ -106,7 +106,7 @@
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
             SimulatorDataSet data = args.Data;
-            if (data.PlayerInfo == null || args.Data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature.InCelsius == -1)
+            if (data.PlayerInfo == null || args.Data.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature.InCelsius == -1)
                 return;
             UpdateGui(data);
         }

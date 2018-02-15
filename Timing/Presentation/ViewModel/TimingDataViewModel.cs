@@ -34,6 +34,7 @@
 
         public static readonly DependencyProperty DisplaySettingsProperty = DependencyProperty.Register("DisplaySettings", typeof(DisplaySettingsModelView), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
         public static readonly DependencyProperty CurrentSessionOptionsProperty = DependencyProperty.Register("CurrentSessionOptions", typeof(SessionOptionsModelView), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
+        public static readonly DependencyProperty CurrentGearProperty = DependencyProperty.Register("CurrentGear",typeof(string), typeof(TimingDataViewModel));
 
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -104,6 +105,12 @@
                 _pluginsManager.DataLoaded += OnDataLoaded;
                 _pluginsManager.SessionStarted += OnSessionStarted;
             }
+        }
+
+        public string CurrentGear
+        {
+            get => (string)GetValue(CurrentGearProperty);
+            set => SetValue(CurrentGearProperty, value);
         }
 
         public bool IsDaemon => false;
@@ -329,6 +336,7 @@
                 try
                 {
                     _timing?.UpdateTiming(data);
+                    CurrentGear = data.PlayerInfo?.CarInfo?.CurrentGear;
                 }
                 catch (SessionTiming.DriverNotFoundException)
                 {
@@ -386,7 +394,7 @@
             this.Gui.WhLeftRear.UpdateControl(data);
             this.Gui.WhRightRear.UpdateControl(data);
             this.Gui.FuelMonitor.ProcessDataSet(data);
-            this.Gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature;
+            this.Gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature;
             this.Gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
 
             this.Gui.LblWeather.Content =

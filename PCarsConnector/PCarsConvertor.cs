@@ -189,8 +189,10 @@
             FillSessionInfo(data, simData, lastTickDuration);
             AddDriversData(data, simData);
 
+            FillPlayersGear(data, simData);
+
             // WaterSystemInfo
-            simData.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature =
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature =
                 Temperature.FromCelsius(data.MWaterTempCelsius);
 
             // OilSystemInfo
@@ -250,6 +252,25 @@
             simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.MLocalAcceleration[2];
 
             return simData;
+        }
+
+        private static void FillPlayersGear(PCarsApiStruct data, SimulatorDataSet simData)
+        {
+            switch (data.MGear)
+            {
+                case 0:
+                    simData.PlayerInfo.CarInfo.CurrentGear = "N";
+                    break;
+                case -1:
+                    simData.PlayerInfo.CarInfo.CurrentGear = "R";
+                    break;
+                case -2:
+                    simData.PlayerInfo.CarInfo.CurrentGear = string.Empty;
+                    break;
+                default:
+                    simData.PlayerInfo.CarInfo.CurrentGear = data.MGear.ToString();
+                    break;
+            }
         }
 
         private void FillSessionInfo(PCarsApiStruct pCarsData, SimulatorDataSet simData, TimeSpan lastTickDuration)

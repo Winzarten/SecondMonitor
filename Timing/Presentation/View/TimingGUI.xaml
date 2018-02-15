@@ -64,7 +64,7 @@
         <WindowsFormsHost Margin="211,0,0,187"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
             <winForms:WheelStatusControl x:Name="WhRightRear" WheelPostion="RearRight"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Margin="10,0,0,26" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="156">
+        <WindowsFormsHost Margin="10,0,0,70" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="112">
             <winForms:PedalControl x:Name="PedalControl"/>
         </WindowsFormsHost>
 
@@ -299,5 +299,6 @@
             </StatusBarItem>
         </StatusBar>
         <view:SessionInfoView DataContext="{Binding SessionInfoViewModel}" HorizontalAlignment="Right"  Margin="0,10,10,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding Path=CurrentGear}" HorizontalAlignment="Left" Foreground="Blue" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" Margin="10,0,0,27" VerticalAlignment="Bottom" Height="39" Width="70"/>
     </Grid>
 </Window>

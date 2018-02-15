@@ -154,7 +154,7 @@
 
         private static void AddWaterSystemInfo(R3ESharedData data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);
         }
 
         private static void AddPedalInfo(R3ESharedData data, SimulatorDataSet simData)
@@ -294,6 +294,8 @@
             FillSessionInfo(data, simData);
             AddDriversData(simData, data);
 
+            FillPlayersGear(data, simData);
+
             // PEDAL INFO
             AddPedalInfo(data, simData);
 
@@ -314,7 +316,26 @@
 
             return simData;
         }
-        
+
+        private static void FillPlayersGear(R3ESharedData data, SimulatorDataSet simData)
+        {
+            switch (data.Gear)
+            {
+                case 0:
+                    simData.PlayerInfo.CarInfo.CurrentGear = "N";
+                    break;
+                case -1:
+                    simData.PlayerInfo.CarInfo.CurrentGear = "R";
+                    break;
+                case -2:
+                    simData.PlayerInfo.CarInfo.CurrentGear = string.Empty;
+                    break;
+                default:
+                    simData.PlayerInfo.CarInfo.CurrentGear = data.Gear.ToString();
+                    break;
+            }
+        }
+
         internal void FillSessionInfo(R3ESharedData data, SimulatorDataSet simData)
         {
             // Timing
