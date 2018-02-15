@@ -56,13 +56,13 @@
             <winForms:WheelStatusControl x:Name="WhLeftFront"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="211,0,0,288" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
-            <winForms:WheelStatusControl x:Name="WhRightFront" WheelPostion="FrontRight"/>
+            <winForms:WheelStatusControl x:Name="WhRightFront" WheelPosition="FrontRight"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="10,0,0,187"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
-            <winForms:WheelStatusControl x:Name="WhLeftRear" WheelPostion="RearLeft"/>
+            <winForms:WheelStatusControl x:Name="WhLeftRear" WheelPosition="RearLeft"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="211,0,0,187"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="196" Height="96">
-            <winForms:WheelStatusControl x:Name="WhRightRear" WheelPostion="RearRight"/>
+            <winForms:WheelStatusControl x:Name="WhRightRear" WheelPosition="RearRight"/>
         </WindowsFormsHost>
         <WindowsFormsHost Margin="10,0,0,70" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="112">
             <winForms:PedalControl x:Name="PedalControl"/>

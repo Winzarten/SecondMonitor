@@ -231,7 +231,7 @@
             this.ctlRearRight.Name = "ctlRearRight";
             this.ctlRearRight.Size = new System.Drawing.Size(218, 96);
             this.ctlRearRight.TabIndex = 7;
-            this.ctlRearRight.WheelPostion = WheelStatusControl.WheelPostionEnum.RearRight;
+            this.ctlRearRight.WheelPosition = WheelStatusControl.WheelPositionEnum.RearRight;
 
             // ctlFrontRight
             this.ctlFrontRight.BackColor = System.Drawing.Color.FromArgb(
@@ -243,7 +243,7 @@
             this.ctlFrontRight.Name = "ctlFrontRight";
             this.ctlFrontRight.Size = new System.Drawing.Size(218, 96);
             this.ctlFrontRight.TabIndex = 6;
-            this.ctlFrontRight.WheelPostion = WheelStatusControl.WheelPostionEnum.FrontRight;
+            this.ctlFrontRight.WheelPosition = WheelStatusControl.WheelPositionEnum.FrontRight;
 
             // ctlFrontLeft
             this.ctlFrontLeft.BackColor = System.Drawing.Color.FromArgb(
@@ -255,7 +255,7 @@
             this.ctlFrontLeft.Name = "ctlFrontLeft";
             this.ctlFrontLeft.Size = new System.Drawing.Size(218, 96);
             this.ctlFrontLeft.TabIndex = 5;
-            this.ctlFrontLeft.WheelPostion = WheelStatusControl.WheelPostionEnum.FrontLeft;
+            this.ctlFrontLeft.WheelPosition = WheelStatusControl.WheelPositionEnum.FrontLeft;
 
             // ctlRearLeft
             this.ctlRearLeft.BackColor = System.Drawing.Color.FromArgb(
@@ -267,7 +267,7 @@
             this.ctlRearLeft.Name = "ctlRearLeft";
             this.ctlRearLeft.Size = new System.Drawing.Size(218, 96);
             this.ctlRearLeft.TabIndex = 4;
-            this.ctlRearLeft.WheelPostion = WheelStatusControl.WheelPostionEnum.RearLeft;
+            this.ctlRearLeft.WheelPosition = WheelStatusControl.WheelPositionEnum.RearLeft;
 
             // oilControl2
             this.oilControl2.BackColor = System.Drawing.Color.White;
