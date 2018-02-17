@@ -1,7 +1,5 @@
-﻿namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
-    using System;
-
     using SecondMonitor.DataModel.BasicProperties;
 
     public class CarInfo
@@ -10,10 +8,10 @@
         {
             public Wheels()
             {
-                FrontRight = new WheelInfo();
-                FrontLeft = new WheelInfo();
-                RearRight = new WheelInfo();
-                RearLeft = new WheelInfo();
+                this.FrontRight = new WheelInfo();
+                this.FrontLeft = new WheelInfo();
+                this.RearRight = new WheelInfo();
+                this.RearLeft = new WheelInfo();
             }
 
             public WheelInfo FrontLeft { get; set; }
@@ -27,11 +25,11 @@
 
         public CarInfo()
         {
-            WheelsInfo = new Wheels();
-            OilSystemInfo = new OilInfo();
-            FuelSystemInfo = new FuelInfo();
+            this.WheelsInfo = new Wheels();
+            this.OilSystemInfo = new OilInfo();
+            this.FuelSystemInfo = new FuelInfo();
             this.WaterSystemInfo = new WaterInfo();
-            Acceleration = new Acceleration();
+            this.Acceleration = new Acceleration();
         }
 
         public Wheels WheelsInfo { get; set; }

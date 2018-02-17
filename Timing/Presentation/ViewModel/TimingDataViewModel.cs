@@ -14,6 +14,7 @@
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.PluginManager.Core;
     using SecondMonitor.PluginManager.GameConnector;
     using SecondMonitor.Timing.LapTimings.ViewModel;

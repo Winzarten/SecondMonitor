@@ -6,7 +6,8 @@
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
 
     public class DriverTiming

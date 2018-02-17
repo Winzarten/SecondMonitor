@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
     using SecondMonitor.DataModel.BasicProperties;
 
@@ -6,8 +6,8 @@
     {
         public OilInfo()
         {
-            OilPressure = new Pressure();
-            OilTemperature = new Temperature();
+            this.OilPressure = new Pressure();
+            this.OilTemperature = new Temperature();
         }
 
         public Temperature OilTemperature { get; set; }

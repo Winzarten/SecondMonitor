@@ -57,27 +57,28 @@
     <Compile Include="BasicProperties\VelocityUnits.cs" />
     <Compile Include="BasicProperties\Volume.cs" />
     <Compile Include="BasicProperties\VolumeUnits.cs" />
-    <Compile Include="CarInfo.cs" />
-    <Compile Include="DataInputSupport.cs" />
-    <Compile Include="DatamodelSerializerHelper.cs" />
-    <Compile Include="Drivers\DriverDebugInfo.cs" />
-    <Compile Include="Drivers\DriverInfo.cs" />
-    <Compile Include="Drivers\DriverTimingInfo.cs" />
-    <Compile Include="SessionInfo.cs" />
-    <Compile Include="SimulatorDataSet.cs" />
-    <Compile Include="FuelInfo.cs" />
-    <Compile Include="OilInfo.cs" />
+    <Compile Include="Snapshot\Systems\CarInfo.cs" />
+    <Compile Include="Snapshot\DataInputSupport.cs" />
+    <Compile Include="Snapshot\DatamodelSerializerHelper.cs" />
+    <Compile Include="Snapshot\Drivers\DriverDebugInfo.cs" />
+    <Compile Include="Snapshot\Drivers\DriverInfo.cs" />
+    <Compile Include="Snapshot\Drivers\DriverTimingInfo.cs" />
+    <Compile Include="Snapshot\SessionInfo.cs" />
+    <Compile Include="Snapshot\SimulatorDataSet.cs" />
+    <Compile Include="Snapshot\Systems\FuelInfo.cs" />
+    <Compile Include="Snapshot\Systems\OilInfo.cs" />
     <Compile Include="BasicProperties\Pressure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicProperties\Temperature.cs" />
-    <Compile Include="SimulatorSourceInfo.cs" />
-    <Compile Include="WaterInfo.cs" />
-    <Compile Include="WeatherInfo.cs" />
-    <Compile Include="WheelInfo.cs" />
+    <Compile Include="Snapshot\SimulatorSourceInfo.cs" />
+    <Compile Include="Snapshot\Systems\WaterInfo.cs" />
+    <Compile Include="Snapshot\WeatherInfo.cs" />
+    <Compile Include="Snapshot\Systems\WheelInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

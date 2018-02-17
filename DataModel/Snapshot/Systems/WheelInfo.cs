@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
     using SecondMonitor.DataModel.BasicProperties;
 
@@ -6,13 +6,13 @@
     {                
         public WheelInfo()
         {
-            BrakeTemperature = new Temperature();
-            TyrePressure = new Pressure();
-            LeftTyreTemp = new Temperature();
-            RightTyreTemp = new Temperature();
-            CenterTyreTemp = new Temperature();
-            TyreWear = 0;
-            TyreTypeFilled = false;
+            this.BrakeTemperature = new Temperature();
+            this.TyrePressure = new Pressure();
+            this.LeftTyreTemp = new Temperature();
+            this.RightTyreTemp = new Temperature();
+            this.CenterTyreTemp = new Temperature();
+            this.TyreWear = 0;
+            this.TyreTypeFilled = false;
         }
 
         public Temperature BrakeTemperature { get; set; }

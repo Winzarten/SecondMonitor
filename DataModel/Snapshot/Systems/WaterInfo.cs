@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
     using SecondMonitor.DataModel.BasicProperties;
 
@@ -6,7 +6,7 @@
     {
         public WaterInfo()
         {
-            WaterTemperature = new Temperature();
+            this.WaterTemperature = new Temperature();
         }
 
         public Temperature WaterTemperature { get; set; }

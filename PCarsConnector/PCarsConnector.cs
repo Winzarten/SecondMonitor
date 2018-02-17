@@ -9,7 +9,8 @@
     using System.Threading;
 
     using SecondMonitor.DataModel;
-    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.PluginManager.GameConnector;
 
     public class PCarsConnector : IGameConnector

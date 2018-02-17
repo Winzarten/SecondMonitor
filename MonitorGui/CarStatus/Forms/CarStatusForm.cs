@@ -5,6 +5,7 @@
     using System.Windows.Forms;
 
     using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.PluginManager.Core;
     using SecondMonitor.PluginManager.GameConnector;
 

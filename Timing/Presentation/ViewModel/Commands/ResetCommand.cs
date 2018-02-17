@@ -7,7 +7,7 @@
     {        
         private readonly Action _executeDelegate;
 
-        private readonly Func<bool> _canExecuteDelegate;
+        private Func<bool> _canExecuteDelegate;
 
         public event EventHandler CanExecuteChanged;
 
@@ -21,6 +21,15 @@
         {
             _executeDelegate = execute;
             _canExecuteDelegate = canExecute;
+        }
+
+        public Func<bool> CanExecuteDelegate
+        {
+            set
+            {
+                _canExecuteDelegate = value;
+                CanExecuteChanged?.Invoke(this, new EventArgs());
+            }
         }
 
         public bool CanExecute(object parameter)

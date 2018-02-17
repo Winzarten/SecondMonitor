@@ -6,8 +6,8 @@
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Drivers;
-   
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
 
     internal class R3EDataConvertor
     {

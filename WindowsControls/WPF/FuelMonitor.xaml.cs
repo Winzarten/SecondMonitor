@@ -6,6 +6,7 @@
 
     using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
 
     /// <summary>
     /// Interaction logic for FuelMonitor.xaml

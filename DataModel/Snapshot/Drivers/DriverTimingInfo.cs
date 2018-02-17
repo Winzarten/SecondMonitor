@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.DataModel.Drivers
+﻿namespace SecondMonitor.DataModel.Snapshot.Drivers
 {
     using System;
 

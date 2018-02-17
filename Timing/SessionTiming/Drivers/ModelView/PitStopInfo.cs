@@ -3,6 +3,7 @@
     using System;
 
     using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.Snapshot;
 
     public class PitStopInfo
     {

@@ -8,7 +8,8 @@
     using System.Windows.Shapes;
 
     using SecondMonitor.DataModel;
-    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
 
     /// <summary>
     /// Interaction logic for PositionCircle.xaml

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using SecondMonitor.DataModel.Drivers;
 
 namespace SecondMonitor.PCarsConnector
 {
+    using SecondMonitor.DataModel.Snapshot.Drivers;
+
     public class TrackDetails
     {
         private static TrackDetails _lastDetails;

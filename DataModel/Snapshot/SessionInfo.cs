@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot
 {
+    using System;
+
     public class SessionInfo
     {
         public enum SessionTypeEnum { Na, Practice, Qualification, WarmUp, Race}
@@ -38,9 +38,9 @@ namespace SecondMonitor.DataModel
 
         public SessionInfo()
         {
-            SessionTime = new TimeSpan(0);
-            TrackName = string.Empty;
-            TrackLayoutName = string.Empty;
+            this.SessionTime = new TimeSpan(0);
+            this.TrackName = string.Empty;
+            this.TrackLayoutName = string.Empty;
         }
     }
 }

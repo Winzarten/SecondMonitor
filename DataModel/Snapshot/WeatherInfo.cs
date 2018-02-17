@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot
 {
     using SecondMonitor.DataModel.BasicProperties;
 

@@ -1,14 +1,14 @@
-﻿using SecondMonitor.DataModel.BasicProperties;
-
-namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
+    using SecondMonitor.DataModel.BasicProperties;
+
     public class FuelInfo
     {
         public FuelInfo()
         {
-            FuelCapacity = new Volume();
-            FuelRemaining = new Volume();
-            FuelPressure = new Pressure();
+            this.FuelCapacity = new Volume();
+            this.FuelRemaining = new Volume();
+            this.FuelPressure = new Pressure();
         }
 
         public Volume FuelCapacity { get; set; }

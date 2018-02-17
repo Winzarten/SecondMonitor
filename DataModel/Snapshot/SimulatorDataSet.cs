@@ -1,18 +1,18 @@
-﻿namespace SecondMonitor.DataModel
+﻿namespace SecondMonitor.DataModel.Snapshot
 {
     using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Drivers;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class SimulatorDataSet
     {        
         public SimulatorDataSet(string source)
         {
-            Source = source;
-            PedalInfo = new PedalInfo();
-            SessionInfo = new SessionInfo();
-            DriversInfo = new DriverInfo[0];
-            PlayerInfo = new DriverInfo();
-            LeaderInfo = new DriverInfo();
+            this.Source = source;
+            this.PedalInfo = new PedalInfo();
+            this.SessionInfo = new SessionInfo();
+            this.DriversInfo = new DriverInfo[0];
+            this.PlayerInfo = new DriverInfo();
+            this.LeaderInfo = new DriverInfo();
         }
 
         public string Source { get; set; }

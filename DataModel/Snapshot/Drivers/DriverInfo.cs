@@ -1,6 +1,7 @@
-﻿namespace SecondMonitor.DataModel.Drivers
+﻿namespace SecondMonitor.DataModel.Snapshot.Drivers
 {
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot.Systems;
 
     public class DriverInfo
     {
