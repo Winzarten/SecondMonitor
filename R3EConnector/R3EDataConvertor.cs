@@ -234,7 +234,7 @@
 
         private void AddLappingInformation(SimulatorDataSet data, R3ESharedData r3RData, DriverInfo driverInfo)
         {
-            if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && _lastPlayer != null
+            if (data.SessionInfo.SessionType == SessionType.Race && _lastPlayer != null
                 && _lastPlayer.CompletedLaps != 0)
             {
                 driverInfo.IsBeingLappedByPlayer =
@@ -340,28 +340,28 @@
         {
             // Timing
             simData.SessionInfo.SessionTime = _connector.SessionTime; // TimeSpan.FromSeconds(data.Player.GameSimulationTime);
-            simData.SessionInfo.LayoutLength = data.LayoutLength;
+            simData.SessionInfo.TrackInfo.LayoutLength = data.LayoutLength;
             simData.SessionInfo.IsActive = (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Green
                 || (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Checkered;
             switch ((Constant.Session)data.SessionType)
             {
                 case Constant.Session.Practice:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Practice;
+                    simData.SessionInfo.SessionType = SessionType.Practice;
                     break;
                 case Constant.Session.Qualify:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Qualification;
+                    simData.SessionInfo.SessionType = SessionType.Qualification;
                     break;
                 case Constant.Session.Race:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Race;
+                    simData.SessionInfo.SessionType = SessionType.Race;
                     break;
                 case Constant.Session.Unavailable:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Na;
+                    simData.SessionInfo.SessionType = SessionType.Na;
                     break;
                 case Constant.Session.Warmup:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.WarmUp;
+                    simData.SessionInfo.SessionType = SessionType.WarmUp;
                     break;
                 default:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Na;
+                    simData.SessionInfo.SessionType = SessionType.Na;
                     break;
             }
 
@@ -371,32 +371,32 @@
                 case Constant.SessionPhase.Formation:
                 case Constant.SessionPhase.Gridwalk:
                 case Constant.SessionPhase.Garage:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Countdown;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
                     break;
                 case Constant.SessionPhase.Green:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Green;
                     break;
                 case Constant.SessionPhase.Checkered:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Checkered;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Checkered;
                     break;
                 default:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Green;
                     break;
 
             }
 
-            simData.SessionInfo.TrackName = FromByteArray(data.TrackName);
-            simData.SessionInfo.TrackLayoutName = FromByteArray(data.LayoutName);
+            simData.SessionInfo.TrackInfo.TrackName = FromByteArray(data.TrackName);
+            simData.SessionInfo.TrackInfo.TrackLayoutName = FromByteArray(data.LayoutName);
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (data.SessionTimeRemaining != -1)
             {
-                simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Time;
+                simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
                 simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
             }
             else if (data.NumberOfLaps != -1)
             {
-                simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Laps;
+                simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
                 simData.SessionInfo.TotalNumberOfLaps = data.NumberOfLaps;
             }
         }       

@@ -33,11 +33,6 @@
 
         private void CreateCircle()
         {
-            double size;
-            if (mainControl.Width < mainControl.Height)
-                size = mainControl.Width / 2;
-            else
-                size = mainControl.Height / 2;
             _myCircle = new Ellipse();
             _myCircle.Fill = Brushes.Black;
             _myCircle.Width = 300;
@@ -53,7 +48,7 @@
 
         public void SetSessionInfo(SimulatorDataSet set)
         {
-            _lapLength = set.SessionInfo.LayoutLength;
+            _lapLength = set.SessionInfo.TrackInfo.LayoutLength;
             UnregisterDrivers();
             AddDrivers(set.DriversInfo);
         }
@@ -61,7 +56,9 @@
         private void UnregisterDrivers()
         {
             if (_driversPoints == null)
+            {
                 return;
+            }
             foreach(var driver in _driversPoints.Values)
             {
                 canvas.Children.Remove(driver);
@@ -80,7 +77,9 @@
             foreach (var driver in drivers)
             {
                 if (_driversPoints.ContainsKey(driver.DriverName))
+                {
                     continue;
+                }
                 AddDriver(driver);
             }
         }
@@ -111,15 +110,12 @@
         private Ellipse CreateDriverEllipse(DriverInfo driver)
         {
             Ellipse driverEllips = new Ellipse();
-            if (driver.IsPlayer)
-                driverEllips.Fill = Brushes.Red;
-            else
-                driverEllips.Fill = Brushes.Green;
+            driverEllips.Fill = driver.IsPlayer ? Brushes.Red : Brushes.Green;
             driverEllips.Width = CircleDiameter * 2;
-            driverEllips.Height = CircleDiameter *2;
+            driverEllips.Height = CircleDiameter * 2;
             canvas.Children.Add(driverEllips);
             double x = GetX(driver, canvas.ActualWidth - 10) - CircleDiameter;
-            double y = GetY(driver, canvas.ActualHeight -10) - CircleDiameter;
+            double y = GetY(driver, canvas.ActualHeight - 10) - CircleDiameter;
             Canvas.SetLeft(driverEllips, x);
             Canvas.SetTop(driverEllips, y);
             return driverEllips;
@@ -128,18 +124,15 @@
         private TextBlock CreateDriverText(DriverInfo driver)
         {
             TextBlock driverTextBlock = new TextBlock();
-            if (driver.IsPlayer)
-                driverTextBlock.Foreground = Brushes.Red;
-            else
-                driverTextBlock.Foreground = Brushes.Green;
+            driverTextBlock.Foreground = driver.IsPlayer ? Brushes.Red : Brushes.Green;
             driverTextBlock.Width = 30;
             driverTextBlock.Height = 30;
             driverTextBlock.FontSize = 18;
             driverTextBlock.FontWeight = FontWeights.Bold;
             driverTextBlock.Text = driver.Position.ToString();
             canvas.Children.Add(driverTextBlock);
-            double x = GetX(driver, canvas.ActualWidth-15) - CircleDiameter;
-            double y = GetY(driver, canvas.ActualHeight-15) - CircleDiameter;
+            double x = GetX(driver, canvas.ActualWidth - 15) - CircleDiameter;
+            double y = GetY(driver, canvas.ActualHeight - 15) - CircleDiameter;
             Canvas.SetLeft(driverTextBlock, x);
             Canvas.SetTop(driverTextBlock, y);
             return driverTextBlock;
@@ -149,9 +142,11 @@
         {
             foreach(var driver in set.DriversInfo)
             {
-                Ellipse driverEllipse; 
+                Ellipse driverEllipse;
                 if (!_driversPoints.TryGetValue(driver.DriverName, out driverEllipse))
+                {
                     continue;
+                }
                 int margin = CircleMargin;
                 if (driver.InPits)
                 {
@@ -167,11 +162,17 @@
                     driverEllipse.Fill = Brushes.Olive;
                 }
                 else if (driver.IsBeingLappedByPlayer)
+                { 
                     driverEllipse.Fill = Brushes.Blue;
+                }
                 else if (driver.IsLappingPlayer)
+                {
                     driverEllipse.Fill = Brushes.Red;
+                }
                 else
+                {
                     driverEllipse.Fill = Brushes.Green;
+                }
                 double x = GetX(driver, canvas.ActualWidth- margin * 2) - CircleDiameter;
                 double y = GetY(driver, canvas.ActualHeight- margin * 2) - CircleDiameter;
                 Canvas.SetLeft(driverEllipse, x);
@@ -188,11 +189,17 @@
                     text.Foreground = Brushes.Olive;
                 }
                 else if (driver.IsBeingLappedByPlayer)
+                {
                     text.Foreground = Brushes.Blue;
+                }
                 else if (driver.IsLappingPlayer)
+                {
                     text.Foreground = Brushes.Red;
+                }
                 else
+                {
                     text.Foreground = Brushes.Green;
+                }
                 text.Text = driver.Position.ToString();
                 x = GetX(driver, canvas.ActualWidth- margin * 2 - 40) - 10;
                 y = GetY(driver, canvas.ActualHeight- margin * 2 - 40) - 10;
@@ -203,30 +210,25 @@
 
         private double GetX(DriverInfo driver, double ellipseWidth)
         {
-            double degrees = (driver.LapDistance / _lapLength) * 2*Math.PI - Math.PI / 2;
-            double degreesD = (driver.LapDistance / _lapLength) * 360;
-            double x = canvas.ActualWidth / 2 + (ellipseWidth /2) * Math.Cos(degrees);
+            double degrees = (driver.LapDistance / _lapLength) * 2 * Math.PI - Math.PI / 2;
+            double x = canvas.ActualWidth / 2 + (ellipseWidth / 2) * Math.Cos(degrees);
             return x;
         }
 
         private double GetY(DriverInfo driver, double ellipseHeight)
         {
             double degrees = (driver.LapDistance / _lapLength) * 2 * Math.PI - Math.PI/2;
-            double degreesD = (driver.LapDistance / _lapLength) * 360;
             double y = canvas.ActualHeight / 2 + (ellipseHeight / 2) * Math.Sin(degrees);
             return y;
         }
 
 
-        private void ResazeCircle()
+        private void ResizeCircle()
         {
             if (_myCircle == null)
+            {
                 return;
-            double size;
-            if (canvas.ActualWidth < canvas.ActualHeight)
-                size = canvas.ActualWidth;
-            else
-                size = canvas.ActualHeight;
+            }
             _myCircle.Width = canvas.ActualWidth - CircleMargin * 2;
             _myCircle.Height = canvas.ActualHeight - CircleMargin * 2;
         }
@@ -237,9 +239,9 @@
             Panel.SetZIndex(finnishLine, 3);
         }
 
-        private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ResazeCircle();
+            this.ResizeCircle();
             PositionFinishLine();
         }
 

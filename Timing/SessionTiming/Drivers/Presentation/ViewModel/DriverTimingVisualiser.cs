@@ -551,7 +551,7 @@
                 return string.Empty;
             }
 
-            if (DriverTiming.Session.LastSet.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
+            if (DriverTiming.Session.LastSet.SessionInfo.SessionType != SessionType.Race)
             {
                 return string.Empty;
             }
@@ -566,9 +566,9 @@
                 distanceToUse = DriverTiming.Session.Player.DriverTiming.TotalDistanceTraveled - DriverTiming.TotalDistanceTraveled;
             }
 
-            if (Math.Abs(distanceToUse) > DriverTiming.Session.LastSet.SessionInfo.LayoutLength)
+            if (Math.Abs(distanceToUse) > DriverTiming.Session.LastSet.SessionInfo.TrackInfo.LayoutLength)
             {
-                return ((int)distanceToUse / (int)DriverTiming.Session.LastSet.SessionInfo.LayoutLength) + "LAP";
+                return ((int)distanceToUse / (int)DriverTiming.Session.LastSet.SessionInfo.TrackInfo.LayoutLength) + "LAP";
             }
 
             if (distanceToUse > 0)

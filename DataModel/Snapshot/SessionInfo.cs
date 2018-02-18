@@ -2,31 +2,21 @@
 {
     using System;
 
+    using SecondMonitor.DataModel.BasicProperties;
+
     public class SessionInfo
     {
-        public enum SessionTypeEnum { Na, Practice, Qualification, WarmUp, Race}
-
-        public enum SessionPhaseEnum { Countdown, Green, Checkered}
-
-        public enum SessionLengthTypeEnum { Na, Laps, Time}
-
         public TimeSpan SessionTime { get; set; }
+
+        public TrackInfo TrackInfo { get; set; }
 
         public bool IsActive { get; set; }
 
-        public string TrackName { get; set; }
+        public SessionType SessionType { get; set; }
 
-        public string TrackLayoutName { get; set; }
+        public SessionPhase SessionPhase { get; set; }
 
-        public float LayoutLength { get; set; }
-
-
-        public SessionTypeEnum SessionType { get; set; }
-
-        public SessionPhaseEnum SessionPhase { get; set; }
-
-        public SessionLengthTypeEnum SessionLengthType { get; set; } = SessionLengthTypeEnum.Na;
-
+        public SessionLengthType SessionLengthType { get; set; } = SessionLengthType.Na;
 
         public float SessionTimeRemaining { get; set; } = 0;
 
@@ -39,8 +29,7 @@
         public SessionInfo()
         {
             this.SessionTime = new TimeSpan(0);
-            this.TrackName = string.Empty;
-            this.TrackLayoutName = string.Empty;
+            this.TrackInfo = new TrackInfo();
         }
     }
 }

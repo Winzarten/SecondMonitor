@@ -190,7 +190,7 @@
                 return false;
             }
 
-            if (sessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown)
+            if (sessionInfo.SessionPhase == SessionPhase.Countdown)
             {
                 return false;
             }
@@ -258,7 +258,7 @@
                 return true;
             }
 
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation &&  (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.LayoutLength * -0.90 ))
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation &&  (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90 ))
             {
                 return true;
             }
@@ -268,12 +268,12 @@
                 return true;
             }
 
-            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && _previousTickLapDistance < DriverInfo.LapDistance && SessionInfo.SessionTypeEnum.Race != sessionInfo.SessionType)
+            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && _previousTickLapDistance < DriverInfo.LapDistance && SessionType.Race != sessionInfo.SessionType)
             {
                 return true;
             }
 
-            if (!currentLap.Valid && DriverInfo.CurrentLapValid && SessionInfo.SessionTypeEnum.Race == sessionInfo.SessionType && !DriverInfo.IsPlayer && (currentLap.FirstLap && !InvalidateFirstLap))
+            if (!currentLap.Valid && DriverInfo.CurrentLapValid && SessionType.Race == sessionInfo.SessionType && !DriverInfo.IsPlayer && (currentLap.FirstLap && !InvalidateFirstLap))
             {
                 return true;
             }
@@ -292,8 +292,8 @@
         {
             CurrentLap.Tick(dataSet, DriverInfo);
             CurrentLap.InvalidBySim = !DriverInfo.CurrentLapValid;
-            LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.LayoutLength) * 100;
-            if (SessionInfo.SessionTypeEnum.Race != dataSet.SessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && _lapsInfo.Count > 1)
+            LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength) * 100;
+            if (SessionType.Race != dataSet.SessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && _lapsInfo.Count > 1)
             {
                 CurrentLap.Valid = false;
             }
@@ -420,7 +420,7 @@
         {
             get
             {
-                if(Session.SessionType != SessionInfo.SessionTypeEnum.Race)
+                if(Session.SessionType != SessionType.Race)
                 {
                     if (InPits)
                     {

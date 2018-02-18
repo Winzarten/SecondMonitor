@@ -57,6 +57,9 @@
     <Compile Include="BasicProperties\VelocityUnits.cs" />
     <Compile Include="BasicProperties\Volume.cs" />
     <Compile Include="BasicProperties\VolumeUnits.cs" />
+    <Compile Include="BasicProperties\SessionLengthType.cs" />
+    <Compile Include="Snapshot\SessionPhase.cs" />
+    <Compile Include="BasicProperties\SessionType.cs" />
     <Compile Include="Snapshot\Systems\CarInfo.cs" />
     <Compile Include="Snapshot\DataInputSupport.cs" />
     <Compile Include="Snapshot\DatamodelSerializerHelper.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="BasicProperties\Temperature.cs" />
     <Compile Include="Snapshot\SimulatorSourceInfo.cs" />
     <Compile Include="Snapshot\Systems\WaterInfo.cs" />
+    <Compile Include="Snapshot\TrackInfo.cs" />
     <Compile Include="Snapshot\WeatherInfo.cs" />
     <Compile Include="Snapshot\Systems\WheelInfo.cs" />
   </ItemGroup>

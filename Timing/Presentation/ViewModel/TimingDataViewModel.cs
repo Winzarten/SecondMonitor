@@ -56,7 +56,7 @@
         private PluginsManager _pluginsManager;
         private SessionTiming _timing;
         private DisplaySettingsWindow _settingsWindow;
-        private SessionInfo.SessionTypeEnum _sessionType = SessionInfo.SessionTypeEnum.Na;
+        private SessionType _sessionType = SessionType.Na;
         private SimulatorDataSet _lastDataSet;
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
 
@@ -297,14 +297,13 @@
 
             switch (dataSet.SessionInfo.SessionType)
             {
-                case SessionInfo.SessionTypeEnum.Practice:
-                case SessionInfo.SessionTypeEnum.WarmUp:
+                case SessionType.Practice:
+                case SessionType.WarmUp:
                     return DisplaySettings.PracticeSessionDisplayOptions;
-                case SessionInfo.SessionTypeEnum.Qualification:
+                case SessionType.Qualification:
                     return DisplaySettings.QualificationSessionDisplayOptions;
-                case SessionInfo.SessionTypeEnum.Race:
+                case SessionType.Race:
                     return DisplaySettings.RaceSessionDisplayOptions;
-                case SessionInfo.SessionTypeEnum.Na:
                 default:
                     return new SessionOptionsModelView();
             }
@@ -462,18 +461,18 @@
 
         private string GetSessionRemaining(SimulatorDataSet dataSet)
         {
-            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Na)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Na)
             {
                 return "NA";
             }
 
-            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
             {
                 return "Time Remaining: " + ((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":"
                        + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60).ToString("00");
             }
 
-            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
             {
                 return "Laps: " + (dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
             }
@@ -490,7 +489,7 @@
             }
 
             var invalidateLap = _shouldReset == ResetModeEnum.Manual ||
-                                data.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race;
+                                data.SessionInfo.SessionType != SessionType.Race;
             _lastDataSet = data;
 
             _timing = SessionTiming.FromSimulatorData(data, invalidateLap, this);
@@ -552,9 +551,9 @@
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(data.SessionInfo.TrackName);
+            sb.Append(data.SessionInfo.TrackInfo.TrackName);
             sb.Append(" (");
-            sb.Append(data.SessionInfo.TrackLayoutName);
+            sb.Append(data.SessionInfo.TrackInfo.TrackLayoutName);
 
             sb.Append(") - ");
             sb.Append(data.SessionInfo.SessionType);

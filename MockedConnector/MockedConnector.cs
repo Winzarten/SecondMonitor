@@ -1,13 +1,14 @@
-﻿using System;
-using System.Threading;
-
-using SecondMonitor.DataModel;
-using SecondMonitor.DataModel.BasicProperties;
-using SecondMonitor.DataModel.Drivers;
-using SecondMonitor.PluginManager.GameConnector;
-
-namespace SecondMonitor.MockedConnector
+﻿namespace SecondMonitor.MockedConnector
 {
+    using System;
+    using System.Threading;
+
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using SecondMonitor.DataModel.Snapshot.Systems;
+    using SecondMonitor.PluginManager.GameConnector;
+
     public class MockedConnector : IGameConnector
     {
         public bool IsConnected { get; private set; }
@@ -74,16 +75,31 @@ namespace SecondMonitor.MockedConnector
                 _engineWaterTemp += _engineWaterTempStep;
                 _oilTemp += _oilTempStep;
                 _playerLocation += _playerLocationStep;
-                if (_brakeTemp > 1500 || _brakeTemp <30)
+                if (_brakeTemp > 1500 || _brakeTemp < 30)
+                {
                     _brakeStep = -_brakeStep;
+                }
+
                 if (_tyreTemp > 150 || _tyreTemp < 30)
+                {
                     _tyreStep = -_tyreStep;
+                }
+
                 if (_fuel < 0)
+                {
                     _fuel = _totalFuel;
+                }
+
                 if (_engineWaterTemp < 20 || _engineWaterTemp > 130)
+                {
                     _engineWaterTempStep = -_engineWaterTempStep;
+                }
+
                 if (_oilTemp < 20 || _oilTemp > 180)
+                {
                     _oilTempStep = -_oilTempStep;
+                }
+
                 if (_playerLocation > _layoutLength)
                 {
                     _playerLocation = 0;
@@ -96,18 +112,15 @@ namespace SecondMonitor.MockedConnector
         private SimulatorDataSet PrepareDataSet()
         {
             DateTime tickTime = DateTime.Now;
-            _sessionTime = _sessionTime.Add(tickTime.Subtract(_lastTick));                                    
+            _sessionTime = _sessionTime.Add(tickTime.Subtract(_lastTick));
             _lastTick = tickTime;
-            SimulatorDataSet simulatorDataSet = new SimulatorDataSet("Test Source");            
+            SimulatorDataSet simulatorDataSet = new SimulatorDataSet("Test Source");
             simulatorDataSet.SessionInfo.SessionTime = _sessionTime;
-            
 
-            
-            simulatorDataSet.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
-            simulatorDataSet.SessionInfo.LayoutLength = (float)_layoutLength;
+            simulatorDataSet.SessionInfo.SessionPhase = SessionPhase.Green;
+            simulatorDataSet.SessionInfo.TrackInfo.LayoutLength = (float)_layoutLength;
             simulatorDataSet.SessionInfo.IsActive = true;
-            simulatorDataSet.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Qualification;
-            
+            simulatorDataSet.SessionInfo.SessionType = SessionType.Qualification;
 
             DriverInfo player = PrepareDriver();
             simulatorDataSet.PlayerInfo = player;
@@ -132,7 +145,7 @@ namespace SecondMonitor.MockedConnector
             driver.LapDistance = (float)_playerLocation;
             driver.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
             driver.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
-            driver.CarInfo.WaterSystmeInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
+            driver.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
             driver.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(_oilTemp);
             return driver;
         }

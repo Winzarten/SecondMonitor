@@ -70,7 +70,10 @@
 
         public void ProcessDataSet(SimulatorDataSet set)
         {
-            if (set.PlayerInfo == null) return;
+            if (set.PlayerInfo == null)
+            {
+                return;
+            }
             fuelGauge.Value = (float)((set.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining.InLiters
                                        / set.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity.InLiters) * 100);
             lblFuel.Content = "Total(" + Volume.GetUnitSymbol(DisplayUnits) + "): " + set.PlayerInfo.CarInfo
@@ -84,8 +87,14 @@
             // ReSharper disable once CompareOfFloatsByEqualityOperator, because its initialization check
             if (_lastLapDistance != 0)
             {
-                if (tickDistanceCovered < 0) tickDistanceCovered += set.SessionInfo.LayoutLength;
-                if (tickDistanceCovered < DistanceMaxThreshold) _totalLapDistanceCovered += tickDistanceCovered;
+                if (tickDistanceCovered < 0)
+                {
+                    tickDistanceCovered += set.SessionInfo.TrackInfo.LayoutLength;
+                }
+                if (tickDistanceCovered < DistanceMaxThreshold)
+                {
+                    _totalLapDistanceCovered += tickDistanceCovered;
+                }
             }
 
             if (!set.PlayerInfo.InPits && _lastSessionTime.Ticks != 0 && fuelConsumed < FuelConsumedMaximumThreshold
@@ -102,16 +111,19 @@
             DisplayConsumption();
             _lastFuelState = fuelLeft;
             _lastSessionTime = set.SessionInfo.SessionTime;
-            if (set.PlayerInfo == null) return;
+            if (set.PlayerInfo == null)
+            {
+                return;
+            }
 
             _lastLapDistance = set.PlayerInfo.LapDistance;
         }
 
         private void UpdateAsLaps(SimulatorDataSet set, Volume fuelLeft, Volume fuelConsumed, double tickDistnace)
         {
-            double ticksToLap = set.SessionInfo.LayoutLength / tickDistnace;
+            double ticksToLap = set.SessionInfo.TrackInfo.LayoutLength / tickDistnace;
             _fuelPerTickDistance = fuelConsumed * ticksToLap;
-            double totalLapsCovered = _totalLapDistanceCovered / set.SessionInfo.LayoutLength;
+            double totalLapsCovered = _totalLapDistanceCovered / set.SessionInfo.TrackInfo.LayoutLength;
             _averageConsumptionPerLap = _totalFuelConsumed / totalLapsCovered;
             _remainingLaps = fuelLeft.InLiters/ _averageConsumptionPerLap.InLiters;
 
@@ -123,8 +135,10 @@
             _fuelPerMinute = fuelConsumed * ticksPerSecond * 60;
             _averageConsumptionPerMinute = (_totalFuelConsumed / _totalTime) * 60000;
             double remaining = fuelLeft.InLiters / _averageConsumptionPerMinute.InLiters;
-            if(!double.IsInfinity(remaining) && !double.IsNaN(remaining))
+            if (!double.IsInfinity(remaining) && !double.IsNaN(remaining))
+            {
                 _timeLeft = TimeSpan.FromMinutes(remaining);
+            }
         }
 
         private void DisplayConsumption()

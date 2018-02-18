@@ -9,6 +9,7 @@
     using System.Windows;
 
     using SecondMonitor.DataModel;
+    using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
@@ -63,7 +64,7 @@
         public TimeSpan SessionTime { get; private set; }
 
 
-        public SessionInfo.SessionTypeEnum SessionType { get; private set; }
+        public SessionType SessionType { get; private set; }
 
         public bool DisplayBindTimeRelative
         {
@@ -102,14 +103,14 @@
         {
             get
             {
-                if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Laps)
+                if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
                 {
                     return (int)(((LastSet.LeaderInfo.CompletedLaps
-                                   + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.LayoutLength)
+                                   + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.TrackInfo.LayoutLength)
                                   / LastSet.SessionInfo.TotalNumberOfLaps) * 1000);
                 }
 
-                if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+                if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
                 {
                     return (int)(1000 - (LastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength) * 1000);
                 }
@@ -143,7 +144,7 @@
                 }
             });
             timing.Drivers = drivers;
-            if (dataSet.SessionInfo.SessionLengthType == SessionInfo.SessionLengthTypeEnum.Time)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
             {
                 timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
             }            
@@ -197,7 +198,7 @@
             {
                 return;
             }
-            DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionInfo.SessionTypeEnum.Race);
+            DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != DataModel.BasicProperties.SessionType.Race);
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
             DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);

@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" SizeChanged="UserControl_SizeChanged" Width="300">
     <Grid>
-        <Canvas x:Name="canvas" SizeChanged="canvas_SizeChanged" >
+        <Canvas x:Name="canvas" SizeChanged="Canvas_SizeChanged" >
             <Line x:Name="finnishLine" X1="0" Y1="0" X2="0" Y2="20"
                   Stroke="Cyan" VerticalAlignment="Center" Canvas.Left="150"
                   StrokeThickness="4" 

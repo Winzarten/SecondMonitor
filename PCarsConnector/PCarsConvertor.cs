@@ -33,7 +33,7 @@
 
         private static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, SimulatorDataSet data)
         {
-            double trackLength = data.SessionInfo.LayoutLength;
+            double trackLength = data.SessionInfo.TrackInfo.LayoutLength;
             double playerLapDistance = player.LapDistance;
 
             double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
@@ -89,7 +89,7 @@
                     driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.Finished;
                 }
 
-                driverInfo.TotalDistance = driverInfo.CompletedLaps * data.SessionInfo.LayoutLength + driverInfo.LapDistance;
+                driverInfo.TotalDistance = driverInfo.CompletedLaps * data.SessionInfo.TrackInfo.LayoutLength + driverInfo.LapDistance;
 
                 if (driverInfo.IsPlayer)
                 {
@@ -108,10 +108,10 @@
                 }
 
                 AddSpeedInfo(data, computeSpeed, driverInfo);
-                if (data.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race && _lastPlayer != null && _lastPlayer.CompletedLaps != 0)
+                if (data.SessionInfo.SessionType == SessionType.Race && _lastPlayer != null && _lastPlayer.CompletedLaps != 0)
                 {
-                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - data.SessionInfo.LayoutLength * 0.5);
-                    driverInfo.IsLappingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - data.SessionInfo.LayoutLength * 0.5);
+                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - data.SessionInfo.TrackInfo.LayoutLength * 0.5);
+                    driverInfo.IsLappingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - data.SessionInfo.TrackInfo.LayoutLength * 0.5);
                 }
 
                 if (driverInfo.Position == 1)
@@ -292,7 +292,7 @@
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(pCarsData.MAmbientTemperature);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(pCarsData.MTrackTemperature);
             simData.SessionInfo.WeatherInfo.RainIntensity = (int)(pCarsData.MRainDensity * 100);
-            simData.SessionInfo.LayoutLength = pCarsData.MTrackLength;
+            simData.SessionInfo.TrackInfo.LayoutLength = pCarsData.MTrackLength;
             simData.SessionInfo.IsActive = true; // (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_RACING 
 
             // || (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_FINISHED;
@@ -301,67 +301,67 @@
                 case ESessionState.SessionPractice:
                 case ESessionState.SessionTest:
                 case ESessionState.SessionTimeAttack:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Practice;
+                    simData.SessionInfo.SessionType = SessionType.Practice;
                     break;
                 case ESessionState.SessionQualify:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Qualification;
+                    simData.SessionInfo.SessionType = SessionType.Qualification;
                     break;
                 case ESessionState.SessionRace:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Race;
+                    simData.SessionInfo.SessionType = SessionType.Race;
                     break;
                 case ESessionState.SessionInvalid:
-                    simData.SessionInfo.SessionType = SessionInfo.SessionTypeEnum.Na;
+                    simData.SessionInfo.SessionType = SessionType.Na;
                     break;
             }
 
             switch ((ERaceState)pCarsData.MRaceState)
             {
                 case ERaceState.RacestateNotStarted:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Countdown;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
                     break;
                 case ERaceState.RacestateRacing:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Green;
                     break;
                 case ERaceState.RacestateRetired:
                 case ERaceState.RacestateDnf:
                 case ERaceState.RacestateDisqualified:
                 case ERaceState.RacestateFinished:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Checkered;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Checkered;
                     break;
                 case ERaceState.RacestateInvalid:
                     break;
                 case ERaceState.RacestateMax:
                     break;
                 default:
-                    simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Green;
                     break;
 
             }
-            if (simData.SessionInfo.SessionPhase == SessionInfo.SessionPhaseEnum.Countdown
-                && simData.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
+            if (simData.SessionInfo.SessionPhase == SessionPhase.Countdown
+                && simData.SessionInfo.SessionType != SessionType.Race)
             {
-                simData.SessionInfo.SessionPhase = SessionInfo.SessionPhaseEnum.Green;
+                simData.SessionInfo.SessionPhase = SessionPhase.Green;
             }
 
-            simData.SessionInfo.TrackName = pCarsData.MTrackLocation;
-            simData.SessionInfo.TrackLayoutName = pCarsData.MTrackVariation;
+            simData.SessionInfo.TrackInfo.TrackName = pCarsData.MTrackLocation;
+            simData.SessionInfo.TrackInfo.TrackLayoutName = pCarsData.MTrackVariation;
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (pCarsData.MEventTimeRemaining != -1)
             {
-                simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Time;
+                simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
                 simData.SessionInfo.SessionTimeRemaining = pCarsData.MEventTimeRemaining;
             }
             else if (pCarsData.MLapsInEvent != 0)
             {
-                simData.SessionInfo.SessionLengthType = SessionInfo.SessionLengthTypeEnum.Laps;
+                simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
                 simData.SessionInfo.TotalNumberOfLaps = (int)pCarsData.MLapsInEvent;
             }
         }
 
         private bool ShouldCheckPits(SimulatorDataSet dataSet)
         {
-            if (dataSet.SessionInfo.SessionType != SessionInfo.SessionTypeEnum.Race)
+            if (dataSet.SessionInfo.SessionType != SessionType.Race)
             {
                 return dataSet.SessionInfo.IsActive;
             }
@@ -372,7 +372,7 @@
         private void AddPitsInfo(SimulatorDataSet dataSet)
         {
             TrackDetails trackDetails =
-                TrackDetails.GetTrackDetails(dataSet.SessionInfo.TrackName, dataSet.SessionInfo.TrackLayoutName);
+                TrackDetails.GetTrackDetails(dataSet.SessionInfo.TrackInfo.TrackName, dataSet.SessionInfo.TrackInfo.TrackLayoutName);
             if (trackDetails == null)
             {
                 AddPitsUsingTrackDistance(dataSet);
@@ -385,7 +385,7 @@
                 var driverName = driverInfo.DriverName;
                 if (_driversInPits.Contains(driverName))
                 {
-                    if (trackDetails.AtPitExit(driverInfo) || (driverInfo.LapDistance > 300 && dataSet.SessionInfo.LayoutLength - driverInfo.LapDistance > 700))
+                    if (trackDetails.AtPitExit(driverInfo) || (driverInfo.LapDistance > 300 && dataSet.SessionInfo.TrackInfo.LayoutLength - driverInfo.LapDistance > 700))
                     {
                         _driversInPits.Remove(driverName);
                         continue;
@@ -396,7 +396,7 @@
                 }
 
                 if (!trackDetails.AtPitEntry(driverInfo) && !AddPitsUsingTrackDistance(dataSet, driverInfo, true)
-                    && (dataSet.SessionInfo.SessionType == SessionInfo.SessionTypeEnum.Race
+                    && (dataSet.SessionInfo.SessionType == SessionType.Race
                         || (dataSet.SessionInfo.SessionTime.TotalSeconds > 5)))
                 {
                     continue;
