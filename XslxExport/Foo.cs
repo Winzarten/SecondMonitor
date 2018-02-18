@@ -2,5 +2,9 @@
 {
     public class Foo
     {
+        public void ExportXSLX()
+        {
+            
+        }
     }
 }
