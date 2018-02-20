@@ -25,6 +25,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCarsConnector", "PCarsConnector\PCarsConnector.csproj", "{B8CBD252-5867-4AB6-9166-0751A52D2155}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{0997A624-2B5E-455F-98BF-8A1A5BAFA00E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A5D6D7A-39B3-43E9-B0CF-EFCEC6578224} = {7A5D6D7A-39B3-43E9-B0CF-EFCEC6578224}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsControls", "WindowsControls\WindowsControls.csproj", "{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}"
 EndProject
@@ -33,6 +36,9 @@ EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WixInstaller", "WixInstaller\WixInstaller.wixproj", "{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExport", "XslxExport\XslxExport.csproj", "{7A5D6D7A-39B3-43E9-B0CF-EFCEC6578224}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30DEA773-F579-4A77-9C73-3D58C81612D0} = {30DEA773-F579-4A77-9C73-3D58C81612D0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExportTests", "XslxExportTests\XslxExportTests.csproj", "{02F2803B-39F3-4C65-869D-80601D149954}"
 EndProject
