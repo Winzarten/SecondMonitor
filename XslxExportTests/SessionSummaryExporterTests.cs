@@ -22,11 +22,14 @@
         }
 
         [Test]
-        public void TestExportSummary()
+        public void TestExportSummaryLaps()
         {
             // Arrange
-            string fileName = @"foo.xlsx";
+            string fileName = @"Laps.xlsx";
             SessionSummary sessionSummary = GetBlankSessionSummary();
+            sessionSummary.TotalNumberOfLaps = 20;
+            sessionSummary.SessionLengthType = SessionLengthType.Laps;
+            AddDrivers(20, sessionSummary);
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
@@ -40,14 +43,49 @@
             System.Diagnostics.Process.Start(fileName);
         }
 
+        [Test]
+        public void TestExportSummaryTime()
+        {
+            // Arrange
+            string fileName = @"time.xlsx";
+            SessionSummary sessionSummary = GetBlankSessionSummary();
+            sessionSummary.SessionLength = TimeSpan.FromMinutes(90);
+            sessionSummary.SessionLengthType = SessionLengthType.Time;
+            AddDrivers(20, sessionSummary);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+
+            // Act
+            this._testee.ExportSessionSummary(sessionSummary, fileName);
+
+            // Assert
+            Assert.That(File.Exists(fileName), Is.True);
+            System.Diagnostics.Process.Start(fileName);
+        }
+
+        private static void AddDrivers(int driverCount, SessionSummary sessionSummary)
+        {
+            for (int i = 0; i < driverCount; i++)
+            {
+                sessionSummary.Drivers.Add(new Driver()
+                                                {
+                                                    CarName = "A caaaar",
+                                                    DriverName = "Driver " + i,
+                                                    TotalLaps = 20
+                                                });
+            }
+        }
+
         private static SessionSummary GetBlankSessionSummary()
         {
             return new SessionSummary()
                        {
-                           SessionLengthType = SessionLengthType.Laps,
                            SessionPhase = SessionPhase.Green,
                            SessionRunTime = DateTime.Now,
                            SessionType = SessionType.Race,
+                           Simulator = "R3E",
                            TrackInfo = new TrackInfo()
                                            {
                                                LayoutLength = 2000,
