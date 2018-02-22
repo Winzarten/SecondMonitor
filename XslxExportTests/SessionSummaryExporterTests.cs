@@ -15,10 +15,13 @@
     {
         private SessionSummaryExporter _testee;
 
+        private Random _random;
+
         [SetUp]
         public void Setup()
         {
-            this._testee = new SessionSummaryExporter();
+            this._random = new Random();
+            this._testee = new SessionSummaryExporter() { VelocityUnits = VelocityUnits.Kph };
         }
 
         [Test]
@@ -34,7 +37,7 @@
             {
                 File.Delete(fileName);
             }
-
+            
             // Act
             this._testee.ExportSessionSummary(sessionSummary, fileName);
 
@@ -65,7 +68,7 @@
             System.Diagnostics.Process.Start(fileName);
         }
 
-        private static void AddDrivers(int driverCount, SessionSummary sessionSummary)
+        private void AddDrivers(int driverCount, SessionSummary sessionSummary)
         {
             for (int i = 0; i < driverCount; i++)
             {
@@ -73,7 +76,9 @@
                                                 {
                                                     CarName = "A caaaar",
                                                     DriverName = "Driver " + i,
-                                                    TotalLaps = 20
+                                                    TotalLaps = 20,
+                                                    TopSpeed = Velocity.FromKph(this._random.Next(150,250)),
+                                                    FinishingPosition = i + 1
                                                 });
             }
         }
@@ -85,7 +90,7 @@
                            SessionPhase = SessionPhase.Green,
                            SessionRunTime = DateTime.Now,
                            SessionType = SessionType.Race,
-                           Simulator = "R3E",
+                           Simulator = "R3E", 
                            TrackInfo = new TrackInfo()
                                            {
                                                LayoutLength = 2000,

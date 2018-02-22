@@ -2,17 +2,16 @@
 {
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using System.Windows.Media;
 
-    using NPOI.HSSF.Util;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
-    using NPOI.XSSF.UserModel;
+    using OfficeOpenXml;
+    using OfficeOpenXml.Style;
+    using OfficeOpenXml.Table;
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Summary;
-    using SecondMonitor.XslxExport.Builders;
 
     public class SessionSummaryExporter
     {
@@ -24,96 +23,99 @@
 
         public Color SessionBestColor { get; set; } = Colors.Purple;
 
+        public VelocityUnits VelocityUnits { get; set; }
+
         public void ExportSessionSummary(SessionSummary sessionSummary, string filePath)
         {
-            using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            if (File.Exists(filePath))
             {
-                IWorkbook workbook = CreateWorkBook();
-                AddSummary(workbook.GetSheet(SummarySheet), sessionSummary);
-                workbook.Write(fs);
+                File.Delete(filePath);
             }
+            FileInfo newFile = new FileInfo(filePath);
+            ExcelPackage package = new ExcelPackage(newFile);
+            
+                CreateWorkBook(package);
+                ExcelWorkbook workbook = package.Workbook;
+                AddSummary(workbook.Worksheets[SummarySheet], sessionSummary);
+                package.Save();
+            
         }
 
-        private void AddSummary(ISheet sheet, SessionSummary sessionSummary)
+        private void AddSummary(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
             AddTrackInformation(sheet, sessionSummary);
             AddSessionBasicInformation(sheet, sessionSummary);
             AddDriversInfoHeader(sheet);
+            AddDriversInfo(sheet, sessionSummary);
+            WrapSummaryInTable(sheet, sessionSummary.Drivers.Count);
         }
 
-        private void AddSessionBasicInformation(ISheet sheet, SessionSummary sessionSummary)
+        private static void WrapSummaryInTable(ExcelWorksheet sheet, int rowCount)
         {
-            IRow row = sheet.CreateRow(1);
-            ICell cell = row.CreateCell(0);
-            cell.SetCellValue("Date: " + sessionSummary.SessionRunTime.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern));
-
-            row = sheet.CreateRow(2);
-            cell = row.CreateCell(0);
-            cell.SetCellValue("Time: " + sessionSummary.SessionRunTime.TimeOfDay.ToString(@"hh\:mm"));
-
-            row = sheet.CreateRow(3);
-            cell = row.CreateCell(0);
-            cell.SetCellValue("Simulator: " + sessionSummary.Simulator);
-
-            sheet.AutoSizeColumn(0);
+            ExcelRange range = sheet.Cells[5, 1, 5 + rowCount, 9];
+            ExcelTable table = sheet.Tables.Add(range, "SummaryTable");
+            table.ShowHeader = true;
+            for (int i = 1; i <= 9; i++)
+            {
+                sheet.Column(i).AutoFit();
+            }
         }
 
-        private void AddDriversInfo(ISheet sheet, SessionSummary sessionSummary)
+        private void AddSessionBasicInformation(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
             
+            sheet.Cells["A2"].Value = "Date: " + sessionSummary.SessionRunTime.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern);
+            sheet.Cells["A3"].Value = "Time: " + sessionSummary.SessionRunTime.TimeOfDay.ToString(@"hh\:mm");
+            sheet.Cells["A4"].Value = "Simulator: " + sessionSummary.Simulator;
+
+            sheet.Cells[2,1,4,1].AutoFitColumns();
+
         }
 
-        private void AddDriverInfo(IRow row, Driver driver)
+        private void AddDriversInfo(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
+            int rowNum = 5;
+            foreach (Driver driver in sessionSummary.Drivers.OrderBy(driver => driver.FinishingPosition))
+            {
+                ExcelRow row = sheet.Row(rowNum);
+                AddDriverInfo(sheet, row, driver);
+                rowNum++;
+            }
 
+            for (int i = 1; i <= 9; i++)
+            {
+                sheet.Column(i).AutoFit();
+            }
         }
 
-        private void AddDriversInfoHeader(ISheet sheet)
+        private void AddDriverInfo(ExcelWorksheet sheet, ExcelRow row, Driver driver)
         {
-            IFont font = FontBuilder.Create(sheet.Workbook).Bold().WithFontSize(14).Build();
-            ICellStyle cellStyle = CellStyleBuilder.Create(sheet.Workbook).WithAlignment(HorizontalAlignment.Center)
-                .Build();
-            cellStyle.SetFont(font);
-            IRow row = sheet.CreateRow(4);
-            ICell cell = row.CreateCell(0);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("#");
-
-            cell = row.CreateCell(0);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Name");
-
-            cell = row.CreateCell(1);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Car");
-
-            cell = row.CreateCell(2);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Laps");
-
-            cell = row.CreateCell(3);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Best Lap");
-
-            cell = row.CreateCell(4);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Best S1");
-
-            cell = row.CreateCell(5);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Best S2");
-
-            cell = row.CreateCell(6);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Best S3");
-
-            cell = row.CreateCell(7);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue("Top Speed");
-
+            sheet.Cells[row.Row + 1, 1].Value = driver.FinishingPosition;
+            sheet.Cells[row.Row + 1, 2].Value = driver.DriverName;
+            sheet.Cells[row.Row + 1, 3].Value = driver.CarName;
+            sheet.Cells[row.Row + 1, 4].Value = driver.TotalLaps;
+            sheet.Cells[row.Row + 1, 9].Value = driver.TopSpeed.GetValueInUnits(VelocityUnits) + Velocity.GetUnitSymbol(VelocityUnits);            
         }
 
-        private void AddTrackInformation(ISheet sheet, SessionSummary sessionSummary)
+        private void AddDriversInfoHeader(ExcelWorksheet sheet)
+        {
+            ExcelStyle style = sheet.Cells[5,1,5,9].Style;
+            style.Font.Bold = true;
+            style.Font.Size = 14;
+            style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            sheet.Cells["A5"].Value = "#";
+            sheet.Cells["B5"].Value = "Name";
+            sheet.Cells["C5"].Value = "Car";
+            sheet.Cells["D5"].Value = "Laps";
+            sheet.Cells["E5"].Value = "Best Lap";
+            sheet.Cells["F5"].Value = "Best S1";
+            sheet.Cells["G5"].Value = "Best S2";
+            sheet.Cells["H5"].Value = "Best S3";
+            sheet.Cells["I5"].Value = "Top Speed";
+        }
+
+        private void AddTrackInformation(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
             StringBuilder trackInformation = new StringBuilder(sessionSummary.SessionType.ToString());
             trackInformation.Append(" at: ");
@@ -126,22 +128,21 @@
                 trackInformation.Append(GetSessionLength(sessionSummary));
                 trackInformation.Append(")");
             }
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 9));
+            sheet.Cells["A1"].Value = trackInformation.ToString();
+            sheet.Cells[1,1,1,9].Merge = true;
+            ExcelStyle style = sheet.Cells["A1"].Style;
 
-            ICellStyle cellStyle = CellStyleBuilder.Create(sheet.Workbook)
-                .WithFillForegroundColor(HSSFColor.Black.Index).WithFillPatter(FillPattern.SolidForeground)
-                .WithFillBackgroundColor(HSSFColor.White.Index).WithAlignment(HorizontalAlignment.Center)
-                .WithVerticalAlignment(VerticalAlignment.Center).Build();
+            style.Fill.PatternType = ExcelFillStyle.Solid;
+            style.Fill.PatternColor.SetColor(System.Drawing.Color.Black);
+            style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+            style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            style.Font.Color.SetColor(System.Drawing.Color.White);
+            style.Font.Bold = true;
+            style.Font.Size = 18;
 
-            IFont font = FontBuilder.Create(sheet.Workbook).WithColor(HSSFColor.White.Index).Bold().WithFontSize(18).Build();            
-            cellStyle.SetFont(font);
+            sheet.Row(1).Height = 35;
 
-            IRow row = sheet.CreateRow(0);
-            ICell cell = row.CreateCell(0);
-            cell.CellStyle = cellStyle;
-            cell.SetCellValue(trackInformation.ToString());
-
-            sheet.AutoSizeColumn(0);
         }
 
         private string GetSessionLength(SessionSummary sessionSummary)
@@ -157,13 +158,11 @@
             return sessionSummary.SessionLength.Minutes + "mins";
         }
 
-        private static IWorkbook CreateWorkBook()
+        private static void CreateWorkBook(ExcelPackage package)
         {
-            IWorkbook workbook = new XSSFWorkbook();
-            workbook.CreateSheet(SummarySheet);
-            workbook.CreateSheet(LapsAndSectorsSheet);
-            workbook.CreateSheet(PlayerLapsSheet);
-            return workbook;
+            package.Workbook.Worksheets.Add(SummarySheet);
+            package.Workbook.Worksheets.Add(LapsAndSectorsSheet);
+            package.Workbook.Worksheets.Add(PlayerLapsSheet);
         }
 
     }

@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExport", "XslxExport\Xs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExportTests", "XslxExportTests\XslxExportTests.csproj", "{02F2803B-39F3-4C65-869D-80601D149954}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModelTests", "DataModelTests\DataModelTests.csproj", "{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -192,6 +194,18 @@ Global
 		{02F2803B-39F3-4C65-869D-80601D149954}.Release|x64.Build.0 = Release|Any CPU
 		{02F2803B-39F3-4C65-869D-80601D149954}.Release|x86.ActiveCfg = Release|Any CPU
 		{02F2803B-39F3-4C65-869D-80601D149954}.Release|x86.Build.0 = Release|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Debug|x64.Build.0 = Debug|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Release|x64.Build.0 = Release|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
