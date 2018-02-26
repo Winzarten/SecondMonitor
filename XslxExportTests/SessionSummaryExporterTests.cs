@@ -33,6 +33,8 @@
             sessionSummary.TotalNumberOfLaps = 20;
             sessionSummary.SessionLengthType = SessionLengthType.Laps;
             AddDrivers(20, sessionSummary);
+            sessionSummary.Drivers.ForEach((s) => FillLaps(s, 140, 20));
+
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
@@ -66,6 +68,25 @@
             // Assert
             Assert.That(File.Exists(fileName), Is.True);
             System.Diagnostics.Process.Start(fileName);
+        }
+
+        private void FillLaps(Driver driver, int baseTimeSeconds, int totalLaps)
+        {
+            for (int i = 1; i <= totalLaps; i++)
+            {
+                double sectorBase = (double)baseTimeSeconds / 3;
+                double sector1Add = this._random.NextDouble() * 10;
+                double sector2Add = this._random.NextDouble() * 10;
+                double sector3Add = this._random.NextDouble() * 10;
+                driver.Laps.Add(new Lap(driver)
+                {
+                    LapNumber = i,
+                    LapTime = TimeSpan.FromSeconds(baseTimeSeconds + sector1Add + sector2Add + sector3Add),
+                    Sector1 = TimeSpan.FromSeconds(sectorBase + sector1Add),
+                    Sector2 = TimeSpan.FromSeconds(sectorBase + sector2Add),
+                    Sector3 = TimeSpan.FromSeconds(sectorBase + sector3Add)
+                });
+            }
         }
 
         private void AddDrivers(int driverCount, SessionSummary sessionSummary)

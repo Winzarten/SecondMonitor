@@ -79,6 +79,7 @@
     <Compile Include="Snapshot\WeatherInfo.cs" />
     <Compile Include="Snapshot\Systems\WheelInfo.cs" />
     <Compile Include="Summary\Driver.cs" />
+    <Compile Include="Summary\Lap.cs" />
     <Compile Include="Summary\SessionSummary.cs" />
   </ItemGroup>
   <ItemGroup>
