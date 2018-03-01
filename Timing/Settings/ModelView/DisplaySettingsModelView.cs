@@ -21,6 +21,7 @@
         public static readonly DependencyProperty PracticeSessionDisplayOptionsProperty = DependencyProperty.Register("PracticeSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty QualificationSessionDisplayOptionsProperty = DependencyProperty.Register("QualificationSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty RaceSessionDisplayOptionsProperty = DependencyProperty.Register("RaceSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty ReportingSettingsProperty = DependencyProperty.Register("ReportingSettings", typeof(ReportingSettingsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -88,7 +89,13 @@
         {
             get => (SessionOptionsModelView)GetValue(RaceSessionDisplayOptionsProperty);
             set => SetValue(RaceSessionDisplayOptionsProperty, value);
-        }        
+        }
+
+        public ReportingSettingsModelView ReportingSettings
+        {
+            get => (ReportingSettingsModelView)GetValue(ReportingSettingsProperty);
+            set => SetValue(ReportingSettingsProperty, value);
+        }
 
         public void FromModel(DisplaySettings settings)
         {
@@ -103,6 +110,9 @@
             PracticeSessionDisplayOptions = SessionOptionsModelView.CreateFromModel(settings.PracticeOptions);
             QualificationSessionDisplayOptions = SessionOptionsModelView.CreateFromModel(settings.QualificationOptions);
             RaceSessionDisplayOptions = SessionOptionsModelView.CreateFromModel(settings.RaceOptions);
+
+            ReportingSettings = new ReportingSettingsModelView();
+            ReportingSettings.FromModel(settings.ReportingSettings);
         }
 
         public DisplaySettings ToModel()
@@ -118,7 +128,8 @@
                 ScrollToPlayer = ScrollToPlayer,
                 PracticeOptions = PracticeSessionDisplayOptions.ToModel(),
                 QualificationOptions = QualificationSessionDisplayOptions.ToModel(),
-                RaceOptions = RaceSessionDisplayOptions.ToModel()
+                RaceOptions = RaceSessionDisplayOptions.ToModel(),
+                ReportingSettings = ReportingSettings.ToModel()
             };
         }
 

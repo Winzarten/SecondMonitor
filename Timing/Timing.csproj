@@ -95,11 +95,14 @@
     <Compile Include="Settings\ModelView\DisplaySettingsLoader.cs" />
     <Compile Include="Settings\ModelView\DisplaySettingsModelView.cs" />
     <Compile Include="Settings\ModelView\EnumBooleanConverter.cs" />
+    <Compile Include="Settings\ModelView\ReportingSettingsModelView.cs" />
     <Compile Include="Settings\ModelView\SessionOptionsModelView.cs" />
+    <Compile Include="Settings\ModelView\SessionReportSettingsModelView.cs" />
     <Compile Include="Settings\Model\ColumnSettings.cs" />
     <Compile Include="Settings\Model\ColumnsSettings.cs" />
     <Compile Include="Settings\Model\DisplaySettings.cs" />
     <Compile Include="Settings\Model\DisplayModeEnum.cs" />
+    <Compile Include="Settings\Model\ReportingSettings.cs" />
     <Compile Include="Settings\Model\SessionOptions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,6 +111,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\Model\SessionReportSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">

@@ -29,6 +29,8 @@
 
         public SessionOptions RaceOptions { get; set; } = new SessionOptions { OrderingDisplayMode = DisplayModeEnum.Relative, TimesDisplayMode = DisplayModeEnum.Relative, SessionName = "Race" };
 
+        public ReportingSettings ReportingSettings { get; set; } = new ReportingSettings();
+
         public DisplaySettings()
         {
             RaceOptions.ColumnsSettings.Sector1.Visible = false;

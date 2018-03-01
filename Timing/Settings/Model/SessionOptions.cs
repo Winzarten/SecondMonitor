@@ -12,5 +12,6 @@
         public DisplayModeEnum OrderingDisplayMode { get; set; } = DisplayModeEnum.Absolute;
 
         public ColumnsSettings ColumnsSettings { get; set; } = new ColumnsSettings();
+
     }
 }
