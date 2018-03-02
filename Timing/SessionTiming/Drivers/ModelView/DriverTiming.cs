@@ -96,6 +96,8 @@
 
         public bool IsLastLapBestLap => BestLap != null && BestLap == LastLap;
 
+        public bool IsActive { get; set; } = true;
+
         public SectorTiming BestSector1
         {
             get => this._bestSector1;

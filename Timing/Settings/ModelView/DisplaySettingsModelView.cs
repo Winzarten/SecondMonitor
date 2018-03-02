@@ -1,10 +1,13 @@
 ﻿namespace SecondMonitor.Timing.Settings.ModelView
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Input;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
     using SecondMonitor.Timing.Properties;
     using SecondMonitor.Timing.Settings.Model;
 

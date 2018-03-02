@@ -1,9 +1,14 @@
 ﻿namespace SecondMonitor.Timing.Settings.ModelView
 {
+    using System;
     using System.ComponentModel;
+    using System.IO;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Forms;
+    using System.Windows.Input;
 
+    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
     using SecondMonitor.Timing.Properties;
     using SecondMonitor.Timing.Settings.Model;
 
@@ -23,11 +28,22 @@
 
         private static readonly DependencyProperty WarmUpReportSettingsProperty = DependencyProperty.Register("WarmUpReportSettings", typeof(SessionReportSettingsModelView), typeof(ReportingSettingsModelView), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
 
+        public ReportingSettingsModelView()
+        {
+            this.SelectExportDirCommand = new NoArgumentCommand(SelectExportDir, () => true);
+        }
+
         public string ExportDirectory
         {
             get => (string)GetValue(ExportDirectoryProperty);
-            set => SetValue(ExportDirectoryProperty, value);
+            set
+            {
+                this.SetValue(ExportDirectoryProperty, value);
+                this.OnPropertyChanged(nameof(ExportDirectoryReplacedSpecialDirs));
+            }
         }
+
+        public string ExportDirectoryReplacedSpecialDirs => ReplaceSpecialDirs((string)GetValue(ExportDirectoryProperty));
 
         public int MaximumReports
         {
@@ -67,7 +83,23 @@
             QualificationReportSetting = SessionReportSettingsModelView.FromModel(model.QualificationReportSettings);
             WarmUpReportSettings = SessionReportSettingsModelView.FromModel(model.WarmUpReportSettings);
             RaceReportSettings = SessionReportSettingsModelView.FromModel(model.RaceReportSettings);
+            CheckExportDirExistence();
         }
+
+        private void CheckExportDirExistence()
+        {
+            if (string.IsNullOrWhiteSpace(ExportDirectoryReplacedSpecialDirs))
+            {
+                return;
+            }
+            if (Directory.Exists(ExportDirectoryReplacedSpecialDirs))
+            {
+                return;
+            }
+            Directory.CreateDirectory(ExportDirectoryReplacedSpecialDirs);
+        }
+
+        public ICommand SelectExportDirCommand { get; }
 
         public ReportingSettings ToModel()
         {
@@ -88,12 +120,33 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void SelectExportDir()
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.ShowNewFolderButton = true;
+                fbd.SelectedPath = ExportDirectoryReplacedSpecialDirs;
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    this.ExportDirectory = fbd.SelectedPath;
+                }
+            }
+        }
+
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ReportingSettingsModelView reportingSettingsModelView)
             {
                 reportingSettingsModelView.OnPropertyChanged(e.Property.Name);
             }
+        }
+
+        private static string ReplaceSpecialDirs(string path)
+        {
+            path = path.Replace(@"%MyDocuments%", System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            return path;
         }
     }
 }

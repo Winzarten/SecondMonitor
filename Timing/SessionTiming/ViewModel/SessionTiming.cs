@@ -196,7 +196,11 @@
         {
             if (Drivers.ContainsKey(newDriverInfo.DriverName))
             {
-                return;
+                if (Drivers[newDriverInfo.DriverName].DriverTiming.IsActive)
+                {
+                    return;
+                }
+                Drivers.Remove(newDriverInfo.DriverName);
             }
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != DataModel.BasicProperties.SessionType.Race);
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
@@ -243,7 +247,7 @@
                 Array.ForEach(dataSet.DriversInfo, s =>
                 {
                     updatedDrivers.Add(s.DriverName);
-                    if (Drivers.ContainsKey(s.DriverName))
+                    if (Drivers.ContainsKey(s.DriverName) && Drivers[s.DriverName].DriverTiming.IsActive)
                     {
                         UpdateDriver(s, Drivers[s.DriverName], dataSet);
 
@@ -266,7 +270,7 @@
                 driversToRemove.ForEach(s =>
                 {
                     RaiseDriverRemovedEvent(Drivers[s]);
-                    Drivers.Remove(s);
+                    Drivers[s].DriverTiming.IsActive = false;
                 });
 
 

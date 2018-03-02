@@ -32,7 +32,7 @@
             SessionSummary sessionSummary = GetBlankSessionSummary();
             sessionSummary.TotalNumberOfLaps = 20;
             sessionSummary.SessionLengthType = SessionLengthType.Laps;
-            AddDrivers(20, sessionSummary);
+            AddDrivers(40, sessionSummary);
             sessionSummary.Drivers.ForEach((s) => FillLaps(s, 140, 20));
 
             if (File.Exists(fileName))
@@ -72,6 +72,11 @@
 
         private void FillLaps(Driver driver, int baseTimeSeconds, int totalLaps)
         {
+            if (!driver.Finished)
+            {
+                totalLaps = this._random.Next(1, totalLaps);
+                driver.TotalLaps = totalLaps;
+            }
             for (int i = 1; i <= totalLaps; i++)
             {
                 double sectorBase = (double)baseTimeSeconds / 3;
@@ -99,7 +104,8 @@
                                                     DriverName = "Driver " + i,
                                                     TotalLaps = 20,
                                                     TopSpeed = Velocity.FromKph(this._random.Next(150,250)),
-                                                    FinishingPosition = i + 1
+                                                    FinishingPosition = i + 1,
+                                                    Finished = this._random.Next(0, 10) > 0 ? true : false
                                                 });
             }
         }

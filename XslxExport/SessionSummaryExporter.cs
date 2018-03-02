@@ -56,7 +56,13 @@
         {
             AddLapsInfoHeader(sheet, sessionSummary);
             int currentColumn = 2;
-            foreach (Driver driver in sessionSummary.Drivers.OrderBy(o => o.FinishingPosition))
+            foreach (Driver driver in sessionSummary.Drivers.Where(d => d.Finished).OrderBy(o => o.FinishingPosition))
+            {
+                AddDriverLaps(sheet, currentColumn, driver, sessionSummary);
+                currentColumn = currentColumn + 4;
+            }
+
+            foreach (Driver driver in sessionSummary.Drivers.Where(d => !d.Finished).OrderBy(d => d.TotalLaps).Reverse())
             {
                 AddDriverLaps(sheet, currentColumn, driver, sessionSummary);
                 currentColumn = currentColumn + 4;
@@ -67,7 +73,7 @@
         {
             ExcelRange range = sheet.Cells[1, startColumn, 1, startColumn + 3];
             range.Merge = true;
-            range.Value = driver.DriverName + "(" + driver.FinishingPosition + ")";
+            range.Value = driver.DriverName + "(" + (driver.Finished ? driver.FinishingPosition.ToString(): "DNF") + ")";
             range.Style.Font.Bold = true;
             range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
@@ -148,7 +154,7 @@
 
         private void AddLapsInfoHeader(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
-            int maxLaps = sessionSummary.Drivers.OrderBy(o => o.FinishingPosition).First().TotalLaps;
+            int maxLaps = sessionSummary.Drivers.Select(d => d.TotalLaps).Max();
             sheet.SelectedRange["A1"].Value = "Lap/Driver";
             for (int i = 1; i <= maxLaps; i++)
             {
@@ -195,7 +201,14 @@
         private void AddDriversInfo(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
             int rowNum = 5;
-            foreach (Driver driver in sessionSummary.Drivers.OrderBy(driver => driver.FinishingPosition))
+            foreach (Driver driver in sessionSummary.Drivers.Where(d => d.Finished).OrderBy(driver => driver.FinishingPosition))
+            {
+                ExcelRow row = sheet.Row(rowNum);
+                AddDriverInfo(sheet, row, driver, sessionSummary);
+                rowNum++;
+            }
+
+            foreach (Driver driver in sessionSummary.Drivers.Where(d => !d.Finished).OrderBy(d => d.TotalLaps).Reverse())
             {
                 ExcelRow row = sheet.Row(rowNum);
                 AddDriverInfo(sheet, row, driver, sessionSummary);
@@ -210,7 +223,7 @@
 
         private void AddDriverInfo(ExcelWorksheet sheet, ExcelRow row, Driver driver, SessionSummary sessionSummary)
         {
-            sheet.Cells[row.Row + 1, 1].Value = driver.FinishingPosition;
+            sheet.Cells[row.Row + 1, 1].Value = driver.Finished ? driver.FinishingPosition.ToString() : "DNF";
             sheet.Cells[row.Row + 1, 2].Value = driver.DriverName;
             sheet.Cells[row.Row + 1, 3].Value = driver.CarName;
             sheet.Cells[row.Row + 1, 4].Value = driver.TotalLaps;

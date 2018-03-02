@@ -8,6 +8,7 @@
     using Newtonsoft.Json.Serialization;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class Driver
     {
@@ -30,6 +31,8 @@
         public Velocity TopSpeed { get; set; } = Velocity.Zero;
 
         public List<Lap> Laps { get; } = new List<Lap>();
+
+        public bool Finished { get; set; } = true;
 
         public Lap BestPersonalLap
         {

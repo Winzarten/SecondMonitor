@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.MockedConnector
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
 
     using SecondMonitor.DataModel.BasicProperties;
@@ -30,17 +32,19 @@
         private double _fuelStep = -0.01;
 
         private double _layoutLength = 2000;
-        private double _playerLocation = 0;
+
+        private readonly Dictionary<string, DriverInfo> _players = new Dictionary<string, DriverInfo>();
+
         private double _playerLocationStep = 1;
-        private int _playerLaps = 0;
 
         private double _engineWaterTemp = 30;
         private double _engineWaterTempStep = 0.01;
 
         private double _oilTemp = 30;
         private double _oilTempStep = 0.1;
-        DateTime _lastTick = DateTime.Now;
-        TimeSpan _sessionTime = new TimeSpan(0, 0, 1);
+
+        private DateTime _lastTick = DateTime.Now;
+        private TimeSpan _sessionTime = new TimeSpan(0, 0, 1);
 
         public void ASyncConnect()
         {
@@ -60,11 +64,41 @@
         {
             RaiseConnectedEvent();
             Thread.Sleep(2000);
+            this.ConnectDriver("Lorem Ipsum", true);
             SimulatorDataSet set = PrepareDataSet();
             RaiseSessionStartedEvent(set);
             Thread.Sleep(1000);
             while (true)
             {
+                if (set.SessionInfo.SessionTime.TotalSeconds > 10 && !this._players.ContainsKey("Driver 2") && set.SessionInfo.SessionTime.TotalSeconds < 60)
+                {
+                    this.ConnectDriver("Driver 2", false);
+                }
+
+                if (set.SessionInfo.SessionTime.TotalSeconds > 70 && this._players.ContainsKey("Driver 2") && set.SessionInfo.SessionTime.TotalSeconds < 80 )
+                {
+                    this._players.Remove("Driver 2");
+                }
+
+                if (set.SessionInfo.SessionTime.TotalSeconds > 120 && !this._players.ContainsKey("Driver 2"))
+                {
+                    this.ConnectDriver("Driver 2", false);
+                }
+
+                if (set.SessionInfo.SessionTime.TotalSeconds > 12)
+                {
+                    this.ConnectDriver("Driver 3", false);
+                }
+
+                if (set.SessionInfo.SessionTime.TotalSeconds > 15)
+                {
+                    this.ConnectDriver("Driver 4", false);
+                }
+
+                if (set.SessionInfo.SessionTime.TotalSeconds > 35)
+                {
+                    this.ConnectDriver("Driver 5", false);
+                }
                 Thread.Sleep(10);
                 set = PrepareDataSet();
                 RaiseDataLoadedEvent(set);
@@ -74,7 +108,7 @@
                 _fuel += _fuelStep;
                 _engineWaterTemp += _engineWaterTempStep;
                 _oilTemp += _oilTempStep;
-                _playerLocation += _playerLocationStep;
+                       
                 if (_brakeTemp > 1500 || _brakeTemp < 30)
                 {
                     _brakeStep = -_brakeStep;
@@ -99,13 +133,6 @@
                 {
                     _oilTempStep = -_oilTempStep;
                 }
-
-                if (_playerLocation > _layoutLength)
-                {
-                    _playerLocation = 0;
-                    _playerLaps++;
-                }
-
             }
         }
 
@@ -122,32 +149,69 @@
             simulatorDataSet.SessionInfo.IsActive = true;
             simulatorDataSet.SessionInfo.SessionType = SessionType.Qualification;
 
-            DriverInfo player = PrepareDriver();
-            simulatorDataSet.PlayerInfo = player;
-            simulatorDataSet.DriversInfo = new[] { player };
+            foreach (DriverInfo driver in this._players.Values)
+            {
+                UpdateDriver(driver);
+                if (driver.IsPlayer)
+                {
+                    simulatorDataSet.PlayerInfo = driver;
+                }
+            }
+            simulatorDataSet.DriversInfo = this._players.Values.ToArray();
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearLeft);
             return simulatorDataSet;
-        }
+        }        
 
-        private DriverInfo PrepareDriver()
+        private void ConnectDriver(string name, bool isPlayer)
         {
+            if (this._players.ContainsKey(name))
+            {
+                return;
+            }
             DriverInfo driver = new DriverInfo();
+            this._players[name] = driver;
             driver.CarName = "Foo car";
-            driver.CompletedLaps = _playerLaps;
+            driver.CompletedLaps = 0;
             driver.CurrentLapValid = true;
             driver.DistanceToPlayer = 0;
-            driver.DriverName = "Lorem Ipsum";
+            driver.DriverName = name;
             driver.InPits = false;
-            driver.IsPlayer = true;
-            driver.LapDistance = (float)_playerLocation;
+            driver.IsPlayer = isPlayer;
+            driver.LapDistance = 0;
+            driver.Position = this._players.Values.Count;
+            if (!isPlayer)
+            {
+                return;
+            }
+
             driver.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
             driver.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
             driver.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
             driver.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(_oilTemp);
-            return driver;
+            return;
+        }
+
+        private void UpdateDriver(DriverInfo driverInfo)
+        {
+            driverInfo.LapDistance += this._playerLocationStep;
+
+            if (driverInfo.LapDistance >= this._layoutLength)
+            {
+                driverInfo.LapDistance = 0;
+                driverInfo.CompletedLaps++;
+            }
+
+            if (!driverInfo.IsPlayer)
+            {
+                return;
+            }
+            driverInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
+            driverInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
+            driverInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
+            driverInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(_oilTemp);
         }
 
         private void UpdateWheelInfo(WheelInfo info)

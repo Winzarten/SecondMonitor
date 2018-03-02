@@ -9,7 +9,7 @@
         xmlns:modelView1="clr-namespace:SecondMonitor.Timing.Settings.ModelView"
         xmlns:model="clr-namespace:SecondMonitor.Timing.Settings.Model"
         mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=modelView1:DisplaySettingsModelView, IsDesignTimeCreatable=True}"
-        Title="Settings" Width="772.325" Height="536.989"
+        Title="Settings" Width="1158.091" Height="536.989"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
@@ -66,7 +66,7 @@
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top">
                                 <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pace" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettings.Pace.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Best Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettings.BestLap.Visible}"> </CheckBox>
+                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Best Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettings.BestLap.Visible}"></CheckBox>
                                 <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Current Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettings.CurrentLapProgressTime.Visible}"></CheckBox>
                                 <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pit Info" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettings.LastPitInfo.Visible}"></CheckBox>
                                 <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Gap to Player" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettings.TimeToPlayer.Visible}"></CheckBox>
@@ -81,6 +81,14 @@
 
                     </Grid>
                 </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modelView1:SessionReportSettingsModelView}">
+            <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
+                <DockPanel>
+                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Export:" Margin="10,8,0,10" IsChecked="{Binding Export}"></CheckBox>
+                    <CheckBox DockPanel.Dock="Right" Foreground="White" Content="Auto Open:" Margin="10,8,0,10" IsChecked="{Binding AutoOpen}"></CheckBox>
+                </DockPanel>
             </Border>
         </DataTemplate>
     </Window.Resources>
@@ -109,7 +117,7 @@
                     <CheckBox Content="Scroll to Player" Foreground="White" Margin="7,118,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" IsChecked="{Binding ScrollToPlayer}"></CheckBox>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Session Options" Foreground="White" HorizontalAlignment="Stretch" Margin="139,10,10,10"
+            <GroupBox Header="Session Options" Foreground="White" HorizontalAlignment="Stretch" Margin="139,10,328,10"
                       >
                 <DockPanel>
                     <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
@@ -120,6 +128,32 @@
 
                     <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
                     <ContentControl DockPanel.Dock="Top" Content="{Binding RaceSessionDisplayOptions}"></ContentControl>
+
+                </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Report Options" Foreground="White"  HorizontalAlignment="Right" Margin="0,10,10,10" VerticalAlignment="Stretch" Width="313">
+                <DockPanel>
+                    <GroupBox DockPanel.Dock="Top" Margin="0,8,0,0" Header="General" Height="125">
+                        <Grid Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                            <Label Margin="2,0,0,0" VerticalAlignment="Top" Foreground="White" Content="Export Path:"/>
+                            <TextBox Margin="2,28,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" IsReadOnly="True" Text="{Binding ReportingSettings.ExportDirectoryReplacedSpecialDirs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <Button Content="..." VerticalContentAlignment="Center" Margin="0,51,10,0" Height="21" HorizontalAlignment="Right" VerticalAlignment="Top"  Width="19" Command="{Binding Path=ReportingSettings.SelectExportDirCommand}"/>
+                            <Label Margin="0,77,56,0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Content="Maximum Reports:" Height="27"/>
+                            <xctk:IntegerUpDown HorizontalAlignment="Right"  Margin="0,77,10,0" VerticalAlignment="Top" Minimum="1" Maximum="100" Text="" Value="{Binding ReportingSettings.MaximumReports, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            </xctk:IntegerUpDown>
+                        </Grid>
+                    </GroupBox>
+                    <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.PracticeReportSettings}"></ContentControl>
+
+                    <Label DockPanel.Dock="Top" Content="Qualification:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.QualificationReportSetting}"></ContentControl>
+
+                    <Label DockPanel.Dock="Top" Content="Warm Up:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.WarmUpReportSettings}"></ContentControl>
+
+                    <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.RaceReportSettings}"></ContentControl>
 
                 </DockPanel>
             </GroupBox>
