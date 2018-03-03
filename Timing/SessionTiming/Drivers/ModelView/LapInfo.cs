@@ -193,7 +193,7 @@
 
         public TimeSpan LapEnd { get; private set; }
 
-        public TimeSpan LapTime { get; private set; }
+        public TimeSpan LapTime { get; private set; } = TimeSpan.Zero;
 
         public TimeSpan LapProgressTime { get; private set; }
 

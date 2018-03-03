@@ -231,7 +231,7 @@
             sheet.Cells[row.Row + 1, 6].Value = driver.BestSector1Lap == null ? string.Empty : FormatTimeSpan(driver.BestSector1Lap.Sector1);
             sheet.Cells[row.Row + 1, 7].Value = driver.BestSector2Lap == null ? string.Empty : FormatTimeSpan(driver.BestSector2Lap.Sector2);
             sheet.Cells[row.Row + 1, 8].Value = driver.BestSector3Lap == null ? string.Empty : FormatTimeSpan(driver.BestSector3Lap.Sector3);
-            sheet.Cells[row.Row + 1, 9].Value = driver.TopSpeed.GetValueInUnits(VelocityUnits) + Velocity.GetUnitSymbol(VelocityUnits);
+            sheet.Cells[row.Row + 1, 9].Value = driver.TopSpeed.GetValueInUnits(VelocityUnits).ToString("N0") + Velocity.GetUnitSymbol(VelocityUnits);
 
             if (driver.BestPersonalLap == sessionSummary.SessionBestLap)
             {
@@ -385,6 +385,11 @@
 
         public static string FormatTimeSpan(TimeSpan timeSpan)
         {
+            if (timeSpan == TimeSpan.Zero)
+            {
+                return "-";
+            }
+
             // String seconds = timeSpan.Seconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
             // String miliseconds = timeSpan.Milliseconds < 10 ? "0" + timeSpan.Seconds : timeSpan.Seconds.ToString();
             // return timeSpan.Minutes + ":" + timeSpan.Seconds + "." + timeSpan.Milliseconds;

@@ -24,7 +24,7 @@
         public static readonly DependencyProperty PracticeSessionDisplayOptionsProperty = DependencyProperty.Register("PracticeSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty QualificationSessionDisplayOptionsProperty = DependencyProperty.Register("QualificationSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty RaceSessionDisplayOptionsProperty = DependencyProperty.Register("RaceSessionDisplayOptions", typeof(SessionOptionsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty ReportingSettingsProperty = DependencyProperty.Register("ReportingSettings", typeof(ReportingSettingsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty ReportingSettingsProperty = DependencyProperty.Register("Settings", typeof(ReportingSettingsModelView), typeof(DisplaySettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 

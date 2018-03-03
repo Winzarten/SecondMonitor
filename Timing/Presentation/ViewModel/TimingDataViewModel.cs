@@ -1,5 +1,20 @@
 ﻿namespace SecondMonitor.Timing.Presentation.ViewModel
 {
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.PluginManager.Core;
+    using SecondMonitor.PluginManager.GameConnector;
+    using SecondMonitor.Timing.LapTimings.ViewModel;
+    using SecondMonitor.Timing.Presentation.View;
+    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
+    using SecondMonitor.Timing.ReportCreation.ViewModel;
+    using SecondMonitor.Timing.SessionTiming.Drivers;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+    using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using SecondMonitor.Timing.Settings;
+    using SecondMonitor.Timing.Settings.Model;
+    using SecondMonitor.Timing.Settings.ModelView;
     using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -11,24 +26,6 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Input;
-
-    using SecondMonitor.DataModel;
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.Core;
-    using SecondMonitor.PluginManager.GameConnector;
-    using SecondMonitor.Timing.LapTimings.ViewModel;
-    using SecondMonitor.Timing.Presentation.View;
-    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
-    using SecondMonitor.Timing.SessionTiming.Drivers;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
-    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
-    using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.Timing.Settings;
-    using SecondMonitor.Timing.Settings.Model;
-    using SecondMonitor.Timing.Settings.ModelView;
-
-    using DriverLapsWindow = SecondMonitor.Timing.LapTimings.View.DriverLapsWindow;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -53,6 +50,9 @@
         private ResetModeEnum _shouldReset = ResetModeEnum.NoReset;
 
         private DisplaySettingAutoSaver _settingAutoSaver;
+
+        private ReportCreationViewModel _reportCreation;
+
         private PluginsManager _pluginsManager;
         private SessionTiming _timing;
         private DisplaySettingsWindow _settingsWindow;
@@ -65,6 +65,7 @@
             SessionInfoViewModel = new SessionInfoViewModel();
             _driverLapsWindowManager = new DriverLapsWindowManager(() => Gui, () => SelectedDriverTiming);
             DoubleLeftClickCommand = this._driverLapsWindowManager.OpenWindowCommand;
+            this._reportCreation = new ReportCreationViewModel(DisplaySettings);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -326,6 +327,12 @@
             {
                 SimulatorDataSet data = args.Data;
 
+                if (_sessionType != data.SessionInfo.SessionType)
+                {
+                    _shouldReset = ResetModeEnum.Automatic;
+                    _sessionType = _timing.SessionType;
+                }
+
                 // Reset state was detected (either reset button was pressed or timing detected a session change)
                 if (_shouldReset != ResetModeEnum.NoReset)
                 {
@@ -342,12 +349,6 @@
                 {
                     _shouldReset = ResetModeEnum.Automatic;
                     return;
-                }
-
-                if (_sessionType != _timing.SessionType)
-                {
-                    _shouldReset = ResetModeEnum.Automatic;
-                    _sessionType = _timing.SessionType;
                 }
             }
             else
@@ -474,7 +475,7 @@
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
             {
-                return "Laps: " + (dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
+                return "Leader on Lap: " + (dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
             }
 
             return "NA";
@@ -491,6 +492,10 @@
             var invalidateLap = _shouldReset == ResetModeEnum.Manual ||
                                 data.SessionInfo.SessionType != SessionType.Race;
             _lastDataSet = data;
+            if (this._timing != null && this._reportCreation != null)
+            {
+                this._reportCreation.CreateReport(this._timing);
+            }
 
             _timing = SessionTiming.FromSimulatorData(data, invalidateLap, this);
             foreach (var driverTimingModelView in this._timing.Drivers.Values)
@@ -629,6 +634,11 @@
             if (timingDataViewModel._settingAutoSaver != null)
             {
                 timingDataViewModel._settingAutoSaver.DisplaySettingsModelView = newDisplaySettingsModelView;
+            }
+
+            if (timingDataViewModel._reportCreation != null)
+            {
+                timingDataViewModel._reportCreation.Settings = newDisplaySettingsModelView;
             }
 
         }

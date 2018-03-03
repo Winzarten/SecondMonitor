@@ -197,7 +197,7 @@
                 return false;
             }
 
-            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && LastLap != null && LastLap.LapEnd != TimeSpan.Zero)
+            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && CurrentLap != null && CurrentLap.LapEnd != TimeSpan.Zero)
             {
                 return false;
             }
@@ -260,7 +260,7 @@
                 return true;
             }
 
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation &&  (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90 ))
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
             {
                 return true;
             }

@@ -28,6 +28,8 @@
 
         private static readonly DependencyProperty WarmUpReportSettingsProperty = DependencyProperty.Register("WarmUpReportSettings", typeof(SessionReportSettingsModelView), typeof(ReportingSettingsModelView), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
 
+        private static readonly DependencyProperty MinimumSessionLengthProperty = DependencyProperty.Register("MinimumSessionLength", typeof(int), typeof(ReportingSettingsModelView), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
+
         public ReportingSettingsModelView()
         {
             this.SelectExportDirCommand = new NoArgumentCommand(SelectExportDir, () => true);
@@ -75,10 +77,17 @@
             set => SetValue(WarmUpReportSettingsProperty, value);
         }
 
+        public int MinimumSessionLength
+        {
+            get => (int)GetValue(MinimumSessionLengthProperty);
+            set => SetValue(MinimumSessionLengthProperty, value);
+        }
+
         public void FromModel(ReportingSettings model)
         {
             ExportDirectory = model.ExportDirectory;
             MaximumReports = model.MaximumReports;
+            MinimumSessionLength = model.MinimumSessionLength;
             PracticeReportSettings = SessionReportSettingsModelView.FromModel(model.PracticeReportSettings);
             QualificationReportSetting = SessionReportSettingsModelView.FromModel(model.QualificationReportSettings);
             WarmUpReportSettings = SessionReportSettingsModelView.FromModel(model.WarmUpReportSettings);
@@ -110,7 +119,8 @@
                            PracticeReportSettings = PracticeReportSettings.ToModel(),
                            QualificationReportSettings = QualificationReportSetting.ToModel(),
                            RaceReportSettings = RaceReportSettings.ToModel(),
-                           WarmUpReportSettings = WarmUpReportSettings.ToModel()
+                           WarmUpReportSettings = WarmUpReportSettings.ToModel(),
+                           MinimumSessionLength = MinimumSessionLength
                        };
         }
 

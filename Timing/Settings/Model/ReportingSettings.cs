@@ -9,6 +9,8 @@
 
         public int MaximumReports { get; set; } = 20;
 
+        public int MinimumSessionLength { get; set; } = 5;
+
         public SessionReportSettings PracticeReportSettings { get; set; } = new SessionReportSettings();
 
         public SessionReportSettings QualificationReportSettings { get; set; } = new SessionReportSettings();

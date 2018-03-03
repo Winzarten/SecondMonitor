@@ -22,7 +22,7 @@
 
         public int SectorNumber { get; }
 
-        public TimeSpan Duration { get; private set; }
+        public TimeSpan Duration { get; private set; } = TimeSpan.Zero;
 
         public LapInfo Lap { get; }
 

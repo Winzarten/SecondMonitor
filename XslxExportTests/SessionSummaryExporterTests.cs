@@ -114,7 +114,6 @@
         {
             return new SessionSummary()
                        {
-                           SessionPhase = SessionPhase.Green,
                            SessionRunTime = DateTime.Now,
                            SessionType = SessionType.Race,
                            Simulator = "R3E", 

@@ -19,8 +19,6 @@
 
         public SessionType SessionType { get; set; }
 
-        public SessionPhase SessionPhase { get; set; }
-
         public string Simulator { get; set; }
 
         public SessionLengthType SessionLengthType { get; set; } = SessionLengthType.Na;
