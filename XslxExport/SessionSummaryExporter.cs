@@ -371,7 +371,7 @@
             }
             if (sessionSummary.SessionLength.Hours > 0)
             {
-                return sessionSummary.SessionLength.Hours + "h " + sessionSummary.SessionLength.Minutes + "min" ;
+                return sessionSummary.SessionLength.Hours + "h " + (sessionSummary.SessionLength.Minutes + 1) + "min" ;
             }
             return sessionSummary.SessionLength.Minutes + "mins";
         }

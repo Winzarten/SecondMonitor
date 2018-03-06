@@ -157,7 +157,7 @@
             switch (completedSector.SectorNumber)
             {
                 case 1:
-                    if (BestSector1 == null || BestSector1 > completedSector)
+                    if ((BestSector1 == null || BestSector1 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
                         _sector1Times.Insert(0, completedSector);
                         if (this._sector1Times.Count > 50)
@@ -168,7 +168,7 @@
                     }
                     break;
                 case 2:
-                    if (BestSector2 == null || BestSector2 > completedSector)
+                    if ((BestSector2 == null || BestSector2 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
                         _sector2Times.Insert(0, completedSector);
                         if (this._sector2Times.Count > 50)
@@ -179,7 +179,7 @@
                     }
                     break;
                 case 3:
-                    if (BestSector3 == null || BestSector3 > completedSector)
+                    if ((BestSector3 == null || BestSector3 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
                         _sector3Times.Insert(0, completedSector);
                         if (this._sector3Times.Count > 50)

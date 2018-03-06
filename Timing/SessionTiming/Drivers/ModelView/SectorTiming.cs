@@ -34,6 +34,10 @@
         public void Finish(DriverInfo driverTiming)
         {
             Duration = PickTiming(driverTiming);
+            if (Duration.TotalSeconds <= 1)
+            {
+                Duration = TimeSpan.Zero;
+            }
         }
 
         private TimeSpan PickTiming(DriverInfo driverInfo)

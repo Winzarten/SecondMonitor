@@ -14,6 +14,10 @@
 
         public static string FormatTimeSpanOnlySeconds(TimeSpan timeSpan, bool includeSign)
         {
+            if (timeSpan == TimeSpan.Zero)
+            {
+                return "-";
+            }
             string returnString = $"{(int)Math.Abs(timeSpan.TotalSeconds)}.{Math.Abs(timeSpan.Milliseconds):D3}";
             if (!includeSign)
             {

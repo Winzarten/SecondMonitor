@@ -43,7 +43,7 @@
                                            TopSpeed = driverTiming.TopSpeed,
                                            
                                        };
-            driverSummary.Laps.AddRange(driverTiming.Laps.Where(l => l.Completed).Select(l => ConvertToSummaryLap(driverSummary, l)));
+            driverSummary.Laps.AddRange(driverTiming.Laps.Where(l => l.Completed && l.Valid).Select(l => ConvertToSummaryLap(driverSummary, l)));
             driverSummary.TotalLaps = driverSummary.Laps.Count;
             return driverSummary;
         }

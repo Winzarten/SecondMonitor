@@ -330,19 +330,19 @@
             switch (completedSector.SectorNumber)
             {
                 case 1:
-                    if (BestSector1 == null || BestSector1.Duration > completedSector.Duration)
+                    if ((BestSector1 == null || BestSector1.Duration > completedSector.Duration) && completedSector.Duration != TimeSpan.Zero)
                     {
                         BestSector1 = completedSector;
                     }
                     break;
                 case 2:
-                    if (BestSector2 == null || BestSector2.Duration > completedSector.Duration)
+                    if ((BestSector2 == null || BestSector2.Duration > completedSector.Duration)  && completedSector.Duration != TimeSpan.Zero)
                     {
                         BestSector2 = completedSector;
                     }
                     break;
                 case 3:
-                    if (BestSector3 == null || BestSector3.Duration > completedSector.Duration)
+                    if ((BestSector3 == null || BestSector3.Duration > completedSector.Duration)  && completedSector.Duration != TimeSpan.Zero)
                     {
                         BestSector3 = completedSector;
                     }
