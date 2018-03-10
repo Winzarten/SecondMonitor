@@ -287,7 +287,7 @@
         
         internal SimulatorDataSet FromR3EData(R3ESharedData data)
         {
-            SimulatorDataSet simData = new SimulatorDataSet("R3R");
+            SimulatorDataSet simData = new SimulatorDataSet("R3E");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
 

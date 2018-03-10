@@ -56,7 +56,8 @@
             loc.Y = 0;
             panel.Height = (int)(refHeight * value);
             panel.Location = loc;
-            label.Text = (value * 100).ToString("0.0");
+            label.Text = (value * 100).ToString("N0");
+            label.Location = new Point(label.Location.X, refHeight + 5);
         }
 
         private void lblThrottle_Click(object sender, EventArgs e)
