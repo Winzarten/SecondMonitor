@@ -1,41 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">  
-  <?define ProductCode = "925b7751-ea79-4b50-a8f0-dc9e7d33985e"?>
+  <?define ProductCode = "c600615e-2b1f-4ec1-90a9-7b2208032cc3"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "1.0.0.1"?>
+  <?define ProductVersion = "1.1.2.1"?>
+  <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
     
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
     <WixVariable Id="WixUILicenseRtf" Value="..\Artifacts\eula.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="..\Artifacts\banner.bmp" />
+    
+    <MajorUpgrade AllowDowngrades="yes" />
 
-    <Upgrade Id='$(var.UpgradeCode)'>
+    <!--<Upgrade Id='$(var.UpgradeCode)'>
       <UpgradeVersion Minimum='$(var.ProductVersion)'
                       IncludeMinimum='no'
                       OnlyDetect='yes'
                       Property='NEWPRODUCTFOUND' />
       <UpgradeVersion Minimum='0.1.0.0'
                       IncludeMinimum='yes'
-                      Maximum='$(var.ProductVersion)'
+                      Maximum="99.0.0.0"
                       IncludeMaximum='no'
                       Property='UPGRADEFOUND' />
-    </Upgrade>
-
-
-    <InstallExecuteSequence>
-      <Custom Action='PreventDowngrading'
-              After='FindRelatedProducts'>NEWPRODUCTFOUND</Custom>
-      <RemoveExistingProducts Before="InstallInitialize" />
-    </InstallExecuteSequence>
-
-    <InstallUISequence>
-      <Custom Action='PreventDowngrading'
-              After='FindRelatedProducts'>NEWPRODUCTFOUND</Custom>
-    </InstallUISequence>
-
-    <CustomAction Id='PreventDowngrading'
-                  Error='Newer version already installed' />
+    </Upgrade>-->    
     
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
