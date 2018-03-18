@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Core\ISecondMonitorPlugin.cs" />
     <Compile Include="Core\PluginsManager.cs" />
+    <Compile Include="GameConnector\AbstractGameConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameConnector\IGameConnector.cs" />
   </ItemGroup>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">  
-  <?define ProductCode = "c600615e-2b1f-4ec1-90a9-7b2208032cc3"?>
+  <?define ProductCode = "87777c96-3a5d-48a9-8cd3-17c5c226849c"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "1.0.0.0"?>
+  <?define ProductVersion = "1.0.1.0"?>
   <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
@@ -109,6 +109,18 @@
       </Component>
       <Component Id="cmp2e7a7ec67268446686ff3c3bd786ea48" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="4434e81f-f61f-4feb-a87d-e4db3b5c196b">
         <File Id="fil6ec4cdff09084e3f8c0d7edd99f3882f" KeyPath="yes" Source="..\Deployment\plugins\XslxExport.dll" />
+      </Component>
+      <Component Id="cmp90fec4b795c14a3f8c9c940584d3ab14" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="90fec4b7-95c1-4a3f-8c9c-940584d3ab14">
+        <File Id="filcmp90fec4b795c14a3f8c9c940584d3ab14" KeyPath="yes" Source="..\Deployment\plugins\XslxExport.dll.config" />
+      </Component>
+      <Component Id="cmp0253b072d27a4258bb3fc69c13343256" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="0253b072-d27a-4258-bb3f-c69c13343256">
+        <File Id="fil0253b072d27a4258bb3fc69c13343256" KeyPath="yes" Source="..\Deployment\plugins\EPPlus.dll" />
+      </Component>
+      <Component Id="cmp71da85606d444721a9cb25c24ca27a34" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="71da8560-6d44-4721-a9cb-25c24ca27a34">
+        <File Id="fil71da85606d444721a9cb25c24ca27a34" KeyPath="yes" Source="..\Deployment\plugins\EPPlus.xml" />
+      </Component>
+      <Component Id="cmpad1bc2985c384aceb265ebec29d36042" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="ad1bc298-5c38-4ace-b265-ebec29d36042">
+        <File Id="filad1bc2985c384aceb265ebec29d36042" KeyPath="yes" Source="..\Deployment\plugins\ICSharpCode.SharpZipLib.dll" />
       </Component>
     </ComponentGroup>
 

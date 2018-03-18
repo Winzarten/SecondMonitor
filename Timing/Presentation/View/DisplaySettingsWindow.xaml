@@ -82,12 +82,12 @@
                     </Grid>
                 </Grid>
             </Border>
-        </DataTemplate>
+        </DataTemplate> 
         <DataTemplate DataType="{x:Type modelView1:SessionReportSettingsModelView}">
             <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
                 <DockPanel>
-                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Export:" Margin="10,8,0,10" IsChecked="{Binding Export}"></CheckBox>
-                    <CheckBox DockPanel.Dock="Right" Foreground="White" Content="Auto Open:" Margin="10,8,0,10" IsChecked="{Binding AutoOpen}"></CheckBox>
+                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="- Export" Margin="10,8,0,10" IsChecked="{Binding Export}" HorizontalContentAlignment="Left" ></CheckBox>
+                    <CheckBox DockPanel.Dock="Right" Foreground="White" Content="- Auto Open" Margin="10,8,0,10" IsChecked="{Binding AutoOpen}" HorizontalContentAlignment="Left"></CheckBox>
                 </DockPanel>
             </Border>
         </DataTemplate>
