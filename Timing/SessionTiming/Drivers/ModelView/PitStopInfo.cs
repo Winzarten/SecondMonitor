@@ -15,7 +15,7 @@
             EntryLap = entryLap;
             Phase = PitPhase.Entry;
             PitEntry = set.SessionInfo.SessionTime;
-            PitStopDuration = new TimeSpan(0);
+            PitStopDuration = TimeSpan.Zero;
             PitExit = PitEntry;
             PitStopStart = PitEntry;
             PitStopEnd = PitEntry;

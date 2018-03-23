@@ -28,7 +28,7 @@
 
         public SessionInfo()
         {
-            this.SessionTime = new TimeSpan(0);
+            this.SessionTime = TimeSpan.Zero;
             this.TrackInfo = new TrackInfo();
         }
     }

@@ -40,7 +40,7 @@
             _lapsInfo = new List<LapInfo>();
             _pitStopInfo = new List<PitStopInfo>();
             DriverInfo = driverInfo;
-            Pace = new TimeSpan(0);
+            Pace = TimeSpan.Zero;
             LapPercentage = 0;
             _previousTickLapDistance = 0;
             Session = session;
@@ -384,12 +384,12 @@
         {
             if(LastCompletedLap == null)
             {
-                Pace = new TimeSpan(0);
+                Pace = TimeSpan.Zero;
                 return;
             }
 
             int totalPaceLaps = 0;
-            TimeSpan pace = new TimeSpan(0);
+            TimeSpan pace = TimeSpan.Zero;
             for(int i = _lapsInfo.Count - 2; i >= 0 && totalPaceLaps < PaceLaps; i--)
             {
                 LapInfo lap = _lapsInfo[i];
@@ -402,7 +402,7 @@
                 totalPaceLaps++;
             }
 
-            Pace = totalPaceLaps == 0 ? new TimeSpan(0) : new TimeSpan(pace.Ticks / totalPaceLaps);
+            Pace = totalPaceLaps == 0 ? TimeSpan.Zero : new TimeSpan(pace.Ticks / totalPaceLaps);
         }
 
         public LapInfo CurrentLap

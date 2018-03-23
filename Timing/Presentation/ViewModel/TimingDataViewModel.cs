@@ -469,8 +469,17 @@
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
             {
-                return "Time Remaining: " + ((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":"
+                string timeRemaining = "Time Remaining: " + ((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":"
                        + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60).ToString("00");
+                if (dataSet.SessionInfo.SessionType == SessionType.Race &&
+                    _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
+                {
+                    double lapsToGo = dataSet.SessionInfo.SessionTimeRemaining /
+                                      _timing.Leader.DriverTiming.Pace.TotalSeconds;
+                    timeRemaining += "\n Laps:" + lapsToGo.ToString("N1");
+                }
+
+                return timeRemaining;
             }
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)

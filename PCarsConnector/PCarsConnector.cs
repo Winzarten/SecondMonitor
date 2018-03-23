@@ -66,7 +66,7 @@
 
         private void ResetConnector()
         {
-            SessionTime = new TimeSpan(0);
+            SessionTime = TimeSpan.Zero;
             _process = null;
             _disconnect = false;
         }

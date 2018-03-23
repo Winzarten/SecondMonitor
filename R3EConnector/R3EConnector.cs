@@ -39,7 +39,7 @@
             _inSession = false;
             _lastTickInformation = new Dictionary<string, DriverInfo>();
             _lastSessionType = -2;
-            _sessionTime = new TimeSpan(0);
+            _sessionTime = TimeSpan.Zero;
             _sessionStartR3RTime = 0;
         }
 

@@ -284,7 +284,7 @@
             if (pCarsData.MSessionState == (int)ESessionState.SessionInvalid
                 || (pCarsData.MSessionState == (int)ESessionState.SessionRace && pCarsData.MRaceState == 1))
             {
-                _pcarsConnector.SessionTime = new TimeSpan(0);
+                _pcarsConnector.SessionTime = TimeSpan.Zero;
             }
 
             simData.SessionInfo.SessionTime = _pcarsConnector.SessionTime;

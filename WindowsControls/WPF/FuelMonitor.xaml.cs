@@ -63,7 +63,7 @@
             _totalLapDistanceCovered = 0;
             _lastLapDistance = 0;
             _remainingLaps = 0;
-            _lastSessionTime = new TimeSpan(0);
+            _lastSessionTime = TimeSpan.Zero;
             UpdateByFuelCalculationScope();
         }
         
