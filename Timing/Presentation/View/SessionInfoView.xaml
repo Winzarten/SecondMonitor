@@ -21,7 +21,7 @@
         <Border BorderBrush="Purple" BorderThickness="2" CornerRadius="6">
             <DockPanel DockPanel.Dock="Right">
                 <Label DockPanel.Dock="Top" Content="{Binding BestLap, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Foreground="White" FontSize="20" />
-                <Label DockPanel.Dock="Top" Content="{Binding SessionRemaining}" HorizontalAlignment="Right" FontSize="20" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Right" />
+                <Label DockPanel.Dock="Top" Content="{Binding SessionRemaining}" HorizontalAlignment="Right" FontSize="24" VerticalAlignment="Top" Foreground="Crimson" HorizontalContentAlignment="Right" />
             </DockPanel>
         </Border>
     </DockPanel>
