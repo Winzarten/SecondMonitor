@@ -6,8 +6,8 @@
     {
         public OilInfo()
         {
-            this.OilPressure = new Pressure();
-            this.OilTemperature = new Temperature();
+            OilPressure = new Pressure();
+            OilTemperature = new Temperature();
         }
 
         public Temperature OilTemperature { get; set; }

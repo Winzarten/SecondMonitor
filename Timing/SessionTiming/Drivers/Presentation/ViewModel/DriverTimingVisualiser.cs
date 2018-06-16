@@ -298,15 +298,15 @@
                 InPits = DriverTiming.InPits;
                 IsLastLapBestSessionLap = DriverTiming.IsLastLapBestSessionLap;
                 IsLastLapBestLap = DriverTiming.IsLastLapBestLap;
-                Sector1 = this.GetSector1();
-                Sector2 = this.GetSector2();
-                Sector3 = this.GetSector3();
-                IsLastSector1SessionBest = this.GetIsSector1SessionBest();
-                IsLastSector2SessionBest = this.GetIsSector2SessionBest();
-                IsLastSector3SessionBest = this.GetIsSector3SessionBest();
-                IsLastSector1PersonalBest = this.GetIsSector1PersonalBest();
-                IsLastSector2PersonalBest = this.GetIsSector2PersonalBest();
-                IsLastSector3PersonalBest = this.GetIsSector3PersonalBest();
+                Sector1 = GetSector1();
+                Sector2 = GetSector2();
+                Sector3 = GetSector3();
+                IsLastSector1SessionBest = GetIsSector1SessionBest();
+                IsLastSector2SessionBest = GetIsSector2SessionBest();
+                IsLastSector3SessionBest = GetIsSector3SessionBest();
+                IsLastSector1PersonalBest = GetIsSector1PersonalBest();
+                IsLastSector2PersonalBest = GetIsSector2PersonalBest();
+                IsLastSector3PersonalBest = GetIsSector3PersonalBest();
                 
 
             }
@@ -328,8 +328,8 @@
                 return false;
             }
 
-            var sector = this.GetSector1Timing();
-            return sector != null && sector == this.DriverTiming.Session.BestSector1;
+            var sector = GetSector1Timing();
+            return sector != null && sector == DriverTiming.Session.BestSector1;
         }
 
         private bool GetIsSector2SessionBest()
@@ -339,8 +339,8 @@
                 return false;
             }
 
-            var sector = this.GetSector2Timing();
-            return sector != null && sector == this.DriverTiming.Session.BestSector2;
+            var sector = GetSector2Timing();
+            return sector != null && sector == DriverTiming.Session.BestSector2;
         }
 
         private bool GetIsSector3SessionBest()
@@ -350,8 +350,8 @@
                 return false;
             }
 
-            var sector = this.GetSector3Timing();
-            return sector != null && sector == this.DriverTiming.Session.BestSector3;
+            var sector = GetSector3Timing();
+            return sector != null && sector == DriverTiming.Session.BestSector3;
         }
 
         private bool GetIsSector1PersonalBest()
@@ -361,8 +361,8 @@
                 return false;
             }
 
-            var sector = this.GetSector1Timing();
-            return sector != null && sector == this.DriverTiming.BestSector1;
+            var sector = GetSector1Timing();
+            return sector != null && sector == DriverTiming.BestSector1;
         }
 
         private bool GetIsSector2PersonalBest()
@@ -372,8 +372,8 @@
                 return false;
             }
 
-            var sector = this.GetSector2Timing();
-            return sector != null && sector == this.DriverTiming.BestSector2;
+            var sector = GetSector2Timing();
+            return sector != null && sector == DriverTiming.BestSector2;
         }
 
         private bool GetIsSector3PersonalBest()
@@ -383,8 +383,8 @@
                 return false;
             }
 
-            var sector = this.GetSector3Timing();
-            return sector != null && sector == this.DriverTiming.BestSector3;
+            var sector = GetSector3Timing();
+            return sector != null && sector == DriverTiming.BestSector3;
         }
 
         private string GetSector1()
@@ -393,7 +393,7 @@
             {
                 return "N/A";
             }
-            var sector = this.GetSector1Timing();
+            var sector = GetSector1Timing();
             return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
         }
 
@@ -403,10 +403,10 @@
             {
                 return null;
             }
-            SectorTiming sector = this.DriverTiming.CurrentLap.Sector1;
-            if (sector == null && this.DriverTiming.CurrentLap.PreviousLap != null)
+            SectorTiming sector = DriverTiming.CurrentLap.Sector1;
+            if (sector == null && DriverTiming.CurrentLap.PreviousLap != null)
             {
-                sector = this.DriverTiming.CurrentLap.PreviousLap.Sector1;
+                sector = DriverTiming.CurrentLap.PreviousLap.Sector1;
             }
             return sector;
         }
@@ -417,10 +417,10 @@
             {
                 return null;
             }
-            SectorTiming sector = this.DriverTiming.CurrentLap.Sector2;
-            if (sector == null && this.DriverTiming.CurrentLap.PreviousLap != null)
+            SectorTiming sector = DriverTiming.CurrentLap.Sector2;
+            if (sector == null && DriverTiming.CurrentLap.PreviousLap != null)
             {
-                sector = this.DriverTiming.CurrentLap.PreviousLap.Sector2;
+                sector = DriverTiming.CurrentLap.PreviousLap.Sector2;
             }
             return sector;
         }
@@ -431,10 +431,10 @@
             {
                 return null;
             }
-            SectorTiming sector = this.DriverTiming.CurrentLap.Sector3;
-            if (sector == null && this.DriverTiming.CurrentLap.PreviousLap != null)
+            SectorTiming sector = DriverTiming.CurrentLap.Sector3;
+            if (sector == null && DriverTiming.CurrentLap.PreviousLap != null)
             {
-                sector = this.DriverTiming.CurrentLap.PreviousLap.Sector3;
+                sector = DriverTiming.CurrentLap.PreviousLap.Sector3;
             }
             return sector;
         }
@@ -445,7 +445,7 @@
             {
                 return "N/A";
             }
-            SectorTiming sector = this.GetSector2Timing();
+            SectorTiming sector = GetSector2Timing();
             return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
         }
 
@@ -455,7 +455,7 @@
             {
                 return "N/A";
             }
-            SectorTiming sector = this.GetSector3Timing();
+            SectorTiming sector = GetSector3Timing();
             return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
         }
 

@@ -19,7 +19,7 @@
 
         public ReportCreationViewModel(DisplaySettingsModelView settings)
         {
-            this.Settings = settings;
+            Settings = settings;
         }
 
         public DisplaySettingsModelView Settings { get; set; }
@@ -51,7 +51,7 @@
 
         private bool ShouldBeExported(SessionTiming sessionTiming)
         {
-            if (sessionTiming.LastSet.SessionInfo.SessionTime.TotalMinutes < this.Settings.ReportingSettings.MinimumSessionLength)
+            if (sessionTiming.LastSet.SessionInfo.SessionTime.TotalMinutes < Settings.ReportingSettings.MinimumSessionLength)
             {
                 return false;
             }
@@ -59,13 +59,13 @@
             switch (sessionTiming.SessionType)
             {
                 case SessionType.Practice:
-                    return this.Settings.ReportingSettings.PracticeReportSettings.Export;
+                    return Settings.ReportingSettings.PracticeReportSettings.Export;
                 case SessionType.Qualification:
-                    return this.Settings.ReportingSettings.QualificationReportSetting.Export;
+                    return Settings.ReportingSettings.QualificationReportSetting.Export;
                 case SessionType.WarmUp:
-                    return this.Settings.ReportingSettings.WarmUpReportSettings.Export;
+                    return Settings.ReportingSettings.WarmUpReportSettings.Export;
                 case SessionType.Race:
-                    return this.Settings.ReportingSettings.RaceReportSettings.Export;
+                    return Settings.ReportingSettings.RaceReportSettings.Export;
                 default:
                     return false;
             }
@@ -112,14 +112,14 @@
 
         private void CheckAndDeleteIfMaximumReportsExceeded()
         {
-            DirectoryInfo di = new DirectoryInfo(this.Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs);
+            DirectoryInfo di = new DirectoryInfo(Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs);
             FileInfo[] files = di.GetFiles(ReportNamePrefix + "*.xlsx").OrderBy(f => f.CreationTimeUtc).ToArray();
-            if (files.Length <= this.Settings.ReportingSettings.MaximumReports)
+            if (files.Length <= Settings.ReportingSettings.MaximumReports)
             {
                 return;
             }
 
-            int filesToDelete = files.Length - this.Settings.ReportingSettings.MaximumReports;
+            int filesToDelete = files.Length - Settings.ReportingSettings.MaximumReports;
             for (int i = 0; i < filesToDelete; i++)
             {
                 files[i].Delete();

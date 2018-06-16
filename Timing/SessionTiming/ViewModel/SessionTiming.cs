@@ -49,11 +49,11 @@
 
         public LapInfo BestSessionLap
         {
-            get => this._bestSessionLap;
+            get => _bestSessionLap;
             set
             {
-                this._bestSessionLap = value;
-                this.OnPropertyChanged();
+                _bestSessionLap = value;
+                OnPropertyChanged();
             }
         }
 
@@ -93,11 +93,11 @@
             set;
         }
 
-        public SectorTiming BestSector1 => this._sector1Times.Any() ? _sector1Times.First() : null;
+        public SectorTiming BestSector1 => _sector1Times.Any() ? _sector1Times.First() : null;
 
-        public SectorTiming BestSector2 => this._sector2Times.Any() ? this._sector2Times.First() : null;
+        public SectorTiming BestSector2 => _sector2Times.Any() ? _sector2Times.First() : null;
 
-        public SectorTiming BestSector3 => this._sector3Times.Any() ? this._sector3Times.First() : null;
+        public SectorTiming BestSector3 => _sector3Times.Any() ? _sector3Times.First() : null;
 
         public int SessionCompletedPerMiles
         {
@@ -160,33 +160,33 @@
                     if ((BestSector1 == null || BestSector1 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
                         _sector1Times.Insert(0, completedSector);
-                        if (this._sector1Times.Count > 50)
+                        if (_sector1Times.Count > 50)
                         {
-                            this._sector1Times.RemoveAt(this._sector1Times.Count - 1);
+                            _sector1Times.RemoveAt(_sector1Times.Count - 1);
                         }
-                        this.OnPropertyChanged(nameof(BestSector1));
+                        OnPropertyChanged(nameof(BestSector1));
                     }
                     break;
                 case 2:
                     if ((BestSector2 == null || BestSector2 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
                         _sector2Times.Insert(0, completedSector);
-                        if (this._sector2Times.Count > 50)
+                        if (_sector2Times.Count > 50)
                         {
-                            this._sector2Times.RemoveAt(this._sector2Times.Count - 1);
+                            _sector2Times.RemoveAt(_sector2Times.Count - 1);
                         }
-                        this.OnPropertyChanged(nameof(BestSector2));
+                        OnPropertyChanged(nameof(BestSector2));
                     }
                     break;
                 case 3:
                     if ((BestSector3 == null || BestSector3 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
                         _sector3Times.Insert(0, completedSector);
-                        if (this._sector3Times.Count > 50)
+                        if (_sector3Times.Count > 50)
                         {
-                            this._sector3Times.RemoveAt(this._sector3Times.Count - 1);
+                            _sector3Times.RemoveAt(_sector3Times.Count - 1);
                         }
-                        this.OnPropertyChanged(nameof(BestSector3));
+                        OnPropertyChanged(nameof(BestSector3));
                     }
                     break;
             }
@@ -212,22 +212,22 @@
 
         private void LapInvalidatedHandler(object sender, DriverTiming.LapEventArgs e)
         {
-            if (this._sector1Times.Contains(e.Lap.Sector1))
+            if (_sector1Times.Contains(e.Lap.Sector1))
             {
-                this._sector1Times.Remove(e.Lap.Sector1);
-                this.OnPropertyChanged(nameof(this.BestSector1));
+                _sector1Times.Remove(e.Lap.Sector1);
+                OnPropertyChanged(nameof(BestSector1));
             }
 
-            if (this._sector2Times.Contains(e.Lap.Sector2))
+            if (_sector2Times.Contains(e.Lap.Sector2))
             {
-                this._sector2Times.Remove(e.Lap.Sector2);
-                this.OnPropertyChanged(nameof(this.BestSector2));
+                _sector2Times.Remove(e.Lap.Sector2);
+                OnPropertyChanged(nameof(BestSector2));
             }
 
-            if (this._sector3Times.Contains(e.Lap.Sector3))
+            if (_sector3Times.Contains(e.Lap.Sector3))
             {
-                this._sector3Times.Remove(e.Lap.Sector3);
-                this.OnPropertyChanged(nameof(this.BestSector3));
+                _sector3Times.Remove(e.Lap.Sector3);
+                OnPropertyChanged(nameof(BestSector3));
             }
         }
 
@@ -319,7 +319,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

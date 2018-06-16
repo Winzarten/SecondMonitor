@@ -100,7 +100,7 @@
 
         private WheelInfo GetWheelByPosition(SimulatorDataSet data)
         {
-            switch (this.WheelPosition)
+            switch (WheelPosition)
             {
                 case WheelPositionEnum.FrontLeft:
                     return data.PlayerInfo.CarInfo.WheelsInfo.FrontLeft;

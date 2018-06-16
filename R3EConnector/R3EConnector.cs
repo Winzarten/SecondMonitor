@@ -51,14 +51,14 @@
 
         protected override void OnConnection()
         {
-            this.ResetConnector();
+            ResetConnector();
             _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
         }
 
         protected override void DaemonMethod()
         {
 
-            while (!this.ShouldDisconnect)
+            while (!ShouldDisconnect)
             {
                 Thread.Sleep(TickTime);
                 R3ESharedData r3RData = Load();
@@ -77,7 +77,7 @@
 
                 AddToQueue(data);
 
-                if (r3RData.ControlType == -1 && !this.IsProcessRunning())
+                if (r3RData.ControlType == -1 && !IsProcessRunning())
                 {
                     ShouldDisconnect = true;
                 }

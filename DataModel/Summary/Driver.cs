@@ -38,11 +38,11 @@
         {
             get
             {
-                if (this._bestPersonalLap == null)
+                if (_bestPersonalLap == null)
                 {
-                    this._bestPersonalLap = FindBest(lap => lap.LapTime, Laps);
+                    _bestPersonalLap = FindBest(lap => lap.LapTime, Laps);
                 }
-                return this._bestPersonalLap;
+                return _bestPersonalLap;
             }
         }
 
@@ -50,11 +50,11 @@
         {
             get
             {
-                if (this._bestSector1Lap == null)
+                if (_bestSector1Lap == null)
                 {
-                    this._bestSector1Lap = FindBest(lap => lap.Sector1, Laps);
+                    _bestSector1Lap = FindBest(lap => lap.Sector1, Laps);
                 }
-                return this._bestSector1Lap;
+                return _bestSector1Lap;
             }
         }
 
@@ -62,11 +62,11 @@
         {
             get
             {
-                if (this._bestSector2Lap == null)
+                if (_bestSector2Lap == null)
                 {
-                    this._bestSector2Lap = FindBest(lap => lap.Sector2, Laps);
+                    _bestSector2Lap = FindBest(lap => lap.Sector2, Laps);
                 }
-                return this._bestSector2Lap;
+                return _bestSector2Lap;
             }
         }
 
@@ -74,11 +74,11 @@
         {
             get
             {
-                if (this._bestSector3Lap == null)
+                if (_bestSector3Lap == null)
                 {
-                    this._bestSector3Lap = FindBest(lap => lap.Sector3, Laps);
+                    _bestSector3Lap = FindBest(lap => lap.Sector3, Laps);
                 }
-                return this._bestSector3Lap;
+                return _bestSector3Lap;
             }
         }
 

@@ -74,7 +74,7 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Gets or sets the CollectionViewSource
-        public CollectionViewSource ViewSource { get; set; } 
+        public CollectionViewSource ViewSource { get; set; }
 
         // Gets or sets the ObservableCollection
         public ObservableCollection<DriverTimingModelView> Collection { get; set; } = new ObservableCollection<DriverTimingModelView>();
@@ -92,7 +92,7 @@
                 {
                     NotifyPropertyChanged();
                 }
-            } 
+            }
         }
 
         public string SystemTime => DateTime.Now.ToString("HH:mm");
@@ -332,15 +332,20 @@
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
-            _lastDataSet = args.Data;
-            ConnectedSource = _lastDataSet.Source;
-            if (ViewSource == null || _timing == null)
-            {
-                return;
-            }
-
             if (Dispatcher.CheckAccess())
             {
+
+                if (_lastDataSet.SessionInfo.TrackInfo.TrackName != args.Data.SessionInfo.TrackInfo.TrackName)
+                {
+                    RefreshTrackInfo(args.Data);
+                }
+
+                _lastDataSet = args.Data;
+                ConnectedSource = _lastDataSet.Source;
+                if (ViewSource == null || _timing == null)
+                {
+                    return;
+                }
                 SimulatorDataSet data = args.Data;
 
                 if (_sessionType != data.SessionInfo.SessionType)
@@ -401,7 +406,7 @@
                 Dispatcher.Invoke(() => RefreshBasicInfo(data));
                 return;
             }
-            
+
             NotifyPropertyChanged("SessionTime");
             NotifyPropertyChanged("SystemTime");
             NotifyPropertyChanged("SessionCompletedPercentage");
@@ -498,7 +503,7 @@
             }
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
-            {                
+            {
                 return "Leader on Lap: " + (dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
             }
 
@@ -579,14 +584,7 @@
                 Collection.Add(d);
             }
 
-            StringBuilder sb = new StringBuilder();
-            sb.Append(data.SessionInfo.TrackInfo.TrackName);
-            sb.Append(" (");
-            sb.Append(data.SessionInfo.TrackInfo.TrackLayoutName);
-
-            sb.Append(") - ");
-            sb.Append(data.SessionInfo.SessionType);
-            Gui.LblTrack.Content = sb.ToString();
+            RefreshTrackInfo(data);
 
             Gui.TimingCircle.SetSessionInfo(data);
             Gui.FuelMonitor.ResetFuelMonitor();
@@ -594,6 +592,21 @@
             NotifyPropertyChanged("BestLapFormatted");
         }
 
+        private void RefreshTrackInfo(SimulatorDataSet data)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(data.SessionInfo.TrackInfo.TrackName);
+            if (!string.IsNullOrWhiteSpace(data.SessionInfo.TrackInfo.TrackLayoutName))
+            {
+                sb.Append(" (");
+                sb.Append(data.SessionInfo.TrackInfo.TrackLayoutName);
+
+                sb.Append(") ");
+            }
+            sb.Append(" - ");
+            sb.Append(data.SessionInfo.SessionType);
+            Gui.LblTrack.Content = sb.ToString();
+        }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -32,7 +32,7 @@
 
         public ReportingSettingsModelView()
         {
-            this.SelectExportDirCommand = new NoArgumentCommand(SelectExportDir, () => true);
+            SelectExportDirCommand = new NoArgumentCommand(SelectExportDir, () => true);
         }
 
         public string ExportDirectory
@@ -40,8 +40,8 @@
             get => (string)GetValue(ExportDirectoryProperty);
             set
             {
-                this.SetValue(ExportDirectoryProperty, value);
-                this.OnPropertyChanged(nameof(ExportDirectoryReplacedSpecialDirs));
+                SetValue(ExportDirectoryProperty, value);
+                OnPropertyChanged(nameof(ExportDirectoryReplacedSpecialDirs));
             }
         }
 
@@ -140,7 +140,7 @@
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    this.ExportDirectory = fbd.SelectedPath;
+                    ExportDirectory = fbd.SelectedPath;
                 }
             }
         }

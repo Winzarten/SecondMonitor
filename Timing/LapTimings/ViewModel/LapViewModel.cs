@@ -28,15 +28,15 @@
 
         public LapViewModel(LapInfo lapInfo)
         {
-            this.LapInfo = lapInfo;
-            this.RefreshInfo();
-            this.TimerMethod(this.RefreshInfo, () => this.LapInfo.Driver.Session.TimingDataViewModel.DisplaySettings.RefreshRate);
+            LapInfo = lapInfo;
+            RefreshInfo();
+            TimerMethod(RefreshInfo, () => LapInfo.Driver.Session.TimingDataViewModel.DisplaySettings.RefreshRate);
             
         }
 
         public void StopRefresh()
         {
-            this._refresh = false;
+            _refresh = false;
         }
 
         public LapInfo LapInfo
@@ -47,86 +47,86 @@
 
         public int LapNumber
         {
-            get => (int)this.GetValue(LapNumberProperty);
-            set => this.SetValue(LapNumberProperty, value);
+            get => (int)GetValue(LapNumberProperty);
+            set => SetValue(LapNumberProperty, value);
         }
 
         public string Sector1
         {
-            get => (string)this.GetValue(Sector1Property);
-            set => this.SetValue(Sector1Property, value);
+            get => (string)GetValue(Sector1Property);
+            set => SetValue(Sector1Property, value);
         }
 
         public string Sector2
         {
-            get => (string)this.GetValue(Sector2Property);
-            set => this.SetValue(Sector2Property, value);
+            get => (string)GetValue(Sector2Property);
+            set => SetValue(Sector2Property, value);
         }
 
         public string Sector3
         {
-            get => (string)this.GetValue(Sector3Property);
-            set => this.SetValue(Sector3Property, value);
+            get => (string)GetValue(Sector3Property);
+            set => SetValue(Sector3Property, value);
         }
 
         public string LapTime
         {
-            get => (string)this.GetValue(LapTimeProperty);
-            set => this.SetValue(LapTimeProperty, value);
+            get => (string)GetValue(LapTimeProperty);
+            set => SetValue(LapTimeProperty, value);
         }
 
         public bool IsSector1PersonalBest
         {
-            get => (bool)this.GetValue(IsSector1PersonalBestProperty);
-            set => this.SetCurrentValue(IsSector1PersonalBestProperty, value);
+            get => (bool)GetValue(IsSector1PersonalBestProperty);
+            set => SetCurrentValue(IsSector1PersonalBestProperty, value);
         }
 
         public bool IsSector2PersonalBest
         {
-            get => (bool)this.GetValue(IsSector2PersonalBestProperty);
-            set => this.SetCurrentValue(IsSector2PersonalBestProperty, value);
+            get => (bool)GetValue(IsSector2PersonalBestProperty);
+            set => SetCurrentValue(IsSector2PersonalBestProperty, value);
         }
 
         public bool IsSector3PersonalBest
         {
-            get => (bool)this.GetValue(IsSector3PersonalBestProperty);
-            set => this.SetCurrentValue(IsSector3PersonalBestProperty, value);
+            get => (bool)GetValue(IsSector3PersonalBestProperty);
+            set => SetCurrentValue(IsSector3PersonalBestProperty, value);
         }
 
         public bool IsSector1SessionBest
         {
-            get => (bool)this.GetValue(IsSector1SessionBestProperty);
-            set => this.SetCurrentValue(IsSector1SessionBestProperty, value);
+            get => (bool)GetValue(IsSector1SessionBestProperty);
+            set => SetCurrentValue(IsSector1SessionBestProperty, value);
         }
 
         public bool IsSector2SessionBest
         {
-            get => (bool)this.GetValue(IsSector2SessionBestProperty);
-            set => this.SetCurrentValue(IsSector2SessionBestProperty, value);
+            get => (bool)GetValue(IsSector2SessionBestProperty);
+            set => SetCurrentValue(IsSector2SessionBestProperty, value);
         }
 
         public bool IsSector3SessionBest
         {
-            get => (bool)this.GetValue(IsSector3SessionBestProperty);
-            set => this.SetCurrentValue(IsSector3SessionBestProperty, value);
+            get => (bool)GetValue(IsSector3SessionBestProperty);
+            set => SetCurrentValue(IsSector3SessionBestProperty, value);
         }
 
         public bool IsLapBestSessionLap
         {
-            get => (bool)this.GetValue(IsLapBestSessionLapProperty);
-            set => this.SetValue(IsLapBestSessionLapProperty, value);
+            get => (bool)GetValue(IsLapBestSessionLapProperty);
+            set => SetValue(IsLapBestSessionLapProperty, value);
         }
 
         public bool IsLapBestPersonalLap
         {
-            get => (bool)this.GetValue(IsLapBestPersonalLapProperty);
-            set => this.SetValue(IsLapBestPersonalLapProperty, value);
+            get => (bool)GetValue(IsLapBestPersonalLapProperty);
+            set => SetValue(IsLapBestPersonalLapProperty, value);
         }
 
 
         private async void TimerMethod(Action timedAction, Func<int> delayAction)
         {
-            while (this._refresh)
+            while (_refresh)
             {
                 await Task.Delay(delayAction() * 2);
                 timedAction();
@@ -135,70 +135,70 @@
 
         private void RefreshInfo()
         {
-            this.LapNumber = this.LapInfo.LapNumber;
-            this.Sector1 = this.GetSector1();
-            this.Sector2 = this.GetSector2();
-            this.Sector3 = this.GetSector3();
-            this.LapTime = this.GetLapTime();
-            this.IsSector1SessionBest = this.GetIsSector1SessionBest();
-            this.IsSector2SessionBest = this.GetIsSector2SessionBest();
-            this.IsSector3SessionBest = this.GetIsSector3SessionBest();
-            this.IsSector1PersonalBest = this.GetIsSector1PersonalBest();
-            this.IsSector2PersonalBest = this.GetIsSector2PersonalBest();
-            this.IsSector3PersonalBest = this.GetIsSector3PersonalBest();
-            this.IsLapBestSessionLap = this.GetIsLapBestSessionLap();
-            this.IsLapBestPersonalLap = this.GetIsLapBestPersonalLap();
+            LapNumber = LapInfo.LapNumber;
+            Sector1 = GetSector1();
+            Sector2 = GetSector2();
+            Sector3 = GetSector3();
+            LapTime = GetLapTime();
+            IsSector1SessionBest = GetIsSector1SessionBest();
+            IsSector2SessionBest = GetIsSector2SessionBest();
+            IsSector3SessionBest = GetIsSector3SessionBest();
+            IsSector1PersonalBest = GetIsSector1PersonalBest();
+            IsSector2PersonalBest = GetIsSector2PersonalBest();
+            IsSector3PersonalBest = GetIsSector3PersonalBest();
+            IsLapBestSessionLap = GetIsLapBestSessionLap();
+            IsLapBestPersonalLap = GetIsLapBestPersonalLap();
         }
 
         private bool GetIsLapBestSessionLap()
         {
-            return this.LapInfo == this.LapInfo.Driver.Session.BestSessionLap;
+            return LapInfo == LapInfo.Driver.Session.BestSessionLap;
         }
 
         private bool GetIsLapBestPersonalLap()
         {
-            return this.LapInfo == this.LapInfo.Driver.BestLap;
+            return LapInfo == LapInfo.Driver.BestLap;
         }
 
         private bool GetIsSector1SessionBest()
         {
-            var sector = this.LapInfo.Sector1;
-            return sector != null && sector == this.LapInfo.Driver.Session.BestSector1;
+            var sector = LapInfo.Sector1;
+            return sector != null && sector == LapInfo.Driver.Session.BestSector1;
         }
 
         private bool GetIsSector2SessionBest()
         {
-            var sector = this.LapInfo.Sector2;
-            return sector != null && sector == this.LapInfo.Driver.Session.BestSector2;
+            var sector = LapInfo.Sector2;
+            return sector != null && sector == LapInfo.Driver.Session.BestSector2;
         }
 
         private bool GetIsSector3SessionBest()
         {
-            var sector = this.LapInfo.Sector3;
-            return sector != null && sector == this.LapInfo.Driver.Session.BestSector3;
+            var sector = LapInfo.Sector3;
+            return sector != null && sector == LapInfo.Driver.Session.BestSector3;
         }
 
         private bool GetIsSector1PersonalBest()
         {
-            var sector = this.LapInfo.Sector1;
-            return sector != null && sector == this.LapInfo.Driver.BestSector1;
+            var sector = LapInfo.Sector1;
+            return sector != null && sector == LapInfo.Driver.BestSector1;
         }
 
         private bool GetIsSector2PersonalBest()
         {
-            var sector = this.LapInfo.Sector2;
-            return sector != null && sector == this.LapInfo.Driver.BestSector2;
+            var sector = LapInfo.Sector2;
+            return sector != null && sector == LapInfo.Driver.BestSector2;
         }
 
         private bool GetIsSector3PersonalBest()
         {
-            var sector = this.LapInfo.Sector3;
-            return sector != null && sector == this.LapInfo.Driver.BestSector3;
+            var sector = LapInfo.Sector3;
+            return sector != null && sector == LapInfo.Driver.BestSector3;
         }
 
         private string GetSectorTiming(SectorTiming sectorTiming)
         {
-            if (!this.LapInfo.Valid)
+            if (!LapInfo.Valid)
             {
                 return "Lap Invalid";
             }
@@ -207,26 +207,26 @@
 
         private string GetSector1()
         {
-            return this.GetSectorTiming(this.LapInfo.Sector1);
+            return GetSectorTiming(LapInfo.Sector1);
         }
 
         private string GetSector2()
         {
-            return this.GetSectorTiming(this.LapInfo.Sector2);
+            return GetSectorTiming(LapInfo.Sector2);
         }
 
         private string GetSector3()
         {
-            return this.GetSectorTiming(this.LapInfo.Sector3);
+            return GetSectorTiming(LapInfo.Sector3);
         }
 
         private string GetLapTime()
         {
-            if (!this.LapInfo.Valid)
+            if (!LapInfo.Valid)
             {
                 return "Lap Invalid";
             }
-            return this.LapInfo.Completed ? TimeSpanFormatHelper.FormatTimeSpan(this.LapInfo.LapTime) : TimeSpanFormatHelper.FormatTimeSpan(this.LapInfo.LapProgressTime);
+            return LapInfo.Completed ? TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapTime) : TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapProgressTime);
         }
     }
 }

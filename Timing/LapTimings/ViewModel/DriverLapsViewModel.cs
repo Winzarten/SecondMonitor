@@ -22,41 +22,41 @@
 
         public DriverLapsViewModel()
         {
-            this.DriverName = "Design Time";
-            this.Laps = new ObservableCollection<LapViewModel>();
+            DriverName = "Design Time";
+            Laps = new ObservableCollection<LapViewModel>();
         }
 
-        public DriverTiming DriverTiming => this._driverTiming;
+        public DriverTiming DriverTiming => _driverTiming;
 
         public DriverLapsViewModel(DriverTiming driverTiming, DriverLapsWindow gui)
         {
-            this._driverTiming = driverTiming;
-            this.Laps = new ObservableCollection<LapViewModel>();
-            this.BuildLapsViewModel();
-            this._driverTiming.NewLapStarted += this.DriverTimingOnNewLapStarted;
-            this.DriverName = this._driverTiming.Name;
-            this._gui = gui;
-            this._gui.Closed += this.GuiOnClosed;
-            this._gui.MouseLeave += this.GuiOnMouseLeave;
-            this._gui.DataContext = this;
+            _driverTiming = driverTiming;
+            Laps = new ObservableCollection<LapViewModel>();
+            BuildLapsViewModel();
+            _driverTiming.NewLapStarted += DriverTimingOnNewLapStarted;
+            DriverName = _driverTiming.Name;
+            _gui = gui;
+            _gui.Closed += GuiOnClosed;
+            _gui.MouseLeave += GuiOnMouseLeave;
+            _gui.DataContext = this;
         }
 
         private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            this._gui.LapsGrid.SelectedItem = null;
+            _gui.LapsGrid.SelectedItem = null;
         }
 
         private void GuiOnClosed(object sender, EventArgs eventArgs)
         {
-           this.UnRegisterOnGui();
+            UnRegisterOnGui();
         }
 
         public void UnRegisterOnGui()
         {
-            this._driverTiming.NewLapStarted -= this.DriverTimingOnNewLapStarted;
-            this._gui.Closed -= this.GuiOnClosed;
-            this._gui.MouseLeave -= this.GuiOnMouseLeave;            
-            foreach (var lap in this.Laps)
+            _driverTiming.NewLapStarted -= DriverTimingOnNewLapStarted;
+            _gui.Closed -= GuiOnClosed;
+            _gui.MouseLeave -= GuiOnMouseLeave;            
+            foreach (var lap in Laps)
             {
                 lap.StopRefresh();
             }
@@ -69,27 +69,27 @@
                 Laps.RemoveAt(Laps.Count - 1);
             }*/
             var newLapModel = new LapViewModel(e.Lap);
-            this.Laps.Add(newLapModel);
-            this._gui.LapsGrid.ScrollIntoView(newLapModel);
+            Laps.Add(newLapModel);
+            _gui.LapsGrid.ScrollIntoView(newLapModel);
         }
 
         public ObservableCollection<LapViewModel> Laps
         {
-            get => (ObservableCollection<LapViewModel>)this.GetValue(LapsProperty);
-            private set => this.SetValue(LapsProperty, value);
+            get => (ObservableCollection<LapViewModel>)GetValue(LapsProperty);
+            private set => SetValue(LapsProperty, value);
         }
 
         public string DriverName
         {
-            get => (string)this.GetValue(DriverNameProperty);
-            private set => this.SetValue(DriverNameProperty, value);
+            get => (string)GetValue(DriverNameProperty);
+            private set => SetValue(DriverNameProperty, value);
         }
 
         private void BuildLapsViewModel()
         {
-            foreach (var lap in this._driverTiming.Laps)
+            foreach (var lap in _driverTiming.Laps)
             {
-                this.Laps.Add(new LapViewModel(lap));
+                Laps.Add(new LapViewModel(lap));
             }
         }
     }

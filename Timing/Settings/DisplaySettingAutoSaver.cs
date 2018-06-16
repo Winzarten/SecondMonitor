@@ -42,7 +42,7 @@
             UnRegisterColumnsProperties(_displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
             UnRegisterColumnsProperties(_displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
             UnRegisterColumnsProperties(_displaySettings.RaceSessionDisplayOptions.ColumnsSettings);
-            UnRegisterReportingSettings(this._displaySettings.ReportingSettings);
+            UnRegisterReportingSettings(_displaySettings.ReportingSettings);
         }
 
         private void UnRegisterColumnsProperties(ColumnsSettingsModelView columnsSettingsModelView)
@@ -63,11 +63,11 @@
 
         private void UnRegisterReportingSettings(ReportingSettingsModelView reportingSettings)
         {
-            reportingSettings.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.PracticeReportSettings.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.QualificationReportSetting.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.WarmUpReportSettings.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.RaceReportSettings.PropertyChanged -= this.DisplaySettingsOnPropertyChanged;
+            reportingSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            reportingSettings.PracticeReportSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            reportingSettings.QualificationReportSetting.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            reportingSettings.WarmUpReportSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            reportingSettings.RaceReportSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
         }
 
         private void RegisterColumnsProperties(ColumnsSettingsModelView columnsSettingsModelView)
@@ -100,16 +100,16 @@
             RegisterColumnsProperties(_displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
             RegisterColumnsProperties(_displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
             RegisterColumnsProperties(_displaySettings.RaceSessionDisplayOptions.ColumnsSettings);
-            RegisterReportingSettings(this._displaySettings.ReportingSettings);
+            RegisterReportingSettings(_displaySettings.ReportingSettings);
         }
 
         private void RegisterReportingSettings(ReportingSettingsModelView reportingSettings)
         {
-            reportingSettings.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.PracticeReportSettings.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.QualificationReportSetting.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.WarmUpReportSettings.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
-            reportingSettings.RaceReportSettings.PropertyChanged += this.DisplaySettingsOnPropertyChanged;
+            reportingSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            reportingSettings.PracticeReportSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            reportingSettings.QualificationReportSetting.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            reportingSettings.WarmUpReportSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            reportingSettings.RaceReportSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
         }
 
         private void DisplaySettingsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

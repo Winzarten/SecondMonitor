@@ -31,7 +31,7 @@
             set;
         }
 
-        public ICommand OpenWindowCommand => new NoArgumentCommand(this.OpenWindowDefault);
+        public ICommand OpenWindowCommand => new NoArgumentCommand(OpenWindowDefault);
 
         public void OpenWindowDefault()
         {
@@ -46,7 +46,7 @@
                                                   WindowStartupLocation = WindowStartupLocation.CenterOwner,
                                               };
             new DriverLapsViewModel(driverTiming, lapsWindow);
-            this._openedWindows.Add(lapsWindow);
+            _openedWindows.Add(lapsWindow);
             lapsWindow.Closed += LapsWindow_Closed;
             lapsWindow.Show();
         }
@@ -55,13 +55,13 @@
         {
             if (sender is DriverLapsWindow window)
             {
-                this._openedWindows.Remove(window);
+                _openedWindows.Remove(window);
             }
         }
 
         public void Rebind(DriverTiming driverTiming)
         {
-            this._openedWindows.FindAll(p => ((DriverLapsViewModel)p.DataContext).DriverTiming.Name == driverTiming.Name).ForEach(p => Rebind(p, driverTiming));
+            _openedWindows.FindAll(p => ((DriverLapsViewModel)p.DataContext).DriverTiming.Name == driverTiming.Name).ForEach(p => Rebind(p, driverTiming));
         }
 
         private void Rebind(DriverLapsWindow window, DriverTiming newViewModel)

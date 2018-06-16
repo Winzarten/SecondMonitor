@@ -10,8 +10,8 @@
 
         public TrackInfo()
         {
-            this.TrackName = string.Empty;
-            this.TrackLayoutName = string.Empty;
+            TrackName = string.Empty;
+            TrackLayoutName = string.Empty;
         }
     }
 }

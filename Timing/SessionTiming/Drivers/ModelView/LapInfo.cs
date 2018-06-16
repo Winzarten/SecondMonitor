@@ -59,14 +59,14 @@
         
         public bool Valid
         {
-            get => this._valid;
+            get => _valid;
             set
             {
                 if (Valid && !value)
                 {
                     OnLapInvalidatedEvent(new DriverTiming.LapEventArgs(this));
                 }
-                this._valid = value;
+                _valid = value;
                 
             }
     }
@@ -81,10 +81,10 @@
 
         public bool Completed
         {
-            get => this._completed;
+            get => _completed;
             private set
             {
-                this._completed = value;
+                _completed = value;
                 if (Completed)
                 {
                     OnLapCompletedEvent(new DriverTiming.LapEventArgs(this));
@@ -141,11 +141,11 @@
                 return;
             }
 
-            if (this.CurrentSector == null && driverInfo.Timing.CurrentSector != 1)
+            if (CurrentSector == null && driverInfo.Timing.CurrentSector != 1)
             {
                 return;
             }
-            if (this.CurrentSector == null && driverInfo.Timing.CurrentSector == 1)
+            if (CurrentSector == null && driverInfo.Timing.CurrentSector == 1)
             {
                 Sector1 = new SectorTiming(1, dataSet, this);
                 CurrentSector = Sector1;
@@ -199,17 +199,17 @@
 
         protected virtual void OnSectorCompleted(SectorCompletedArgs e)
         {
-            this.SectorCompletedEvent?.Invoke(this, e);
+            SectorCompletedEvent?.Invoke(this, e);
         }
 
         protected virtual void OnLapInvalidatedEvent(DriverTiming.LapEventArgs e)
         {
-            this.LapInvalidatedEvent?.Invoke(this, e);
+            LapInvalidatedEvent?.Invoke(this, e);
         }
 
         protected virtual void OnLapCompletedEvent(DriverTiming.LapEventArgs e)
         {
-            this.LapCompletedEvent?.Invoke(this, e);
+            LapCompletedEvent?.Invoke(this, e);
         }
     }
 }

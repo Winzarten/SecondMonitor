@@ -35,11 +35,11 @@
         {
             get
             {
-                if (this._sessionBestLaps == null)
+                if (_sessionBestLaps == null)
                 {
-                    this._sessionBestLaps = FindBest((driver) => driver.BestPersonalLap?.LapTime ?? TimeSpan.MaxValue, d => d.BestPersonalLap, Drivers);
+                    _sessionBestLaps = FindBest((driver) => driver.BestPersonalLap?.LapTime ?? TimeSpan.MaxValue, d => d.BestPersonalLap, Drivers);
                 }
-                return this._sessionBestLaps;
+                return _sessionBestLaps;
             }
         }
 
@@ -47,11 +47,11 @@
         {
             get
             {
-                if (this._sessionBestSector1 == null)
+                if (_sessionBestSector1 == null)
                 {
-                    this._sessionBestSector1 = FindBest((driver) => driver.BestSector1Lap?.Sector1 ?? TimeSpan.MaxValue, d => d.BestSector1Lap, Drivers);
+                    _sessionBestSector1 = FindBest((driver) => driver.BestSector1Lap?.Sector1 ?? TimeSpan.MaxValue, d => d.BestSector1Lap, Drivers);
                 }
-                return this._sessionBestSector1;
+                return _sessionBestSector1;
             }
         }
 
@@ -59,11 +59,11 @@
         {
             get
             {
-                if (this._sessionBestSector2 == null)
+                if (_sessionBestSector2 == null)
                 {
-                    this._sessionBestSector2 = FindBest((driver) => driver.BestSector2Lap?.Sector2 ?? TimeSpan.MaxValue, d => d.BestSector2Lap, Drivers);
+                    _sessionBestSector2 = FindBest((driver) => driver.BestSector2Lap?.Sector2 ?? TimeSpan.MaxValue, d => d.BestSector2Lap, Drivers);
                 }
-                return this._sessionBestSector2;
+                return _sessionBestSector2;
             }
         }
 
@@ -71,11 +71,11 @@
         {
             get
             {
-                if (this._sessionBestSector3 == null)
+                if (_sessionBestSector3 == null)
                 {
-                    this._sessionBestSector3 = FindBest((driver) => driver.BestSector3Lap?.Sector3 ?? TimeSpan.MaxValue, d => d.BestSector3Lap, Drivers);
+                    _sessionBestSector3 = FindBest((driver) => driver.BestSector3Lap?.Sector3 ?? TimeSpan.MaxValue, d => d.BestSector3Lap, Drivers);
                 }
-                return this._sessionBestSector3;
+                return _sessionBestSector3;
             }
         }
 

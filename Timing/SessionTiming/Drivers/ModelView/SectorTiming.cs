@@ -15,9 +15,9 @@
 
         public SectorTiming(int sectorNumber, SimulatorDataSet simulatorData, LapInfo lap)
         {
-            this.SectorNumber = sectorNumber;
-            this._startTime = simulatorData.SessionInfo.SessionTime;
-            this.Lap = lap;
+            SectorNumber = sectorNumber;
+            _startTime = simulatorData.SessionInfo.SessionTime;
+            Lap = lap;
         }
 
         public int SectorNumber { get; }
@@ -28,7 +28,7 @@
 
         public void Tick(SimulatorDataSet dataSet, DriverInfo driverTiming)
         {
-            Duration = dataSet.SessionInfo.SessionTime - this._startTime;
+            Duration = dataSet.SessionInfo.SessionTime - _startTime;
         }
 
         public void Finish(DriverInfo driverTiming)
@@ -51,7 +51,7 @@
                 case 3:
                     return driverInfo.Timing.LastSector3Time;
                 default:
-                        return this._startTime;
+                        return _startTime;
 
             }
         }

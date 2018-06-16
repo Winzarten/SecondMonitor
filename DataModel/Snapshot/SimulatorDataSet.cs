@@ -7,12 +7,12 @@
     {        
         public SimulatorDataSet(string source)
         {
-            this.Source = source;
-            this.PedalInfo = new PedalInfo();
-            this.SessionInfo = new SessionInfo();
-            this.DriversInfo = new DriverInfo[0];
-            this.PlayerInfo = new DriverInfo();
-            this.LeaderInfo = new DriverInfo();
+            Source = source;
+            PedalInfo = new PedalInfo();
+            SessionInfo = new SessionInfo();
+            DriversInfo = new DriverInfo[0];
+            PlayerInfo = new DriverInfo();
+            LeaderInfo = new DriverInfo();
         }
 
         public string Source { get; set; }

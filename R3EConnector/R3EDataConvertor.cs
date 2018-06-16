@@ -200,9 +200,9 @@
                 }
 
                 AddLappingInformation(data, r3RData, driverInfo);
-                this.FillTimingInfo(driverInfo, r3RDriverData, r3RData);
+                FillTimingInfo(driverInfo, r3RDriverData, r3RData);
 
-                if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > this._lastPlayer.Position)
+                if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer.Position)
                 {
                     driverInfo.CompletedLaps--;
                     driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.None;

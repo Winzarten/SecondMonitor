@@ -26,6 +26,18 @@
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
             simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
             simData.SessionInfo.IsActive = data.InRealtime == 1;
+            simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
+            simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
+
+            if (data.TrackTemp == 0 && data.Session == 0 && data.GamePhase == 0
+                && string.IsNullOrEmpty(simData.SessionInfo.TrackInfo.TrackName)
+                && string.IsNullOrEmpty(StringExtensions.FromArray(data.VehicleName)) && data.LapDist == 0)
+            {
+                simData.SessionInfo.SessionType = SessionType.Na;
+                simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
+                return;
+            }
+
             switch ((RfSessionType)data.Session)
             {
                 case RfSessionType.Practice1:
@@ -42,6 +54,9 @@
                     break;
                 case RfSessionType.Race1:
                 case RfSessionType.Race2:
+                case RfSessionType.Race3:
+                case RfSessionType.Race4:
+                case RfSessionType.Race5:
                     simData.SessionInfo.SessionType = SessionType.Race;
                     break;
                 default:
@@ -52,6 +67,7 @@
             switch ((RfGamePhase)data.GamePhase)
             {
                 case RfGamePhase.Garage:
+                    break;
                 case RfGamePhase.WarmUp:
                 case RfGamePhase.GridWalk:
                 case RfGamePhase.Formation:
@@ -68,8 +84,7 @@
                     break;
             }
 
-            simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
-            simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
+
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             /*if (data.SessionTimeRemaining != -1)

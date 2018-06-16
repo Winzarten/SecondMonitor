@@ -35,7 +35,7 @@
 
         public SessionReportSettings ToModel()
         {
-            return new SessionReportSettings() { AutoOpen = this.AutoOpen, Export = this.Export, };
+            return new SessionReportSettings() { AutoOpen = AutoOpen, Export = Export, };
         }
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

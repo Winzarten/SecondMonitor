@@ -100,21 +100,21 @@
 
         public SectorTiming BestSector1
         {
-            get => this._bestSector1;
+            get => _bestSector1;
             private set
             {
-                this.PreviousBestSector1 = BestSector1;
-                this._bestSector1 = value;
+                PreviousBestSector1 = BestSector1;
+                _bestSector1 = value;
             }
             
         }
 
         public SectorTiming BestSector2
         {
-            get => this._bestSector2;
+            get => _bestSector2;
             private set
             {
-                this.PreviousBestSector2 = BestSector2;
+                PreviousBestSector2 = BestSector2;
                 _bestSector2 = value;
             }
 
@@ -122,10 +122,10 @@
 
         public SectorTiming BestSector3
         {
-            get => this._bestSector3;
+            get => _bestSector3;
             private set
             {
-                this.PreviousBestSector3 = BestSector3;
+                PreviousBestSector3 = BestSector3;
                 _bestSector3 = value;
             }
 
@@ -137,7 +137,7 @@
 
         public SectorTiming PreviousBestSector3 { get; private set; }
 
-        public IReadOnlyCollection<LapInfo> Laps => this._lapsInfo.AsReadOnly();
+        public IReadOnlyCollection<LapInfo> Laps => _lapsInfo.AsReadOnly();
         
 
         public bool IsLastLapBestSessionLap
@@ -216,9 +216,9 @@
                             Valid =
                                 !InvalidateFirstLap
                         };
-                firstLap.SectorCompletedEvent += this.LapSectorCompletedEvent;
-                firstLap.LapInvalidatedEvent += this.LapInvalidatedHandler;
-                firstLap.LapCompletedEvent += this.LapCompletedHandler;
+                firstLap.SectorCompletedEvent += LapSectorCompletedEvent;
+                firstLap.LapInvalidatedEvent += LapInvalidatedHandler;
+                firstLap.LapCompletedEvent += LapCompletedHandler;
                 _lapsInfo.Add(firstLap);
                 OnNewLapStarted(new LapEventArgs(firstLap));
             }
@@ -312,11 +312,11 @@
 
             if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Na || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
             {
-                CurrentLap.SectorCompletedEvent -= this.LapSectorCompletedEvent;
+                CurrentLap.SectorCompletedEvent -= LapSectorCompletedEvent;
                 var newLap = new LapInfo(dataSet.SessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, CurrentLap);
-                newLap.SectorCompletedEvent += this.LapSectorCompletedEvent;
-                newLap.LapCompletedEvent += this.LapCompletedHandler;
-                newLap.LapInvalidatedEvent += this.LapInvalidatedHandler;
+                newLap.SectorCompletedEvent += LapSectorCompletedEvent;
+                newLap.LapCompletedEvent += LapCompletedHandler;
+                newLap.LapInvalidatedEvent += LapInvalidatedHandler;
                 _lapsInfo.Add(newLap);
                 OnNewLapStarted(new LapEventArgs(newLap));
             }
@@ -482,23 +482,23 @@
 
         protected virtual void OnSectorCompletedEvent(LapInfo.SectorCompletedArgs e)
         {
-            this.SectorCompletedEvent?.Invoke(this, e);
+            SectorCompletedEvent?.Invoke(this, e);
         }
 
         protected virtual void OnNewLapStarted(LapEventArgs e)
         {
-            this.NewLapStarted?.Invoke(this, e);
+            NewLapStarted?.Invoke(this, e);
         }
 
         protected virtual void OnLapInvalidated(LapEventArgs e)
         {
             RevertSectorChanges(e.Lap);
-            this.LapInvalidated?.Invoke(this, e);
+            LapInvalidated?.Invoke(this, e);
         }
 
         protected virtual void OnLapCompleted(LapEventArgs e)
         {
-            this.LapCompleted?.Invoke(this, e);
+            LapCompleted?.Invoke(this, e);
         }
 
         private void RevertSectorChanges(LapInfo lap)

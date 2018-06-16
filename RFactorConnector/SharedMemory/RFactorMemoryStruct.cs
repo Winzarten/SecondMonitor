@@ -97,7 +97,11 @@ This means that you need to watch your types very closely!
         Qualification = 5,
         WarmUp = 6,
         Race1 = 7,
-        Race2 = 8
+        Race2 = 8,
+        Race3 = 9,
+        Race4 = 10,
+        Race5 = 11,
+
     }
 
 

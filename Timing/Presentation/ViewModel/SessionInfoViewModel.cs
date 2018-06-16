@@ -20,7 +20,7 @@
 
         public SessionInfoViewModel()
         {
-            this._timing = null;
+            _timing = null;
             BestSector1 = "S1:N/A";
             BestSector2 = "S2:N/A";
             BestSector3 = "S2:N/A";
@@ -31,7 +31,7 @@
 
         public SessionInfoViewModel(SessionTiming timing)
         {
-            this._timing = timing;
+            _timing = timing;
         }
 
         public string BestSector1
@@ -84,13 +84,13 @@
 
         private void UpdateAnySectorsFilled()
         {
-            this.AnySectorFilled = !(string.IsNullOrEmpty(BestSector1) && string.IsNullOrEmpty(BestSector2)
+            AnySectorFilled = !(string.IsNullOrEmpty(BestSector1) && string.IsNullOrEmpty(BestSector2)
                                      && string.IsNullOrEmpty(BestSector3));
         }
 
         public SessionTiming SessionTiming
         {
-            get => this._timing;
+            get => _timing;
 
             set
             {
@@ -98,12 +98,12 @@
                 {
                     SessionTiming.PropertyChanged -= SessionTimingOnPropertyChanged;
                 }
-                this._timing = value;
+                _timing = value;
                 if (SessionTiming != null)
                 {
                     SessionTiming.PropertyChanged += SessionTimingOnPropertyChanged;
                 }
-                this.RefreshAll();
+                RefreshAll();
                 UpdateAnySectorsFilled();
             }
         }

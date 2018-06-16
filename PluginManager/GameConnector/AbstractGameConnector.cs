@@ -56,7 +56,7 @@
                 return false;
             }
 
-            foreach (var processName in this.executables)
+            foreach (var processName in executables)
             {
                 var processes = Process.GetProcessesByName(processName);
                 if (processes.Length <= 0)
@@ -84,14 +84,14 @@
 
         private bool Connect()
         {
-            if (!this.IsProcessRunning())
+            if (!IsProcessRunning())
             {
                 return false;
             }
 
             try
             {
-                this.OnConnection();
+                OnConnection();
                 RaiseConnectedEvent();
                 StartDaemon();
                 return true;
@@ -111,9 +111,9 @@
 
         protected void AddToQueue(SimulatorDataSet set)
         {
-            lock (this._queue)
+            lock (_queue)
             {
-                this._queue.Enqueue(set);
+                _queue.Enqueue(set);
             }
         }
 
@@ -133,7 +133,7 @@
             }
 
             ResetConnector();
-            this.ShouldDisconnect = false;
+            ShouldDisconnect = false;
             _queue.Clear();
             _daemonThread = new Thread(DaemonMethod) { IsBackground = true };
             _daemonThread.Start();
@@ -145,7 +145,7 @@
 
         private void QueueProcessor()
         {
-            while (this.ShouldDisconnect == false)
+            while (ShouldDisconnect == false)
             {
                 SimulatorDataSet set;
                 while (_queue.Count != 0)
@@ -161,9 +161,9 @@
                 Thread.Sleep(TickTime);
             }
 
-            lock (this._queue)
+            lock (_queue)
             {
-                this._queue.Clear();
+                _queue.Clear();
             }
         }
 

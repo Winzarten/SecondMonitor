@@ -20,8 +20,8 @@
         [SetUp]
         public void Setup()
         {
-            this._random = new Random();
-            this._testee = new SessionSummaryExporter() { VelocityUnits = VelocityUnits.Kph };
+            _random = new Random();
+            _testee = new SessionSummaryExporter() { VelocityUnits = VelocityUnits.Kph };
         }
 
         [Test]
@@ -39,9 +39,9 @@
             {
                 File.Delete(fileName);
             }
-            
+
             // Act
-            this._testee.ExportSessionSummary(sessionSummary, fileName);
+            _testee.ExportSessionSummary(sessionSummary, fileName);
 
             // Assert
             Assert.That(File.Exists(fileName), Is.True);
@@ -63,7 +63,7 @@
             }
 
             // Act
-            this._testee.ExportSessionSummary(sessionSummary, fileName);
+            _testee.ExportSessionSummary(sessionSummary, fileName);
 
             // Assert
             Assert.That(File.Exists(fileName), Is.True);
@@ -74,15 +74,15 @@
         {
             if (!driver.Finished)
             {
-                totalLaps = this._random.Next(1, totalLaps);
+                totalLaps = _random.Next(1, totalLaps);
                 driver.TotalLaps = totalLaps;
             }
             for (int i = 1; i <= totalLaps; i++)
             {
                 double sectorBase = (double)baseTimeSeconds / 3;
-                double sector1Add = this._random.NextDouble() * 10;
-                double sector2Add = this._random.NextDouble() * 10;
-                double sector3Add = this._random.NextDouble() * 10;
+                double sector1Add = _random.NextDouble() * 10;
+                double sector2Add = _random.NextDouble() * 10;
+                double sector3Add = _random.NextDouble() * 10;
                 driver.Laps.Add(new Lap(driver)
                 {
                     LapNumber = i,
@@ -103,9 +103,9 @@
                                                     CarName = "A caaaar",
                                                     DriverName = "Driver " + i,
                                                     TotalLaps = 20,
-                                                    TopSpeed = Velocity.FromKph(this._random.Next(150,250)),
+                                                    TopSpeed = Velocity.FromKph(_random.Next(150,250)),
                                                     FinishingPosition = i + 1,
-                                                    Finished = this._random.Next(0, 10) > 0 ? true : false
+                                                    Finished = _random.Next(0, 10) > 0 ? true : false
                                                 });
             }
         }

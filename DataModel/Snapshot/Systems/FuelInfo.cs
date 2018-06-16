@@ -6,9 +6,9 @@
     {
         public FuelInfo()
         {
-            this.FuelCapacity = new Volume();
-            this.FuelRemaining = new Volume();
-            this.FuelPressure = new Pressure();
+            FuelCapacity = new Volume();
+            FuelRemaining = new Volume();
+            FuelPressure = new Pressure();
         }
 
         public Volume FuelCapacity { get; set; }

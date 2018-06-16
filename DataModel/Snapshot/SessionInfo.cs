@@ -28,8 +28,8 @@
 
         public SessionInfo()
         {
-            this.SessionTime = TimeSpan.Zero;
-            this.TrackInfo = new TrackInfo();
+            SessionTime = TimeSpan.Zero;
+            TrackInfo = new TrackInfo();
         }
     }
 }

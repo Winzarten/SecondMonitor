@@ -6,7 +6,7 @@
     {
         public WaterInfo()
         {
-            this.WaterTemperature = new Temperature();
+            WaterTemperature = new Temperature();
         }
 
         public Temperature WaterTemperature { get; set; }

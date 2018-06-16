@@ -241,7 +241,7 @@
 
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.ResizeCircle();
+            ResizeCircle();
             PositionFinishLine();
         }
 
