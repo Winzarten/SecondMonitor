@@ -16,7 +16,7 @@
     public class R3EConnector : AbstractGameConnector
     {
         private static readonly string[] R3EExecutables = { "RRRE", "RRRE64" };
-        private static readonly string SharedMemoryName = "$R3E";        
+        private static readonly string SharedMemoryName = "$R3E"; 
         private MemoryMappedFile _sharedMemory;
         private bool _inSession;
         private int _lastSessionType;
@@ -46,6 +46,8 @@
         public override bool IsConnected => _sharedMemory != null;
 
         internal TimeSpan SessionTime => _sessionTime;
+
+        protected override string ConnectorName => "R3E";
 
         protected override void OnConnection()
         {

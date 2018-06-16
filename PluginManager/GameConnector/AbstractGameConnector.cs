@@ -41,6 +41,8 @@
             set;
         }
 
+        protected abstract string ConnectorName { get; }
+
         public bool IsProcessRunning()
         {
             if (_process != null)
