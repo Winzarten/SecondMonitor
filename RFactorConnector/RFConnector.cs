@@ -16,10 +16,13 @@
         private static readonly string SharedMemoryName = "$rFactorShared$";
         private MemoryMappedFile _sharedMemory;
 
+        private readonly RFDataConvertor _rfDataConvertor;
+
         public RFConnector()
             : base(RFExecutables)
         {
             TickTime = 10;
+            _rfDataConvertor = new RFDataConvertor();
         }
 
         public override bool IsConnected { get => _sharedMemory != null; }
@@ -45,7 +48,9 @@
                 Thread.Sleep(TickTime);
                 RfShared rFactorData = Load();
 
-                RaiseDataLoadedEvent(new SimulatorDataSet(ConnectorName));
+                SimulatorDataSet dataSet = _rfDataConvertor.CreateSimulatorDataSet(rFactorData);
+
+                RaiseDataLoadedEvent(dataSet);
 
                 if (!this.IsProcessRunning())
                 {
@@ -62,14 +67,15 @@
             {
                 throw new InvalidOperationException("Not connected");
             }
-
-            MemoryMappedViewStream view = _sharedMemory.CreateViewStream();
-            BinaryReader stream = new BinaryReader(view);
-            byte[] buffer = stream.ReadBytes(Marshal.SizeOf(typeof(RfShared)));
-            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-            RfShared data = (RfShared)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(RfShared));
-            handle.Free();
-            return data;
+            using (var view = _sharedMemory.CreateViewStream())
+            {                
+                BinaryReader stream = new BinaryReader(view);
+                byte[] buffer = stream.ReadBytes(Marshal.SizeOf(typeof(RfShared)));
+                GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                RfShared data = (RfShared)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(RfShared));
+                handle.Free();
+                return data;
+            }            
         }
     }
 }

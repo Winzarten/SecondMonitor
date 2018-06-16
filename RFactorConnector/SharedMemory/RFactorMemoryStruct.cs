@@ -5,7 +5,7 @@
 
     /*
 rfSharedinternal struct.hpp
-by Dan Allongo (daniel.s.allongo@gmail.com)
+by Dan Alinto (daniel.s.alinto@gmail.com)
 
 This is the internal structure of the shared memory map
 It's nearly identical to the original internal structures specified in InternalsPlugin.hpp,
@@ -15,76 +15,89 @@ This means that you need to watch your types very closely!
 
     internal enum RfGamePhase
     {
-        garage = 0,
-        warmUp = 1,
-        gridWalk = 2,
-        formation = 3,
-        countdown = 4,
-        greenFlag = 5,
-        fullCourseYellow = 6,
-        sessionStopped = 7,
-        sessionOver = 8
+        Garage = 0,
+        WarmUp = 1,
+        GridWalk = 2,
+        Formation = 3,
+        Countdown = 4,
+        GreenFlag = 5,
+        FullCourseYellow = 6,
+        SessionStopped = 7,
+        SessionOver = 8
     }
 
 
     internal enum RfYellowFlagState
     {
-        invalid = -1,
-        noFlag = 0,
-        pending = 1,
-        pitClosed = 2,
-        pitLeadLap = 3,
-        pitOpen = 4,
-        lastLap = 5,
-        resume = 6,
-        raceHalt = 7
+        Invalid = -1,
+        NoFlag = 0,
+        Pending = 1,
+        PitClosed = 2,
+        PitLeadLap = 3,
+        PitOpen = 4,
+        LastLap = 5,
+        Resume = 6,
+        RaceHalt = 7
     }
 
 
     internal enum RfSurfaceType
     {
-        dry = 0,
-        wet = 1,
-        grass = 2,
-        dirt = 3,
-        gravel = 4,
-        kerb = 5
+        Dry = 0,
+        Wet = 1,
+        Grass = 2,
+        Dirt = 3,
+        Gravel = 4,
+        Kerb = 5
     }
 
 
     internal enum RfSector
     {
-        sector3 = 0,
-        sector1 = 1,
-        sector2 = 2
+        Sector3 = 0,
+        Sector1 = 1,
+        Sector2 = 2
     }
 
 
     internal enum RfFinishStatus
     {
-        none = 0,
-        finished = 1,
-        dnf = 2,
-        dq = 3
+        None = 0,
+        Finished = 1,
+        Dnf = 2,
+        Dq = 3
     }
 
 
     internal enum RfControl
     {
-        nobody = -1,
-        player = 0,
-        ai = 1,
-        remote = 2,
-        replay = 3
+        Nobody = -1,
+        Player = 0,
+        AI = 1,
+        Remote = 2,
+        Replay = 3
     }
 
 
     internal enum RfWheelIndex
     {
-        frontLeft = 0,
-        frontRight = 1,
-        rearLeft = 2,
-        rearRight = 3
+        FrontLeft = 0,
+        FrontRight = 1,
+        RearLeft = 2,
+        RearRight = 3
+    }
+
+    internal enum RfSessionType
+    {
+        TestDay = 0,
+        Practice1 = 1,
+        Practice2 = 2,
+        Practice3 = 3,
+        Undefined = 4,
+        Qualification = 5,
+        WarmUp = 6,
+        Race1 = 7,
+        Race2 = 8
     }
 
 
@@ -109,7 +122,7 @@ This means that you need to watch your types very closely!
         public float Z;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Size = 67, Pack = 1)]
     internal struct RfWheel
     {
         public float Rotation;               // radians/sec
@@ -126,27 +139,27 @@ This means that you need to watch your types very closely!
         public float Wear;                   // wear (0.0-1.0, fraction of maximum) ... this is not necessarily proportional with grip loss
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-        public char[] TerrainName;        // the material prefixes from the TDF file
+        public byte[] TerrainName;        // the material prefixes from the TDF file
         public byte SurfaceType;    // 0=dry, 1=wet, 2=grass, 3=dirt, 4=gravel, 5=rumblestrip
-        public bool Flat;                    // whether tire is flat
-        public bool Detached;                // whether wheel is detached
+        public byte Flat;                    // whether tire is flat
+        public byte Detached;                // whether wheel is detached
     }
 
     // scoring info only updates twice per second (values interpolated when deltaTime > 0)!
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Size = 304, Pack = 1)]
     internal struct RfVehicleInfo
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-        public char[] DriverName; // driver name
+        public byte[] DriverName; // driver name
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-        public char[] VehicleName; // vehicle name
+        public byte[] VehicleName; // vehicle name
 
         public short TotalLaps; // laps completed
 
-        public char Sector; // 0=sector3, 1=sector1, 2=sector2 (don't ask why)
+        public sbyte Sector; // 0=sector3, 1=sector1, 2=sector2 (don't ask why)
 
-        public char FinishStatus; // 0=none, 1=finished, 2=dnf, 3=dq
+        public sbyte FinishStatus; // 0=none, 1=finished, 2=dnf, 3=dq
 
         public float LapDist; // current distance around track
 
@@ -175,26 +188,25 @@ This means that you need to watch your types very closely!
 
         public short NumPenalties; // number of outstanding penalties
 
-        public bool IsPlayer; // is this the player's vehicle
+        public byte IsPlayer; // is this the player's vehicle
 
-        public char Control
-            ; // who's in control: -1=nobody (shouldn't get this), 0=local player, 1=local AI, 2=remote, 3=replay (shouldn't get this)
+        public sbyte Control; // who's in control: -1=nobody (shouldn't get this), 0=local player, 1=local AI, 2=remote, 3=replay (shouldn't get this)
 
-        public bool InPits; // between pit entrance and pit exit (not always accurate for remote vehicles)
+        public byte InPits; // between pit entrance and pit exit (not always accurate for remote vehicles)
 
         public byte Place; // 1-based position
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-        public char[] VehicleClass; // vehicle class
+        public byte[] VehicleClass; // vehicle class
 
         // Dash Indicators
         public float TimeBehindNext; // time behind vehicle in next higher place
 
-        public long LapsBehindNext; // laps behind vehicle in next higher place
+        public int LapsBehindNext; // laps behind vehicle in next higher place
 
         public float TimeBehindLeader; // time behind leader
 
-        public long LapsBehindLeader; // laps behind leader
+        public int LapsBehindLeader; // laps behind leader
 
         public float LapStartET; // time this lap was started
 
@@ -222,21 +234,21 @@ This means that you need to watch your types very closely!
         public float Speed; // meters/sec
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Size = 39647, Pack = 1)]
     internal struct RfShared
     {
         // Time
         public float DeltaTime; // time since last scoring update (seconds)
 
-        public long LapNumber; // current lap number
+        public int LapNumber; // current lap number
 
         public float LapStartET; // time this lap was started
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-        public char[] VehicleName; // current vehicle name
+        public byte[] VehicleName; // current vehicle name
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-        public char[] TrackName; // current track name
+        public byte[] TrackName; // current track name
 
         // Position and derivatives
         public RfVec3 Pos; // world position in meters
@@ -262,7 +274,7 @@ This means that you need to watch your types very closely!
         public float Speed; // meters/sec
 
         // Vehicle status
-        public long Gear; // -1=reverse, 0=neutral, 1+=forward gears
+        public int Gear; // -1=reverse, 0=neutral, 1+=forward gears
 
         public float EngineRPM; // engine RPM
 
@@ -291,9 +303,9 @@ This means that you need to watch your types very closely!
 
         public byte ScheduledStops; // number of scheduled pitstops
 
-        public bool Overheating; // whether overheating icon is shown
+        public byte Overheating; // whether overheating icon is shown
 
-        public bool Detached; // whether any parts (besides wheels) have been detached
+        public byte Detached; // whether any parts (besides wheels) have been detached
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         public byte[] DentSeverity; // dent severity at 8 locations around the car (0=none, 1=some, 2=more)
@@ -308,36 +320,36 @@ This means that you need to watch your types very closely!
         public RfWheel[] Wheel; // wheel info (front left, front right, rear left, rear right)
 
         // scoring info only updates twice per second (values interpolated when deltaTime > 0)!
-        public long Session; // current session
+        public int Session; // current session
 
         public float CurrentET; // current time
 
         public float EndET; // ending time
 
-        public long MaxLaps; // maximum laps
+        public int MaxLaps; // maximum laps
 
         public float LapDist; // distance around track
 
-        public long NumVehicles; // current number of vehicles
+        public int NumVehicles; // current number of vehicles
 
         public byte GamePhase;
 
-        public char YellowFlagState;
+        public sbyte YellowFlagState;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-        public char[] SectorFlag; // whether there are any local yellows at the moment in each sector (not sure if sector 0 is first or last, so test)
+        public byte[] SectorFlag; // whether there are any local yellows at the moment in each sector (not sure if sector 0 is first or last, so test)
 
         public byte StartLight; // start light frame (number depends on track)
 
         public byte NumRedLights; // number of red lights in start sequence
 
-        public bool InRealtime; // in realtime as opposed to at the monitor
+        public byte InRealtime; // in realtime as opposed to at the monitor
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-        public char[] PlayerName; // player name (including possible multiplayer override)
+        public byte[] PlayerName; // player name (including possible multiplayer override)
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-        public char[] PlrFileName; // may be encoded to be a legal filename
+        public byte[] PlrFileName; // may be encoded to be a legal filename
 
         // weather
         public float AmbientTemp; // temperature (Celsius)
