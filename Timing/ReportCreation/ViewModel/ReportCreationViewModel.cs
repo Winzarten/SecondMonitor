@@ -6,6 +6,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using NLog;
+
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Summary;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
@@ -16,6 +18,7 @@
     {
 
         private const string ReportNamePrefix = "Report_";
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ReportCreationViewModel(DisplaySettingsModelView settings)
         {
@@ -30,16 +33,22 @@
             {
                 return;
             }
-
-            SessionSummary sessionSummary = sessionTiming.ToSessionSummary();
-            string reportName = GetReportName(sessionSummary);
-            SessionSummaryExporter sessionSummaryExporter = CreateSessionSummaryExporter();
-            string fullReportPath = Path.Combine(
-                Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs,
-                reportName);
-            sessionSummaryExporter.ExportSessionSummary(sessionSummary,fullReportPath);
-            OpenReportIfEnabled(sessionSummary, fullReportPath);
-            CheckAndDeleteIfMaximumReportsExceeded();            
+            try
+            {
+                SessionSummary sessionSummary = sessionTiming.ToSessionSummary();
+                string reportName = GetReportName(sessionSummary);
+                SessionSummaryExporter sessionSummaryExporter = CreateSessionSummaryExporter();
+                string fullReportPath = Path.Combine(
+                    Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs,
+                    reportName);
+                sessionSummaryExporter.ExportSessionSummary(sessionSummary, fullReportPath);
+                OpenReportIfEnabled(sessionSummary, fullReportPath);
+                CheckAndDeleteIfMaximumReportsExceeded();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Unable to export session info");
+            }
         }
 
         private SessionSummaryExporter CreateSessionSummaryExporter()
@@ -102,7 +111,7 @@
         private string GetReportName(SessionSummary sessionSummary)
         {
             StringBuilder reportName = new StringBuilder(ReportNamePrefix);
-            
+
             reportName.Append(DateTime.Now.ToString("s") + "_").Replace(":","-");
             reportName.Append(sessionSummary.TrackInfo.TrackName + "_");
             reportName.Append(sessionSummary.SessionType);

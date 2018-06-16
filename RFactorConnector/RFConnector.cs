@@ -101,7 +101,7 @@
                 return true;
             }
 
-            if (dataSet.SessionInfo.SessionPhase != _lastSessionPhase)
+            if (dataSet.SessionInfo.SessionPhase != _lastSessionPhase && _lastSessionPhase != SessionPhase.Green && dataSet.SessionInfo.SessionPhase != SessionPhase.Countdown)
             {
                 _lastSessionType = dataSet.SessionInfo.SessionType;
                 _rawLastSessionType = rfData.Session;

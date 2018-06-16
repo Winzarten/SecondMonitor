@@ -56,7 +56,7 @@
         public TimeSpan LapStart { get; }
 
         public int LapNumber { get; private set; }
-        
+
         public bool Valid
         {
             get => _valid;
@@ -67,7 +67,7 @@
                     OnLapInvalidatedEvent(new DriverTiming.LapEventArgs(this));
                 }
                 _valid = value;
-                
+
             }
     }
 
@@ -92,7 +92,7 @@
             }
 
         }
-    
+
 
         public LapInfo PreviousLap { get; }
 
@@ -162,6 +162,10 @@
                 return;
             }
             CurrentSector.Finish(driverInfo);
+            if (CurrentSector.Duration == TimeSpan.Zero)
+            {
+                Valid = false;
+            }
             OnSectorCompleted(new SectorCompletedArgs(CurrentSector));
             switch (driverInfo.Timing.CurrentSector)
             {

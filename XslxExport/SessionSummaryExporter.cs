@@ -8,6 +8,8 @@
     using System.Text;
     using System.Windows.Media;
 
+    using NLog;
+
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
     using OfficeOpenXml.Table;
@@ -35,20 +37,29 @@
 
         public VelocityUnits VelocityUnits { get; set; }
 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public void ExportSessionSummary(SessionSummary sessionSummary, string filePath)
         {
-            if (File.Exists(filePath))
+            try
             {
-                File.Delete(filePath);
-            }
-            FileInfo newFile = new FileInfo(filePath);
-            ExcelPackage package = new ExcelPackage(newFile);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+                FileInfo newFile = new FileInfo(filePath);
+                ExcelPackage package = new ExcelPackage(newFile);
 
-            CreateWorkBook(package);
-            ExcelWorkbook workbook = package.Workbook;
-            AddSummary(workbook.Worksheets[SummarySheet], sessionSummary);
-            AddLapsInfo(workbook.Worksheets[LapsAndSectorsSheet], sessionSummary);
-            package.Save();
+                CreateWorkBook(package);
+                ExcelWorkbook workbook = package.Workbook;
+                AddSummary(workbook.Worksheets[SummarySheet], sessionSummary);
+                AddLapsInfo(workbook.Worksheets[LapsAndSectorsSheet], sessionSummary);
+                package.Save();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Unable to export session info");
+            }
 
         }
 
@@ -189,7 +200,7 @@
 
         private void AddSessionBasicInformation(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
-            
+
             sheet.Cells["A2"].Value = "Date: " + sessionSummary.SessionRunTime.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern);
             sheet.Cells["A3"].Value = "Time: " + sessionSummary.SessionRunTime.TimeOfDay.ToString(@"hh\:mm");
             sheet.Cells["A4"].Value = "Simulator: " + sessionSummary.Simulator;

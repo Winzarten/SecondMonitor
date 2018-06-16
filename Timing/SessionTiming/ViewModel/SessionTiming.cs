@@ -147,7 +147,7 @@
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
             {
                 timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
-            }            
+            }
             return timing;
         }
 
@@ -286,7 +286,7 @@
         {
             DriverTiming timingInfo = driverTimingModelView.DriverTiming;
             timingInfo.DriverInfo = modelInfo;
-            if (timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && (_bestSessionLap == null || timingInfo.LastCompletedLap.LapTime < _bestSessionLap.LapTime))
+            if (timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && timingInfo.LastCompletedLap.LapTime != TimeSpan.Zero && (_bestSessionLap == null || timingInfo.LastCompletedLap.LapTime < _bestSessionLap.LapTime))
             {
                 BestSessionLap = timingInfo.LastCompletedLap;
             }

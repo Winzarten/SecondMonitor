@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Input;
 
@@ -14,7 +15,7 @@
 
         public static readonly DependencyProperty LapsProperty = DependencyProperty.Register("Laps", typeof(ObservableCollection<LapViewModel>), typeof(DriverLapsViewModel));
         public static readonly DependencyProperty DriverNameProperty = DependencyProperty.Register("DriverName", typeof(string), typeof(DriverLapsViewModel));
-        
+
 
         private readonly DriverTiming _driverTiming;
 
@@ -55,7 +56,7 @@
         {
             _driverTiming.NewLapStarted -= DriverTimingOnNewLapStarted;
             _gui.Closed -= GuiOnClosed;
-            _gui.MouseLeave -= GuiOnMouseLeave;            
+            _gui.MouseLeave -= GuiOnMouseLeave;
             foreach (var lap in Laps)
             {
                 lap.StopRefresh();
@@ -69,6 +70,10 @@
                 Laps.RemoveAt(Laps.Count - 1);
             }*/
             var newLapModel = new LapViewModel(e.Lap);
+            if (Laps.Any() && Laps.Last().LapNumber == newLapModel.LapNumber)
+            {
+                Laps.Remove(Laps.Last());
+            }
             Laps.Add(newLapModel);
             _gui.LapsGrid.ScrollIntoView(newLapModel);
         }
@@ -89,6 +94,11 @@
         {
             foreach (var lap in _driverTiming.Laps)
             {
+                if (Laps.Any() && Laps.Last().LapNumber == lap.LapNumber)
+                {
+                    Laps.Remove(Laps.Last());
+                }
+
                 Laps.Add(new LapViewModel(lap));
             }
         }

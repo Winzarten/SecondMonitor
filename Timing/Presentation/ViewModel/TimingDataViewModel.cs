@@ -335,7 +335,7 @@
             if (Dispatcher.CheckAccess())
             {
 
-                if (_lastDataSet.SessionInfo.TrackInfo.TrackName != args.Data.SessionInfo.TrackInfo.TrackName)
+                if (_lastDataSet?.SessionInfo.TrackInfo.TrackName != args.Data.SessionInfo.TrackInfo.TrackName)
                 {
                     RefreshTrackInfo(args.Data);
                 }

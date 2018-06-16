@@ -51,7 +51,7 @@
         public event EventHandler<LapEventArgs> LapCompleted;
 
         public event EventHandler<LapInfo.SectorCompletedArgs> SectorCompletedEvent;
-        
+
         public bool InvalidateFirstLap { get; set; }
 
         public SessionTiming Session { get; private set;}
@@ -69,7 +69,7 @@
         public bool InPits { get; private set; }
 
         public TimeSpan Pace { get; private set; }
-       
+
         public bool IsCurrentLapValid => CurrentLap?.Valid ?? false;
 
         public double TotalDistanceTraveled => DriverInfo.TotalDistance;
@@ -81,7 +81,7 @@
         public string DistanceToPits => DriverInfo.DriverDebugInfo.DistanceToPits.ToString("N2");
 
         public LapInfo BestLap { get; private set; }
-       
+
         public int PitCount => _pitStopInfo.Count;
 
         public PitStopInfo LastPitStopStop => _pitStopInfo.Count != 0 ? _pitStopInfo[_pitStopInfo.Count - 1] : null;
@@ -106,7 +106,7 @@
                 PreviousBestSector1 = BestSector1;
                 _bestSector1 = value;
             }
-            
+
         }
 
         public SectorTiming BestSector2
@@ -138,7 +138,7 @@
         public SectorTiming PreviousBestSector3 { get; private set; }
 
         public IReadOnlyCollection<LapInfo> Laps => _lapsInfo.AsReadOnly();
-        
+
 
         public bool IsLastLapBestSessionLap
         {
@@ -253,14 +253,14 @@
         private bool ShouldFinishLap(SimulatorDataSet dataSet, LapInfo currentLap)
         {
             SessionInfo sessionInfo = dataSet.SessionInfo;
-            
+
             // Use completed laps indication to end lap, when we use the sim provided lap times. This gives us the biggest assurance that lap time is already properly set
             if (dataSet.SimulatorSourceInfo.HasLapTimeInformation && currentLap.LapNumber < DriverInfo.CompletedLaps + 1)
             {
                 return true;
             }
 
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
+            if ((!dataSet.SimulatorSourceInfo.HasLapTimeInformation || dataSet.Source == "RFactor") && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
             {
                 return true;
             }
@@ -300,12 +300,17 @@
                 CurrentLap.Valid = false;
             }
         }
-        
+
 
         private void FinishCurrentLap(SimulatorDataSet dataSet)
         {
             CurrentLap.FinishLap(dataSet, DriverInfo);
-            if (CurrentLap.Valid && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
+            if (CurrentLap.LapTime == TimeSpan.Zero)
+            {
+                CurrentLap.Valid = false;
+                RevertSectorChanges(CurrentLap);
+            }
+            if (CurrentLap.Valid && CurrentLap.LapTime != TimeSpan.Zero && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
             {
                 BestLap = CurrentLap;
             }
@@ -378,7 +383,7 @@
                 InPits = false;
             }
         }
-        
+
 
         private void ComputePace()
         {
@@ -444,7 +449,7 @@
                 }
             }
         }
-       
+
 
         public LapInfo LastCompletedLap
         {

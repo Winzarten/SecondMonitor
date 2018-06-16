@@ -17,7 +17,7 @@
 
     public class PluginsManager
     {
-        
+
         public event EventHandler<DataEventArgs> DataLoaded;
 
         public event EventHandler<DataEventArgs> SessionStarted;
@@ -48,7 +48,7 @@
             {
                 return;
             }
-            
+
             Logger.Info("Connector Disconnected: " + _activeConnector.GetType());
             _activeConnector.DataLoaded -= OnDataLoaded;
             _activeConnector.SessionStarted -= OnSessionStarted;
@@ -147,7 +147,7 @@
             }
 
             return plugins;
-            
+
         }
 
         public void DeletePlugin(ISecondMonitorPlugin plugin)
@@ -161,7 +161,7 @@
                 {
                     return;
                 }
-            
+
                 Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
                 Application.Exit();
             }
@@ -211,6 +211,6 @@
                 LogSimulatorDataSet(_oldDataSet);
                 throw;
             }
-        }       
+        }
     }
 }

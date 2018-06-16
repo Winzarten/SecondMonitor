@@ -99,7 +99,7 @@
             newBinding.Source = _driverTiming.Session.TimingDataViewModel;
             BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
         }
-       
+
         private void InitializeOneTimeValues()
         {
             CarName = DriverTiming.CarName;
@@ -307,7 +307,7 @@
                 IsLastSector1PersonalBest = GetIsSector1PersonalBest();
                 IsLastSector2PersonalBest = GetIsSector2PersonalBest();
                 IsLastSector3PersonalBest = GetIsSector3PersonalBest();
-                
+
 
             }
             catch (Exception ex)
@@ -497,7 +497,7 @@
 
         private string GetPace()
         {
-            
+
                 if (DriverTiming.DriverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player.DriverTiming.Pace == TimeSpan.Zero)
                 {
                     return TimeSpanFormatHelper.FormatTimeSpan(DriverTiming.Pace);
@@ -506,12 +506,12 @@
                 {
                     return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.Pace.Subtract(DriverTiming.Session.Player.DriverTiming.Pace), true);
                 }
-            
+
         }
 
         private string GetBestLap()
         {
-            
+
                 if (DriverTiming.BestLap == null)
                 {
                     return "N/A";
@@ -525,7 +525,7 @@
                 {
                     return "L" + DriverTiming.BestLap.LapNumber + "/" + TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.BestLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.BestLap.LapTime), true);
                 }
-            
+
         }
 
         public Velocity GetTopSpeed()
