@@ -89,6 +89,7 @@ This means that you need to watch your types very closely!
 
     internal enum RfSessionType
     {
+        NA = -1,
         TestDay = 0,
         Practice1 = 1,
         Practice2 = 2,

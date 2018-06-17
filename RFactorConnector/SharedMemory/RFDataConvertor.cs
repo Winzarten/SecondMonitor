@@ -38,7 +38,17 @@
             // Tyre Pressure Info
             AddTyresAndFuelInfo(rfData, simData);
 
+            // Acceleration
+            AddAcceleration(rfData, simData);
+
             return simData;
+        }
+
+        private static void AddAcceleration(RfShared data, SimulatorDataSet simData)
+        {
+            simData.PlayerInfo.CarInfo.Acceleration.XinMs = data.LocalAccel.X;
+            simData.PlayerInfo.CarInfo.Acceleration.YinMs = data.LocalAccel.Y;
+            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.LocalAccel.Z;
         }
 
         private static void AddTyresAndFuelInfo(RfShared data, SimulatorDataSet simData)
@@ -78,7 +88,7 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearRight].Temperature[1]);
 
             // Fuel System
-            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(200);
+            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(50);
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(data.Fuel);
         }
 
@@ -283,6 +293,9 @@
 
             switch ((RfSessionType)data.Session)
             {
+                case RfSessionType.NA:
+                    simData.SessionInfo.SessionType = SessionType.Na;
+                    break;
                 case RfSessionType.Practice1:
                 case RfSessionType.Practice2:
                 case RfSessionType.Practice3:
@@ -303,7 +316,7 @@
                     simData.SessionInfo.SessionType = SessionType.Race;
                     break;
                 default:
-                    simData.SessionInfo.SessionType = SessionType.Na;
+                    simData.SessionInfo.SessionType = SessionType.Practice;
                     break;
             }
 

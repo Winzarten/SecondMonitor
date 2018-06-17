@@ -13,7 +13,7 @@
 
     public class RFConnector : AbstractGameConnector
     {
-        private static readonly string[] RFExecutables = { "AMS" };
+        private static readonly string[] RFExecutables = { "AMS", "rFactor", "GSC" };
         private static readonly string SharedMemoryName = "$rFactorShared$";
         private MemoryMappedFile _sharedMemory;
         private int _rawLastSessionType = int.MinValue;
