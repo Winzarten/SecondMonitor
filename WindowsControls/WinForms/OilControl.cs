@@ -2,7 +2,6 @@
 {
     using System.Windows.Forms;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.Snapshot;
 
     public partial class OilControl : UserControl

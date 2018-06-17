@@ -7,7 +7,6 @@
     using System.Windows.Media;
     using System.Windows.Shapes;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
 

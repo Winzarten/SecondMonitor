@@ -504,7 +504,10 @@
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
             {
-                return "Leader on Lap: " + (dataSet.SessionInfo.LeaderCurrentLap + "/" + dataSet.SessionInfo.TotalNumberOfLaps);
+                string lapsToDisplay = dataSet.SessionInfo.TotalNumberOfLaps < 2000
+                                           ? dataSet.SessionInfo.TotalNumberOfLaps.ToString()
+                                           : "Infinite";
+                return "Leader on Lap: " + dataSet.SessionInfo.LeaderCurrentLap + "/" + lapsToDisplay;
             }
 
             return "NA";

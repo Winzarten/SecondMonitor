@@ -2,13 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.PluginManager.GameConnector;

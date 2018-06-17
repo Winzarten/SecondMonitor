@@ -10,9 +10,7 @@
 
     using NLog;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.Properties;

@@ -1,10 +1,7 @@
 ﻿namespace SecondMonitor.R3EConnector
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
@@ -14,8 +11,8 @@
 
         private readonly R3RDatabase _database;
         private readonly R3EConnector _connector;
-        private DriverInfo _lastPlayer = new DriverInfo();        
-        
+        private DriverInfo _lastPlayer = new DriverInfo();
+
         internal R3EDataConvertor(R3EConnector connector)
         {
             _connector = connector;
@@ -174,7 +171,7 @@
             data.DriversInfo = new DriverInfo[r3RData.NumCars];
             string playerName = FromByteArray(r3RData.PlayerName);
             DriverInfo playersInfo = null;
-            
+
             for (int i = 0; i < r3RData.NumCars; i++)
             {
                 DriverData r3RDriverData = r3RData.DriverData[i];
@@ -265,7 +262,7 @@
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3RData);
             return driverInfo;
         }
-       
+
         internal void FillTimingInfo(DriverInfo driverInfo, DriverData r3EDriverData, R3ESharedData r3RData)
         {
             if (driverInfo.IsPlayer)
@@ -284,7 +281,7 @@
             driverInfo.Timing.LastLapTime = TimeSpan.FromSeconds(r3EDriverData.SectorTimePreviousSelf.Sector3);
             driverInfo.Timing.CurrentSector = r3EDriverData.TrackSector;
         }
-        
+
         internal SimulatorDataSet FromR3EData(R3ESharedData data)
         {
             SimulatorDataSet simData = new SimulatorDataSet("R3E");
@@ -400,6 +397,6 @@
                 simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
                 simData.SessionInfo.TotalNumberOfLaps = data.NumberOfLaps;
             }
-        }       
+        }
     }
 }

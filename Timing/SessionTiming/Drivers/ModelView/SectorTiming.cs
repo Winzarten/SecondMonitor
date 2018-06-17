@@ -2,7 +2,6 @@
 {
     using System;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
 

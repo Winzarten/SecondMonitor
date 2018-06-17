@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;

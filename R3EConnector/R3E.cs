@@ -1,6 +1,5 @@
 ﻿namespace SecondMonitor.R3EConnector
 {
-    using System;
     using System.Runtime.InteropServices;
 
     public class Constant

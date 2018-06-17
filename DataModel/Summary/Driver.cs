@@ -1,14 +1,10 @@
 ﻿namespace SecondMonitor.DataModel.Summary
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
-    using Newtonsoft.Json.Serialization;
-
     using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class Driver
     {

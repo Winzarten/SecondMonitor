@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;

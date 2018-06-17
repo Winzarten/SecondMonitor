@@ -4,7 +4,6 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
 

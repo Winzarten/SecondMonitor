@@ -8,7 +8,6 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
