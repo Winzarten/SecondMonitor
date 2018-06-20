@@ -269,7 +269,7 @@
                 return true;
             }
 
-            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && _previousTickLapDistance < DriverInfo.LapDistance && SessionType.Race != sessionInfo.SessionType)
+            if (!currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && _previousTickLapDistance < DriverInfo.LapDistance && SessionType.Race != sessionInfo.SessionType && !DriverInfo.InPits)
             {
                 return true;
             }
@@ -294,7 +294,7 @@
             CurrentLap.Tick(dataSet, DriverInfo);
             CurrentLap.InvalidBySim = !DriverInfo.CurrentLapValid;
             LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength) * 100;
-            if (SessionType.Race != dataSet.SessionInfo.SessionType && ((!IsPlayer && InPits) || !DriverInfo.CurrentLapValid) && _lapsInfo.Count > 1)
+            if (SessionType.Race != dataSet.SessionInfo.SessionType && (InPits || !DriverInfo.CurrentLapValid) && _lapsInfo.Count >= 1)
             {
                 CurrentLap.Valid = false;
             }

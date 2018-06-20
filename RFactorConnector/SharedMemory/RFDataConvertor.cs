@@ -276,7 +276,6 @@
             // Timing
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
             simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
-            simData.SessionInfo.IsActive = data.InRealtime == 1;
             simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
             simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AmbientTemp);
@@ -339,6 +338,8 @@
                     simData.SessionInfo.SessionPhase = SessionPhase.Checkered;
                     break;
             }
+
+            simData.SessionInfo.IsActive = simData.SessionInfo.SessionType != SessionType.Na;
 
 
 
