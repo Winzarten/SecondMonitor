@@ -49,10 +49,12 @@
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
       <Name>DataModel</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PluginManager\PluginManager.csproj">
       <Project>{E61DBD85-BC10-4ABD-9C0B-22770399DE70}</Project>
       <Name>PluginManager</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
