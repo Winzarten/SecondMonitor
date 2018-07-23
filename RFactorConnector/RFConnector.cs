@@ -15,14 +15,18 @@
     {
         private static readonly string[] RFExecutables = { "AMS", "rFactor", "GSC" };
         private static readonly string SharedMemoryName = "$rFactorShared$";
+        private readonly RFDataConvertor _rfDataConvertor;
+
+        private DateTime _connectionTime = DateTime.MinValue;
+
+        private TimeSpan _connectionTimeout = TimeSpan.FromSeconds(20);
+
         private MemoryMappedFile _sharedMemory;
         private int _rawLastSessionType = int.MinValue;
 
         private SessionPhase _lastSessionPhase;
 
         private SessionType _lastSessionType;
-
-        private readonly RFDataConvertor _rfDataConvertor;
 
         public RFConnector()
             : base(RFExecutables)
@@ -37,6 +41,17 @@
         protected override void OnConnection()
         {
             ResetConnector();
+            if (_connectionTime == DateTime.MinValue)
+            {
+                _connectionTime = DateTime.Now;
+            }
+            if (DateTime.Now - _connectionTime > _connectionTimeout)
+            {
+                SendMessageToClients("A rFactor based game has been detected running for extended time, but SecondMonitor wasn't able to connect to its shared memory.\n"
+                                     + "Please make sure that the rFactorSharedMemoryMap.dll is correctly installed in the plugins folder.\n"
+                                     + "The plugin can be downloaded at : https://github.com/dallongo/rFactorSharedMemoryMap/releases ");
+                _connectionTime = DateTime.MaxValue;
+            }
             _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
         }
 
@@ -51,6 +66,7 @@
 
         protected override void DaemonMethod()
         {
+            _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
                 Thread.Sleep(TickTime);

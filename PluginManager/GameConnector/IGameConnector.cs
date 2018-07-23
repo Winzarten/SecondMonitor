@@ -2,23 +2,6 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.Snapshot;
-
-    public class DataEventArgs : EventArgs
-    {
-
-        public DataEventArgs(SimulatorDataSet data)
-        {
-            Data = data;
-        }
-
-        public SimulatorDataSet Data
-        {
-            get;
-            set;
-        }
-    }
-
     public interface IGameConnector
     {
         event EventHandler<DataEventArgs> DataLoaded;
@@ -28,6 +11,8 @@
         event EventHandler<EventArgs> Disconnected;
 
         event EventHandler<DataEventArgs> SessionStarted;
+
+        event EventHandler<MessageArgs> DisplayMessage;
 
         bool IsConnected
         {

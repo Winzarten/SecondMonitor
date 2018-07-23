@@ -121,6 +121,7 @@
                 _pluginsManager = value;
                 _pluginsManager.DataLoaded += OnDataLoaded;
                 _pluginsManager.SessionStarted += OnSessionStarted;
+                _pluginsManager.DisplayMessage += DisplayMessage;
             }
         }
 
@@ -504,10 +505,19 @@
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
             {
-                string lapsToDisplay = dataSet.SessionInfo.TotalNumberOfLaps < 2000
-                                           ? dataSet.SessionInfo.TotalNumberOfLaps.ToString()
+                int lapsToGo = dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1;
+                if (lapsToGo < 1)
+                {
+                    return "Leader Finished";
+                }
+                if (lapsToGo == 1)
+                {
+                    return "Leader on Final Lap";
+                }
+                string lapsToDisplay = lapsToGo < 2000
+                                           ? lapsToGo.ToString()
                                            : "Infinite";
-                return "Leader on Lap: " + dataSet.SessionInfo.LeaderCurrentLap + "/" + lapsToDisplay;
+                return "Leader laps to go: " + lapsToDisplay;
             }
 
             return "NA";
@@ -713,6 +723,12 @@
             }
 
             Gui.DtTimig.SelectedItem = null;
+        }
+
+
+        private static void DisplayMessage(object sender, MessageArgs e)
+        {
+            MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
     }

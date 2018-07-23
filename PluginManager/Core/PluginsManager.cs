@@ -21,6 +21,8 @@
 
         public event EventHandler<DataEventArgs> SessionStarted;
 
+        public event EventHandler<MessageArgs> DisplayMessage;
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly List<ISecondMonitorPlugin> _plugins;
@@ -52,6 +54,7 @@
             _activeConnector.DataLoaded -= OnDataLoaded;
             _activeConnector.SessionStarted -= OnSessionStarted;
             _activeConnector.Disconnected -= Connector_Disconnected;
+            _activeConnector.DisplayMessage -= ActiveConnectorOnDisplayMessage;
             _activeConnector = null;
             RaiseSessionStartedEvent(new SimulatorDataSet("Not Connected"));
         }
@@ -84,6 +87,7 @@
                 Thread.Sleep(100);
                 foreach (var connector in Connectors)
                 {
+                    connector.DisplayMessage += ActiveConnectorOnDisplayMessage;
                     if (connector.TryConnect())
                     {
                         Logger.Info("Connector Connected: "+ connector.GetType());
@@ -93,8 +97,14 @@
                         _activeConnector.Disconnected += Connector_Disconnected;
                         return;
                     }
+                    connector.DisplayMessage -= ActiveConnectorOnDisplayMessage;
                 }
             }
+        }
+
+        private void ActiveConnectorOnDisplayMessage(object sender, MessageArgs messageArgs)
+        {
+            DisplayMessage?.Invoke(this, messageArgs);
         }
 
         public void InitializePlugins()

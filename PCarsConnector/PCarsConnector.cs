@@ -16,7 +16,7 @@
     {
 
         public class NameNotFilledException : Exception
-        {       
+        {
             public NameNotFilledException(string msg) : base(msg)
             {
             }
@@ -35,7 +35,7 @@
         private Process _process;
         private Thread _daemonThread;
         private bool _disconnect;
-        
+
         private DateTime _lastTick = DateTime.Now;
 
         public event EventHandler<DataEventArgs> DataLoaded;
@@ -45,7 +45,9 @@
         public event EventHandler<EventArgs> Disconnected;
 
         public event EventHandler<DataEventArgs> SessionStarted;
-        
+
+        public event EventHandler<MessageArgs> DisplayMessage;
+
         private double _nextSpeedComputation;
 
         internal double NextSpeedComputation
@@ -192,7 +194,7 @@
                     DateTime tickTime = DateTime.Now;
                     TimeSpan lastTickDuration = tickTime.Subtract(_lastTick);
                     SimulatorDataSet simData= _pCarsConvertor.FromPcarsData(data, lastTickDuration);
-                    
+
                     if (ShouldResetSession(data))
                     {
                         _pCarsConvertor.Reset();
@@ -224,7 +226,7 @@
             _sharedMemory = null;
             RaiseDisconnectedEvent();
         }
-       
+
 
         private bool ShouldResetSession(PCarsApiStruct data)
         {
@@ -283,13 +285,13 @@
 
         private void RaiseDataLoadedEvent(SimulatorDataSet simData)
         {
-                       
+
             DataEventArgs args = new DataEventArgs(simData);
             DataLoaded?.Invoke(this, args);
         }
 
         private void RaiseSessionStartedEvent(SimulatorDataSet data)
-        {            
+        {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
             _lastTick = DateTime.Now;
@@ -307,6 +309,11 @@
         {
             EventArgs args = new EventArgs();
             Disconnected?.Invoke(this, args);
+        }
+
+        protected virtual void OnDisplayMessage(MessageArgs e)
+        {
+            DisplayMessage?.Invoke(this, e);
         }
     }
 }

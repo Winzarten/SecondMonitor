@@ -18,12 +18,14 @@
 
         public event EventHandler<DataEventArgs> SessionStarted;
 
+        public event EventHandler<MessageArgs> DisplayMessage;
+
         public abstract bool IsConnected { get; }
 
         public int TickTime { get; set; }
 
         private readonly string[] executables;
-               
+
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
 
         private Thread _daemonThread;
@@ -165,6 +167,12 @@
             {
                 _queue.Clear();
             }
+        }
+
+        protected void SendMessageToClients(string message)
+        {
+            MessageArgs args = new MessageArgs(message);
+            DisplayMessage?.Invoke(this, args);
         }
 
         protected void RaiseDataLoadedEvent(SimulatorDataSet data)
