@@ -9,7 +9,7 @@
 
     /// <summary>
     /// Interaction logic for FuelMonitor.xaml
-    /// </summary>    
+    /// </summary>
     public partial class FuelMonitor : UserControl
     {
 
@@ -18,7 +18,7 @@
 
         private static readonly Volume FuelConsumedMaximumThreshold = Volume.FromLiters(1);
         private static readonly double DistanceMaxThreshold = 300;
-        
+
         private TimeSpan _lastSessionTime;
         private Volume _averageConsumptionPerLap;
         private Volume _averageConsumptionPerMinute;
@@ -65,7 +65,7 @@
             _lastSessionTime = TimeSpan.Zero;
             UpdateByFuelCalculationScope();
         }
-        
+
 
         public void ProcessDataSet(SimulatorDataSet set)
         {

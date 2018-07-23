@@ -496,14 +496,18 @@
         private string GetPace()
         {
 
-                if (DriverTiming.DriverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player.DriverTiming.Pace == TimeSpan.Zero)
-                {
-                    return TimeSpanFormatHelper.FormatTimeSpan(DriverTiming.Pace);
-                }
-                else
-                {
-                    return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.Pace.Subtract(DriverTiming.Session.Player.DriverTiming.Pace), true);
-                }
+            if (DriverTiming.Session.Player == null)
+            {
+                return string.Empty;
+            }
+            if (DriverTiming.DriverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player.DriverTiming.Pace == TimeSpan.Zero)
+            {
+                return TimeSpanFormatHelper.FormatTimeSpan(DriverTiming.Pace);
+            }
+            else
+            {
+                return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.Pace.Subtract(DriverTiming.Session.Player.DriverTiming.Pace), true);
+            }
 
         }
 

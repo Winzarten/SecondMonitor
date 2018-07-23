@@ -14,7 +14,7 @@
     public class R3EConnector : AbstractGameConnector
     {
         private static readonly string[] R3EExecutables = { "RRRE", "RRRE64" };
-        private static readonly string SharedMemoryName = "$R3E"; 
+        private static readonly string SharedMemoryName = "$R3E";
         private MemoryMappedFile _sharedMemory;
         private bool _inSession;
         private int _lastSessionType;
@@ -22,8 +22,10 @@
         private Dictionary<string, DriverInfo> _lastTickInformation;
 
         private TimeSpan _sessionTime;
+
+        private DateTime _startSessionTime;
         private double _sessionStartR3RTime;
-        
+
        private R3EDataConvertor DataConvertor { get; set; }
 
         public R3EConnector() : base(R3EExecutables)
@@ -70,7 +72,14 @@
 
                 if (r3RData.GamePaused != 1 && r3RData.ControlType != (int) Constant.Control.Replay)
                 {
-                    _sessionTime = TimeSpan.FromSeconds(r3RData.Player.GameSimulationTime - _sessionStartR3RTime);
+                    if (r3RData.Player.GameSimulationTime != 0)
+                    {
+                        _sessionTime = TimeSpan.FromSeconds(r3RData.Player.GameSimulationTime - _sessionStartR3RTime);
+                    }
+                    else
+                    {
+                        _sessionTime = DateTime.Now - _startSessionTime;
+                    }
                 }
 
                 AddToQueue(data);
@@ -114,6 +123,7 @@
             {
                 _lastSessionType = r3RData.SessionType;
                 _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
+                _startSessionTime = DateTime.Now;
                 return true;
             }
 
@@ -121,6 +131,7 @@
             {
                 _inSession = true;
                 _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
+                _startSessionTime = DateTime.Now;
                 return true;
             }
 
