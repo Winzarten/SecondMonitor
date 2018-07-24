@@ -19,7 +19,7 @@
 
         private DateTime _connectionTime = DateTime.MinValue;
 
-        private TimeSpan _connectionTimeout = TimeSpan.FromSeconds(20);
+        private TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
 
         private MemoryMappedFile _sharedMemory;
         private int _rawLastSessionType = int.MinValue;

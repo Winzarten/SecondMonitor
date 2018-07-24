@@ -41,18 +41,19 @@
                                            Finished = driverTiming.IsActive,
                                            FinishingPosition = driverTiming.Position,
                                            TopSpeed = driverTiming.TopSpeed,
-                                           
+
                                        };
-            driverSummary.Laps.AddRange(driverTiming.Laps.Where(l => l.Completed && l.Valid).Select(l => ConvertToSummaryLap(driverSummary, l)));
+            int lapNumber = 1;
+            driverSummary.Laps.AddRange(driverTiming.Laps.Where(l => l.Completed && l.Valid).Select(l => ConvertToSummaryLap(driverSummary, l, lapNumber++)));
             driverSummary.TotalLaps = driverSummary.Laps.Count;
             return driverSummary;
         }
 
-        private static Lap ConvertToSummaryLap(Driver summaryDriver,  LapInfo lapInfo)
+        private static Lap ConvertToSummaryLap(Driver summaryDriver,  LapInfo lapInfo, int lapNumber)
         {
             Lap summaryLap = new Lap(summaryDriver)
                                  {
-                                     LapNumber = lapInfo.LapNumber,
+                                     LapNumber = lapNumber,
                                      LapTime = lapInfo.LapTime,
                                      Sector1 = lapInfo.Sector1?.Duration ?? TimeSpan.Zero,
                                      Sector2 = lapInfo.Sector2?.Duration ?? TimeSpan.Zero,
