@@ -6,8 +6,6 @@
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    using NLog;
-
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.PluginManager.GameConnector;
@@ -17,13 +15,10 @@
     {
         private static readonly string[] RFExecutables = { "AMS", "rFactor", "GSC" };
         private static readonly string SharedMemoryName = "$rFactorShared$";
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
         private readonly RFDataConvertor _rfDataConvertor;
 
-
         private DateTime _connectionTime = DateTime.MinValue;
-
-        private TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
 
         private MemoryMappedFile _sharedMemory;
         private int _rawLastSessionType = int.MinValue;
