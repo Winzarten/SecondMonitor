@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicProperties\Acceleration.cs" />
+    <Compile Include="BasicProperties\Distance.cs" />
     <Compile Include="BasicProperties\FuelCalculationScope.cs" />
     <Compile Include="BasicProperties\PedalInfo.cs" />
     <Compile Include="BasicProperties\Pos3D.cs" />

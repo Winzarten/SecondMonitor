@@ -92,8 +92,10 @@
 
         public override bool Equals(object obj)
         {
-
-            if (!(obj is Temperature)) return false;
+            if (!(obj is Temperature))
+            {
+                return false;
+            }
 
             return this == (Temperature)obj;
 
@@ -137,6 +139,6 @@
             hashCode = hashCode * -1521134295 + InCelsius.GetHashCode();
             hashCode = hashCode * -1521134295 + InFahrenheit.GetHashCode();
             return hashCode;
-        }        
+        }
     }
 }

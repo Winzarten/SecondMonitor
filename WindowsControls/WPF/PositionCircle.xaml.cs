@@ -7,6 +7,7 @@
     using System.Windows.Media;
     using System.Windows.Shapes;
 
+    using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
 
@@ -14,21 +15,21 @@
     /// Interaction logic for PositionCircle.xaml
     /// </summary>
     public partial class PositionCircle : UserControl
-    {        
+    {
         private const int CircleMargin = 15;
         private const int CircleDiameter = CircleMargin / 2;
-        private Ellipse _myCircle;        
+        private Ellipse _myCircle;
         private Dictionary<string, Ellipse> _driversPoints;
         private Dictionary<string, TextBlock> _driverTexts;
         float _lapLength;
         public PositionCircle()
-        {            
+        {
             InitializeComponent();
             CreateCircle();
             _driversPoints = new Dictionary<string, Ellipse>();
             _driverTexts = new Dictionary<string, TextBlock>();
         }
-        
+
 
         private void CreateCircle()
         {
@@ -43,7 +44,7 @@
             Panel.SetZIndex(_myCircle, 0);
             canvas.Children.Add(_myCircle);
         }
-        
+
 
         public void SetSessionInfo(SimulatorDataSet set)
         {
@@ -161,7 +162,7 @@
                     driverEllipse.Fill = Brushes.Olive;
                 }
                 else if (driver.IsBeingLappedByPlayer)
-                { 
+                {
                     driverEllipse.Fill = Brushes.Blue;
                 }
                 else if (driver.IsLappingPlayer)
@@ -187,7 +188,7 @@
                 {
                     text.Foreground = Brushes.Olive;
                 }
-                else if (driver.IsBeingLappedByPlayer)
+                else if (set.SessionInfo.SessionType == SessionType.Race ? driver.IsBeingLappedByPlayer : !driver.CurrentLapValid)
                 {
                     text.Foreground = Brushes.Blue;
                 }
@@ -246,7 +247,7 @@
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            
+
         }
     }
 }

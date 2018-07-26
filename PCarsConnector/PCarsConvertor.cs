@@ -75,7 +75,7 @@
                         LapDistance = pcarsDriverData.MCurrentLapDistance,
                         FinishStatus = DriverInfo.DriverFinishStatus.None,
                         CurrentLapValid = true,
-                        WorldPosition = new Point3D(pcarsDriverData.MWorldPosition[0], pcarsDriverData.MWorldPosition[1], pcarsDriverData.MWorldPosition[2])
+                        WorldPosition = new Point3D(Distance.FromMeters(pcarsDriverData.MWorldPosition[0]), Distance.FromMeters(pcarsDriverData.MWorldPosition[1]), Distance.FromMeters(pcarsDriverData.MWorldPosition[2]))
                     };
 
                 if (_lastPlayer != null)
@@ -154,11 +154,7 @@
                     .Subtract(_lastSpeedComputationSet.SessionInfo.SessionTime).TotalSeconds;
 
                 // double speed = lastTickDuration.TotalMilliseconds;
-                double speed = Math.Sqrt(
-                                   Math.Pow(currentWorldPosition.X - previousWorldPosition.X, 2)
-                                   + Math.Pow(currentWorldPosition.Y - previousWorldPosition.Y, 2) + Math.Pow(
-                                       currentWorldPosition.Z - previousWorldPosition.Z,
-                                       2)) / duration;
+                double speed = Point3D.GetDistance(currentWorldPosition, previousWorldPosition).DistanceInM / duration;
 
                 // if (speed < 200)
                 driverInfo.Speed = Velocity.FromMs(speed);
@@ -199,7 +195,7 @@
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.MOilPressureKPa);
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.MOilTempCelsius);
 
-            // Brakes Info            
+            // Brakes Info
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature =
                 Temperature.FromCelsius(data.MBrakeTempCelsius[0]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature =
@@ -292,7 +288,7 @@
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(pCarsData.MTrackTemperature);
             simData.SessionInfo.WeatherInfo.RainIntensity = (int)(pCarsData.MRainDensity * 100);
             simData.SessionInfo.TrackInfo.LayoutLength = pCarsData.MTrackLength;
-            simData.SessionInfo.IsActive = true; // (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_RACING 
+            simData.SessionInfo.IsActive = true; // (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_RACING
 
             // || (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_FINISHED;
             switch ((ESessionState)pCarsData.MSessionState)

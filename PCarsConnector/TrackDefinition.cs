@@ -684,16 +684,16 @@ namespace SecondMonitor.PCarsConnector
 
         public bool AtPitEntry(DriverInfo driver)
         {
-            double distance = Math.Sqrt(Math.Pow(driver.WorldPosition.X - PitEntryLocation[0], 2) +
-                                        Math.Pow(driver.WorldPosition.Z - PitEntryLocation[1], 2));
+            double distance = Math.Sqrt(Math.Pow(driver.WorldPosition.X.DistanceInM - PitEntryLocation[0], 2) +
+                                        Math.Pow(driver.WorldPosition.Z.DistanceInM - PitEntryLocation[1], 2));
             driver.DriverDebugInfo.DistanceToPits = distance;
             return distance < PitPointDetectionDistance;
         }
 
         public bool AtPitExit(DriverInfo driver)
         {
-            double distance = Math.Sqrt(Math.Pow(driver.WorldPosition.X - PitExitLocation[0], 2) +
-                                        Math.Pow(driver.WorldPosition.Z - PitExitLocation[1], 2));
+            double distance = Math.Sqrt(Math.Pow(driver.WorldPosition.X.DistanceInM - PitExitLocation[0], 2) +
+                                        Math.Pow(driver.WorldPosition.Z.DistanceInM - PitExitLocation[1], 2));
             driver.DriverDebugInfo.DistanceToPits = distance;
             return distance < PitPointDetectionDistance;
         }

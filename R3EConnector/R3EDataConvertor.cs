@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.R3EConnector
 {
     using System;
+    using System.IO;
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
@@ -259,6 +260,7 @@
             driverInfo.TotalDistance = r3RDriverData.CompletedLaps * r3RData.LayoutLength + r3RDriverData.LapDistance;
             driverInfo.CarName = _database.GetCarName(r3RDriverData.DriverInfo.ModelId);
             driverInfo.FinishStatus = FromR3RStatus(r3RDriverData.FinishStatus);
+            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(r3RDriverData.Position.X), Distance.FromMeters(r3RDriverData.Position.Y), Distance.FromMeters(r3RDriverData.Position.Z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3RData);
             return driverInfo;
         }

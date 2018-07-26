@@ -6,6 +6,8 @@
     using System.Runtime.InteropServices;
     using System.Threading;
 
+    using NLog;
+
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.PluginManager.GameConnector;
@@ -15,7 +17,9 @@
     {
         private static readonly string[] RFExecutables = { "AMS", "rFactor", "GSC" };
         private static readonly string SharedMemoryName = "$rFactorShared$";
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly RFDataConvertor _rfDataConvertor;
+
 
         private DateTime _connectionTime = DateTime.MinValue;
 
@@ -71,8 +75,15 @@
             {
                 Thread.Sleep(TickTime);
                 RfShared rFactorData = Load();
-
-                SimulatorDataSet dataSet = _rfDataConvertor.CreateSimulatorDataSet(rFactorData);
+                SimulatorDataSet dataSet;
+                try
+                {
+                    dataSet = _rfDataConvertor.CreateSimulatorDataSet(rFactorData);
+                }
+                catch (RFInvalidPackageException)
+                {
+                    continue;
+                }
 
                 if (CheckSessionStarted(rFactorData, dataSet))
                 {

@@ -2,11 +2,15 @@
 {
     using System;
 
+    using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class LapInfo
     {
+
+        private static readonly Velocity MaxValidSpeed = Velocity.FromKph(3000);
+        private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
 
         public class SectorCompletedArgs : EventArgs
         {
@@ -22,6 +26,15 @@
         private bool _valid;
 
         private bool _completed;
+
+        private DateTime _previousTime = DateTime.MinValue;
+
+        private SimulatorDataSet _previousSet;
+
+        private DriverInfo _previousDriverInfo;
+
+        public Velocity ComputedMaxSpeed = Velocity.Zero;
+
 
         public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver, LapInfo previousLapInfo)
         {
@@ -127,10 +140,31 @@
             {
                 LapNumber = driverInfo.CompletedLaps + 1;
             }
+
             if (dataSet.SimulatorSourceInfo.SectorTimingSupport != DataInputSupport.NONE)
             {
                 TickSectors(dataSet, driverInfo);
             }
+
+            if (IsMaxSpeedViolated(driverInfo))
+            {
+                Valid = false;
+            }
+
+            _previousTime = DateTime.Now;
+            _previousSet = dataSet;
+            _previousDriverInfo = driverInfo;
+        }
+
+        private bool IsMaxSpeedViolated(DriverInfo currentDriverInfo)
+        {
+            if (_previousDriverInfo == null)
+            {
+                return false;
+            }
+
+            Distance distance = Point3D.GetDistance(currentDriverInfo.WorldPosition, _previousDriverInfo.WorldPosition);
+            return distance.DistanceInM > MaxDistancePerTick.DistanceInM;
         }
 
         private void TickSectors(SimulatorDataSet dataSet, DriverInfo driverInfo)
@@ -161,7 +195,7 @@
                 return;
             }
             CurrentSector.Finish(driverInfo);
-            if (CurrentSector.Duration == TimeSpan.Zero)
+            if (CurrentSector.Duration == TimeSpan.Zero || Driver.InPits)
             {
                 Valid = false;
             }

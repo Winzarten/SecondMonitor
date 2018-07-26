@@ -73,7 +73,7 @@
 
         public double TotalDistanceTraveled => DriverInfo.TotalDistance;
 
-        public bool IsLapped => DriverInfo.IsBeingLappedByPlayer;
+        public bool IsLapped => (Session.SessionType == SessionType.Race || CurrentLap == null) ? DriverInfo.IsBeingLappedByPlayer : !CurrentLap.Valid;
 
         public bool IsLapping => DriverInfo.IsLappingPlayer;
 

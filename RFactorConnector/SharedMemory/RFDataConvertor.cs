@@ -11,6 +11,9 @@
     {
 
         private DriverInfo _lastPlayer = new DriverInfo();
+        private const int maxConsecutivePackagesIgnored = 200;
+
+        private int currentlyIgnoredPackage = 0;
 
         public SimulatorDataSet CreateSimulatorDataSet(RfShared rfData)
         {
@@ -41,6 +44,7 @@
             // Acceleration
             AddAcceleration(rfData, simData);
 
+            currentlyIgnoredPackage = 0;
             return simData;
         }
 
@@ -129,7 +133,7 @@
                     simData.PlayerInfo.CarInfo.CurrentGear = "R";
                     break;
                 case -2:
-                    simData.PlayerInfo.CarInfo.CurrentGear = string.Empty;
+                    simData.PlayerInfo.CarInfo.CurrentGear = String.Empty;
                     break;
                 default:
                     simData.PlayerInfo.CarInfo.CurrentGear = data.Gear.ToString();
@@ -156,7 +160,6 @@
                 {
                     playersInfo = driverInfo;
                     driverInfo.CurrentLapValid = true;
-                    _lastPlayer = driverInfo;
                 }
                 else
                 {
@@ -179,11 +182,31 @@
                     driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.None;
                 }
             }
-
+            CheckValidityByPlayer(playersInfo);
+            _lastPlayer = playersInfo;
             if (playersInfo != null)
             {
                 data.PlayerInfo = playersInfo;
             }
+        }
+
+        private void CheckValidityByPlayer(DriverInfo driver)
+        {
+            if (_lastPlayer == null || driver == null || (!_lastPlayer.InPits && driver.InPits))
+            {
+                return;
+            }
+
+            Distance distance = Point3D.GetDistance(driver.WorldPosition, _lastPlayer.WorldPosition);
+            if (distance.DistanceInM > 200)
+            {
+                currentlyIgnoredPackage++;
+                if (currentlyIgnoredPackage < maxConsecutivePackagesIgnored)
+                {
+                    throw new RFInvalidPackageException("Players distance was :" + distance.DistanceInM);
+                }
+            }
+
         }
 
         internal void ValidateLapBasedOnSurface(DriverInfo driverInfo, RfVehicleInfo rfVehicleInfo)
@@ -236,6 +259,7 @@
             driverInfo.LapDistance = rfVehicleInfo.LapDist;
             driverInfo.TotalDistance = rfVehicleInfo.TotalLaps * rfData.LapDist + rfVehicleInfo.LapDist;
             driverInfo.FinishStatus = FromRFStatus(rfVehicleInfo.FinishStatus);
+            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(rfVehicleInfo.Pos.X), Distance.FromMeters(rfVehicleInfo.Pos.Y), Distance.FromMeters(rfVehicleInfo.Pos.Z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, rfData);
             return driverInfo;
         }
@@ -250,7 +274,7 @@
             if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
                 driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
             {
-                driverInfo.DistanceToPlayer = double.MaxValue;
+                driverInfo.DistanceToPlayer = Double.MaxValue;
                 return;
             }
 
@@ -277,13 +301,13 @@
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
             simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
             simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
-            simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
+            simData.SessionInfo.TrackInfo.TrackLayoutName = String.Empty;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AmbientTemp);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.TrackTemp);
 
             if (data.TrackTemp == 0 && data.Session == 0 && data.GamePhase == 0
-                && string.IsNullOrEmpty(simData.SessionInfo.TrackInfo.TrackName)
-                && string.IsNullOrEmpty(StringExtensions.FromArray(data.VehicleName)) && data.LapDist == 0)
+                && String.IsNullOrEmpty(simData.SessionInfo.TrackInfo.TrackName)
+                && String.IsNullOrEmpty(StringExtensions.FromArray(data.VehicleName)) && data.LapDist == 0)
             {
                 simData.SessionInfo.SessionType = SessionType.Na;
                 simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
@@ -373,7 +397,5 @@
                     return DriverInfo.DriverFinishStatus.Na;
             }
         }
-
-
     }
 }

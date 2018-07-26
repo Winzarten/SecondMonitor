@@ -299,6 +299,10 @@
                 Sector1 = GetSector1();
                 Sector2 = GetSector2();
                 Sector3 = GetSector3();
+                /*Sector1 = DriverTiming.DriverInfo.WorldPosition.X.DistanceInM.ToString("N2");
+                Sector2 = DriverTiming.DriverInfo.WorldPosition.Y.DistanceInM.ToString("N2");
+                Sector3 = DriverTiming.DriverInfo.WorldPosition.Z.DistanceInM.ToString("N2");
+                BestLap = DriverTiming?.CurrentLap?.ComputedMaxSpeed?.InKph.ToString("N2");*/
                 IsLastSector1SessionBest = GetIsSector1SessionBest();
                 IsLastSector2SessionBest = GetIsSector2SessionBest();
                 IsLastSector3SessionBest = GetIsSector3SessionBest();
@@ -387,7 +391,7 @@
 
         private string GetSector1()
         {
-            if (DriverTiming.CurrentLap == null)
+            if (DriverTiming.CurrentLap == null || !DriverTiming.CurrentLap.Valid)
             {
                 return "N/A";
             }
@@ -439,7 +443,7 @@
 
         private string GetSector2()
         {
-            if (DriverTiming.CurrentLap == null)
+            if (DriverTiming.CurrentLap == null || !DriverTiming.CurrentLap.Valid)
             {
                 return "N/A";
             }
@@ -449,7 +453,7 @@
 
         private string GetSector3()
         {
-            if (DriverTiming.CurrentLap == null)
+            if (DriverTiming.CurrentLap == null || !DriverTiming.CurrentLap.Valid)
             {
                 return "N/A";
             }

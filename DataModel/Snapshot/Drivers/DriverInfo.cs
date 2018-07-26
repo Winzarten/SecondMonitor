@@ -39,7 +39,7 @@
 
         public DriverTimingInfo Timing { get; set; } = new DriverTimingInfo();
 
-        public Point3D WorldPosition { get; set; } = new Point3D(0, 0, 0);
+        public Point3D WorldPosition { get; set; } = new Point3D(Distance.ZeroDistance, Distance.ZeroDistance, Distance.ZeroDistance);
 
         public DriverDebugInfo DriverDebugInfo { get; } = new DriverDebugInfo();
     }
