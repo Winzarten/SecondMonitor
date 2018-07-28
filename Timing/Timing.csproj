@@ -91,6 +91,7 @@
     <Compile Include="ReportCreation\ViewModel\ReportCreationViewModel.cs" />
     <Compile Include="SessionTiming\Drivers\DriverListModificationEventArgs.cs" />
     <Compile Include="SessionTiming\Drivers\ModelView\DriverTiming.cs" />
+    <Compile Include="SessionTiming\Drivers\ModelView\PendingSector.cs" />
     <Compile Include="SessionTiming\Drivers\ModelView\PitStopInfo.cs" />
     <Compile Include="SessionTiming\Drivers\ModelView\SectorTiming.cs" />
     <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingVisualiser.cs" />

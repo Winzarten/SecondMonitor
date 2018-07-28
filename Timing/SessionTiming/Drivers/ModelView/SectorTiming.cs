@@ -7,10 +7,7 @@
 
     public class SectorTiming : IComparable
     {
-
-
         private readonly TimeSpan _startTime;
-
 
         public SectorTiming(int sectorNumber, SimulatorDataSet simulatorData, LapInfo lap)
         {
@@ -41,7 +38,12 @@
 
         private TimeSpan PickTiming(DriverInfo driverInfo)
         {
-            switch (SectorNumber)
+            return PickTimingFormDriverInfo(driverInfo, SectorNumber);
+        }
+
+        public static TimeSpan PickTimingFormDriverInfo(DriverInfo driverInfo, int sectorNumber)
+        {
+            switch (sectorNumber)
             {
                 case 1:
                     return driverInfo.Timing.LastSector1Time;
@@ -50,7 +52,7 @@
                 case 3:
                     return driverInfo.Timing.LastSector3Time;
                 default:
-                        return _startTime;
+                    return TimeSpan.Zero;
 
             }
         }

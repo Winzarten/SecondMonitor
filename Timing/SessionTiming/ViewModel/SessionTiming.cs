@@ -16,8 +16,9 @@
     using SecondMonitor.Timing.SessionTiming.Drivers;
     using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+    using SecondMonitor.WindowsControls.WPF;
 
-    public class SessionTiming : DependencyObject, IEnumerable, INotifyPropertyChanged
+    public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
         public class DriverNotFoundException : Exception
         {
@@ -32,11 +33,11 @@
             }
         }
 
-        private List<SectorTiming> _sector1Times = new List<SectorTiming>();
+        private readonly List<SectorTiming> _sector1Times = new List<SectorTiming>();
 
-        private List<SectorTiming> _sector2Times = new List<SectorTiming>();
+        private readonly List<SectorTiming> _sector2Times = new List<SectorTiming>();
 
-        private List<SectorTiming> _sector3Times = new List<SectorTiming>();
+        private readonly List<SectorTiming> _sector3Times = new List<SectorTiming>();
 
         public event EventHandler<DriverListModificationEventArgs> DriverAdded;
 
@@ -135,6 +136,7 @@
                 DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
                 newDriver.SectorCompletedEvent += timing.OnSectorCompletedEvent;
                 newDriver.LapInvalidated += timing.LapInvalidatedHandler;
+                newDriver.LapCompleted += timing.DriverOnLapCompleted;
                 DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
                 drivers.Add(name, newDriverTimingModelView);
                 if (newDriver.DriverInfo.IsPlayer)
@@ -148,6 +150,18 @@
                 timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
             }
             return timing;
+        }
+
+        private void DriverOnLapCompleted(object sender, DriverTiming.LapEventArgs lapEventArgs)
+        {
+            if (!lapEventArgs.Lap.Valid)
+            {
+                return;
+            }
+            if (BestSessionLap == null || BestSessionLap.LapTime > lapEventArgs.Lap.LapTime)
+            {
+                BestSessionLap = lapEventArgs.Lap;
+            }
         }
 
         private void OnSectorCompletedEvent(object sender, LapInfo.SectorCompletedArgs e)
@@ -204,6 +218,7 @@
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != DataModel.BasicProperties.SessionType.Race);
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
+            newDriver.LapCompleted += DriverOnLapCompleted;
             DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
             Drivers.Add(newDriver.Name, newDriverTimingModelView);
             RaiseDriverAddedEvent(newDriverTimingModelView);
@@ -243,23 +258,24 @@
             try
             {
                 HashSet<string> updatedDrivers = new HashSet<string>();
-                Array.ForEach(dataSet.DriversInfo, s =>
-                {
-                    updatedDrivers.Add(s.DriverName);
-                    if (Drivers.ContainsKey(s.DriverName) && Drivers[s.DriverName].DriverTiming.IsActive)
-                    {
-                        UpdateDriver(s, Drivers[s.DriverName], dataSet);
-
-                        if (Drivers[s.DriverName].DriverTiming.IsPlayer)
+                Array.ForEach( dataSet.DriversInfo,
+                    s =>
                         {
-                            Player = Drivers[s.DriverName];
-                        }
-                    }
-                    else
-                    {
-                        AddNewDriver(s);
-                    }
-                });
+                            updatedDrivers.Add(s.DriverName);
+                            if (Drivers.ContainsKey(s.DriverName) && Drivers[s.DriverName].DriverTiming.IsActive)
+                            {
+                                UpdateDriver(s, Drivers[s.DriverName], dataSet);
+
+                                if (Drivers[s.DriverName].DriverTiming.IsPlayer)
+                                {
+                                    Player = Drivers[s.DriverName];
+                                }
+                            }
+                            else
+                            {
+                                AddNewDriver(s);
+                            }
+                        });
                 List<string> driversToRemove = new List<string>();
                 foreach (var obsoleteDriverName in Drivers.Keys.Where(s => !updatedDrivers.Contains(s)))
                 {
@@ -276,7 +292,7 @@
             }
             catch (KeyNotFoundException ex)
             {
-                throw new DriverNotFoundException("Driver nout found", ex);
+                throw new DriverNotFoundException("Driver not found", ex);
 
             }
         }
@@ -319,6 +335,16 @@
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public bool IsDriverOnValidLap(DriverInfo driver)
+        {
+            if (!Drivers?.ContainsKey(driver.DriverName) ?? false)
+            {
+                return false;
+            }
+
+            return !Drivers?[driver.DriverName].DriverTiming.CurrentLap?.Valid ?? false;
         }
     }
 }

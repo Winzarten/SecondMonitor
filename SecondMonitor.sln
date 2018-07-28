@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFactorConnector", "RFactor
 		{9CB31996-7FF5-4BB2-AAF7-5A9A88AADC48} = {9CB31996-7FF5-4BB2-AAF7-5A9A88AADC48}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RF2Connector", "RF2Connector\RF2Connector.csproj", "{427B24C7-51F1-4189-ACA0-B76BB3C93B12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +227,18 @@ Global
 		{409B8A90-DBEE-4EC7-8C19-8867012A25A5}.Release|x64.Build.0 = Release|Any CPU
 		{409B8A90-DBEE-4EC7-8C19-8867012A25A5}.Release|x86.ActiveCfg = Release|Any CPU
 		{409B8A90-DBEE-4EC7-8C19-8867012A25A5}.Release|x86.Build.0 = Release|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Debug|x64.Build.0 = Debug|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Debug|x86.Build.0 = Debug|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Release|x64.ActiveCfg = Release|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Release|x64.Build.0 = Release|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Release|x86.ActiveCfg = Release|Any CPU
+		{427B24C7-51F1-4189-ACA0-B76BB3C93B12}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

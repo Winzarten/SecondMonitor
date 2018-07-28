@@ -18,10 +18,14 @@
     {
         private const int CircleMargin = 15;
         private const int CircleDiameter = CircleMargin / 2;
+        private readonly Dictionary<string, Ellipse> _driversPoints;
+        private readonly Dictionary<string, TextBlock> _driverTexts;
+        private static readonly DependencyProperty PositionCircleInformationProviderProperty = DependencyProperty.Register("PositionCircleInformationProvider", typeof(IPositionCircleInformationProvider), typeof(PositionCircle));
+
         private Ellipse _myCircle;
-        private Dictionary<string, Ellipse> _driversPoints;
-        private Dictionary<string, TextBlock> _driverTexts;
-        float _lapLength;
+
+        private float _lapLength;
+
         public PositionCircle()
         {
             InitializeComponent();
@@ -45,15 +49,21 @@
             canvas.Children.Add(_myCircle);
         }
 
+        public IPositionCircleInformationProvider PositionCircleInformationProvider
+        {
+            get => (IPositionCircleInformationProvider)GetValue(PositionCircleInformationProviderProperty);
+            set => SetValue(PositionCircleInformationProviderProperty, value);
+        }
+
 
         public void SetSessionInfo(SimulatorDataSet set)
         {
             _lapLength = set.SessionInfo.TrackInfo.LayoutLength;
-            UnregisterDrivers();
+            UnRegisterDrivers();
             AddDrivers(set.DriversInfo);
         }
 
-        private void UnregisterDrivers()
+        private void UnRegisterDrivers()
         {
             if (_driversPoints == null)
             {
@@ -188,7 +198,7 @@
                 {
                     text.Foreground = Brushes.Olive;
                 }
-                else if (set.SessionInfo.SessionType == SessionType.Race ? driver.IsBeingLappedByPlayer : !driver.CurrentLapValid)
+                else if (ShouldBeBlue(set, driver))
                 {
                     text.Foreground = Brushes.Blue;
                 }
@@ -205,6 +215,18 @@
                 y = GetY(driver, canvas.ActualHeight- margin * 2 - 40) - 10;
                 Canvas.SetLeft(text, x);
                 Canvas.SetTop(text, y);
+            }
+        }
+
+        private bool ShouldBeBlue(SimulatorDataSet set, DriverInfo driver)
+        {
+            if (set.SessionInfo.SessionType == SessionType.Race)
+            {
+                return driver.IsBeingLappedByPlayer;
+            }
+            else
+            {
+                return PositionCircleInformationProvider?.IsDriverOnValidLap(driver) ?? false;
             }
         }
 

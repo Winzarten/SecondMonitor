@@ -13,8 +13,8 @@
     xmlns:viewModel1="clr-namespace:SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel"
 
     x:Name="MainWindow" x:Class="SecondMonitor.Timing.Presentation.View.TimingGui"
-    
-        mc:Ignorable="d" 
+
+        mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Title="{Binding Title}" Width="1600" Height="800" WindowStyle="ThreeDBorderWindow" WindowState="Maximized"
     d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}">
 
@@ -51,7 +51,7 @@
         </ObjectDataProvider>
     </Window.Resources>
     <Grid x:Name="MainGrid" Background="Black" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <WindowsFormsHost 
+        <WindowsFormsHost
             Margin="10,0,0,288" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="196" Height="96">
             <winForms:WheelStatusControl x:Name="WhLeftFront"/>
         </WindowsFormsHost>
@@ -68,7 +68,7 @@
             <winForms:PedalControl x:Name="PedalControl"/>
         </WindowsFormsHost>
 
-        <DataGrid x:Name="DtTimig" Margin="10,142,10,389" FontSize="20" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
+        <DataGrid x:Name="DtTimig" Margin="10,142,10,389" FontSize="18" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
                   d:DataContext="{d:DesignInstance Type=viewModel1:DriverTimingModelView}"
                  AutoGenerateColumns="False" HeadersVisibility="Column" CanUserSortColumns="False" CanUserReorderColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
                   EnableColumnVirtualization ="False" EnableRowVirtualization="False"
@@ -144,15 +144,15 @@
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Visible, Mode=TwoWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Name, Mode=OneTime}" 
+                <DataGridTextColumn Binding="{Binding Name, Mode=OneTime}"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     Header="Name" ElementStyle="{StaticResource TextBoxStyle}"/>
-                <DataGridTextColumn Binding="{Binding CarName, Mode=OneTime}"  Header="Car" 
+                <DataGridTextColumn Binding="{Binding CarName, Mode=OneTime}"  Header="Car"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
-                <DataGridTextColumn Binding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps" 
+                <DataGridTextColumn Binding="{Binding CompletedLaps, Mode=OneWay}" Header="Laps"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
@@ -172,7 +172,7 @@
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyleSector3}"/>
-                <DataGridTextColumn Binding="{Binding Pace, Mode=OneWay}" Header="Pace" 
+                <DataGridTextColumn Binding="{Binding Pace, Mode=OneWay}" Header="Pace"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
@@ -180,19 +180,19 @@
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
-                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap" 
+                <DataGridTextColumn Binding="{Binding CurrentLapProgressTime, Mode=OneWay}" Header="Current Lap"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
-                <DataGridTextColumn Binding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits" 
+                <DataGridTextColumn Binding="{Binding LastPitInfo, Mode=OneWay}" Header="Pits"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
-                <DataGridTextColumn Binding="{Binding TimeToPlayer, Mode=OneWay}" Header="Gap" 
+                <DataGridTextColumn Binding="{Binding TimeToPlayer, Mode=OneWay}" Header="Gap"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
-                <DataGridTextColumn Binding="{Binding TopSpeed, Mode=OneWay}" Header="Top Speed" 
+                <DataGridTextColumn Binding="{Binding TopSpeed, Mode=OneWay}" Header="Top Speed"
                                     Width= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                     Visibility= "{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}"
                                     ElementStyle="{StaticResource TextBoxStyle}"/>
@@ -217,7 +217,8 @@
                         </Trigger>
                         <DataTrigger Binding="{Binding IsPlayer, Mode=OneWay}" Value="True">
                             <Setter Property="Background" Value="Gray"/>
-                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontSize" Value="21"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
@@ -253,14 +254,14 @@
 
             </Grid>
         </GroupBox>
-        <wpf:PositionCircle x:Name="TimingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339"/>
+        <wpf:PositionCircle x:Name="TimingCircle" Margin="598,0,269,26" Background="Black" VerticalAlignment="Bottom" Width="Auto" MinHeight="300" Height="339" PositionCircleInformationProvider="{Binding SessionTiming}"/>
 
         <wpf:FuelMonitor x:Name="FuelMonitor" HorizontalAlignment="Left" Height="156" Margin="85,0,0,26" VerticalAlignment="Bottom" Width="322" DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}" FuelCalculationScope="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}"
-                         
+
                           d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"/>
         <wpf:TemperatureControl x:Name="WaterTemp" HorizontalAlignment="Left" Margin="412,0,0,246" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="130" Panel.ZIndex="1"  DisplayUnits = "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"  d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}" />
         <wpf:TemperatureControl  x:Name="OilTemp" HorizontalAlignment="Left" Margin="412,0,0,70" VerticalAlignment="Bottom" Height="138" Width="138" MaximumTemperatureCelsius="180" RedTemperatureStart="120" ScaleLinesMajorStepValue="40" Panel.ZIndex="1" DisplayUnits= "{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                 d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}" 
+                                 d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
                                  />
         <Image HorizontalAlignment="Left" Height="24" Margin="550,0,0,123"  Width="24" VerticalAlignment="Bottom"
                Panel.ZIndex="5" Source="/Timing;component/Resources/oil.png"/>

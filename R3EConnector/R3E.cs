@@ -427,11 +427,11 @@
 
         public float LapTimeCurrentSelf;
 
-        public Sectors<float> SectorTimeCurrentSelf;
+        public Sectors<float> SectorTimesCurrentSelf;
 
-        public Sectors<float> SectorTimePreviousSelf;
+        public Sectors<float> SectorTimesPreviousSelf;
 
-        public Sectors<float> SectorTimeBestSelf;
+        public Sectors<float> SectorTimesBestSelf;
 
         public float TimeDeltaFront;
 
@@ -695,7 +695,7 @@
         // Note: Not valid for AI or remote players
         public float EngineOilPressure;
 
-        // How pressed the throttle pedal is 
+        // How pressed the throttle pedal is
         // Range: 0.0 - 1.0 (-1.0 = N/A)
         // Note: Not valid for AI or remote players
         public float ThrottlePedal;
@@ -705,7 +705,7 @@
         // Note: Not valid for AI or remote players
         public float BrakePedal;
 
-        // How pressed the clutch pedal is 
+        // How pressed the clutch pedal is
         // Range: 0.0 - 1.0 (-1.0 = N/A)
         // Note: Not valid for AI or remote players
         public float ClutchPedal;

@@ -11,6 +11,7 @@
 
         private static readonly Velocity MaxValidSpeed = Velocity.FromKph(3000);
         private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
+        private static readonly TimeSpan MaxPendingTime = TimeSpan.FromSeconds(3);
 
         public class SectorCompletedArgs : EventArgs
         {
@@ -26,6 +27,10 @@
         private bool _valid;
 
         private bool _completed;
+
+        private bool _isPending;
+
+        private TimeSpan _isPendingStart;
 
         private DateTime _previousTime = DateTime.MinValue;
 
@@ -116,6 +121,10 @@
 
         public SectorTiming CurrentSector { get; private set; }
 
+        private PendingSector PendingSector { get; set; }
+
+        public bool IsPending => _isPending || PendingSector != null;
+
         public void FinishLap(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
             if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation)
@@ -188,18 +197,17 @@
             {
                 return;
             }
+
+            UpdatePendingState(dataSet, driverInfo);
+
             SectorTiming shouldBeActive = PickSector(driverInfo.Timing.CurrentSector);
             if (shouldBeActive == CurrentSector)
             {
                 CurrentSector.Tick(dataSet, driverInfo);
                 return;
             }
-            CurrentSector.Finish(driverInfo);
-            if (CurrentSector.Duration == TimeSpan.Zero || Driver.InPits)
-            {
-                Valid = false;
-            }
-            OnSectorCompleted(new SectorCompletedArgs(CurrentSector));
+
+            FinishSectorAndCheckIfPending(CurrentSector, driverInfo, dataSet);
             switch (driverInfo.Timing.CurrentSector)
             {
                 case 2:
@@ -211,6 +219,77 @@
                     CurrentSector = Sector3;
                     return;
             }
+        }
+
+        private void FinishSectorAndCheckIfPending(
+            SectorTiming sectorTiming,
+            DriverInfo driverInfo,
+            SimulatorDataSet dataSet)
+        {
+            if (SectorTiming.PickTimingFormDriverInfo(driverInfo, sectorTiming.SectorNumber) <= TimeSpan.Zero)
+            {
+                InitPendingSector(CurrentSector, driverInfo, dataSet);
+            }
+            else
+            {
+                FinishSector(sectorTiming, driverInfo, dataSet);
+            }
+        }
+
+        private void FinishSector(SectorTiming sectorTiming, DriverInfo driverInfo, SimulatorDataSet dataSet)
+        {
+            sectorTiming.Finish(driverInfo);
+            if (sectorTiming.Duration == TimeSpan.Zero || (Driver.InPits && dataSet.SessionInfo.SessionType != SessionType.Race))
+            {
+                Valid = false;
+            }
+            OnSectorCompleted(new SectorCompletedArgs(sectorTiming));
+        }
+
+        private void InitPendingSector(SectorTiming sectorTiming, DriverInfo driverInfo, SimulatorDataSet dataSet)
+        {
+            if (PendingSector?.Sector == sectorTiming)
+            {
+                return;
+            }
+
+            if (PendingSector != null)
+            {
+                FinishSector(PendingSector.Sector, driverInfo, dataSet);
+            }
+            PendingSector = new PendingSector(sectorTiming, dataSet.SessionInfo.SessionTime);
+        }
+
+
+        // R3E has some weird behavior that sometimes it doesn't report last lap time correctly (reports zero), do not end lap in such weird cases
+        public bool SwitchToPendingIfNecessary(SimulatorDataSet dataSet, DriverInfo driverInfo)
+        {
+            if (dataSet.SimulatorSourceInfo.HasLapTimeInformation && driverInfo.Timing.LastLapTime == TimeSpan.Zero)
+            {
+                _isPending = true;
+                _isPendingStart = dataSet.SessionInfo.SessionTime;
+            }
+            return _isPending;
+        }
+
+        public bool UpdatePendingState(SimulatorDataSet dataSet, DriverInfo driverInfo)
+        {
+            if (!IsPending)
+            {
+                return false;
+            }
+
+            if (PendingSector != null && (PendingSector.HasValidTimingInformation(driverInfo) || PendingSector.HasTimedOut(dataSet.SessionInfo.SessionTime)))
+            {
+                FinishSector(PendingSector.Sector, driverInfo, dataSet);
+                PendingSector = null;
+            }
+
+            if (_isPending && (driverInfo.Timing.LastLapTime != TimeSpan.Zero || dataSet.SessionInfo.SessionTime - _isPendingStart > MaxPendingTime))
+            {
+                _isPending = false;
+            }
+            return IsPending;
         }
 
         private SectorTiming PickSector(int sectorNumber)

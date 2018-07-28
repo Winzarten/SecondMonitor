@@ -12,6 +12,8 @@
     public class DriverTiming
     {
 
+        private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
+
         public class LapEventArgs : EventArgs
         {
             public LapEventArgs(LapInfo lapInfo)
@@ -222,6 +224,11 @@
                 OnNewLapStarted(new LapEventArgs(firstLap));
             }
 
+            if (LastLap != null && LastLap.IsPending && !LastLap.UpdatePendingState(set, DriverInfo))
+            {
+                FinishLap(LastLap, set);
+            }
+
             LapInfo currentLap = CurrentLap;
             if (!currentLap.Completed)
             {
@@ -230,7 +237,11 @@
 
             if (ShouldFinishLap(set, currentLap))
             {
-                FinishCurrentLap(set);
+                if (!currentLap.SwitchToPendingIfNecessary(set, DriverInfo))
+                {
+                    FinishLap(currentLap, set);
+                }
+                CreateNewLap(set, currentLap);
                 _previousTickLapDistance = DriverInfo.LapDistance;
                 return currentLap.Valid;
             }
@@ -249,6 +260,7 @@
             OnLapInvalidated(e);
         }
 
+
         private bool ShouldFinishLap(SimulatorDataSet dataSet, LapInfo currentLap)
         {
             SessionInfo sessionInfo = dataSet.SessionInfo;
@@ -259,7 +271,7 @@
                 return true;
             }
 
-            if ((!dataSet.SimulatorSourceInfo.HasLapTimeInformation || dataSet.Source == "RFactor") && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
+            if ((!dataSet.SimulatorSourceInfo.HasLapTimeInformation || dataSet.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly) && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
             {
                 return true;
             }
@@ -294,38 +306,51 @@
             CurrentLap.Tick(dataSet, DriverInfo);
             CurrentLap.InvalidBySim = !DriverInfo.CurrentLapValid;
             LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength) * 100;
-            if (SessionType.Race != dataSet.SessionInfo.SessionType && (InPits || !DriverInfo.CurrentLapValid) && _lapsInfo.Count >= 1)
+            if (CurrentLap.Valid && SessionType.Race != dataSet.SessionInfo.SessionType && (InPits || !DriverInfo.CurrentLapValid) && _lapsInfo.Count >= 1)
             {
                 CurrentLap.Valid = false;
             }
         }
 
 
-        private void FinishCurrentLap(SimulatorDataSet dataSet)
+        private void FinishLap(LapInfo lapToFinish, SimulatorDataSet dataSet)
         {
-            CurrentLap.FinishLap(dataSet, DriverInfo);
-            if (CurrentLap.LapTime == TimeSpan.Zero)
+            lapToFinish.FinishLap(dataSet, DriverInfo);
+            lapToFinish.SectorCompletedEvent -= LapSectorCompletedEvent;
+            lapToFinish.LapCompletedEvent -= LapCompletedHandler;
+            lapToFinish.LapInvalidatedEvent -= LapInvalidatedHandler;
+
+            if (lapToFinish.LapTime == TimeSpan.Zero)
             {
-                CurrentLap.Valid = false;
-                RevertSectorChanges(CurrentLap);
+                lapToFinish.Valid = false;
+                RevertSectorChanges(lapToFinish);
             }
-            if (CurrentLap.Valid && CurrentLap.LapTime != TimeSpan.Zero && (BestLap == null || CurrentLap.LapTime < BestLap.LapTime ))
+            if (lapToFinish.Valid && lapToFinish.LapTime != TimeSpan.Zero && (BestLap == null || lapToFinish.LapTime < BestLap.LapTime ))
             {
-                BestLap = CurrentLap;
+                BestLap = lapToFinish;
             }
 
-            if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Na || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
+            OnLapCompleted(new LapEventArgs(lapToFinish));
+
+            ComputePace();
+        }
+
+        private void CreateNewLap(SimulatorDataSet dataSet, LapInfo lapToCreateFrom)
+        {
+            if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Na
+                || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None)
             {
-                CurrentLap.SectorCompletedEvent -= LapSectorCompletedEvent;
-                var newLap = new LapInfo(dataSet.SessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, CurrentLap);
+                var newLap = new LapInfo(
+                    dataSet.SessionInfo.SessionTime,
+                    DriverInfo.CompletedLaps + 1,
+                    this,
+                    lapToCreateFrom);
                 newLap.SectorCompletedEvent += LapSectorCompletedEvent;
                 newLap.LapCompletedEvent += LapCompletedHandler;
                 newLap.LapInvalidatedEvent += LapInvalidatedHandler;
                 _lapsInfo.Add(newLap);
                 OnNewLapStarted(new LapEventArgs(newLap));
             }
-
-            ComputePace();
         }
 
         private void LapSectorCompletedEvent(object sender, LapInfo.SectorCompletedArgs e)
@@ -426,6 +451,10 @@
         {
             get
             {
+                if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf)
+                {
+                    return string.Empty;
+                }
                 if(Session.SessionType != SessionType.Race)
                 {
                     if (InPits)

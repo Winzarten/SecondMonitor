@@ -1,21 +1,23 @@
-﻿namespace SecondMonitor.RFactorConnector.SharedMemory
+﻿using System;
+using System.Linq;
+using SecondMonitor.DataModel.BasicProperties;
+using SecondMonitor.DataModel.Snapshot;
+using SecondMonitor.DataModel.Snapshot.Drivers;
+using SecondMonitor.PluginManager.Extensions;
+using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
+
+namespace SecondMonitor.RF2Connector.SharedMemory
 {
-    using System;
-
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PluginManager.Extensions;
-
-    internal class RFDataConvertor
+    internal class RF2DataConvertor
     {
 
         private DriverInfo _lastPlayer = new DriverInfo();
+        private int _lastPlayerId = -1;
         private const int maxConsecutivePackagesIgnored = 200;
 
         private int currentlyIgnoredPackage = 0;
 
-        public SimulatorDataSet CreateSimulatorDataSet(RfShared rfData)
+        public SimulatorDataSet CreateSimulatorDataSet(Rf2FullData rfData)
         {
             SimulatorDataSet simData = new SimulatorDataSet("RFactor");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
@@ -24,6 +26,14 @@
 
             FillSessionInfo(rfData, simData);
             AddDriversData(simData, rfData);
+
+            if (_lastPlayerId == -1)
+            {
+                return simData;
+
+            }
+
+            rF2VehicleTelemetry playerF2VehicleTelemetry = rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
 
             FillPlayersGear(rfData, simData);
 
@@ -40,64 +50,84 @@
             AddBrakesInfo(rfData, simData);
 
             // Tyre Pressure Info
-            AddTyresAndFuelInfo(rfData, simData);
+            AddTyresAndFuelInfo(simData, playerF2VehicleTelemetry);
 
             // Acceleration
-            AddAcceleration(rfData, simData);
+            AddAcceleration(simData, playerF2VehicleTelemetry);
 
             currentlyIgnoredPackage = 0;
             return simData;
         }
 
-        private static void AddAcceleration(RfShared data, SimulatorDataSet simData)
+        private void AddAcceleration(SimulatorDataSet simData, rF2VehicleTelemetry playerVehicleTelemetry)
         {
-            simData.PlayerInfo.CarInfo.Acceleration.XinMs = data.LocalAccel.X;
-            simData.PlayerInfo.CarInfo.Acceleration.YinMs = data.LocalAccel.Y;
-            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.LocalAccel.Z;
+            simData.PlayerInfo.CarInfo.Acceleration.XinMs = playerVehicleTelemetry.mLocalAccel.x;
+            simData.PlayerInfo.CarInfo.Acceleration.YinMs = playerVehicleTelemetry.mLocalAccel.y;
+            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = playerVehicleTelemetry.mLocalAccel.z;
         }
 
-        private static void AddTyresAndFuelInfo(RfShared data, SimulatorDataSet simData)
+        private void AddTyresAndFuelInfo(SimulatorDataSet simData, rF2VehicleTelemetry playerVehicleTelemetry)
         {
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure = Pressure.FromKiloPascals(data.Wheel[(int)RfWheelIndex.FrontLeft].Pressure);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure = Pressure.FromKiloPascals(data.Wheel[(int)RfWheelIndex.FrontRight].Pressure);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure = Pressure.FromKiloPascals(data.Wheel[(int)RfWheelIndex.RearLeft].Pressure);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure = Pressure.FromKiloPascals(data.Wheel[(int)RfWheelIndex.RearRight].Pressure);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure =
+                Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mPressure);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure =
+                Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mPressure);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure =
+                Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mPressure);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure =
+                Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mPressure);
 
 
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.FrontLeft].Wear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.FrontRight].Wear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.RearLeft].Wear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.RearRight].Wear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear =
+                1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mWear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear =
+                1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mWear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear =
+                1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mWear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear =
+                1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mWear;
 
             // Front Left Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].Temperature[0]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].Temperature[2]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].Temperature[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mTemperature[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mTemperature[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mTemperature[1]);
 
 
             // Front Right Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontRight].Temperature[0]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontRight].Temperature[2]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontRight].Temperature[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mTemperature[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mTemperature[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mTemperature[1]);
 
 
             // Rear Left Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.LeftTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearLeft].Temperature[0]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearLeft].Temperature[2]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearLeft].Temperature[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.LeftTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mTemperature[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mTemperature[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mTemperature[1]);
 
             // Rear Right Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearRight].Temperature[0]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearRight].Temperature[2]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearRight].Temperature[1]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mTemperature[0]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mTemperature[2]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp =
+                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mTemperature[1]);
 
             // Fuel System
-            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(50);
-            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(data.Fuel);
+            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(playerVehicleTelemetry.mFuelCapacity);
+            simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(playerVehicleTelemetry.mFuel);
         }
 
-        private static void AddBrakesInfo(RfShared data, SimulatorDataSet simData)
+        private static void AddBrakesInfo(Rf2FullData data, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].BrakeTemp);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontRight].BrakeTemp);
@@ -105,17 +135,17 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearRight].BrakeTemp);
         }
 
-        private static void AddOilSystemInfo(RfShared data, SimulatorDataSet simData)
+        private static void AddOilSystemInfo(Rf2FullData data, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.EngineOilTemp);
         }
 
-        private static void AddWaterSystemInfo(RfShared data, SimulatorDataSet simData)
+        private static void AddWaterSystemInfo(Rf2FullData data, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);
         }
 
-        private static void AddPedalInfo(RfShared data, SimulatorDataSet simData)
+        private static void AddPedalInfo(Rf2FullData data, SimulatorDataSet simData)
         {
             simData.PedalInfo.ThrottlePedalPosition = data.UnfilteredThrottle;
             simData.PedalInfo.BrakePedalPosition = data.UnfilteredBrake;
@@ -123,7 +153,7 @@
         }
 
 
-        private static void FillPlayersGear(RfShared data, SimulatorDataSet simData)
+        private static void FillPlayersGear(Rf2FullData data, SimulatorDataSet simData)
         {
             switch (data.Gear)
             {
@@ -142,7 +172,7 @@
             }
         }
 
-        internal void AddDriversData(SimulatorDataSet data, RfShared rfData)
+        internal void AddDriversData(SimulatorDataSet data, Rf2FullData rfData)
         {
             if (rfData.NumVehicles < 1)
             {
@@ -204,7 +234,7 @@
                 currentlyIgnoredPackage++;
                 if (currentlyIgnoredPackage < maxConsecutivePackagesIgnored)
                 {
-                    throw new RFInvalidPackageException("Players distance was :" + distance.DistanceInM);
+                    throw new RF2InvalidPackageException("Players distance was :" + distance.DistanceInM);
                 }
             }
 
@@ -218,7 +248,7 @@
             }
         }
 
-        internal void FillTimingInfo(DriverInfo driverInfo, RfVehicleInfo rfVehicleInfo, RfShared rfShared)
+        internal void FillTimingInfo(DriverInfo driverInfo, RfVehicleInfo rfVehicleInfo, Rf2FullData Rf2FullData)
         {
             driverInfo.Timing.LastSector1Time = CreateTimeSpan(rfVehicleInfo.CurSector1);
             driverInfo.Timing.LastSector2Time = CreateTimeSpan(rfVehicleInfo.CurSector2 - rfVehicleInfo.CurSector1);
@@ -232,7 +262,7 @@
             return seconds > 0 ? TimeSpan.FromSeconds(seconds) : TimeSpan.Zero;
         }
 
-        private void AddLappingInformation(SimulatorDataSet data, RfShared rfData, DriverInfo driverInfo)
+        private void AddLappingInformation(SimulatorDataSet data, Rf2FullData rfData, DriverInfo driverInfo)
         {
             if (data.SessionInfo.SessionType == SessionType.Race && _lastPlayer != null
                 && _lastPlayer.CompletedLaps != 0)
@@ -244,7 +274,7 @@
             }
         }
 
-        private DriverInfo CreateDriverInfo(RfShared rfData, RfVehicleInfo rfVehicleInfo)
+        private DriverInfo CreateDriverInfo(Rf2FullData rfData, RfVehicleInfo rfVehicleInfo)
         {
             DriverInfo driverInfo = new DriverInfo
                                         {
@@ -265,7 +295,7 @@
             return driverInfo;
         }
 
-        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, RfShared rfShared)
+        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, Rf2FullData Rf2FullData)
         {
             if (player == null)
             {
@@ -279,7 +309,7 @@
                 return;
             }
 
-            double trackLength = rfShared.LapDist;
+            double trackLength = Rf2FullData.LapDist;
             double playerLapDistance = player.LapDistance;
 
             double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
@@ -296,7 +326,7 @@
             driverInfo.DistanceToPlayer = distanceToPlayer;
         }
 
-        internal void FillSessionInfo(RfShared data, SimulatorDataSet simData)
+        internal void FillSessionInfo(Rf2FullData data, SimulatorDataSet simData)
         {
             // Timing
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);

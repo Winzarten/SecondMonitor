@@ -467,7 +467,7 @@
             LapInfo lastCompletedLap = DriverTiming.LastCompletedLap;
             if (lastCompletedLap != null)
             {
-                if (driverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player.DriverTiming.LastCompletedLap == null)
+                if (driverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player?.DriverTiming.LastCompletedLap == null)
                 {
                     return TimeSpanFormatHelper.FormatTimeSpan(lastCompletedLap.LapTime);
                 }
@@ -517,6 +517,10 @@
 
         private string GetBestLap()
         {
+            if (DriverTiming?.Session?.Player?.DriverTiming?.BestLap == null)
+            {
+                return "N/A";
+            }
 
                 if (DriverTiming.BestLap == null)
                 {

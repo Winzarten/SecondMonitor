@@ -1,5 +1,18 @@
 ﻿namespace SecondMonitor.Timing.Presentation.ViewModel
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Data;
+    using System.Windows.Input;
+
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.PluginManager.Core;
@@ -15,18 +28,6 @@
     using SecondMonitor.Timing.Settings;
     using SecondMonitor.Timing.Settings.Model;
     using SecondMonitor.Timing.Settings.ModelView;
-    using System;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Data;
-    using System.Windows.Input;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -112,6 +113,16 @@
         public TimingGui Gui { get; private set; }
 
         public DriverTiming SelectedDriverTiming => ((DriverTimingModelView)Gui?.DtTimig.SelectedItem)?.DriverTiming;
+
+        public SessionTiming SessionTiming
+        {
+            get => _timing;
+            private set
+            {
+                _timing = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public PluginsManager PluginManager
         {
@@ -469,6 +480,7 @@
             Gui.WhRightRear.UpdateControl(data);
             Gui.TimingCircle.RefreshSession(data);
             RefreshDataGrid();
+
             if (DisplaySettings.ScrollToPlayer && Gui != null && _timing?.Player != null && Gui.DtTimig.Items.Count > 0)
             {
                 Gui.DtTimig.ScrollIntoView(Gui.DtTimig.Items[0]);
@@ -539,7 +551,7 @@
                 _reportCreation.CreateReport(_timing);
             }
 
-            _timing = SessionTiming.FromSimulatorData(data, invalidateLap, this);
+            SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this);
             foreach (var driverTimingModelView in _timing.Drivers.Values)
             {
                 _driverLapsWindowManager.Rebind(driverTimingModelView.DriverTiming);

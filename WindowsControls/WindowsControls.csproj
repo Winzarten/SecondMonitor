@@ -90,6 +90,7 @@
     <Compile Include="WPF\FuelMonitor.xaml.cs">
       <DependentUpon>FuelMonitor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WPF\IPositionCircleInformationProvider.cs" />
     <Compile Include="WPF\TemperatureControl.xaml.cs">
       <DependentUpon>TemperatureControl.xaml</DependentUpon>
     </Compile>
