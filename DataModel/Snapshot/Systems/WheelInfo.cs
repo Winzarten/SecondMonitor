@@ -3,14 +3,14 @@
     using SecondMonitor.DataModel.BasicProperties;
 
     public class WheelInfo
-    {                
+    {
         public WheelInfo()
         {
-            BrakeTemperature = new Temperature();
+            BrakeTemperature = Temperature.Zero;
             TyrePressure = new Pressure();
-            LeftTyreTemp = new Temperature();
-            RightTyreTemp = new Temperature();
-            CenterTyreTemp = new Temperature();
+            LeftTyreTemp = Temperature.Zero;
+            RightTyreTemp = Temperature.Zero;
+            CenterTyreTemp = Temperature.Zero;
             TyreWear = 0;
             TyreTypeFilled = false;
         }

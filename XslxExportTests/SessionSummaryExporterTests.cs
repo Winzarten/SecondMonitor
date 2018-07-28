@@ -116,7 +116,7 @@
                        {
                            SessionRunTime = DateTime.Now,
                            SessionType = SessionType.Race,
-                           Simulator = "R3E", 
+                           Simulator = "R3E",
                            TrackInfo = new TrackInfo()
                                            {
                                                LayoutLength = 2000,

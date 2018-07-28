@@ -1,23 +1,22 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.ViewModel
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using SecondMonitor.DataModel.BasicProperties;
+using SecondMonitor.DataModel.Snapshot;
+using SecondMonitor.DataModel.Snapshot.Drivers;
+using SecondMonitor.Timing.Presentation.ViewModel;
+using SecondMonitor.Timing.Properties;
+using SecondMonitor.Timing.SessionTiming.Drivers;
+using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+using SecondMonitor.WindowsControls.WPF;
+
+namespace SecondMonitor.Timing.SessionTiming.ViewModel
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Windows;
-
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.Timing.Presentation.ViewModel;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.SessionTiming.Drivers;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
-    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
-    using SecondMonitor.WindowsControls.WPF;
-
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
         public class DriverNotFoundException : Exception
@@ -43,7 +42,7 @@
 
         public event EventHandler<DriverListModificationEventArgs> DriverRemoved;
 
-        public float TotalSessionLength { get; private set; }
+        public double TotalSessionLength { get; private set; }
 
         private LapInfo _bestSessionLap;
 
@@ -215,7 +214,7 @@
                 }
                 Drivers.Remove(newDriverInfo.DriverName);
             }
-            DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != DataModel.BasicProperties.SessionType.Race);
+            DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionType.Race);
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
             newDriver.LapCompleted += DriverOnLapCompleted;

@@ -6,9 +6,14 @@
 
     public class Temperature
     {
-        public Temperature()
+        private readonly bool _isZero;
+
+        public static Temperature Zero = new Temperature();
+
+        private Temperature()
         {
             InCelsius = -1;
+            _isZero = true;
         }
 
         private Temperature(double valueInCelsius)
@@ -78,8 +83,7 @@
 
         public static bool operator ==(Temperature temp1, Temperature temp2)
         {
-
-            return Comparison(temp1, temp2) == 0;
+            return temp1._isZero == temp2._isZero &&  Comparison(temp1, temp2) == 0;
 
         }
 

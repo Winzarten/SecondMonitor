@@ -431,13 +431,35 @@
             Gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature;
             Gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
 
-            Gui.LblWeather.Content =
-                "Air: "
-                + data.SessionInfo.WeatherInfo.AirTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
-                    .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits) + " |Track: "
-                + data.SessionInfo.WeatherInfo.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits).ToString("n1")
-                + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits);
+            Gui.LblWeather.Content = GetWeatherInfo(data);
             SessionInfoViewModel.SessionRemaining = GetSessionRemaining(data);
+        }
+
+        private string GetWeatherInfo(SimulatorDataSet set)
+        {
+            WeatherInfo weather = set.SessionInfo.WeatherInfo;
+            StringBuilder sb = new StringBuilder();
+
+            if (weather.AirTemperature != Temperature.Zero)
+            {
+                sb.Append("Air: " + weather.AirTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
+                    .ToString("n1"));
+            }
+
+            if (weather.TrackTemperature != Temperature.Zero)
+            {
+                sb.Append(" |Track: " +weather.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
+                    .ToString("n1"));
+            }
+
+
+            if (weather.RainIntensity > 0)
+            {
+                sb.Append(" |Rain Intensity: " + weather.RainIntensity+"%");
+            }
+
+            return sb.ToString();
+
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)

@@ -6,7 +6,7 @@
     {
         public WaterInfo()
         {
-            WaterTemperature = new Temperature();
+            WaterTemperature = Temperature.Zero;
         }
 
         public Temperature WaterTemperature { get; set; }

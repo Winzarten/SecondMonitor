@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.LapTimings.ViewModel
+﻿using SecondMonitor.DataModel.BasicProperties;
+
+namespace SecondMonitor.Timing.LapTimings.ViewModel
 {
     using System;
     using System.Threading.Tasks;
@@ -31,7 +33,7 @@
             LapInfo = lapInfo;
             RefreshInfo();
             TimerMethod(RefreshInfo, () => LapInfo.Driver.Session.TimingDataViewModel.DisplaySettings.RefreshRate);
-            
+
         }
 
         public void StopRefresh()
@@ -200,7 +202,7 @@
         {
             if (!LapInfo.Valid)
             {
-                return "Lap Invalid";
+                return LapInfo.Driver.Session.SessionType == SessionType.Race ? "Lap Invalid" : "Out Lap";
             }
             return sectorTiming == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sectorTiming.Duration, false);
         }
@@ -224,7 +226,7 @@
         {
             if (!LapInfo.Valid)
             {
-                return "Lap Invalid";
+                return LapInfo.Driver.Session.SessionType == SessionType.Race ? "Lap Invalid" : LapInfo.Driver.InPits ? "In Pits" : "Out Lap";
             }
             return LapInfo.Completed ? TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapTime) : TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapProgressTime);
         }

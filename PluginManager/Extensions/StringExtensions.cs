@@ -7,7 +7,7 @@
 
         public static string FromArray(byte[] buffer)
         {
-            if (buffer[0] == (char)0)
+            if (buffer == null || buffer[0] == (char)0)
             {
                 return string.Empty;
             }

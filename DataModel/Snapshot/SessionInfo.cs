@@ -18,7 +18,7 @@
 
         public SessionLengthType SessionLengthType { get; set; } = SessionLengthType.Na;
 
-        public float SessionTimeRemaining { get; set; } = 0;
+        public double SessionTimeRemaining { get; set; } = 0;
 
         public int TotalNumberOfLaps { get; set; } = 0;
 

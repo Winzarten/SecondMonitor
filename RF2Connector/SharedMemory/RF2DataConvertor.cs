@@ -19,7 +19,7 @@ namespace SecondMonitor.RF2Connector.SharedMemory
 
         public SimulatorDataSet CreateSimulatorDataSet(Rf2FullData rfData)
         {
-            SimulatorDataSet simData = new SimulatorDataSet("RFactor");
+            SimulatorDataSet simData = new SimulatorDataSet("Rfactor 2");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
@@ -33,29 +33,39 @@ namespace SecondMonitor.RF2Connector.SharedMemory
 
             }
 
-            rF2VehicleTelemetry playerF2VehicleTelemetry = rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
+            try
+            {
 
-            FillPlayersGear(rfData, simData);
+                rF2VehicleTelemetry playerF2VehicleTelemetry =
+                    rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
 
-            // PEDAL INFO
-            AddPedalInfo(rfData, simData);
+                FillPlayersGear(playerF2VehicleTelemetry, simData);
 
-            // WaterSystemInfo
-            AddWaterSystemInfo(rfData, simData);
+                // PEDAL INFO
+                AddPedalInfo(playerF2VehicleTelemetry, simData);
 
-            // OilSystemInfo
-            AddOilSystemInfo(rfData, simData);
+                // WaterSystemInfo
+                AddWaterSystemInfo(playerF2VehicleTelemetry, simData);
 
-            // Brakes Info
-            AddBrakesInfo(rfData, simData);
+                // OilSystemInfo
+                AddOilSystemInfo(playerF2VehicleTelemetry, simData);
 
-            // Tyre Pressure Info
-            AddTyresAndFuelInfo(simData, playerF2VehicleTelemetry);
+                // Brakes Info
+                AddBrakesInfo(playerF2VehicleTelemetry, simData);
 
-            // Acceleration
-            AddAcceleration(simData, playerF2VehicleTelemetry);
+                // Tyre Pressure Info
+                AddTyresAndFuelInfo(simData, playerF2VehicleTelemetry);
 
-            currentlyIgnoredPackage = 0;
+                // Acceleration
+                AddAcceleration(simData, playerF2VehicleTelemetry);
+
+                currentlyIgnoredPackage = 0;
+            }
+            catch (ArgumentException)
+            {
+
+            }
+
             return simData;
         }
 
@@ -127,35 +137,39 @@ namespace SecondMonitor.RF2Connector.SharedMemory
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(playerVehicleTelemetry.mFuel);
         }
 
-        private static void AddBrakesInfo(Rf2FullData data, SimulatorDataSet simData)
+        private static void AddBrakesInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].BrakeTemp);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontRight].BrakeTemp);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearLeft].BrakeTemp);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.RearRight].BrakeTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature = Temperature.FromKelvin(
+                playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.FrontLeft].mBrakeTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature = Temperature.FromKelvin(
+                playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.FrontRight].mBrakeTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature = Temperature.FromKelvin(
+                playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.RearLeft].mBrakeTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature = Temperature.FromKelvin(
+                playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.RearRight].mBrakeTemp);
         }
 
-        private static void AddOilSystemInfo(Rf2FullData data, SimulatorDataSet simData)
+        private static void AddOilSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.EngineOilTemp);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(playerVehicleTelemetry.mEngineOilTemp);
         }
 
-        private static void AddWaterSystemInfo(Rf2FullData data, SimulatorDataSet simData)
+        private static void AddWaterSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(playerVehicleTelemetry.mEngineWaterTemp);
         }
 
-        private static void AddPedalInfo(Rf2FullData data, SimulatorDataSet simData)
+        private static void AddPedalInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PedalInfo.ThrottlePedalPosition = data.UnfilteredThrottle;
-            simData.PedalInfo.BrakePedalPosition = data.UnfilteredBrake;
-            simData.PedalInfo.ClutchPedalPosition = data.UnfilteredClutch;
+            simData.PedalInfo.ThrottlePedalPosition = playerVehicleTelemetry.mUnfilteredThrottle;
+            simData.PedalInfo.BrakePedalPosition = playerVehicleTelemetry.mUnfilteredBrake;
+            simData.PedalInfo.ClutchPedalPosition = playerVehicleTelemetry.mUnfilteredClutch;
         }
 
 
-        private static void FillPlayersGear(Rf2FullData data, SimulatorDataSet simData)
+        private static void FillPlayersGear(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            switch (data.Gear)
+            switch (playerVehicleTelemetry.mGear)
             {
                 case 0:
                     simData.PlayerInfo.CarInfo.CurrentGear = "N";
@@ -167,30 +181,31 @@ namespace SecondMonitor.RF2Connector.SharedMemory
                     simData.PlayerInfo.CarInfo.CurrentGear = String.Empty;
                     break;
                 default:
-                    simData.PlayerInfo.CarInfo.CurrentGear = data.Gear.ToString();
+                    simData.PlayerInfo.CarInfo.CurrentGear = playerVehicleTelemetry.mGear.ToString();
                     break;
             }
         }
 
         internal void AddDriversData(SimulatorDataSet data, Rf2FullData rfData)
         {
-            if (rfData.NumVehicles < 1)
+            if (rfData.scoring.mScoringInfo.mNumVehicles < 1)
             {
                 return;
             }
 
-            data.DriversInfo = new DriverInfo[rfData.NumVehicles];
+            data.DriversInfo = new DriverInfo[rfData.scoring.mScoringInfo.mNumVehicles];
             DriverInfo playersInfo = null;
 
-            for (int i = 0; i < rfData.NumVehicles; i++)
+            for (int i = 0; i < rfData.scoring.mScoringInfo.mNumVehicles; i++)
             {
-                RfVehicleInfo rfVehicleInfo = rfData.Vehicle[i];
-                DriverInfo driverInfo = CreateDriverInfo(rfData, rfVehicleInfo);
+                rF2VehicleScoring rF2VehicleScoring = rfData.scoring.mVehicles[i];
+                DriverInfo driverInfo = CreateDriverInfo(rfData, rF2VehicleScoring);
 
                 if (driverInfo.IsPlayer)
                 {
                     playersInfo = driverInfo;
                     driverInfo.CurrentLapValid = true;
+                    _lastPlayerId = rF2VehicleScoring.mID;
                 }
                 else
                 {
@@ -205,7 +220,7 @@ namespace SecondMonitor.RF2Connector.SharedMemory
                 }
 
                 AddLappingInformation(data, rfData, driverInfo);
-                FillTimingInfo(driverInfo, rfVehicleInfo, rfData);
+                FillTimingInfo(driverInfo, rF2VehicleScoring, rfData);
 
                 if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer.Position)
                 {
@@ -240,21 +255,13 @@ namespace SecondMonitor.RF2Connector.SharedMemory
 
         }
 
-        internal void ValidateLapBasedOnSurface(DriverInfo driverInfo, RfVehicleInfo rfVehicleInfo)
+        internal void FillTimingInfo(DriverInfo driverInfo, rF2VehicleScoring rfVehicleInfo, Rf2FullData Rf2FullData)
         {
-            if (!driverInfo.CurrentLapValid)
-            {
-                return;
-            }
-        }
-
-        internal void FillTimingInfo(DriverInfo driverInfo, RfVehicleInfo rfVehicleInfo, Rf2FullData Rf2FullData)
-        {
-            driverInfo.Timing.LastSector1Time = CreateTimeSpan(rfVehicleInfo.CurSector1);
-            driverInfo.Timing.LastSector2Time = CreateTimeSpan(rfVehicleInfo.CurSector2 - rfVehicleInfo.CurSector1);
-            driverInfo.Timing.LastSector3Time = CreateTimeSpan(rfVehicleInfo.LastLapTime - rfVehicleInfo.LastSector2);
-            driverInfo.Timing.LastLapTime = CreateTimeSpan(rfVehicleInfo.LastLapTime);
-            driverInfo.Timing.CurrentSector = rfVehicleInfo.Sector == 0 ? 3 : rfVehicleInfo.Sector;
+            driverInfo.Timing.LastSector1Time = CreateTimeSpan(rfVehicleInfo.mCurSector1);
+            driverInfo.Timing.LastSector2Time = CreateTimeSpan(rfVehicleInfo.mCurSector2 - rfVehicleInfo.mCurSector1);
+            driverInfo.Timing.LastSector3Time = CreateTimeSpan(rfVehicleInfo.mLastLapTime - rfVehicleInfo.mLastSector2);
+            driverInfo.Timing.LastLapTime = CreateTimeSpan(rfVehicleInfo.mLastLapTime);
+            driverInfo.Timing.CurrentSector = rfVehicleInfo.mSector == 0 ? 3 : rfVehicleInfo.mSector;
         }
 
         private TimeSpan CreateTimeSpan(double seconds)
@@ -268,29 +275,31 @@ namespace SecondMonitor.RF2Connector.SharedMemory
                 && _lastPlayer.CompletedLaps != 0)
             {
                 driverInfo.IsBeingLappedByPlayer =
-                    driverInfo.TotalDistance < (_lastPlayer.TotalDistance - rfData.LapDist  * 0.5);
+                    driverInfo.TotalDistance < (_lastPlayer.TotalDistance - rfData.scoring.mScoringInfo.mLapDist  * 0.5);
                 driverInfo.IsLappingPlayer =
-                    _lastPlayer.TotalDistance < (driverInfo.TotalDistance - rfData.LapDist * 0.5);
+                    _lastPlayer.TotalDistance < (driverInfo.TotalDistance - rfData.scoring.mScoringInfo.mLapDist * 0.5);
             }
         }
 
-        private DriverInfo CreateDriverInfo(Rf2FullData rfData, RfVehicleInfo rfVehicleInfo)
+        private DriverInfo CreateDriverInfo(Rf2FullData rfData, rF2VehicleScoring rfVehicleInfo)
         {
             DriverInfo driverInfo = new DriverInfo
                                         {
-                                            DriverName = StringExtensions.FromArray(rfVehicleInfo.DriverName),
-                                            CompletedLaps = rfVehicleInfo.TotalLaps,
-                                            CarName = StringExtensions.FromArray(rfVehicleInfo.VehicleClass),
-                                            InPits = rfVehicleInfo.InPits == 1
+                                            DriverName = StringExtensions.FromArray(rfVehicleInfo.mDriverName),
+                                            CompletedLaps = rfVehicleInfo.mTotalLaps,
+                                            CarName = StringExtensions.FromArray(rfVehicleInfo.mVehicleName),
+                                            InPits = rfVehicleInfo.mInPits == 1
                                         };
 
-            driverInfo.IsPlayer = rfVehicleInfo.IsPlayer == 1;
-            driverInfo.Position = rfVehicleInfo.Place;
-            driverInfo.Speed = Velocity.FromMs(rfVehicleInfo.Speed);
-            driverInfo.LapDistance = rfVehicleInfo.LapDist;
-            driverInfo.TotalDistance = rfVehicleInfo.TotalLaps * rfData.LapDist + rfVehicleInfo.LapDist;
-            driverInfo.FinishStatus = FromRFStatus(rfVehicleInfo.FinishStatus);
-            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(rfVehicleInfo.Pos.X), Distance.FromMeters(rfVehicleInfo.Pos.Y), Distance.FromMeters(rfVehicleInfo.Pos.Z));
+            driverInfo.IsPlayer = rfVehicleInfo.mIsPlayer == 1;
+            driverInfo.Position = rfVehicleInfo.mPlace;
+            driverInfo.Speed = Velocity.FromMs(Math.Sqrt((rfVehicleInfo.mLocalVel.x * rfVehicleInfo.mLocalVel.x)
+                                                         + (rfVehicleInfo.mLocalVel.y * rfVehicleInfo.mLocalVel.y)
+                                                         + (rfVehicleInfo.mLocalVel.z * rfVehicleInfo.mLocalVel.z)));
+            driverInfo.LapDistance = rfVehicleInfo.mLapDist;
+            driverInfo.TotalDistance = rfVehicleInfo.mTotalLaps * rfData.scoring.mScoringInfo.mLapDist + rfVehicleInfo.mLapDist;
+            driverInfo.FinishStatus = FromRFStatus(rfVehicleInfo.mFinishStatus);
+            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(rfVehicleInfo.mPos.x), Distance.FromMeters(rfVehicleInfo.mPos.y), Distance.FromMeters(rfVehicleInfo.mPos.z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, rfData);
             return driverInfo;
         }
@@ -305,11 +314,11 @@ namespace SecondMonitor.RF2Connector.SharedMemory
             if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
                 driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
             {
-                driverInfo.DistanceToPlayer = Double.MaxValue;
+                driverInfo.DistanceToPlayer = double.MaxValue;
                 return;
             }
 
-            double trackLength = Rf2FullData.LapDist;
+            double trackLength = Rf2FullData.scoring.mScoringInfo.mLapDist;
             double playerLapDistance = player.LapDistance;
 
             double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
@@ -329,44 +338,48 @@ namespace SecondMonitor.RF2Connector.SharedMemory
         internal void FillSessionInfo(Rf2FullData data, SimulatorDataSet simData)
         {
             // Timing
-            simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
-            simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
-            simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
+            simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.scoring.mScoringInfo.mCurrentET);
+            simData.SessionInfo.TrackInfo.LayoutLength = data.scoring.mScoringInfo.mLapDist;
+            simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.scoring.mScoringInfo.mTrackName);
             simData.SessionInfo.TrackInfo.TrackLayoutName = String.Empty;
-            simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AmbientTemp);
-            simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.TrackTemp);
+            simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.scoring.mScoringInfo.mAmbientTemp);
+            simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.scoring.mScoringInfo.mTrackTemp);
+            simData.SessionInfo.WeatherInfo.RainIntensity = (int)(data.scoring.mScoringInfo.mRaining * 100);
 
-            if (data.TrackTemp == 0 && data.Session == 0 && data.GamePhase == 0
-                && String.IsNullOrEmpty(simData.SessionInfo.TrackInfo.TrackName)
-                && String.IsNullOrEmpty(StringExtensions.FromArray(data.VehicleName)) && data.LapDist == 0)
+            if (data.scoring.mScoringInfo.mTrackTemp == 0 && data.scoring.mScoringInfo.mSession == 0 && data.scoring.mScoringInfo.mGamePhase == 0
+                && string.IsNullOrEmpty(simData.SessionInfo.TrackInfo.TrackName)
+                && data.scoring.mScoringInfo.mLapDist == 0)
             {
                 simData.SessionInfo.SessionType = SessionType.Na;
                 simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
                 return;
             }
 
-            switch ((RfSessionType)data.Session)
+            switch (data.scoring.mScoringInfo.mSession)
             {
-                case RfSessionType.NA:
+                case -1:
                     simData.SessionInfo.SessionType = SessionType.Na;
                     break;
-                case RfSessionType.Practice1:
-                case RfSessionType.Practice2:
-                case RfSessionType.Practice3:
-                case RfSessionType.TestDay:
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
                     simData.SessionInfo.SessionType = SessionType.Practice;
                     break;
-                case RfSessionType.Qualification:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
                     simData.SessionInfo.SessionType = SessionType.Qualification;
                     break;
-                case RfSessionType.WarmUp:
+                case 9:
                     simData.SessionInfo.SessionType = SessionType.WarmUp;
                     break;
-                case RfSessionType.Race1:
-                case RfSessionType.Race2:
-                case RfSessionType.Race3:
-                case RfSessionType.Race4:
-                case RfSessionType.Race5:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
                     simData.SessionInfo.SessionType = SessionType.Race;
                     break;
                 default:
@@ -374,22 +387,22 @@ namespace SecondMonitor.RF2Connector.SharedMemory
                     break;
             }
 
-            switch ((RfGamePhase)data.GamePhase)
+            switch ((rFactor2Constants.rF2GamePhase)data.scoring.mScoringInfo.mGamePhase)
             {
-                case RfGamePhase.Garage:
+                case rFactor2Constants.rF2GamePhase.Garage:
                     break;
-                case RfGamePhase.WarmUp:
-                case RfGamePhase.GridWalk:
-                case RfGamePhase.Formation:
-                case RfGamePhase.Countdown:
+                case rFactor2Constants.rF2GamePhase.WarmUp:
+                case rFactor2Constants.rF2GamePhase.GridWalk:
+                case rFactor2Constants.rF2GamePhase.Formation:
+                case rFactor2Constants.rF2GamePhase.Countdown:
                     simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
                     break;
-                case RfGamePhase.SessionStopped:
-                case RfGamePhase.GreenFlag:
-                case RfGamePhase.FullCourseYellow:
+                case rFactor2Constants.rF2GamePhase.SessionStopped:
+                case rFactor2Constants.rF2GamePhase.FullCourseYellow:
+                case rFactor2Constants.rF2GamePhase.GreenFlag:
                     simData.SessionInfo.SessionPhase = SessionPhase.Green;
                     break;
-                case RfGamePhase.SessionOver:
+                case rFactor2Constants.rF2GamePhase.SessionOver:
                     simData.SessionInfo.SessionPhase = SessionPhase.Checkered;
                     break;
             }
@@ -399,30 +412,30 @@ namespace SecondMonitor.RF2Connector.SharedMemory
 
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (data.EndET > 0)
+            if (data.scoring.mScoringInfo.mEndET > 0)
             {
                 simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
                 simData.SessionInfo.SessionTimeRemaining =
-                    data.EndET - data.CurrentET > 0 ? data.EndET - data.CurrentET : 0;
+                    data.scoring.mScoringInfo.mEndET - data.scoring.mScoringInfo.mCurrentET > 0 ? data.scoring.mScoringInfo.mEndET - data.scoring.mScoringInfo.mCurrentET : 0;
             }
             else
             {
                 simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
-                simData.SessionInfo.TotalNumberOfLaps = data.MaxLaps;
+                simData.SessionInfo.TotalNumberOfLaps = data.scoring.mScoringInfo.mMaxLaps;
             }
         }
 
         internal static DriverInfo.DriverFinishStatus FromRFStatus(int finishStatus)
         {
-            switch ((RfFinishStatus)finishStatus)
+            switch ((rFactor2Constants.rF2FinishStatus)finishStatus)
             {
-                case RfFinishStatus.None:
+                case rFactor2Constants.rF2FinishStatus.None:
                     return DriverInfo.DriverFinishStatus.Na;
-                case RfFinishStatus.Dnf:
+                case rFactor2Constants.rF2FinishStatus.Dnf:
                     return DriverInfo.DriverFinishStatus.Dnf;
-                case RfFinishStatus.Dq:
+                case rFactor2Constants.rF2FinishStatus.Dq:
                     return DriverInfo.DriverFinishStatus.Dq;
-                case RfFinishStatus.Finished:
+                case rFactor2Constants.rF2FinishStatus.Finished:
                     return DriverInfo.DriverFinishStatus.Finished;
                 default:
                     return DriverInfo.DriverFinishStatus.Na;

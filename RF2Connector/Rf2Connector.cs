@@ -14,9 +14,9 @@ namespace SecondMonitor.RF2Connector
         private static readonly string[] RFExecutables = { "rFactor2" };
         private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
         private readonly RF2DataConvertor _rf2DataConvertor;
-        private readonly MappedBuffer<rF2Telemetry> _telemetryBuffer = new MappedBuffer<rF2Telemetry>(rFactor2Constants.MM_TELEMETRY_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
-        private readonly MappedBuffer<rF2Scoring> _scoringBuffer = new MappedBuffer<rF2Scoring>(rFactor2Constants.MM_SCORING_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
-        private readonly MappedBuffer<rF2Rules> _rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME, true /*partial*/, true /*skipUnchanged*/);
+        private readonly MappedBuffer<rF2Telemetry> _telemetryBuffer = new MappedBuffer<rF2Telemetry>(rFactor2Constants.MM_TELEMETRY_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
+        private readonly MappedBuffer<rF2Scoring> _scoringBuffer = new MappedBuffer<rF2Scoring>(rFactor2Constants.MM_SCORING_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
+        private readonly MappedBuffer<rF2Rules> _rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
         private readonly MappedBuffer<rF2Extended> _extendedBuffer = new MappedBuffer<rF2Extended>(rFactor2Constants.MM_EXTENDED_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
 
         private DateTime _connectionTime = DateTime.MinValue;
@@ -129,10 +129,10 @@ namespace SecondMonitor.RF2Connector
             rF2Telemetry rF2Telemetry = new rF2Telemetry();
             rF2Rules rF2Rules = new rF2Rules();
 
-            _extendedBuffer.GetMappedData(ref rF2Extended);
-            _scoringBuffer.GetMappedData(ref rF2Scoring);
-            _telemetryBuffer.GetMappedData(ref rF2Telemetry);
-            _rulesBuffer.GetMappedData(ref rF2Rules);
+            _extendedBuffer.GetMappedDataUnsynchronized(ref rF2Extended);
+            _scoringBuffer.GetMappedDataUnsynchronized(ref rF2Scoring);
+            _telemetryBuffer.GetMappedDataUnsynchronized(ref rF2Telemetry);
+            _rulesBuffer.GetMappedDataUnsynchronized(ref rF2Rules);
 
             data.extended = rF2Extended;
             data.scoring = rF2Scoring;

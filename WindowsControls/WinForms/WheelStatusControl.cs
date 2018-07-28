@@ -135,7 +135,7 @@
             {
                 lblTyrePressure.Text = value.ToString("0");
             }
-            
+
         }
 
         private Color ComputeColor(double value, double optimalValue, double window)
@@ -209,7 +209,7 @@
         }
 
         public WheelStatusControl()
-        {            
+        {
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
             PerformAutoScale();

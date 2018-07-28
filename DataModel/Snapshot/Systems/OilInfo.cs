@@ -7,7 +7,7 @@
         public OilInfo()
         {
             OilPressure = new Pressure();
-            OilTemperature = new Temperature();
+            OilTemperature = Temperature.Zero;
         }
 
         public Temperature OilTemperature { get; set; }

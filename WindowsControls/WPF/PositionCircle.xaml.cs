@@ -24,7 +24,7 @@
 
         private Ellipse _myCircle;
 
-        private float _lapLength;
+        private double _lapLength;
 
         public PositionCircle()
         {

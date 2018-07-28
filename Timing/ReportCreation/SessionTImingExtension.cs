@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.ReportCreation
+﻿using SecondMonitor.DataModel.BasicProperties;
+
+namespace SecondMonitor.Timing.ReportCreation
 {
     using System;
     using System.Linq;
@@ -29,10 +31,10 @@
 
         private static void AddDrivers(SessionSummary summary, SessionTiming timing)
         {
-           summary.Drivers.AddRange(timing.Drivers.Select(d => ConvertToSummaryDriver(d.Value.DriverTiming)));
+           summary.Drivers.AddRange(timing.Drivers.Select(d => ConvertToSummaryDriver(d.Value.DriverTiming, timing.SessionType)));
         }
 
-        private static Driver ConvertToSummaryDriver(DriverTiming driverTiming)
+        private static Driver ConvertToSummaryDriver(DriverTiming driverTiming, SessionType sessionTime)
         {
             Driver driverSummary = new Driver()
                                        {
@@ -44,7 +46,8 @@
 
                                        };
             int lapNumber = 1;
-            driverSummary.Laps.AddRange(driverTiming.Laps.Where(l => l.Completed && l.Valid).Select(l => ConvertToSummaryLap(driverSummary, l, lapNumber++)));
+            bool allLaps = sessionTime == SessionType.Race;
+            driverSummary.Laps.AddRange(driverTiming.Laps.Where(l => l.Completed && (allLaps || l.Valid)).Select(l => ConvertToSummaryLap(driverSummary, l, lapNumber++)));
             driverSummary.TotalLaps = driverSummary.Laps.Count;
             return driverSummary;
         }

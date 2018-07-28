@@ -4,7 +4,7 @@
     using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class SimulatorDataSet
-    {        
+    {
         public SimulatorDataSet(string source)
         {
             Source = source;

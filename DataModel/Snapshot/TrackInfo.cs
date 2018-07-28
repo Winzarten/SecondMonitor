@@ -6,7 +6,7 @@
 
         public string TrackLayoutName { get; set; }
 
-        public float LayoutLength { get; set; }
+        public double LayoutLength { get; set; }
 
         public TrackInfo()
         {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "f870d807-4c53-4100-bcd1-92f66e06f47f"?>
+  <?define ProductCode = "31658e8f-6c11-4c55-8340-df3637319bfd"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
   <?define ProductVersion = "2.0.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
@@ -126,6 +126,9 @@
       <Component Id="cmp7f75611e33f94a10b57f428694c45415" Directory="dir0b6902e3f28f41e92329d0f61641a602" Guid="7f75611e-33f9-4a10-b57f-428694c45415">
         <File Id="file7f75611e33f94a10b57f428694c45415" KeyPath="yes" Source="..\Deployment\Connectors\RFactor\RFactorConnector.dll" />
       </Component>
+      <Component Id="cmp6d7ce167f46d402bb458a007d9114824" Directory="dir3360ab9bfb6540e093d7c5f9d14d27ca" Guid="3cef7d19-003d-4796-886b-3ac5ce21f115">
+        <File Id="file2dcd02ca4ed7488890e52f190d85ea4f" KeyPath="yes" Source="..\Deployment\Connectors\RFactor2\RF2Connector.dll" />
+      </Component>
     </ComponentGroup>
 
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
@@ -151,6 +154,10 @@
 
     <DirectoryRef Id="dir10609BC54973A60FEA796FF193DD15AB">
       <Directory Id="dir0b6902e3f28f41e92329d0f61641a602" Name="RFactor" />
+    </DirectoryRef>
+
+    <DirectoryRef Id="dir10609BC54973A60FEA796FF193DD15AB">
+      <Directory Id="dir3360ab9bfb6540e093d7c5f9d14d27ca" Name="RFactor2" />
     </DirectoryRef>
 
 
