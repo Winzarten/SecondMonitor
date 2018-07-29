@@ -169,11 +169,13 @@
             _settingAutoSaver.DisplaySettingsModelView = DisplaySettings;
         }
 
+        private bool TerminatePeriodicTasks { get; set; }
+
         private void ScheduleRefreshActions()
         {
-            SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this, CancellationToken.None);
-            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 33, this, CancellationToken.None);
-            SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this, CancellationToken.None);
+            SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
+            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 33, this);
+            SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
         }
 
         private void CreateGuiInstance()
@@ -250,7 +252,10 @@
                 _timing.PaceLaps = DisplaySettings.PaceLaps;
             }
 
-            Gui.Dispatcher.Invoke(RefreshDataGrid);
+            if (!TerminatePeriodicTasks)
+            {
+                Gui.Dispatcher.Invoke(RefreshDataGrid);
+            }
 
         }
 
@@ -339,6 +344,7 @@
 
         private void Gui_Closed(object sender, EventArgs e)
         {
+            TerminatePeriodicTasks = true;
             _pluginsManager.DeletePlugin(this);
         }
 
@@ -464,6 +470,11 @@
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
         {
+            if (TerminatePeriodicTasks)
+            {
+                return;
+            }
+
             Gui?.Dispatcher.Invoke(() =>
             {
                 Gui.TimingCircle.RemoveDriver(e.Data.DriverTiming.DriverInfo);
@@ -608,8 +619,6 @@
             CurrentSessionOptions = GetSessionOptionOfCurrentSession(data);
         }
 
-        public ICollectionView TimingInfo { get => ViewSource!= null ? ViewSource.View : null; }
-
         private void InitializeGui(SimulatorDataSet data)
         {
             if (!Dispatcher.CheckAccess())
@@ -727,16 +736,23 @@
 
         }
 
-        private static async void SchedulePeriodicAction(Action action, int periodInMs, object sender, CancellationToken cancellationToken)
+        private static async void SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
         {
-            while (!cancellationToken.IsCancellationRequested)
+            try
             {
-                await Task.Delay(periodInMs, cancellationToken);
-
-                if (!cancellationToken.IsCancellationRequested)
+                while (!sender.TerminatePeriodicTasks)
                 {
-                    action();
+                    await Task.Delay(periodInMs, CancellationToken.None);
+
+                    if (!sender.TerminatePeriodicTasks)
+                    {
+                        action();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -762,7 +778,19 @@
 
         private static void DisplayMessage(object sender, MessageArgs e)
         {
-            MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (e.IsDecision)
+            {
+                if (MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.YesNo,
+                        MessageBoxImage.Information) == MessageBoxResult.Yes)
+                {
+                    e.Action();
+                }
+            }
+            else
+            {
+                MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
         }
 
     }

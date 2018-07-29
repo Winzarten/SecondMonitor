@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "a2565462-5d7a-4fe8-8500-d30b0a4cbf56"?>
+  <?define ProductCode = "8933fbbe-0649-47be-943c-e9ee85b4c514"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
   <?define ProductVersion = "2.1.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
@@ -129,6 +129,10 @@
       <Component Id="cmp6d7ce167f46d402bb458a007d9114824" Directory="dir3360ab9bfb6540e093d7c5f9d14d27ca" Guid="3cef7d19-003d-4796-886b-3ac5ce21f115">
         <File Id="file2dcd02ca4ed7488890e52f190d85ea4f" KeyPath="yes" Source="..\Deployment\Connectors\RFactor2\RF2Connector.dll" />
       </Component>
+      <Component Id="cmpd3199132b45547b0809e8efeb213c521" Directory="dir3360ab9bfb6540e093d7c5f9d14d27ca" Guid="18cbde8c-6b34-4b85-94e4-6183839f81c4">
+        <File Id="file8c12ce9ad1504877a625afe87cf98120" KeyPath="yes" Source="..\Deployment\Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll" />
+      </Component>
+
     </ComponentGroup>
 
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">

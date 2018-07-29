@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using SecondMonitor.DataModel.BasicProperties;
 using SecondMonitor.DataModel.Snapshot;
+using SecondMonitor.PluginManager.DependencyChecker;
 using SecondMonitor.PluginManager.GameConnector;
 using SecondMonitor.RF2Connector.SharedMemory;
 using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
@@ -24,11 +26,14 @@ namespace SecondMonitor.RF2Connector
         private SessionPhase _lastSessionPhase;
         private SessionType _lastSessionType;
         private bool _isConnected;
+        private DependencyChecker dependencies;
 
         public Rf2Connector()
             : base(RFExecutables)
         {
             TickTime = 10;
+
+            dependencies = new DependencyChecker(new FileDependency[]{ new FileDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
             _rf2DataConvertor = new RF2DataConvertor();
         }
 
@@ -38,15 +43,16 @@ namespace SecondMonitor.RF2Connector
         protected override void OnConnection()
         {
             ResetConnector();
+            CheckDependencies();
             if (_connectionTime == DateTime.MinValue)
             {
                 _connectionTime = DateTime.Now;
             }
             if (DateTime.Now - _connectionTime > _connectionTimeout)
             {
-                SendMessageToClients("A rFactor2 based game has been detected running for extended time, but SecondMonitor wasn't able to connect to its shared memory.\n"
-                                     + "Please make sure that the rFactorSharedMemoryMap.dll is correctly installed in the plugins folder.\n"
-                                     + "The plugin can be downloaded at : https://github.com/dallongo/rFactorSharedMemoryMap/releases ");
+                SendMessageToClients(
+                    "A rFactor2 based game has been detected running for extended time, but SecondMonitor wasn't able to connect to its shared memory.\n"
+                    + "Please make sure that the rFactor2SharedMemoryMapPlugin64.dll is correctly installed in the plugins folder and enabled");
                 _connectionTime = DateTime.MaxValue;
             }
 
@@ -62,6 +68,33 @@ namespace SecondMonitor.RF2Connector
             {
                 Disconnect();
                 throw;
+            }
+        }
+
+        private void CheckDependencies()
+        {
+            if(Process != null && !dependencies.Checked)
+            {
+                string directory = Path.Combine(Path.GetPathRoot(Process.MainModule.FileName), Path.GetDirectoryName(Process.MainModule.FileName));
+                Action actionToInstall = dependencies.CheckAndReturnInstallDependeciesAction(directory);
+                if (actionToInstall != null)
+                {
+                    SendMessageToClients("A rFactor2 based game has been detected, but the required plugin, rFactor2SharedMemoryMapPlugin64.dll, was not found. Do you want Second Monitor to install this plugin? You will need to restart the sim, after it is done.",
+                        () => RunActionAndShowConfirmation(actionToInstall, "Operation Completed Successfully",  "Unable to install the plugin, unexpected error: "));
+                }
+            }
+        }
+
+        private void RunActionAndShowConfirmation(Action actionToRun, string completionMessage, string errorMessage)
+        {
+            try
+            {
+                actionToRun();
+                SendMessageToClients(completionMessage);
+            }
+            catch (Exception ex)
+            {
+                SendMessageToClients(errorMessage + "\n" + ex.Message);
             }
         }
 

@@ -14,9 +14,9 @@
 
     public static class Loader
     {
-        
+
         private static readonly string ConnectorsDir = "Connectors";
-        
+
 
         /// <summary>
         /// The main entry point for the application.
@@ -35,7 +35,7 @@
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Error(ex, "Application experienced an error");
-                MessageBox.Show(ex.ToString());
+                throw;
             }
         }
 
@@ -76,7 +76,7 @@
             IEnumerable<Type> types = assembly.GetTypes().Where(c => !c.IsInterface && connectorType.IsAssignableFrom(c));
             return types.Select(type => Activator.CreateInstance(type) as IGameConnector).ToList();
         }
-       
+
         private static void ConnectAndLoadPlugins(IGameConnector[] connectors)
         {
             PluginsManager pluginManager = new PluginsManager(connectors);

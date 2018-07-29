@@ -56,6 +56,8 @@
   <ItemGroup>
     <Compile Include="Core\ISecondMonitorPlugin.cs" />
     <Compile Include="Core\PluginsManager.cs" />
+    <Compile Include="DependencyChecker\DependencyChecker.cs" />
+    <Compile Include="DependencyChecker\FileDependency.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GameConnector\AbstractGameConnector.cs" />
     <Compile Include="GameConnector\DataEventArgs.cs" />
