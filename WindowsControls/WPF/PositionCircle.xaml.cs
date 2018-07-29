@@ -165,7 +165,7 @@
 
                 if (driver.IsPlayer)
                 {
-                    driverEllipse.Fill = Brushes.Gray;
+                    driverEllipse.Fill = Brushes.White;
                 }
                 else if (driver.InPits)
                 {
@@ -192,7 +192,7 @@
 
                 if (driver.IsPlayer)
                 {
-                    text.Foreground = Brushes.Gray;
+                    text.Foreground = Brushes.White;
                 }
                 else if (driver.InPits)
                 {
