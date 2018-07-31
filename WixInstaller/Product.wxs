@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "8933fbbe-0649-47be-943c-e9ee85b4c514"?>
+  <?define ProductCode = "b46b2a87-772d-49e6-9be7-6d93aef34a0d"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
   <?define ProductVersion = "2.1.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
@@ -125,6 +125,9 @@
       </Component>
       <Component Id="cmp7f75611e33f94a10b57f428694c45415" Directory="dir0b6902e3f28f41e92329d0f61641a602" Guid="7f75611e-33f9-4a10-b57f-428694c45415">
         <File Id="file7f75611e33f94a10b57f428694c45415" KeyPath="yes" Source="..\Deployment\Connectors\RFactor\RFactorConnector.dll" />
+      </Component>
+      <Component Id="cmp295d14efef0b4430a05d3219519a0631" Directory="dir0b6902e3f28f41e92329d0f61641a602" Guid="874d6641-7cf3-4f07-b97a-5bccaf28ecad">
+        <File Id="file57e7d8e568754cd3aebdc4d684407c8f" KeyPath="yes" Source="..\Deployment\Connectors\RFactor\rFactorSharedMemoryMap.dll" />
       </Component>
       <Component Id="cmp6d7ce167f46d402bb458a007d9114824" Directory="dir3360ab9bfb6540e093d7c5f9d14d27ca" Guid="3cef7d19-003d-4796-886b-3ac5ce21f115">
         <File Id="file2dcd02ca4ed7488890e52f190d85ea4f" KeyPath="yes" Source="..\Deployment\Connectors\RFactor2\RF2Connector.dll" />

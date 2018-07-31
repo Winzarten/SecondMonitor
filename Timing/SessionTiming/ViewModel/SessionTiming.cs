@@ -157,7 +157,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             {
                 return;
             }
-            if (BestSessionLap == null || BestSessionLap.LapTime > lapEventArgs.Lap.LapTime)
+            if (BestSessionLap == null || BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero)
             {
                 BestSessionLap = lapEventArgs.Lap;
             }

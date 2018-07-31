@@ -142,6 +142,8 @@
             set => SetValue(CurrentGearProperty, value);
         }
 
+        public ICollectionView TimingInfo => ViewSource?.View;
+
         public bool IsDaemon => false;
 
         public void RunPlugin()
@@ -750,7 +752,7 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

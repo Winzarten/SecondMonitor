@@ -35,7 +35,6 @@
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Error(ex, "Application experienced an error");
-                throw;
             }
         }
 

@@ -137,6 +137,10 @@
             }
 
             LapTime = LapEnd.Subtract(LapStart);
+            if (LapTime == TimeSpan.Zero)
+            {
+                Valid = false;
+            }
             Completed = true;
         }
 

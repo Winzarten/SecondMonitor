@@ -20,13 +20,13 @@ namespace SecondMonitor.RF2Connector
         private readonly MappedBuffer<rF2Scoring> _scoringBuffer = new MappedBuffer<rF2Scoring>(rFactor2Constants.MM_SCORING_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
         private readonly MappedBuffer<rF2Rules> _rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
         private readonly MappedBuffer<rF2Extended> _extendedBuffer = new MappedBuffer<rF2Extended>(rFactor2Constants.MM_EXTENDED_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
+        private readonly DependencyChecker dependencies;
 
         private DateTime _connectionTime = DateTime.MinValue;
         private int _rawLastSessionType = int.MinValue;
         private SessionPhase _lastSessionPhase;
         private SessionType _lastSessionType;
         private bool _isConnected;
-        private DependencyChecker dependencies;
 
         public Rf2Connector()
             : base(RFExecutables)
