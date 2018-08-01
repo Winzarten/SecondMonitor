@@ -10,11 +10,11 @@
 
     using NLog;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using Properties;
+    using ModelView;
     using SecondMonitor.Timing.Settings.ModelView;
 
     public class DriverTimingModelView : DependencyObject

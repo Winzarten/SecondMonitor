@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PCarsConnector.enums;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using enums;
 
     public class PCarsConvertor
     {

@@ -4,8 +4,8 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
 
     /// <summary>
     /// Interaction logic for FuelMonitor.xaml

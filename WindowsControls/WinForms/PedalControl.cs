@@ -4,7 +4,7 @@
     using System.Drawing;
     using System.Windows.Forms;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
 
     public partial class PedalControl : UserControl
     {

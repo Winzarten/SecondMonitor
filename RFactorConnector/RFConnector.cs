@@ -8,10 +8,10 @@ namespace SecondMonitor.RFactorConnector
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.GameConnector;
-    using SecondMonitor.RFactorConnector.SharedMemory;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using PluginManager.GameConnector;
+    using SharedMemory;
 
     public class RFConnector : AbstractGameConnector
     {

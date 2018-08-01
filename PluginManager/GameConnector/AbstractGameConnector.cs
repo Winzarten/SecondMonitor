@@ -6,7 +6,7 @@
     using System.IO;
     using System.Threading;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
 
     public abstract class AbstractGameConnector : IGameConnector
     {

@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
-    using SecondMonitor.DataModel.BasicProperties;
+    using BasicProperties;
 
     public class FuelInfo
     {

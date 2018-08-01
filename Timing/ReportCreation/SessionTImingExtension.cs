@@ -5,8 +5,8 @@ namespace SecondMonitor.Timing.ReportCreation
     using System;
     using System.Linq;
 
-    using SecondMonitor.DataModel.Summary;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using DataModel.Summary;
+    using SessionTiming.Drivers.ModelView;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
 
     public static class SessionTimingExtension

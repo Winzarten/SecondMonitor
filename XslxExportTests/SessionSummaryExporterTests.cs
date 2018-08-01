@@ -5,10 +5,10 @@
 
     using NUnit.Framework;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Summary;
-    using SecondMonitor.XslxExport;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Summary;
+    using XslxExport;
 
     [TestFixture]
     public class SessionSummaryExporterTests

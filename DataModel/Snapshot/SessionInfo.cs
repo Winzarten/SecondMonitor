@@ -2,7 +2,7 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using BasicProperties;
 
     public class SessionInfo
     {

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using BasicProperties;
 
     public class Driver
     {

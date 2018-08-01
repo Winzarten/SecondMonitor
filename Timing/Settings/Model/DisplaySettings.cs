@@ -2,7 +2,7 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     [Serializable]
     public class DisplaySettings

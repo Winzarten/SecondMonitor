@@ -8,9 +8,9 @@
     using System.Windows.Forms;
     using System.Windows.Input;
 
-    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.Settings.Model;
+    using Presentation.ViewModel.Commands;
+    using Properties;
+    using Model;
 
     public class ReportingSettingsModelView : DependencyObject, INotifyPropertyChanged
     {
@@ -155,7 +155,7 @@
 
         private static string ReplaceSpecialDirs(string path)
         {
-            path = path.Replace(@"%MyDocuments%", System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            path = path.Replace(@"%MyDocuments%", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
             return path;
         }
     }

@@ -9,8 +9,8 @@
 
     using NLog;
 
-    using SecondMonitor.PluginManager.Core;
-    using SecondMonitor.PluginManager.GameConnector;
+    using PluginManager.Core;
+    using PluginManager.GameConnector;
 
     public static class Loader
     {

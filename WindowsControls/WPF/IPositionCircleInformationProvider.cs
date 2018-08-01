@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.WindowsControls.WPF
 {
-    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Drivers;
 
     public interface IPositionCircleInformationProvider
     {

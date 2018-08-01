@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using ViewModel;
 
     public class DriverTiming
     {

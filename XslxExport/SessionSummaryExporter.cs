@@ -13,12 +13,12 @@
     using OfficeOpenXml.Style;
     using OfficeOpenXml.Table;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Summary;
+    using DataModel.BasicProperties;
+    using DataModel.Summary;
 
     public static class MediaColorExtension
     {
-        public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color color)
+        public static System.Drawing.Color ToDrawingColor(this Color color)
         {
             return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
         }
