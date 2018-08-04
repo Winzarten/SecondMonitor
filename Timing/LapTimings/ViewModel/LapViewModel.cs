@@ -7,7 +7,7 @@ namespace SecondMonitor.Timing.LapTimings.ViewModel
     using System.Windows;
 
     using SecondMonitor.Timing.Presentation.ViewModel;
-    using SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 
     public class LapViewModel : DependencyObject
     {

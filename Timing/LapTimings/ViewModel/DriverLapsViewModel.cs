@@ -6,7 +6,7 @@
     using System.Windows;
     using System.Windows.Input;
 
-    using SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 
     using DriverLapsWindow = View.DriverLapsWindow;
 

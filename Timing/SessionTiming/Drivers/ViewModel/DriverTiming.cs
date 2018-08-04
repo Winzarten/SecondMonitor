@@ -1,13 +1,13 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using DataModel.BasicProperties;
-    using DataModel.Snapshot;
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
-    using ViewModel;
+    using SecondMonitor.Timing.SessionTiming.ViewModel;
 
     public class DriverTiming
     {
@@ -212,7 +212,7 @@
             if (_lapsInfo.Count == 0)
             {
                 LapInfo firstLap =
-                    new LapInfo(sessionInfo.SessionTime, DriverInfo.CompletedLaps + 1, this, true, null)
+                    new LapInfo(set, DriverInfo.CompletedLaps + 1, this, true, null)
                         {
                             Valid =
                                 !InvalidateFirstLap
@@ -266,7 +266,7 @@
             SessionInfo sessionInfo = dataSet.SessionInfo;
 
             // Use completed laps indication to end lap, when we use the sim provided lap times. This gives us the biggest assurance that lap time is already properly set
-            if (dataSet.SimulatorSourceInfo.HasLapTimeInformation && currentLap.LapNumber < DriverInfo.CompletedLaps + 1)
+            if (dataSet.SimulatorSourceInfo.HasLapTimeInformation && (currentLap.LapNumber < DriverInfo.CompletedLaps + 1))
             {
                 return true;
             }
@@ -341,7 +341,7 @@
                 || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None) && dataSet.SessionInfo.SessionPhase != SessionPhase.Checkered  )
             {
                 var newLap = new LapInfo(
-                    dataSet.SessionInfo.SessionTime,
+                    dataSet,
                     DriverInfo.CompletedLaps + 1,
                     this,
                     lapToCreateFrom);

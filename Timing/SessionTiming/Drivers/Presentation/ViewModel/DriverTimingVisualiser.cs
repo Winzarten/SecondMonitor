@@ -14,7 +14,8 @@
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using Properties;
-    using ModelView;
+
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.Settings.ModelView;
 
     public class DriverTimingModelView : DependencyObject

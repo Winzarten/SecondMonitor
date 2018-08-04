@@ -87,15 +87,19 @@
     <Compile Include="Presentation\View\TimingGUI.xaml.cs">
       <DependentUpon>TimingGUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="ReportCreation\SessionTImingExtension.cs" />
     <Compile Include="ReportCreation\ViewModel\ReportCreationViewModel.cs" />
     <Compile Include="SessionTiming\Drivers\DriverListModificationEventArgs.cs" />
-    <Compile Include="SessionTiming\Drivers\ModelView\DriverTiming.cs" />
-    <Compile Include="SessionTiming\Drivers\ModelView\PendingSector.cs" />
-    <Compile Include="SessionTiming\Drivers\ModelView\PitStopInfo.cs" />
-    <Compile Include="SessionTiming\Drivers\ModelView\SectorTiming.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\CombinedLapPortionComparatorsVM.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\DriverTiming.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\LapPortionTimes.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\LapPortionTimesComparatorViewModel.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\PendingSector.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\PitStopInfo.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\SectorTiming.cs" />
     <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingVisualiser.cs" />
-    <Compile Include="SessionTiming\Drivers\ModelView\LapInfo.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\LapInfo.cs" />
     <Compile Include="SessionTiming\ViewModel\SessionTiming.cs" />
     <Compile Include="Settings\ModelView\ColumnSettingsModelView.cs" />
     <Compile Include="Settings\ModelView\ColumnsSettingsModelView.cs" />

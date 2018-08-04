@@ -134,7 +134,7 @@
                     simData.PlayerInfo.CarInfo.CurrentGear = "R";
                     break;
                 case -2:
-                    simData.PlayerInfo.CarInfo.CurrentGear = String.Empty;
+                    simData.PlayerInfo.CarInfo.CurrentGear = string.Empty;
                     break;
                 default:
                     simData.PlayerInfo.CarInfo.CurrentGear = data.Gear.ToString();
@@ -219,6 +219,19 @@
             driverInfo.Timing.LastSector3Time = CreateTimeSpan(rfVehicleInfo.LastLapTime - rfVehicleInfo.LastSector2);
             driverInfo.Timing.LastLapTime = CreateTimeSpan(rfVehicleInfo.LastLapTime);
             driverInfo.Timing.CurrentSector = rfVehicleInfo.Sector == 0 ? 3 : rfVehicleInfo.Sector;
+
+            switch (driverInfo.Timing.CurrentSector)
+            {
+                case 1:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.CurSector1);
+                    break;
+                case 2:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.CurSector2);
+                    break;
+                case 0:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.LastLapTime);
+                    break;
+            }
         }
 
         private TimeSpan CreateTimeSpan(double seconds)

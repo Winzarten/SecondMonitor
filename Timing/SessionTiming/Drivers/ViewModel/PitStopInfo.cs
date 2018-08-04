@@ -1,8 +1,8 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
 
-    using DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot;
 
     public class PitStopInfo
     {

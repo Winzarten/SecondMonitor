@@ -1,12 +1,11 @@
-﻿using SecondMonitor.DataModel.Telemetry;
-
-namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
 
-    using DataModel.BasicProperties;
-    using DataModel.Snapshot;
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
+    using SecondMonitor.DataModel.Telemetry;
 
     public class LapInfo
     {
@@ -32,34 +31,28 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
 
         private TimeSpan _isPendingStart;
 
-
         private DriverInfo _previousDriverInfo;
 
         public Velocity ComputedMaxSpeed = Velocity.Zero;
 
 
-        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver, LapInfo previousLapInfo)
+        public LapInfo(SimulatorDataSet dataSet, int lapNumber, DriverTiming driver, LapInfo previousLapInfo) :
+            this(dataSet, lapNumber, driver, false, previousLapInfo)
         {
-            Driver = driver;
-            LapStart = startSessionTime;
-            LapProgressTime = new TimeSpan(0, 0, 0);
-            LapNumber = lapNumber;
-            Valid = true;
-            FirstLap = false;
-            PitLap = false;
-            PreviousLap = previousLapInfo;
         }
 
-        public LapInfo(TimeSpan startSessionTime, int lapNumber, DriverTiming driver, bool firstLap, LapInfo previousLapInfo)
+        public LapInfo(SimulatorDataSet dataSet, int lapNumber, DriverTiming driver, bool firstLap, LapInfo previousLapInfo)
         {
             Driver = driver;
-            LapStart = startSessionTime;
+            LapStart = dataSet.SessionInfo.SessionTime;
             LapProgressTime = new TimeSpan(0, 0, 0);
             LapNumber = lapNumber;
             Valid = true;
             FirstLap = firstLap;
             PitLap = false;
             PreviousLap = previousLapInfo;
+            CompletedDistance = double.NaN;
+            PortionTimes = new LapPortionTimes(15, dataSet.SessionInfo.TrackInfo.LayoutLength, this);
         }
 
         public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;
@@ -72,6 +65,8 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
         public int LapNumber { get; private set; }
 
         public TelemetrySnapshot LapEndSnapshot { get; private set; }
+
+        public double CompletedDistance { get; private set; }
 
         public bool Valid
         {
@@ -109,6 +104,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
 
         }
 
+        public LapPortionTimes PortionTimes { get; }
 
         public LapInfo PreviousLap { get; }
 
@@ -146,7 +142,14 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
 
         public void Tick(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            LapProgressTime = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
+
+            TimeSpan newLapProgressTime = driverInfo.Timing.CurrentLapTime > TimeSpan.Zero ? driverInfo.Timing.CurrentLapTime : dataSet.SessionInfo.SessionTime.Subtract(LapStart);
+
+            // If we are using laptime from simulator, then the provided lap time resets on laps end. This is a precaution that we never start to track the lap time after lap is completed
+            if (newLapProgressTime > LapProgressTime)
+            {
+                LapProgressTime = newLapProgressTime;
+            }
 
             // Let 5 seconds for the source data noise, when lap count might not be properly updated at instance creation
             if (LapProgressTime.TotalSeconds < 5 && LapNumber != driverInfo.CompletedLaps + 1)
@@ -162,6 +165,21 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
             if (IsMaxSpeedViolated(driverInfo))
             {
                 Valid = false;
+            }
+
+            // driverInfo.LapDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance
+            if (double.IsNaN(CompletedDistance) && driverInfo.LapDistance < 500)
+            {
+                CompletedDistance = driverInfo.LapDistance;
+            }
+
+            if (CompletedDistance != double.NaN && CompletedDistance < driverInfo.LapDistance)
+            {
+                CompletedDistance = driverInfo.LapDistance;
+                if (Driver.IsPlayer)
+                {
+                    PortionTimes.UpdateLapPortions();
+                }
             }
 
             _previousDriverInfo = driverInfo;

@@ -87,6 +87,8 @@
     <Compile Include="WinForms\WheelStatusControl.Designer.cs">
       <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
+    <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
     <Compile Include="WPF\FuelMonitor.xaml.cs">
       <DependentUpon>FuelMonitor.xaml</DependentUpon>
     </Compile>
@@ -103,6 +105,10 @@
     <Compile Include="WPF\PositionCircle.xaml.cs">
       <DependentUpon>PositionCircle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WPF\TimeSpanBarControl.xaml.cs">
+      <DependentUpon>TimeSpanBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\Converters\TimeSpanToSecondsConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WinForms\OilControl.resx">
@@ -145,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\TemperatureControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\TimeSpanBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

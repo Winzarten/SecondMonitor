@@ -22,8 +22,9 @@
     using Commands;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
     using SessionTiming.Drivers;
-    using SessionTiming.Drivers.ModelView;
+
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using Settings;
     using Settings.Model;

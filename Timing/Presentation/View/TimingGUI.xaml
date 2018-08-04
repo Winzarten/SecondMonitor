@@ -67,8 +67,24 @@
         <WindowsFormsHost Margin="10,0,0,70" MinHeight="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="112">
             <winForms:PedalControl x:Name="PedalControl"/>
         </WindowsFormsHost>
+        <Grid Background="Black" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Label x:Name="LblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
+                <Label x:Name="LblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <wpf:TimeSpanBarControl Title="Δ to Personal Best" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}"/>
+                <wpf:TimeSpanBarControl Title="Δ to Previous Lap" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}"/>
+            </StackPanel>
+            <view:SessionInfoView DataContext="{Binding SessionInfoViewModel}" Grid.Column="2" HorizontalAlignment="Right"  Margin="0,10,10,0" VerticalAlignment="Top" Height="127"/>
+        </Grid>
 
-        <DataGrid x:Name="DtTimig" Margin="10,142,10,389" FontSize="18" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
+        <DataGrid x:Name="DtTimig" Margin="10,160,10,389" FontSize="18" Foreground="White" Background="Black" ItemsSource="{Binding TimingInfo}" HorizontalAlignment="Stretch"
                   d:DataContext="{d:DesignInstance Type=viewModel1:DriverTimingModelView}"
                  AutoGenerateColumns="False" HeadersVisibility="Column" CanUserSortColumns="False" CanUserReorderColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
                   EnableColumnVirtualization ="False" EnableRowVirtualization="False"
@@ -236,8 +252,6 @@
             </DataGrid.ItemContainerStyle>
 
         </DataGrid>
-        <Label x:Name="LblTrack" Content="Track Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White"/>
-        <Label x:Name="LblWeather" Content="Weather Info"  HorizontalAlignment="Left" FontSize="20" VerticalAlignment="Top" Foreground="White" Margin="0,37,0,0"/>
         <Button x:Name="BtnReset" Content="Reset Timing" HorizontalAlignment="Right" Margin="0,0,10,26" Width="117"  VerticalAlignment="Bottom" Height="55" Command="{Binding ResetCommand}"/>
         <Button Content="Configure" HorizontalAlignment="Right" Margin="0,0,132,26"  VerticalAlignment="Bottom" Width="102" Height="55" Command="{Binding OpenSettingsCommand }"/>
         <GroupBox Header="Session Settings" HorizontalAlignment="Right" Height="107" VerticalAlignment="Bottom" Width="240" Foreground="White" Margin="0,0,10,272">
@@ -299,7 +313,6 @@
                 <TextBlock Name="SystemTime" Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />
             </StatusBarItem>
         </StatusBar>
-        <view:SessionInfoView DataContext="{Binding SessionInfoViewModel}" HorizontalAlignment="Right"  Margin="0,10,10,0" VerticalAlignment="Top" Height="127"/>
         <Label Content="{Binding Path=CurrentGear}" HorizontalAlignment="Left" Foreground="Blue" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontSize="24" Margin="10,0,0,27" VerticalAlignment="Bottom" Height="39" Width="70"/>
     </Grid>
 </Window>

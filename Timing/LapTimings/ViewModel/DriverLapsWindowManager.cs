@@ -7,7 +7,7 @@
 
     using View;
     using SecondMonitor.Timing.Presentation.ViewModel.Commands;
-    using SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 
     public class DriverLapsWindowManager
     {
