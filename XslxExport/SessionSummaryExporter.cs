@@ -13,12 +13,14 @@
     using OfficeOpenXml.Style;
     using OfficeOpenXml.Table;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Summary;
+    using DataModel.BasicProperties;
+    using DataModel.Summary;
+
+    using SecondMonitor.DataModel.Snapshot.Systems;
 
     public static class MediaColorExtension
     {
-        public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color color)
+        public static System.Drawing.Color ToDrawingColor(this Color color)
         {
             return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
         }
@@ -34,7 +36,13 @@
 
         public Color SessionBestColor { get; set; } = Colors.Purple;
 
-        public VelocityUnits VelocityUnits { get; set; }
+        public VelocityUnits VelocityUnits { get; set; } = VelocityUnits.Kph;
+
+        public TemperatureUnits TemperatureUnits { get; set; } = TemperatureUnits.Celsius;
+
+        public VolumeUnits VolumeUnits { get; set; } = VolumeUnits.Liters;
+
+        public PressureUnits PressureUnits { get; set; } = PressureUnits.Kpa;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -53,6 +61,7 @@
                 ExcelWorkbook workbook = package.Workbook;
                 AddSummary(workbook.Worksheets[SummarySheet], sessionSummary);
                 AddLapsInfo(workbook.Worksheets[LapsAndSectorsSheet], sessionSummary);
+                AddPlayersLaps(workbook.Worksheets[PlayerLapsSheet], sessionSummary);
                 package.Save();
             }
             catch (Exception ex)
@@ -60,6 +69,26 @@
                 Logger.Error(ex, "Unable to export session info");
             }
 
+        }
+
+        private void AddPlayersLaps(ExcelWorksheet sheet, SessionSummary sessionSummary)
+        {
+            AddPlayerLapsHeader(sheet);
+            Driver player = sessionSummary.Drivers.FirstOrDefault(x => x.IsPlayer);
+            if (player == null)
+            {
+                return;
+            }
+
+            Lap lastLap = null;
+            int currentRow = 6;
+            player.Laps.Where(l => l.LapEndSnapshot != null).ToList().ForEach(
+                x =>
+                    {
+                        currentRow = AddPlayerLapInfo(sheet, sessionSummary, x, lastLap, currentRow);
+                        lastLap = x;
+                    });
+            sheet.Cells["A1:M5"].AutoFitColumns();
         }
 
         private void AddLapsInfo(ExcelWorksheet sheet, SessionSummary sessionSummary)
@@ -147,19 +176,20 @@
 
         private void FormatAsPersonalBest(ExcelRange range)
         {
-            FillWithColor(range, PersonalBestColor);
+            FillWithColor(range, Colors.White, PersonalBestColor);
         }
 
         private void FormatAsSessionBest(ExcelRange range)
         {
-            FillWithColor(range, SessionBestColor);
+            FillWithColor(range, Colors.White,  SessionBestColor);
         }
 
-        private void FillWithColor(ExcelRange range, Color color)
+        private static void FillWithColor(ExcelRange range, Color foregroundColor, Color bgColor)
         {
             range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-            range.Style.Fill.BackgroundColor.SetColor(color.ToDrawingColor());
-            range.Style.Fill.PatternColor.SetColor(color.ToDrawingColor());
+            range.Style.Font.Color.SetColor(foregroundColor.ToDrawingColor());
+            range.Style.Fill.BackgroundColor.SetColor(bgColor.ToDrawingColor());
+            range.Style.Fill.PatternColor.SetColor(bgColor.ToDrawingColor());
         }
 
         private void AddLapsInfoHeader(ExcelWorksheet sheet, SessionSummary sessionSummary)
@@ -231,6 +261,209 @@
             }
         }
 
+        private int AddPlayerLapInfo(ExcelWorksheet sheet, SessionSummary session, Lap lapInfo, Lap previousLap, int startRow)
+        {
+            CarInfo playerCarInfo = lapInfo.LapEndSnapshot.PlayerData.CarInfo;
+
+            sheet.Cells[1 + startRow, 1].Value = lapInfo.LapNumber;
+            sheet.Cells[1 + startRow, 2].Value = FormatTimeSpan(lapInfo.LapTime);
+
+            if (lapInfo == lapInfo.Driver.BestPersonalLap)
+            {
+                FormatAsPersonalBest(sheet.Cells[1 + startRow, 2]);
+            }
+            if (lapInfo == session.SessionBestLap)
+            {
+                FormatAsSessionBest(sheet.Cells[1 + startRow, 2]);
+            }
+
+
+            sheet.Cells[1 + startRow, 5].Value = playerCarInfo.FuelSystemInfo.FuelRemaining.GetValueInUnits(VolumeUnits, 1);
+            sheet.Cells[1 + startRow, 7].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.FrontLeft);
+            sheet.Cells[1 + startRow, 8].Value = playerCarInfo.WheelsInfo.FrontLeft.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+            sheet.Cells[1 + startRow, 10].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.FrontRight);
+            sheet.Cells[1 + startRow, 11].Value = playerCarInfo.WheelsInfo.FrontRight.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+
+            sheet.Cells[2 + startRow, 2].Value = FormatTimeSpan(lapInfo.Sector1);
+            if (lapInfo == lapInfo.Driver.BestSector1Lap)
+            {
+                FormatAsPersonalBest(sheet.Cells[2 + startRow, 2]);
+            }
+
+            if (lapInfo == session.SessionBestSector1)
+            {
+                FormatAsSessionBest(sheet.Cells[2 + startRow, 2]);
+            }
+
+            sheet.Cells[2 + startRow, 3].Value = FormatTimeSpan(lapInfo.Sector2);
+            if (lapInfo == lapInfo.Driver.BestSector2Lap)
+            {
+                FormatAsPersonalBest(sheet.Cells[2 + startRow, 3]);
+            }
+
+            if (lapInfo == session.SessionBestSector2)
+            {
+                FormatAsSessionBest(sheet.Cells[2 + startRow, 3]);
+            }
+
+            sheet.Cells[2 + startRow, 4].Value = FormatTimeSpan(lapInfo.Sector3);
+            if (lapInfo == lapInfo.Driver.BestSector3Lap)
+            {
+                FormatAsPersonalBest(sheet.Cells[2 + startRow,4]);
+            }
+
+            if (lapInfo == session.SessionBestSector3)
+            {
+                FormatAsSessionBest(sheet.Cells[2 + startRow, 4]);
+            }
+            if (previousLap != null)
+            {
+                sheet.Cells[2 + startRow, 5].Value =
+                    (playerCarInfo.FuelSystemInfo.FuelRemaining
+                     - previousLap.LapEndSnapshot.PlayerData.CarInfo.FuelSystemInfo.FuelRemaining)
+                    .GetValueInUnits(VolumeUnits, 2);
+            }
+
+            sheet.Cells[2 + startRow, 7].Value =
+                playerCarInfo.WheelsInfo.FrontLeft.TyrePressure.GetValueInUnits(PressureUnits, 2);
+            sheet.Cells[2 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.FrontLeft.TyreWear) * 100).ToString("F0");
+            sheet.Cells[2 + startRow, 10].Value =
+                playerCarInfo.WheelsInfo.FrontRight.TyrePressure.GetValueInUnits(PressureUnits, 2);
+            sheet.Cells[2 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.FrontRight.TyreWear) * 100).ToString("F0");
+
+            sheet.Cells[4 + startRow, 2].Value =
+                lapInfo.LapEndSnapshot.WeatherInfo.AirTemperature.GetValueInUnits(TemperatureUnits, 1);
+            sheet.Cells[4 + startRow, 3].Value = lapInfo.LapEndSnapshot.WeatherInfo.TrackTemperature.GetValueInUnits(TemperatureUnits, 1);
+            sheet.Cells[4 + startRow, 4].Value = lapInfo.LapEndSnapshot.WeatherInfo.RainIntensity;
+            sheet.Cells[4 + startRow, 5].Value =
+                playerCarInfo.WaterSystemInfo.WaterTemperature.GetValueInUnits(TemperatureUnits, 1);
+            sheet.Cells[4 + startRow, 7].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.RearLeft);
+            sheet.Cells[4 + startRow, 8].Value = playerCarInfo.WheelsInfo.RearLeft.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+            sheet.Cells[4 + startRow, 10].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.RearRight);
+            sheet.Cells[4 + startRow, 11].Value = playerCarInfo.WheelsInfo.RearRight.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+
+            sheet.Cells[5 + startRow, 5].Value =
+                playerCarInfo.OilSystemInfo.OilTemperature.GetValueInUnits(TemperatureUnits, 1);
+            sheet.Cells[5 + startRow, 7].Value =
+                playerCarInfo.WheelsInfo.RearLeft.TyrePressure.GetValueInUnits(PressureUnits, 2);
+            sheet.Cells[5 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.RearLeft.TyreWear) * 100).ToString("F0");
+            sheet.Cells[5 + startRow, 10].Value =
+                playerCarInfo.WheelsInfo.RearRight.TyrePressure.GetValueInUnits(PressureUnits, 2);
+            sheet.Cells[5 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.RearRight.TyreWear) * 100).ToString("F0");
+
+            ExcelRange range = sheet.Cells[startRow + 1,1, startRow + 5,1];
+            range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Merge = true;
+
+            range = sheet.Cells[startRow + 1, 2, startRow + 1, 4];
+            range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Merge = true;
+
+            range = sheet.Cells[startRow + 1, 7, startRow + 2, 8];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells[startRow + 1, 10, startRow + 2, 11];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells[startRow + 4, 7, startRow + 5, 8];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells[startRow + 4, 10, startRow + 5, 11];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells[startRow + 1, 1, startRow + 5, 11];
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thick, System.Drawing.Color.Black);
+
+            return startRow + 6;
+        }
+
+        private string GetBrakeTemperature(WheelInfo wheel)
+        {
+            return wheel.LeftTyreTemp.GetValueInUnits(TemperatureUnits, 0) + @"/"
+                                                                           + wheel.CenterTyreTemp.GetValueInUnits(
+                                                                               TemperatureUnits,
+                                                                               0) + @"/" + wheel.RightTyreTemp
+                                                                               .GetValueInUnits(TemperatureUnits, 0);
+        }
+
+        private void AddPlayerLapsHeader(ExcelWorksheet sheet)
+        {
+            sheet.Cells["A1"].Value = "Lap #";
+            sheet.Cells["B1"].Value = "Lap Time";
+            sheet.Cells["E1"].Value = "Fuel";
+            sheet.Cells["G1"].Value = "LF Temp";
+            sheet.Cells["H1"].Value = "Brake Temp";
+            sheet.Cells["J1"].Value = "FR Temp";
+            sheet.Cells["K1"].Value = "BrakeTemp";
+
+            sheet.Cells["B2"].Value = "Sector 1";
+            sheet.Cells["C2"].Value = "Sector 2";
+            sheet.Cells["D2"].Value = "Sector 3";
+            sheet.Cells["E2"].Value = "Fuel Change";
+            sheet.Cells["G2"].Value = "LF Pressure";
+            sheet.Cells["H2"].Value = "Brake Temp";
+            sheet.Cells["J2"].Value = "FR Pressure";
+            sheet.Cells["K2"].Value = "Tyre Condition";
+
+            sheet.Cells["B4"].Value = "Air Temp";
+            sheet.Cells["C4"].Value = "Track Temp";
+            sheet.Cells["D4"].Value = "Rain %";
+            sheet.Cells["E4"].Value = "Water Temp";
+            sheet.Cells["G4"].Value = "LR Temp";
+            sheet.Cells["H4"].Value = "Brake Temp";
+            sheet.Cells["J4"].Value = "RR Temp";
+            sheet.Cells["K4"].Value = "BrakeTemp";
+
+            sheet.Cells["E5"].Value = "Oil temp";
+            sheet.Cells["G5"].Value = "LR Pressure";
+            sheet.Cells["H5"].Value = "Tyre Condition";
+            sheet.Cells["J5"].Value = "RR Pressure";
+            sheet.Cells["K5"].Value = "Tyre Condition";
+
+            sheet.Cells["M1"].Value = "UOM";
+            sheet.Cells["M2"].Value = "Temperature: ";
+            sheet.Cells["M3"].Value = "Pressure: ";
+            sheet.Cells["M4"].Value = "Speed: ";
+            sheet.Cells["M5"].Value = "Volume: ";
+            sheet.Cells["N2"].Value = Temperature.GetUnitSymbol(TemperatureUnits);
+            sheet.Cells["N3"].Value = Pressure.GetUnitSymbol(PressureUnits);
+            sheet.Cells["N4"].Value = Velocity.GetUnitSymbol(VelocityUnits);
+            sheet.Cells["N5"].Value = Volume.GetUnitSymbol(VolumeUnits);
+
+            ExcelRange range = sheet.Cells["A1:A5"];
+            range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Merge = true;
+
+            range = sheet.Cells["B1:D1"];
+            range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            range.Merge = true;
+
+            range = sheet.Cells["G1:H2"];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells["J1:K2"];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells["G4:H5"];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells["J4:K5"];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+
+            range = sheet.Cells["M1:N1"];
+            range.Style.Font.Bold = true;
+            range.Merge = true;
+
+            range = sheet.Cells["A1:K5"];
+            range.Style.Border.BorderAround(ExcelBorderStyle.Thick, System.Drawing.Color.Black);
+            sheet.View.FreezePanes(7, 14);
+        }
+
         private void AddDriverInfo(ExcelWorksheet sheet, ExcelRow row, Driver driver, SessionSummary sessionSummary)
         {
             sheet.Cells[row.Row + 1, 1].Value = driver.Finished ? driver.FinishingPosition.ToString() : "DNF";
@@ -247,24 +480,28 @@
             {
                 sheet.Cells[row.Row + 1, 5].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 sheet.Cells[row.Row + 1, 5].Style.Fill.BackgroundColor.SetColor(SessionBestColor.ToDrawingColor());
+                sheet.Cells[row.Row + 1, 5].Style.Font.Color.SetColor(System.Drawing.Color.White);
             }
 
             if (driver.BestSector1Lap == sessionSummary.SessionBestSector1)
             {
                 sheet.Cells[row.Row + 1, 6].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 sheet.Cells[row.Row + 1, 6].Style.Fill.BackgroundColor.SetColor(SessionBestColor.ToDrawingColor());
+                sheet.Cells[row.Row + 1, 6].Style.Font.Color.SetColor(System.Drawing.Color.White);
             }
 
             if (driver.BestSector2Lap == sessionSummary.SessionBestSector2)
             {
                 sheet.Cells[row.Row + 1, 7].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 sheet.Cells[row.Row + 1, 7].Style.Fill.BackgroundColor.SetColor(SessionBestColor.ToDrawingColor());
+                sheet.Cells[row.Row + 1, 7].Style.Font.Color.SetColor(System.Drawing.Color.White);
             }
 
             if (driver.BestSector3Lap == sessionSummary.SessionBestSector3)
             {
                 sheet.Cells[row.Row + 1, 8].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 sheet.Cells[row.Row + 1, 8].Style.Fill.BackgroundColor.SetColor(SessionBestColor.ToDrawingColor());
+                sheet.Cells[row.Row + 1, 8].Style.Font.Color.SetColor(System.Drawing.Color.White);
             }
         }
 

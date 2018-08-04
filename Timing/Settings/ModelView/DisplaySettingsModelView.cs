@@ -4,9 +4,9 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.Settings.Model;
+    using DataModel.BasicProperties;
+    using Properties;
+    using Model;
 
     public class DisplaySettingsModelView : DependencyObject, INotifyPropertyChanged
     {

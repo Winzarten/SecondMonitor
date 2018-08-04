@@ -262,6 +262,19 @@ namespace SecondMonitor.RF2Connector.SharedMemory
             driverInfo.Timing.LastSector3Time = CreateTimeSpan(rfVehicleInfo.mLastLapTime - rfVehicleInfo.mLastSector2);
             driverInfo.Timing.LastLapTime = CreateTimeSpan(rfVehicleInfo.mLastLapTime);
             driverInfo.Timing.CurrentSector = rfVehicleInfo.mSector == 0 ? 3 : rfVehicleInfo.mSector;
+
+            switch (driverInfo.Timing.CurrentSector)
+            {
+                case 1:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.mCurSector1);
+                    break;
+                case 2:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.mCurSector2);
+                    break;
+                case 0:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.mLastLapTime);
+                    break;
+            }
         }
 
         private TimeSpan CreateTimeSpan(double seconds)

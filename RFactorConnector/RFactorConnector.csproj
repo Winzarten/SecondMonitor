@@ -59,4 +59,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(SolutionDir)Artifacts\Dependencies\Rfactor\rFactorSharedMemoryMap.dll" "$(TargetDir)rFactorSharedMemoryMap.dll"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

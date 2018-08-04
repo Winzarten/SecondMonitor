@@ -55,6 +55,22 @@
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
 
+        public string GetValueInUnits(PressureUnits units, int decimalPlaces)
+        {
+            switch (units)
+            {
+                case PressureUnits.Kpa:
+                    return InKpa.ToString($"F{decimalPlaces}");
+                case PressureUnits.Atmosphere:
+                    return InAtmospheres.ToString($"F{decimalPlaces}");
+                case PressureUnits.Bar:
+                    return InBars.ToString($"F{decimalPlaces}");
+                case PressureUnits.Psi:
+                    return InPsi.ToString($"F{decimalPlaces}");
+            }
+            throw new ArgumentException("Unable to return value in" + units.ToString());
+        }
+
         [JsonIgnore]
         public double InAtmospheres => InKpa / 101.3;
 
@@ -62,6 +78,6 @@
         public double InBars => InKpa * 0.01;
 
         [JsonIgnore]
-        public double InPsi => InKpa * 0.145038;       
+        public double InPsi => InKpa * 0.145038;
     }
 }

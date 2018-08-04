@@ -10,11 +10,12 @@
 
     using NLog;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using Properties;
+
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.Settings.ModelView;
 
     public class DriverTimingModelView : DependencyObject
@@ -489,7 +490,7 @@
 
             if (!DriverTiming.CurrentLap.Valid)
             {
-                return DriverTiming.Session.SessionType == SessionType.Race ? "Lap Invalid" : "Out Lap"; ;
+                return DriverTiming.Session.SessionType == SessionType.Race ? "Lap Invalid" : DriverTiming.InPits ? "In Pits" : "Out Lap"; ;
             }
 
             TimeSpan progress = DriverTiming.CurrentLap.LapProgressTime;

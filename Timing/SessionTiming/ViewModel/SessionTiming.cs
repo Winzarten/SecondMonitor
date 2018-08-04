@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using SecondMonitor.DataModel.BasicProperties;
-using SecondMonitor.DataModel.Snapshot;
-using SecondMonitor.DataModel.Snapshot.Drivers;
-using SecondMonitor.Timing.Presentation.ViewModel;
-using SecondMonitor.Timing.Properties;
-using SecondMonitor.Timing.SessionTiming.Drivers;
-using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
-using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
-using SecondMonitor.WindowsControls.WPF;
-
-namespace SecondMonitor.Timing.SessionTiming.ViewModel
+﻿namespace SecondMonitor.Timing.SessionTiming.ViewModel
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Windows;
+
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using SecondMonitor.Timing.Presentation.ViewModel;
+    using SecondMonitor.Timing.Properties;
+    using SecondMonitor.Timing.SessionTiming.Drivers;
+    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
+    using SecondMonitor.WindowsControls.WPF;
+
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
         public class DriverNotFoundException : Exception
@@ -43,6 +44,8 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         public event EventHandler<DriverListModificationEventArgs> DriverRemoved;
 
         public double TotalSessionLength { get; private set; }
+
+        public TimeSpan SessionStarTime { get; private set; }
 
         private LapInfo _bestSessionLap;
 
@@ -77,12 +80,6 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         public SimulatorDataSet LastSet { get; private set; } = new SimulatorDataSet("None");
 
-        private SessionTiming(TimingDataViewModel timingDataViewModel)
-        {
-            PaceLaps = 4;
-            DisplayBindTimeRelative = false;
-            TimingDataViewModel = timingDataViewModel;
-        }
 
         public Dictionary<string, DriverTimingModelView> Drivers { get; private set; }
 
@@ -97,6 +94,8 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         public SectorTiming BestSector2 => _sector2Times.Any() ? _sector2Times.First() : null;
 
         public SectorTiming BestSector3 => _sector3Times.Any() ? _sector3Times.First() : null;
+
+        public CombinedLapPortionComparatorsVM CombinedLapPortionComparators{ get; }
 
         public int SessionCompletedPerMiles
         {
@@ -118,10 +117,19 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             }
         }
 
+        private SessionTiming(TimingDataViewModel timingDataViewModel)
+        {
+            PaceLaps = 4;
+            DisplayBindTimeRelative = false;
+            TimingDataViewModel = timingDataViewModel;
+            CombinedLapPortionComparators = new CombinedLapPortionComparatorsVM(null);
+        }
+
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel)
         {
             Dictionary<string, DriverTimingModelView> drivers = new Dictionary<string, DriverTimingModelView>();
             SessionTiming timing = new SessionTiming(timingDataViewModel);
+            timing.SessionStarTime = dataSet.SessionInfo.SessionTime;
             timing.SessionType = dataSet.SessionInfo.SessionType;
 
             Array.ForEach(dataSet.DriversInfo, s =>
@@ -157,7 +165,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             {
                 return;
             }
-            if (BestSessionLap == null || BestSessionLap.LapTime > lapEventArgs.Lap.LapTime)
+            if (BestSessionLap == null || BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero)
             {
                 BestSessionLap = lapEventArgs.Lap;
             }
@@ -247,7 +255,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
             LastSet = dataSet;
-            SessionTime = dataSet.SessionInfo.SessionTime;
+            SessionTime = dataSet.SessionInfo.SessionTime - SessionStarTime;
             SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
         }
@@ -308,6 +316,12 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             if (timingInfo.Position == 1)
             {
                 Leader = driverTimingModelView;
+            }
+
+            if (driverTimingModelView.DriverTiming.IsPlayer && driverTimingModelView.DriverTiming.CurrentLap
+                != CombinedLapPortionComparators.PlayerLap)
+            {
+                CombinedLapPortionComparators.PlayerLap = driverTimingModelView.DriverTiming.CurrentLap;
             }
 
             driverTimingModelView.RefreshProperties();

@@ -3,7 +3,7 @@
     using System.ComponentModel;
     using System.Windows;
 
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
 
     public class SessionInfoViewModel : DependencyObject

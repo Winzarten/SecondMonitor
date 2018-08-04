@@ -2,7 +2,7 @@
 {
     using System.Windows;
 
-    using SecondMonitor.Timing.Presentation.ViewModel;
+    using ViewModel;
 
     public class BindingProxy : Freezable
     {

@@ -5,9 +5,9 @@
     using System.Drawing;
     using System.Windows.Forms;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Systems;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Systems;
 
     /// <inheritdoc />
     /// <summary>

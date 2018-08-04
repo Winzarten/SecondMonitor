@@ -5,9 +5,9 @@
     using System.Windows;
     using System.Windows.Input;
 
-    using SecondMonitor.Timing.LapTimings.View;
+    using View;
     using SecondMonitor.Timing.Presentation.ViewModel.Commands;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 
     public class DriverLapsWindowManager
     {

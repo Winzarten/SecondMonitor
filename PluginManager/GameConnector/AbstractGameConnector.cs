@@ -6,7 +6,7 @@
     using System.IO;
     using System.Threading;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
 
     public abstract class AbstractGameConnector : IGameConnector
     {
@@ -29,7 +29,8 @@
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
 
         private Thread _daemonThread;
-        private Process _process;
+
+        protected Process Process { get; private set; }
 
         protected AbstractGameConnector(string[] executables)
         {
@@ -47,14 +48,14 @@
 
         public bool IsProcessRunning()
         {
-            if (_process != null)
+            if (Process != null)
             {
-                if (!_process.HasExited)
+                if (!Process.HasExited)
                 {
                     return true;
                 }
 
-                _process = null;
+                Process = null;
                 return false;
             }
 
@@ -66,7 +67,7 @@
                     continue;
                 }
 
-                _process = processes[0];
+                Process = processes[0];
                 return true;
             }
 
@@ -171,7 +172,12 @@
 
         protected void SendMessageToClients(string message)
         {
-            MessageArgs args = new MessageArgs(message);
+            SendMessageToClients(message, null);
+        }
+
+        protected void SendMessageToClients(string message, Action action)
+        {
+            MessageArgs args = new MessageArgs(message, action);
             DisplayMessage?.Invoke(this, args);
         }
 

@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.RFactorConnector
+﻿using SecondMonitor.PluginManager.DependencyChecker;
+
+namespace SecondMonitor.RFactorConnector
 {
     using System;
     using System.IO;
@@ -6,21 +8,23 @@
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.GameConnector;
-    using SecondMonitor.RFactorConnector.SharedMemory;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using PluginManager.GameConnector;
+    using SharedMemory;
 
     public class RFConnector : AbstractGameConnector
     {
         private static readonly string[] RFExecutables = { "AMS", "rFactor", "GSC" };
         private static readonly string SharedMemoryName = "$rFactorShared$";
-        private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
+        private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(180);
         private readonly RFDataConvertor _rfDataConvertor;
+        private readonly DependencyChecker dependencies;
 
         private DateTime _connectionTime = DateTime.MinValue;
 
         private MemoryMappedFile _sharedMemory;
+        private string _processName;
         private int _rawLastSessionType = int.MinValue;
 
         private SessionPhase _lastSessionPhase;
@@ -31,6 +35,7 @@
             : base(RFExecutables)
         {
             TickTime = 10;
+            dependencies = new DependencyChecker(new FileDependency[] { new FileDependency(@"Plugins\rFactorSharedMemoryMap.dll", @"Connectors\RFactor\rFactorSharedMemoryMap.dll") }, () => true);
             _rfDataConvertor = new RFDataConvertor();
         }
 
@@ -40,6 +45,7 @@
         protected override void OnConnection()
         {
             ResetConnector();
+            CheckDependencies();
             if (_connectionTime == DateTime.MinValue)
             {
                 _connectionTime = DateTime.Now;
@@ -52,6 +58,7 @@
                 _connectionTime = DateTime.MaxValue;
             }
             _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
+            _processName = Process.ProcessName;
         }
 
         protected override void ResetConnector()
@@ -59,6 +66,34 @@
             _rawLastSessionType = int.MinValue;
             _lastSessionType = SessionType.Na;
             _lastSessionPhase = SessionPhase.Countdown;
+        }
+
+        private void CheckDependencies()
+        {
+            if (Process != null && !dependencies.Checked)
+            {
+                _connectionTime = DateTime.Now;
+                string directory = Path.Combine(Path.GetPathRoot(Process.MainModule.FileName), Path.GetDirectoryName(Process.MainModule.FileName));
+                Action actionToInstall = dependencies.CheckAndReturnInstallDependeciesAction(directory);
+                if (actionToInstall != null)
+                {
+                    SendMessageToClients("A rFactor based game, "+ Process.ProcessName + ", has been detected, but the required plugin, rFactorSharedMemoryMap.dll, was not found. Do you want Second Monitor to install this plugin? You will need to restart the sim, after it is done.",
+                        () => RunActionAndShowConfirmation(actionToInstall, "Operation Completed Successfully", "Unable to install the plugin, unexpected error: "));
+                }
+            }
+        }
+
+        private void RunActionAndShowConfirmation(Action actionToRun, string completionMessage, string errorMessage)
+        {
+            try
+            {
+                actionToRun();
+                SendMessageToClients(completionMessage);
+            }
+            catch (Exception ex)
+            {
+                SendMessageToClients(errorMessage + "\n" + ex.Message);
+            }
         }
 
         protected override string ConnectorName => "RFactor";
@@ -74,6 +109,7 @@
                 try
                 {
                     dataSet = _rfDataConvertor.CreateSimulatorDataSet(rFactorData);
+                    dataSet.Source = _processName;
                 }
                 catch (RFInvalidPackageException)
                 {

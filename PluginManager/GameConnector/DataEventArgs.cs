@@ -2,7 +2,7 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
 
     public class DataEventArgs : EventArgs
     {

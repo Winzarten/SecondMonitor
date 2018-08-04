@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
+﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
 

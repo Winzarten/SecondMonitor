@@ -82,6 +82,7 @@
     <Compile Include="Summary\Driver.cs" />
     <Compile Include="Summary\Lap.cs" />
     <Compile Include="Summary\SessionSummary.cs" />
+    <Compile Include="Telemetry\TelemetrySnapshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

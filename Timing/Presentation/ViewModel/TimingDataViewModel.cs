@@ -13,21 +13,22 @@
     using System.Windows.Data;
     using System.Windows.Input;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.Core;
-    using SecondMonitor.PluginManager.GameConnector;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using PluginManager.Core;
+    using PluginManager.GameConnector;
     using SecondMonitor.Timing.LapTimings.ViewModel;
-    using SecondMonitor.Timing.Presentation.View;
-    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
+    using View;
+    using Commands;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
-    using SecondMonitor.Timing.SessionTiming.Drivers;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SessionTiming.Drivers;
+
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.Timing.Settings;
-    using SecondMonitor.Timing.Settings.Model;
-    using SecondMonitor.Timing.Settings.ModelView;
+    using Settings;
+    using Settings.Model;
+    using Settings.ModelView;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -142,6 +143,8 @@
             set => SetValue(CurrentGearProperty, value);
         }
 
+        public ICollectionView TimingInfo => ViewSource?.View;
+
         public bool IsDaemon => false;
 
         public void RunPlugin()
@@ -169,11 +172,13 @@
             _settingAutoSaver.DisplaySettingsModelView = DisplaySettings;
         }
 
+        private bool TerminatePeriodicTasks { get; set; }
+
         private void ScheduleRefreshActions()
         {
-            SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this, CancellationToken.None);
-            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 33, this, CancellationToken.None);
-            SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this, CancellationToken.None);
+            SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
+            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 33, this);
+            SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
         }
 
         private void CreateGuiInstance()
@@ -250,7 +255,10 @@
                 _timing.PaceLaps = DisplaySettings.PaceLaps;
             }
 
-            Gui.Dispatcher.Invoke(RefreshDataGrid);
+            if (!TerminatePeriodicTasks)
+            {
+                Gui.Dispatcher.Invoke(RefreshDataGrid);
+            }
 
         }
 
@@ -339,6 +347,7 @@
 
         private void Gui_Closed(object sender, EventArgs e)
         {
+            TerminatePeriodicTasks = true;
             _pluginsManager.DeletePlugin(this);
         }
 
@@ -353,7 +362,7 @@
                 }
 
                 _lastDataSet = args.Data;
-                ConnectedSource = _lastDataSet.Source;
+                ConnectedSource = _lastDataSet?.Source;
                 if (ViewSource == null || _timing == null)
                 {
                     return;
@@ -448,8 +457,8 @@
 
             if (weather.TrackTemperature != Temperature.Zero)
             {
-                sb.Append(" |Track: " +weather.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
-                    .ToString("n1"));
+                sb.Append(" |Track: " + weather.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
+                        .ToString("n1"));
             }
 
 
@@ -464,6 +473,11 @@
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
         {
+            if (TerminatePeriodicTasks)
+            {
+                return;
+            }
+
             Gui?.Dispatcher.Invoke(() =>
             {
                 Gui.TimingCircle.RemoveDriver(e.Data.DriverTiming.DriverInfo);
@@ -608,8 +622,6 @@
             CurrentSessionOptions = GetSessionOptionOfCurrentSession(data);
         }
 
-        public ICollectionView TimingInfo { get => ViewSource!= null ? ViewSource.View : null; }
-
         private void InitializeGui(SimulatorDataSet data)
         {
             if (!Dispatcher.CheckAccess())
@@ -727,16 +739,23 @@
 
         }
 
-        private static async void SchedulePeriodicAction(Action action, int periodInMs, object sender, CancellationToken cancellationToken)
+        private static async void SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
         {
-            while (!cancellationToken.IsCancellationRequested)
+            try
             {
-                await Task.Delay(periodInMs, cancellationToken);
-
-                if (!cancellationToken.IsCancellationRequested)
+                while (!sender.TerminatePeriodicTasks)
                 {
-                    action();
+                    await Task.Delay(periodInMs, CancellationToken.None);
+
+                    if (!sender.TerminatePeriodicTasks)
+                    {
+                        action();
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
@@ -762,7 +781,19 @@
 
         private static void DisplayMessage(object sender, MessageArgs e)
         {
-            MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (e.IsDecision)
+            {
+                if (MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.YesNo,
+                        MessageBoxImage.Information) == MessageBoxResult.Yes)
+                {
+                    e.Action();
+                }
+            }
+            else
+            {
+                MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
         }
 
     }

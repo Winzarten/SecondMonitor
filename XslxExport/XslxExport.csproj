@@ -54,8 +54,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\CellStyleBuilder.cs" />
-    <Compile Include="Builders\FontBuilder.cs" />
     <Compile Include="SessionSummaryExporter.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -140,7 +140,7 @@ namespace SecondMonitor.RF2Connector.SharedMemory
                 var versionHeaderWithSize = new rF2MappedBufferVersionBlockWithSize();
                 var versionHeader = new rF2MappedBufferVersionBlock();
 
-                for (retry = 0; retry < MappedBuffer<MappedBufferT>.NUM_MAX_RETRIEES; ++retry)
+                for (retry = 0; retry < NUM_MAX_RETRIEES; ++retry)
                 {
                     var bufferSizeBytes = this.BUFFER_SIZE_BYTES;
                     // Read current buffer versions.

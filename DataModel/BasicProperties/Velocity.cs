@@ -84,5 +84,20 @@
                     throw new ArgumentException("Unable to return value in" + units.ToString());
             }
         }
+
+        public string GetValueInUnits(VelocityUnits units, int decimalPlaces)
+        {
+            switch (units)
+            {
+                case VelocityUnits.Kph:
+                    return InKph.ToString($"F{decimalPlaces}");
+                case VelocityUnits.Mph:
+                    return InMph.ToString($"F{decimalPlaces}");
+                case VelocityUnits.Ms:
+                    return InMs.ToString($"F{decimalPlaces}");
+                default:
+                    throw new ArgumentException("Unable to return value in" + units.ToString());
+            }
+        }
     }
 }

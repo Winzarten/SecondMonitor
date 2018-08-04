@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using BasicProperties;
 
     public class Driver
     {
@@ -27,6 +27,8 @@
         public Velocity TopSpeed { get; set; } = Velocity.Zero;
 
         public List<Lap> Laps { get; } = new List<Lap>();
+
+        public bool IsPlayer { get; set;  }
 
         public bool Finished { get; set; } = true;
 
@@ -80,8 +82,8 @@
 
         private Lap FindBest(Func<Lap, TimeSpan> paramFunc, List<Lap> laps)
         {
-            
-            return laps.Count == 0 ? null : laps.Where(l => paramFunc(l) != TimeSpan.Zero ).OrderBy(paramFunc).First();
+
+            return laps.Count == 0 ? null : laps.Where(l =>  l.IsValid  &&  paramFunc(l) != TimeSpan.Zero ).OrderBy(paramFunc).First();
         }
     }
 }

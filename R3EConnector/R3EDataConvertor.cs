@@ -2,9 +2,9 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
 
     internal class R3EDataConvertor
     {
@@ -277,21 +277,8 @@
                     driverInfo.Timing.LastSector2Time = TimeSpan.FromSeconds(r3RData.SectorTimesCurrentSelf.Sector2 - r3RData.SectorTimesCurrentSelf.Sector1);
                     driverInfo.Timing.LastSector3Time = TimeSpan.FromSeconds(r3RData.SectorTimesPreviousSelf.Sector3 - r3RData.SectorTimesPreviousSelf.Sector2);
                 }
-                /* if (r3RData.SectorTimesCurrentSelf.Sector1 != -1)
-                 {
-                     driverInfo.Timing.LastSector1Time = TimeSpan.FromSeconds(r3RData.SectorTimesCurrentSelf.Sector1);
-                 }
-
-                 if (driverInfo.Timing.LastSector1Time != TimeSpan.Zero && r3RData.SectorTimesCurrentSelf.Sector2 != -1)
-                 {
-                     driverInfo.Timing.LastSector2Time = TimeSpan.FromSeconds(r3RData.SectorTimesCurrentSelf.Sector2 - r3RData.SectorTimesCurrentSelf.Sector1);
-                 }
-
-                 if (driverInfo.Timing.LastSector2Time != TimeSpan.Zero && r3RData.SectorTimesCurrentSelf.Sector3 != -1)
-                 {
-                     driverInfo.Timing.LastSector3Time = TimeSpan.FromSeconds(r3RData.SectorTimesCurrentSelf.Sector3 - r3RData.SectorTimesCurrentSelf.Sector2);
-                 }*/
                 driverInfo.Timing.CurrentSector = r3EDriverData.TrackSector;
+                driverInfo.Timing.CurrentLapTime = TimeSpan.FromSeconds(r3RData.LapTimeCurrentSelf);
                 return;
             }
 
@@ -303,23 +290,7 @@
                 driverInfo.Timing.LastSector3Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimesPreviousSelf.Sector3 - r3EDriverData.SectorTimesPreviousSelf.Sector2);
             }
 
-            /*
-
-            if (r3EDriverData.SectorTimesCurrentSelf.Sector1 != -1)
-            {
-                driverInfo.Timing.LastSector1Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimesCurrentSelf.Sector1);
-            }
-
-            if (driverInfo.Timing.LastSector1Time != TimeSpan.Zero && r3EDriverData.SectorTimesCurrentSelf.Sector2 != -1)
-            {
-                driverInfo.Timing.LastSector2Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimesCurrentSelf.Sector2 - r3EDriverData.SectorTimesCurrentSelf.Sector1);
-            }
-
-            if (driverInfo.Timing.LastSector2Time != TimeSpan.Zero && r3EDriverData.SectorTimesPreviousSelf.Sector3 != -1)
-            {
-                driverInfo.Timing.LastSector3Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimesPreviousSelf.Sector3 - r3EDriverData.SectorTimesPreviousSelf.Sector2);
-            }*/
-
+            driverInfo.Timing.CurrentLapTime = TimeSpan.FromSeconds(r3EDriverData.LapTimeCurrentSelf);
             driverInfo.Timing.LastLapTime = r3EDriverData.SectorTimesPreviousSelf.Sector3 != -1 ? TimeSpan.FromSeconds(r3EDriverData.SectorTimesPreviousSelf.Sector3) : TimeSpan.Zero;
             driverInfo.Timing.CurrentSector = r3EDriverData.TrackSector;
         }
@@ -329,6 +300,7 @@
             SimulatorDataSet simData = new SimulatorDataSet("R3E");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
+            simData.SimulatorSourceInfo.AIInstantFinish = true;
 
             // SimulatorDataSet simData = new SimulatorDataSet("R3R");
             FillSessionInfo(data, simData);

@@ -4,9 +4,9 @@
     using System.Drawing;
     using System.Windows.Forms;
 
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.Core;
-    using SecondMonitor.PluginManager.GameConnector;
+    using DataModel.Snapshot;
+    using PluginManager.Core;
+    using PluginManager.GameConnector;
 
     public partial class CarStatusForm : Form, ISecondMonitorPlugin
     {

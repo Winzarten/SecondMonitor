@@ -11,8 +11,8 @@
     using NLog;
     using NLog.Fluent;
 
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.GameConnector;
+    using DataModel.Snapshot;
+    using GameConnector;
 
     public class PluginsManager
     {

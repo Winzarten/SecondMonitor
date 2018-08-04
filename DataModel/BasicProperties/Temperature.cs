@@ -53,7 +53,21 @@
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
 
-        static public string GetUnitSymbol(TemperatureUnits units)
+        public string GetValueInUnits(TemperatureUnits units, int decimalPlaces)
+        {
+            switch (units)
+            {
+                case TemperatureUnits.Celsius:
+                    return InCelsius.ToString($"F{decimalPlaces}");
+                case TemperatureUnits.Fahrenheit:
+                    return InFahrenheit.ToString($"F{decimalPlaces}");
+                case TemperatureUnits.Kelvin:
+                    return InKelvin.ToString($"F{decimalPlaces}");
+            }
+            throw new ArgumentException("Unable to return value in" + units.ToString());
+        }
+
+        public static string GetUnitSymbol(TemperatureUnits units)
         {
             switch (units)
             {

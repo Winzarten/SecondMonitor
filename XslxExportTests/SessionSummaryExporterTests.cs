@@ -1,14 +1,17 @@
-﻿namespace SecondMonitor.XslxExportTests
+﻿using SecondMonitor.DataModel.Snapshot.Drivers;
+using SecondMonitor.DataModel.Telemetry;
+
+namespace SecondMonitor.XslxExportTests
 {
     using System;
     using System.IO;
 
     using NUnit.Framework;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Summary;
-    using SecondMonitor.XslxExport;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Summary;
+    using XslxExport;
 
     [TestFixture]
     public class SessionSummaryExporterTests
@@ -57,6 +60,7 @@
             sessionSummary.SessionLength = TimeSpan.FromMinutes(90);
             sessionSummary.SessionLengthType = SessionLengthType.Time;
             AddDrivers(20, sessionSummary);
+            sessionSummary.Drivers.ForEach((s) => FillLaps(s, 140, 20));
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
@@ -83,13 +87,14 @@
                 double sector1Add = _random.NextDouble() * 10;
                 double sector2Add = _random.NextDouble() * 10;
                 double sector3Add = _random.NextDouble() * 10;
-                driver.Laps.Add(new Lap(driver)
+                driver.Laps.Add(new Lap(driver, true )
                 {
                     LapNumber = i,
                     LapTime = TimeSpan.FromSeconds(baseTimeSeconds + sector1Add + sector2Add + sector3Add),
                     Sector1 = TimeSpan.FromSeconds(sectorBase + sector1Add),
                     Sector2 = TimeSpan.FromSeconds(sectorBase + sector2Add),
-                    Sector3 = TimeSpan.FromSeconds(sectorBase + sector3Add)
+                    Sector3 = TimeSpan.FromSeconds(sectorBase + sector3Add),
+                    LapEndSnapshot =  new TelemetrySnapshot(new DriverInfo(), new WeatherInfo())
                 });
             }
         }
@@ -105,7 +110,8 @@
                                                     TotalLaps = 20,
                                                     TopSpeed = Velocity.FromKph(_random.Next(150,250)),
                                                     FinishingPosition = i + 1,
-                                                    Finished = _random.Next(0, 10) > 0 ? true : false
+                                                    Finished = _random.Next(0, 10) > 0 ? true : false,
+                                                    IsPlayer = i == 0
                                                 });
             }
         }

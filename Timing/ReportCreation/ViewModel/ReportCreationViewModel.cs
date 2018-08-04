@@ -7,11 +7,11 @@
 
     using NLog;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Summary;
+    using DataModel.BasicProperties;
+    using DataModel.Summary;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.Timing.Settings.ModelView;
-    using SecondMonitor.XslxExport;
+    using Settings.ModelView;
+    using XslxExport;
 
     public class ReportCreationViewModel
     {

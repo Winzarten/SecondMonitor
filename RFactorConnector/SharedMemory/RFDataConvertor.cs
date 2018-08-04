@@ -2,10 +2,10 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PluginManager.Extensions;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using PluginManager.Extensions;
 
     internal class RFDataConvertor
     {
@@ -134,7 +134,7 @@
                     simData.PlayerInfo.CarInfo.CurrentGear = "R";
                     break;
                 case -2:
-                    simData.PlayerInfo.CarInfo.CurrentGear = String.Empty;
+                    simData.PlayerInfo.CarInfo.CurrentGear = string.Empty;
                     break;
                 default:
                     simData.PlayerInfo.CarInfo.CurrentGear = data.Gear.ToString();
@@ -176,12 +176,6 @@
 
                 AddLappingInformation(data, rfData, driverInfo);
                 FillTimingInfo(driverInfo, rfVehicleInfo, rfData);
-
-                if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer.Position)
-                {
-                    driverInfo.CompletedLaps--;
-                    driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.None;
-                }
             }
             CheckValidityByPlayer(playersInfo);
             _lastPlayer = playersInfo;
@@ -225,6 +219,19 @@
             driverInfo.Timing.LastSector3Time = CreateTimeSpan(rfVehicleInfo.LastLapTime - rfVehicleInfo.LastSector2);
             driverInfo.Timing.LastLapTime = CreateTimeSpan(rfVehicleInfo.LastLapTime);
             driverInfo.Timing.CurrentSector = rfVehicleInfo.Sector == 0 ? 3 : rfVehicleInfo.Sector;
+
+            switch (driverInfo.Timing.CurrentSector)
+            {
+                case 1:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.CurSector1);
+                    break;
+                case 2:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.CurSector2);
+                    break;
+                case 0:
+                    driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.LastLapTime);
+                    break;
+            }
         }
 
         private TimeSpan CreateTimeSpan(double seconds)
@@ -250,7 +257,7 @@
                                         {
                                             DriverName = StringExtensions.FromArray(rfVehicleInfo.DriverName),
                                             CompletedLaps = rfVehicleInfo.TotalLaps,
-                                            CarName = StringExtensions.FromArray(rfVehicleInfo.VehicleName),
+                                            CarName = StringExtensions.FromArray(rfVehicleInfo.VehicleClass),
                                             InPits = rfVehicleInfo.InPits == 1
                                         };
 
@@ -275,7 +282,7 @@
             if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
                 driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
             {
-                driverInfo.DistanceToPlayer = Double.MaxValue;
+                driverInfo.DistanceToPlayer = double.MaxValue;
                 return;
             }
 
@@ -302,7 +309,7 @@
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
             simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
             simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
-            simData.SessionInfo.TrackInfo.TrackLayoutName = String.Empty;
+            simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AmbientTemp);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.TrackTemp);
 

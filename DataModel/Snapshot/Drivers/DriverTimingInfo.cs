@@ -6,6 +6,8 @@
     {
         public TimeSpan LastLapTime { get; set; } = TimeSpan.Zero;
 
+        public TimeSpan CurrentLapTime { get; set; } = TimeSpan.Zero;
+
         public int CurrentSector { get; set; } = 0;
 
         public TimeSpan CurrentSectorTime { get; set; } = TimeSpan.Zero;

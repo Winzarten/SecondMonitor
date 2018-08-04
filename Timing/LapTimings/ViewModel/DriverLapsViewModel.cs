@@ -6,9 +6,9 @@
     using System.Windows;
     using System.Windows.Input;
 
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 
-    using DriverLapsWindow = SecondMonitor.Timing.LapTimings.View.DriverLapsWindow;
+    using DriverLapsWindow = View.DriverLapsWindow;
 
     public class DriverLapsViewModel : DependencyObject
     {

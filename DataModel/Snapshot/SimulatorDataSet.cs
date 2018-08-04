@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot
 {
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using BasicProperties;
+    using Drivers;
 
     public class SimulatorDataSet
     {

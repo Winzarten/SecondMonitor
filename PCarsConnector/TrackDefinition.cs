@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SecondMonitor.PCarsConnector
 {
-    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Drivers;
 
     public class TrackDetails
     {

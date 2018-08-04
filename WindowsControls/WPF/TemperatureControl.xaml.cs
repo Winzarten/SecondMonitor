@@ -3,7 +3,7 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     /// <inheritdoc cref="UserControl" />
     /// <summary>
