@@ -44,6 +44,8 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         public double TotalSessionLength { get; private set; }
 
+        public TimeSpan SessionStarTime { get; private set; }
+
         private LapInfo _bestSessionLap;
 
         public LapInfo BestSessionLap
@@ -122,6 +124,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         {
             Dictionary<string, DriverTimingModelView> drivers = new Dictionary<string, DriverTimingModelView>();
             SessionTiming timing = new SessionTiming(timingDataViewModel);
+            timing.SessionStarTime = dataSet.SessionInfo.SessionTime;
             timing.SessionType = dataSet.SessionInfo.SessionType;
 
             Array.ForEach(dataSet.DriversInfo, s =>
@@ -247,7 +250,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
             LastSet = dataSet;
-            SessionTime = dataSet.SessionInfo.SessionTime;
+            SessionTime = dataSet.SessionInfo.SessionTime - SessionStarTime;
             SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
         }

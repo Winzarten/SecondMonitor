@@ -13,21 +13,21 @@
     using System.Windows.Data;
     using System.Windows.Input;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.Core;
-    using SecondMonitor.PluginManager.GameConnector;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using PluginManager.Core;
+    using PluginManager.GameConnector;
     using SecondMonitor.Timing.LapTimings.ViewModel;
-    using SecondMonitor.Timing.Presentation.View;
-    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
+    using View;
+    using Commands;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
-    using SecondMonitor.Timing.SessionTiming.Drivers;
-    using SecondMonitor.Timing.SessionTiming.Drivers.ModelView;
+    using SessionTiming.Drivers;
+    using SessionTiming.Drivers.ModelView;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.Timing.Settings;
-    using SecondMonitor.Timing.Settings.Model;
-    using SecondMonitor.Timing.Settings.ModelView;
+    using Settings;
+    using Settings.Model;
+    using Settings.ModelView;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -361,7 +361,7 @@
                 }
 
                 _lastDataSet = args.Data;
-                ConnectedSource = _lastDataSet.Source;
+                ConnectedSource = _lastDataSet?.Source;
                 if (ViewSource == null || _timing == null)
                 {
                     return;
@@ -456,8 +456,8 @@
 
             if (weather.TrackTemperature != Temperature.Zero)
             {
-                sb.Append(" |Track: " +weather.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
-                    .ToString("n1"));
+                sb.Append(" |Track: " + weather.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
+                        .ToString("n1"));
             }
 
 

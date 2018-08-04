@@ -118,7 +118,19 @@
             }
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
-     
+
+        public string GetValueInUnits(VolumeUnits units, int decimalPlaces)
+        {
+            switch (units)
+            {
+                case VolumeUnits.Liters:
+                    return InLiters.ToString($"F{decimalPlaces}");
+                case VolumeUnits.UsGallons:
+                    return InUsGallons.ToString($"F{decimalPlaces}");
+            }
+            throw new ArgumentException("Unable to return value in" + units.ToString());
+        }
+
         public override bool Equals(object obj)
         {
             var volume = obj as Volume;

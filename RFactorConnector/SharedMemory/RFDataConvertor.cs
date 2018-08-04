@@ -2,10 +2,10 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PluginManager.Extensions;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using PluginManager.Extensions;
 
     internal class RFDataConvertor
     {
@@ -176,12 +176,6 @@
 
                 AddLappingInformation(data, rfData, driverInfo);
                 FillTimingInfo(driverInfo, rfVehicleInfo, rfData);
-
-                if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer.Position)
-                {
-                    driverInfo.CompletedLaps--;
-                    driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.None;
-                }
             }
             CheckValidityByPlayer(playersInfo);
             _lastPlayer = playersInfo;
@@ -275,7 +269,7 @@
             if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
                 driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
             {
-                driverInfo.DistanceToPlayer = Double.MaxValue;
+                driverInfo.DistanceToPlayer = double.MaxValue;
                 return;
             }
 
@@ -302,7 +296,7 @@
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
             simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
             simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
-            simData.SessionInfo.TrackInfo.TrackLayoutName = String.Empty;
+            simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AmbientTemp);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.TrackTemp);
 

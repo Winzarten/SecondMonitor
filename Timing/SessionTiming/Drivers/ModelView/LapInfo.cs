@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
+﻿using SecondMonitor.DataModel.Telemetry;
+
+namespace SecondMonitor.Timing.SessionTiming.Drivers.ModelView
 {
     using System;
 
@@ -8,8 +10,6 @@
 
     public class LapInfo
     {
-
-        private static readonly Velocity MaxValidSpeed = Velocity.FromKph(3000);
         private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
         private static readonly TimeSpan MaxPendingTime = TimeSpan.FromSeconds(3);
 
@@ -32,9 +32,6 @@
 
         private TimeSpan _isPendingStart;
 
-        private DateTime _previousTime = DateTime.MinValue;
-
-        private SimulatorDataSet _previousSet;
 
         private DriverInfo _previousDriverInfo;
 
@@ -73,6 +70,8 @@
         public TimeSpan LapStart { get; }
 
         public int LapNumber { get; private set; }
+
+        public TelemetrySnapshot LapEndSnapshot { get; private set; }
 
         public bool Valid
         {
@@ -141,6 +140,7 @@
             {
                 Valid = false;
             }
+            LapEndSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
             Completed = true;
         }
 
@@ -164,8 +164,6 @@
                 Valid = false;
             }
 
-            _previousTime = DateTime.Now;
-            _previousSet = dataSet;
             _previousDriverInfo = driverInfo;
         }
 

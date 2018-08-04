@@ -43,7 +43,7 @@ namespace SecondMonitor.Timing.ReportCreation
                                            Finished = driverTiming.IsActive,
                                            FinishingPosition = driverTiming.Position,
                                            TopSpeed = driverTiming.TopSpeed,
-
+                                           IsPlayer = driverTiming.DriverInfo.IsPlayer
                                        };
             int lapNumber = 1;
             bool allLaps = sessionTime == SessionType.Race;
@@ -54,13 +54,14 @@ namespace SecondMonitor.Timing.ReportCreation
 
         private static Lap ConvertToSummaryLap(Driver summaryDriver,  LapInfo lapInfo, int lapNumber)
         {
-            Lap summaryLap = new Lap(summaryDriver)
+            Lap summaryLap = new Lap(summaryDriver, lapInfo.Valid)
                                  {
                                      LapNumber = lapNumber,
                                      LapTime = lapInfo.LapTime,
                                      Sector1 = lapInfo.Sector1?.Duration ?? TimeSpan.Zero,
                                      Sector2 = lapInfo.Sector2?.Duration ?? TimeSpan.Zero,
-                                     Sector3 = lapInfo.Sector3?.Duration ?? TimeSpan.Zero
+                                     Sector3 = lapInfo.Sector3?.Duration ?? TimeSpan.Zero,
+                                     LapEndSnapshot =  lapInfo.LapEndSnapshot
                                  };
             return summaryLap;
         }
