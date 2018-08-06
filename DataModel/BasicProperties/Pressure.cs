@@ -39,6 +39,12 @@
             return new Pressure(pressureInKpa);
         }
 
+
+        public static Pressure FromPsi(double pressureInPsi)
+        {
+            return new Pressure(pressureInPsi / 0.145038);
+        }
+
         public double GetValueInUnits(PressureUnits units)
         {
             switch (units)

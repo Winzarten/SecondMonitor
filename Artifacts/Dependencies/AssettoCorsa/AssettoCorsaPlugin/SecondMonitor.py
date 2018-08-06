@@ -46,13 +46,7 @@ def updateSharedMemory():
             sharedmem.vehicleInfo[carId].carRealTimeLeaderboardPosition = ac.getCarRealTimeLeaderboardPosition(carId)
             sharedmem.vehicleInfo[carId].spLineLength = ac.getCarState(carId, acsys.CS.NormalizedSplinePosition)
             sharedmem.vehicleInfo[carId].isConnected = ac.isConnected(carId)
-            if carId == '0':
-                sharedmem.vehicleInfo[carId].lastSplits[0] = ac.getLastSplits(carId)[0]
-                sharedmem.vehicleInfo[carId].lastSplits[1] = ac.getLastSplits(carId)[1]
-                sharedmem.vehicleInfo[carId].lastSplits[2] = ac.getLastSplits(carId)[2]
-                sharedmem.vehicleInfo[carId].currentSplits[0] = ac.getCurrentSplits(carId)[0]
-                sharedmem.vehicleInfo[carId].currentSplits[1] = ac.getCurrentSplits(carId)[1]
-                sharedmem.vehicleInfo[carId].currentSplits[2] = ac.getCurrentSplits(carId)[2]
+            sharedmem.vehicleInfo[carId].finishStatus = ac.getCarState(carId, acsys.CS.RaceFinished)
 
 def acMain(ac_version):
   global appWindow,sharedMem

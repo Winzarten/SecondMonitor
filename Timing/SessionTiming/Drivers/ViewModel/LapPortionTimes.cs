@@ -45,7 +45,7 @@
             while (_lastTrackedPortion < currentPortion)
             {
                 _lastTrackedPortion++;
-                _trackPortions[_lastTrackedPortion] = Lap.LapProgressTime;
+                _trackPortions[_lastTrackedPortion] = Lap.CurrentlyValidProgressTime;
             }
 
             LastTrackedPortion = currentPortion;

@@ -35,7 +35,7 @@ namespace SecondMonitor.RFactorConnector
             : base(RFExecutables)
         {
             TickTime = 10;
-            dependencies = new DependencyChecker(new FileDependency[] { new FileDependency(@"Plugins\rFactorSharedMemoryMap.dll", @"Connectors\RFactor\rFactorSharedMemoryMap.dll") }, () => true);
+            dependencies = new DependencyChecker(new FileExistDependency[] { new FileExistDependency(@"Plugins\rFactorSharedMemoryMap.dll", @"Connectors\RFactor\rFactorSharedMemoryMap.dll") }, () => true);
             _rfDataConvertor = new RFDataConvertor();
         }
 
@@ -74,7 +74,7 @@ namespace SecondMonitor.RFactorConnector
             {
                 _connectionTime = DateTime.Now;
                 string directory = Path.Combine(Path.GetPathRoot(Process.MainModule.FileName), Path.GetDirectoryName(Process.MainModule.FileName));
-                Action actionToInstall = dependencies.CheckAndReturnInstallDependeciesAction(directory);
+                Action actionToInstall = dependencies.CheckAndReturnInstallDependenciesAction(directory);
                 if (actionToInstall != null)
                 {
                     SendMessageToClients("A rFactor based game, "+ Process.ProcessName + ", has been detected, but the required plugin, rFactorSharedMemoryMap.dll, was not found. Do you want Second Monitor to install this plugin? You will need to restart the sim, after it is done.",

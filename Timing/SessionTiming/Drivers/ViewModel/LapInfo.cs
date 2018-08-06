@@ -9,6 +9,17 @@
 
     public class LapInfo
     {
+        internal enum CompletionMethod
+        {
+            None,
+            ByLapNumber,
+            ByCrossingTheLine,
+            ByChangingValidity,
+            ByChangingValidity2,
+            ByChangingValidity3,
+
+        }
+
         private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
         private static readonly TimeSpan MaxPendingTime = TimeSpan.FromSeconds(3);
 
@@ -24,17 +35,11 @@
         }
 
         private bool _valid;
-
         private bool _completed;
-
         private bool _isPending;
-
         private TimeSpan _isPendingStart;
-
         private DriverInfo _previousDriverInfo;
-
-        public Velocity ComputedMaxSpeed = Velocity.Zero;
-
+        internal CompletionMethod LapCompletionMethod { get; set; } = CompletionMethod.None;
 
         public LapInfo(SimulatorDataSet dataSet, int lapNumber, DriverTiming driver, LapInfo previousLapInfo) :
             this(dataSet, lapNumber, driver, false, previousLapInfo)
@@ -45,7 +50,8 @@
         {
             Driver = driver;
             LapStart = dataSet.SessionInfo.SessionTime;
-            LapProgressTime = new TimeSpan(0, 0, 0);
+            LapProgressTimeBySim = TimeSpan.Zero;
+            LapProgressTimeByTiming = TimeSpan.Zero;
             LapNumber = lapNumber;
             Valid = true;
             FirstLap = firstLap;
@@ -114,6 +120,19 @@
 
         public SectorTiming Sector3 { get; private set; }
 
+        public TimeSpan LapEnd { get; private set; }
+
+        public TimeSpan LapTime { get; private set; } = TimeSpan.Zero;
+
+        public TimeSpan LapProgressTimeByTiming { get; private set; }
+
+        private bool LapProgressTimeBySimInitialized { get; set; }
+
+        public TimeSpan LapProgressTimeBySim { get; private set; }
+
+        public TimeSpan CurrentlyValidProgressTime =>
+            LapProgressTimeBySimInitialized ? LapProgressTimeBySim : LapProgressTimeByTiming;
+
         public SectorTiming CurrentSector { get; private set; }
 
         private PendingSector PendingSector { get; set; }
@@ -122,7 +141,10 @@
 
         public void FinishLap(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation)
+            TimeSpan lapDurationByTiming = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
+
+            // Perform a sanity check on the sim reported lap time. The time difference between what the application counted and the sim counted cannot be more than 5 seconds.
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 5)
             {
                 LapEnd = dataSet.SessionInfo.SessionTime;
             }
@@ -132,7 +154,7 @@
             }
 
             LapTime = LapEnd.Subtract(LapStart);
-            if (LapTime == TimeSpan.Zero)
+            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8)
             {
                 Valid = false;
             }
@@ -141,18 +163,14 @@
         }
 
         public void Tick(SimulatorDataSet dataSet, DriverInfo driverInfo)
+
         {
+            UpdateLapProgressTimeBySim(dataSet, driverInfo);
+            LapProgressTimeByTiming = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
 
-            TimeSpan newLapProgressTime = driverInfo.Timing.CurrentLapTime > TimeSpan.Zero ? driverInfo.Timing.CurrentLapTime : dataSet.SessionInfo.SessionTime.Subtract(LapStart);
-
-            // If we are using laptime from simulator, then the provided lap time resets on laps end. This is a precaution that we never start to track the lap time after lap is completed
-            if (newLapProgressTime > LapProgressTime)
-            {
-                LapProgressTime = newLapProgressTime;
-            }
 
             // Let 5 seconds for the source data noise, when lap count might not be properly updated at instance creation
-            if (LapProgressTime.TotalSeconds < 5 && LapNumber != driverInfo.CompletedLaps + 1)
+            if (LapProgressTimeByTiming.TotalSeconds < 5 && LapNumber != driverInfo.CompletedLaps + 1)
             {
                 LapNumber = driverInfo.CompletedLaps + 1;
             }
@@ -183,6 +201,46 @@
             }
 
             _previousDriverInfo = driverInfo;
+        }
+
+        private void UpdateLapProgressTimeBySim(SimulatorDataSet dataSet, DriverInfo driverInfo)
+        {
+            TimeSpan newLapProgressTimeBySim = driverInfo.Timing.CurrentLapTime;
+
+            // sim is reporting nonsense as our current lap time
+            if (newLapProgressTimeBySim <= TimeSpan.Zero)
+            {
+                LapProgressTimeBySimInitialized = false;
+                return;
+            }
+
+            // We were unable to use the sim provided lap time for 75% for the lap. I thing it is safe to say that this boat has passed
+            if (!LapProgressTimeBySimInitialized && CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength * 0.75)
+            {
+                return;
+            }
+
+            // It is not possible to use the lap time provided by the sim from the beginning, because it might still contain value from the previous lap. The sim has 5 second window to update the value to correct time
+            // Only after that is done we can use the lap provided lap time
+            if (!LapProgressTimeBySimInitialized && newLapProgressTimeBySim < TimeSpan.FromSeconds(5))
+            {
+                LapProgressTimeBySim = newLapProgressTimeBySim;
+                LapProgressTimeBySimInitialized = true;
+                return;
+            }
+
+            // Sim reported lap time is smaller than the previously reported lap time, that doesn't sound good - we're unable to use the lap time
+            if (LapProgressTimeBySimInitialized && newLapProgressTimeBySim < LapProgressTimeByTiming)
+            {
+                LapProgressTimeBySimInitialized = false;
+                return;
+            }
+
+            // Huuray, sanity checks met, we're able to use the lap time provided by sim
+            if (LapProgressTimeBySimInitialized)
+            {
+                LapProgressTimeBySim = newLapProgressTimeBySim;
+            }
         }
 
         private bool IsMaxSpeedViolated(DriverInfo currentDriverInfo)
@@ -312,6 +370,21 @@
             return IsPending;
         }
 
+        /*
+         * Performs a sanity check on the laps data to evaluate if the lap really make sense (i.e. if it wasn't terminated prematurely by the sim
+         */
+        public bool IsLapDataSane(SimulatorDataSet dataSet)
+        {
+            // Not completed laps are always sane
+            if (!Completed)
+            {
+                return true;
+            }
+
+            // Lap data is sane if we completed at least 50% of the track and the lap hes run for more than 10 seconds
+            return CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength * 0.5 && LapProgressTimeByTiming > TimeSpan.FromSeconds(10);
+        }
+
         private SectorTiming PickSector(int sectorNumber)
         {
             switch (sectorNumber)
@@ -326,12 +399,6 @@
                     return null;
             }
         }
-
-        public TimeSpan LapEnd { get; private set; }
-
-        public TimeSpan LapTime { get; private set; } = TimeSpan.Zero;
-
-        public TimeSpan LapProgressTime { get; private set; }
 
         protected virtual void OnSectorCompleted(SectorCompletedArgs e)
         {

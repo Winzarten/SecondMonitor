@@ -228,7 +228,7 @@ namespace SecondMonitor.Timing.LapTimings.ViewModel
             {
                 return LapInfo.Driver.Session.SessionType == SessionType.Race ? "Lap Invalid" : LapInfo.Driver.InPits ? "In Pits" : "Out Lap";
             }
-            return LapInfo.Completed ? TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapTime) : TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapProgressTime);
+            return LapInfo.Completed ? TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapTime) : TimeSpanFormatHelper.FormatTimeSpan(LapInfo.CurrentlyValidProgressTime);
         }
     }
 }

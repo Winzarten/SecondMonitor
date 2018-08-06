@@ -150,6 +150,10 @@
 
         public void RefreshSession(SimulatorDataSet set)
         {
+            if (set.SessionInfo.TrackInfo.LayoutLength != _lapLength)
+            {
+                _lapLength = set.SessionInfo.TrackInfo.LayoutLength;
+            }
             foreach(var driver in set.DriversInfo)
             {
                 Ellipse driverEllipse;

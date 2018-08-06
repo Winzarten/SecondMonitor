@@ -57,11 +57,15 @@
     <Compile Include="Core\ISecondMonitorPlugin.cs" />
     <Compile Include="Core\PluginsManager.cs" />
     <Compile Include="DependencyChecker\DependencyChecker.cs" />
-    <Compile Include="DependencyChecker\FileDependency.cs" />
+    <Compile Include="DependencyChecker\DirectoryExistsDependeny.cs" />
+    <Compile Include="DependencyChecker\FileExistDependency.cs" />
+    <Compile Include="DependencyChecker\FileExistsAndMatchDependency.cs" />
+    <Compile Include="DependencyChecker\IDependency.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GameConnector\AbstractGameConnector.cs" />
     <Compile Include="GameConnector\DataEventArgs.cs" />
     <Compile Include="GameConnector\MessageArgs.cs" />
+    <Compile Include="GameConnector\SharedMemory\MappedBuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameConnector\IGameConnector.cs" />
   </ItemGroup>

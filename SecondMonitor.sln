@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RF2Connector", "RF2Connecto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry", "Telemetry\Telemetry.csproj", "{2A31197A-A648-49F3-B15E-CA8249E7F979}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssettoCorsaConnector", "AssettoCorsaConnector\AssettoCorsaConnector.csproj", "{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -253,6 +255,18 @@ Global
 		{2A31197A-A648-49F3-B15E-CA8249E7F979}.Release|x64.Build.0 = Release|Any CPU
 		{2A31197A-A648-49F3-B15E-CA8249E7F979}.Release|x86.ActiveCfg = Release|Any CPU
 		{2A31197A-A648-49F3-B15E-CA8249E7F979}.Release|x86.Build.0 = Release|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Debug|x64.Build.0 = Debug|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Debug|x86.Build.0 = Debug|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|x64.ActiveCfg = Release|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|x64.Build.0 = Release|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|x86.ActiveCfg = Release|Any CPU
+		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

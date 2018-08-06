@@ -42,7 +42,15 @@
 
         private void PortionTimes_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            TimeDifference = ComparedLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance) - ReferenceLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance);
+            if (ReferenceLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance) != TimeSpan.Zero)
+            {
+                TimeDifference = ComparedLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance)
+                                 - ReferenceLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance);
+            }
+            else
+            {
+                TimeDifference = TimeSpan.Zero;
+            }
         }
 
         public void Dispose()

@@ -493,7 +493,7 @@
                 return DriverTiming.Session.SessionType == SessionType.Race ? "Lap Invalid" : DriverTiming.InPits ? "In Pits" : "Out Lap"; ;
             }
 
-            TimeSpan progress = DriverTiming.CurrentLap.LapProgressTime;
+            TimeSpan progress = DriverTiming.CurrentLap.CurrentlyValidProgressTime;
             return TimeSpanFormatHelper.FormatTimeSpan(progress);
 
         }

@@ -37,8 +37,7 @@ class acsVehicleInfo(ctypes.Structure):
         ('carRealTimeLeaderboardPosition', c_int32),
         ('spLineLength', c_float),
         ('isConnected', c_int32),
-		('lastSplits', c_float * 3),
-        ('currentSplits', c_float * 3),
+        ('finishStatus', c_int32),
     ]
 
 class SPageFilesecondMonitor(ctypes.Structure):

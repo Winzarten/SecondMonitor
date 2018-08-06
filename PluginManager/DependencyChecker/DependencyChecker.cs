@@ -1,36 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace SecondMonitor.PluginManager.DependencyChecker
+﻿namespace SecondMonitor.PluginManager.DependencyChecker
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+
     public class DependencyChecker
     {
-        public DependencyChecker(IReadOnlyCollection<FileDependency> fileDependencies, Func<bool> shouldInstallDependency)
+        public DependencyChecker(IReadOnlyCollection<IDependency> dependencies, Func<bool> shouldInstallDependency)
         {
-            FileDependencies = fileDependencies;
+            Dependencies = dependencies;
             ShouldInstallDependency = shouldInstallDependency;
         }
 
-        public Func<bool> ShouldInstallDependency;
+        public Func<bool> ShouldInstallDependency { get; set; }
 
         public bool Checked { get; private set; }
 
-        public IReadOnlyCollection<FileDependency> FileDependencies { get; }
+        public IReadOnlyCollection<IDependency> Dependencies { get; }
 
         public void CheckAndInstallDependencies(string basePath)
         {
-            Action installAction = CheckAndReturnInstallDependeciesAction(basePath);
+            Action installAction = CheckAndReturnInstallDependenciesAction(basePath);
 
             installAction?.Invoke();
         }
 
-        public Action CheckAndReturnInstallDependeciesAction(string basePath)
+        public Action CheckAndReturnInstallDependenciesAction(string basePath)
         {
-            IReadOnlyCollection<FileDependency> missingDependencies =
-                FileDependencies.Where(x => !x.ExistsDependency(basePath)).ToList();
+            IReadOnlyCollection<IDependency> missingDependencies =
+                Dependencies.Where(x => !x.ExistsDependency(basePath)).ToList();
             Checked = true;
 
             if (!missingDependencies.Any() || !ShouldInstallDependency())
@@ -41,7 +41,7 @@ namespace SecondMonitor.PluginManager.DependencyChecker
             return () => StartWithElevated(filePath);
         }
 
-        private void StartWithElevated(string filePath)
+        private static void StartWithElevated(string filePath)
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -54,21 +54,18 @@ namespace SecondMonitor.PluginManager.DependencyChecker
             process.Start();
         }
 
-        private string CreateBatchFile(IReadOnlyCollection<FileDependency> dependencies, string basePath)
+        private string CreateBatchFile(IReadOnlyCollection<IDependency> dependencies, string basePath)
         {
-            string fileName = Path.Combine(Path.GetTempPath(),
-                "installSecondMonitorDependencies.cmd");
+            string fileName = Path.Combine(Path.GetTempPath(), "installSecondMonitorDependencies.cmd");
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
             }
 
             StringBuilder cmdFileContent = new StringBuilder();
-            foreach (FileDependency fileDependency in dependencies )
+            foreach (IDependency dependency in dependencies)
             {
-                string sourcePath = Path.Combine(Directory.GetCurrentDirectory(), fileDependency.FileToInstall);
-                string dstPath = Path.Combine(basePath, fileDependency.FileToCheck);
-                cmdFileContent.Append("copy \""  + sourcePath + "\" \"" + dstPath + "\"\n");
+                cmdFileContent.Append(dependency.GetBatchCommand(basePath) + "\n");
             }
 
             File.WriteAllText(fileName, cmdFileContent.ToString());

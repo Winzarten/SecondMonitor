@@ -1,25 +1,27 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using SecondMonitor.DataModel.BasicProperties;
-using SecondMonitor.DataModel.Snapshot;
-using SecondMonitor.PluginManager.DependencyChecker;
-using SecondMonitor.PluginManager.GameConnector;
-using SecondMonitor.RF2Connector.SharedMemory;
-using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
-
-namespace SecondMonitor.RF2Connector
+﻿namespace SecondMonitor.RF2Connector
 {
-    //Based on https://github.com/TheIronWolfModding/rF2SharedMemoryMapPlugin
+    using System;
+    using System.IO;
+    using System.Threading;
+
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.PluginManager.DependencyChecker;
+    using SecondMonitor.PluginManager.GameConnector;
+    using SecondMonitor.PluginManager.GameConnector.SharedMemory;
+    using SecondMonitor.RF2Connector.SharedMemory;
+    using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
+
+    // Based on https://github.com/TheIronWolfModding/rF2SharedMemoryMapPlugin
     internal class Rf2Connector : AbstractGameConnector
     {
         private static readonly string[] RFExecutables = { "rFactor2" };
         private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
         private readonly RF2DataConvertor _rf2DataConvertor;
-        private readonly MappedBuffer<rF2Telemetry> _telemetryBuffer = new MappedBuffer<rF2Telemetry>(rFactor2Constants.MM_TELEMETRY_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
-        private readonly MappedBuffer<rF2Scoring> _scoringBuffer = new MappedBuffer<rF2Scoring>(rFactor2Constants.MM_SCORING_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
-        private readonly MappedBuffer<rF2Rules> _rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
-        private readonly MappedBuffer<rF2Extended> _extendedBuffer = new MappedBuffer<rF2Extended>(rFactor2Constants.MM_EXTENDED_FILE_NAME, false /*partial*/, true /*skipUnchanged*/);
+        private readonly MappedBuffer<rF2Telemetry> _telemetryBuffer = new MappedBuffer<rF2Telemetry>(rFactor2Constants.MM_TELEMETRY_FILE_NAME);
+        private readonly MappedBuffer<rF2Scoring> _scoringBuffer = new MappedBuffer<rF2Scoring>(rFactor2Constants.MM_SCORING_FILE_NAME);
+        private readonly MappedBuffer<rF2Rules> _rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME);
+        private readonly MappedBuffer<rF2Extended> _extendedBuffer = new MappedBuffer<rF2Extended>(rFactor2Constants.MM_EXTENDED_FILE_NAME);
         private readonly DependencyChecker dependencies;
 
         private DateTime _connectionTime = DateTime.MinValue;
@@ -33,7 +35,7 @@ namespace SecondMonitor.RF2Connector
         {
             TickTime = 10;
 
-            dependencies = new DependencyChecker(new FileDependency[]{ new FileDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
+            dependencies = new DependencyChecker(new FileExistDependency[]{ new FileExistDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
             _rf2DataConvertor = new RF2DataConvertor();
         }
 
@@ -76,7 +78,7 @@ namespace SecondMonitor.RF2Connector
             if(Process != null && !dependencies.Checked)
             {
                 string directory = Path.Combine(Path.GetPathRoot(Process.MainModule.FileName), Path.GetDirectoryName(Process.MainModule.FileName));
-                Action actionToInstall = dependencies.CheckAndReturnInstallDependeciesAction(directory);
+                Action actionToInstall = dependencies.CheckAndReturnInstallDependenciesAction(directory);
                 if (actionToInstall != null)
                 {
                     SendMessageToClients("A rFactor2 based game has been detected, but the required plugin, rFactor2SharedMemoryMapPlugin64.dll, was not found. Do you want Second Monitor to install this plugin? You will need to restart the sim, after it is done.",
@@ -156,21 +158,13 @@ namespace SecondMonitor.RF2Connector
                 throw new InvalidOperationException("Not connected");
             }
 
-            Rf2FullData data = new Rf2FullData();
-            rF2Extended rF2Extended = new rF2Extended();
-            rF2Scoring rF2Scoring = new rF2Scoring();
-            rF2Telemetry rF2Telemetry = new rF2Telemetry();
-            rF2Rules rF2Rules = new rF2Rules();
-
-            _extendedBuffer.GetMappedDataUnsynchronized(ref rF2Extended);
-            _scoringBuffer.GetMappedDataUnsynchronized(ref rF2Scoring);
-            _telemetryBuffer.GetMappedDataUnsynchronized(ref rF2Telemetry);
-            _rulesBuffer.GetMappedDataUnsynchronized(ref rF2Rules);
-
-            data.extended = rF2Extended;
-            data.scoring = rF2Scoring;
-            data.telemetry = rF2Telemetry;
-            data.rules = rF2Rules;
+            Rf2FullData data = new Rf2FullData()
+                                   {
+                                       extended = _extendedBuffer.GetMappedDataUnSynchronized(),
+                                       scoring = _scoringBuffer.GetMappedDataUnSynchronized(),
+                                       telemetry = _telemetryBuffer.GetMappedDataUnSynchronized(),
+                                       rules = _rulesBuffer.GetMappedDataUnSynchronized()
+                                   };
             return data;
         }
 

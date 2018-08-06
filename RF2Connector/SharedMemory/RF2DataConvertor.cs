@@ -1,19 +1,20 @@
-﻿using System;
-using System.Linq;
-using SecondMonitor.DataModel.BasicProperties;
-using SecondMonitor.DataModel.Snapshot;
-using SecondMonitor.DataModel.Snapshot.Drivers;
-using SecondMonitor.PluginManager.Extensions;
-using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
-
-namespace SecondMonitor.RF2Connector.SharedMemory
+﻿namespace SecondMonitor.RF2Connector.SharedMemory
 {
+    using System;
+    using System.Linq;
+
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using SecondMonitor.PluginManager.Extensions;
+    using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
+
     internal class RF2DataConvertor
     {
 
+        private const int MaxConsecutivePackagesIgnored = 200;
         private DriverInfo _lastPlayer = new DriverInfo();
         private int _lastPlayerId = -1;
-        private const int maxConsecutivePackagesIgnored = 200;
 
         private int currentlyIgnoredPackage = 0;
 
@@ -247,7 +248,7 @@ namespace SecondMonitor.RF2Connector.SharedMemory
             if (distance.DistanceInM > 200)
             {
                 currentlyIgnoredPackage++;
-                if (currentlyIgnoredPackage < maxConsecutivePackagesIgnored)
+                if (currentlyIgnoredPackage < MaxConsecutivePackagesIgnored)
                 {
                     throw new RF2InvalidPackageException("Players distance was :" + distance.DistanceInM);
                 }

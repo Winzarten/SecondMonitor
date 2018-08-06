@@ -20,6 +20,7 @@
             SimulatorDataSet simData = new SimulatorDataSet("RFactor");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
+            simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
 
             FillSessionInfo(rfData, simData);
@@ -264,8 +265,8 @@
             driverInfo.IsPlayer = rfVehicleInfo.IsPlayer == 1;
             driverInfo.Position = rfVehicleInfo.Place;
             driverInfo.Speed = Velocity.FromMs(rfVehicleInfo.Speed);
-            driverInfo.LapDistance = rfVehicleInfo.LapDist;
-            driverInfo.TotalDistance = rfVehicleInfo.TotalLaps * rfData.LapDist + rfVehicleInfo.LapDist;
+            driverInfo.LapDistance = rfVehicleInfo.LapDist >= 0 ? rfVehicleInfo.LapDist : rfData.LapDist + rfVehicleInfo.LapDist;
+            driverInfo.TotalDistance = rfVehicleInfo.TotalLaps * rfData.LapDist + driverInfo.LapDistance;
             driverInfo.FinishStatus = FromRFStatus(rfVehicleInfo.FinishStatus);
             driverInfo.WorldPosition = new Point3D(Distance.FromMeters(rfVehicleInfo.Pos.X), Distance.FromMeters(rfVehicleInfo.Pos.Y), Distance.FromMeters(rfVehicleInfo.Pos.Z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, rfData);

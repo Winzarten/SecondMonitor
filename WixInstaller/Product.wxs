@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "b46b2a87-772d-49e6-9be7-6d93aef34a0d"?>
+  <?define ProductCode = "241145ae-00aa-4560-9357-a15ab6261526"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
   <?define ProductVersion = "2.1.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
@@ -135,6 +135,15 @@
       <Component Id="cmpd3199132b45547b0809e8efeb213c521" Directory="dir3360ab9bfb6540e093d7c5f9d14d27ca" Guid="18cbde8c-6b34-4b85-94e4-6183839f81c4">
         <File Id="file8c12ce9ad1504877a625afe87cf98120" KeyPath="yes" Source="..\Deployment\Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll" />
       </Component>
+      <Component Id="cmp71be5f609c8f4adfac3a83a07ec503bc" Directory="dirb781d9a060914609a4d5b9fe2684ed60" Guid="03ea5b28-888d-47a7-9535-b1b502fedd17">
+        <File Id="file37c8b28b15b046739c09ac706aa2bf76" KeyPath="yes" Source="..\Deployment\Connectors\AssettoCorsa\AssettoCorsaConnector.dll" />
+      </Component>
+      <Component Id="cmpddc8dc92ea764d90a2d889ed2ade1c85" Directory="dirb781d9a060914609a4d5b9fe2684ed60" Guid="c63df33e-8346-4b76-97e5-778c5be5ed4a">
+        <File Id="filee33380c39d5c410980a5a0a53171d214" KeyPath="yes" Source="..\Deployment\Connectors\AssettoCorsa\SecondMonitor.py" />
+      </Component>
+      <Component Id="cmpcbd241843a4b42039d487ecb57545183" Directory="dirb781d9a060914609a4d5b9fe2684ed60" Guid="a5a81156-5f1b-4bb6-a377-6dcea70c6e1f">
+        <File Id="file03639ea9ff044766835841526dce7577" KeyPath="yes" Source="..\Deployment\Connectors\AssettoCorsa\smshared_mem.py" />
+      </Component>
 
     </ComponentGroup>
 
@@ -165,6 +174,10 @@
 
     <DirectoryRef Id="dir10609BC54973A60FEA796FF193DD15AB">
       <Directory Id="dir3360ab9bfb6540e093d7c5f9d14d27ca" Name="RFactor2" />
+    </DirectoryRef>
+
+    <DirectoryRef Id="dir10609BC54973A60FEA796FF193DD15AB">
+      <Directory Id="dirb781d9a060914609a4d5b9fe2684ed60" Name="AssettoCorsa" />
     </DirectoryRef>
 
 
