@@ -1,7 +1,7 @@
 ﻿<Window x:Class="SecondMonitor.Timing.Presentation.View.DisplaySettingsWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
@@ -82,7 +82,7 @@
                     </Grid>
                 </Grid>
             </Border>
-        </DataTemplate> 
+        </DataTemplate>
         <DataTemplate DataType="{x:Type modelView1:SessionReportSettingsModelView}">
             <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
                 <DockPanel>
@@ -121,13 +121,13 @@
                       >
                 <DockPanel>
                     <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentControl DockPanel.Dock="Top" Content="{Binding PracticeSessionDisplayOptions}"></ContentControl>
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding PracticeSessionDisplayOptions}"></ContentPresenter>
 
                     <Label DockPanel.Dock="Top" Content="Qualification:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentControl DockPanel.Dock="Top" Content="{Binding QualificationSessionDisplayOptions}" ></ContentControl>
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding QualificationSessionDisplayOptions}" ></ContentPresenter>
 
                     <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentControl DockPanel.Dock="Top" Content="{Binding RaceSessionDisplayOptions}"></ContentControl>
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding RaceSessionDisplayOptions}"></ContentPresenter>
 
                 </DockPanel>
             </GroupBox>
@@ -146,16 +146,16 @@
                         </Grid>
                     </GroupBox>
                     <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.PracticeReportSettings}"></ContentControl>
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettings.PracticeReportSettings}"></ContentPresenter>
 
                     <Label DockPanel.Dock="Top" Content="Qualification:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.QualificationReportSetting}"></ContentControl>
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettings.QualificationReportSetting}"></ContentPresenter>
 
                     <Label DockPanel.Dock="Top" Content="Warm Up:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.WarmUpReportSettings}"></ContentControl>
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettings.WarmUpReportSettings}"></ContentPresenter>
 
                     <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentControl DockPanel.Dock="Top" Content="{Binding ReportingSettings.RaceReportSettings}"></ContentControl>
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettings.RaceReportSettings}"></ContentPresenter>
 
                 </DockPanel>
             </GroupBox>

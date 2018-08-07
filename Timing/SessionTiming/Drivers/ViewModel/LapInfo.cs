@@ -58,7 +58,7 @@
             PitLap = false;
             PreviousLap = previousLapInfo;
             CompletedDistance = double.NaN;
-            PortionTimes = new LapPortionTimes(15, dataSet.SessionInfo.TrackInfo.LayoutLength, this);
+            PortionTimes = new LapPortionTimes(5, dataSet.SessionInfo.TrackInfo.LayoutLength, this);
         }
 
         public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;
