@@ -94,7 +94,8 @@ namespace SecondMonitor.XslxExportTests
                     Sector1 = TimeSpan.FromSeconds(sectorBase + sector1Add),
                     Sector2 = TimeSpan.FromSeconds(sectorBase + sector2Add),
                     Sector3 = TimeSpan.FromSeconds(sectorBase + sector3Add),
-                    LapEndSnapshot =  new TelemetrySnapshot(new DriverInfo(), new WeatherInfo())
+                    LapEndSnapshot = new TelemetrySnapshot(new DriverInfo(), new WeatherInfo()),
+                    IsValid = _random.Next(4) != 3
                 });
             }
         }

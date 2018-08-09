@@ -97,6 +97,8 @@
 
         public CombinedLapPortionComparatorsVM CombinedLapPortionComparators{ get; }
 
+        public bool RetrieveAlsoInvalidLaps { get; set; }
+
         public int SessionCompletedPerMiles
         {
             get
@@ -128,13 +130,18 @@
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel)
         {
             Dictionary<string, DriverTimingModelView> drivers = new Dictionary<string, DriverTimingModelView>();
-            SessionTiming timing = new SessionTiming(timingDataViewModel);
-            timing.SessionStarTime = dataSet.SessionInfo.SessionTime;
-            timing.SessionType = dataSet.SessionInfo.SessionType;
+            SessionTiming timing = new SessionTiming(timingDataViewModel)
+                                       {
+                                           SessionStarTime = dataSet.SessionInfo.SessionTime,
+                                           SessionType = dataSet.SessionInfo.SessionType,
+                                           RetrieveAlsoInvalidLaps = dataSet.SessionInfo.SessionType == SessionType.Race
+                                       };
 
-            Array.ForEach(dataSet.DriversInfo, s =>
-            {
-                var name = s.DriverName;
+            Array.ForEach(
+                dataSet.DriversInfo,
+                s =>
+                    {
+                        var name = s.DriverName;
                 if (drivers.Keys.Contains(name))
                 {
                     return;
@@ -165,7 +172,8 @@
             {
                 return;
             }
-            if (BestSessionLap == null || BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero)
+
+            if (BestSessionLap == null || (BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero))
             {
                 BestSessionLap = lapEventArgs.Lap;
             }
@@ -174,6 +182,11 @@
         private void OnSectorCompletedEvent(object sender, LapInfo.SectorCompletedArgs e)
         {
             SectorTiming completedSector = e.SectorTiming;
+            if (!e.SectorTiming.Lap.Valid)
+            {
+                return;
+            }
+
             switch (completedSector.SectorNumber)
             {
                 case 1:

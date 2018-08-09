@@ -146,7 +146,7 @@
             // Perform a sanity check on the sim reported lap time. The time difference between what the application counted and the sim counted cannot be more than 5 seconds.
             if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 5)
             {
-                LapEnd = dataSet.SessionInfo.SessionTime;
+                LapEnd = _isPendingStart != TimeSpan.Zero ? _isPendingStart : dataSet.SessionInfo.SessionTime;
             }
             else
             {
@@ -256,7 +256,7 @@
 
         private void TickSectors(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            if ((dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.PLAYER_ONLY && !driverInfo.IsPlayer) || !Valid)
+            if (dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.PLAYER_ONLY && !driverInfo.IsPlayer)
             {
                 return;
             }

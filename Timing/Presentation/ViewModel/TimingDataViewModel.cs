@@ -452,13 +452,13 @@
             if (weather.AirTemperature != Temperature.Zero)
             {
                 sb.Append("Air: " + weather.AirTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
-                    .ToString("n1"));
+                    .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits));
             }
 
             if (weather.TrackTemperature != Temperature.Zero)
             {
                 sb.Append(" |Track: " + weather.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
-                        .ToString("n1"));
+                        .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits));
             }
 
 

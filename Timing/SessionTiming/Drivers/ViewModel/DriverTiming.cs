@@ -214,8 +214,7 @@
                 LapInfo firstLap =
                     new LapInfo(set, DriverInfo.CompletedLaps + 1, this, true, null)
                         {
-                            Valid =
-                                !InvalidateFirstLap
+                            Valid = !InvalidateFirstLap
                         };
                 firstLap.SectorCompletedEvent += LapSectorCompletedEvent;
                 firstLap.LapInvalidatedEvent += LapInvalidatedHandler;
@@ -374,6 +373,11 @@
         private void LapSectorCompletedEvent(object sender, LapInfo.SectorCompletedArgs e)
         {
             SectorTiming completedSector = e.SectorTiming;
+            if (!e.SectorTiming.Lap.Valid)
+            {
+                return;
+            }
+
             switch (completedSector.SectorNumber)
             {
                 case 1:
@@ -508,7 +512,7 @@
 
                 for (int i = _lapsInfo.Count - 2; i >= 0; i--)
                 {
-                    if (_lapsInfo[i].Valid)
+                    if (Session.RetrieveAlsoInvalidLaps || _lapsInfo[i].Valid)
                     {
                         return _lapsInfo[i];
                     }

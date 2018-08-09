@@ -1,12 +1,10 @@
-﻿using SecondMonitor.DataModel.BasicProperties;
-
-namespace SecondMonitor.Timing.ReportCreation
+﻿namespace SecondMonitor.Timing.ReportCreation
 {
     using System;
     using System.Linq;
 
     using DataModel.Summary;
-
+    using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
 

@@ -7,14 +7,14 @@
     using System.Text;
     using System.Windows.Media;
 
+    using DataModel.BasicProperties;
+    using DataModel.Summary;
+
     using NLog;
 
     using OfficeOpenXml;
     using OfficeOpenXml.Style;
     using OfficeOpenXml.Table;
-
-    using DataModel.BasicProperties;
-    using DataModel.Summary;
 
     using SecondMonitor.DataModel.Snapshot.Systems;
 
@@ -35,6 +35,8 @@
         public Color PersonalBestColor { get; set; } = Colors.Green;
 
         public Color SessionBestColor { get; set; } = Colors.Purple;
+
+        public Color InvalidColor { get; set; } = Color.FromRgb(189, 7, 59);
 
         public VelocityUnits VelocityUnits { get; set; } = VelocityUnits.Kph;
 
@@ -167,6 +169,15 @@
                 {
                     FormatAsSessionBest(sheet.Cells[currentRow, startColumn + 3]);
                 }
+
+                if (!lap.IsValid)
+                {
+                    FillWithColor(
+                        sheet.Cells[currentRow, startColumn, currentRow, startColumn + 3],
+                        Colors.White,
+                        InvalidColor);
+                }
+
                 currentRow++;
             }
 
@@ -265,7 +276,7 @@
         {
             CarInfo playerCarInfo = lapInfo.LapEndSnapshot.PlayerData.CarInfo;
 
-            sheet.Cells[1 + startRow, 1].Value = lapInfo.LapNumber;
+            sheet.Cells[1 + startRow, 1].Value = lapInfo.IsValid ? lapInfo.LapNumber.ToString() : lapInfo.LapNumber + "(i)";
             sheet.Cells[1 + startRow, 2].Value = FormatTimeSpan(lapInfo.LapTime);
 
             if (lapInfo == lapInfo.Driver.BestPersonalLap)

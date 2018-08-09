@@ -392,12 +392,12 @@
 
         private string GetSector1()
         {
-            if (DriverTiming.CurrentLap == null || !DriverTiming.CurrentLap.Valid)
+            if (DriverTiming.CurrentLap == null)
             {
                 return "N/A";
             }
             var sector = GetSector1Timing();
-            return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
+            return FormatSectorTiming(sector);
         }
 
         private SectorTiming GetSector1Timing()
@@ -428,6 +428,31 @@
             return sector;
         }
 
+        private string FormatSectorTiming(SectorTiming sectorTiming)
+        {
+            if (sectorTiming == null)
+            {
+                return "N/A";
+            }
+
+            if (sectorTiming.Lap.Valid)
+            {
+                return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sectorTiming.Duration, false);
+            }
+
+            if (!sectorTiming.Lap.Driver.Session.RetrieveAlsoInvalidLaps)
+            {
+                return "N/A";
+            }
+
+            if (sectorTiming.Lap.Driver.Session.SessionType == SessionType.Race || !sectorTiming.Lap.PitLap)
+            {
+                return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sectorTiming.Duration, false);
+            }
+
+            return "N/A";
+        }
+
         private SectorTiming GetSector3Timing()
         {
             if (DriverTiming.CurrentLap == null)
@@ -444,22 +469,22 @@
 
         private string GetSector2()
         {
-            if (DriverTiming.CurrentLap == null || !DriverTiming.CurrentLap.Valid)
+            if (DriverTiming.CurrentLap == null)
             {
                 return "N/A";
             }
             SectorTiming sector = GetSector2Timing();
-            return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
+            return FormatSectorTiming(sector);
         }
 
         private string GetSector3()
         {
-            if (DriverTiming.CurrentLap == null || !DriverTiming.CurrentLap.Valid)
+            if (DriverTiming.CurrentLap == null)
             {
                 return "N/A";
             }
             SectorTiming sector = GetSector3Timing();
-            return sector == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sector.Duration, false);
+            return FormatSectorTiming(sector);
         }
 
         private string GetLastLapTime()
@@ -468,12 +493,28 @@
             LapInfo lastCompletedLap = DriverTiming.LastCompletedLap;
             if (lastCompletedLap != null)
             {
-                if (driverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player?.DriverTiming.LastCompletedLap == null)
+                string toDisplay;
+                if (!lastCompletedLap.Valid && DriverTiming.Session.SessionType != SessionType.Race)
                 {
-                    return TimeSpanFormatHelper.FormatTimeSpan(lastCompletedLap.LapTime);
+                    return "Lap Invalid";
                 }
 
-                return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime), true);
+                if (lastCompletedLap.PitLap && DriverTiming.Session.SessionType != SessionType.Race)
+                {
+                    return "Out Lap";
+                }
+
+                if (driverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player?.DriverTiming.LastCompletedLap == null)
+                {
+                    toDisplay = TimeSpanFormatHelper.FormatTimeSpan(lastCompletedLap.LapTime);
+                }
+                else
+                {
+                    toDisplay = TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime), true);
+                }
+
+                return lastCompletedLap.Valid || DriverTiming.Session.SessionType != SessionType.Race ? toDisplay : "(I) " + toDisplay;
+
             }
 
             return "N/A";
@@ -488,13 +529,25 @@
                 return string.Empty;
             }
 
-            if (!DriverTiming.CurrentLap.Valid)
+            TimeSpan progress = DriverTiming.CurrentLap.CurrentlyValidProgressTime;
+            if (DriverTiming.Session.SessionType != SessionType.Race && (DriverTiming.CurrentLap.PitLap || DriverTiming.InPits))
             {
-                return DriverTiming.Session.SessionType == SessionType.Race ? "Lap Invalid" : DriverTiming.InPits ? "In Pits" : "Out Lap"; ;
+                return DriverTiming.InPits ? "In Pits" : "Out Lap";
             }
 
-            TimeSpan progress = DriverTiming.CurrentLap.CurrentlyValidProgressTime;
-            return TimeSpanFormatHelper.FormatTimeSpan(progress);
+            if (!DriverTiming.CurrentLap.Valid && !DriverTiming.InPits && DriverTiming.Session.RetrieveAlsoInvalidLaps)
+            {
+                return "(I) " + TimeSpanFormatHelper.FormatTimeSpan(progress);
+            }
+
+            if (!DriverTiming.CurrentLap.Valid && !DriverTiming.Session.RetrieveAlsoInvalidLaps)
+            {
+                return DriverTiming.Session.SessionType == SessionType.Race ? "Lap Invalid" : DriverTiming.InPits ? "In Pits" : "Out Lap";
+            }
+
+            return DriverTiming.CurrentLap.Valid
+                       ? TimeSpanFormatHelper.FormatTimeSpan(progress)
+                       : "(I) " + TimeSpanFormatHelper.FormatTimeSpan(progress);
 
         }
 

@@ -83,7 +83,7 @@
         private Lap FindBest(Func<Lap, TimeSpan> paramFunc, List<Lap> laps)
         {
 
-            return laps.Count == 0 ? null : laps.Where(l =>  l.IsValid  &&  paramFunc(l) != TimeSpan.Zero ).OrderBy(paramFunc).First();
+            return laps.Count == 0 ? null : laps.Where(l => l.IsValid  && paramFunc(l) != TimeSpan.Zero).OrderBy(paramFunc).First();
         }
     }
 }

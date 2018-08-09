@@ -1,11 +1,10 @@
-﻿using SecondMonitor.DataModel.BasicProperties;
-
-namespace SecondMonitor.Timing.LapTimings.ViewModel
+﻿namespace SecondMonitor.Timing.LapTimings.ViewModel
 {
     using System;
     using System.Threading.Tasks;
     using System.Windows;
 
+    using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 
@@ -24,6 +23,7 @@ namespace SecondMonitor.Timing.LapTimings.ViewModel
         public static readonly DependencyProperty IsSector3SessionBestProperty = DependencyProperty.Register("IsSector3SessionBest", typeof(bool), typeof(LapViewModel));
         public static readonly DependencyProperty IsLapBestSessionLapProperty = DependencyProperty.Register("IsLapBestSessionLap", typeof(bool), typeof(LapViewModel));
         public static readonly DependencyProperty IsLapBestPersonalLapProperty = DependencyProperty.Register("IsLapBestPersonalLap", typeof(bool), typeof(LapViewModel));
+        public static readonly DependencyProperty IsLapValidProperty = DependencyProperty.Register("IsLapValid", typeof(bool), typeof(LapViewModel));
 
 
         private bool _refresh = true;
@@ -126,6 +126,13 @@ namespace SecondMonitor.Timing.LapTimings.ViewModel
         }
 
 
+        public bool IsLapValid
+        {
+            get => (bool)GetValue(IsLapValidProperty);
+            set => SetValue(IsLapValidProperty, value);
+        }
+
+
         private async void TimerMethod(Action timedAction, Func<int> delayAction)
         {
             while (_refresh)
@@ -150,6 +157,7 @@ namespace SecondMonitor.Timing.LapTimings.ViewModel
             IsSector3PersonalBest = GetIsSector3PersonalBest();
             IsLapBestSessionLap = GetIsLapBestSessionLap();
             IsLapBestPersonalLap = GetIsLapBestPersonalLap();
+            IsLapValid = LapInfo.Valid;
         }
 
         private bool GetIsLapBestSessionLap()
@@ -200,11 +208,27 @@ namespace SecondMonitor.Timing.LapTimings.ViewModel
 
         private string GetSectorTiming(SectorTiming sectorTiming)
         {
-            if (!LapInfo.Valid)
+            if (sectorTiming == null)
             {
-                return LapInfo.Driver.Session.SessionType == SessionType.Race ? "Lap Invalid" : "Out Lap";
+                return "N/A";
             }
-            return sectorTiming == null ? "N/A" : TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sectorTiming.Duration, false);
+
+            if (sectorTiming.Lap.Valid)
+            {
+                return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sectorTiming.Duration, false);
+            }
+
+            if (!sectorTiming.Lap.Driver.Session.RetrieveAlsoInvalidLaps)
+            {
+                return "N/A";
+            }
+
+            if (sectorTiming.Lap.Driver.Session.SessionType == SessionType.Race || !sectorTiming.Lap.PitLap)
+            {
+                return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(sectorTiming.Duration, false);
+            }
+
+            return "N/A";
         }
 
         private string GetSector1()
@@ -224,10 +248,16 @@ namespace SecondMonitor.Timing.LapTimings.ViewModel
 
         private string GetLapTime()
         {
-            if (!LapInfo.Valid)
+            if (!LapInfo.Valid && LapInfo.Driver.Session.SessionType != SessionType.Race && (LapInfo.Driver.InPits || LapInfo.PitLap))
             {
-                return LapInfo.Driver.Session.SessionType == SessionType.Race ? "Lap Invalid" : LapInfo.Driver.InPits ? "In Pits" : "Out Lap";
+                return LapInfo.PitLap ? "Out Lap" : "Pit Lap";
             }
+
+            if (!LapInfo.Valid && !LapInfo.Driver.Session.RetrieveAlsoInvalidLaps)
+            {
+                return "Lap Invalid";
+            }
+
             return LapInfo.Completed ? TimeSpanFormatHelper.FormatTimeSpan(LapInfo.LapTime) : TimeSpanFormatHelper.FormatTimeSpan(LapInfo.CurrentlyValidProgressTime);
         }
     }
