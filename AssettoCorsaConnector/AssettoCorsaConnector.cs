@@ -31,6 +31,7 @@
 
         private bool _isConnected;
         private DateTime _connectionTime = DateTime.MinValue;
+        private SimulatorDataSet _lastDataSet;
 
         public AssettoCorsaConnector()
             : base(ACExecutables)
@@ -73,13 +74,6 @@
             {
                 _connectionTime = DateTime.Now;
             }
-            if (DateTime.Now - _connectionTime > _connectionTimeout)
-            {
-                SendMessageToClients(
-                    "Assetto Corsa has been detected running for extended time, but SecondMonitor wasn't able to connect to its shared memory.\n"
-                    + "Please make sure that the seconds monitor plugin for second monitor is correctly installed in the plugins folder and enabled");
-                _connectionTime = DateTime.MaxValue;
-            }
 
             try
             {
@@ -111,6 +105,7 @@
             _rawLastSessionType = AcSessionType.AC_UNKNOWN;
             _lastSessionType = SessionType.Na;
             _lastSessionPhase = SessionPhase.Countdown;
+            _lastDataSet = null;
         }
 
         protected override void DaemonMethod()
@@ -136,10 +131,13 @@
                 if (CheckSessionStarted(acData, dataSet))
                 {
                     _stopwatch.Restart();
+                    dataSet.SessionInfo.SessionTime = _stopwatch.Elapsed;
+                    _acDataConverter.ResetConverter();
                     RaiseSessionStartedEvent(dataSet);
                 }
 
                 RaiseDataLoadedEvent(dataSet);
+                _lastDataSet = dataSet;
 
                 if (!IsProcessRunning())
                 {
@@ -196,13 +194,33 @@
                 return true;
             }
 
-            if (dataSet.SessionInfo.SessionPhase != _lastSessionPhase && _lastSessionPhase != SessionPhase.Green && dataSet.SessionInfo.SessionPhase != SessionPhase.Countdown)
+            if (dataSet.SessionInfo.SessionPhase != _lastSessionPhase && _lastSessionPhase != SessionPhase.Green
+                                                                      && dataSet.SessionInfo.SessionPhase
+                                                                      != SessionPhase.Countdown)
             {
                 _lastSessionType = dataSet.SessionInfo.SessionType;
                 _rawLastSessionType = acData.AcsGraphic.session;
                 _lastSessionPhase = dataSet.SessionInfo.SessionPhase;
                 return true;
             }
+
+            if (_lastDataSet == null)
+            {
+                return false;
+            }
+
+            if (_lastDataSet.PlayerInfo?.CompletedLaps > dataSet.PlayerInfo?.CompletedLaps)
+            {
+                return true;
+            }
+
+            if (_lastDataSet.SessionInfo.SessionType == SessionType.Race && _lastDataSet.SessionInfo.LeaderCurrentLap
+                > dataSet.SessionInfo.LeaderCurrentLap)
+            {
+                return true;
+            }
+
+
             return false;
         }
 

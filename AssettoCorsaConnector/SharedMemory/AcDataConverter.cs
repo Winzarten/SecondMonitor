@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.AssettoCorsaConnector.SharedMemory
 {
     using System;
+    using System.Collections.Generic;
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
@@ -10,11 +11,19 @@
     public class AcDataConverter
     {
         private readonly AssettoCorsaConnector _connector;
+        private readonly Dictionary<string, TimeSpan[]> _currentSectorTimes;
+
+        private readonly AssettoCorsaStartObserver _startObserver;
+
         private DriverInfo _lastPlayer;
+        private int? _sectorLength;
 
         public AcDataConverter(AssettoCorsaConnector assettoCorsaConnector)
         {
             _connector = assettoCorsaConnector;
+            _currentSectorTimes = new Dictionary<string, TimeSpan[]>();
+            _sectorLength = null;
+            _startObserver = new AssettoCorsaStartObserver();
         }
 
         public SimulatorDataSet CreateSimulatorDataSet(AssettoCorsaShared acData)
@@ -23,7 +32,7 @@
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = false;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.NONE;
+            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
 
             FillSessionInfo(acData, simData);
             AddDriversData(simData, acData);
@@ -49,7 +58,7 @@
             AddAcceleration(simData, acData);
 
 
-
+            _startObserver.Observe(simData);
             return simData;
         }
 
@@ -96,6 +105,12 @@
             // Fuel System
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(acData.AcsStatic.maxFuel);
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(acData.AcsPhysics.fuel);
+        }
+
+        public void ResetConverter()
+        {
+            _currentSectorTimes.Clear();
+            _sectorLength = null;
         }
 
         private static void AddBrakesInfo(AssettoCorsaShared acData, SimulatorDataSet simData)
@@ -157,7 +172,7 @@
             for (int i = 0; i < acData.AcsSecondMonitor.numVehicles; i++)
             {
                 AcsVehicleInfo acVehicleInfo = acData.AcsSecondMonitor.vehicle[i];
-                DriverInfo driverInfo = CreateDriverInfo(acData, acVehicleInfo);
+                DriverInfo driverInfo = CreateDriverInfo(acData, acVehicleInfo, data);
 
                 if (driverInfo.IsPlayer)
                 {
@@ -210,6 +225,41 @@
             driverInfo.Timing.LastLapTime = CreateTimeSpan(acVehicleInfo.lastLapTimeMS);
             driverInfo.Timing.CurrentLapTime = CreateTimeSpan(acVehicleInfo.currentLapTimeMS);
             driverInfo.Timing.CurrentSector = -1;
+
+            if (_sectorLength == null)
+            {
+                return;
+            }
+
+            int currentSector = (int)driverInfo.LapDistance / _sectorLength.Value;
+            TimeSpan[] splits = GetCurrentSplitTimes(driverInfo.DriverName);
+            if (splits == null || splits.Length <= currentSector)
+            {
+                return;
+            }
+
+            splits[currentSector] = driverInfo.Timing.CurrentLapTime;
+            driverInfo.Timing.CurrentSector = currentSector + 1;
+            driverInfo.Timing.LastSector1Time = splits[0];
+            driverInfo.Timing.LastSector2Time = splits[1] - splits[0];
+            driverInfo.Timing.LastSector3Time = splits[2] - splits[1];
+            driverInfo.Timing.CurrentSectorTime = splits[currentSector];
+
+        }
+
+        private TimeSpan[] GetCurrentSplitTimes(string playerName)
+        {
+            return GetSplitTimes(playerName, _currentSectorTimes);
+        }
+
+        private TimeSpan[] GetSplitTimes(string playerName, Dictionary<string, TimeSpan[]> splitsDictionary)
+        {
+            if (!splitsDictionary.ContainsKey(playerName))
+            {
+                splitsDictionary[playerName] = new[] { TimeSpan.Zero, TimeSpan.Zero, TimeSpan.Zero };
+            }
+
+            return splitsDictionary[playerName];
         }
 
         private TimeSpan CreateTimeSpan(double miliseconds)
@@ -229,15 +279,17 @@
             }
         }
 
-        private DriverInfo CreateDriverInfo(AssettoCorsaShared acData, AcsVehicleInfo acVehicleInfo)
+        private DriverInfo CreateDriverInfo(AssettoCorsaShared acData, AcsVehicleInfo acVehicleInfo, SimulatorDataSet dataSet)
         {
             DriverInfo driverInfo = new DriverInfo
             {
                 DriverName = StringExtensions.FromArray(acVehicleInfo.driverName),
                 CompletedLaps = acVehicleInfo.lapCount,
                 CarName = StringExtensions.FromArray(acVehicleInfo.carModel),
-                InPits = acVehicleInfo.isCarInPit == 1 || acVehicleInfo.isCarInPitlane == 1
             };
+
+            driverInfo.InPits = acVehicleInfo.isCarInPit == 1 || acVehicleInfo.isCarInPitlane == 1;
+
 
             driverInfo.IsPlayer = acVehicleInfo.carId == 0;
             driverInfo.Position = acVehicleInfo.carLeaderboardPosition;
@@ -333,6 +385,11 @@
             {
                 simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
                 simData.SessionInfo.TotalNumberOfLaps = data.AcsGraphic.numberOfLaps;
+            }
+
+            if (_sectorLength == null && simData.SessionInfo.TrackInfo.LayoutLength > 0)
+            {
+                _sectorLength = (int)simData.SessionInfo.TrackInfo.LayoutLength / 3;
             }
         }
 

@@ -1,16 +1,17 @@
-﻿using SecondMonitor.DataModel.Snapshot.Drivers;
-using SecondMonitor.DataModel.Telemetry;
-
-namespace SecondMonitor.XslxExportTests
+﻿namespace SecondMonitor.XslxExportTests
 {
     using System;
     using System.IO;
 
-    using NUnit.Framework;
-
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Summary;
+
+    using NUnit.Framework;
+
+    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using SecondMonitor.DataModel.Telemetry;
+
     using XslxExport;
 
     [TestFixture]
