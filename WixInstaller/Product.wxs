@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "b02a33fc-788b-4fd8-8803-c0b5c9308d64"?>
+  <?define ProductCode = "c24433ae-a484-4f0e-bf9f-c4f50b53a2e2"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "2.1.0.0"?>
+  <?define ProductVersion = "2.2.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
