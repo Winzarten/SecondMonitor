@@ -81,9 +81,13 @@
             {
                 if (Valid && !value)
                 {
+                    _valid = false;
                     OnLapInvalidatedEvent(new DriverTiming.LapEventArgs(this));
                 }
-                _valid = value;
+                else
+                {
+                    _valid = value;
+                }
 
             }
     }
@@ -138,6 +142,10 @@
         private PendingSector PendingSector { get; set; }
 
         public bool IsPending => _isPending || PendingSector != null;
+
+        public static Func<LapInfo, SectorTiming> Sector1SelFunc => x => x.Sector1;
+        public static Func<LapInfo, SectorTiming> Sector2SelFunc => x => x.Sector2;
+        public static Func<LapInfo, SectorTiming> Sector3SelFunc => x => x.Sector3;
 
         public void FinishLap(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {

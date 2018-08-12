@@ -32,10 +32,6 @@
         private readonly List<PitStopInfo> _pitStopInfo;
         private double _previousTickLapDistance;
 
-        private SectorTiming _bestSector1;
-        private SectorTiming _bestSector2;
-        private SectorTiming _bestSector3;
-
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
             _lapsInfo = new List<LapInfo>();
@@ -99,44 +95,11 @@
 
         public bool IsActive { get; set; } = true;
 
-        public SectorTiming BestSector1
-        {
-            get => _bestSector1;
-            private set
-            {
-                PreviousBestSector1 = BestSector1;
-                _bestSector1 = value;
-            }
+        public SectorTiming BestSector1 { get; private set; }
 
-        }
+        public SectorTiming BestSector2 { get; private set; }
 
-        public SectorTiming BestSector2
-        {
-            get => _bestSector2;
-            private set
-            {
-                PreviousBestSector2 = BestSector2;
-                _bestSector2 = value;
-            }
-
-        }
-
-        public SectorTiming BestSector3
-        {
-            get => _bestSector3;
-            private set
-            {
-                PreviousBestSector3 = BestSector3;
-                _bestSector3 = value;
-            }
-
-        }
-
-        public SectorTiming PreviousBestSector1 { get; private set; }
-
-        public SectorTiming PreviousBestSector2 { get; private set; }
-
-        public SectorTiming PreviousBestSector3 { get; private set; }
+        public SectorTiming BestSector3 { get; private set; }
 
         public IReadOnlyCollection<LapInfo> Laps => _lapsInfo.AsReadOnly();
 
@@ -500,7 +463,6 @@
             }
         }
 
-
         public LapInfo LastCompletedLap
         {
             get
@@ -560,18 +522,24 @@
         {
             if (BestSector1 != null && BestSector1 == lap.Sector1)
             {
-                _bestSector1 = PreviousBestSector1;
+                BestSector1 = FindBestSector(LapInfo.Sector1SelFunc);
             }
 
             if (BestSector2 != null && BestSector2 == lap.Sector2)
             {
-                _bestSector2 = PreviousBestSector2;
+                BestSector2 = FindBestSector(LapInfo.Sector2SelFunc);
             }
 
             if (BestSector3 != null && BestSector3 == lap.Sector3)
             {
-                _bestSector3 = PreviousBestSector3;
+                BestSector3 = FindBestSector(LapInfo.Sector3SelFunc);
             }
+        }
+
+        private SectorTiming FindBestSector(Func<LapInfo, SectorTiming> sectorPickerFunc)
+        {
+            return Laps.Where(l => l.Valid).Select(sectorPickerFunc).Where(s => s.Duration != TimeSpan.Zero)
+                .OrderBy(s => s.Duration).FirstOrDefault();
         }
     }
 }

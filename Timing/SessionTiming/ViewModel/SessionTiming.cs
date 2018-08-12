@@ -33,12 +33,6 @@
             }
         }
 
-        private readonly List<SectorTiming> _sector1Times = new List<SectorTiming>();
-
-        private readonly List<SectorTiming> _sector2Times = new List<SectorTiming>();
-
-        private readonly List<SectorTiming> _sector3Times = new List<SectorTiming>();
-
         public event EventHandler<DriverListModificationEventArgs> DriverAdded;
 
         public event EventHandler<DriverListModificationEventArgs> DriverRemoved;
@@ -48,6 +42,10 @@
         public TimeSpan SessionStarTime { get; private set; }
 
         private LapInfo _bestSessionLap;
+
+        private SectorTiming _bestSector1;
+        private SectorTiming _bestSector2;
+        private SectorTiming _bestSector3;
 
         public LapInfo BestSessionLap
         {
@@ -89,11 +87,35 @@
             set;
         }
 
-        public SectorTiming BestSector1 => _sector1Times.Any() ? _sector1Times.First() : null;
+        public SectorTiming BestSector1
+        {
+            get => _bestSector1;
+            private set
+            {
+                _bestSector1 = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public SectorTiming BestSector2 => _sector2Times.Any() ? _sector2Times.First() : null;
+        public SectorTiming BestSector2
+        {
+            get => _bestSector2;
+            private set
+            {
+                _bestSector2 = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public SectorTiming BestSector3 => _sector3Times.Any() ? _sector3Times.First() : null;
+        public SectorTiming BestSector3
+        {
+            get => _bestSector3;
+            private set
+            {
+                _bestSector3 = value;
+                OnPropertyChanged();
+            }
+        }
 
         public CombinedLapPortionComparatorsVM CombinedLapPortionComparators{ get; }
 
@@ -192,34 +214,19 @@
                 case 1:
                     if ((BestSector1 == null || BestSector1 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
-                        _sector1Times.Insert(0, completedSector);
-                        if (_sector1Times.Count > 50)
-                        {
-                            _sector1Times.RemoveAt(_sector1Times.Count - 1);
-                        }
-                        OnPropertyChanged(nameof(BestSector1));
+                        BestSector1 = completedSector;
                     }
                     break;
                 case 2:
                     if ((BestSector2 == null || BestSector2 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
-                        _sector2Times.Insert(0, completedSector);
-                        if (_sector2Times.Count > 50)
-                        {
-                            _sector2Times.RemoveAt(_sector2Times.Count - 1);
-                        }
-                        OnPropertyChanged(nameof(BestSector2));
+                        BestSector2 = completedSector;
                     }
                     break;
                 case 3:
                     if ((BestSector3 == null || BestSector3 > completedSector) && completedSector.Duration != TimeSpan.Zero)
                     {
-                        _sector3Times.Insert(0, completedSector);
-                        if (_sector3Times.Count > 50)
-                        {
-                            _sector3Times.RemoveAt(_sector3Times.Count - 1);
-                        }
-                        OnPropertyChanged(nameof(BestSector3));
+                        BestSector3 = completedSector;
                     }
                     break;
             }
@@ -246,23 +253,26 @@
 
         private void LapInvalidatedHandler(object sender, DriverTiming.LapEventArgs e)
         {
-            if (_sector1Times.Contains(e.Lap.Sector1))
+            if (BestSector1 == e.Lap.Sector1)
             {
-                _sector1Times.Remove(e.Lap.Sector1);
-                OnPropertyChanged(nameof(BestSector1));
+                BestSector1 = FindBestSector(d => d.BestSector1);
             }
 
-            if (_sector2Times.Contains(e.Lap.Sector2))
+            if (BestSector2 == e.Lap.Sector2)
             {
-                _sector2Times.Remove(e.Lap.Sector2);
-                OnPropertyChanged(nameof(BestSector2));
+                BestSector2 = FindBestSector(d => d.BestSector2);
             }
 
-            if (_sector3Times.Contains(e.Lap.Sector3))
+            if (BestSector3 == e.Lap.Sector3)
             {
-                _sector3Times.Remove(e.Lap.Sector3);
-                OnPropertyChanged(nameof(BestSector3));
+                BestSector3 = FindBestSector(d => d.BestSector3);
             }
+        }
+
+        private SectorTiming FindBestSector(Func<DriverTiming, SectorTiming> sectorTimeFunc)
+        {
+            return Drivers.Values.Where(d => d.DriverTiming.IsActive).Select(x => sectorTimeFunc(x.DriverTiming)).Where( s => s != null)
+                .OrderBy(s => s.Duration).FirstOrDefault();
         }
 
         public void UpdateTiming(SimulatorDataSet dataSet)
