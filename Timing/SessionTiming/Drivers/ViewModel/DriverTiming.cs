@@ -538,7 +538,7 @@
 
         private SectorTiming FindBestSector(Func<LapInfo, SectorTiming> sectorPickerFunc)
         {
-            return Laps.Where(l => l.Valid).Select(sectorPickerFunc).Where(s => s.Duration != TimeSpan.Zero)
+            return Laps.Where(l => l.Valid).Select(sectorPickerFunc).Where(s => s != null && s.Duration != TimeSpan.Zero)
                 .OrderBy(s => s.Duration).FirstOrDefault();
         }
     }
