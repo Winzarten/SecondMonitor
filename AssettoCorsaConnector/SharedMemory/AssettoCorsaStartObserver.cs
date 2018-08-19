@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.AssettoCorsaConnector.SharedMemory
 {
+    using System;
+
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
 
@@ -7,12 +9,13 @@
     {
         private enum StartState
         {
-            Countdown, StartSequence, Started, StartCompleted
+            Countdown, StartSequence, Started, StartCompleted, StartRestartTimeout
         }
 
         private StartState _startState;
         private SimulatorDataSet _lastDataSet;
 
+        private TimeSpan _restartTimeoutEnd;
 
         public AssettoCorsaStartObserver()
         {
@@ -54,6 +57,9 @@
                     return;
                 case StartState.StartCompleted:
                     CheckAndAdvanceStartCompleted(dataSet);
+                    return;
+                case StartState.StartRestartTimeout:
+                    CheckAndAdvanceStartRestartTimeout(dataSet);
                     return;
             }
 
@@ -101,8 +107,23 @@
         {
             if (dataSet.LeaderInfo.TotalDistance < 400)
             {
+                _startState = StartState.StartRestartTimeout;
+                _restartTimeoutEnd = dataSet.SessionInfo.SessionTime.Add(TimeSpan.FromSeconds(2));
+            }
+
+        }
+
+        private void CheckAndAdvanceStartRestartTimeout(SimulatorDataSet dataSet)
+        {
+            if (dataSet.LeaderInfo.TotalDistance < 400 && dataSet.SessionInfo.SessionTime > _restartTimeoutEnd)
+            {
                 _startState = StartState.Countdown;
                 dataSet.SessionInfo.SessionType = SessionType.Na;
+            }
+
+            if (dataSet.LeaderInfo.CompletedLaps > 1)
+            {
+                _startState = StartState.StartCompleted;
             }
 
         }

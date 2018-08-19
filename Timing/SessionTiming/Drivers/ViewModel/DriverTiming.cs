@@ -404,10 +404,10 @@
 
             int totalPaceLaps = 0;
             TimeSpan pace = TimeSpan.Zero;
-            for(int i = _lapsInfo.Count - 2; i >= 0 && totalPaceLaps < PaceLaps; i--)
+            for (int i = _lapsInfo.Count - 1; i >= 0 && totalPaceLaps < PaceLaps; i--)
             {
                 LapInfo lap = _lapsInfo[i];
-                if (!lap.Valid)
+                if (!lap.Completed || (!lap.Valid && !Session.RetrieveAlsoInvalidLaps))
                 {
                     continue;
                 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "8710ac15-e694-46db-b4c0-d1ac3887859d"?>
+  <?define ProductCode = "86a86e1f-c901-4d41-912d-eb3b2c97baf4"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
   <?define ProductVersion = "2.2.0.0"?>
   <?define FirstVersion="0.0.0.1"?>

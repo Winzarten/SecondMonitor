@@ -76,10 +76,10 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RR]);
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - (acData.AcsPhysics.tyreWear[(int)AcWheels.FL] / 100);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = 1 - (acData.AcsPhysics.tyreWear[(int)AcWheels.FR] / 100);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = 1 - (acData.AcsPhysics.tyreWear[(int)AcWheels.RL] / 100);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = 1 - (acData.AcsPhysics.tyreWear[(int)AcWheels.FR] / 100);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear =GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.RL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
 
             // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp = Temperature.FromCelsius(acData.AcsPhysics.tyreTempI[(int)AcWheels.FL]);
@@ -105,6 +105,12 @@
             // Fuel System
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(acData.AcsStatic.maxFuel);
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(acData.AcsPhysics.fuel);
+        }
+
+        private static double GetACTyreWear(double acReportedTyreWear)
+        {
+            double percentages =(acReportedTyreWear - 88) / (100.0 - 88);
+            return 1 - percentages;
         }
 
         public void ResetConverter()
@@ -285,7 +291,7 @@
             {
                 DriverName = StringExtensions.FromArray(acVehicleInfo.driverName),
                 CompletedLaps = acVehicleInfo.lapCount,
-                CarName = StringExtensions.FromArray(acVehicleInfo.carModel),
+                CarName = FormatACName(StringExtensions.FromArray(acVehicleInfo.carModel)),
             };
 
             driverInfo.InPits = acVehicleInfo.isCarInPit == 1 || acVehicleInfo.isCarInPitlane == 1;
@@ -338,7 +344,7 @@
             // Timing
             simData.SessionInfo.SessionTime = _connector.SessionTime;
             simData.SessionInfo.TrackInfo.LayoutLength = data.AcsStatic.trackSPlineLength;
-            simData.SessionInfo.TrackInfo.TrackName = data.AcsStatic.track;
+            simData.SessionInfo.TrackInfo.TrackName = FormatACName(data.AcsStatic.track);
             simData.SessionInfo.TrackInfo.TrackLayoutName = data.AcsStatic.trackConfiguration;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AcsPhysics.airTemp);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.AcsPhysics.roadTemp);
@@ -396,6 +402,11 @@
         internal static DriverInfo.DriverFinishStatus FromAcStatus(int finishStatus)
         {
             return finishStatus == 0 ? DriverInfo.DriverFinishStatus.None : DriverInfo.DriverFinishStatus.Finished;
+        }
+
+        private static string FormatACName(string name)
+        {
+            return name.Replace("ks_", string.Empty).Replace("_", " ");
         }
     }
 }
