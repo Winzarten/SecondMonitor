@@ -32,20 +32,20 @@
 
         private void SubscribeToComparedLap()
         {
-            ComparedLap.PortionTimes.PropertyChanged += PortionTimes_PropertyChanged;
+            ComparedLap.LapTelemetryInfo.PortionTimes.PropertyChanged += PortionTimes_PropertyChanged;
         }
 
         private void UnSubscribeToComparedLap()
         {
-            ComparedLap.PortionTimes.PropertyChanged -= PortionTimes_PropertyChanged;
+            ComparedLap.LapTelemetryInfo.PortionTimes.PropertyChanged -= PortionTimes_PropertyChanged;
         }
 
         private void PortionTimes_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (ReferenceLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance) != TimeSpan.Zero)
+            if (ReferenceLap.LapTelemetryInfo.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance) != TimeSpan.Zero)
             {
-                TimeDifference = ComparedLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance)
-                                 - ReferenceLap.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance);
+                TimeDifference = ComparedLap.LapTelemetryInfo.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance)
+                                 - ReferenceLap.LapTelemetryInfo.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance);
             }
             else
             {

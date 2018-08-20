@@ -95,6 +95,7 @@
     <Compile Include="SessionTiming\Drivers\ViewModel\DriverTiming.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapPortionTimes.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapPortionTimesComparatorViewModel.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\LapTelemetryInfo.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\PendingSector.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\PitStopInfo.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\SectorTiming.cs" />

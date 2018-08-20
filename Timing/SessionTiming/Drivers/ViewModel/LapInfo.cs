@@ -5,7 +5,6 @@
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.DataModel.Telemetry;
 
     public class LapInfo
     {
@@ -58,7 +57,7 @@
             PitLap = false;
             PreviousLap = previousLapInfo;
             CompletedDistance = double.NaN;
-            PortionTimes = new LapPortionTimes(5, dataSet.SessionInfo.TrackInfo.LayoutLength, this);
+            LapTelemetryInfo = new LapTelemetryInfo(driver.DriverInfo, dataSet, this);
         }
 
         public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;
@@ -69,8 +68,6 @@
         public TimeSpan LapStart { get; }
 
         public int LapNumber { get; private set; }
-
-        public TelemetrySnapshot LapEndSnapshot { get; private set; }
 
         public double CompletedDistance { get; private set; }
 
@@ -114,8 +111,6 @@
 
         }
 
-        public LapPortionTimes PortionTimes { get; }
-
         public LapInfo PreviousLap { get; }
 
         public SectorTiming Sector1 { get; private set; }
@@ -143,6 +138,8 @@
 
         public bool IsPending => _isPending || PendingSector != null;
 
+        public LapTelemetryInfo LapTelemetryInfo { get; }
+
         public static Func<LapInfo, SectorTiming> Sector1SelFunc => x => x.Sector1;
         public static Func<LapInfo, SectorTiming> Sector2SelFunc => x => x.Sector2;
         public static Func<LapInfo, SectorTiming> Sector3SelFunc => x => x.Sector3;
@@ -166,7 +163,7 @@
             {
                 Valid = false;
             }
-            LapEndSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
+            LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
             Completed = true;
         }
 
@@ -204,7 +201,7 @@
                 CompletedDistance = driverInfo.LapDistance;
                 if (Driver.IsPlayer)
                 {
-                    PortionTimes.UpdateLapPortions();
+                     LapTelemetryInfo.UpdateTelemetry();
                 }
             }
 

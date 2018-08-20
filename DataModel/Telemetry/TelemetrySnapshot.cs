@@ -1,8 +1,8 @@
-﻿using SecondMonitor.DataModel.Snapshot;
-using SecondMonitor.DataModel.Snapshot.Drivers;
-
-namespace SecondMonitor.DataModel.Telemetry
+﻿namespace SecondMonitor.DataModel.Telemetry
 {
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.DataModel.Snapshot.Drivers;
+
     public class TelemetrySnapshot
     {
         public TelemetrySnapshot(DriverInfo playerInfo, WeatherInfo weatherInfo)
