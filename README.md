@@ -90,6 +90,5 @@ Second Monitor is Timing/Car information application for racing simulators. It d
  - [ ] Increase amount of information for tyres (indicate bottoming up, dirt, slip)
 ## Installation
 
-The app is available at (v 2.2.0 ) - 
-https://1drv.ms/u/s!AjZ7Py7hwgdrgaNERN6qZ2eDe5whVQ
+Check release tab for latests version
 
