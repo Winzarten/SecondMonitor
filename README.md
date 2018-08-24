@@ -4,6 +4,8 @@
 
 Second Monitor is Timing/Car information application for racing simulators. It displays the actual session information, timing information and basic car status idication.
 
+![Screenshot](/_githubStuff/SecondMonitor_2018-08-20_17-32-27.png)
+
 **Information provided**:
 * Session Information:
   * Current track + layout + session type
