@@ -10,6 +10,8 @@
 
     public class AcDataConverter
     {
+        private const double MaxWear = 91;
+
         private readonly AssettoCorsaConnector _connector;
         private readonly Dictionary<string, TimeSpan[]> _currentSectorTimes;
 
@@ -109,7 +111,7 @@
 
         private static double GetACTyreWear(double acReportedTyreWear)
         {
-            double percentages =(acReportedTyreWear - 88) / (100.0 - 88);
+            double percentages =(acReportedTyreWear - MaxWear) / (100.0 - MaxWear);
             return 1 - percentages;
         }
 
@@ -180,13 +182,14 @@
                 AcsVehicleInfo acVehicleInfo = acData.AcsSecondMonitor.vehicle[i];
                 DriverInfo driverInfo = CreateDriverInfo(acData, acVehicleInfo, data);
 
+                driverInfo.CurrentLapValid = acVehicleInfo.currentLapInvalid == 0;
                 if (driverInfo.IsPlayer)
                 {
                     playersInfo = driverInfo;
-
+                    driverInfo.CurrentLapValid &= acData.AcsPhysics.numberOfTyresOut != 4;
                 }
 
-                driverInfo.CurrentLapValid = acVehicleInfo.currentLapInvalid == 0;
+
                 data.DriversInfo[i] = driverInfo;
                 if (driverInfo.Position == 1)
                 {
@@ -298,7 +301,7 @@
 
 
             driverInfo.IsPlayer = acVehicleInfo.carId == 0;
-            driverInfo.Position = acVehicleInfo.carLeaderboardPosition;
+            driverInfo.Position = dataSet.SessionInfo.SessionType == SessionType.Race ? acVehicleInfo.carRealTimeLeaderboardPosition + 1 : acVehicleInfo.carLeaderboardPosition;
             driverInfo.Speed = Velocity.FromMs(acVehicleInfo.speedMS);
             driverInfo.LapDistance = acData.AcsStatic.trackSPlineLength * acVehicleInfo.spLineLength;
             driverInfo.TotalDistance = acVehicleInfo.lapCount * acData.AcsStatic.trackSPlineLength + acVehicleInfo.spLineLength * acData.AcsStatic.trackSPlineLength;
