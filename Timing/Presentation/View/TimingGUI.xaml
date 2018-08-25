@@ -80,7 +80,7 @@
             x:Name="SessionInfo"
             Grid.Row="0"
             VerticalAlignment="Top"
-            Background="White">
+            Background="Black">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -329,7 +329,7 @@
                 </DataGrid>
             </Border>
         </Grid>
-        <Grid Background="White" Row="2">
+        <Grid Background="Black" Row="2">
             <WindowsFormsHost
                 Width="196"
                 Height="96"
@@ -464,7 +464,7 @@
                 d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
                 DisplayUnits="{Binding DisplaySettings.VolumeUnits, Mode=OneWay}"
                 FuelCalculationScope="{Binding DisplaySettings.FuelCalculationScope, Mode=TwoWay}" />
-            <wpf:TemperatureControl
+            <wpf:TemperatureControlOld
                 x:Name="WaterTemp"
                 Width="138"
                 Height="138"
@@ -475,7 +475,7 @@
                 d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
                 DisplayUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
                 MaximumTemperatureCelsius="130" />
-            <wpf:TemperatureControl
+            <wpf:TemperatureControlOld
                 x:Name="OilTemp"
                 Width="138"
                 Height="138"

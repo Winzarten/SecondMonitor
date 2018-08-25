@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry", "Telemetry\Tele
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssettoCorsaConnector", "AssettoCorsaConnector\AssettoCorsaConnector.csproj", "{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlTestingApp", "ControlTestingApp\ControlTestingApp.csproj", "{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -267,6 +269,18 @@ Global
 		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|x64.Build.0 = Release|Any CPU
 		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|x86.ActiveCfg = Release|Any CPU
 		{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}.Release|x86.Build.0 = Release|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Debug|x64.Build.0 = Debug|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Debug|x86.Build.0 = Debug|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Release|x64.ActiveCfg = Release|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Release|x64.Build.0 = Release|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Release|x86.ActiveCfg = Release|Any CPU
+		{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

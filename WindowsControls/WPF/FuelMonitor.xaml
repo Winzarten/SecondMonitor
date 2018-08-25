@@ -1,39 +1,176 @@
-﻿<UserControl x:Class="SecondMonitor.WindowsControls.WPF.FuelMonitor"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:forms="clr-namespace:System.Windows.Forms;assembly=AGauge"
-             mc:Ignorable="d" Width="300.016" Height="147.985">
+﻿<UserControl
+    x:Class="SecondMonitor.WindowsControls.WPF.FuelMonitor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls2="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:forms="clr-namespace:System.Windows.Forms;assembly=AGauge"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="300.016"
+    Height="147.985"
+    mc:Ignorable="d">
     <Grid Background="Black">
-        <WindowsFormsHost HorizontalAlignment="Left" VerticalAlignment="Top" Background="Black" MinWidth="82" MinHeight="73" Width="82" Height="73">
-            <forms:AGauge x:Name="fuelGauge" BaseArcColor="Gray" BaseArcRadius="50" BaseArcStart="225" BaseArcSweep="90" BaseArcWidth="2" CausesValidation="False" ScaleLinesInterColor="White" ScaleLinesInterInnerRadius="45" ScaleLinesInterOuterRadius="50" ScaleLinesInterWidth="2" 
-                          ScaleLinesMajorColor="White" ScaleLinesMajorInnerRadius="40" ScaleLinesMajorOuterRadius="50" ScaleLinesMajorStepValue="30" ScaleLinesMajorWidth="3" ScaleLinesMinorColor="White" ScaleLinesMinorInnerRadius="40" ScaleLinesMinorOuterRadius="60" ScaleLinesMinorTicks="1" ScaleLinesMinorWidth="1" ScaleNumbersColor="White" ScaleNumbersRadius="95" ScaleNumbersStartScaleLine="4" ScaleNumbersStepScaleLines="3" MaxValue="100" MinValue="0" NeedleColor1="Red" NeedleColor2="White" NeedleRadius="40" NeedleWidth="2" 
-                          Center="40, 55">
+        <WindowsFormsHost
+            Width="82"
+            Height="73"
+            MinWidth="82"
+            MinHeight="73"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Black">
+            <forms:AGauge
+                x:Name="fuelGauge"
+                BaseArcColor="Gray"
+                BaseArcRadius="50"
+                BaseArcStart="225"
+                BaseArcSweep="90"
+                BaseArcWidth="2"
+                CausesValidation="False"
+                Center="40, 55"
+                MaxValue="100"
+                MinValue="0"
+                NeedleColor1="Red"
+                NeedleColor2="White"
+                NeedleRadius="40"
+                NeedleWidth="2"
+                ScaleLinesInterColor="White"
+                ScaleLinesInterInnerRadius="45"
+                ScaleLinesInterOuterRadius="50"
+                ScaleLinesInterWidth="2"
+                ScaleLinesMajorColor="White"
+                ScaleLinesMajorInnerRadius="40"
+                ScaleLinesMajorOuterRadius="50"
+                ScaleLinesMajorStepValue="30"
+                ScaleLinesMajorWidth="3"
+                ScaleLinesMinorColor="White"
+                ScaleLinesMinorInnerRadius="40"
+                ScaleLinesMinorOuterRadius="60"
+                ScaleLinesMinorTicks="1"
+                ScaleLinesMinorWidth="1"
+                ScaleNumbersColor="White"
+                ScaleNumbersRadius="95"
+                ScaleNumbersStartScaleLine="4"
+                ScaleNumbersStepScaleLines="3">
                 <forms:AGauge.GaugeRanges>
-                    <forms:AGaugeRange Color="Red" EndValue="25" StartValue="0" InnerRadius="40" OuterRadius="50" InRange="False" />
+                    <forms:AGaugeRange
+                        EndValue="25"
+                        InRange="False"
+                        InnerRadius="40"
+                        OuterRadius="50"
+                        StartValue="0"
+                        Color="Red" />
                 </forms:AGauge.GaugeRanges>
                 <forms:AGauge.GaugeLabels>
-                    <forms:AGaugeLabel Color="Green" Position="70, 35" Text="F"/>
-                    <forms:AGaugeLabel Color="Red" Position="7, 35" Text="E"/>
+                    <forms:AGaugeLabel
+                        Position="70, 35"
+                        Text="F"
+                        Color="Green" />
+                    <forms:AGaugeLabel
+                        Position="7, 35"
+                        Text="E"
+                        Color="Red" />
                 </forms:AGauge.GaugeLabels>
             </forms:AGauge>
         </WindowsFormsHost>
-        <Label x:Name="lblFuel" Content="Total fuel" VerticalAlignment="Top" Margin="0,78,164,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
-        <Label x:Name="lblConsumtion" Content="Current" VerticalAlignment="Top" Margin="0,113,164,0" FontWeight="Bold" FontSize="15" Foreground="White"/>
-        <Label x:Name="lblAverage" Content="Avg" VerticalAlignment="Top" Margin="0,113,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="White" Width="149"/>
-        <Label x:Name="lblRemaining" Content="Remaining" VerticalAlignment="Top" Margin="0,78,10,0" HorizontalAlignment="Right" FontWeight="Bold" FontSize="15" Foreground="LightCoral" Width="149"/>
-        <RadioButton x:Name="rbtLaps" Content="Laps" Foreground="White" HorizontalAlignment="Left" Margin="94,31,0,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
-        <RadioButton x:Name="rbtTime" Content="Time" Foreground="White" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" GroupName="grbMode" Checked="rbtMode_Checked"/>
-        <controls2:IntegerUpDown x:Name="upDownDistance" Margin="0,19,89,0" HorizontalAlignment="Right" VerticalAlignment="Top" Minimum="1" Text="" Width="70" Value="10" Height="27">
-        </controls2:IntegerUpDown>
-        <Button Content="Reset Fuel" Margin="0,49,89,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Height="24" Click="Button_Click"/>
-        <Image HorizontalAlignment="Left" Height="24" Margin="82,47,0,0"  Width="24" VerticalAlignment="Top"
-            Panel.ZIndex="5" Source="/WindowsControls;component/Resources/fuel.png"/>
-        <TextBox x:Name="txtFuel" Height="27" Margin="0,19,3,0" TextWrapping="Wrap" Text="Req Fuel" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="81" IsReadOnly="True"/>
-        <Button Content="Compute" HorizontalAlignment="Right" Margin="0,49,3,0" VerticalAlignment="Top" Width="82" Height="24" Click="Button_Click_1"/>
+        <Label
+            x:Name="lblFuel"
+            Margin="0,78,164,0"
+            VerticalAlignment="Top"
+            Content="Total fuel"
+            FontSize="15"
+            FontWeight="Bold"
+            Foreground="White" />
+        <Label
+            x:Name="lblConsumtion"
+            Margin="0,113,164,0"
+            VerticalAlignment="Top"
+            Content="Current"
+            FontSize="15"
+            FontWeight="Bold"
+            Foreground="White" />
+        <Label
+            x:Name="lblAverage"
+            Width="149"
+            Margin="0,113,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="Avg"
+            FontSize="15"
+            FontWeight="Bold"
+            Foreground="White" />
+        <Label
+            x:Name="lblRemaining"
+            Width="149"
+            Margin="0,78,10,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="Remaining"
+            FontSize="15"
+            FontWeight="Bold"
+            Foreground="LightCoral" />
+        <RadioButton
+            x:Name="rbtLaps"
+            Margin="94,31,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="rbtMode_Checked"
+            Content="Laps"
+            Foreground="White"
+            GroupName="grbMode" />
+        <RadioButton
+            x:Name="rbtTime"
+            Margin="94,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="rbtMode_Checked"
+            Content="Time"
+            Foreground="White"
+            GroupName="grbMode" />
+        <controls2:IntegerUpDown
+            x:Name="upDownDistance"
+            Width="70"
+            Height="27"
+            Margin="0,19,89,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Minimum="1"
+            Text=""
+            Value="10" />
+        <Button
+            Width="70"
+            Height="24"
+            Margin="0,49,89,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Button_Click"
+            Content="Reset Fuel" />
+        <Image
+            Width="24"
+            Height="24"
+            Margin="82,47,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Panel.ZIndex="5"
+            Source="/WindowsControls;component/Resources/fuel.png" />
+        <TextBox
+            x:Name="txtFuel"
+            Width="81"
+            Height="27"
+            Margin="0,19,3,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center"
+            IsReadOnly="True"
+            Text="Req Fuel"
+            TextWrapping="Wrap" />
+        <Button
+            Width="82"
+            Height="24"
+            Margin="0,49,3,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Button_Click_1"
+            Content="Compute" />
     </Grid>
 </UserControl>
 
-    

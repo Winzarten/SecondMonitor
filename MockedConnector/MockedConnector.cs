@@ -13,6 +13,8 @@
 
     public class MockedConnector : IGameConnector
     {
+        public event EventHandler<MessageArgs> DisplayMessage;
+
         public bool IsConnected { get; private set; }
 
         public int TickTime { get; set; }
@@ -108,7 +110,7 @@
                 _fuel += _fuelStep;
                 _engineWaterTemp += _engineWaterTempStep;
                 _oilTemp += _oilTempStep;
-                       
+
                 if (_brakeTemp > 1500 || _brakeTemp < 30)
                 {
                     _brakeStep = -_brakeStep;
@@ -163,7 +165,7 @@
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearLeft);
             return simulatorDataSet;
-        }        
+        }
 
         private void ConnectDriver(string name, bool isPlayer)
         {

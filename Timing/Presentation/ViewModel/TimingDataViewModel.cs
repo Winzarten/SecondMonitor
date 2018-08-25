@@ -197,7 +197,10 @@
 
         private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            Gui.DtTimig.SelectedItem = null;
+            if (Gui != null)
+            {
+                Gui.DtTimig.SelectedItem = null;
+            }
         }
 
         private void CreateDisplaySettings()

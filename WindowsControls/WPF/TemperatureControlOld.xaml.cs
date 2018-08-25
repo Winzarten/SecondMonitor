@@ -9,15 +9,15 @@
     /// <summary>
     /// Interaction logic for WaterTemp.xaml
     /// </summary>
-    public partial class TemperatureControl : UserControl
+    public partial class TemperatureControlOld : UserControl
     {
-        public static readonly DependencyProperty DisplayUnitsProperty = DependencyProperty.Register("DisplayUnits", typeof(TemperatureUnits), typeof(TemperatureControl), new PropertyMetadata(TemperatureUnits.Celsius, PropertyChangedCallback ));
+        public static readonly DependencyProperty DisplayUnitsProperty = DependencyProperty.Register("DisplayUnits", typeof(TemperatureUnits), typeof(TemperatureControlOld), new PropertyMetadata(TemperatureUnits.Celsius, PropertyChangedCallback ));
 
-        public TemperatureControl()
+        public TemperatureControlOld()
         {
             InitializeComponent();
         }
-        
+
         public TemperatureUnits DisplayUnits
         {
             get => (TemperatureUnits) GetValue(DisplayUnitsProperty);
@@ -109,7 +109,7 @@
                 waterGauge.Update();
             }
         }
-        
+
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -117,7 +117,7 @@
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            TemperatureControl control = (TemperatureControl) dependencyObject;
+            TemperatureControlOld control = (TemperatureControlOld) dependencyObject;
             control.ChangeDisplayUnit();
         }
     }

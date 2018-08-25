@@ -1,0 +1,41 @@
+﻿<Window
+    x:Class="ControlTestingApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ControlTestingApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:temperatureControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TemperatureControl;assembly=WindowsControls"
+    xmlns:viewModels="clr-namespace:ControlTestingApp.ViewModels"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Window.DataContext>
+        <viewModels:TemperatureTestViewModel/>
+    </Window.DataContext>
+    <Grid Background="Black">
+        <TabControl>
+            <TabItem Header="Temperature">
+                <Grid Background="Black">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <temperatureControl:TemperatureControl
+                        Temperature="{Binding ValueInTemperature}"
+                        MaximalTemperature="{Binding MaximumInTemperature}"
+                        MinimalTemperature="{Binding MinimumInTemperature}"
+                        TemperatureUnits="{Binding TemperatureUnits}"/>
+                    <Grid Row="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Slider Minimum="0" Maximum="150" Value="{Binding ValueInNumber}" MinWidth="100" ></Slider>
+                            <Button Content="Change Units" Command="{Binding ChangeUnitCommand}"></Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Fuel" />
+        </TabControl>
+    </Grid>
+</Window>
