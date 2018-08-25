@@ -13,22 +13,27 @@
     using System.Windows.Data;
     using System.Windows.Input;
 
+    using Commands;
+
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
+
     using PluginManager.Core;
     using PluginManager.GameConnector;
-    using SecondMonitor.Timing.LapTimings.ViewModel;
-    using View;
-    using Commands;
-    using SecondMonitor.Timing.ReportCreation.ViewModel;
-    using SessionTiming.Drivers;
 
+    using SecondMonitor.Timing.LapTimings.ViewModel;
+    using SecondMonitor.Timing.ReportCreation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
+
+    using SessionTiming.Drivers;
+
     using Settings;
     using Settings.Model;
     using Settings.ModelView;
+
+    using View;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -347,6 +352,7 @@
 
         private void Gui_Closed(object sender, EventArgs e)
         {
+            Gui = null;
             TerminatePeriodicTasks = true;
             _pluginsManager.DeletePlugin(this);
         }
@@ -401,7 +407,7 @@
 
         private void RefreshTimingCircle(SimulatorDataSet data)
         {
-            if (data == null)
+            if (data == null || Gui == null)
             {
                 return;
             }
@@ -417,7 +423,7 @@
 
         private void RefreshBasicInfo(SimulatorDataSet data)
         {
-            if (data == null)
+            if (data == null || Gui == null)
             {
                 return;
             }
@@ -498,7 +504,7 @@
 
         private void RefreshGui(SimulatorDataSet data)
         {
-            if (data == null)
+            if (data == null || Gui == null)
             {
                 return;
             }
@@ -783,7 +789,10 @@
         {
             if (e.IsDecision)
             {
-                if (MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.YesNo,
+                if (MessageBox.Show(
+                        e.Message,
+                        "Message from connector.",
+                        MessageBoxButton.YesNo,
                         MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     e.Action();

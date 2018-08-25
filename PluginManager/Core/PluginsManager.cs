@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -172,7 +173,7 @@
                 }
 
                 Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
-                Application.Exit();
+                Application.Exit(new CancelEventArgs(true));
             }
         }
 
