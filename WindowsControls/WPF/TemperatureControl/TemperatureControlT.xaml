@@ -48,10 +48,17 @@
                                 <wpf:AngularSection Fill="{StaticResource WarningRangeColor}"
                                                     FromValue="{Binding Path=GaugeMaxNormalTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" ToValue="{Binding Path=GaugeUpperTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" />
                             </wpf:AngularGauge.Sections>
-                            <i:Interaction.Behaviors>
+
+                            <!--<i:Interaction.Behaviors>
                                 <behaviors:ForceResizeBehavior/>
-                            </i:Interaction.Behaviors>
+                            </i:Interaction.Behaviors>-->
                         </wpf:AngularGauge>
+                        <Image
+                            Width="24"
+                            Height="24"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Source="{Binding Path=Image, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" />
                         <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Path=FormattedValue, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" Foreground="{StaticResource ForegroundColor}" Margin="0,0,0,30" FontSize="15"></Label>
                     </Grid>
                 </ControlTemplate>

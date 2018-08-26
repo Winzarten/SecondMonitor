@@ -26,7 +26,8 @@
                         Temperature="{Binding ValueInTemperature}"
                         MaximalTemperature="{Binding MaximumInTemperature}"
                         MinimalTemperature="{Binding MinimumInTemperature}"
-                        TemperatureUnits="{Binding TemperatureUnits}"/>
+                        TemperatureUnits="{Binding TemperatureUnits}"
+                        Image="/ControlTestingApp;component/Resources/oil.png"/>
                     <Grid Row="1">
                         <StackPanel Orientation="Horizontal">
                             <Slider Minimum="0" Maximum="150" Value="{Binding ValueInNumber}" MinWidth="100" ></Slider>
@@ -35,7 +36,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Fuel" />
+            <TabItem Header="Fuel"/>
         </TabControl>
     </Grid>
 </Window>

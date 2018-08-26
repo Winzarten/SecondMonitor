@@ -5,6 +5,8 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
 
     using SecondMonitor.DataModel.BasicProperties;
 
@@ -12,20 +14,16 @@
     {
         private static readonly DependencyProperty TemperatureUnitsProperty = DependencyProperty.Register("TemperatureUnits", typeof(TemperatureUnits), typeof(TemperatureControl), new PropertyMetadata { DefaultValue = TemperatureUnits.Celsius, PropertyChangedCallback = TemperatureUnitsChanged });
         private static readonly DependencyProperty MinimalTemperatureProperty = DependencyProperty.Register("MinimalTemperature", typeof(Temperature), typeof(TemperatureControl), new PropertyMetadata { DefaultValue = Temperature.FromCelsius(0), PropertyChangedCallback = BoundaryTemperaturePropertyChangedCallback });
-
         private static readonly DependencyProperty TemperatureProperty = DependencyProperty.Register("Temperature", typeof(Temperature), typeof(TemperatureControl), new PropertyMetadata {DefaultValue = Temperature.FromCelsius(30), PropertyChangedCallback = TemperaturePropertyChangedCallback });
-
-
         private static readonly DependencyProperty MaximalNormalTemperatureProperty = DependencyProperty.Register("MaximalNormalTemperature", typeof(Temperature), typeof(TemperatureControl), new PropertyMetadata(Temperature.FromCelsius(110)));
         private static readonly DependencyProperty MaximalTemperatureProperty = DependencyProperty.Register("MaximalTemperature", typeof(Temperature), typeof(TemperatureControl),  new PropertyMetadata {DefaultValue = Temperature.FromCelsius(140), PropertyChangedCallback = BoundaryTemperaturePropertyChangedCallback });
+        private static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(ImageSource), typeof(TemperatureControl));
 
         private string _formattedValue;
         private double _valueInProperUnits;
         private double _gaugeLowerTemperature;
         private double _gaugeUpperTemperature;
         private double _gaugeMaxNormalTemperature;
-
-        private int _labelStep = 20;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -62,6 +60,12 @@
         {
             get => (Temperature)GetValue(MaximalTemperatureProperty);
             set => SetValue(MaximalTemperatureProperty, value);
+        }
+
+        public ImageSource Image
+        {
+            get => (ImageSource)GetValue(ImageProperty);
+            set => SetValue(ImageProperty, value);
         }
 
         public string FormattedValue
@@ -114,7 +118,7 @@
             }
         }
 
-        public int LabelStep => _labelStep;
+        public int LabelStep => 20;
 
         public TimeSpan GaugeSpeed => TimeSpan.FromSeconds(1);
 
