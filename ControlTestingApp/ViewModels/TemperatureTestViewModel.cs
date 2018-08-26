@@ -42,6 +42,11 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public TemperatureTestViewModel()
+        {
+            CarStatusViewModel cvm = new CarStatusViewModel();
+        }
+
         public int ValueInNumber
         {
             get => _valueInNumber;

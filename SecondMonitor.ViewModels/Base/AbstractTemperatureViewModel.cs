@@ -2,12 +2,13 @@
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Windows;
     using System.Windows.Media;
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
 
-    public abstract class AbstractTemperatureViewModel : INotifyPropertyChanged, ISimulatorDataSetViewModel, IViewModelWithIcon
+    public abstract class AbstractTemperatureViewModel : DependencyObject, INotifyPropertyChanged, ISimulatorDataSetViewModel, IViewModelWithIcon
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -29,6 +29,7 @@
         public TemperatureControl()
         {
             RefreshFormattedValue();
+            RefreshLimits();
         }
 
         public TemperatureUnits TemperatureUnits
@@ -117,7 +118,7 @@
             }
         }
 
-        public int LabelStep => 20;
+        public int LabelStep => TemperatureUnits != TemperatureUnits.Fahrenheit ? 20  : 40;
 
         public TimeSpan GaugeSpeed => TimeSpan.FromSeconds(1);
 
@@ -142,10 +143,10 @@
                 double newGaugeUpper = Math.Round(MaximalTemperature.GetValueInUnits(TemperatureUnits) / 10.0) * 10;
                 if (newGaugeLower < newGaugeUpper)
                 {
-                    _gaugeLowerTemperature = newGaugeLower;
-                    _gaugeUpperTemperature = newGaugeUpper;
-                    NotifyPropertyChanged(nameof(GaugeUpperTemperature));
-                    NotifyPropertyChanged(nameof(GaugeLowerTemperature));
+                    GaugeLowerTemperature = -10;
+                    GaugeUpperTemperature = 2000;
+                    GaugeLowerTemperature = newGaugeLower;
+                    GaugeUpperTemperature = newGaugeUpper;
                 }
             }
 
@@ -169,6 +170,7 @@
             {
                 control.RefreshFormattedValue();
                 control.RefreshLimits();
+                control.NotifyPropertyChanged(nameof(control.LabelStep));
             }
         }
 

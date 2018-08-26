@@ -35,7 +35,7 @@
                                 </Path>
                             </Canvas>
                         </Viewbox>
-                        <wpf:AngularGauge FontSize="15"
+                        <wpf:AngularGauge FontSize="13"
                                           Foreground="{StaticResource ForegroundColor}"
                                           FromValue="{Binding Path=GaugeLowerTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" LabelsStep="{Binding Path=LabelStep, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}"
                                           NeedleFill="{StaticResource NeedleColor}"
@@ -48,10 +48,6 @@
                                 <wpf:AngularSection Fill="{StaticResource WarningRangeColor}"
                                                     FromValue="{Binding Path=GaugeMaxNormalTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" ToValue="{Binding Path=GaugeUpperTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" />
                             </wpf:AngularGauge.Sections>
-
-                            <!--<i:Interaction.Behaviors>
-                                <behaviors:ForceResizeBehavior/>
-                            </i:Interaction.Behaviors>-->
                         </wpf:AngularGauge>
                         <Image
                             Width="24"

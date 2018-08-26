@@ -75,6 +75,18 @@
       <Component Id="cmp6BD68D5FC864E8490172D609DD696672" Directory="APPLICATIONROOTDIRECTORY" Guid="0add0428-7c55-4964-9e77-221211e4d628">
         <File Id="filB4677748F9834FAF0208AB97B0FBC456" KeyPath="yes" Source="..\Deployment\Xceed.Wpf.Toolkit.dll" />
       </Component>
+      <Component Id="cmp470147a68b2348fe9bc849378834b911" Directory="APPLICATIONROOTDIRECTORY" Guid="189afdfc-4dbf-4a04-a2b8-f013b0866926">
+        <File Id="fil39b779fc6b9c4a2088557bee57d37aa7" KeyPath="yes" Source="..\Deployment\SecondMonitor.ViewModels.dll" />
+      </Component>
+      <Component Id="cmp399fbd789a3e4a529fb2423f5ef75714" Directory="APPLICATIONROOTDIRECTORY" Guid="0cc39aa4-9197-4806-9b41-4f857a62ff5a">
+        <File Id="fil318150619963408b90e5b3d68b13586b" KeyPath="yes" Source="..\Deployment\LiveCharts.Wpf.dll" />
+      </Component>
+      <Component Id="cf532cddba34649d481c5f606485bcc5c" Directory="APPLICATIONROOTDIRECTORY" Guid="6c9a47d3-0d5d-45d0-9590-ce40db04877b">
+        <File Id="f1bc6c4fb211540aaa7551b65163f5ed6" KeyPath="yes" Source="..\Deployment\LiveCharts.dll" />
+      </Component>
+      <Component Id="cccdcee6bb3f34684a08720041ca81a83" Directory="APPLICATIONROOTDIRECTORY" Guid="9d74c2f8-3b48-487c-ae56-be023f7b4413">
+        <File Id="f0a7e112de15546b59b09951d63e1b214" KeyPath="yes" Source="..\Deployment\LiveCharts.Wpf.xml" />
+      </Component>
       <Component Id="cmp44450B3EA8BEA00A3085509BFE17EA56" Directory="dirF09AC222E5E846B669ECCC3285BC0D7B" Guid="62ae6c28-044b-4029-a248-9b04ee5b0abf">
         <File Id="filCD83CF2407F23ADF1015E2352A06DD75" KeyPath="yes" Source="..\Deployment\Connectors\Pcars\Newtonsoft.Json.dll" />
       </Component>

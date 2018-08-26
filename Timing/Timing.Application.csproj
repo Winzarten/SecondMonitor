@@ -145,6 +145,11 @@
       <Name>PluginManager</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj">
+      <Project>{b43064b9-d120-4dd9-9902-e2b8f6006985}</Project>
+      <Name>SecondMonitor.ViewModels</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
       <Project>{ea13af3c-a4e0-4ad2-94ae-78006b04fc41}</Project>
       <Name>WindowsControls</Name>

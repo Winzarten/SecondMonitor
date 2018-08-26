@@ -26,6 +26,7 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using SecondMonitor.ViewModels.CarStatus;
 
     using SessionTiming.Drivers;
 
@@ -142,6 +143,12 @@
             }
         }
 
+        public CarStatusViewModel CarStatusViewModel
+        {
+            get;
+            private set;
+        }
+
         public string CurrentGear
         {
             get => (string)GetValue(CurrentGearProperty);
@@ -160,6 +167,7 @@
                 return;
             }
 
+            CarStatusViewModel = new CarStatusViewModel();
             ConnectedSource = "Not Connected";
             CreateDisplaySettings();
             CreateGuiInstance();
@@ -362,6 +370,11 @@
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
+            if (Gui == null)
+            {
+                return;
+            }
+
             if (Dispatcher.CheckAccess())
             {
 
@@ -437,17 +450,16 @@
                 return;
             }
 
-            NotifyPropertyChanged("SessionTime");
-            NotifyPropertyChanged("SystemTime");
-            NotifyPropertyChanged("SessionCompletedPercentage");
+            NotifyPropertyChanged(nameof(SessionTime));
+            NotifyPropertyChanged(nameof(SystemTime));
+            NotifyPropertyChanged(nameof(SessionCompletedPercentage));
             Gui.PedalControl.UpdateControl(data);
             Gui.WhLeftFront.UpdateControl(data);
             Gui.WhRightFront.UpdateControl(data);
             Gui.WhLeftRear.UpdateControl(data);
             Gui.WhRightRear.UpdateControl(data);
             Gui.FuelMonitor.ProcessDataSet(data);
-            Gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature;
-            Gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
+            CarStatusViewModel.ApplyDateSet(data);
 
             Gui.LblWeather.Content = GetWeatherInfo(data);
             SessionInfoViewModel.SessionRemaining = GetSessionRemaining(data);

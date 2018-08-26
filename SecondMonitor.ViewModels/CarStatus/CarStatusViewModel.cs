@@ -1,10 +1,18 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
-    using SecondMonitor.DataModel.Snapshot;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
 
-    public class CarStatusViewModel : ISimulatorDataSetViewModel
+    using SecondMonitor.DataModel.Snapshot;
+    using SecondMonitor.ViewModels.Annotations;
+
+    public class CarStatusViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {
         private readonly SimulatorDSViewModels _viewModels;
+
+        private WaterTemperatureViewModel _waterTemperatureViewModel;
+
+        private OilTemperatureViewModel _oilTemperatureViewModel;
 
         public CarStatusViewModel()
         {
@@ -14,14 +22,22 @@
 
         public OilTemperatureViewModel OilTemperatureViewModel
         {
-            get;
-            private set;
+            get => _oilTemperatureViewModel;
+            private set
+            {
+                _oilTemperatureViewModel = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public WaterTemperatureViewModel WaterTemperatureViewModel
         {
-            get;
-            private set;
+            get => _waterTemperatureViewModel;
+            private set
+            {
+                _waterTemperatureViewModel = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
@@ -33,6 +49,14 @@
         {
             OilTemperatureViewModel = _viewModels.GetFirst<OilTemperatureViewModel>();
             WaterTemperatureViewModel = _viewModels.GetFirst<WaterTemperatureViewModel>();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

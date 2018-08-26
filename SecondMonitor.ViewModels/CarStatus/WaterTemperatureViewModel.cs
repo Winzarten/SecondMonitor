@@ -14,7 +14,7 @@
         {
             BitmapImage logo = new BitmapImage();
             logo.BeginInit();
-            logo.UriSource = new Uri("pack://application:,,,/SecondMonitor.ViewModels;component/Resources/water.png", UriKind.Absolute);
+            logo.UriSource = new Uri("pack://application:,,,/SecondMonitor.ViewModels;component/Resources/water.png", UriKind.RelativeOrAbsolute);
             logo.EndInit();
             Icon = logo;
         }
