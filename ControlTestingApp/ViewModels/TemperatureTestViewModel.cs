@@ -9,6 +9,7 @@
     using ControlTestingApp.Annotations;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.ViewModels.CarStatus;
 
     public class TemperatureTestViewModel : DependencyObject, INotifyPropertyChanged
     {

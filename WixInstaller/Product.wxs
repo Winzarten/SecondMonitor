@@ -106,7 +106,7 @@
         <File Id="fil472B7D4FCB98122E58DE8160C1811C8F" KeyPath="yes" Source="..\Deployment\Disabled\SecondMonitor.dll.config" />
       </Component>
       <Component Id="cmp0D63D3874720241B51B7BBF3A4190E62" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="65aee27f-cd89-4c3b-8ce1-b9e49e8871da">
-        <File Id="filC5739C76B912710700AA88AC8C075019" KeyPath="yes" Source="..\Deployment\plugins\Timing.dll" />
+        <File Id="filC5739C76B912710700AA88AC8C075019" KeyPath="yes" Source="..\Deployment\plugins\Timing.Application.dll" />
       </Component>
       <Component Id="cmp2e7a7ec67268446686ff3c3bd786ea48" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="4434e81f-f61f-4feb-a87d-e4db3b5c196b">
         <File Id="fil6ec4cdff09084e3f8c0d7edd99f3882f" KeyPath="yes" Source="..\Deployment\plugins\XslxExport.dll" />
