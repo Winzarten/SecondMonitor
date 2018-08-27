@@ -43,6 +43,7 @@
             InitializeComponent();
             _translateTransform = new TranslateTransform(0,0);
             DeltaRectangle.RenderTransform = _translateTransform;
+            UpdateByValue();
         }
 
         private void UpdateByValue()

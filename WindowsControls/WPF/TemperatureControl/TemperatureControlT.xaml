@@ -4,9 +4,10 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors"
                     mc:Ignorable="d">
-    <SolidColorBrush x:Key="ForegroundColor" Color="#F1E9DB" />
-    <SolidColorBrush x:Key="WarningRangeColor" Color="DarkRed" />
-    <SolidColorBrush x:Key="NeedleColor" Color="#BFACB5" />
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <converters:TemperatureToDoubleConverter x:Key="TemperatureToDoubleConverter"/>
     <Style TargetType="{x:Type local:TemperatureControl}">
         <Setter Property="Template">
@@ -15,7 +16,8 @@
                     <Grid>
                         <Viewbox>
                             <Canvas Width="100" Height="100">
-                                <Path Stroke="{StaticResource ForegroundColor}">
+                                <Ellipse Fill="{StaticResource Anthracite01Brush}" Margin="-1,-2,0,0" Stroke="{StaticResource DarkGrey01Brush}" StrokeThickness="2" Width="104" Height="105"></Ellipse>
+                                <Path Stroke="{StaticResource LightGrey01Brush}" Fill="{StaticResource Anthracite01Brush}">
                                     <Path.Data>
                                         <PathGeometry>
                                             <PathGeometry.Figures>
@@ -24,7 +26,7 @@
                                                         <PathFigure.Segments>
                                                             <PathSegmentCollection>
                                                                 <ArcSegment IsLargeArc="True"  Point="86,86" RotationAngle="0" Size="50,50"
-                                                                            SweepDirection="Clockwise" />
+                                                                            SweepDirection="Clockwise"  />
                                                             </PathSegmentCollection>
                                                         </PathFigure.Segments>
                                                     </PathFigure>
@@ -36,16 +38,16 @@
                             </Canvas>
                         </Viewbox>
                         <wpf:AngularGauge FontSize="13"
-                                          Foreground="{StaticResource ForegroundColor}"
+                                          Foreground="{StaticResource LightGrey01Brush}"
                                           FromValue="{Binding Path=GaugeLowerTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" LabelsStep="{Binding Path=LabelStep, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}"
-                                          NeedleFill="{StaticResource NeedleColor}"
-                                          SectionsInnerRadius="0.3"
-                                          TicksForeground="{StaticResource ForegroundColor}"
+                                          NeedleFill="{StaticResource LightGrey02Brush}"
+                                          SectionsInnerRadius="0.8"
+                                          TicksForeground="{StaticResource LightGrey01Brush}"
                                           AnimationsSpeed="{Binding Path=GaugeSpeed, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}"
                                           ToValue="{Binding Path=GaugeUpperTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" Wedge="270"
                                           Value="{Binding Path=ValueInProperUnits, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}">
                             <wpf:AngularGauge.Sections>
-                                <wpf:AngularSection Fill="{StaticResource WarningRangeColor}"
+                                <wpf:AngularSection Fill="{StaticResource DarkRed01Brush}"
                                                     FromValue="{Binding Path=GaugeMaxNormalTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" ToValue="{Binding Path=GaugeUpperTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" />
                             </wpf:AngularGauge.Sections>
                         </wpf:AngularGauge>
@@ -55,7 +57,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
                             Source="{Binding Path=Image, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" />
-                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Path=FormattedValue, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" Foreground="{StaticResource ForegroundColor}" Margin="0,0,0,30" FontSize="15"></Label>
+                        <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Path=FormattedValue, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" Foreground="{StaticResource LightGrey01Brush}" Margin="0,0,0,30" FontSize="15"></Label>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
