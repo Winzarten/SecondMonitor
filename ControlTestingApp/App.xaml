@@ -8,6 +8,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -5,7 +5,7 @@
                     xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors"
                     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Colors.xaml" />
+        <ResourceDictionary Source="../CommonResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <converters:TemperatureToDoubleConverter x:Key="TemperatureToDoubleConverter"/>
@@ -13,7 +13,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TemperatureControl}">
-                    <Grid>
+                    <Grid d:DataContext="{d:DesignInstance Type=local:TemperatureControl, IsDesignTimeCreatable=True}">
                         <Viewbox>
                             <Canvas Width="100" Height="100">
                                 <Ellipse Fill="{StaticResource Anthracite01Brush}" Margin="-1,-2,0,0" Stroke="{StaticResource DarkGrey01Brush}" StrokeThickness="2" Width="104" Height="105"></Ellipse>
@@ -51,12 +51,15 @@
                                                     FromValue="{Binding Path=GaugeMaxNormalTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" ToValue="{Binding Path=GaugeUpperTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" />
                             </wpf:AngularGauge.Sections>
                         </wpf:AngularGauge>
-                        <Image
+                        <Grid
                             Width="24"
                             Height="24"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Source="{Binding Path=Image, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" />
+                            VerticalAlignment="Bottom">
+                            <ContentPresenter Content="{Binding Icon, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}">
+
+                            </ContentPresenter>
+                            </Grid>
                         <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Path=FormattedValue, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" Foreground="{StaticResource LightGrey01Brush}" Margin="0,0,0,30" FontSize="15"></Label>
                     </Grid>
                 </ControlTemplate>

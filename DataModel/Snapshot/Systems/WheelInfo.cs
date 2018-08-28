@@ -4,13 +4,28 @@
 
     public class WheelInfo
     {
+        private static readonly Temperature OptimalTemperature = Temperature.FromCelsius(85);
+        private static readonly Temperature OptimalTemperatureWindow = Temperature.FromCelsius(15);
+
         public WheelInfo()
         {
             BrakeTemperature = Temperature.Zero;
             TyrePressure = new Pressure();
-            LeftTyreTemp = Temperature.Zero;
-            RightTyreTemp = Temperature.Zero;
-            CenterTyreTemp = Temperature.Zero;
+            LeftTyreTemp = new OptimalQuantity<Temperature>()
+                               {
+                                   IdealQuantity = OptimalTemperature,
+                                   IdealQuantityWindow = OptimalTemperatureWindow
+                               };
+            RightTyreTemp = new OptimalQuantity<Temperature>()
+                                 {
+                                     IdealQuantity = OptimalTemperature,
+                                     IdealQuantityWindow = OptimalTemperatureWindow
+                                 };
+            CenterTyreTemp = new OptimalQuantity<Temperature>()
+                                 {
+                                     IdealQuantity = OptimalTemperature,
+                                     IdealQuantityWindow = OptimalTemperatureWindow
+                                 };
             TyreWear = 0;
             TyreTypeFilled = false;
         }
@@ -19,11 +34,6 @@
 
         public Pressure TyrePressure { get; set; }
 
-        public Temperature LeftTyreTemp { get; set; }
-
-        public Temperature RightTyreTemp { get; set; }
-
-        public Temperature CenterTyreTemp { get; set; }
 
         public string TyreType { get; set; }
 
@@ -31,9 +41,11 @@
 
         public double TyreWear { get; set; }
 
-        public Temperature OptimalTyreTemperature { get; set; } = Temperature.FromCelsius(85);
+        public OptimalQuantity<Temperature> LeftTyreTemp { get; set; }
 
-        public double OptimalTyreWindow { get; set; } = 15;
+        public OptimalQuantity<Temperature> RightTyreTemp{ get; set; }
+
+        public OptimalQuantity<Temperature> CenterTyreTemp { get; set; }
 
         public Temperature OptimalBrakeTemperature { get; set; } = Temperature.FromCelsius(350);
 

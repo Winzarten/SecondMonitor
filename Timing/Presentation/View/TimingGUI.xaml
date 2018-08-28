@@ -11,6 +11,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
@@ -62,9 +63,9 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <Label x:Name="LblTrack" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Track Info"
-                       FontSize="20" Foreground="White" />
+                       FontSize="20" Foreground="{StaticResource LightGrey01Brush}" />
                 <Label x:Name="LblWeather" Margin="0,37,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                       Content="Weather Info" FontSize="20" Foreground="White" />
+                       Content="Weather Info" FontSize="20" Foreground="{StaticResource LightGrey01Brush}" />
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <wpf:TimeSpanBarControl Title="Δ to Personal Best" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
@@ -79,7 +80,7 @@
                 <DataGrid x:Name="DtTimig" HorizontalAlignment="Stretch"
                           d:DataContext="{d:DesignInstance Type=viewModel1:DriverTimingModelView}"
                           AutoGenerateColumns="False" Background="Black" CanUserReorderColumns="False" CanUserSortColumns="False"
-                          EnableColumnVirtualization="False" EnableRowVirtualization="False" FontSize="18" Foreground="White"
+                          EnableColumnVirtualization="False" EnableRowVirtualization="False" FontSize="18" Foreground="{StaticResource LightGrey01Brush}"
                           HeadersVisibility="Column" IsReadOnly="True"
                           ItemsSource="{Binding TimingInfo}"
                           SelectionMode="Single" SelectionUnit="FullRow">
@@ -93,9 +94,9 @@
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight" Value="Bold" />
-                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
                             <Setter Property="Background" Value="Blue" />
-                            <Setter Property="BorderBrush" Value="White" />
+                            <Setter Property="BorderBrush" Value="{StaticResource LightGrey01Brush}" />
                             <Setter Property="BorderThickness" Value="1" />
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
                         </Style>
@@ -239,7 +240,7 @@
                                 </Trigger>
                                 <DataTrigger Binding="{Binding IsPlayer, Mode=OneWay}" Value="True">
                                     <Setter Property="Background" Value="Gray" />
-                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
                                     <Setter Property="FontSize" Value="21" />
                                     <Setter Property="FontWeight" Value="Bold" />
                                 </DataTrigger>
@@ -316,14 +317,14 @@
                                                                    MinimalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                                                                    Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
                                                                    TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                                                   Image="{Binding CarStatusViewModel.WaterTemperatureViewModel.Icon, Mode=OneWay}"/>
+                                                                   Icon="{StaticResource WaterTemperatureIcon}"/>
                             <temperatureControl:TemperatureControl Width="200" Height="150" Grid.Row="1"
                             MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
                             MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
                             MinimalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                             Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
                             TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                            Image="{Binding CarStatusViewModel.OilTemperatureViewModel.Icon, Mode=OneWay}"/>
+                            Icon="{StaticResource OilIcon}"/>
                             </Grid>
                     </Grid>
                 </Border>
@@ -345,7 +346,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <GroupBox Grid.Row="0" Width="240" Height="107" Foreground="White"
+                        <GroupBox Grid.Row="0" Width="240" Height="107" Foreground="{StaticResource LightGrey01Brush}"
                                   Header="Session Settings">
                             <Grid Margin="0" VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
@@ -353,15 +354,15 @@
                                     <ColumnDefinition Width="0.5*" />
                                 </Grid.ColumnDefinitions>
                                 <CheckBox x:Name="ChkScrollToPlayer" Width="100" Margin="10,64,0,-3" HorizontalAlignment="Left"
-                                          VerticalAlignment="Top" Content="Scroll To Player" Foreground="White"
+                                          VerticalAlignment="Top" Content="Scroll To Player" Foreground="{StaticResource LightGrey01Brush}"
                                           IsChecked="{Binding DisplaySettings.ScrollToPlayer}" />
                                 <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
-                                       VerticalAlignment="Top" Content="Order:" Foreground="White" />
+                                       VerticalAlignment="Top" Content="Order:" Foreground="{StaticResource LightGrey01Brush}" />
                                 <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top"
                                           ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
                                           SelectedItem="{Binding CurrentSessionOptions.OrderingMode}" />
                                 <Label Grid.Column="1" Width="74" Height="29" Margin="10,5,0,0"
-                                       HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:" Foreground="White" />
+                                       HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:" Foreground="{StaticResource LightGrey01Brush}" />
                                 <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top"
                                           ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
                                           SelectedItem="{Binding CurrentSessionOptions.TimesDisplayMode}" />

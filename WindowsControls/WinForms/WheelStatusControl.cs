@@ -192,12 +192,12 @@
             {
                 return;
             }
-            wheelTempLeft.Text = wheel.LeftTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            wheelTempLeft.PixelOn = ComputeColor(wheel.LeftTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimalTyreWindow);
-            wheelTempCenter.Text = wheel.CenterTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            wheelTempCenter.PixelOn = ComputeColor(wheel.CenterTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimalTyreWindow);
-            wheelTempRight.Text = wheel.RightTyreTemp.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            wheelTempRight.PixelOn = ComputeColor(wheel.RightTyreTemp.InCelsius, wheel.OptimalTyreTemperature.InCelsius, wheel.OptimalTyreWindow);
+            wheelTempLeft.Text = wheel.LeftTyreTemp.ActualQuantity.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
+            wheelTempLeft.PixelOn = ComputeColor(wheel.LeftTyreTemp.ActualQuantity.InCelsius, wheel.LeftTyreTemp.IdealQuantity.InCelsius, wheel.LeftTyreTemp.IdealQuantityWindow.InCelsius);
+            wheelTempCenter.Text = wheel.CenterTyreTemp.ActualQuantity.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
+            wheelTempCenter.PixelOn = ComputeColor(wheel.CenterTyreTemp.ActualQuantity.InCelsius, wheel.CenterTyreTemp.IdealQuantity.InCelsius, wheel.CenterTyreTemp.IdealQuantity.InCelsius);
+            wheelTempRight.Text = wheel.RightTyreTemp.ActualQuantity.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
+            wheelTempRight.PixelOn = ComputeColor(wheel.RightTyreTemp.ActualQuantity.InCelsius, wheel.RightTyreTemp.IdealQuantity.InCelsius, wheel.RightTyreTemp.IdealQuantityWindow.InCelsius);
         }
 
         public void UpdateControl(SimulatorDataSet data)

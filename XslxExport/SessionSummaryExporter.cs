@@ -393,10 +393,10 @@
 
         private string GetBrakeTemperature(WheelInfo wheel)
         {
-            return wheel.LeftTyreTemp.GetValueInUnits(TemperatureUnits, 0) + @"/"
-                                                                           + wheel.CenterTyreTemp.GetValueInUnits(
+            return wheel.LeftTyreTemp.ActualQuantity.GetValueInUnits(TemperatureUnits, 0) + @"/"
+                                                                           + wheel.CenterTyreTemp.ActualQuantity.GetValueInUnits(
                                                                                TemperatureUnits,
-                                                                               0) + @"/" + wheel.RightTyreTemp
+                                                                               0) + @"/" + wheel.RightTyreTemp.ActualQuantity
                                                                                .GetValueInUnits(TemperatureUnits, 0);
         }
 

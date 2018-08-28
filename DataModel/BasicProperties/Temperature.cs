@@ -4,13 +4,13 @@
 
     using Newtonsoft.Json;
 
-    public class Temperature
+    public class Temperature : IQuantity
     {
         private readonly bool _isZero;
 
         public static Temperature Zero = new Temperature();
 
-        private Temperature()
+        public Temperature()
         {
             InCelsius = -1;
             _isZero = true;
@@ -28,6 +28,8 @@
 
         [JsonIgnore]
         public double InKelvin => InCelsius + 273.15;
+
+        public IQuantity ZeroQuantity => Zero;
 
         public static Temperature FromCelsius(double temperatureInCelsius)
         {

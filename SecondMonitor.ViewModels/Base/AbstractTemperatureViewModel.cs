@@ -8,7 +8,7 @@
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
 
-    public abstract class AbstractTemperatureViewModel : DependencyObject, INotifyPropertyChanged, ISimulatorDataSetViewModel, IViewModelWithIcon
+    public abstract class AbstractTemperatureViewModel : DependencyObject, INotifyPropertyChanged, ISimulatorDataSetViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -27,12 +27,6 @@
                 _temperature = value;
                 NotifyPropertyChanged();
             }
-        }
-
-        public abstract ImageSource Icon
-        {
-            get;
-            protected set;
         }
 
         public abstract Temperature MinimalTemperature

@@ -7,12 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:temperatureControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TemperatureControl;assembly=WindowsControls"
     xmlns:viewModels="clr-namespace:ControlTestingApp.ViewModels"
+    xmlns:controls="clr-namespace:ControlTestingApp.Controls"
     Title="MainWindow"
     Width="800"
     Height="450"
     mc:Ignorable="d">
     <Window.DataContext>
-        <viewModels:TemperatureTestViewModel/>
+        <viewModels:MainWindowViewModel/>
     </Window.DataContext>
     <Grid Background="Black">
         <TabControl>
@@ -23,11 +24,11 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <temperatureControl:TemperatureControl
-                        Temperature="{Binding ValueInTemperature}"
-                        MaximalTemperature="{Binding MaximumInTemperature}"
-                        MinimalTemperature="{Binding MinimumInTemperature}"
-                        TemperatureUnits="{Binding TemperatureUnits}"
-                        Image="/ControlTestingApp;component/Resources/oil.png"/>
+                        Temperature="{Binding TemperatureTestViewModel.ValueInTemperature}"
+                        MaximalTemperature="{Binding TemperatureTestViewModel.MaximumInTemperature}"
+                        MinimalTemperature="{Binding TemperatureTestViewModel.MinimumInTemperature}"
+                        TemperatureUnits="{Binding TemperatureTestViewModel.TemperatureUnits}"
+                        Icon="{StaticResource WaterTemperatureIcon}"/>
                     <Grid Row="1">
                         <StackPanel Orientation="Horizontal">
                             <Slider Minimum="0" Maximum="150" Value="{Binding ValueInNumber}" MinWidth="100" ></Slider>
@@ -35,6 +36,10 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Wheel Status">
+                <controls:WheelStatusTestControl>
+                </controls:WheelStatusTestControl>
             </TabItem>
             <TabItem Header="Fuel"/>
         </TabControl>

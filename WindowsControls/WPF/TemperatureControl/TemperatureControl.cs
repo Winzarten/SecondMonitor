@@ -16,7 +16,7 @@
         private static readonly DependencyProperty TemperatureProperty = DependencyProperty.Register("Temperature", typeof(Temperature), typeof(TemperatureControl), new PropertyMetadata {DefaultValue = Temperature.FromCelsius(30), PropertyChangedCallback = TemperaturePropertyChangedCallback });
         private static readonly DependencyProperty MaximalNormalTemperatureProperty = DependencyProperty.Register("MaximalNormalTemperature", typeof(Temperature), typeof(TemperatureControl), new PropertyMetadata(Temperature.FromCelsius(110)));
         private static readonly DependencyProperty MaximalTemperatureProperty = DependencyProperty.Register("MaximalTemperature", typeof(Temperature), typeof(TemperatureControl),  new PropertyMetadata {DefaultValue = Temperature.FromCelsius(140), PropertyChangedCallback = BoundaryTemperaturePropertyChangedCallback });
-        private static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(ImageSource), typeof(TemperatureControl));
+        private static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(Viewbox), typeof(TemperatureControl));
 
         private string _formattedValue;
         private double _valueInProperUnits;
@@ -62,10 +62,10 @@
             set => SetValue(MaximalTemperatureProperty, value);
         }
 
-        public ImageSource Image
+        public Viewbox Icon
         {
-            get => (ImageSource)GetValue(ImageProperty);
-            set => SetValue(ImageProperty, value);
+            get => (Viewbox)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
         }
 
         public string FormattedValue
@@ -127,6 +127,7 @@
         {
             if (Temperature == null)
             {
+                FormattedValue = string.Empty;
                 return;
             }
 
@@ -154,6 +155,8 @@
             {
                 GaugeMaxNormalTemperature = MaximalNormalTemperature.GetValueInUnits(TemperatureUnits);
             }
+
+            RefreshFormattedValue();
         }
 
         private static void TemperaturePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -170,7 +173,6 @@
             {
                 control.RefreshFormattedValue();
                 control.RefreshLimits();
-                control.NotifyPropertyChanged(nameof(control.LabelStep));
             }
         }
 

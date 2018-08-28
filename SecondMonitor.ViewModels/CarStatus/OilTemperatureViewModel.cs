@@ -12,14 +12,8 @@
 
         public OilTemperatureViewModel()
         {
-            BitmapImage logo = new BitmapImage();
-            logo.BeginInit();
-            logo.UriSource = new Uri("pack://application:,,,/SecondMonitor.ViewModels;component/Resources/oil.png", UriKind.RelativeOrAbsolute);
-            logo.EndInit();
-            Icon = logo;
-        }
 
-        public override sealed ImageSource Icon { get; protected set; }
+        }
 
         public override Temperature MinimalTemperature { get; protected set; } = Temperature.FromCelsius(0);
 

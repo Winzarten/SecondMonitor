@@ -218,9 +218,9 @@
 
         private void UpdateWheelInfo(WheelInfo info)
         {
-            info.LeftTyreTemp = Temperature.FromCelsius(_tyreTemp - 5);
-            info.CenterTyreTemp = Temperature.FromCelsius(_tyreTemp);
-            info.RightTyreTemp = Temperature.FromCelsius(_tyreTemp + 5);
+            info.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp - 5);
+            info.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
+            info.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp + 5);
             info.BrakeTemperature = Temperature.FromCelsius(_brakeTemp);
 
             info.TyrePressure = Pressure.FromKiloPascals(200);

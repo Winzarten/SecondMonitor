@@ -120,6 +120,7 @@
       <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </Compile>
     <Compile Include="WPF\Behaviors\ForceResizeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
@@ -142,6 +143,7 @@
       <DependentUpon>TimeSpanBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\Converters\TimeSpanToSecondsConverter.cs" />
+    <Compile Include="WPF\WheelStatusControl\WheelStatusControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WinForms\OilControl.resx">
@@ -175,7 +177,15 @@
     <Resource Include="Resources\brake.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="WPF\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="WPF\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\CommonResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -194,6 +204,10 @@
     <Page Include="WPF\TimeSpanBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\WheelStatusControl\WheelStatucControlT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
