@@ -7,6 +7,7 @@
 
     public class WheelStatusControl : Control
     {
+        private static readonly DependencyProperty TemperatureUnitsProperty = DependencyProperty.Register("TemperatureUnits", typeof(TemperatureUnits), typeof(WheelStatusControl));
         private static readonly DependencyProperty TyreConditionProperty = DependencyProperty.Register("TyreCondition", typeof(double), typeof(WheelStatusControl));
         private static readonly DependencyProperty TyreCoreTemperatureProperty = DependencyProperty.Register("TyreCoreTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl));
         private static readonly DependencyProperty BrakeTemperatureProperty = DependencyProperty.Register("BrakeTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl));
@@ -22,6 +23,12 @@
         {
             get => (bool)GetValue(TyreSlippingIndicationProperty);
             set => SetValue(TyreSlippingIndicationProperty, value);
+        }
+
+        public TemperatureUnits TemperatureUnits
+        {
+            get => (TemperatureUnits)GetValue(TemperatureUnitsProperty);
+            set => SetValue(TemperatureUnitsProperty, value);
         }
 
         public double TyreCondition

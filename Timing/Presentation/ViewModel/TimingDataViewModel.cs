@@ -453,11 +453,6 @@
             NotifyPropertyChanged(nameof(SessionTime));
             NotifyPropertyChanged(nameof(SystemTime));
             NotifyPropertyChanged(nameof(SessionCompletedPercentage));
-            Gui.PedalControl.UpdateControl(data);
-            Gui.WhLeftFront.UpdateControl(data);
-            Gui.WhRightFront.UpdateControl(data);
-            Gui.WhLeftRear.UpdateControl(data);
-            Gui.WhRightRear.UpdateControl(data);
             Gui.FuelMonitor.ProcessDataSet(data);
             CarStatusViewModel.ApplyDateSet(data);
 
@@ -530,11 +525,6 @@
                 return;
             }
 
-            Gui.PedalControl.UpdateControl(data);
-            Gui.WhLeftFront.UpdateControl(data);
-            Gui.WhRightFront.UpdateControl(data);
-            Gui.WhLeftRear.UpdateControl(data);
-            Gui.WhRightRear.UpdateControl(data);
             Gui.TimingCircle.RefreshSession(data);
             RefreshDataGrid();
 
@@ -725,17 +715,6 @@
                 Dispatcher.Invoke(() => ApplyDisplaySettings(settings));
                 return;
             }
-
-            Gui.WhLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-            Gui.WhRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-            Gui.WhLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
-            Gui.WhRightRear.TemperatureDisplayUnit = settings.TemperatureUnits;
-
-            Gui.WhLeftFront.PressureDisplayUnits = settings.PressureUnits;
-            Gui.WhRightFront.PressureDisplayUnits = settings.PressureUnits;
-            Gui.WhLeftRear.PressureDisplayUnits = settings.PressureUnits;
-            Gui.WhRightRear.PressureDisplayUnits = settings.PressureUnits;
-
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)

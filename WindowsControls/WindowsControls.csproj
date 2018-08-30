@@ -130,6 +130,7 @@
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
     <Compile Include="WPF\Behaviors\ScaleFontBehavior .cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
+    <Compile Include="WPF\Commands\RelayCommand.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />

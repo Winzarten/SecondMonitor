@@ -58,7 +58,8 @@
                                                                       FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                       FontWeight="Bold"
                                                                       Foreground="{StaticResource LightGrey01Brush}"
-                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}">
+                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                      TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
                                             <i:Interaction.Behaviors>
                                                 <behaviors:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
@@ -72,7 +73,8 @@
                                                                       FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                       FontWeight="Bold"
                                                                       Foreground="{StaticResource LightGrey01Brush}"
-                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}">
+                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                      TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
                                             <i:Interaction.Behaviors>
                                                 <behaviors:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
@@ -86,7 +88,8 @@
                                                                       FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                       FontWeight="Bold"
                                                                       Foreground="{StaticResource LightGrey01Brush}"
-                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}">
+                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                        TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
                                             <i:Interaction.Behaviors>
                                                 <behaviors:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
@@ -116,7 +119,8 @@
                                             <quantityText:TemperatureText HorizontalAlignment="Center" VerticalAlignment="Center"
                                                                           FontSize="{StaticResource WheelControlCoreTempFontSize}"
                                                                           Foreground="{StaticResource LightGrey01Brush}"
-                                                                          Quantity="{Binding TyreCoreTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}" />
+                                                                          Quantity="{Binding TyreCoreTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                          TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}"/>
                                         </Grid>
                                     </Border>
                                 </Grid>
@@ -133,7 +137,8 @@
                                                                   FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                   FontWeight="Bold"
                                                                   Foreground="{StaticResource LightGrey01Brush}"
-                                                                  Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}">
+                                                                  Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                  TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
                                         <i:Interaction.Behaviors>
                                             <behaviors:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                        HighQuantityColor="{StaticResource HighQuantityColor}"
@@ -147,7 +152,8 @@
                                                                   FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                   FontWeight="Bold"
                                                                   Foreground="{StaticResource LightGrey01Brush}"
-                                                                  Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}" />
+                                                                  Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                  TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}"/>
                                     <ContentPresenter Grid.Column="4" Content="{StaticResource TyrePressureIcon}" />
                                 </Grid>
                             </Grid>

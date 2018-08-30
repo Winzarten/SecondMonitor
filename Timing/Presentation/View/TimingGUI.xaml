@@ -276,26 +276,6 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid Column="0">
-                            <WindowsFormsHost Width="196" Height="96" Margin="10,0,0,288" HorizontalAlignment="Left"
-                                              VerticalAlignment="Bottom">
-                                <winForms:WheelStatusControl x:Name="WhLeftFront" />
-                            </WindowsFormsHost>
-                            <WindowsFormsHost Width="196" Height="96" Margin="211,0,0,288" HorizontalAlignment="Left"
-                                              VerticalAlignment="Bottom">
-                                <winForms:WheelStatusControl x:Name="WhRightFront" WheelPosition="FrontRight" />
-                            </WindowsFormsHost>
-                            <WindowsFormsHost Width="196" Height="96" Margin="10,0,0,187" HorizontalAlignment="Left"
-                                              VerticalAlignment="Bottom">
-                                <winForms:WheelStatusControl x:Name="WhLeftRear" WheelPosition="RearLeft" />
-                            </WindowsFormsHost>
-                            <WindowsFormsHost Width="196" Height="96" Margin="211,0,0,187" HorizontalAlignment="Left"
-                                              VerticalAlignment="Bottom">
-                                <winForms:WheelStatusControl x:Name="WhRightRear" WheelPosition="RearRight" />
-                            </WindowsFormsHost>
-                            <WindowsFormsHost Width="70" Height="112" MinHeight="100" Margin="10,0,0,70"
-                                              HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                                <winForms:PedalControl x:Name="PedalControl" />
-                            </WindowsFormsHost>
                             <wpf:FuelMonitor x:Name="FuelMonitor" Width="322" Height="156" Margin="85,0,0,26"
                                              HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                              d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"

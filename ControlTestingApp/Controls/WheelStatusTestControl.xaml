@@ -26,10 +26,16 @@
                 TyreCondition="{Binding TyreCondition}" Height="96"
                 TyreCoreTemperature="{Binding TyreCoreTemperature}"
                 TyreSlippingIndication="{Binding Path=IsChecked, ElementName=TyreSlipCheckBox}"
-                BrakeTemperature="{Binding BrakeTemperature}">
+                BrakeTemperature="{Binding BrakeTemperature}"
+                TemperatureUnits="{Binding TemperatureUnits}">
             </wheelStatusControl:WheelStatusControl>
 
         </Grid>
+        <Grid Grid.Column="1">
+            <StackPanel>
+                <Button Content="Change Temp Units" Height="50" Command="{Binding ChangeTemperatureUnitsCommand}"></Button>
+            </StackPanel>
+            </Grid>
         <Grid Grid.Column="2">
             <StackPanel>
                 <Label Content="Tyre Condition" Foreground="White"></Label>

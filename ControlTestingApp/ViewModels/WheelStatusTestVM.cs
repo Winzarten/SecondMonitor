@@ -2,14 +2,17 @@
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Windows.Input;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.WindowsControls.WPF.Commands;
 
     public class WheelStatusTestVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         private double _tyreCondition = 50.0;
+        private TemperatureUnits _temperatureUnits;
 
         public double TyreCondition
         {
@@ -20,6 +23,26 @@
                 NotifyPropertyChanged();
             }
         }
+
+        public WheelStatusTestVM()
+        {
+            TyreCoreRawTemperature = 50;
+            BrakeRawTemperature = 200;
+        }
+
+        public TemperatureUnits TemperatureUnits
+        {
+            get => _temperatureUnits;
+            set
+            {
+                _temperatureUnits = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand ChangeTemperatureUnitsCommand => new RelayCommand(ChangeTemperatureUnits);
+
+
 
         public OptimalQuantity<Temperature> TyreCoreTemperature { get; private set; }
 
@@ -62,6 +85,28 @@
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ChangeTemperatureUnits()
+        {
+            if (TemperatureUnits == TemperatureUnits.Celsius)
+            {
+                TemperatureUnits = TemperatureUnits.Kelvin;
+                return;
+            }
+
+            if (TemperatureUnits == TemperatureUnits.Kelvin)
+            {
+                TemperatureUnits = TemperatureUnits.Fahrenheit;
+                return;
+            }
+
+            if (TemperatureUnits == TemperatureUnits.Fahrenheit)
+            {
+                TemperatureUnits = TemperatureUnits.Celsius;
+                return;
+            }
+
         }
     }
 }
