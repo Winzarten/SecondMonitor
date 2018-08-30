@@ -92,6 +92,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colors\HSLColor .cs" />
+    <Compile Include="Colors\MediaColorExtension.cs" />
     <Compile Include="WinForms\GMeter.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -119,12 +121,20 @@
     <Compile Include="WinForms\WheelStatusControl.Designer.cs">
       <DependentUpon>WheelStatusControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="WPF\Behaviors\BackgroundByOptimalVolumeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\BackgroundByTemperatureBehavior.cs" />
     <Compile Include="WPF\Behaviors\ForceResizeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ForegroundByOptimalVolumeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ForegroundByTemperatureBehavior.cs" />
+    <Compile Include="WPF\Behaviors\OptimalVolumeToColorBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ScaleFontBehavior .cs" />
+    <Compile Include="WPF\ColorableIcon.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
+    <Compile Include="WPF\VisualHelper.cs" />
     <Compile Include="WPF\FuelMonitor.xaml.cs">
       <DependentUpon>FuelMonitor.xaml</DependentUpon>
     </Compile>
@@ -138,7 +148,9 @@
     <Compile Include="WPF\PositionCircle.xaml.cs">
       <DependentUpon>PositionCircle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WPF\QuantityText\AbstractQuantityText.cs" />
     <Compile Include="WPF\TemperatureControl\TemperatureControl.cs" />
+    <Compile Include="WPF\QuantityText\TemperatureText.cs" />
     <Compile Include="WPF\TimeSpanBarControl.xaml.cs">
       <DependentUpon>TimeSpanBarControl.xaml</DependentUpon>
     </Compile>
@@ -177,6 +189,10 @@
     <Resource Include="Resources\brake.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="WPF\Constants.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="WPF\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -200,6 +216,10 @@
     <Page Include="WPF\TemperatureControl\TemperatureControlT.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\QuantityText\QuantityText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\TimeSpanBarControl.xaml">
       <SubType>Designer</SubType>

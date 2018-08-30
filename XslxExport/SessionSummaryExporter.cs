@@ -17,14 +17,7 @@
     using OfficeOpenXml.Table;
 
     using SecondMonitor.DataModel.Snapshot.Systems;
-
-    public static class MediaColorExtension
-    {
-        public static System.Drawing.Color ToDrawingColor(this Color color)
-        {
-            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
-        }
-    }
+    using SecondMonitor.WindowsControls.Colors;
 
     public class SessionSummaryExporter
     {

@@ -31,6 +31,10 @@
 
         public IQuantity ZeroQuantity => Zero;
 
+        public bool IsZero => _isZero;
+
+        public double RawValue => InCelsius;
+
         public static Temperature FromCelsius(double temperatureInCelsius)
         {
             return new Temperature(temperatureInCelsius);

@@ -13,7 +13,7 @@
     </UserControl.DataContext>
     <Grid Background="Black" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="196"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -23,7 +23,10 @@
             </Grid.RowDefinitions>
 
             <wheelStatusControl:WheelStatusControl
-                TyreCondition="{Binding TyreCondition}" Height="200">
+                TyreCondition="{Binding TyreCondition}" Height="96"
+                TyreCoreTemperature="{Binding TyreCoreTemperature}"
+                TyreSlippingIndication="{Binding Path=IsChecked, ElementName=TyreSlipCheckBox}"
+                BrakeTemperature="{Binding BrakeTemperature}">
             </wheelStatusControl:WheelStatusControl>
 
         </Grid>
@@ -31,6 +34,11 @@
             <StackPanel>
                 <Label Content="Tyre Condition" Foreground="White"></Label>
                 <Slider x:Name="ConditionSlider" Value="{Binding TyreCondition}" Minimum="0" Maximum="100"></Slider>
+                <Label Content="Core Tyre Temperature" Foreground="White"></Label>
+                <Slider Value="{Binding TyreCoreRawTemperature, Mode=OneWayToSource}" Minimum="30" Maximum="140"></Slider>
+                <CheckBox Margin="0,7,0,7" Content="Tyre Slipping" Foreground="White" x:Name="TyreSlipCheckBox"></CheckBox>
+                <Label Content="Brake Temperature" Foreground="White"></Label>
+                <Slider  Value="{Binding BrakeRawTemperature}" Minimum="0" Maximum="600"></Slider>
             </StackPanel>
         </Grid>
     </Grid>

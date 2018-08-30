@@ -1,8 +1,42 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="LightGrey01Brush" Color="#F1E9DB" />
-    <SolidColorBrush x:Key="DarkRed01Brush" Color="DarkRed" />
-    <SolidColorBrush x:Key="LightGrey02Brush" Color="#BFACB5" />
-    <SolidColorBrush x:Key="Anthracite01Brush" Color="#2B292E"/>
-    <SolidColorBrush x:Key="DarkGrey01Brush" Color="#464239"/>
+
+
+    <Color x:Key="LightRed01Color">#ff4d4d</Color>
+    <Color x:Key="DarkRed01Color">DarkRed</Color>
+
+    <Color x:Key="LightBlue01Color">#668cff</Color>
+
+    <Color x:Key="Green01Color">#0c8d37</Color>
+
+    <Color x:Key="LightGrey01Color">#F1E9DB</Color>
+    <Color x:Key="LightGrey02Color">#BFACB5</Color>
+    <Color x:Key="LightGrey05Color">#FFE4E4E4</Color>
+    <Color x:Key="LightGrey03Color">#FFC9C9C9</Color>
+    <Color x:Key="LightGrey04Color">#FFD6D6D6</Color>
+
+    <Color x:Key="DarkGrey01Color">#464239</Color>
+    <Color x:Key="DarkGrey05Color">#FF7F7F7F</Color>
+
+    <Color x:Key="Anthracite01Color">#2B292E</Color>
+
+
+
+    <SolidColorBrush x:Key="LightGrey01Brush" Color="{StaticResource LightGrey01Color}" />
+    <SolidColorBrush x:Key="LightGrey02Brush" Color="{StaticResource LightGrey02Color}" />
+
+
+    <SolidColorBrush x:Key="DarkGrey01Brush" Color="{StaticResource DarkGrey01Color}"/>
+    <SolidColorBrush x:Key="DarkGrey05Brush" Color="{StaticResource DarkGrey05Color}"/>
+
+    <SolidColorBrush x:Key="Anthracite01Brush" Color="{StaticResource Anthracite01Color}"/>
+
+    <SolidColorBrush x:Key="LightRed01Brush" Color="{StaticResource LightRed01Color}" />
+    <SolidColorBrush x:Key="DarkRed01Brush" Color="{StaticResource DarkRed01Color}" />
+
+    <Color x:Key="LowQuantityColor">#668cff</Color>
+    <Color x:Key="HighQuantityColor" >#e60000</Color>
+    <Color x:Key="OptimalQuantityColor">#0c8d37</Color>
+
+
 </ResourceDictionary>

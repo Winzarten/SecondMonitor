@@ -72,6 +72,10 @@
 
         public IQuantity ZeroQuantity => Zero;
 
+        public bool IsZero => this == Zero;
+
+        public double RawValue => InMs;
+
         public double GetValueInUnits(VelocityUnits units)
         {
             switch (units)

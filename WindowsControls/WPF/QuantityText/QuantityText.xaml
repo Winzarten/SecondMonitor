@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText"
+                    xmlns:basicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
+                    xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors">
+
+ <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CommonResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <converters:DoubleToStringNoDecimalConverter x:Key="DoubleToStringConverter"></converters:DoubleToStringNoDecimalConverter>
+    <ControlTemplate x:Key="QuantityText">
+            <TextBlock Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    </ControlTemplate>
+
+    <Style TargetType="local:TemperatureText" >
+        <Setter Property="Template" Value="{StaticResource QuantityText}"/>
+    </Style>
+
+</ResourceDictionary>

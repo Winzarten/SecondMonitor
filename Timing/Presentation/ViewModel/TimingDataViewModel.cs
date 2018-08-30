@@ -766,7 +766,7 @@
             {
                 while (!sender.TerminatePeriodicTasks)
                 {
-                    await Task.Delay(periodInMs, CancellationToken.None);
+                    await Task.Delay(periodInMs, CancellationToken.None).ConfigureAwait(true);
 
                     if (!sender.TerminatePeriodicTasks)
                     {

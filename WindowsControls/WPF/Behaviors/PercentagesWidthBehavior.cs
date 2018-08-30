@@ -16,6 +16,11 @@
             set => SetValue(PercentageProperty, value);
         }
 
+        public PercentagesWidthBehavior()
+        {
+
+        }
+
         protected override void OnAttached()
         {
             _parentElement = (FrameworkElement)LogicalTreeHelper.GetParent(AssociatedObject);
