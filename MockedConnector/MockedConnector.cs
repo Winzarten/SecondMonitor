@@ -221,9 +221,9 @@
             info.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp - 5);
             info.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
             info.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp + 5);
-            info.BrakeTemperature = Temperature.FromCelsius(_brakeTemp);
+            info.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(_brakeTemp);
 
-            info.TyrePressure = Pressure.FromKiloPascals(200);
+            info.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(200);
         }
 
         private void RaiseConnectedEvent()

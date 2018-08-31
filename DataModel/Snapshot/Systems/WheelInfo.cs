@@ -9,8 +9,18 @@
 
         public WheelInfo()
         {
-            BrakeTemperature = Temperature.Zero;
-            TyrePressure = new Pressure();
+            BrakeTemperature = new OptimalQuantity<Temperature>()
+                                   {
+                                       IdealQuantity = Temperature.FromCelsius(350),
+                                       IdealQuantityWindow = Temperature.FromCelsius(200),
+                                       ActualQuantity = Temperature.Zero
+                                   };
+            TyrePressure = new OptimalQuantity<Pressure>()
+                               {
+                                   IdealQuantity = Pressure.Zero,
+                                   IdealQuantityWindow = Pressure.Zero,
+                                   ActualQuantity = Pressure.Zero
+                               };
             LeftTyreTemp = new OptimalQuantity<Temperature>()
                                {
                                    IdealQuantity = OptimalTemperature,
@@ -30,9 +40,9 @@
             TyreTypeFilled = false;
         }
 
-        public Temperature BrakeTemperature { get; set; }
+        public OptimalQuantity<Temperature> BrakeTemperature { get; set; }
 
-        public Pressure TyrePressure { get; set; }
+        public OptimalQuantity<Pressure> TyrePressure { get; set; }
 
 
         public string TyreType { get; set; }
@@ -46,10 +56,6 @@
         public OptimalQuantity<Temperature> RightTyreTemp{ get; set; }
 
         public OptimalQuantity<Temperature> CenterTyreTemp { get; set; }
-
-        public Temperature OptimalBrakeTemperature { get; set; } = Temperature.FromCelsius(350);
-
-        public double OptimalBrakeWindow { get; set; } = 200;
 
     }
 

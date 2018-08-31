@@ -13,6 +13,7 @@
 
         private double _tyreCondition = 50.0;
         private TemperatureUnits _temperatureUnits;
+        private PressureUnits _pressureUnits = PressureUnits.Atmosphere;
 
         public double TyreCondition
         {
@@ -40,13 +41,33 @@
             }
         }
 
+        public PressureUnits PressureUnits
+        {
+            get => _pressureUnits;
+            set
+            {
+                _pressureUnits = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ICommand ChangeTemperatureUnitsCommand => new RelayCommand(ChangeTemperatureUnits);
+
+        public ICommand ChangePressureUnitsCommand => new RelayCommand(ChangePressureUnits);
 
 
 
         public OptimalQuantity<Temperature> TyreCoreTemperature { get; private set; }
 
+        public OptimalQuantity<Temperature> TyreLeftTemperature { get; private set; }
+
+        public OptimalQuantity<Temperature> TyreRightTemperature { get; private set; }
+
+        public OptimalQuantity<Temperature> TyreCenterTemperature { get; private set; }
+
         public OptimalQuantity<Temperature> BrakeTemperature { get; private set; }
+
+        public OptimalQuantity<Pressure> TyrePressure { get; private set; }
 
         public double TyreCoreRawTemperature
         {
@@ -65,6 +86,57 @@
             }
         }
 
+        public double TyreLeftRawTemperature
+        {
+            set
+            {
+                TyreLeftTemperature = new OptimalQuantity<Temperature>()
+                                          {
+                                              ActualQuantity =
+                                                  Temperature.FromCelsius(value),
+                                              IdealQuantity =
+                                                  Temperature.FromCelsius(80),
+                                              IdealQuantityWindow =
+                                                  Temperature.FromCelsius(50)
+                                          };
+                NotifyPropertyChanged(nameof(TyreLeftTemperature));
+            }
+        }
+
+        public double TyreCenterRawTemperature
+        {
+            set
+            {
+                TyreCenterTemperature = new OptimalQuantity<Temperature>()
+                                          {
+                                              ActualQuantity =
+                                                  Temperature.FromCelsius(value),
+                                              IdealQuantity =
+                                                  Temperature.FromCelsius(80),
+                                              IdealQuantityWindow =
+                                                  Temperature.FromCelsius(50)
+                                          };
+                NotifyPropertyChanged(nameof(TyreCenterTemperature));
+            }
+        }
+
+        public double TyreRightRawTemperature
+        {
+            set
+            {
+                TyreRightTemperature = new OptimalQuantity<Temperature>()
+                                          {
+                                              ActualQuantity =
+                                                  Temperature.FromCelsius(value),
+                                              IdealQuantity =
+                                                  Temperature.FromCelsius(80),
+                                              IdealQuantityWindow =
+                                                  Temperature.FromCelsius(50)
+                                          };
+                NotifyPropertyChanged(nameof(TyreRightTemperature));
+            }
+        }
+
         public double BrakeRawTemperature
         {
             set
@@ -79,6 +151,23 @@
                                                   Temperature.FromCelsius(150)
                                           };
                 NotifyPropertyChanged(nameof(BrakeTemperature));
+            }
+        }
+
+        public double TyrePressureRaw
+        {
+            set
+            {
+                TyrePressure = new OptimalQuantity<Pressure>()
+                                       {
+                                           ActualQuantity =
+                                               Pressure.FromKiloPascals(value),
+                                           IdealQuantity =
+                                               Pressure.FromKiloPascals(190),
+                                           IdealQuantityWindow =
+                                               Pressure.FromKiloPascals(20)
+                                       };
+                NotifyPropertyChanged(nameof(TyrePressure));
             }
         }
 
@@ -107,6 +196,27 @@
                 return;
             }
 
+        }
+
+        private void ChangePressureUnits()
+        {
+            switch (PressureUnits)
+            {
+                case PressureUnits.Kpa:
+                    PressureUnits = PressureUnits.Atmosphere;
+                    break;
+                case PressureUnits.Atmosphere:
+                    PressureUnits = PressureUnits.Bar;
+                    break;
+                case PressureUnits.Bar:
+                    PressureUnits = PressureUnits.Psi;
+                    break;
+                case PressureUnits.Psi:
+                    PressureUnits = PressureUnits.Kpa;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

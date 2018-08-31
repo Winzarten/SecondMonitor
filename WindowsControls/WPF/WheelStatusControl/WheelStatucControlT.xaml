@@ -1,9 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText" xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl">
+                    xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText" xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl"
+                    xmlns:commands="clr-namespace:SecondMonitor.WindowsControls.WPF.Commands"
+                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../CommonResources.xaml" />
         <ResourceDictionary Source="../QuantityText/QuantityText.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    <commands:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"> </commands:InverseBooleanToVisibilityConverter>
 
     <Storyboard x:Key="FlashRed" RepeatBehavior="Forever">
         <ColorAnimation Storyboard.TargetName="StatusBorder" Storyboard.TargetProperty="BorderBrush.Color"
@@ -58,14 +62,14 @@
                                                                       FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                       FontWeight="Bold"
                                                                       Foreground="{StaticResource LightGrey01Brush}"
-                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                      Quantity="{Binding TyreLeftTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
                                                                       TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
                                             <i:Interaction.Behaviors>
                                                 <behaviors:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
                                                                                            IdealQuantityColor="{StaticResource OptimalQuantityColor}"
                                                                                            LowQuantityColor="{StaticResource LowQuantityColor}"
-                                                                                           Volume="{Binding BrakeTemperature, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"></behaviors:ForegroundByTemperatureBehavior>
+                                                                                           Volume="{Binding TyreLeftTemperature, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"></behaviors:ForegroundByTemperatureBehavior>
                                             </i:Interaction.Behaviors>
                                         </quantityText:TemperatureText>
 
@@ -73,35 +77,43 @@
                                                                       FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                       FontWeight="Bold"
                                                                       Foreground="{StaticResource LightGrey01Brush}"
-                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                      Quantity="{Binding TyreCenterTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
                                                                       TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
                                             <i:Interaction.Behaviors>
                                                 <behaviors:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
                                                                                            IdealQuantityColor="{StaticResource OptimalQuantityColor}"
                                                                                            LowQuantityColor="{StaticResource LowQuantityColor}"
-                                                                                           Volume="{Binding BrakeTemperature, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"></behaviors:ForegroundByTemperatureBehavior>
+                                                                                           Volume="{Binding TyreCenterTemperature, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"></behaviors:ForegroundByTemperatureBehavior>
                                             </i:Interaction.Behaviors>
                                         </quantityText:TemperatureText>
 
-                                    <quantityText:TemperatureText Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,5"
+                                    <quantityText:TemperatureText Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,5,0"
                                                                       FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                       FontWeight="Bold"
                                                                       Foreground="{StaticResource LightGrey01Brush}"
-                                                                      Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                      Quantity="{Binding TyreRightTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
                                                                         TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
                                             <i:Interaction.Behaviors>
                                                 <behaviors:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
                                                                                            IdealQuantityColor="{StaticResource OptimalQuantityColor}"
                                                                                            LowQuantityColor="{StaticResource LowQuantityColor}"
-                                                                                           Volume="{Binding BrakeTemperature, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"></behaviors:ForegroundByTemperatureBehavior>
+                                                                                           Volume="{Binding TyreRightTemperature, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"></behaviors:ForegroundByTemperatureBehavior>
                                             </i:Interaction.Behaviors>
                                         </quantityText:TemperatureText>
 
                                 </Grid>
                                 <Grid Row="1">
-                                    <Border x:Name="StatusBorder" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0" Margin="5,0,5,0" Visibility="{Binding IsLeftWheel, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <ContentPresenter Content="{StaticResource TyreIcon}"></ContentPresenter>
+                                    </Grid>
+                                    <Border Grid.Column="1" x:Name="StatusBorder" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                             BorderBrush="{StaticResource LightGrey02Brush}"
                                             BorderThickness="4" CornerRadius="4">
                                         <Grid x:Name="StatusGrid" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -123,16 +135,21 @@
                                                                           TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}"/>
                                         </Grid>
                                     </Border>
+                                    <Grid Grid.Column="2" Margin="5,0,5,0" Visibility="{Binding IsLeftWheel, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                        <wpf:ColorAbleIcon StrokeBrush="{StaticResource LightGrey01Brush}">
+                                            <ContentPresenter Content="{StaticResource TyreIcon}"></ContentPresenter>
+                                        </wpf:ColorAbleIcon>
+                                    </Grid>
                                 </Grid>
                                 <Grid MaxHeight="23" Margin="0,4,0,2" Row="2">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <ContentPresenter Grid.Column="0" Content="{StaticResource BrakeIcon}"  />
+                                    <ContentPresenter Grid.Column="0" Content="{StaticResource BrakeIcon}" Margin="5,0,10,0" />
                                     <quantityText:TemperatureText Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"
                                                                   FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                   FontWeight="Bold"
@@ -148,13 +165,21 @@
                                         </i:Interaction.Behaviors>
                                         </quantityText:TemperatureText>
 
-                                    <quantityText:TemperatureText Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                    <quantityText:PressureText Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top"
                                                                   FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                   FontWeight="Bold"
                                                                   Foreground="{StaticResource LightGrey01Brush}"
-                                                                  Quantity="{Binding BrakeTemperature.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
-                                                                  TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}"/>
-                                    <ContentPresenter Grid.Column="4" Content="{StaticResource TyrePressureIcon}" />
+                                                                  Quantity="{Binding TyrePressure.ActualQuantity, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"
+                                                                  PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl},Mode=OneWay}">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:ForegroundByPressureBehavior DefaultColor="{StaticResource LightGrey01Color}"
+                                                                                   HighQuantityColor="{StaticResource HighQuantityColor}"
+                                                                                   IdealQuantityColor="{StaticResource OptimalQuantityColor}"
+                                                                                   LowQuantityColor="{StaticResource LowQuantityColor}"
+                                                                                   Volume="{Binding TyrePressure, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay}"></behaviors:ForegroundByPressureBehavior>
+                                        </i:Interaction.Behaviors>
+                                    </quantityText:PressureText>
+                                    <ContentPresenter Grid.Column="4" Content="{StaticResource TyrePressureIcon}" Margin="10,0,5,0" />
                                 </Grid>
                             </Grid>
                         </Grid>

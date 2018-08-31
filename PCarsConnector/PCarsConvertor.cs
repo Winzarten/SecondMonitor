@@ -196,13 +196,13 @@
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.MOilTempCelsius);
 
             // Brakes Info
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature =
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity =
                 Temperature.FromCelsius(data.MBrakeTempCelsius[0]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature =
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.ActualQuantity =
                 Temperature.FromCelsius(data.MBrakeTempCelsius[1]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature =
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.ActualQuantity =
                 Temperature.FromCelsius(data.MBrakeTempCelsius[2]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature =
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity =
                 Temperature.FromCelsius(data.MBrakeTempCelsius[3]);
 
             // Tyre Pressure Info

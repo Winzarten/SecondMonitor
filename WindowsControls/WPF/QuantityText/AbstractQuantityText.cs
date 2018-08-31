@@ -20,9 +20,9 @@
             set => SetValue(ValueInUnitsProperty, value);
         }
 
-        public Temperature Quantity
+        public T Quantity
         {
-            get => (Temperature)GetValue(QuantityProperty);
+            get => (T)GetValue(QuantityProperty);
             set => SetValue(QuantityProperty, value);
         }
 

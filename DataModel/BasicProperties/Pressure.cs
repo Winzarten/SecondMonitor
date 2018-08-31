@@ -43,6 +43,8 @@
 
         public IQuantity ZeroQuantity => zero;
 
+        public static Pressure Zero => zero;
+
         public bool IsZero => InKpa == -1;
 
         public double RawValue => InKpa;

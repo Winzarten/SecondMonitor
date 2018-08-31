@@ -79,13 +79,13 @@
 
         private void AddTyresAndFuelInfo(SimulatorDataSet simData, rF2VehicleTelemetry playerVehicleTelemetry)
         {
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure =
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure.ActualQuantity =
                 Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mPressure);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure =
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure.ActualQuantity =
                 Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mPressure);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure =
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure.ActualQuantity =
                 Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mPressure);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure =
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity =
                 Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mPressure);
 
 
@@ -140,13 +140,13 @@
 
         private static void AddBrakesInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature = Temperature.FromKelvin(
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity = Temperature.FromKelvin(
                 playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.FrontLeft].mBrakeTemp);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature = Temperature.FromKelvin(
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.ActualQuantity = Temperature.FromKelvin(
                 playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.FrontRight].mBrakeTemp);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature = Temperature.FromKelvin(
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.ActualQuantity = Temperature.FromKelvin(
                 playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.RearLeft].mBrakeTemp);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature = Temperature.FromKelvin(
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity = Temperature.FromKelvin(
                 playerVehicleTelemetry.mWheels[(int) rFactor2Constants.rF2WheelIndex.RearRight].mBrakeTemp);
         }
 

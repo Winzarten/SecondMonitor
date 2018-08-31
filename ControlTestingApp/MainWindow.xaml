@@ -13,7 +13,7 @@
     Height="450"
     mc:Ignorable="d">
     <Window.DataContext>
-        <viewModels:MainWindowViewModel/>
+        <viewModels:TemperatureTestViewModel/>
     </Window.DataContext>
     <Grid Background="Black">
         <TabControl>
@@ -24,10 +24,10 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <temperatureControl:TemperatureControl
-                        Temperature="{Binding TemperatureTestViewModel.ValueInTemperature}"
-                        MaximalTemperature="{Binding TemperatureTestViewModel.MaximumInTemperature}"
-                        MinimalTemperature="{Binding TemperatureTestViewModel.MinimumInTemperature}"
-                        TemperatureUnits="{Binding TemperatureTestViewModel.TemperatureUnits}"
+                        Temperature="{Binding ValueInTemperature}"
+                        MaximalTemperature="{Binding MaximumInTemperature}"
+                        MinimalTemperature="{Binding MinimumInTemperature}"
+                        TemperatureUnits="{Binding TemperatureUnits}"
                         Icon="{StaticResource WaterTemperatureIcon}"/>
                     <Grid Row="1">
                         <StackPanel Orientation="Horizontal">

@@ -10,13 +10,41 @@
         <ResourceDictionary Source="../CommonResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <converters:DoubleToStringNoDecimalConverter x:Key="DoubleToStringConverter"></converters:DoubleToStringNoDecimalConverter>
+    <converters:DoubleToScalableDecimalsConverter x:Key="DoubleToScalableDecimalsConverter"></converters:DoubleToScalableDecimalsConverter>
     <ControlTemplate x:Key="QuantityText">
-            <TextBlock Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
-                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
+                       VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock.Effect>
+                <DropShadowEffect
+                    ShadowDepth="4"
+                    Direction="330"
+                    Color="{StaticResource DarkGrey01Color}"
+                    Opacity="0.5"
+                    BlurRadius="4"/>
+            </TextBlock.Effect>
+        </TextBlock>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="QuantityScalableDecimalsText">
+    <TextBlock Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToScalableDecimalsConverter}}"
+               VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBlock.Effect>
+            <DropShadowEffect
+                ShadowDepth="4"
+                Direction="330"
+                Color="{StaticResource DarkGrey01Color}"
+                Opacity="0.5"
+                BlurRadius="4"/>
+        </TextBlock.Effect>
+    </TextBlock>
     </ControlTemplate>
 
     <Style TargetType="local:TemperatureText" >
         <Setter Property="Template" Value="{StaticResource QuantityText}"/>
+    </Style>
+
+    <Style TargetType="local:PressureText" >
+        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}"/>
     </Style>
 
 </ResourceDictionary>

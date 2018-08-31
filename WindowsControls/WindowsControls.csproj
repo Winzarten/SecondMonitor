@@ -125,16 +125,20 @@
     <Compile Include="WPF\Behaviors\BackgroundByTemperatureBehavior.cs" />
     <Compile Include="WPF\Behaviors\ForceResizeBehavior.cs" />
     <Compile Include="WPF\Behaviors\ForegroundByOptimalVolumeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ForegroundByPressureBehavior.cs" />
     <Compile Include="WPF\Behaviors\ForegroundByTemperatureBehavior.cs" />
     <Compile Include="WPF\Behaviors\OptimalVolumeToColorBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
     <Compile Include="WPF\Behaviors\ScaleFontBehavior .cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
+    <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Commands\RelayCommand.cs" />
+    <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
+    <Compile Include="WPF\QuantityText\PressureText.cs" />
     <Compile Include="WPF\VisualHelper.cs" />
     <Compile Include="WPF\FuelMonitor.xaml.cs">
       <DependentUpon>FuelMonitor.xaml</DependentUpon>

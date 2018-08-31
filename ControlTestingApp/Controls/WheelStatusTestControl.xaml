@@ -27,13 +27,19 @@
                 TyreCoreTemperature="{Binding TyreCoreTemperature}"
                 TyreSlippingIndication="{Binding Path=IsChecked, ElementName=TyreSlipCheckBox}"
                 BrakeTemperature="{Binding BrakeTemperature}"
-                TemperatureUnits="{Binding TemperatureUnits}">
+                TemperatureUnits="{Binding TemperatureUnits}"
+                TyreLeftTemperature="{Binding TyreLeftTemperature}"
+                TyreCenterTemperature="{Binding TyreCenterTemperature}"
+                TyreRightTemperature="{Binding TyreRightTemperature}"
+                TyrePressure="{Binding TyrePressure}"
+                PressureUnits="{Binding PressureUnits}">
             </wheelStatusControl:WheelStatusControl>
 
         </Grid>
         <Grid Grid.Column="1">
             <StackPanel>
                 <Button Content="Change Temp Units" Height="50" Command="{Binding ChangeTemperatureUnitsCommand}"></Button>
+                <Button Content="Change Pressure Units" Height="50" Command="{Binding ChangePressureUnitsCommand}"></Button>
             </StackPanel>
             </Grid>
         <Grid Grid.Column="2">
@@ -45,6 +51,14 @@
                 <CheckBox Margin="0,7,0,7" Content="Tyre Slipping" Foreground="White" x:Name="TyreSlipCheckBox"></CheckBox>
                 <Label Content="Brake Temperature" Foreground="White"></Label>
                 <Slider  Value="{Binding BrakeRawTemperature}" Minimum="0" Maximum="600"></Slider>
+                <Label Content="Left Tyre" Foreground="White"></Label>
+                <Slider  Value="{Binding TyreLeftRawTemperature}" Minimum="0" Maximum="160"></Slider>
+                <Label Content="Center Tyre" Foreground="White"></Label>
+                <Slider  Value="{Binding TyreCenterRawTemperature}" Minimum="0" Maximum="160"></Slider>
+                <Label Content="Right Tyre" Foreground="White"></Label>
+                <Slider  Value="{Binding TyreRightRawTemperature}" Minimum="0" Maximum="160"></Slider>
+                <Label Content="Tyre Pressure" Foreground="White"></Label>
+                <Slider  Value="{Binding TyrePressureRaw}" Minimum="0" Maximum="300"></Slider>
             </StackPanel>
         </Grid>
     </Grid>

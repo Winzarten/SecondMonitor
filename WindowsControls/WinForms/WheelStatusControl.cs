@@ -93,8 +93,8 @@
                 return;
             }
 
-            lblBreakTemp.Text = wheel.BrakeTemperature.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
-            lblBreakTemp.PixelOn = ComputeColor(wheel.BrakeTemperature.InCelsius, wheel.OptimalBrakeTemperature.InCelsius, wheel.OptimalBrakeWindow);
+            lblBreakTemp.Text = wheel.BrakeTemperature.ActualQuantity.GetValueInUnits(TemperatureDisplayUnit).ToString("0");
+            lblBreakTemp.PixelOn = ComputeColor(wheel.BrakeTemperature.ActualQuantity.InCelsius, wheel.BrakeTemperature.IdealQuantity.InCelsius, wheel.BrakeTemperature.IdealQuantityWindow.InCelsius);
         }
 
         private WheelInfo GetWheelByPosition(SimulatorDataSet data)
@@ -126,7 +126,7 @@
                 return;
             }
 
-            var value = wheel.TyrePressure.GetValueInUnits(PressureDisplayUnits);
+            var value = wheel.TyrePressure.ActualQuantity.GetValueInUnits(PressureDisplayUnits);
             if (value < 10)
             {
                 lblTyrePressure.Text = value.ToString("N2");

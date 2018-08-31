@@ -73,12 +73,12 @@
 
         private static void AddTyresAndFuelInfo(SimulatorDataSet simData, AssettoCorsaShared acData)
         {
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.FL]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.FR]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RL]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyrePressure.ActualQuantity = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.FL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyrePressure.ActualQuantity = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.FR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure.ActualQuantity = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RR]);
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear =GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.RL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
@@ -123,10 +123,10 @@
 
         private static void AddBrakesInfo(AssettoCorsaShared acData, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.FL]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.FR]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.RL]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.RR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.FL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.FR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.RL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.RR]);
         }
 
         private static void AddOilSystemInfo(SimulatorDataSet simData)
