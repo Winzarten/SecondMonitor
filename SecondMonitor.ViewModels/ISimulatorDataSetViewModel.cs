@@ -5,5 +5,7 @@
     public interface ISimulatorDataSetViewModel
     {
         void ApplyDateSet(SimulatorDataSet dataSet);
+
+        void Reset();
     }
 }

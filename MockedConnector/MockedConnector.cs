@@ -55,11 +55,18 @@
 
         public bool TryConnect()
         {
+
+            #if !DEBUG
             IsConnected = true;
             Thread executionThread = new Thread(new ThreadStart(TestingThreadExecutor));
             executionThread.IsBackground = true;
             executionThread.Start();
             return true;
+    #else
+            return false;
+            #endif
+
+
         }
 
         private void TestingThreadExecutor()
@@ -160,6 +167,10 @@
                 }
             }
             simulatorDataSet.DriversInfo = this._players.Values.ToArray();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft = new WheelInfo();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight = new WheelInfo();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight = new WheelInfo();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearLeft = new WheelInfo();
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight);
@@ -199,6 +210,7 @@
         private void UpdateDriver(DriverInfo driverInfo)
         {
             driverInfo.LapDistance += this._playerLocationStep;
+            driverInfo.TotalDistance += _playerLocationStep;
 
             if (driverInfo.LapDistance >= this._layoutLength)
             {
@@ -210,6 +222,7 @@
             {
                 return;
             }
+
             driverInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
             driverInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
             driverInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
@@ -221,6 +234,7 @@
             info.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp - 5);
             info.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
             info.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp + 5);
+            info.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
             info.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(_brakeTemp);
 
             info.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(200);

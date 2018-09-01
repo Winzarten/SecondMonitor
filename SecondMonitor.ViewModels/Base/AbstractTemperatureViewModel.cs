@@ -3,7 +3,6 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
-    using System.Windows.Media;
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
@@ -50,6 +49,11 @@
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
             Temperature = GetTemperatureFromDataSet(dataSet);
+        }
+
+        public void Reset()
+        {
+            // Nothing to do
         }
 
         protected abstract Temperature GetTemperatureFromDataSet(SimulatorDataSet dataSet);

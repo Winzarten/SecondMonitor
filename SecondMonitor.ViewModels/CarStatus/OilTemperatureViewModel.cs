@@ -1,20 +1,10 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
-    using System;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.ViewModels.Base;
     public class OilTemperatureViewModel : AbstractTemperatureViewModel
     {
-
-        public OilTemperatureViewModel()
-        {
-
-        }
-
         public override Temperature MinimalTemperature { get; protected set; } = Temperature.FromCelsius(0);
 
         public override Temperature MaximumTemperature { get; protected set; }  = Temperature.FromCelsius(180);

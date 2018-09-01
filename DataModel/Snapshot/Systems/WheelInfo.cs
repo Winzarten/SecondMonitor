@@ -5,7 +5,7 @@
     public class WheelInfo
     {
         private static readonly Temperature OptimalTemperature = Temperature.FromCelsius(85);
-        private static readonly Temperature OptimalTemperatureWindow = Temperature.FromCelsius(15);
+        private static readonly Temperature OptimalTemperatureWindow = Temperature.FromCelsius(10);
 
         public WheelInfo()
         {
@@ -36,6 +36,13 @@
                                      IdealQuantity = OptimalTemperature,
                                      IdealQuantityWindow = OptimalTemperatureWindow
                                  };
+
+            TyreCoreTemperature = new OptimalQuantity<Temperature>()
+                                 {
+                                     IdealQuantity = OptimalTemperature,
+                                     IdealQuantityWindow = OptimalTemperatureWindow
+                                 };
+
             TyreWear = 0;
             TyreTypeFilled = false;
         }
@@ -56,6 +63,8 @@
         public OptimalQuantity<Temperature> RightTyreTemp{ get; set; }
 
         public OptimalQuantity<Temperature> CenterTyreTemp { get; set; }
+
+        public OptimalQuantity<Temperature> TyreCoreTemperature { get; set; }
 
     }
 

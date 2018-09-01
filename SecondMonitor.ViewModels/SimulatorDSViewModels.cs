@@ -95,5 +95,10 @@
         {
             _list.ForEach(x => x.ApplyDateSet(dataSet));
         }
+
+        public void Reset()
+        {
+            _list.ForEach(x => x.Reset());
+        }
     }
 }

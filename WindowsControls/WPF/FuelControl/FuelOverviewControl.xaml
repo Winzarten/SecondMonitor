@@ -1,0 +1,98 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl" xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText"
+                    xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CommonResources.xaml" />
+        <ResourceDictionary Source="FuelLevelControl.xaml" />
+        <ResourceDictionary Source="../ButtonStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <converters:TimeSpanToMinutesSecondsConverter x:Key="MinutesSecondsConverter"/>
+    <converters:DoubleToScalableDecimalsConverter x:Key="DoubleToScalable"/>
+    <Style TargetType="fuelControl:FuelOverviewControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="fuelControl:FuelOverviewControl">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <fuelControl:FuelLevelControl Grid.Row="0" HorizontalAlignment="Left"
+                                                          FuelPercentage="{Binding FuelPercentage, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}}"
+                                                          IconColor="{Binding FuelStatusColor, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}" />
+                            <StackPanel  Grid.Row="1" Grid.Column="0" Margin="0,-30,0,0"  Orientation=" Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Fuel Left: " Style="{StaticResource StandardText}" />
+                                <quantityText:VolumeQuantityText VerticalAlignment="Bottom"
+                                                                 FontSize="{StaticResource NormalFontSize}"
+                                                                 FontWeight="Bold"
+                                                                 Foreground="{Binding FuelStatusColor, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"
+                                                                 Quantity="{Binding FuelLeft, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}}"
+                                                                 VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
+                            </StackPanel>
+                                <StackPanel Height="5"></StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Last Lap: " Style="{StaticResource SmallText}" />
+                                    <quantityText:VolumeQuantityText VerticalAlignment="Bottom"
+                                                                     Foreground="{StaticResource LightGrey01Brush}"
+                                                                     FontSize="{StaticResource SmallFontSize}"
+                                                                     FontWeight="Bold"
+                                                                     Quantity="{Binding CurPerLap, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}}"
+                                                                     VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Last Min: " Style="{StaticResource SmallText}" />
+                                    <quantityText:VolumeQuantityText VerticalAlignment="Bottom"
+                                                                     Foreground="{StaticResource LightGrey01Brush}"
+                                                                     FontSize="{StaticResource SmallFontSize}"
+                                                                     FontWeight="Bold"
+                                                                     Quantity="{Binding CurPerMinute, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}}"
+                                                                     VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Time Left: " Style="{StaticResource StandardText}" />
+                                    <TextBlock FontWeight="Bold" Style="{StaticResource StandardText}" Text="{Binding TimeLeft, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay, Converter={StaticResource MinutesSecondsConverter}}"
+                                           Foreground="{Binding FuelStatusColor, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Laps Left: " Style="{StaticResource StandardText}" />
+                                    <TextBlock FontWeight="Bold" Style="{StaticResource StandardText}" Text="{Binding LapsLeft, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay, Converter={StaticResource DoubleToScalable}}"
+                                               Foreground="{Binding FuelStatusColor, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
+                                </StackPanel>
+                                <StackPanel Height="5"></StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Avg per Lap: " Style="{StaticResource SmallText}" />
+                                    <quantityText:VolumeQuantityText VerticalAlignment="Bottom"
+                                                                     Foreground="{StaticResource LightGrey01Brush}"
+                                                                     FontSize="{StaticResource SmallFontSize}"
+                                                                     FontWeight="Bold"
+                                                                     Quantity="{Binding AvgPerLap, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}}"
+                                                                     VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Avg per Min: " Style="{StaticResource SmallText}" />
+                                    <quantityText:VolumeQuantityText VerticalAlignment="Bottom"
+                                                                     Foreground="{StaticResource LightGrey01Brush}"
+                                                                     FontSize="{StaticResource SmallFontSize}"
+                                                                     FontWeight="Bold"
+                                                                     Quantity="{Binding AvgPerMinute, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}}"
+                                                                     VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
+                                </StackPanel>
+                                <Button Content="Reset" Style="{StaticResource StandardButton}" Command="{Binding ResetCommand, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}" HorizontalAlignment="Stretch"></Button>
+                            </StackPanel>
+                            </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -43,6 +43,10 @@
         <Setter Property="Template" Value="{StaticResource QuantityText}"/>
     </Style>
 
+    <Style TargetType="local:VolumeQuantityText" >
+        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}"/>
+    </Style>
+
     <Style TargetType="local:PressureText" >
         <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}"/>
     </Style>

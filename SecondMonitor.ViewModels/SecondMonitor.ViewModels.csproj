@@ -47,9 +47,16 @@
     <Compile Include="Base\AbstractTemperatureViewModel.cs" />
     <Compile Include="Base\IViewModelWithIcon.cs" />
     <Compile Include="CarStatus\CarStatusViewModel.cs" />
+    <Compile Include="CarStatus\CarWheelsViewModel.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelConsumptionMonitor.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelConsumptionInfo.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelOverviewViewModel.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelStatusSnapshot.cs" />
     <Compile Include="CarStatus\OilTemperatureViewModel.cs" />
     <Compile Include="CarStatus\WaterTemperatureViewModel.cs" />
+    <Compile Include="CarStatus\WheelStatusViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />
+    <Compile Include="IWheelStatusViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SimulatorDSViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +70,10 @@
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
+      <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
+      <Name>WindowsControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

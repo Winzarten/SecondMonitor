@@ -80,7 +80,7 @@
                                               IdealQuantity =
                                                   Temperature.FromCelsius(80),
                                               IdealQuantityWindow =
-                                                  Temperature.FromCelsius(50)
+                                                  Temperature.FromCelsius(15)
                                           };
                 NotifyPropertyChanged(nameof(TyreCoreTemperature));
             }
@@ -97,7 +97,7 @@
                                               IdealQuantity =
                                                   Temperature.FromCelsius(80),
                                               IdealQuantityWindow =
-                                                  Temperature.FromCelsius(50)
+                                                  Temperature.FromCelsius(15)
                                           };
                 NotifyPropertyChanged(nameof(TyreLeftTemperature));
             }
@@ -114,7 +114,7 @@
                                               IdealQuantity =
                                                   Temperature.FromCelsius(80),
                                               IdealQuantityWindow =
-                                                  Temperature.FromCelsius(50)
+                                                  Temperature.FromCelsius(15)
                                           };
                 NotifyPropertyChanged(nameof(TyreCenterTemperature));
             }
@@ -131,7 +131,7 @@
                                               IdealQuantity =
                                                   Temperature.FromCelsius(80),
                                               IdealQuantityWindow =
-                                                  Temperature.FromCelsius(50)
+                                                  Temperature.FromCelsius(15)
                                           };
                 NotifyPropertyChanged(nameof(TyreRightTemperature));
             }
@@ -148,7 +148,7 @@
                                               IdealQuantity =
                                                   Temperature.FromCelsius(350),
                                               IdealQuantityWindow =
-                                                  Temperature.FromCelsius(150)
+                                                  Temperature.FromCelsius(100)
                                           };
                 NotifyPropertyChanged(nameof(BrakeTemperature));
             }

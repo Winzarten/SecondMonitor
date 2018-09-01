@@ -1,8 +1,22 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Colors.xaml" />
         <ResourceDictionary Source="Icons.xaml" />
         <ResourceDictionary Source="Constants.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    <Style x:Key="StandardText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
+        <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="TextBlock.Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
+                                  Color="{StaticResource DarkGrey01Color}" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SmallText" BasedOn="{StaticResource StandardText}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}" />
+    </Style>
 </ResourceDictionary>

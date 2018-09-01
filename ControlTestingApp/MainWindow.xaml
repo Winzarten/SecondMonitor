@@ -41,7 +41,9 @@
                 <controls:WheelStatusTestControl>
                 </controls:WheelStatusTestControl>
             </TabItem>
-            <TabItem Header="Fuel"/>
+            <TabItem Header="Fuel">
+                <controls:TestFuelControl></controls:TestFuelControl>
+                </TabItem>
         </TabControl>
     </Grid>
 </Window>

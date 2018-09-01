@@ -77,27 +77,27 @@
 
         private Color ComputeColor(double value, double optimalValue, double window)
         {
-
             if (optimalValue == _oldOptimalValue)
             {
                 return _oldComputedColor;
             }
 
-            double threshold = window / 2;
+            double threshold = window;
+            double downThreshold = window * 1.5;
 
-            if (value < optimalValue - threshold * 2)
+            if (value < optimalValue - window - downThreshold)
             {
                 _oldComputedColor = LowQuantityColor;
                 return _oldComputedColor;
             }
 
-            if (value > optimalValue + threshold * 2)
+            if (value > optimalValue + window + threshold)
             {
                 _oldComputedColor = HighQuantityColor;
                 return _oldComputedColor;
             }
 
-            if (value > optimalValue - threshold && value < optimalValue + threshold)
+            if (value > optimalValue - window && value < optimalValue + window)
             {
                 _oldComputedColor = IdealQuantityColor;
                 return _oldComputedColor;
@@ -105,15 +105,15 @@
 
             if (value < optimalValue)
             {
-                double percentage = (value - (optimalValue - threshold * 2))
-                                    / (optimalValue - threshold - (optimalValue - threshold * 2));
+                double percentage = (value - (optimalValue - window - downThreshold))
+                                    / (optimalValue - window - (optimalValue - window - downThreshold));
                 _oldComputedColor = MediaColorExtension.InterpolateHslColor(LowQuantityColor, IdealQuantityColor, percentage);
                 return _oldComputedColor;
             }
             else
             {
-                double percentage = ((optimalValue + threshold) - value)
-                                    / (optimalValue + threshold - (optimalValue + threshold * 2));
+                double percentage = ((optimalValue + window) - value)
+                                    / (optimalValue + window - (optimalValue + window + threshold));
 
                 _oldComputedColor = MediaColorExtension.InterpolateHslColor(IdealQuantityColor, HighQuantityColor, percentage);
                 return _oldComputedColor;

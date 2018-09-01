@@ -4,4 +4,6 @@
 
     <system:Double x:Key="WheelControlCoreTempFontSize">25</system:Double>
     <system:Double x:Key="BrakeTemperatureFontSize">23</system:Double>
+    <system:Double x:Key="NormalFontSize">15</system:Double>
+    <system:Double x:Key="SmallFontSize">12</system:Double>
 </ResourceDictionary>

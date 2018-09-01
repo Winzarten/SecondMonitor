@@ -173,7 +173,14 @@
             CreateGuiInstance();
             CreateAutoSaver();
 
-            ScheduleRefreshActions();
+            if (Gui.Dispatcher.CheckAccess())
+            {
+                Gui.Dispatcher.Invoke(ScheduleRefreshActions);
+            }
+            else
+            {
+                ScheduleRefreshActions();
+            }
 
             OnDisplaySettingsChange(this, null);
             _shouldReset = ResetModeEnum.NoReset;
@@ -190,7 +197,7 @@
         private void ScheduleRefreshActions()
         {
             SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
-            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 33, this);
+            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
             SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
         }
 
@@ -441,6 +448,7 @@
         {
             if (data == null || Gui == null)
             {
+
                 return;
             }
 
@@ -453,7 +461,6 @@
             NotifyPropertyChanged(nameof(SessionTime));
             NotifyPropertyChanged(nameof(SystemTime));
             NotifyPropertyChanged(nameof(SessionCompletedPercentage));
-            Gui.FuelMonitor.ProcessDataSet(data);
             CarStatusViewModel.ApplyDateSet(data);
 
             Gui.LblWeather.Content = GetWeatherInfo(data);
@@ -608,6 +615,8 @@
             _timing.DriverRemoved += Timing_DriverRemoved;
             _timing.PaceLaps = DisplaySettings.PaceLaps;
 
+            CarStatusViewModel.Reset();
+
             InitializeGui(data);
             ChangeTimeDisplayMode();
             ChangeOrderingMode();
@@ -657,7 +666,6 @@
             RefreshTrackInfo(data);
 
             Gui.TimingCircle.SetSessionInfo(data);
-            Gui.FuelMonitor.ResetFuelMonitor();
 
             NotifyPropertyChanged("BestLapFormatted");
         }
@@ -745,7 +753,7 @@
             {
                 while (!sender.TerminatePeriodicTasks)
                 {
-                    await Task.Delay(periodInMs, CancellationToken.None).ConfigureAwait(true);
+                    await Task.Delay(periodInMs, CancellationToken.None);
 
                     if (!sender.TerminatePeriodicTasks)
                     {

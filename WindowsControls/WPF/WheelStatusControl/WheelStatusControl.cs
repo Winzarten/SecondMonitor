@@ -14,7 +14,13 @@
         private static readonly DependencyProperty TyreLeftTemperatureProperty = DependencyProperty.Register("TyreLeftTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl));
         private static readonly DependencyProperty TyreCenterTemperatureProperty = DependencyProperty.Register("TyreCenterTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl));
         private static readonly DependencyProperty TyreRightTemperatureProperty = DependencyProperty.Register("TyreRightTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl));
-        private static readonly DependencyProperty BrakeTemperatureProperty = DependencyProperty.Register("BrakeTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl));
+        private static readonly DependencyProperty BrakeTemperatureProperty = DependencyProperty.Register("BrakeTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl), new PropertyMetadata(){ PropertyChangedCallback = PropertyChangedCallback });
+
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
         private static readonly DependencyProperty TyreSlippingIndicationProperty = DependencyProperty.Register("TyreSlippingIndication", typeof(bool), typeof(WheelStatusControl));
         private static readonly DependencyProperty TyrePressureProperty = DependencyProperty.Register("TyrePressure", typeof(OptimalQuantity<Pressure>), typeof(WheelStatusControl));
         private static readonly DependencyProperty IsLeftWheelProperty = DependencyProperty.Register("IsLeftWheel", typeof(bool), typeof(WheelStatusControl));
