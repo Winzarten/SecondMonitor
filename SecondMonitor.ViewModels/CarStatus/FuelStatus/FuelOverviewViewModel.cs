@@ -146,7 +146,8 @@
             }
 
             _fuelLeft = fuel.FuelRemaining;
-            FuelPercentage = (fuel.FuelRemaining.InLiters / MaximumFuel.InLiters) * 100;
+            double fuelPercentage = (fuel.FuelRemaining.InLiters / MaximumFuel.InLiters) * 100;
+            FuelPercentage = double.IsNaN(fuelPercentage) || double.IsInfinity(fuelPercentage) ? 0 : fuelPercentage;
         }
 
         private void UpdateActualData(SimulatorDataSet dataSet)
@@ -275,16 +276,9 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            try
-            {
-                ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
-                _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
-                UpdateActualData(dataSet);
-            }
-            catch (Exception ex)
-            {
-
-            }
+            ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
+            _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
+            UpdateActualData(dataSet);
         }
 
         public void Reset()

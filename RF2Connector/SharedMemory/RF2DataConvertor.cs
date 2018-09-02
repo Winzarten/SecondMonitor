@@ -20,7 +20,7 @@
 
         public SimulatorDataSet CreateSimulatorDataSet(Rf2FullData rfData)
         {
-            SimulatorDataSet simData = new SimulatorDataSet("Rfactor 2");
+            SimulatorDataSet simData = new SimulatorDataSet("RFactor 2");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
@@ -34,8 +34,6 @@
 
             }
 
-            try
-            {
 
                 rF2VehicleTelemetry playerF2VehicleTelemetry =
                     rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
@@ -61,11 +59,7 @@
                 AddAcceleration(simData, playerF2VehicleTelemetry);
 
                 currentlyIgnoredPackage = 0;
-            }
-            catch (ArgumentException)
-            {
 
-            }
 
             return simData;
         }
@@ -326,7 +320,7 @@
             return driverInfo;
         }
 
-        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, Rf2FullData Rf2FullData)
+        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, Rf2FullData rf2FullData)
         {
             if (player == null)
             {
@@ -340,7 +334,7 @@
                 return;
             }
 
-            double trackLength = Rf2FullData.scoring.mScoringInfo.mLapDist;
+            double trackLength = rf2FullData.scoring.mScoringInfo.mLapDist;
             double playerLapDistance = player.LapDistance;
 
             double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
@@ -363,7 +357,7 @@
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.scoring.mScoringInfo.mCurrentET);
             simData.SessionInfo.TrackInfo.LayoutLength = data.scoring.mScoringInfo.mLapDist;
             simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.scoring.mScoringInfo.mTrackName);
-            simData.SessionInfo.TrackInfo.TrackLayoutName = String.Empty;
+            simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.scoring.mScoringInfo.mAmbientTemp);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.scoring.mScoringInfo.mTrackTemp);
             simData.SessionInfo.WeatherInfo.RainIntensity = (int)(data.scoring.mScoringInfo.mRaining * 100);

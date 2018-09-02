@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Timing.Presentation.ViewModel
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.IO;
@@ -67,6 +68,10 @@
         private DisplaySettingsWindow _settingsWindow;
         private SessionType _sessionType = SessionType.Na;
         private SimulatorDataSet _lastDataSet;
+
+        private Task _refreshGuiTask;
+        private Task _refreshBasicInfoTask;
+        private Task _RefreshTimingCircleTask;
 
         private string _connectedSource;
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
@@ -196,9 +201,9 @@
 
         private void ScheduleRefreshActions()
         {
-            SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
-            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
-            SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
+            _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
+            _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
+            _RefreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
         }
 
         private void CreateGuiInstance()
@@ -372,7 +377,22 @@
         {
             Gui = null;
             TerminatePeriodicTasks = true;
-            _pluginsManager.DeletePlugin(this);
+            List<Exception> exceptions = new List<Exception>();
+            if (_refreshBasicInfoTask.IsFaulted && _refreshBasicInfoTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshBasicInfoTask.Exception.InnerExceptions);
+            }
+
+            if (_refreshGuiTask.IsFaulted && _refreshGuiTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshGuiTask.Exception.InnerExceptions);
+            }
+
+            if (_RefreshTimingCircleTask.IsFaulted && _RefreshTimingCircleTask.Exception != null)
+            {
+                exceptions.AddRange(_RefreshTimingCircleTask.Exception.InnerExceptions);
+            }
+            _pluginsManager.DeletePlugin(this, exceptions);
         }
 
         private void OnDataLoaded(object sender, DataEventArgs args)
@@ -747,24 +767,20 @@
 
         }
 
-        private static async void SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
+        private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
         {
-            try
-            {
-                while (!sender.TerminatePeriodicTasks)
-                {
-                    await Task.Delay(periodInMs, CancellationToken.None);
 
-                    if (!sender.TerminatePeriodicTasks)
-                    {
-                        action();
-                    }
+            while (!sender.TerminatePeriodicTasks)
+            {
+                await Task.Delay(periodInMs, CancellationToken.None);
+
+                if (!sender.TerminatePeriodicTasks)
+                {
+                    action();
                 }
             }
-            catch (Exception)
-            {
 
-            }
+
         }
 
         private static void CurrentSessionOptionsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

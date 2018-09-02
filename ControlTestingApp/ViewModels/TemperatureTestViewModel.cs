@@ -10,31 +10,10 @@
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.ViewModels.CarStatus;
+    using SecondMonitor.WindowsControls.WPF.Commands;
 
     public class TemperatureTestViewModel : DependencyObject, INotifyPropertyChanged
     {
-        private class RelayCommand : ICommand
-        {
-            private readonly Action _relayAction;
-
-            public RelayCommand(Action action)
-            {
-                _relayAction = action;
-            }
-
-            public bool CanExecute(object parameter)
-            {
-                return true;
-            }
-
-            public void Execute(object parameter)
-            {
-                _relayAction();
-            }
-
-            public event EventHandler CanExecuteChanged;
-        }
-
         private int _valueInNumber = 0;
         private Temperature _valueInTemperature;
 

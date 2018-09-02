@@ -13,7 +13,9 @@
 
     public class MockedConnector : IGameConnector
     {
+#pragma warning disable CS0067
         public event EventHandler<MessageArgs> DisplayMessage;
+#pragma warning restore CS0067
 
         public bool IsConnected { get; private set; }
 

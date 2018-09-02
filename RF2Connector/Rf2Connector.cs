@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot;
@@ -33,7 +34,7 @@
         public Rf2Connector()
             : base(RFExecutables)
         {
-            TickTime = 10;
+            TickTime = 50;
 
             dependencies = new DependencyChecker(new FileExistDependency[]{ new FileExistDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
             _rf2DataConvertor = new RF2DataConvertor();

@@ -22,6 +22,9 @@
             _relayAction();
         }
 
+// Interface implementation
+#pragma warning disable CS0067
         public event EventHandler CanExecuteChanged;
+#pragma warning disable CS0067
     }
 }

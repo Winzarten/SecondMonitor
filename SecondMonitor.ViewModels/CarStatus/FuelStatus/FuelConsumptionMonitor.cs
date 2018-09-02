@@ -110,6 +110,11 @@
                 return;
             }
 
+            if (_lastTickFuelStatus?.SessionTime == simulatorDataSet.SessionInfo.SessionTime)
+            {
+                return;
+            }
+
             if (SkipThisTick(simulatorDataSet))
             {
                 // Force to also skip next tick
@@ -158,7 +163,7 @@
                 return true;
             }
 
-            if (_lastTickFuelStatus?.SessionTime == dataSet.SessionInfo.SessionTime)
+            if (_lastTickFuelStatus?.SessionTime > dataSet.SessionInfo.SessionTime)
             {
                 return true;
             }

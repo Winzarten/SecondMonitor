@@ -33,7 +33,7 @@
 
         public FuelConsumptionInfo AddConsumption(FuelConsumptionInfo fuelConsumption)
         {
-            TimeSpan newElapsedTime = ElapsedTime == TimeSpan.Zero ? -fuelConsumption.ElapsedTime : ElapsedTime + fuelConsumption.ElapsedTime;
+            TimeSpan newElapsedTime = ElapsedTime + fuelConsumption.ElapsedTime;
             return new FuelConsumptionInfo(ConsumedFuel + fuelConsumption.ConsumedFuel, newElapsedTime, TraveledDistance + fuelConsumption.TraveledDistance);
         }
 

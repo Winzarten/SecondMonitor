@@ -41,7 +41,7 @@
 
         private static void LogSimulatorDataSet(SimulatorDataSet dataSet)
         {
-            Logger.Info("Simulator set: {0}", DataModelSerializerHelper.ToJson(dataSet));
+            // Logger.Info("Simulator set: {0}", DataModelSerializerHelper.ToJson(dataSet));
         }
 
         private void Connector_Disconnected(object sender, EventArgs e)
@@ -85,7 +85,7 @@
         {
             while (true)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(5000);
                 foreach (var connector in Connectors)
                 {
                     connector.DisplayMessage += ActiveConnectorOnDisplayMessage;
@@ -160,12 +160,15 @@
 
         }
 
-        public void DeletePlugin(ISecondMonitorPlugin plugin)
+        public void DeletePlugin(ISecondMonitorPlugin plugin, List<Exception>experiencedExceptions)
         {
             lock (_plugins)
             {
                 Logger.Info("Plugin " + plugin.GetType() + " closed");
                 _plugins.Remove(plugin);
+
+                experiencedExceptions.ForEach(e => Logger.Error(e));
+
                 bool allDaemons = _plugins.Aggregate(true, (current, activePlugin) => current && activePlugin.IsDaemon);
                 if (!allDaemons)
                 {
@@ -175,6 +178,11 @@
                 Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
                 Application.Exit(new CancelEventArgs(true));
             }
+        }
+
+        public void DeletePlugin(ISecondMonitorPlugin plugin)
+        {
+           DeletePlugin(plugin, new List<Exception>());
         }
 
         public IGameConnector[] Connectors
