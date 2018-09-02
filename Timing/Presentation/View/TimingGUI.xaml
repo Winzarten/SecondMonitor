@@ -83,7 +83,6 @@
         <Grid x:Name="SessionTiming" Grid.Row="1" VerticalAlignment="Top" Background="Black">
             <Border BorderThickness="3">
                 <DataGrid x:Name="DtTimig" HorizontalAlignment="Stretch"
-                          d:DataContext="{d:DesignInstance Type=viewModel1:DriverTimingModelView}"
                           AutoGenerateColumns="False" Background="Black" CanUserReorderColumns="False" CanUserSortColumns="False"
                           EnableColumnVirtualization="False" EnableRowVirtualization="False" FontSize="18" Foreground="{StaticResource LightGrey01Brush}"
                           HeadersVisibility="Column" IsReadOnly="True"

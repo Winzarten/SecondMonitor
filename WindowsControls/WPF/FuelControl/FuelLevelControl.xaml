@@ -20,7 +20,7 @@
                                           NeedleFill="{StaticResource LightGrey02Brush}"
                                           SectionsInnerRadius="0.9"
                                           TicksForeground="{StaticResource LightGrey01Brush}"
-                                          AnimationsSpeed="0:0:2"
+                                          DisableaAnimations="True"
                                           Height="90"
                                           ToValue="100" Wedge="120"
                                           Value="{Binding Path=FuelPercentage, RelativeSource={RelativeSource AncestorType=fuelControl:FuelLevelControl}, Mode=OneWay}">

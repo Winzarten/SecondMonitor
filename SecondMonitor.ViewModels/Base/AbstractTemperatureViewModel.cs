@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.ViewModels.Base
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
@@ -48,7 +49,11 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            Temperature = GetTemperatureFromDataSet(dataSet);
+            Temperature newTemperature = GetTemperatureFromDataSet(dataSet);
+            if (Temperature == null || Math.Abs(newTemperature.InCelsius - Temperature.InCelsius) > 0.1)
+            {
+                Temperature = newTemperature;
+            }
         }
 
         public void Reset()

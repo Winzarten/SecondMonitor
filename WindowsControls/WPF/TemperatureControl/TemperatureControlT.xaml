@@ -42,6 +42,7 @@
                                           FromValue="{Binding Path=GaugeLowerTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" LabelsStep="{Binding Path=LabelStep, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}"
                                           NeedleFill="{StaticResource LightGrey02Brush}"
                                           SectionsInnerRadius="0.8"
+                                          DisableaAnimations="True"
                                           TicksForeground="{StaticResource LightGrey01Brush}"
                                           AnimationsSpeed="{Binding Path=GaugeSpeed, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}"
                                           ToValue="{Binding Path=GaugeUpperTemperature, RelativeSource={RelativeSource AncestorType=local:TemperatureControl}}" Wedge="270"
