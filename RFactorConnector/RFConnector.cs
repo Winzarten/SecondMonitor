@@ -1,6 +1,4 @@
-﻿using SecondMonitor.PluginManager.DependencyChecker;
-
-namespace SecondMonitor.RFactorConnector
+﻿namespace SecondMonitor.RFactorConnector
 {
     using System;
     using System.IO;
@@ -10,7 +8,11 @@ namespace SecondMonitor.RFactorConnector
 
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
+
     using PluginManager.GameConnector;
+
+    using SecondMonitor.PluginManager.DependencyChecker;
+
     using SharedMemory;
 
     public class RFConnector : AbstractGameConnector
@@ -34,7 +36,7 @@ namespace SecondMonitor.RFactorConnector
         public RFConnector()
             : base(RFExecutables)
         {
-            TickTime = 10;
+            TickTime = 50;
             dependencies = new DependencyChecker(new FileExistDependency[] { new FileExistDependency(@"Plugins\rFactorSharedMemoryMap.dll", @"Connectors\RFactor\rFactorSharedMemoryMap.dll") }, () => true);
             _rfDataConvertor = new RFDataConvertor();
         }

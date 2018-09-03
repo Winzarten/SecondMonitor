@@ -44,6 +44,9 @@
             <TabItem Header="Fuel">
                 <controls:TestFuelControl></controls:TestFuelControl>
                 </TabItem>
+            <TabItem Header="Pedals">
+            <controls:PedalGearTestControl></controls:PedalGearTestControl>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

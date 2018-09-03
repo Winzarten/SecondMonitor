@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/QuantityText/QuantityText.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

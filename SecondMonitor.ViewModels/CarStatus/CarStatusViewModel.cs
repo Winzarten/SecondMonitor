@@ -17,9 +17,11 @@
         private CarWheelsViewModel _playersWheelsViewModel;
         private FuelOverviewViewModel _fuelOverviewViewModel;
 
+        private PedalsAndGearViewModel _pedalAndGearViewModel;
+
         public CarStatusViewModel()
         {
-            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel() };
+            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(), new PedalsAndGearViewModel()};
             RefreshProperties();
         }
 
@@ -29,6 +31,16 @@
             private set
             {
                 _oilTemperatureViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public PedalsAndGearViewModel PedalsAndGearViewModel
+        {
+            get => _pedalAndGearViewModel;
+            set
+            {
+                _pedalAndGearViewModel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -80,6 +92,7 @@
             WaterTemperatureViewModel = _viewModels.GetFirst<WaterTemperatureViewModel>();
             PlayersWheelsViewModel = _viewModels.GetFirst<CarWheelsViewModel>();
             FuelOverviewViewModel = _viewModels.GetFirst<FuelOverviewViewModel>();
+            PedalsAndGearViewModel = _viewModels.GetFirst<PedalsAndGearViewModel>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

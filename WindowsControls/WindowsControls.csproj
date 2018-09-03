@@ -94,33 +94,6 @@
   <ItemGroup>
     <Compile Include="Colors\HSLColor .cs" />
     <Compile Include="Colors\MediaColorExtension.cs" />
-    <Compile Include="WinForms\GMeter.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\GMeter.Designer.cs">
-      <DependentUpon>GMeter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinForms\LedBulb.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WinForms\OilControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\OilControl.Designer.cs">
-      <DependentUpon>OilControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinForms\PedalControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\PedalControl.Designer.cs">
-      <DependentUpon>PedalControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinForms\WheelStatusControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\WheelStatusControl.Designer.cs">
-      <DependentUpon>WheelStatusControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="WPF\Behaviors\BackgroundByOptimalVolumeBehavior.cs" />
     <Compile Include="WPF\Behaviors\BackgroundByTemperatureBehavior.cs" />
     <Compile Include="WPF\Behaviors\ForceResizeBehavior.cs" />
@@ -128,6 +101,7 @@
     <Compile Include="WPF\Behaviors\ForegroundByPressureBehavior.cs" />
     <Compile Include="WPF\Behaviors\ForegroundByTemperatureBehavior.cs" />
     <Compile Include="WPF\Behaviors\OptimalVolumeToColorBehavior.cs" />
+    <Compile Include="WPF\Behaviors\PercentagesHeightBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
     <Compile Include="WPF\Behaviors\ScaleFontBehavior .cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
@@ -141,6 +115,7 @@
     <Compile Include="WPF\Converters\TimeSpanToMinutesSecondsConverter.cs" />
     <Compile Include="WPF\FuelControl\FuelLevelControl.cs" />
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
+    <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
     <Compile Include="WPF\QuantityText\PressureText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
     <Compile Include="WPF\VisualHelper.cs" />
@@ -167,15 +142,6 @@
     <Compile Include="WPF\WheelStatusControl\WheelStatusControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WinForms\OilControl.resx">
-      <DependentUpon>OilControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\PedalControl.resx">
-      <DependentUpon>PedalControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\WheelStatusControl.resx">
-      <DependentUpon>WheelStatusControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -229,6 +195,10 @@
     <Page Include="WPF\FuelMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\PedalControl\PedalGearControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\PositionCircle.xaml">
       <SubType>Designer</SubType>

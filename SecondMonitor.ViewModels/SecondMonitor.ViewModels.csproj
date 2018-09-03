@@ -53,6 +53,7 @@
     <Compile Include="CarStatus\FuelStatus\FuelOverviewViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelStatusSnapshot.cs" />
     <Compile Include="CarStatus\OilTemperatureViewModel.cs" />
+    <Compile Include="CarStatus\PedalsAndGearViewModel.cs" />
     <Compile Include="CarStatus\WaterTemperatureViewModel.cs" />
     <Compile Include="CarStatus\WheelStatusViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />

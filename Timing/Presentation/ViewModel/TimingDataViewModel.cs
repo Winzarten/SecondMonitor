@@ -71,7 +71,7 @@
 
         private Task _refreshGuiTask;
         private Task _refreshBasicInfoTask;
-        private Task _RefreshTimingCircleTask;
+        private Task _refreshTimingCircleTask;
 
         private string _connectedSource;
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
@@ -154,12 +154,6 @@
             private set;
         }
 
-        public string CurrentGear
-        {
-            get => (string)GetValue(CurrentGearProperty);
-            set => SetValue(CurrentGearProperty, value);
-        }
-
         public ICollectionView TimingInfo => ViewSource?.View;
 
         public bool IsDaemon => false;
@@ -203,7 +197,7 @@
         {
             _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
             _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
-            _RefreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
+            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
         }
 
         private void CreateGuiInstance()
@@ -388,9 +382,9 @@
                 exceptions.AddRange(_refreshGuiTask.Exception.InnerExceptions);
             }
 
-            if (_RefreshTimingCircleTask.IsFaulted && _RefreshTimingCircleTask.Exception != null)
+            if (_refreshTimingCircleTask.IsFaulted && _refreshTimingCircleTask.Exception != null)
             {
-                exceptions.AddRange(_RefreshTimingCircleTask.Exception.InnerExceptions);
+                exceptions.AddRange(_refreshTimingCircleTask.Exception.InnerExceptions);
             }
             _pluginsManager.DeletePlugin(this, exceptions);
         }
@@ -434,12 +428,11 @@
                 try
                 {
                     _timing?.UpdateTiming(data);
-                    CurrentGear = data.PlayerInfo?.CarInfo?.CurrentGear;
+                    CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
                 }
                 catch (SessionTiming.DriverNotFoundException)
                 {
                     _shouldReset = ResetModeEnum.Automatic;
-                    return;
                 }
             }
             else
