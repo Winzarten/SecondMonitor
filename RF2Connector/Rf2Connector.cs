@@ -34,7 +34,7 @@
         public Rf2Connector()
             : base(RFExecutables)
         {
-            TickTime = 50;
+            TickTime = 10;
 
             dependencies = new DependencyChecker(new FileExistDependency[]{ new FileExistDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
             _rf2DataConvertor = new RF2DataConvertor();
