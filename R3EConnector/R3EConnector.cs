@@ -31,7 +31,7 @@
         public R3EConnector() : base(R3EExecutables)
         {
             DataConvertor = new R3EDataConvertor(this);
-            TickTime = 50;
+            TickTime = 10;
         }
 
         protected override void ResetConnector()

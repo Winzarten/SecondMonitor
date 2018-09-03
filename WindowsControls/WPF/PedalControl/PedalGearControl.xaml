@@ -33,6 +33,7 @@
                                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
                                                Style="{StaticResource StandardText}"
                                                Text="{Binding ThrottlePercentage, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleConverter}}" />
+                                    <ContentPresenter Panel.ZIndex="5" Content="{StaticResource ThrottleIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="60" Margin="5,0,5,0"></ContentPresenter>
                                 </Grid>
                             </Border>
                             <Border Grid.Column="1"
@@ -47,6 +48,7 @@
                                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
                                                Style="{StaticResource StandardText}"
                                                Text="{Binding BrakePercentage, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleConverter}}" />
+                                    <ContentPresenter Panel.ZIndex="5" Content="{StaticResource BrakeIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="60" Margin="5,0,5,0"></ContentPresenter>
                                 </Grid>
                             </Border>
                             <Border Grid.Column="0"
@@ -61,6 +63,7 @@
                                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
                                                Style="{StaticResource StandardText}"
                                                Text="{Binding ClutchPercentage, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleConverter}}" />
+                                    <ContentPresenter Panel.ZIndex="5" Content="{StaticResource ClutchIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="60" Margin="5,0,5,0"></ContentPresenter>
                                 </Grid>
                             </Border>
                         </Grid>

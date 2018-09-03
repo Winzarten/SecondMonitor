@@ -88,9 +88,9 @@
                                                                      Quantity="{Binding AvgPerMinute, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}}"
                                                                      VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}"/>
                                 </StackPanel>
-                                <Button Style="{StaticResource StandardButton}" Command="{Binding ResetCommand, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}" HorizontalAlignment="Right" MaxWidth="64">
+                                <Button Style="{StaticResource StandardButton}" Command="{Binding ResetCommand, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}" HorizontalAlignment="Right" MaxWidth="50">
                                     <Button.Content>
-                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="10,10,10,10">
+                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
                                             <ContentPresenter Content="{StaticResource ResetIcon}"/>
                                         </wpf:ColorAbleIcon>
                                     </Button.Content>
