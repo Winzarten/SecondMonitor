@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "daf6b0b5-bd8e-4778-9521-2d79e8773fd7"?>
+  <?define ProductCode = "d6cded19-6444-462a-8540-29e12356d24c"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "2.2.0.0"?>
+  <?define ProductVersion = "2.5.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
@@ -86,6 +86,9 @@
       </Component>
       <Component Id="cccdcee6bb3f34684a08720041ca81a83" Directory="APPLICATIONROOTDIRECTORY" Guid="9d74c2f8-3b48-487c-ae56-be023f7b4413">
         <File Id="f0a7e112de15546b59b09951d63e1b214" KeyPath="yes" Source="..\Deployment\LiveCharts.Wpf.xml" />
+      </Component>
+      <Component Id="f1853a54996cc4b51aabf75b3e13bdc8d" Directory="APPLICATIONROOTDIRECTORY" Guid="60b184bc-b551-46aa-ba13-0130739826dd">
+        <File Id="fbf87d8eff4164edbba246da72aee44da" KeyPath="yes" Source="..\Deployment\System.Windows.Interactivity.dll" />
       </Component>
       <Component Id="cmp44450B3EA8BEA00A3085509BFE17EA56" Directory="dirF09AC222E5E846B669ECCC3285BC0D7B" Guid="62ae6c28-044b-4029-a248-9b04ee5b0abf">
         <File Id="filCD83CF2407F23ADF1015E2352A06DD75" KeyPath="yes" Source="..\Deployment\Connectors\Pcars\Newtonsoft.Json.dll" />

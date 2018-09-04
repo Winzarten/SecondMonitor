@@ -134,14 +134,15 @@
             FuelStatusSnapshot currentSnapshot = new FuelStatusSnapshot(simulatorDataSet);
             FuelConsumptionInfo lastTickConsumptionInfo = FuelConsumptionInfo.CreateConsumption(_lastTickFuelStatus, currentSnapshot);
 
-            if (!IsFuelConsumptionValid(lastTickConsumptionInfo))
+            if (!lastTickConsumptionInfo.IsFuelConsumptionValid(simulatorDataSet))
             {
+                _lastTickFuelStatus = currentSnapshot;
                 return;
             }
 
             _totalFuelConsumption = _totalFuelConsumption.AddConsumption(lastTickConsumptionInfo);
             UpdateTotalData(simulatorDataSet);
-            _lastTickFuelStatus = new FuelStatusSnapshot(simulatorDataSet);
+            _lastTickFuelStatus = currentSnapshot;
         }
 
         private void UpdateTotalData(SimulatorDataSet dataSet)
@@ -169,26 +170,6 @@
             }
 
             return false;
-        }
-
-        private bool IsFuelConsumptionValid(FuelConsumptionInfo fuelConsumptionInfo)
-        {
-            if (fuelConsumptionInfo.TraveledDistance < 0)
-            {
-                return false;
-            }
-
-            if (fuelConsumptionInfo.ElapsedTime < TimeSpan.Zero)
-            {
-                return false;
-            }
-
-            if (fuelConsumptionInfo.ConsumedFuel.InLiters < 0)
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

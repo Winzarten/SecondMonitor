@@ -142,72 +142,6 @@
                          StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
                          StrokeThickness="4" />
             </Canvas>
-            <Canvas Name="g28">
-                <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="-5" />
-                </Canvas.RenderTransform>
-                <Ellipse Name="circle26" Canvas.Left="65" Canvas.Top="43" Width="8"
-                         Height="8"
-                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
-                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
-                         StrokeThickness="4" />
-            </Canvas>
-            <Canvas Name="g32">
-                <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="-5" />
-                </Canvas.RenderTransform>
-                <Ellipse Name="ellipse30" Canvas.Left="48.8" Canvas.Top="54.7" Width="8"
-                         Height="8"
-                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
-                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
-                         StrokeThickness="4">
-                    <Ellipse.RenderTransform>
-                        <MatrixTransform Matrix="0.309 -0.9511 0.9511 0.309 -19.3654 90.8392" />
-                    </Ellipse.RenderTransform>
-                </Ellipse>
-            </Canvas>
-            <Canvas Name="g36">
-                <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="-5" />
-                </Canvas.RenderTransform>
-                <Ellipse Name="ellipse34" Canvas.Left="81.2" Canvas.Top="54.7" Width="8"
-                         Height="8"
-                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
-                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
-                         StrokeThickness="4">
-                    <Ellipse.RenderTransform>
-                        <MatrixTransform Matrix="0.9511 -0.309 0.309 0.9511 -13.9853 29.1936" />
-                    </Ellipse.RenderTransform>
-                </Ellipse>
-            </Canvas>
-            <Canvas Name="g40">
-                <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="-5" />
-                </Canvas.RenderTransform>
-                <Ellipse Name="ellipse38" Canvas.Left="55" Canvas.Top="73.8" Width="8"
-                         Height="8"
-                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
-                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
-                         StrokeThickness="4">
-                    <Ellipse.RenderTransform>
-                        <MatrixTransform Matrix="0.5878 -0.809 0.809 0.5878 -38.5799 79.7892" />
-                    </Ellipse.RenderTransform>
-                </Ellipse>
-            </Canvas>
-            <Canvas Name="g44">
-                <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="-5" />
-                </Canvas.RenderTransform>
-                <Ellipse Name="ellipse42" Canvas.Left="75" Canvas.Top="73.8" Width="8"
-                         Height="8"
-                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
-                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
-                         StrokeThickness="4">
-                    <Ellipse.RenderTransform>
-                        <MatrixTransform Matrix="0.809 -0.5878 0.5878 0.809 -30.616 61.2801" />
-                    </Ellipse.RenderTransform>
-                </Ellipse>
-            </Canvas>
             <Canvas Name="g48">
                 <Canvas.RenderTransform>
                     <TranslateTransform X="0" Y="-5" />
@@ -898,7 +832,4 @@
             </Canvas>
         </Canvas>
     </Viewbox>
-
-
-
 </ResourceDictionary>

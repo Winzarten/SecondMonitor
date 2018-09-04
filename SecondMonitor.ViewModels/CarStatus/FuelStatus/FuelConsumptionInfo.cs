@@ -3,6 +3,7 @@
     using System;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
 
     public class FuelConsumptionInfo
     {
@@ -46,6 +47,37 @@
         {
             double distanceCoef = TraveledDistance / distance;
             return Volume.FromLiters(ConsumedFuel.InLiters / distanceCoef);
+        }
+
+        public bool IsFuelConsumptionValid(SimulatorDataSet dataSet)
+        {
+            if (TraveledDistance < 0)
+            {
+                return false;
+            }
+
+            if (TraveledDistance > dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8)
+            {
+                return false;
+            }
+
+            if (ElapsedTime < TimeSpan.Zero)
+            {
+                return false;
+            }
+
+            if (ConsumedFuel.InLiters < 0)
+            {
+                return false;
+            }
+
+            // Consumed 0.5l while the car is stationary - doesn't add up. Most likely the car placed i.e at Assetto Corsa time trial start
+            if (dataSet.PlayerInfo.Speed.InKph < 1 && ConsumedFuel.InLiters > 0.5)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

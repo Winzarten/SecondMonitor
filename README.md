@@ -4,7 +4,7 @@
 
 Second Monitor is Timing/Car information application for racing simulators. It displays the actual session information, timing information and basic car status idication.
 
-![Screenshot](/_githubStuff/SecondMonitor_2018-08-20_17-32-27.png)
+![Screenshot](/_githubStuff/SecondMonitor.png)
 
 **Information provided**:
 * Session Information:
@@ -35,15 +35,13 @@ Second Monitor is Timing/Car information application for racing simulators. It d
   * Left, center and right tyre temperature
   * Brake temperature
   * Tyre pressure
-  * Tyre condition, as % and visualised as a bar
-  * Tyre compound (if supported by sim/car)
+  * Tyre condition  
   * Water/oil temp
 * Fuel calculator : Can operate in two modes: time (displaying units pre minute) or laps (units per lap)
   *Total fuel
   *Current consumption rate
-  *Average consumption rate in session
-  *Time/laps left until empty tank with current average consumption rate
-  *Fuel calculator: Enter required distnace (laps/minutes), press compute and the app will display required fuel to achevive that distance, using current Average consumption
+  *Last lap/minute consumption
+  *Time/laps left until empty tank with current average consumption rate  
 * Pedal position
 
 * **Settings options:**

@@ -33,7 +33,11 @@
                 return;
             }
 
-            AssociatedObject.Width = _parentElement.ActualWidth * (Percentage / 100);
+            double computedWith = _parentElement.ActualWidth * (Percentage / 100);
+            if (computedWith > 0)
+            {
+                AssociatedObject.Width = computedWith;
+            }
         }
 
         private static void OnPercentagesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
