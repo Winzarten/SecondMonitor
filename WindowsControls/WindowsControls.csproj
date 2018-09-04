@@ -5,6 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecondMonitor.WindowsControls</RootNamespace>
@@ -38,13 +39,44 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Artifacts\LCDLabel.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Prototyping.SketchControls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.SketchControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,42 +92,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WinForms\GMeter.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\GMeter.Designer.cs">
-      <DependentUpon>GMeter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinForms\LedBulb.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WinForms\OilControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\OilControl.Designer.cs">
-      <DependentUpon>OilControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinForms\PedalControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\PedalControl.Designer.cs">
-      <DependentUpon>PedalControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WinForms\WheelStatusControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WinForms\WheelStatusControl.Designer.cs">
-      <DependentUpon>WheelStatusControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Colors\HSLColor .cs" />
+    <Compile Include="Colors\MediaColorExtension.cs" />
+    <Compile Include="WPF\Behaviors\BackgroundByOptimalVolumeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\BackgroundByTemperatureBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ForceResizeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ForegroundByOptimalVolumeBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ForegroundByPressureBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ForegroundByTemperatureBehavior.cs" />
+    <Compile Include="WPF\Behaviors\OptimalVolumeToColorBehavior.cs" />
+    <Compile Include="WPF\Behaviors\PercentagesHeightBehavior.cs" />
+    <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
+    <Compile Include="WPF\Behaviors\ScaleFontBehavior .cs" />
+    <Compile Include="WPF\ColorableIcon.cs" />
+    <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="WPF\Commands\RelayCommand.cs" />
+    <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
+    <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
+    <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
+    <Compile Include="WPF\Converters\TimeSpanToMinutesSecondsConverter.cs" />
+    <Compile Include="WPF\FuelControl\FuelLevelControl.cs" />
+    <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
+    <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
+    <Compile Include="WPF\QuantityText\PressureText.cs" />
+    <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
+    <Compile Include="WPF\VisualHelper.cs" />
     <Compile Include="WPF\FuelMonitor.xaml.cs">
       <DependentUpon>FuelMonitor.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\IPositionCircleInformationProvider.cs" />
-    <Compile Include="WPF\TemperatureControl.xaml.cs">
-      <DependentUpon>TemperatureControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -105,21 +132,16 @@
     <Compile Include="WPF\PositionCircle.xaml.cs">
       <DependentUpon>PositionCircle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WPF\QuantityText\AbstractQuantityText.cs" />
+    <Compile Include="WPF\TemperatureControl\TemperatureControl.cs" />
+    <Compile Include="WPF\QuantityText\TemperatureText.cs" />
     <Compile Include="WPF\TimeSpanBarControl.xaml.cs">
       <DependentUpon>TimeSpanBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\Converters\TimeSpanToSecondsConverter.cs" />
+    <Compile Include="WPF\WheelStatusControl\WheelStatusControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WinForms\OilControl.resx">
-      <DependentUpon>OilControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\PedalControl.resx">
-      <DependentUpon>PedalControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\WheelStatusControl.resx">
-      <DependentUpon>WheelStatusControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -142,21 +164,61 @@
     <Resource Include="Resources\brake.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="WPF\ButtonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Constants.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\FuelControl\FuelLevelControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\FuelControl\FuelOverviewControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\CommonResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="WPF\FuelMonitor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\PedalControl\PedalGearControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\PositionCircle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WPF\TemperatureControl.xaml">
+    <Page Include="WPF\TemperatureControl\TemperatureControlT.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\QuantityText\QuantityText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\TimeSpanBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\WheelStatusControl\WheelStatucControlT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +226,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\fuel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

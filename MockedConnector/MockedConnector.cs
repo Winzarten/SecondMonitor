@@ -13,6 +13,10 @@
 
     public class MockedConnector : IGameConnector
     {
+#pragma warning disable CS0067
+        public event EventHandler<MessageArgs> DisplayMessage;
+#pragma warning restore CS0067
+
         public bool IsConnected { get; private set; }
 
         public int TickTime { get; set; }
@@ -53,11 +57,18 @@
 
         public bool TryConnect()
         {
+
+            #if! DEBUG
             IsConnected = true;
             Thread executionThread = new Thread(new ThreadStart(TestingThreadExecutor));
             executionThread.IsBackground = true;
             executionThread.Start();
             return true;
+    #else
+            return false;
+            #endif
+
+
         }
 
         private void TestingThreadExecutor()
@@ -108,7 +119,7 @@
                 _fuel += _fuelStep;
                 _engineWaterTemp += _engineWaterTempStep;
                 _oilTemp += _oilTempStep;
-                       
+
                 if (_brakeTemp > 1500 || _brakeTemp < 30)
                 {
                     _brakeStep = -_brakeStep;
@@ -158,12 +169,16 @@
                 }
             }
             simulatorDataSet.DriversInfo = this._players.Values.ToArray();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft = new WheelInfo();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight = new WheelInfo();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight = new WheelInfo();
+            simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearLeft = new WheelInfo();
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight);
             UpdateWheelInfo(simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearLeft);
             return simulatorDataSet;
-        }        
+        }
 
         private void ConnectDriver(string name, bool isPlayer)
         {
@@ -197,6 +212,7 @@
         private void UpdateDriver(DriverInfo driverInfo)
         {
             driverInfo.LapDistance += this._playerLocationStep;
+            driverInfo.TotalDistance += _playerLocationStep;
 
             if (driverInfo.LapDistance >= this._layoutLength)
             {
@@ -208,6 +224,7 @@
             {
                 return;
             }
+
             driverInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
             driverInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
             driverInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
@@ -216,12 +233,13 @@
 
         private void UpdateWheelInfo(WheelInfo info)
         {
-            info.LeftTyreTemp = Temperature.FromCelsius(_tyreTemp - 5);
-            info.CenterTyreTemp = Temperature.FromCelsius(_tyreTemp);
-            info.RightTyreTemp = Temperature.FromCelsius(_tyreTemp + 5);
-            info.BrakeTemperature = Temperature.FromCelsius(_brakeTemp);
+            info.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp - 5);
+            info.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
+            info.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp + 5);
+            info.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
+            info.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(_brakeTemp);
 
-            info.TyrePressure = Pressure.FromKiloPascals(200);
+            info.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(200);
         }
 
         private void RaiseConnectedEvent()

@@ -1,0 +1,83 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors" xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CommonResources.xaml" />
+        <ResourceDictionary Source="../ButtonStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <converters:DoubleToScalableDecimalsConverter x:Key="DoubleConverter" />
+    <Style TargetType="pedalControl:PedalGearControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="pedalControl:PedalGearControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+
+                        </Grid.RowDefinitions>
+                        <Grid Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="2"
+                                    BorderBrush="{StaticResource DarkGrey05Brush}"
+                                    BorderThickness="2" CornerRadius="4">
+                                <Grid VerticalAlignment="Stretch">
+                                    <Grid VerticalAlignment="Top" Background="Green">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:PercentagesHeightBehavior Percentage="{Binding ThrottlePercentage, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </i:Interaction.Behaviors>
+                                    </Grid>
+                                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
+                                               Style="{StaticResource StandardText}"
+                                               Text="{Binding ThrottlePercentage, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleConverter}}" />
+                                    <ContentPresenter Panel.ZIndex="5" Content="{StaticResource ThrottleIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="60" Margin="5,0,5,0"></ContentPresenter>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1"
+                                    BorderBrush="{StaticResource DarkGrey05Brush}"
+                                    BorderThickness="2" CornerRadius="4">
+                                <Grid VerticalAlignment="Stretch">
+                                    <Grid VerticalAlignment="Top" Background="{StaticResource DarkRed01Brush}">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:PercentagesHeightBehavior Percentage="{Binding BrakePercentage, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </i:Interaction.Behaviors>
+                                    </Grid>
+                                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
+                                               Style="{StaticResource StandardText}"
+                                               Text="{Binding BrakePercentage, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleConverter}}" />
+                                    <ContentPresenter Panel.ZIndex="5" Content="{StaticResource BrakeIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="60" Margin="5,0,5,0"></ContentPresenter>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="0"
+                                    BorderBrush="{StaticResource DarkGrey05Brush}"
+                                    BorderThickness="2" CornerRadius="4">
+                                <Grid VerticalAlignment="Stretch">
+                                    <Grid VerticalAlignment="Top" Background="{StaticResource ClutchPedalColor}">
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:PercentagesHeightBehavior Percentage="{Binding ClutchPercentage, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </i:Interaction.Behaviors>
+                                    </Grid>
+                                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
+                                               Style="{StaticResource StandardText}"
+                                               Text="{Binding ClutchPercentage, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleConverter}}" />
+                                    <ContentPresenter Panel.ZIndex="5" Content="{StaticResource ClutchIcon}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="60" Margin="5,0,5,0"></ContentPresenter>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <Border Grid.Row="1" BorderBrush="{StaticResource DarkGrey05Brush}"
+                                BorderThickness="2" CornerRadius="2">
+                            <TextBlock  HorizontalAlignment="Center"
+                                       FontSize="{StaticResource GearIndicationFontSize}"
+                                       FontWeight="Bold"
+                                       Style="{StaticResource StandardText}"
+                                       Text="{Binding Gear, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

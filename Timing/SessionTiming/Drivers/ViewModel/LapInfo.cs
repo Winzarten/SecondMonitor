@@ -190,8 +190,9 @@
                 Valid = false;
             }
 
-            // driverInfo.LapDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance
-            if (double.IsNaN(CompletedDistance) && driverInfo.LapDistance < 500)
+            // driverInfo.LapDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance.
+            // Allow 90% of layout length, as some AC tracks have pit exit before the lap end.
+            if (double.IsNaN(CompletedDistance) && driverInfo.LapDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.9)
             {
                 CompletedDistance = driverInfo.LapDistance;
             }
@@ -386,8 +387,8 @@
                 return true;
             }
 
-            // Lap data is sane if we completed at least 50% of the track and the lap hes run for more than 10 seconds
-            return CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength * 0.5 && LapProgressTimeByTiming > TimeSpan.FromSeconds(10);
+            // Lap data is sane if we completed at least 90% of the track and the lap hes run for more than 10 seconds
+            return CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength * 0.9 && LapProgressTimeByTiming > TimeSpan.FromSeconds(10);
         }
 
         private SectorTiming PickSector(int sectorNumber)

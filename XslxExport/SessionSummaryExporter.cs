@@ -17,14 +17,7 @@
     using OfficeOpenXml.Table;
 
     using SecondMonitor.DataModel.Snapshot.Systems;
-
-    public static class MediaColorExtension
-    {
-        public static System.Drawing.Color ToDrawingColor(this Color color)
-        {
-            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
-        }
-    }
+    using SecondMonitor.WindowsControls.Colors;
 
     public class SessionSummaryExporter
     {
@@ -291,9 +284,9 @@
 
             sheet.Cells[1 + startRow, 5].Value = playerCarInfo.FuelSystemInfo.FuelRemaining.GetValueInUnits(VolumeUnits, 1);
             sheet.Cells[1 + startRow, 7].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.FrontLeft);
-            sheet.Cells[1 + startRow, 8].Value = playerCarInfo.WheelsInfo.FrontLeft.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+            sheet.Cells[1 + startRow, 8].Value = playerCarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity.GetValueInUnits(TemperatureUnits, 0);
             sheet.Cells[1 + startRow, 10].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.FrontRight);
-            sheet.Cells[1 + startRow, 11].Value = playerCarInfo.WheelsInfo.FrontRight.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+            sheet.Cells[1 + startRow, 11].Value = playerCarInfo.WheelsInfo.FrontRight.BrakeTemperature.ActualQuantity.GetValueInUnits(TemperatureUnits, 0);
 
             sheet.Cells[2 + startRow, 2].Value = FormatTimeSpan(lapInfo.Sector1);
             if (lapInfo == lapInfo.Driver.BestSector1Lap)
@@ -336,10 +329,10 @@
             }
 
             sheet.Cells[2 + startRow, 7].Value =
-                playerCarInfo.WheelsInfo.FrontLeft.TyrePressure.GetValueInUnits(PressureUnits, 2);
+                playerCarInfo.WheelsInfo.FrontLeft.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
             sheet.Cells[2 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.FrontLeft.TyreWear) * 100).ToString("F0");
             sheet.Cells[2 + startRow, 10].Value =
-                playerCarInfo.WheelsInfo.FrontRight.TyrePressure.GetValueInUnits(PressureUnits, 2);
+                playerCarInfo.WheelsInfo.FrontRight.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
             sheet.Cells[2 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.FrontRight.TyreWear) * 100).ToString("F0");
 
             sheet.Cells[4 + startRow, 2].Value =
@@ -349,17 +342,17 @@
             sheet.Cells[4 + startRow, 5].Value =
                 playerCarInfo.WaterSystemInfo.WaterTemperature.GetValueInUnits(TemperatureUnits, 1);
             sheet.Cells[4 + startRow, 7].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.RearLeft);
-            sheet.Cells[4 + startRow, 8].Value = playerCarInfo.WheelsInfo.RearLeft.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+            sheet.Cells[4 + startRow, 8].Value = playerCarInfo.WheelsInfo.RearLeft.BrakeTemperature.ActualQuantity.GetValueInUnits(TemperatureUnits, 0);
             sheet.Cells[4 + startRow, 10].Value = GetBrakeTemperature(playerCarInfo.WheelsInfo.RearRight);
-            sheet.Cells[4 + startRow, 11].Value = playerCarInfo.WheelsInfo.RearRight.BrakeTemperature.GetValueInUnits(TemperatureUnits, 0);
+            sheet.Cells[4 + startRow, 11].Value = playerCarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity.GetValueInUnits(TemperatureUnits, 0);
 
             sheet.Cells[5 + startRow, 5].Value =
                 playerCarInfo.OilSystemInfo.OilTemperature.GetValueInUnits(TemperatureUnits, 1);
             sheet.Cells[5 + startRow, 7].Value =
-                playerCarInfo.WheelsInfo.RearLeft.TyrePressure.GetValueInUnits(PressureUnits, 2);
+                playerCarInfo.WheelsInfo.RearLeft.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
             sheet.Cells[5 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.RearLeft.TyreWear) * 100).ToString("F0");
             sheet.Cells[5 + startRow, 10].Value =
-                playerCarInfo.WheelsInfo.RearRight.TyrePressure.GetValueInUnits(PressureUnits, 2);
+                playerCarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
             sheet.Cells[5 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.RearRight.TyreWear) * 100).ToString("F0");
 
             ExcelRange range = sheet.Cells[startRow + 1,1, startRow + 5,1];
@@ -393,10 +386,10 @@
 
         private string GetBrakeTemperature(WheelInfo wheel)
         {
-            return wheel.LeftTyreTemp.GetValueInUnits(TemperatureUnits, 0) + @"/"
-                                                                           + wheel.CenterTyreTemp.GetValueInUnits(
+            return wheel.LeftTyreTemp.ActualQuantity.GetValueInUnits(TemperatureUnits, 0) + @"/"
+                                                                           + wheel.CenterTyreTemp.ActualQuantity.GetValueInUnits(
                                                                                TemperatureUnits,
-                                                                               0) + @"/" + wheel.RightTyreTemp
+                                                                               0) + @"/" + wheel.RightTyreTemp.ActualQuantity
                                                                                .GetValueInUnits(TemperatureUnits, 0);
         }
 

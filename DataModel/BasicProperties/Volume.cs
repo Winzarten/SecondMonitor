@@ -4,7 +4,7 @@
 
     using Newtonsoft.Json;
 
-    public class Volume
+    public class Volume : IQuantity
     {
         public Volume()
         {
@@ -60,12 +60,27 @@
 
         public static bool operator ==(Volume left, Volume right)
         {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(left, null))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(right, null))
+            {
+                return false;
+
+            }
             return left.InLiters == right.InLiters;
         }
 
         public static bool operator !=(Volume left, Volume right)
         {
-            return left.InLiters != right.InLiters;
+           return !(left == right);
         }
 
         public static bool operator <(Volume left, Volume right)
@@ -101,6 +116,12 @@
             }
             throw new ArgumentException("Unable to return symbol fir" + units.ToString());
         }
+
+        public IQuantity ZeroQuantity => new Volume();
+
+        public bool IsZero => InLiters == -1;
+
+        public double RawValue => InLiters;
 
         public static Volume FromLiters(double volumeInLiters)
         {
@@ -150,6 +171,7 @@
 
         [JsonIgnore]
         public double InUsGallons => InLiters * 0.264172;
+
 
     }
 }

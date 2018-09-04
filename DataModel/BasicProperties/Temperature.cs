@@ -4,13 +4,13 @@
 
     using Newtonsoft.Json;
 
-    public class Temperature
+    public class Temperature : IQuantity
     {
         private readonly bool _isZero;
 
         public static Temperature Zero = new Temperature();
 
-        private Temperature()
+        public Temperature()
         {
             InCelsius = -1;
             _isZero = true;
@@ -28,6 +28,12 @@
 
         [JsonIgnore]
         public double InKelvin => InCelsius + 273.15;
+
+        public IQuantity ZeroQuantity => Zero;
+
+        public bool IsZero => _isZero;
+
+        public double RawValue => InCelsius;
 
         public static Temperature FromCelsius(double temperatureInCelsius)
         {
@@ -97,6 +103,21 @@
 
         public static bool operator ==(Temperature temp1, Temperature temp2)
         {
+            if (ReferenceEquals(temp1, temp2))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(temp1, null))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(temp2, null))
+            {
+                return false;
+            }
+
             return temp1._isZero == temp2._isZero &&  Comparison(temp1, temp2) == 0;
 
         }
@@ -135,17 +156,24 @@
 
         public static int Comparison(Temperature temp1, Temperature temp2)
         {
+            if (temp1 == null || temp2 == null)
+            {
+                return -1;
+            }
 
             if (temp1.InCelsius < temp2.InCelsius)
-
+            {
                 return -1;
+            }
             else if (temp1.InCelsius == temp2.InCelsius)
-
+            {
                 return 0;
+            }
             else if (temp1.InCelsius > temp2.InCelsius)
+            {
 
                 return 1;
-
+            }
             return 0;
 
         }

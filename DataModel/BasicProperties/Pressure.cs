@@ -4,7 +4,7 @@
 
     using Newtonsoft.Json;
 
-    public class Pressure
+    public class Pressure : IQuantity
     {
         public Pressure()
         {
@@ -17,6 +17,8 @@
         }
 
         public double InKpa { get; }
+
+        private static Pressure zero = new Pressure();
 
         public static string GetUnitSymbol(PressureUnits units)
         {
@@ -39,6 +41,13 @@
             return new Pressure(pressureInKpa);
         }
 
+        public IQuantity ZeroQuantity => zero;
+
+        public static Pressure Zero => zero;
+
+        public bool IsZero => InKpa == -1;
+
+        public double RawValue => InKpa;
 
         public static Pressure FromPsi(double pressureInPsi)
         {

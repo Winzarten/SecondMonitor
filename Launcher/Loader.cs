@@ -12,6 +12,9 @@
     using PluginManager.Core;
     using PluginManager.GameConnector;
 
+    using Application = System.Windows.Application;
+    using MessageBox = System.Windows.MessageBox;
+
     public static class Loader
     {
 
@@ -26,10 +29,11 @@
         {
             try
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+                //Application.EnableVisualStyles();
+                //Application.SetCompatibleTextRenderingDefault(false);
+                Application app = new Application();
                 LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConnectorsDir));
-                Application.Run();
+                app.Run();
 
             }
             catch (Exception ex)
@@ -51,7 +55,7 @@
 
             if (connectors.Count == 0)
             {
-                MessageBox.Show("No connectors loaded. Please place connectors .dll into " + connectorsDir, "No connectors", MessageBoxButtons.OK);
+                MessageBox.Show("No connectors loaded. Please place connectors .dll into " + connectorsDir, "No connectors", System.Windows.MessageBoxButton.OK);
                 Environment.Exit(1);
             }
 

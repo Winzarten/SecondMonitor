@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="ControlTestingApp.Controls.WheelStatusTestControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ControlTestingApp.Controls"
+             xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl;assembly=WindowsControls"
+             xmlns:viewModels="clr-namespace:ControlTestingApp.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModels:WheelStatusTestVM/>
+    </UserControl.DataContext>
+    <Grid Background="Black" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="196"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <wheelStatusControl:WheelStatusControl
+                TyreCondition="{Binding TyreCondition}" Height="96"
+                TyreCoreTemperature="{Binding TyreCoreTemperature}"
+                TyreSlippingIndication="{Binding Path=IsChecked, ElementName=TyreSlipCheckBox}"
+                BrakeTemperature="{Binding BrakeTemperature}"
+                TemperatureUnits="{Binding TemperatureUnits}"
+                TyreLeftTemperature="{Binding TyreLeftTemperature}"
+                TyreCenterTemperature="{Binding TyreCenterTemperature}"
+                TyreRightTemperature="{Binding TyreRightTemperature}"
+                TyrePressure="{Binding TyrePressure}"
+                PressureUnits="{Binding PressureUnits}">
+            </wheelStatusControl:WheelStatusControl>
+
+        </Grid>
+        <Grid Grid.Column="1">
+            <StackPanel>
+                <Button Content="Change Temp Units" Height="50" Command="{Binding ChangeTemperatureUnitsCommand}"></Button>
+                <Button Content="Change Pressure Units" Height="50" Command="{Binding ChangePressureUnitsCommand}"></Button>
+            </StackPanel>
+            </Grid>
+        <Grid Grid.Column="2">
+            <StackPanel>
+                <Label Content="Tyre Condition" Foreground="White"></Label>
+                <Slider x:Name="ConditionSlider" Value="{Binding TyreCondition}" Minimum="0" Maximum="100"></Slider>
+                <Label Content="Core Tyre Temperature" Foreground="White"></Label>
+                <Slider Value="{Binding TyreCoreRawTemperature, Mode=OneWayToSource}" Minimum="30" Maximum="140"></Slider>
+                <CheckBox Margin="0,7,0,7" Content="Tyre Slipping" Foreground="White" x:Name="TyreSlipCheckBox"></CheckBox>
+                <Label Content="Brake Temperature" Foreground="White"></Label>
+                <Slider  Value="{Binding BrakeRawTemperature}" Minimum="0" Maximum="600"></Slider>
+                <Label Content="Left Tyre" Foreground="White"></Label>
+                <Slider  Value="{Binding TyreLeftRawTemperature}" Minimum="0" Maximum="160"></Slider>
+                <Label Content="Center Tyre" Foreground="White"></Label>
+                <Slider  Value="{Binding TyreCenterRawTemperature}" Minimum="0" Maximum="160"></Slider>
+                <Label Content="Right Tyre" Foreground="White"></Label>
+                <Slider  Value="{Binding TyreRightRawTemperature}" Minimum="0" Maximum="160"></Slider>
+                <Label Content="Tyre Pressure" Foreground="White"></Label>
+                <Slider  Value="{Binding TyrePressureRaw}" Minimum="0" Maximum="300"></Slider>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
+

@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Timing.Presentation.ViewModel
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.IO;
@@ -13,22 +14,28 @@
     using System.Windows.Data;
     using System.Windows.Input;
 
+    using Commands;
+
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
+
     using PluginManager.Core;
     using PluginManager.GameConnector;
-    using SecondMonitor.Timing.LapTimings.ViewModel;
-    using View;
-    using Commands;
-    using SecondMonitor.Timing.ReportCreation.ViewModel;
-    using SessionTiming.Drivers;
 
+    using SecondMonitor.Timing.LapTimings.ViewModel;
+    using SecondMonitor.Timing.ReportCreation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using SecondMonitor.ViewModels.CarStatus;
+
+    using SessionTiming.Drivers;
+
     using Settings;
     using Settings.Model;
     using Settings.ModelView;
+
+    using View;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
@@ -61,6 +68,10 @@
         private DisplaySettingsWindow _settingsWindow;
         private SessionType _sessionType = SessionType.Na;
         private SimulatorDataSet _lastDataSet;
+
+        private Task _refreshGuiTask;
+        private Task _refreshBasicInfoTask;
+        private Task _refreshTimingCircleTask;
 
         private string _connectedSource;
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
@@ -137,10 +148,10 @@
             }
         }
 
-        public string CurrentGear
+        public CarStatusViewModel CarStatusViewModel
         {
-            get => (string)GetValue(CurrentGearProperty);
-            set => SetValue(CurrentGearProperty, value);
+            get;
+            private set;
         }
 
         public ICollectionView TimingInfo => ViewSource?.View;
@@ -155,12 +166,20 @@
                 return;
             }
 
+            CarStatusViewModel = new CarStatusViewModel();
             ConnectedSource = "Not Connected";
             CreateDisplaySettings();
             CreateGuiInstance();
             CreateAutoSaver();
 
-            ScheduleRefreshActions();
+            if (Gui.Dispatcher.CheckAccess())
+            {
+                Gui.Dispatcher.Invoke(ScheduleRefreshActions);
+            }
+            else
+            {
+                ScheduleRefreshActions();
+            }
 
             OnDisplaySettingsChange(this, null);
             _shouldReset = ResetModeEnum.NoReset;
@@ -176,9 +195,9 @@
 
         private void ScheduleRefreshActions()
         {
-            SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
-            SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 33, this);
-            SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
+            _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
+            _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
+            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
         }
 
         private void CreateGuiInstance()
@@ -192,7 +211,10 @@
 
         private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            Gui.DtTimig.SelectedItem = null;
+            if (Gui != null)
+            {
+                Gui.DtTimig.SelectedItem = null;
+            }
         }
 
         private void CreateDisplaySettings()
@@ -347,12 +369,33 @@
 
         private void Gui_Closed(object sender, EventArgs e)
         {
+            Gui = null;
             TerminatePeriodicTasks = true;
-            _pluginsManager.DeletePlugin(this);
+            List<Exception> exceptions = new List<Exception>();
+            if (_refreshBasicInfoTask.IsFaulted && _refreshBasicInfoTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshBasicInfoTask.Exception.InnerExceptions);
+            }
+
+            if (_refreshGuiTask.IsFaulted && _refreshGuiTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshGuiTask.Exception.InnerExceptions);
+            }
+
+            if (_refreshTimingCircleTask.IsFaulted && _refreshTimingCircleTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshTimingCircleTask.Exception.InnerExceptions);
+            }
+            _pluginsManager.DeletePlugin(this, exceptions);
         }
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
+            if (Gui == null)
+            {
+                return;
+            }
+
             if (Dispatcher.CheckAccess())
             {
 
@@ -385,12 +428,11 @@
                 try
                 {
                     _timing?.UpdateTiming(data);
-                    CurrentGear = data.PlayerInfo?.CarInfo?.CurrentGear;
+                    CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
                 }
                 catch (SessionTiming.DriverNotFoundException)
                 {
                     _shouldReset = ResetModeEnum.Automatic;
-                    return;
                 }
             }
             else
@@ -401,7 +443,7 @@
 
         private void RefreshTimingCircle(SimulatorDataSet data)
         {
-            if (data == null)
+            if (data == null || Gui == null)
             {
                 return;
             }
@@ -417,8 +459,9 @@
 
         private void RefreshBasicInfo(SimulatorDataSet data)
         {
-            if (data == null)
+            if (data == null || Gui == null)
             {
+
                 return;
             }
 
@@ -428,17 +471,10 @@
                 return;
             }
 
-            NotifyPropertyChanged("SessionTime");
-            NotifyPropertyChanged("SystemTime");
-            NotifyPropertyChanged("SessionCompletedPercentage");
-            Gui.PedalControl.UpdateControl(data);
-            Gui.WhLeftFront.UpdateControl(data);
-            Gui.WhRightFront.UpdateControl(data);
-            Gui.WhLeftRear.UpdateControl(data);
-            Gui.WhRightRear.UpdateControl(data);
-            Gui.FuelMonitor.ProcessDataSet(data);
-            Gui.WaterTemp.Temperature = data.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature;
-            Gui.OilTemp.Temperature = data.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
+            NotifyPropertyChanged(nameof(SessionTime));
+            NotifyPropertyChanged(nameof(SystemTime));
+            NotifyPropertyChanged(nameof(SessionCompletedPercentage));
+            CarStatusViewModel.ApplyDateSet(data);
 
             Gui.LblWeather.Content = GetWeatherInfo(data);
             SessionInfoViewModel.SessionRemaining = GetSessionRemaining(data);
@@ -498,7 +534,7 @@
 
         private void RefreshGui(SimulatorDataSet data)
         {
-            if (data == null)
+            if (data == null || Gui == null)
             {
                 return;
             }
@@ -509,11 +545,6 @@
                 return;
             }
 
-            Gui.PedalControl.UpdateControl(data);
-            Gui.WhLeftFront.UpdateControl(data);
-            Gui.WhRightFront.UpdateControl(data);
-            Gui.WhLeftRear.UpdateControl(data);
-            Gui.WhRightRear.UpdateControl(data);
             Gui.TimingCircle.RefreshSession(data);
             RefreshDataGrid();
 
@@ -597,6 +628,8 @@
             _timing.DriverRemoved += Timing_DriverRemoved;
             _timing.PaceLaps = DisplaySettings.PaceLaps;
 
+            CarStatusViewModel.Reset();
+
             InitializeGui(data);
             ChangeTimeDisplayMode();
             ChangeOrderingMode();
@@ -646,7 +679,6 @@
             RefreshTrackInfo(data);
 
             Gui.TimingCircle.SetSessionInfo(data);
-            Gui.FuelMonitor.ResetFuelMonitor();
 
             NotifyPropertyChanged("BestLapFormatted");
         }
@@ -704,17 +736,6 @@
                 Dispatcher.Invoke(() => ApplyDisplaySettings(settings));
                 return;
             }
-
-            Gui.WhLeftFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-            Gui.WhRightFront.TemperatureDisplayUnit = settings.TemperatureUnits;
-            Gui.WhLeftRear.TemperatureDisplayUnit = settings.TemperatureUnits;
-            Gui.WhRightRear.TemperatureDisplayUnit = settings.TemperatureUnits;
-
-            Gui.WhLeftFront.PressureDisplayUnits = settings.PressureUnits;
-            Gui.WhRightFront.PressureDisplayUnits = settings.PressureUnits;
-            Gui.WhLeftRear.PressureDisplayUnits = settings.PressureUnits;
-            Gui.WhRightRear.PressureDisplayUnits = settings.PressureUnits;
-
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
@@ -739,24 +760,20 @@
 
         }
 
-        private static async void SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
+        private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
         {
-            try
-            {
-                while (!sender.TerminatePeriodicTasks)
-                {
-                    await Task.Delay(periodInMs, CancellationToken.None);
 
-                    if (!sender.TerminatePeriodicTasks)
-                    {
-                        action();
-                    }
+            while (!sender.TerminatePeriodicTasks)
+            {
+                await Task.Delay(periodInMs, CancellationToken.None);
+
+                if (!sender.TerminatePeriodicTasks)
+                {
+                    action();
                 }
             }
-            catch (Exception)
-            {
 
-            }
+
         }
 
         private static void CurrentSessionOptionsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -783,7 +800,10 @@
         {
             if (e.IsDecision)
             {
-                if (MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.YesNo,
+                if (MessageBox.Show(
+                        e.Message,
+                        "Message from connector.",
+                        MessageBoxButton.YesNo,
                         MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
                     e.Action();

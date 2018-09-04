@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:Double x:Key="WheelControlCoreTempFontSize">25</system:Double>
+    <system:Double x:Key="GearIndicationFontSize">25</system:Double>
+    <system:Double x:Key="BrakeTemperatureFontSize">23</system:Double>
+    <system:Double x:Key="NormalFontSize">15</system:Double>
+    <system:Double x:Key="SmallFontSize">12</system:Double>
+</ResourceDictionary>
