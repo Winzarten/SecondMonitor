@@ -5,6 +5,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using System.Windows.Media.Animation;
     using System.Windows.Shapes;
 
     using DataModel.BasicProperties;
@@ -18,6 +19,7 @@
     {
         private const int CircleMargin = 15;
         private const int CircleDiameter = CircleMargin / 2;
+        private static readonly TimeSpan MovingTime = TimeSpan.FromMilliseconds(300);
         private readonly Dictionary<string, Ellipse> _driversPoints;
         private readonly Dictionary<string, TextBlock> _driverTexts;
         private static readonly DependencyProperty PositionCircleInformationProviderProperty = DependencyProperty.Register("PositionCircleInformationProvider", typeof(IPositionCircleInformationProvider), typeof(PositionCircle));
@@ -126,6 +128,7 @@
             canvas.Children.Add(driverEllips);
             double x = GetX(driver, canvas.ActualWidth - 10) - CircleDiameter;
             double y = GetY(driver, canvas.ActualHeight - 10) - CircleDiameter;
+
             Canvas.SetLeft(driverEllips, x);
             Canvas.SetTop(driverEllips, y);
             return driverEllips;

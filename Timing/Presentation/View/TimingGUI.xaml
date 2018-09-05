@@ -5,6 +5,7 @@
         xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl;assembly=WindowsControls"
         xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl;assembly=WindowsControls"
         xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl;assembly=WindowsControls"
+        xmlns:timingGridControl="clr-namespace:SecondMonitor.Timing.Presentation.Controls.TimingGridControl"
         x:Name="MainWindow"
         Title="{Binding Title}"
         Width="1600" Height="800"
@@ -15,6 +16,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Controls/TimingGridControl/TimingGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
@@ -83,188 +85,91 @@
                                   DataContext="{Binding SessionInfoViewModel}" />
         </Grid>
         <Grid x:Name="SessionTiming" Grid.Row="1" VerticalAlignment="Top" Background="Black">
-            <Border BorderThickness="3">
-                <DataGrid x:Name="DtTimig" HorizontalAlignment="Stretch"
-                          AutoGenerateColumns="False" Background="Black" CanUserReorderColumns="False" CanUserSortColumns="False"
-                          EnableColumnVirtualization="False" EnableRowVirtualization="False" FontSize="18" Foreground="{StaticResource LightGrey01Brush}"
-                          HeadersVisibility="Column" IsReadOnly="True"
-                          ItemsSource="{Binding TimingInfo}"
-                          SelectionMode="Single" SelectionUnit="FullRow">
-                    <DataGrid.InputBindings>
+            <Border BorderThickness="3" BorderBrush="{StaticResource LightGrey01Brush}" CornerRadius="5">
+                <timingGridControl:TimingGrid x:Name="DtTimig" ItemsSource="{Binding TimingInfo}" EnableColumnVirtualization="False" EnableRowVirtualization="False" >
+                    <timingGridControl:TimingGrid.InputBindings>
                         <MouseBinding Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="RightClick" />
                         <MouseBinding Command="{Binding DataContext.DoubleLeftClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="LeftDoubleClick" />
-                    </DataGrid.InputBindings>
-                    <DataGrid.Resources>
+                    </timingGridControl:TimingGrid.InputBindings>
+
+                    <timingGridControl:TimingGrid.Resources>
                         <view:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                         <view:DoubleToDataGridLengthValueConverter x:Key="lengthConverter" />
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="FontWeight" Value="Bold" />
-                            <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
-                            <Setter Property="Background" Value="Blue" />
-                            <Setter Property="BorderBrush" Value="{StaticResource LightGrey01Brush}" />
-                            <Setter Property="BorderThickness" Value="1" />
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                        <Style x:Key="TextBoxStyle" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastLapBestSessionLap}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style x:Key="TextBoxStyleSector1" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastSector1PersonalBest}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastSector1SessionBest}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style x:Key="TextBoxStyleSector2" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastSector2PersonalBest}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastSector2SessionBest}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style x:Key="TextBoxStyleSector3" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastSector3PersonalBest}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastSector3SessionBest}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Style.Resources>
-                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
-                            </Style.Resources>
-                        </Style>
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    </timingGridControl:TimingGrid.Resources>
+                    <timingGridControl:TimingGrid.Columns>
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Position, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="#"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Visible, Mode=TwoWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Name, Mode=OneTime}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Name"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CarName, Mode=OneTime}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Car"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CompletedLaps, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Laps"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding LastLapTime, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Last Lap"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Sector1, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyleSector1}"
                                             Header="S1"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector2.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector2.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Sector2, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyleSector2}"
                                             Header="S2"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector2.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Sector3, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyleSector3}"
                                             Header="S3"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Pace, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Pace"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding BestLap, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Best Lap"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CurrentLapProgressTime, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Current Lap"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding LastPitInfo, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Pits"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding TimeToPlayer, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Gap"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                    <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding TopSpeed, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Top Speed"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                    </DataGrid.Columns>
-
-                    <DataGrid.CellStyle>
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True" />
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.CellStyle>
-                    <DataGrid.ItemContainerStyle>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Background" Value="Black" />
-                            <Setter Property="BorderBrush" Value="Gray" />
-                            <Setter Property="BorderThickness" Value="0.5" />
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Black" />
-                                </Trigger>
-                                <DataTrigger Binding="{Binding IsPlayer, Mode=OneWay}" Value="True">
-                                    <Setter Property="Background" Value="Gray" />
-                                    <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
-                                    <Setter Property="FontSize" Value="21" />
-                                    <Setter Property="FontWeight" Value="Bold" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
-                                    <Setter Property="Foreground" Value="LightBlue" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
-                                    <Setter Property="Foreground" Value="Red" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding InPits, Mode=OneWay}" Value="True">
-                                    <Setter Property="Background" Value="Olive" />
-                                    <Setter Property="Foreground" Value="Black" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
-
-                </DataGrid>
+                    </timingGridControl:TimingGrid.Columns>
+                </timingGridControl:TimingGrid>
             </Border>
         </Grid>
         <Grid Background="Black" Row="2">

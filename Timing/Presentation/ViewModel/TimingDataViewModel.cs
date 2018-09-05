@@ -666,8 +666,9 @@
             if (ViewSource == null)
             {
                 ViewSource = new CollectionViewSource { Source = Collection };
-                Gui.DtTimig.DataContext = null;
-                Gui.DtTimig.DataContext = this;
+                NotifyPropertyChanged(nameof(TimingInfo));
+                //Gui.DtTimig.DataContext = null;
+                //Gui.DtTimig.DataContext = this;
             }
 
             Collection.Clear();

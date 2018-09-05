@@ -6,5 +6,6 @@
     <system:Double x:Key="GearIndicationFontSize">25</system:Double>
     <system:Double x:Key="BrakeTemperatureFontSize">23</system:Double>
     <system:Double x:Key="NormalFontSize">15</system:Double>
+    <system:Double x:Key="TimingGridFontSize">18</system:Double>
     <system:Double x:Key="SmallFontSize">12</system:Double>
 </ResourceDictionary>
