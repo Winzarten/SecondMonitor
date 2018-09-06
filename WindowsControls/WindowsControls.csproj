@@ -118,6 +118,7 @@
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
     <Compile Include="WPF\QuantityText\PressureText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
+    <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />
     <Compile Include="WPF\VisualHelper.cs" />
     <Compile Include="WPF\FuelMonitor.xaml.cs">
       <DependentUpon>FuelMonitor.xaml</DependentUpon>
@@ -203,6 +204,10 @@
     <Page Include="WPF\PositionCircle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\TrackInfoControl\TrackInfoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\TemperatureControl\TemperatureControlT.xaml">
       <SubType>Designer</SubType>

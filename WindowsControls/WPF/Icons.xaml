@@ -1,10 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Colors.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Viewbox x:Key="WaterTemperatureIcon" x:Shared="False">
-        <Canvas Name="svg3815" Canvas.Left="0" Canvas.Top="0" Width="72.372719"
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="72.372719"
                 Height="71.300003">
             <Canvas.RenderTransform>
                 <TranslateTransform X="0" Y="0" />
@@ -12,7 +11,7 @@
             <Canvas.Resources />
             <!--  Unknown tag: metadata  -->
             <!--  Unknown tag: sodipodi:namedview  -->
-            <Canvas Name="g3809">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <TranslateTransform X="-10" Y="-9.2" />
                 </Canvas.RenderTransform>
@@ -40,7 +39,7 @@
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="OilIcon" Stretch="Uniform">
-        <Canvas Name="svg12" Canvas.Left="0" Canvas.Top="0" Width="75.058357"
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="75.058357"
                 Height="65.343445">
             <Canvas.RenderTransform>
                 <TranslateTransform X="0" Y="0" />
@@ -48,7 +47,7 @@
             <Canvas.Resources />
             <!--  Unknown tag: metadata  -->
             <!--  Unknown tag: sodipodi:namedview  -->
-            <Canvas Name="g6">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <MatrixTransform Matrix="0.75105605 0 0 0.75105605 0.01029873 12.619309" />
                 </Canvas.RenderTransform>
@@ -73,7 +72,7 @@
 
     <wpf:ColorAbleIcon x:Key="BrakeIcon" x:Shared="False" Stretch="Uniform"
                        StrokeBrush="{StaticResource LightGrey01Brush}">
-        <Canvas Name="svg50" Canvas.Left="0" Canvas.Top="0" Width="128"
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="128"
                 Height="118">
             <Canvas.RenderTransform>
                 <TranslateTransform X="0" Y="0" />
@@ -81,11 +80,11 @@
             <Canvas.Resources />
             <!--  Unknown tag: metadata  -->
             <!--  Unknown tag: sodipodi:namedview  -->
-            <Canvas Name="g12">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <TranslateTransform X="0" Y="-5" />
                 </Canvas.RenderTransform>
-                <Canvas Name="g4">
+                <Canvas >
                     <Path Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                           StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
                           StrokeThickness="4">
@@ -94,12 +93,12 @@
                         </Path.Data>
                     </Path>
                 </Canvas>
-                <Line Name="line6"
+                <Line
                       Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       StrokeEndLineCap="Square" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Square"
                       StrokeThickness="4" X1="18" X2="18" Y1="44"
                       Y2="40" />
-                <Line Name="line8"
+                <Line
                       Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       StrokeEndLineCap="Square" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Square"
                       StrokeThickness="4" X1="18" X2="18" Y1="84"
@@ -112,37 +111,37 @@
                     </Path.Data>
                 </Path>
             </Canvas>
-            <Canvas Name="g16">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <TranslateTransform X="0" Y="-5" />
                 </Canvas.RenderTransform>
-                <Ellipse Name="circle14" Canvas.Left="34" Canvas.Top="29" Width="70"
+                <Ellipse  Canvas.Left="34" Canvas.Top="29" Width="70"
                          Height="70"
                          Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                          StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
                          StrokeThickness="4" />
             </Canvas>
-            <Canvas Name="g20">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <TranslateTransform X="0" Y="-5" />
                 </Canvas.RenderTransform>
-                <Ellipse Name="circle18" Canvas.Left="42" Canvas.Top="37" Width="54"
+                <Ellipse  Canvas.Left="42" Canvas.Top="37" Width="54"
                          Height="54"
                          Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                          StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
                          StrokeThickness="4" />
             </Canvas>
-            <Canvas Name="g24">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <TranslateTransform X="0" Y="-5" />
                 </Canvas.RenderTransform>
-                <Ellipse Name="circle22" Canvas.Left="62" Canvas.Top="57" Width="14"
+                <Ellipse  Canvas.Left="62" Canvas.Top="57" Width="14"
                          Height="14"
                          Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                          StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
                          StrokeThickness="4" />
             </Canvas>
-            <Canvas Name="g48">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <TranslateTransform X="0" Y="-5" />
                 </Canvas.RenderTransform>
@@ -164,101 +163,101 @@
 
     <wpf:ColorAbleIcon x:Key="TyrePressureIcon" x:Shared="False" Stretch="Uniform"
                        StrokeBrush="{StaticResource LightGrey01Brush}">
-        <Canvas Name="svg48" Canvas.Left="0" Canvas.Top="0" Width="22"
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="22"
                 Height="38">
             <Canvas.RenderTransform>
                 <TranslateTransform X="0" Y="0" />
             </Canvas.RenderTransform>
             <Canvas.Resources />
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 11 0 C 4.925 0 0 4.925 0 11 0 17.075 4.925 22 11 22 17.074 22 22 17.075 22 11 22 4.925 17.074 0 11 0 Z m 0 20.6 C 5.707 20.6 1.4 16.294 1.4 11 1.4 5.706 5.707 1.4 11 1.4 c 5.293 0 9.6 4.307 9.6 9.6 0 5.293 -4.307 9.6 -9.6 9.6 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Ellipse  Name="circle4" Canvas.Left="10" Canvas.Top="10"
-                     Width="2" Height="2"
+            <Ellipse  Canvas.Left="10" Canvas.Top="10" Width="2"
+                     Height="2"
                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}" />
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 11.5 4.5 C 11.5 4.776 11.276 5 11 5 V 5 C 10.724 5 10.5 4.776 10.5 4.5 v -1 C 10.5 3.224 10.724 3 11 3 v 0 c 0.276 0 0.5 0.224 0.5 0.5 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 11.683 11.183 C 11.443 11.321 11.138 11.239 11 11 v 0 c -0.138 -0.239 -0.057 -0.545 0.183 -0.683 l 3.464 -2 c 0.24 -0.138 0.545 -0.056 0.684 0.183 v 0 c 0.138 0.239 0.057 0.545 -0.184 0.683 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 8.183 5.121 C 8.321 5.36 8.239 5.666 8 5.804 v 0 C 7.761 5.942 7.455 5.86 7.317 5.621 L 6.817 4.755 C 6.679 4.516 6.761 4.21 7 4.072 v 0 C 7.239 3.934 7.545 4.016 7.683 4.255 Z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 5.621 7.317 C 5.86 7.455 5.942 7.761 5.804 8 V 8 C 5.666 8.239 5.36 8.321 5.12 8.183 L 4.254 7.683 C 4.015 7.545 3.933 7.239 4.071 7 V 7 C 4.209 6.761 4.515 6.679 4.754 6.817 Z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 4.5 10.5 C 4.776 10.5 5 10.724 5 11 v 0 c 0 0.276 -0.224 0.5 -0.5 0.5 h -1 C 3.224 11.5 3 11.276 3 11 v 0 c 0 -0.276 0.224 -0.5 0.5 -0.5 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 5.122 13.817 C 5.361 13.679 5.666 13.761 5.805 14 v 0 c 0.138 0.239 0.056 0.545 -0.184 0.684 l -0.866 0.5 C 4.516 15.322 4.21 15.24 4.072 15 v 0 C 3.934 14.761 4.016 14.456 4.255 14.317 Z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="m 7.318 16.379 c 0.138 -0.239 0.443 -0.32 0.683 -0.183 v 0 c 0.239 0.138 0.321 0.444 0.183 0.684 l -0.5 0.866 C 7.546 17.985 7.24 18.067 7.001 17.928 v 0 C 6.762 17.79 6.681 17.485 6.818 17.245 Z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="m 10.501 17.5 c 0 -0.276 0.224 -0.499 0.5 -0.5 v 0 c 0.276 0 0.5 0.224 0.5 0.501 v 1 c 0 0.275 -0.224 0.5 -0.5 0.499 v 0 c -0.276 0 -0.499 -0.224 -0.5 -0.5 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="m 13.817 16.879 c -0.138 -0.239 -0.056 -0.544 0.184 -0.683 v 0 c 0.239 -0.138 0.544 -0.056 0.684 0.184 l 0.499 0.866 C 15.322 17.484 15.24 17.79 15 17.928 v 0 c -0.238 0.139 -0.544 0.056 -0.683 -0.183 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 16.379 14.683 C 16.141 14.544 16.06 14.24 16.196 14 v 0 c 0.139 -0.239 0.443 -0.321 0.685 -0.183 l 0.865 0.501 c 0.238 0.137 0.32 0.443 0.182 0.682 v 0 c -0.137 0.239 -0.442 0.321 -0.682 0.184 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 17.5 11.5 C 17.224 11.5 17.002 11.276 17 11 v 0 c 0 -0.276 0.224 -0.5 0.501 -0.5 l 1 10e-4 C 18.776 10.5 19 10.724 19 11 v 0 c 0.001 0.275 -0.224 0.499 -0.499 0.5 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 16.879 8.183 C 16.64 8.321 16.336 8.238 16.196 8 V 8 C 16.057 7.76 16.139 7.456 16.38 7.316 l 0.866 -0.5 C 17.484 6.678 17.79 6.76 17.929 7 v 0 c 0.139 0.238 0.056 0.544 -0.183 0.683 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="M 14.683 5.621 C 14.544 5.86 14.24 5.94 14 5.804 v 0 C 13.76 5.665 13.679 5.361 13.817 5.12 l 0.5 -0.866 c 0.138 -0.238 0.443 -0.32 0.684 -0.182 v 0 c 0.239 0.137 0.32 0.443 0.183 0.683 z" FillRule="NonZero" />
                 </Path.Data>
             </Path>
-            <Rectangle  Name="rect32" Canvas.Left="8" Canvas.Top="23"
-                       Width="7" Height="2"
+            <Rectangle  Canvas.Left="8" Canvas.Top="23" Width="7"
+                       Height="2"
                        Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}" />
-            <Rectangle  Name="rect34" Canvas.Left="7" Canvas.Top="26"
-                       Width="5" Height="4"
+            <Rectangle  Canvas.Left="7" Canvas.Top="26" Width="5"
+                       Height="4"
                        Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}" />
-            <Rectangle  Name="rect36" Canvas.Left="13" Canvas.Top="26"
-                       Width="3" Height="4"
+            <Rectangle  Canvas.Left="13" Canvas.Top="26" Width="3"
+                       Height="4"
                        Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}" />
-            <Rectangle  Name="rect38" Canvas.Left="16" Canvas.Top="34"
-                       Width="2" Height="1"
+            <Rectangle  Canvas.Left="16" Canvas.Top="34" Width="2"
+                       Height="1"
                        Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}" />
-            <Rectangle  Name="rect40" Canvas.Left="18" Canvas.Top="33"
-                       Width="1" Height="3"
+            <Rectangle  Canvas.Left="18" Canvas.Top="33" Width="1"
+                       Height="3"
                        Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}" />
-            <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+            <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                 <Path.Data>
                     <PathGeometry Figures="m 8 31 v 7 h 7 v -7 z m 6 5 h -1 v -3 h 1 z" FillRule="NonZero" />
                 </Path.Data>
@@ -267,442 +266,388 @@
     </wpf:ColorAbleIcon>
 
     <Viewbox x:Key="TyreIcon" x:Shared="False" Stretch="Uniform">
-        <Canvas Name="svg116" Canvas.Left="0" Canvas.Top="0" Width="4.7625004"
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="4.7625004"
                 Height="7.9374997">
             <Canvas.RenderTransform>
                 <TranslateTransform X="0" Y="0" />
             </Canvas.RenderTransform>
             <Canvas.Resources />
-            <Canvas Name="g110">
+            <Canvas >
                 <Canvas.RenderTransform>
                     <TranslateTransform X="-1.8520832" Y="-288.7979" />
                 </Canvas.RenderTransform>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 289.32707 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26095 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26095 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 290.12082 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26095 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26095 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 290.91457 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26095 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26095 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 291.70832 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26095 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26095 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 292.50207 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26095 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26095 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 293.29582 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26095 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26095 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 294.08957 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 294.88332 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 4.2312695 295.67707 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13436 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13436 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 289.32551 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 290.11926 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 290.91301 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 291.70676 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 292.50051 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 293.29426 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 294.08801 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 294.88176 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 2.5114778 295.67551 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 289.32551 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 290.11926 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 290.91301 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 291.70676 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 292.50051 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 293.29426 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 294.08801 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 294.88176 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999988">
                     <Path.Data>
                         <PathGeometry Figures="m 5.9510612 295.67551 a 0.13230488 0.13230489 0 0 0 -0.1302279 0.13385 v 0.26096 a 0.13230488 0.13230489 0 1 0 0.2645833 0 v -0.26096 a 0.13230488 0.13230489 0 0 0 -0.1343554 -0.13385 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="4"
                       StrokeStartLineCap="Round" StrokeThickness="0.99999994">
                     <Path.Data>
                         <PathGeometry Figures="m 2.6458332 288.7979 c -0.4374092 0 -0.79375 0.35629 -0.79375 0.79375 v 6.35 c 0 0.43741 0.3563144 0.79375 0.79375 0.79375 h 3.1750001 c 0.4374356 0 0.79375 -0.35634 0.79375 -0.79375 v -6.35 c 0 -0.43746 -0.3563144 -0.79375 -0.79375 -0.79375 z m 0 0.26459 h 3.1750001 c 0.2954338 0 0.5291667 0.2337 0.5291667 0.52916 v 6.35 c 0 0.29541 -0.2337594 0.52917 -0.5291667 0.52917 H 2.6458332 c -0.2954073 0 -0.5291667 -0.23376 -0.5291667 -0.52917 v -6.35 c 0 -0.29546 0.2337594 -0.52916 0.5291667 -0.52916 z" FillRule="NonZero" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 2.9104166 288.9302 v 7.67291 h 0.2645833 v -7.67291 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.5718749 288.9302 v 7.67291 h 0.2645834 v -7.67291 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 289.21388 -0.1364191 0.22686 0.6614583 0.39687 0.1364192 -0.22685 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 289.87534 -0.1364191 0.22685 0.6614583 0.39688 0.1364192 -0.22685 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 290.5368 -0.1364191 0.22685 0.6614583 0.39688 0.1364192 -0.22686 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 291.19826 -0.1364191 0.22685 0.6614583 0.39688 0.1364192 -0.22686 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 291.85972 -0.1364191 0.22685 0.6614583 0.39687 0.1364192 -0.22685 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 292.52117 -0.1364191 0.22686 0.6614583 0.39687 0.1364192 -0.22685 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 293.18263 -0.1364191 0.22686 0.6614583 0.39687 0.1364192 -0.22685 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 293.84409 -0.1364191 0.22685 0.6614583 0.39688 0.1364192 -0.22685 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 294.50555 -0.1364191 0.22685 0.6614583 0.39688 0.1364192 -0.22686 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 295.16701 -0.1364191 0.22685 0.6614583 0.39688 0.1364192 -0.22686 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 3.1109178 295.82847 -0.1364191 0.22685 0.6614583 0.39687 0.1364192 -0.22685 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.2916666 288.9302 v 7.67291 H 5.55625 v -7.67291 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 4.6302083 288.9302 v 7.67291 h 0.2645833 v -7.67291 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 289.21388 -0.6614583 0.39688 0.1364191 0.22685 0.6614584 -0.39687 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 289.87534 -0.6614583 0.39688 0.1364191 0.22685 0.6614584 -0.39688 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 290.5368 -0.6614583 0.39687 0.1364191 0.22686 0.6614584 -0.39688 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 291.19826 -0.6614583 0.39687 0.1364191 0.22686 0.6614584 -0.39688 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 291.85972 -0.6614583 0.39687 0.1364191 0.22685 0.6614584 -0.39687 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 292.52117 -0.6614583 0.39688 0.1364191 0.22685 0.6614584 -0.39687 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 293.18263 -0.6614583 0.39688 0.1364191 0.22685 0.6614584 -0.39687 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 293.84409 -0.6614583 0.39688 0.1364191 0.22685 0.6614584 -0.39688 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 294.50555 -0.6614583 0.39687 0.1364191 0.22686 0.6614584 -0.39688 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
                         <PathGeometry Figures="m 5.3557487 295.16701 -0.6614583 0.39687 0.1364191 0.22686 0.6614584 -0.39688 z" FillRule="EvenOdd" />
                     </Path.Data>
                 </Path>
-                <Path
-                      Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}"
                       Opacity="1" StrokeEndLineCap="Flat" StrokeLineJoin="Miter" StrokeMiterLimit="4"
                       StrokeStartLineCap="Flat" StrokeThickness="1">
                     <Path.Data>
@@ -713,38 +658,39 @@
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="FuelIcon" Stretch="Uniform">
-        <Canvas Width="77.5" Height="93" Canvas.Left="0" Canvas.Top="0">
+        <Canvas Canvas.Left="0" Canvas.Top="0" Width="77.5" Height="93">
             <Canvas.RenderTransform>
-                <TranslateTransform X="-1" Y="1"/>
+                <TranslateTransform X="-1" Y="1" />
             </Canvas.RenderTransform>
-            <Canvas.Resources/>
+            <Canvas.Resources />
             <Canvas>
                 <Canvas.RenderTransform>
-                    <TranslateTransform X="-11.2" Y="-3.5"/>
+                    <TranslateTransform X="-11.2" Y="-3.5" />
                 </Canvas.RenderTransform>
-                <Path Name="path2" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
+                <Path  Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay}">
                     <Path.Data>
-                        <PathGeometry Figures="m 72.7 2.5 -4.1 3.6 9.6 11 c -5.8 0.3 -10.3 5.5 -9.6 11.4 0.5 4.5 4.2 8.3 8.7 9 2.5 0.3 4.9 -0.2 6.8 -1.5 v 38.8 c 0 2.5 -1.8 4.9 -4.4 5.1 C 76.8 80.2 74.4 78 74.4 75 V 57.7 c 0 -5.1 -4.1 -9.2 -9.2 -9.2 H 62.8 V 17 C 62.8 9.9 57 4 49.8 4 H 25.2 c -7.1 0 -13 5.8 -13 13 v 70.5 c 0 4.4 3.6 8 8 8 H 55 c 4.4 0 8 -3.6 8 -8 V 53.9 h 2.4 c 2.1 0 3.8 1.7 3.8 3.8 v 16.9 c 0 5.5 4.1 10.3 9.5 10.6 5.9 0.4 11 -4.3 11 -10.3 V 26.6 c 0 -3.1 -1.2 -6.2 -3.2 -8.4 z M 79 32.2 c -2.7 0 -4.9 -2.2 -4.9 -4.9 0 -2.7 2.2 -4.9 4.9 -4.9 2.7 0 4.9 2.2 4.9 4.9 0 2.7 -2.4 4.9 -4.9 4.9 z M 54.8 35.6 H 21.2 V 19.4 c 0 -2.4 1.9 -4.3 4.3 -4.3 h 24.8 c 2.4 0 4.3 1.9 4.3 4.3 v 16.2 z" FillRule="NonZero"/>
+                        <PathGeometry Figures="m 72.7 2.5 -4.1 3.6 9.6 11 c -5.8 0.3 -10.3 5.5 -9.6 11.4 0.5 4.5 4.2 8.3 8.7 9 2.5 0.3 4.9 -0.2 6.8 -1.5 v 38.8 c 0 2.5 -1.8 4.9 -4.4 5.1 C 76.8 80.2 74.4 78 74.4 75 V 57.7 c 0 -5.1 -4.1 -9.2 -9.2 -9.2 H 62.8 V 17 C 62.8 9.9 57 4 49.8 4 H 25.2 c -7.1 0 -13 5.8 -13 13 v 70.5 c 0 4.4 3.6 8 8 8 H 55 c 4.4 0 8 -3.6 8 -8 V 53.9 h 2.4 c 2.1 0 3.8 1.7 3.8 3.8 v 16.9 c 0 5.5 4.1 10.3 9.5 10.6 5.9 0.4 11 -4.3 11 -10.3 V 26.6 c 0 -3.1 -1.2 -6.2 -3.2 -8.4 z M 79 32.2 c -2.7 0 -4.9 -2.2 -4.9 -4.9 0 -2.7 2.2 -4.9 4.9 -4.9 2.7 0 4.9 2.2 4.9 4.9 0 2.7 -2.4 4.9 -4.9 4.9 z M 54.8 35.6 H 21.2 V 19.4 c 0 -2.4 1.9 -4.3 4.3 -4.3 h 24.8 c 2.4 0 4.3 1.9 4.3 4.3 v 16.2 z" FillRule="NonZero" />
                     </Path.Data>
                 </Path>
             </Canvas>
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="ResetIcon" Stretch="Uniform">
-        <Canvas Name="svg10" Width="80.626801" Height="79.447502" Canvas.Left="0" Canvas.Top="0">
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="80.626801"
+                Height="79.447502">
             <Canvas.RenderTransform>
-                <TranslateTransform X="0" Y="0"/>
+                <TranslateTransform X="0" Y="0" />
             </Canvas.RenderTransform>
-            <Canvas.Resources/>
-            <!--Unknown tag: metadata-->
-            <!--Unknown tag: sodipodi:namedview-->
+            <Canvas.Resources />
+            <!--  Unknown tag: metadata  -->
+            <!--  Unknown tag: sodipodi:namedview  -->
             <Canvas>
                 <Canvas.RenderTransform>
-                    <TranslateTransform X="-11.7772" Y="-12.433"/>
+                    <TranslateTransform X="-11.7772" Y="-12.433" />
                 </Canvas.RenderTransform>
                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
                     <Path.Data>
-                        <PathGeometry Figures="m 23.4149 24.9522 -0.3469 -0.2383 -0.4502 0.6502 v -8.8355 c 0 -1.7568 -1.4275 -3.181 -3.1885 -3.181 h -4.4637 c -1.761 0 -3.1884 1.4242 -3.1884 3.181 v 26.0849 c 0 1.7569 1.4274 3.1811 3.1884 3.1811 h 26.1449 c 1.7609 0 3.1884 -1.4242 3.1884 -3.1811 V 38.16 c 0 -1.7569 -1.4275 -3.1811 -3.1884 -3.1811 h -9.6226 c 2.3774 -2.7439 5.5823 -5.3294 8.148 -6.6405 1.2753 -0.6362 2.5507 -1.2724 3.7463 -1.6701 1.1957 -0.4771 2.4711 -0.7952 3.7464 -1.0338 1.5942 -0.3181 3.6667 -0.4772 5.3406 -0.4772 14.8261 0 27.2609 12.2472 27.2609 27.2778 0 0.2386 -0.1594 2.6244 -0.3189 3.8968 -0.7174 4.6126 -2.6304 9.6228 -6.6956 14.3944 -2.9493 3.4197 -8.8478 7.396 -14.2681 8.4299 -3.6667 0.7157 -5.5 3.5787 -5.5 6.3621 0 3.3402 2.5507 6.3622 6.2971 6.3622 1.4347 0 3.9855 -0.7953 5.2608 -1.1929 5.8189 -1.8291 11.7174 -4.9307 17.3768 -11.0543 4.9421 -5.4078 7.5725 -10.9747 9.087 -16.4621 0.7174 -2.5448 1.1159 -5.4873 1.4348 -8.0322 v -5.2488 c 0 -2.7834 -1.4348 -8.5889 -2.2319 -10.6566 C 83.0779 19.9881 66.4185 12.433 52.4692 12.433 c -2.6304 0 -5.3406 0.1591 -7.8116 0.7158 -1.913 0.3976 -3.8261 0.9543 -5.7391 1.5905 -5.0962 1.8063 -10.6438 5.1308 -15.5036 10.2129 z" FillRule="NonZero"/>
+                        <PathGeometry Figures="m 23.4149 24.9522 -0.3469 -0.2383 -0.4502 0.6502 v -8.8355 c 0 -1.7568 -1.4275 -3.181 -3.1885 -3.181 h -4.4637 c -1.761 0 -3.1884 1.4242 -3.1884 3.181 v 26.0849 c 0 1.7569 1.4274 3.1811 3.1884 3.1811 h 26.1449 c 1.7609 0 3.1884 -1.4242 3.1884 -3.1811 V 38.16 c 0 -1.7569 -1.4275 -3.1811 -3.1884 -3.1811 h -9.6226 c 2.3774 -2.7439 5.5823 -5.3294 8.148 -6.6405 1.2753 -0.6362 2.5507 -1.2724 3.7463 -1.6701 1.1957 -0.4771 2.4711 -0.7952 3.7464 -1.0338 1.5942 -0.3181 3.6667 -0.4772 5.3406 -0.4772 14.8261 0 27.2609 12.2472 27.2609 27.2778 0 0.2386 -0.1594 2.6244 -0.3189 3.8968 -0.7174 4.6126 -2.6304 9.6228 -6.6956 14.3944 -2.9493 3.4197 -8.8478 7.396 -14.2681 8.4299 -3.6667 0.7157 -5.5 3.5787 -5.5 6.3621 0 3.3402 2.5507 6.3622 6.2971 6.3622 1.4347 0 3.9855 -0.7953 5.2608 -1.1929 5.8189 -1.8291 11.7174 -4.9307 17.3768 -11.0543 4.9421 -5.4078 7.5725 -10.9747 9.087 -16.4621 0.7174 -2.5448 1.1159 -5.4873 1.4348 -8.0322 v -5.2488 c 0 -2.7834 -1.4348 -8.5889 -2.2319 -10.6566 C 83.0779 19.9881 66.4185 12.433 52.4692 12.433 c -2.6304 0 -5.3406 0.1591 -7.8116 0.7158 -1.913 0.3976 -3.8261 0.9543 -5.7391 1.5905 -5.0962 1.8063 -10.6438 5.1308 -15.5036 10.2129 z" FillRule="NonZero" />
                     </Path.Data>
                 </Path>
             </Canvas>
@@ -752,81 +698,306 @@
     </Viewbox>
 
     <Viewbox x:Key="ClutchIcon" Stretch="Uniform">
-        <Canvas Name="svg64" Width="128" Height="128" Canvas.Left="0" Canvas.Top="0">
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="128"
+                Height="128">
             <Canvas.RenderTransform>
-                <TranslateTransform X="0" Y="0"/>
+                <TranslateTransform X="0" Y="0" />
             </Canvas.RenderTransform>
-            <Canvas.Resources/>
-            <!--Unknown tag: metadata-->
-            <!--Unknown tag: sodipodi:namedview-->
+            <Canvas.Resources />
+            <!--  Unknown tag: metadata  -->
+            <!--  Unknown tag: sodipodi:namedview  -->
             <Canvas>
-                <Ellipse  Canvas.Left="2" Canvas.Top="2" Width="124" Height="124" Name="circle2" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                <Ellipse  Canvas.Left="2" Canvas.Top="2" Width="124"
+                         Height="124"
+                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                         StrokeThickness="4" />
             </Canvas>
             <Canvas>
-                <Ellipse  Canvas.Left="29" Canvas.Top="29" Width="70" Height="70" Name="circle6" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                <Ellipse  Canvas.Left="29" Canvas.Top="29" Width="70"
+                         Height="70"
+                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                         StrokeThickness="4" />
             </Canvas>
             <Canvas>
-                <Ellipse  Canvas.Left="56" Canvas.Top="56" Width="16" Height="16" Name="circle10" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                <Ellipse  Canvas.Left="56" Canvas.Top="56" Width="16"
+                         Height="16"
+                         Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                         StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                         StrokeThickness="4" />
             </Canvas>
-            <Rectangle  Canvas.Left="58" Canvas.Top="39" Width="12" Height="7" Name="rect14" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Rectangle  Canvas.Left="-47.0415" Canvas.Top="55.688049" Width="12.000433" Height="7.0002527" Name="rect16" StrokeThickness="4.00014448" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+            <Rectangle  Canvas.Left="58" Canvas.Top="39" Width="12"
+                       Height="7"
+                       Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                       StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                       StrokeThickness="4" />
+            <Rectangle  Canvas.Left="-47.0415" Canvas.Top="55.688049" Width="12.000433"
+                       Height="7.0002527"
+                       Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                       StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                       StrokeThickness="4.00014448">
                 <Rectangle.RenderTransform>
-                    <RotateTransform Angle="-72.001696"/>
+                    <RotateTransform Angle="-72.001696" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle  Canvas.Left="59.046379" Canvas.Top="74.691071" Width="7.0002527" Height="12.000433" Name="rect18" StrokeThickness="4.00014448" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+            <Rectangle  Canvas.Left="59.046379" Canvas.Top="74.691071" Width="7.0002527"
+                       Height="12.000433"
+                       Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                       StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                       StrokeThickness="4.00014448">
                 <Rectangle.RenderTransform>
-                    <RotateTransform Angle="-17.998304"/>
+                    <RotateTransform Angle="-17.998304" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle  Canvas.Left="-39.121536" Canvas.Top="83.403008" Width="6.9999642" Height="11.999939" Name="rect20" StrokeThickness="3.99997973" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+            <Rectangle  Canvas.Left="-39.121536" Canvas.Top="83.403008" Width="6.9999642"
+                       Height="11.999939"
+                       Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                       StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                       StrokeThickness="3.99997973">
                 <Rectangle.RenderTransform>
-                    <RotateTransform Angle="-53.998744"/>
+                    <RotateTransform Angle="-53.998744" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle  Canvas.Left="8.1204042" Canvas.Top="107.39973" Width="11.999939" Height="6.9999642" Name="rect22" StrokeThickness="3.99997973" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+            <Rectangle  Canvas.Left="8.1204042" Canvas.Top="107.39973" Width="11.999939"
+                       Height="6.9999642"
+                       Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                       StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                       StrokeThickness="3.99997973">
                 <Rectangle.RenderTransform>
-                    <RotateTransform Angle="-36.001256"/>
+                    <RotateTransform Angle="-36.001256" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Line X1="64" Y1="28" X2="79" Y2="5" Name="line24" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line X1="40.900002" Y1="36.400002" X2="37.599998" Y2="9.1999998" Name="line26" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="28.5" Y1="57.700001" X2="8.5" Y2="39" Name="line28" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="32.799999" Y1="82" X2="5.4000001" Y2="80.5" Name="line30" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="51.700001" Y1="97.800003" X2="29.700001" Y2="114.3" Name="line32" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="76.300003" Y1="97.800003" X2="70.099998" Y2="124.6" Name="line34" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="95.199997" Y1="82" X2="107.6" Y2="106.5" Name="line36" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="99.5" Y1="57.700001" X2="124.7" Y2="68.5" Name="line38" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="87.099998" Y1="36.400002" X2="113.4" Y2="28.4" Name="line40" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="51.700001" Y1="30.200001" X2="57.900002" Y2="3.4000001" Name="line42" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="32.799999" Y1="46" X2="20.4" Y2="21.5" Name="line44" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="28.5" Y1="70.300003" X2="3.3" Y2="59.5" Name="line46" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="40.900002" Y1="91.599998" X2="14.6" Y2="99.599998" Name="line48" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="64" Y1="100" X2="49" Y2="123" Name="line50" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="87.099998" Y1="91.599998" X2="90.400002" Y2="118.8" Name="line52" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="99.5" Y1="70.300003" X2="119.5" Y2="89" Name="line54" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="95.199997" Y1="46" X2="122.6" Y2="47.5" Name="line56" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-            <Line  X1="76.300003" Y1="30.200001" X2="98.300003" Y2="13.7" Name="line58" StrokeThickness="4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeMiterLimit="10" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="64" X2="79" Y1="28"
+                  Y2="5" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="40.900002" X2="37.599998" Y1="36.400002"
+                  Y2="9.1999998" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="28.5" X2="8.5" Y1="57.700001"
+                  Y2="39" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="32.799999" X2="5.4000001" Y1="82"
+                  Y2="80.5" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="51.700001" X2="29.700001" Y1="97.800003"
+                  Y2="114.3" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="76.300003" X2="70.099998" Y1="97.800003"
+                  Y2="124.6" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="95.199997" X2="107.6" Y1="82"
+                  Y2="106.5" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="99.5" X2="124.7" Y1="57.700001"
+                  Y2="68.5" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="87.099998" X2="113.4" Y1="36.400002"
+                  Y2="28.4" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="51.700001" X2="57.900002" Y1="30.200001"
+                  Y2="3.4000001" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="32.799999" X2="20.4" Y1="46"
+                  Y2="21.5" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="28.5" X2="3.3" Y1="70.300003"
+                  Y2="59.5" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="40.900002" X2="14.6" Y1="91.599998"
+                  Y2="99.599998" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="64" X2="49" Y1="100"
+                  Y2="123" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="87.099998" X2="90.400002" Y1="91.599998"
+                  Y2="118.8" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="99.5" X2="119.5" Y1="70.300003"
+                  Y2="89" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="95.199997" X2="122.6" Y1="46"
+                  Y2="47.5" />
+            <Line
+                  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"
+                  StrokeEndLineCap="Round" StrokeLineJoin="Round" StrokeMiterLimit="10" StrokeStartLineCap="Round"
+                  StrokeThickness="4" X1="76.300003" X2="98.300003" Y1="30.200001"
+                  Y2="13.7" />
         </Canvas>
     </Viewbox>
 
     <Viewbox x:Key="ThrottleIcon" Stretch="Uniform">
-        <Canvas Name="svg14" Width="34.832001" Height="45.493999">
+        <Canvas  Width="34.832001" Height="45.493999">
             <Canvas.RenderTransform>
-                <TranslateTransform X="0" Y="0"/>
+                <TranslateTransform X="0" Y="0" />
             </Canvas.RenderTransform>
-            <Canvas.Resources/>
-            <!--Unknown tag: metadata-->
-            <!--Unknown tag: sodipodi:namedview-->
+            <Canvas.Resources />
+            <!--  Unknown tag: metadata  -->
+            <!--  Unknown tag: sodipodi:namedview  -->
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="-6.5840001" Y="-1.433" />
+                </Canvas.RenderTransform>
+                <Rectangle  Canvas.Left="6.5840001" Canvas.Top="1.433" Width="3"
+                           Height="45.493999"
+                           Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" />
+                <Rectangle  Canvas.Left="38.416" Canvas.Top="1.433" Width="3"
+                           Height="45.493999"
+                           Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" />
+                <Path Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                    <Path.Data>
+                        <PathGeometry Figures="m 26.576 24.058 c 0 -1.49 -1.208 -2.697 -2.698 -2.697 -0.354 0 -0.69 0.072 -1 0.196 l -8.993 -8.993 -1.5 1.5 8.993 8.993 c -0.125 0.31 -0.197 0.646 -0.197 1 0 1.49 1.208 2.696 2.697 2.696 0.354 0 0.69 -0.073 1 -0.197 l 9.237 9.236 1.501 -1.5 -9.237 -9.235 c 0.125 -0.309 0.197 -0.646 0.197 -0.999 z" FillRule="NonZero" />
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox x:Key="AirIcon" Stretch="Uniform">
+        <Canvas  Canvas.Left="0" Canvas.Top="0" Width="64"
+                Height="57.756096">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Canvas.RenderTransform>
+            <Canvas.Resources />
+            <Canvas  Visibility="Collapsed">
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="-10" Y="-29.243902" />
+                </Canvas.RenderTransform>
+                <Path
+                      Stroke="{StaticResource LightGrey01Brush}"
+                      StrokeMiterLimit="10" StrokeThickness="4">
+                    <Path.Data>
+                        <PathGeometry Figures="m 46 25 c 0 -5.523 4.477 -10 10 -10 5.523 0 10 4.477 10 10 0 5.523 -4.477 10 -10 10 H 20" FillRule="NonZero" />
+                    </Path.Data>
+                </Path>
+                <Path
+                      Stroke="{StaticResource LightGrey01Brush}"
+                      StrokeMiterLimit="10" StrokeThickness="4">
+                    <Path.Data>
+                        <PathGeometry Figures="m 70 35 c 0 -5.523 4.477 -10 10 -10 5.523 0 10 4.477 10 10 0 5.523 -4.477 10 -10 10 H 10" FillRule="NonZero" />
+                    </Path.Data>
+                </Path>
+                <Path
+                      Stroke="{StaticResource LightGrey01Brush}"
+                      StrokeMiterLimit="10" StrokeThickness="4">
+                    <Path.Data>
+                        <PathGeometry Figures="m 46 75 c 0 5.523 4.477 10 10 10 5.523 0 10 -4.477 10 -10 C 66 69.477 61.523 65 56 65 H 20" FillRule="NonZero" />
+                    </Path.Data>
+                </Path>
+                <Path
+                      Stroke="{StaticResource LightGrey01Brush}"
+                      StrokeMiterLimit="10" StrokeThickness="4">
+                    <Path.Data>
+                        <PathGeometry Figures="m 70 65 c 0 5.523 4.477 10 10 10 5.523 0 10 -4.477 10 -10 C 90 59.477 85.523 55 80 55 H 10" FillRule="NonZero" />
+                    </Path.Data>
+                </Path>
+            </Canvas>
             <Canvas >
                 <Canvas.RenderTransform>
-                    <TranslateTransform X="-6.5840001" Y="-1.433"/>
+                    <MatrixTransform Matrix="0.7804878 0 0 0.7804878 -7.804878 -10.146341" />
                 </Canvas.RenderTransform>
-                <Rectangle Canvas.Left="6.5840001" Canvas.Top="1.433" Width="3" Height="45.493999" Name="rect2" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
-                <Rectangle  Canvas.Left="38.416" Canvas.Top="1.433" Width="3" Height="45.493999" Name="rect4" Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
-                <Path  Stroke="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                <Canvas>
+                    <Path  Fill="{StaticResource LightGrey01Brush}">
+                        <Path.Data>
+                            <PathGeometry Figures="M 68 25 C 68 18.383 62.617 13 56 13 49.383 13 44 18.383 44 25 h 4 c 0 -4.411 3.589 -8 8 -8 4.411 0 8 3.589 8 8 0 4.411 -3.589 8 -8 8 H 20 v 4 h 36 c 6.617 0 12 -5.383 12 -12 z" FillRule="NonZero" />
+                        </Path.Data>
+                    </Path>
+                    <Path  Fill="{StaticResource LightGrey01Brush}">
+                        <Path.Data>
+                            <PathGeometry Figures="M 92 35 C 92 28.383 86.617 23 80 23 73.383 23 68 28.383 68 35 h 4 c 0 -4.411 3.589 -8 8 -8 4.411 0 8 3.589 8 8 0 4.411 -3.589 8 -8 8 H 10 v 4 h 70 c 6.617 0 12 -5.383 12 -12 z" FillRule="NonZero" />
+                        </Path.Data>
+                    </Path>
+                    <Path  Fill="{StaticResource LightGrey01Brush}">
+                        <Path.Data>
+                            <PathGeometry Figures="M 56 63 H 20 v 4 h 36 c 4.411 0 8 3.589 8 8 0 4.411 -3.589 8 -8 8 -4.411 0 -8 -3.589 -8 -8 h -4 c 0 6.617 5.383 12 12 12 6.617 0 12 -5.383 12 -12 0 -6.617 -5.383 -12 -12 -12 z" FillRule="NonZero" />
+                        </Path.Data>
+                    </Path>
+                    <Path  Fill="{StaticResource LightGrey01Brush}">
+                        <Path.Data>
+                            <PathGeometry Figures="M 80 53 H 10 v 4 h 70 c 4.411 0 8 3.589 8 8 0 4.411 -3.589 8 -8 8 -4.411 0 -8 -3.589 -8 -8 h -4 c 0 6.617 5.383 12 12 12 6.617 0 12 -5.383 12 -12 0 -6.617 -5.383 -12 -12 -12 z" FillRule="NonZero" />
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+    <Viewbox x:Key="RoadIcon" Stretch="Uniform">
+        <Canvas Canvas.Left="0" Canvas.Top="0" Width="90" Height="60">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Canvas.RenderTransform>
+            <Canvas.Resources />
+            <Polygon
+                     Fill="{StaticResource LightGrey01Brush}"
+                     FillRule="NonZero" Points="88.593,80 95,80 65,20 62.542,20 ">
+                <Polygon.RenderTransform>
+                    <TranslateTransform X="-5" Y="-20" />
+                </Polygon.RenderTransform>
+            </Polygon>
+            <Polygon
+                     Fill="{StaticResource LightGrey01Brush}"
+                     FillRule="NonZero" Points="11.405,80 37.461,20 35,20 5,80 ">
+                <Polygon.RenderTransform>
+                    <TranslateTransform X="-5" Y="-20" />
+                </Polygon.RenderTransform>
+            </Polygon>
+            <Path Fill="{StaticResource LightGrey01Brush}">
+                <Path.Data>
+                    <PathGeometry Figures="m 46.333 0 0.073 5.874 H 45.843 44.155 43.592 L 43.667 0 H 33.835 L 8.889 60 h 34.042 l 0.099 -9.02 h 3.937 l 0.1 9.02 H 81.108 L 56.165 0 Z m -2.852 14.896 h 0.788 1.462 0.789 l 0.112 9.02 h -1.014 -1.237 -1.014 z m 1.914 27.061 h -0.788 -1.462 l 0.112 -9.02 h 1.236 1.014 1.236 l 0.113 9.02 z" FillRule="NonZero" />
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox x:Key="RainIcon" Stretch="Uniform">
+        <Canvas Canvas.Left="0" Canvas.Top="0" Width="60.847874" Height="64.989998">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Canvas.RenderTransform>
+            <Canvas.Resources />
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.69145312 0 0 0.69145312 -4.1487188 -660.59146" />
+                </Canvas.RenderTransform>
+                <Path Fill="{StaticResource LightGrey01Brush}">
                     <Path.Data>
-                        <PathGeometry Figures="m 26.576 24.058 c 0 -1.49 -1.208 -2.697 -2.698 -2.697 -0.354 0 -0.69 0.072 -1 0.196 l -8.993 -8.993 -1.5 1.5 8.993 8.993 c -0.125 0.31 -0.197 0.646 -0.197 1 0 1.49 1.208 2.696 2.697 2.696 0.354 0 0.69 -0.073 1 -0.197 l 9.237 9.236 1.501 -1.5 -9.237 -9.235 c 0.125 -0.309 0.197 -0.646 0.197 -0.999 z" FillRule="NonZero"/>
+                        <PathGeometry Figures="m 50 955.36695 c -6.6512 0 -13.3069 2.52578 -18.375 7.59375 -5.0942 5.09437 -7.5247 11.81466 -7.5 18.5 -10.0777 0.46573 -18.1249999 8.71366 -18.1249999 18.9062 0 10.4915 8.5085999 19.0001 18.9999999 19.0001 h 47 c 12.1265 0 22 -9.8735 22 -22.00005 0 -11.00003 -8.1491 -20.08348 -18.7188 -21.6875 -1.036 -4.64887 -3.2904 -9.10283 -6.9062 -12.71875 C 63.3068 957.89276 56.6512 955.36695 50 955.36695 Z m 0 4 c 5.6332 0 11.2579 2.13304 15.5625 6.4375 3.3778 3.37791 5.3999 7.5578 6.125 11.9375 A 2.0002 2.0002 0 0 0 73.5 979.3982 c 9.2458 0.76206 16.5 8.511 16.5 17.96875 0 9.96475 -8.0353 18.00005 -18 18.00005 H 25 c -8.3446 0 -15.0000001 -6.6554 -15.0000001 -15.0001 0 -8.34454 6.6554001 -14.99995 15.0000001 -14.99995 h 1.0938 a 2.0002 2.0002 0 0 0 2 -2.1875 c -0.515 -6.22641 1.5761 -12.60719 6.3437 -17.375 4.3045 -4.30443 9.9293 -6.4375 15.5625 -6.4375 z M 25.875 1024.367 c -0.6404 0.045 -1.2486 0.4021 -1.5938 1 l -4 6.9375 c -0.5522 0.9566 -0.2378 2.1664 0.7188 2.7187 0.9566 0.5523 2.1664 0.2379 2.7188 -0.7187 l 4 -6.9375 c 0.5522 -0.9566 0.2378 -2.1665 -0.7188 -2.7188 -0.3587 -0.2071 -0.7407 -0.3084 -1.125 -0.2812 z m 17 0 c -0.6404 0.045 -1.2486 0.4021 -1.5938 1 l -4 6.9375 c -0.5522 0.9566 -0.2378 2.1664 0.7188 2.7187 0.9566 0.5523 2.1664 0.2379 2.7188 -0.7187 l 4 -6.9375 c 0.5522 -0.9566 0.2378 -2.1665 -0.7188 -2.7188 -0.3587 -0.2071 -0.7407 -0.3084 -1.125 -0.2812 z m 17 0 c -0.6404 0.045 -1.2486 0.4021 -1.5938 1 l -4 6.9375 c -0.5522 0.9566 -0.2378 2.1664 0.7188 2.7187 0.9566 0.5523 2.1664 0.2379 2.7188 -0.7187 l 4 -6.9375 c 0.5522 -0.9566 0.2378 -2.1665 -0.7188 -2.7188 -0.3587 -0.2071 -0.7407 -0.3084 -1.125 -0.2812 z m 17 0 c -0.6404 0.045 -1.2486 0.4021 -1.5938 1 l -4 6.9375 c -0.5522 0.9566 -0.2378 2.1664 0.7188 2.7187 0.9566 0.5523 2.1664 0.2379 2.7188 -0.7187 l 4 -6.9375 c 0.5522 -0.9566 0.2378 -2.1665 -0.7188 -2.7188 -0.3587 -0.2071 -0.7407 -0.3084 -1.125 -0.2812 z m -47 14.0625 c -0.6404 0.045 -1.2486 0.4021 -1.5938 1 l -4 6.9375 c -0.5522 0.9566 -0.2378 2.1664 0.7188 2.7187 0.9566 0.5523 2.1664 0.2379 2.7188 -0.7187 l 4 -6.9375 c 0.5522 -0.9566 0.2378 -2.1665 -0.7188 -2.7188 -0.3587 -0.2071 -0.7407 -0.3084 -1.125 -0.2812 z m 17 0 c -0.6404 0.045 -1.2486 0.4021 -1.5938 1 l -4 6.9375 c -0.5522 0.9566 -0.2378 2.1664 0.7188 2.7187 0.9566 0.5523 2.1664 0.2379 2.7188 -0.7187 l 4 -6.9375 c 0.5522 -0.9566 0.2378 -2.1665 -0.7188 -2.7188 -0.3587 -0.2071 -0.7407 -0.3084 -1.125 -0.2812 z m 17 0 c -0.6404 0.045 -1.2486 0.4021 -1.5938 1 l -4 6.9375 c -0.5522 0.9566 -0.2378 2.1664 0.7188 2.7187 0.9566 0.5523 2.1664 0.2379 2.7188 -0.7187 l 4 -6.9375 c 0.5522 -0.9566 0.2378 -2.1665 -0.7188 -2.7188 -0.3587 -0.2071 -0.7407 -0.3084 -1.125 -0.2812 z" FillRule="NonZero" />
                     </Path.Data>
                 </Path>
             </Canvas>

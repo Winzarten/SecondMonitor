@@ -65,6 +65,9 @@
     <Compile Include="Controls\PedalGearTestControl.xaml.cs">
       <DependentUpon>PedalGearTestControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TrackInfoTestControl.xaml.cs">
+      <DependentUpon>TrackInfoTestControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TestFuelControl.xaml.cs">
       <DependentUpon>TestFuelControl.xaml</DependentUpon>
     </Compile>
@@ -76,6 +79,10 @@
     <Compile Include="ViewModels\TemperatureTestViewModel.cs" />
     <Compile Include="ViewModels\WheelStatusTestVM.cs" />
     <Page Include="Controls\PedalGearTestControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TrackInfoTestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

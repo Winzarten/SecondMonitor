@@ -28,6 +28,7 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using SecondMonitor.ViewModels.CarStatus;
+    using SecondMonitor.ViewModels.TrackInfo;
 
     using SessionTiming.Drivers;
 
@@ -79,6 +80,7 @@
         public TimingDataViewModel()
         {
             SessionInfoViewModel = new SessionInfoViewModel();
+            TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = new DriverLapsWindowManager(() => Gui, () => SelectedDriverTiming);
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             _reportCreation = new ReportCreationViewModel(DisplaySettings);
@@ -121,6 +123,8 @@
         }
 
         public SessionInfoViewModel SessionInfoViewModel { get; }
+
+        public TrackInfoViewModel TrackInfoViewModel { get; }
 
         public TimingGui Gui { get; private set; }
 
@@ -399,11 +403,6 @@
             if (Dispatcher.CheckAccess())
             {
 
-                if (_lastDataSet?.SessionInfo.TrackInfo.TrackName != args.Data.SessionInfo.TrackInfo.TrackName)
-                {
-                    RefreshTrackInfo(args.Data);
-                }
-
                 _lastDataSet = args.Data;
                 ConnectedSource = _lastDataSet?.Source;
                 if (ViewSource == null || _timing == null)
@@ -475,36 +474,8 @@
             NotifyPropertyChanged(nameof(SystemTime));
             NotifyPropertyChanged(nameof(SessionCompletedPercentage));
             CarStatusViewModel.ApplyDateSet(data);
-
-            Gui.LblWeather.Content = GetWeatherInfo(data);
+            TrackInfoViewModel.ApplyDateSet(data);
             SessionInfoViewModel.SessionRemaining = GetSessionRemaining(data);
-        }
-
-        private string GetWeatherInfo(SimulatorDataSet set)
-        {
-            WeatherInfo weather = set.SessionInfo.WeatherInfo;
-            StringBuilder sb = new StringBuilder();
-
-            if (weather.AirTemperature != Temperature.Zero)
-            {
-                sb.Append("Air: " + weather.AirTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
-                    .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits));
-            }
-
-            if (weather.TrackTemperature != Temperature.Zero)
-            {
-                sb.Append(" |Track: " + weather.TrackTemperature.GetValueInUnits(DisplaySettings.TemperatureUnits)
-                        .ToString("n1") + Temperature.GetUnitSymbol(DisplaySettings.TemperatureUnits));
-            }
-
-
-            if (weather.RainIntensity > 0)
-            {
-                sb.Append(" |Rain Intensity: " + weather.RainIntensity+"%");
-            }
-
-            return sb.ToString();
-
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
@@ -629,13 +600,14 @@
             _timing.PaceLaps = DisplaySettings.PaceLaps;
 
             CarStatusViewModel.Reset();
+            TrackInfoViewModel.Reset();
 
             InitializeGui(data);
             ChangeTimeDisplayMode();
             ChangeOrderingMode();
             ConnectedSource = data.Source;
-            NotifyPropertyChanged("BestLapFormatted");
-            NotifyPropertyChanged("ConnectedSource");
+            //NotifyPropertyChanged("BestLapFormatted");
+            NotifyPropertyChanged(nameof(ConnectedSource));
         }
 
         private void OnSessionStarted(object sender, DataEventArgs args)
@@ -667,8 +639,6 @@
             {
                 ViewSource = new CollectionViewSource { Source = Collection };
                 NotifyPropertyChanged(nameof(TimingInfo));
-                //Gui.DtTimig.DataContext = null;
-                //Gui.DtTimig.DataContext = this;
             }
 
             Collection.Clear();
@@ -677,27 +647,9 @@
                 Collection.Add(d);
             }
 
-            RefreshTrackInfo(data);
-
             Gui.TimingCircle.SetSessionInfo(data);
 
-            NotifyPropertyChanged("BestLapFormatted");
-        }
-
-        private void RefreshTrackInfo(SimulatorDataSet data)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(data.SessionInfo.TrackInfo.TrackName);
-            if (!string.IsNullOrWhiteSpace(data.SessionInfo.TrackInfo.TrackLayoutName))
-            {
-                sb.Append(" (");
-                sb.Append(data.SessionInfo.TrackInfo.TrackLayoutName);
-
-                sb.Append(") ");
-            }
-            sb.Append(" - ");
-            sb.Append(data.SessionInfo.SessionType);
-            Gui.LblTrack.Content = sb.ToString();
+            //NotifyPropertyChanged("BestLapFormatted");
         }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
@@ -727,16 +679,7 @@
 
         private void ApplyDisplaySettings(DisplaySettingsModelView settings)
         {
-            if (settings == null || Gui == null)
-            {
-                return;
-            }
-
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(() => ApplyDisplaySettings(settings));
-                return;
-            }
+            TrackInfoViewModel.TemperatureUnits = settings.TemperatureUnits;
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
