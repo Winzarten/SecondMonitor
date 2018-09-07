@@ -18,7 +18,8 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
@@ -329,9 +330,7 @@
 
             <Grid Column="1">
                 <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
-                    <wpf:PositionCircle x:Name="TimingCircle" Width="Auto" Height="339" MinHeight="300"
-                                        Background="Black"
-                                        PositionCircleInformationProvider="{Binding SessionTiming}" />
+                    <ContentPresenter Content="{Binding SituationOverviewProvider.SituationOverviewControl}" Margin="20,10,20,10"/>
                 </Border>
             </Grid>
             <Grid Column="2">

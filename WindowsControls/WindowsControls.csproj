@@ -116,6 +116,9 @@
     <Compile Include="WPF\FuelControl\FuelLevelControl.cs" />
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
+    <Compile Include="WPF\DriverPosition\ISituationOverviewControl.cs" />
+    <Compile Include="WPF\DriverPosition\DriverPositionControl.cs" />
+    <Compile Include="WPF\DriverPosition\PositionCircleControl.cs" />
     <Compile Include="WPF\QuantityText\PressureText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
     <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />
@@ -162,9 +165,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\brake.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="WPF\ButtonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -201,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="WPF\DriverPosition\DriverPositionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="WPF\PositionCircle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -225,12 +229,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\tirepressure300.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\fuel.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

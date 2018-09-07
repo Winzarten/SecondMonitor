@@ -246,7 +246,7 @@
 
         private double GetY(DriverInfo driver, double ellipseHeight)
         {
-            double degrees = (driver.LapDistance / _lapLength) * 2 * Math.PI - Math.PI/2;
+            double degrees = (driver.LapDistance / _lapLength) * 2 * Math.PI - Math.PI / 2;
             double y = canvas.ActualHeight / 2 + (ellipseHeight / 2) * Math.Sin(degrees);
             return y;
         }
