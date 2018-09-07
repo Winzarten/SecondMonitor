@@ -475,7 +475,7 @@
             NotifyPropertyChanged(nameof(SessionCompletedPercentage));
             CarStatusViewModel.ApplyDateSet(data);
             TrackInfoViewModel.ApplyDateSet(data);
-            SessionInfoViewModel.SessionRemaining = GetSessionRemaining(data);
+            SessionInfoViewModel.ApplyDateSet(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
@@ -532,46 +532,7 @@
             ViewSource?.View.Refresh();
         }
 
-        private string GetSessionRemaining(SimulatorDataSet dataSet)
-        {
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Na)
-            {
-                return "NA";
-            }
 
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
-            {
-                string timeRemaining = "Time Remaining: " + ((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":"
-                       + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60).ToString("00");
-                if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
-                {
-                    double lapsToGo = dataSet.SessionInfo.SessionTimeRemaining /
-                                      _timing.Leader.DriverTiming.Pace.TotalSeconds;
-                    timeRemaining += "\nLaps:" + lapsToGo.ToString("N1");
-                }
-
-                return timeRemaining;
-            }
-
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
-            {
-                int lapsToGo = dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1;
-                if (lapsToGo < 1)
-                {
-                    return "Leader Finished";
-                }
-                if (lapsToGo == 1)
-                {
-                    return "Leader on Final Lap";
-                }
-                string lapsToDisplay = lapsToGo < 2000
-                                           ? lapsToGo.ToString()
-                                           : "Infinite";
-                return "Leader laps to go: " + lapsToDisplay;
-            }
-
-            return "NA";
-        }
 
         private void CreateTiming(SimulatorDataSet data)
         {

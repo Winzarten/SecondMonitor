@@ -15,22 +15,20 @@
         <Border BorderBrush="{StaticResource PurpleTimingBrush}" BorderThickness="2" CornerRadius="6"
                 Visibility="{Binding AnySectorFilled, Converter={StaticResource BoolToVis}}">
             <DockPanel DockPanel.Dock="Left" Visibility="{Binding AnySectorFilled, Converter={StaticResource BoolToVis}}">
-                <Label Content="{Binding BestSector1}"
-                       DockPanel.Dock="Top" FontSize="16" Foreground="{StaticResource LightGrey01Brush}" />
-                <Label Content="{Binding BestSector2}"
-                       DockPanel.Dock="Top" FontSize="16" Foreground="{StaticResource LightGrey01Brush}" />
-                <Label Content="{Binding BestSector3}"
-                       DockPanel.Dock="Top" FontSize="16" Foreground="{StaticResource LightGrey01Brush}" />
+                <TextBlock Style="{StaticResource StandardText}"  Text="{Binding BestSector1}"
+                       DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="5,5,5,5" />
+                <TextBlock Style="{StaticResource StandardText}"  Text="{Binding BestSector2}"
+                           DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="5,5,5,5" />
+                <TextBlock Style="{StaticResource StandardText}"  Text="{Binding BestSector3}" VerticalAlignment="Top"
+                           DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="5,5,5,5" />
             </DockPanel>
         </Border>
         <Border BorderBrush="{StaticResource PurpleTimingBrush}" BorderThickness="2" CornerRadius="6">
             <DockPanel DockPanel.Dock="Right">
-                <Label HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Right"
-                       Content="{Binding BestLap, UpdateSourceTrigger=PropertyChanged}"
-                       DockPanel.Dock="Top" FontSize="20" Foreground="{StaticResource LightGrey01Brush}" />
-                <Label HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Right"
-                       Content="{Binding SessionRemaining}"
-                       DockPanel.Dock="Top" FontSize="24" Foreground="{StaticResource DarkRed01Brush}" />
+                <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource BigFontSize}"  Text="{Binding BestLap}" VerticalAlignment="Top"
+                           DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="5,5,5,5" />
+                <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource ExtraBigFontSize}"  Text="{Binding SessionRemaining}" VerticalAlignment="Top"
+                           DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="5,5,5,5" Foreground="{StaticResource LightGrey02Brush}" />
             </DockPanel>
         </Border>
     </DockPanel>
