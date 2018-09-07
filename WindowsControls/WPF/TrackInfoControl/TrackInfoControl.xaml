@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:trackInfoControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TrackInfoControl">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CommonResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    <Style TargetType="trackInfoControl:TrackInfoControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="trackInfoControl:TrackInfoControl">
+                        <Grid Background="{StaticResource Anthracite01Brush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                            <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding SessionType, RelativeSource={RelativeSource TemplatedParent}}" Margin="5,5,5,5" VerticalAlignment="Bottom"></TextBlock>
+                            <TextBlock Grid.Column="2" Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding TrackName, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="10,5,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Right"></TextBlock>
+                        </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding WeatherInfoAvailable, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Border BorderBrush="{StaticResource DarkGrey05Brush}" CornerRadius="2" BorderThickness="2">
+                                    <StackPanel Orientation="Horizontal">
+                                    <ContentPresenter Content="{StaticResource AirIcon}" MaxWidth="25" Margin="5,5,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding AirTemperatureInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="{StaticResource DarkGrey05Brush}" CornerRadius="2" BorderThickness="2">
+                                    <StackPanel Orientation="Horizontal">
+                                    <ContentPresenter Content="{StaticResource RoadIcon}" MaxWidth="25"  Margin="5,5,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding TrackTemperatureInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            <Border BorderBrush="{StaticResource DarkGrey05Brush}" CornerRadius="2" BorderThickness="2">
+                                    <StackPanel Orientation="Horizontal">
+                                    <ContentPresenter Content="{StaticResource RainIcon}" MaxWidth="25"  Margin="5,5,0,0"  VerticalAlignment="Center"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding RainIntensityInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                </Border>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

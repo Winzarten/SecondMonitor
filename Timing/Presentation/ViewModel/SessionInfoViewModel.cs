@@ -1,12 +1,16 @@
 ﻿namespace SecondMonitor.Timing.Presentation.ViewModel
 {
+    using System;
     using System.ComponentModel;
     using System.Windows;
 
+    using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using SecondMonitor.ViewModels;
 
-    public class SessionInfoViewModel : DependencyObject
+    public class SessionInfoViewModel : DependencyObject, ISimulatorDataSetViewModel
     {
 
         public static readonly DependencyProperty BestSector1Property = DependencyProperty.Register("BestSector1", typeof(string), typeof(SessionInfoViewModel));
@@ -147,6 +151,57 @@
             }
             return bestLap.Driver.DriverInfo.DriverName + "-(L" + bestLap.LapNumber + "):"
                    + DriverTiming.FormatTimeSpan(bestLap.LapTime);
-        }        
+        }
+
+        private string GetSessionRemaining(SimulatorDataSet dataSet)
+        {
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Na)
+            {
+                return "NA";
+            }
+
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
+            {
+                string timeRemaining = "Time Remaining: " + ((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":"
+                                       + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60).ToString("00");
+                if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
+                {
+                    double lapsToGo = dataSet.SessionInfo.SessionTimeRemaining /
+                                      _timing.Leader.DriverTiming.Pace.TotalSeconds;
+                    timeRemaining += "\nLaps:" + lapsToGo.ToString("N1");
+                }
+
+                return timeRemaining;
+            }
+
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
+            {
+                int lapsToGo = dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1;
+                if (lapsToGo < 1)
+                {
+                    return "Leader Finished";
+                }
+                if (lapsToGo == 1)
+                {
+                    return "Leader on Final Lap";
+                }
+                string lapsToDisplay = lapsToGo < 2000
+                                           ? lapsToGo.ToString()
+                                           : "Infinite";
+                return "Leader laps to go: " + lapsToDisplay;
+            }
+
+            return "NA";
+        }
+
+        public void ApplyDateSet(SimulatorDataSet dataSet)
+        {
+            SessionRemaining = GetSessionRemaining(dataSet);
+        }
+
+        public void Reset()
+        {
+
+        }
     }
 }

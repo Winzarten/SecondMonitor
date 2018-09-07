@@ -1,11 +1,8 @@
 ﻿<Window x:Class="SecondMonitor.Timing.Presentation.View.TimingGui" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:model="clr-namespace:SecondMonitor.Timing.Settings.Model" xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:temperatureControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TemperatureControl;assembly=WindowsControls" xmlns:view="clr-namespace:SecondMonitor.Timing.Presentation.View" xmlns:viewModel="clr-namespace:SecondMonitor.Timing.Presentation.ViewModel" xmlns:viewModel1="clr-namespace:SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel"
-        xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
-        xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl;assembly=WindowsControls"
-        xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl;assembly=WindowsControls"
-        xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl;assembly=WindowsControls"
-        x:Name="MainWindow"
+        xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel" xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl;assembly=WindowsControls" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:model="clr-namespace:SecondMonitor.Timing.Settings.Model"
+        xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl;assembly=WindowsControls" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:temperatureControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TemperatureControl;assembly=WindowsControls" xmlns:timingGridControl="clr-namespace:SecondMonitor.Timing.Presentation.Controls.TimingGridControl"
+        xmlns:trackInfoControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TrackInfoControl;assembly=WindowsControls" xmlns:view="clr-namespace:SecondMonitor.Timing.Presentation.View" xmlns:viewModel="clr-namespace:SecondMonitor.Timing.Presentation.ViewModel" xmlns:viewModel1="clr-namespace:SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel"
+        xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl;assembly=WindowsControls" xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls" x:Name="MainWindow"
         Title="{Binding Title}"
         Width="1600" Height="800"
         d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
@@ -15,11 +12,13 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Controls/TimingGridControl/TimingGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
@@ -68,94 +67,44 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label x:Name="LblTrack" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Track Info"
-                       FontSize="20" Foreground="{StaticResource LightGrey01Brush}" />
-                <Label x:Name="LblWeather" Margin="0,37,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                       Content="Weather Info" FontSize="20" Foreground="{StaticResource LightGrey01Brush}" />
-            </StackPanel>
-            <StackPanel Grid.Column="1">
+            <Border Grid.Column="0"
+                    BorderBrush="{StaticResource DarkGrey01Brush}"
+                    BorderThickness="3" CornerRadius="5">
+                <trackInfoControl:TrackInfoControl AirTemperatureInfo="{Binding TrackInfoViewModel.AirTemperatureInfo}"
+                                                   RainIntensityInfo="{Binding TrackInfoViewModel.RainIntensity}"
+                                                   SessionType="{Binding TrackInfoViewModel.SessionType}"
+                                                   TrackName="{Binding TrackInfoViewModel.TrackName}"
+                                                   TrackTemperatureInfo="{Binding TrackInfoViewModel.TrackTemperatureInfo}"
+                                                   WeatherInfoAvailable="{Binding TrackInfoViewModel.WeatherInfoAvailable}" />
+            </Border>
+            <Border Grid.Column="1" BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="3" CornerRadius="5">
+            <StackPanel >
                 <wpf:TimeSpanBarControl Title="Δ to Personal Best" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
                 <wpf:TimeSpanBarControl Title="Δ to Previous Lap" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
             </StackPanel>
-            <view:SessionInfoView Grid.Column="2" Height="127" Margin="0,10,10,0" HorizontalAlignment="Right"
-                                  VerticalAlignment="Top"
+            </Border>
+            <view:SessionInfoView Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right"
+                                  VerticalAlignment="Stretch"
                                   DataContext="{Binding SessionInfoViewModel}" />
         </Grid>
-        <Grid x:Name="SessionTiming" Grid.Row="1" VerticalAlignment="Top" Background="Black">
-            <Border BorderThickness="3">
-                <DataGrid x:Name="DtTimig" HorizontalAlignment="Stretch"
-                          AutoGenerateColumns="False" Background="Black" CanUserReorderColumns="False" CanUserSortColumns="False"
-                          EnableColumnVirtualization="False" EnableRowVirtualization="False" FontSize="18" Foreground="{StaticResource LightGrey01Brush}"
-                          HeadersVisibility="Column" IsReadOnly="True"
-                          ItemsSource="{Binding TimingInfo}"
-                          SelectionMode="Single" SelectionUnit="FullRow">
-                    <DataGrid.InputBindings>
+        <Border Grid.Row="1"
+                BorderBrush="{StaticResource DarkGrey01Brush}"
+                BorderThickness="3" CornerRadius="5">
+            <Grid x:Name="SessionTiming" VerticalAlignment="Top" Background="Black">
+
+                <timingGridControl:TimingGrid x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
+                                              ItemsSource="{Binding TimingInfo}">
+                    <timingGridControl:TimingGrid.InputBindings>
                         <MouseBinding Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="RightClick" />
                         <MouseBinding Command="{Binding DataContext.DoubleLeftClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="LeftDoubleClick" />
-                    </DataGrid.InputBindings>
-                    <DataGrid.Resources>
+                    </timingGridControl:TimingGrid.InputBindings>
+
+                    <timingGridControl:TimingGrid.Resources>
                         <view:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                         <view:DoubleToDataGridLengthValueConverter x:Key="lengthConverter" />
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="FontWeight" Value="Bold" />
-                            <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
-                            <Setter Property="Background" Value="Blue" />
-                            <Setter Property="BorderBrush" Value="{StaticResource LightGrey01Brush}" />
-                            <Setter Property="BorderThickness" Value="1" />
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                        <Style x:Key="TextBoxStyle" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastLapBestSessionLap}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style x:Key="TextBoxStyleSector1" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastSector1PersonalBest}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastSector1SessionBest}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style x:Key="TextBoxStyleSector2" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastSector2PersonalBest}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastSector2SessionBest}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style x:Key="TextBoxStyleSector3" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLastSector3PersonalBest}" Value="True">
-                                    <Setter Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLastSector3SessionBest}" Value="True">
-                                    <Setter Property="Background" Value="Purple" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Style.Resources>
-                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
-                            </Style.Resources>
-                        </Style>
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
+                    </timingGridControl:TimingGrid.Resources>
+                    <timingGridControl:TimingGrid.Columns>
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Position, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
@@ -226,47 +175,11 @@
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Top Speed"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                    </DataGrid.Columns>
+                    </timingGridControl:TimingGrid.Columns>
+                </timingGridControl:TimingGrid>
 
-                    <DataGrid.CellStyle>
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True" />
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.CellStyle>
-                    <DataGrid.ItemContainerStyle>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Background" Value="Black" />
-                            <Setter Property="BorderBrush" Value="Gray" />
-                            <Setter Property="BorderThickness" Value="0.5" />
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="Black" />
-                                </Trigger>
-                                <DataTrigger Binding="{Binding IsPlayer, Mode=OneWay}" Value="True">
-                                    <Setter Property="Background" Value="Gray" />
-                                    <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
-                                    <Setter Property="FontSize" Value="21" />
-                                    <Setter Property="FontWeight" Value="Bold" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
-                                    <Setter Property="Foreground" Value="LightBlue" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
-                                    <Setter Property="Foreground" Value="Red" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding InPits, Mode=OneWay}" Value="True">
-                                    <Setter Property="Background" Value="Olive" />
-                                    <Setter Property="Foreground" Value="Black" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
-
-                </DataGrid>
-            </Border>
-        </Grid>
+            </Grid>
+        </Border>
         <Grid Background="Black" Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -275,150 +188,154 @@
             </Grid.ColumnDefinitions>
 
             <Grid Column="0">
-                <Border BorderBrush="{StaticResource LightGrey01Brush}" BorderThickness="2" CornerRadius="5">
+                <Border BorderBrush="{StaticResource DarkGrey01Brush}"
+                        BorderThickness="2" CornerRadius="5">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Grid Column="0" MinWidth="400">
+                        <Grid MinWidth="400" Column="0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Border BorderBrush="{StaticResource LightGrey01Brush}" BorderThickness="2" CornerRadius="5">
+                            <Border BorderBrush="{StaticResource DarkGrey01Brush}"
+                                    BorderThickness="2" CornerRadius="5">
                                 <Grid Grid.Row="0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition  Width="*"/>
-                                        <ColumnDefinition  Width="*"/>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition  Height="*"/>
-                                        <RowDefinition  Height="*"/>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    <wheelStatusControl:WheelStatusControl Grid.Column="0" Grid.Row="0"
-                                    TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCondition, Mode=OneWay}" Height="96"
-                                    TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCoreTemperature, Mode=OneWay}"
-                                    TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}"
-                                    BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
-                                    TemperatureUnits="{Binding  DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                    TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreLeftTemperature, Mode=OneWay}"
-                                    TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCenterTemperature, Mode=OneWay}"
-                                    TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                    TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyrePressure, Mode=OneWay}"
-                                    PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                       IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}">
-                                    </wheelStatusControl:WheelStatusControl>
-                                    <wheelStatusControl:WheelStatusControl Grid.Column="1" Grid.Row="0"
-                                                                       TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCondition, Mode=OneWay}" Height="96"
-                                                                       TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCoreTemperature, Mode=OneWay}"
-                                                                       TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}"
-                                                                       BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding  DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                                                       TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreLeftTemperature, Mode=OneWay}"
-                                                                       TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCenterTemperature, Mode=OneWay}"
-                                                                       TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                       TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyrePressure, Mode=OneWay}"
-                                                                       PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                       IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}">
-                                    </wheelStatusControl:WheelStatusControl>
-                                    <wheelStatusControl:WheelStatusControl Grid.Column="0" Grid.Row="1"
-                                    TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCondition, Mode=OneWay}" Height="96"
-                                    TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCoreTemperature, Mode=OneWay}"
-                                    TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}"
-                                    BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
-                                    TemperatureUnits="{Binding  DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                    TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreLeftTemperature, Mode=OneWay}"
-                                    TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCenterTemperature, Mode=OneWay}"
-                                    TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                    TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyrePressure, Mode=OneWay}"
-                                    PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                       IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}">
-                                    </wheelStatusControl:WheelStatusControl>
-                                    <wheelStatusControl:WheelStatusControl Grid.Column="1" Grid.Row="1"
-                                                                       TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCondition, Mode=OneWay}" Height="96"
-                                                                       TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCoreTemperature, Mode=OneWay}"
-                                                                       TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}"
-                                                                       BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding  DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                                                       TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreLeftTemperature, Mode=OneWay}"
-                                                                       TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCenterTemperature, Mode=OneWay}"
-                                                                       TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                       TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyrePressure, Mode=OneWay}"
-                                                                       PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                       IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}">
-                                    </wheelStatusControl:WheelStatusControl>
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
+                                                                           BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
+                                                                           IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCondition, Mode=OneWay}"
+                                                                           TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                           TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                           TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyrePressure, Mode=OneWay}"
+                                                                           TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
+                                                                           BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
+                                                                           IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCondition, Mode=OneWay}"
+                                                                           TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                           TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                           TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyrePressure, Mode=OneWay}"
+                                                                           TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
+                                                                           BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
+                                                                           IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCondition, Mode=OneWay}"
+                                                                           TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                           TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                           TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyrePressure, Mode=OneWay}"
+                                                                           TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
+                                                                           BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
+                                                                           IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCondition, Mode=OneWay}"
+                                                                           TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                           TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                           TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyrePressure, Mode=OneWay}"
+                                                                           TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}" />
                                 </Grid>
                             </Border>
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Border Grid.Column="0" BorderBrush="{StaticResource Anthracite01Brush}" BorderThickness="5" CornerRadius="5">
-                                    <pedalControl:PedalGearControl ThrottlePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ThrottlePercentage}"
-                                                                   BrakePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.BrakePercentage}"
+                                <Border Grid.Column="0"
+                                        BorderBrush="{StaticResource Anthracite01Brush}"
+                                        BorderThickness="5" CornerRadius="5">
+                                    <pedalControl:PedalGearControl BrakePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.BrakePercentage}"
                                                                    ClutchPercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ClutchPercentage}"
-                                                                   Gear="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Gear}"/>
+                                                                   Gear="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Gear}"
+                                                                   ThrottlePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ThrottlePercentage}" />
                                 </Border>
-                                <Border Grid.Column="1" BorderBrush="{StaticResource Anthracite01Brush}" BorderThickness="5" CornerRadius="5">
+                                <Border Grid.Column="1"
+                                        BorderBrush="{StaticResource Anthracite01Brush}"
+                                        BorderThickness="5" CornerRadius="5">
                                     <fuelControl:FuelOverviewControl Margin="5,5,5,5"
-                                                                     VolumeUnits="{Binding DisplaySettings.VolumeUnits}"
-                                                                     FuelStatusColor="{StaticResource LightGrey01Brush}"
-                                                                     FuelStatusUnknownColor="{StaticResource LightGrey01Color}"
-                                                                     FuelStatusOkColor="{StaticResource Green01Color}"
-                                                                     FuelStatusMightBeColor="{StaticResource Orange01Color}"
-                                                                     FuelStatusNotEnoughColor="{StaticResource HighQuantityColor}"
-                                                                     BlinkToColor="{StaticResource Anthracite01Color}"
-                                                                     MaximumFuel="{Binding CarStatusViewModel.FuelOverviewViewModel.MaximumFuel}"
-                                                                     FuelPercentage="{Binding CarStatusViewModel.FuelOverviewViewModel.FuelPercentage}"
-                                                                     CurPerLap="{Binding CarStatusViewModel.FuelOverviewViewModel.CurrentPerLap}"
-                                                                     CurPerMinute="{Binding CarStatusViewModel.FuelOverviewViewModel.CurrentPerMinute}"
                                                                      AvgPerLap="{Binding CarStatusViewModel.FuelOverviewViewModel.AvgPerLap}"
                                                                      AvgPerMinute="{Binding CarStatusViewModel.FuelOverviewViewModel.AvgPerMinute}"
-                                                                     LapsLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.LapsLeft}"
-                                                                     TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
+                                                                     BlinkToColor="{StaticResource Anthracite01Color}"
+                                                                     CurPerLap="{Binding CarStatusViewModel.FuelOverviewViewModel.CurrentPerLap}"
+                                                                     CurPerMinute="{Binding CarStatusViewModel.FuelOverviewViewModel.CurrentPerMinute}"
+                                                                     FuelPercentage="{Binding CarStatusViewModel.FuelOverviewViewModel.FuelPercentage}"
                                                                      FuelState="{Binding CarStatusViewModel.FuelOverviewViewModel.FuelState}"
-                                                                     ResetCommand="{Binding CarStatusViewModel.FuelOverviewViewModel.ResetCommand}"/>
+                                                                     FuelStatusColor="{StaticResource LightGrey01Brush}"
+                                                                     FuelStatusMightBeColor="{StaticResource Orange01Color}"
+                                                                     FuelStatusNotEnoughColor="{StaticResource HighQuantityColor}"
+                                                                     FuelStatusOkColor="{StaticResource Green01Color}"
+                                                                     FuelStatusUnknownColor="{StaticResource LightGrey01Color}"
+                                                                     LapsLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.LapsLeft}"
+                                                                     MaximumFuel="{Binding CarStatusViewModel.FuelOverviewViewModel.MaximumFuel}"
+                                                                     ResetCommand="{Binding CarStatusViewModel.FuelOverviewViewModel.ResetCommand}"
+                                                                     TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
+                                                                     VolumeUnits="{Binding DisplaySettings.VolumeUnits}" />
                                 </Border>
                             </Grid>
                         </Grid>
-                        <Border Grid.Column="1" BorderBrush="{StaticResource LightGrey01Brush}" BorderThickness="2" CornerRadius="5">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <temperatureControl:TemperatureControl Width="200" Height="150"
-                                                                   MaximalNormalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
-                                                                   MaximalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
-                                                                   MinimalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
-                                                                   Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                   TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                                                                   Icon="{StaticResource WaterTemperatureIcon}"/>
-                            <temperatureControl:TemperatureControl Width="200" Height="150" Grid.Row="1"
-                            MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
-                            MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
-                            MinimalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
-                            Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
-                            TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
-                            Icon="{StaticResource OilIcon}"/>
+                        <Border Grid.Column="1"
+                                BorderBrush="{StaticResource DarkGrey01Brush}"
+                                BorderThickness="2" CornerRadius="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <temperatureControl:TemperatureControl Width="200" Height="150"
+                                                                       Icon="{StaticResource WaterTemperatureIcon}"
+                                                                       MaximalNormalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
+                                                                       MaximalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
+                                                                       MinimalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
+                                                                       Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
+                                                                       TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}" />
+                                <temperatureControl:TemperatureControl Grid.Row="1" Width="200" Height="150"
+                                                                       Icon="{StaticResource OilIcon}"
+                                                                       MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
+                                                                       MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
+                                                                       MinimalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
+                                                                       Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
+                                                                       TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}" />
                             </Grid>
-                            </Border>
+                        </Border>
                     </Grid>
                 </Border>
             </Grid>
 
             <Grid Column="1">
-                <Border BorderBrush="Gainsboro" BorderThickness="2">
+                <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
                     <wpf:PositionCircle x:Name="TimingCircle" Width="Auto" Height="339" MinHeight="300"
                                         Background="Black"
                                         PositionCircleInformationProvider="{Binding SessionTiming}" />
                 </Border>
             </Grid>
             <Grid Column="2">
-                <Border BorderBrush="Gainsboro" BorderThickness="2">
+                <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -426,7 +343,9 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <GroupBox Grid.Row="0" Width="240" Height="107" Foreground="{StaticResource LightGrey01Brush}"
+                        <GroupBox Grid.Row="0" Width="240" Height="107"
+                                  Foreground="{StaticResource LightGrey01Brush}"
+                                  BorderBrush="{StaticResource DarkGrey01Brush}"
                                   Header="Session Settings">
                             <Grid Margin="0" VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
@@ -434,15 +353,18 @@
                                     <ColumnDefinition Width="0.5*" />
                                 </Grid.ColumnDefinitions>
                                 <CheckBox x:Name="ChkScrollToPlayer" Width="100" Margin="10,64,0,-3" HorizontalAlignment="Left"
-                                          VerticalAlignment="Top" Content="Scroll To Player" Foreground="{StaticResource LightGrey01Brush}"
+                                          VerticalAlignment="Top" Content="Scroll To Player"
+                                          Foreground="{StaticResource LightGrey01Brush}"
                                           IsChecked="{Binding DisplaySettings.ScrollToPlayer}" />
                                 <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
-                                       VerticalAlignment="Top" Content="Order:" Foreground="{StaticResource LightGrey01Brush}" />
+                                       VerticalAlignment="Top" Content="Order:"
+                                       Foreground="{StaticResource LightGrey01Brush}" />
                                 <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top"
                                           ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
                                           SelectedItem="{Binding CurrentSessionOptions.OrderingMode}" />
                                 <Label Grid.Column="1" Width="74" Height="29" Margin="10,5,0,0"
-                                       HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:" Foreground="{StaticResource LightGrey01Brush}" />
+                                       HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:"
+                                       Foreground="{StaticResource LightGrey01Brush}" />
                                 <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top"
                                           ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
                                           SelectedItem="{Binding CurrentSessionOptions.TimesDisplayMode}" />
@@ -455,11 +377,13 @@
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Row="0" Width="102" Height="55"
-                                    Command="{Binding OpenSettingsCommand}" Style="{StaticResource StandardButton}"
-                                    Content="Configure" />
-                            <Button x:Name="BtnReset" Grid.Column="1" Width="117" Height="55" Style="{StaticResource StandardButton}"
+                                    Command="{Binding OpenSettingsCommand}"
+                                    Content="Configure"
+                                    Style="{StaticResource StandardButton}" />
+                            <Button x:Name="BtnReset" Grid.Column="1" Width="117" Height="55"
                                     Command="{Binding ResetCommand}"
-                                    Content="Reset Timing" />
+                                    Content="Reset Timing"
+                                    Style="{StaticResource StandardButton}" />
                         </Grid>
                     </Grid>
                 </Border>
@@ -468,8 +392,8 @@
         </Grid>
         <Grid Row="3">
             <Border BorderThickness="1">
-                <StatusBar x:Name="StatusBar" Height="21" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                           Panel.ZIndex="5">
+                <StatusBar Height="21" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                           Panel.ZIndex="5" Background="{StaticResource Anthracite01Brush}">
                     <StatusBar.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid>
@@ -480,27 +404,28 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                             </Grid>
                         </ItemsPanelTemplate>
                     </StatusBar.ItemsPanel>
                     <StatusBarItem>
-                        <TextBlock Name="ConnectionStatus" Text="{Binding ConnectedSource, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Style="{StaticResource SmallText}" Name="ConnectionStatus" Text="{Binding ConnectedSource, UpdateSourceTrigger=PropertyChanged}" />
                     </StatusBarItem>
                     <Separator Grid.Column="1" />
                     <StatusBarItem Grid.Column="2">
-                        <TextBlock Name="SessionTime" Text="{Binding SessionTime, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Style="{StaticResource SmallText}" Text="{Binding SessionTime, UpdateSourceTrigger=PropertyChanged}" />
                     </StatusBarItem>
                     <Separator Grid.Column="3" />
                     <StatusBarItem Grid.Column="4" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                        <ProgressBar Name="RaceProgrees" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        <ProgressBar Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource DarkGrey05Brush}"
                                      Maximum="1000" Minimum="0"
+                                     Foreground="{StaticResource Green01Brush}"
                                      Value="{Binding SessionCompletedPercentage, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
                     </StatusBarItem>
                     <Separator Grid.Column="5" />
-                    <StatusBarItem Grid.Column="6">
-                        <TextBlock Name="SystemTime" Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />
+                    <StatusBarItem Grid.Column="6" Margin="10,0,15,0">
+                        <TextBlock Style="{StaticResource SmallText}" Name="SystemTime" Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />
                     </StatusBarItem>
                 </StatusBar>
             </Border>

@@ -234,6 +234,14 @@
                 return true;
             }
 
+
+            // Crossed line at out lap
+            if (dataSet.SessionInfo.SessionType != SessionType.Race && currentLap.PitLap && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
+            {
+                currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByCrossingTheLine;
+                return true;
+            }
+
             if ((!dataSet.SimulatorSourceInfo.HasLapTimeInformation || dataSet.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly) && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
             {
                 currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByCrossingTheLine;

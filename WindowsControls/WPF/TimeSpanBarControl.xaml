@@ -12,9 +12,14 @@
     <Border BorderThickness="4">
         <Grid>
             <Grid.Resources>
-                <converters:TimeSpanToBrushConverter x:Key="TimeSpanToBrushConverter" />
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <converters:TimeSpanToBrushConverter x:Key="TimeSpanToBrushConverter" />
                 <converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
                 <converters:TimeSpanToSecondsConverter x:Key="TimeSpanToSecondsConverter" />
+                </ResourceDictionary>
             </Grid.Resources>
             <StackPanel Background="Black">
                 <Label
@@ -22,8 +27,9 @@
                     Content="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Title}"
                     FontSize="12"
                     FontWeight="Bold"
-                    Foreground="White" />
-                <Grid Background="DarkGray">
+                    Foreground="{StaticResource LightGrey01Brush}" />
+                <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey05Brush}">
+                <Grid Background="{StaticResource Anthracite01Brush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="5*" />
@@ -38,23 +44,18 @@
                         Fill="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToBrushConverter}}"
                         RadiusX="00"
                         RadiusY="00">
-                        <Rectangle.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform />
-                                <RotateTransform Angle="0" />
-                                <TranslateTransform X="0" />
-                            </TransformGroup>
-                        </Rectangle.RenderTransform>
                     </Rectangle>
                 </Grid>
-                <Label
+                </Border>
+                <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource StandardText}" Margin="3,3,3,3"
+                           VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Background="Gainsboro"
-                    Content="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToSecondsConverter}}"
-                    FontSize="12"
+                    Background="{StaticResource Anthracite01Brush}"
+                    Text="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToSecondsConverter}}"
                     FontWeight="Bold"
                     Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToBrushConverter}}" />
+                </Border>
             </StackPanel>
         </Grid>
     </Border>

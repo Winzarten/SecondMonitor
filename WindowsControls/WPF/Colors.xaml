@@ -8,6 +8,7 @@
 
     <Color x:Shared="False" x:Key="LightRed01Color">#ff4d4d</Color>
     <Color x:Shared="False" x:Key="DarkRed01Color">DarkRed</Color>
+    <Color x:Shared="False" x:Key="Purple01color">#9e2e9e</Color>
 
     <Color x:Shared="False" x:Key="LightBlue01Color">#668cff</Color>
 
@@ -36,10 +37,15 @@
     <SolidColorBrush x:Shared="False" x:Key="Anthracite01Brush" Color="{StaticResource Anthracite01Color}"/>
 
     <SolidColorBrush x:Shared="False" x:Key="LightRed01Brush" Color="{StaticResource LightRed01Color}" />
-    <SolidColorBrush x:Shared="False" x:Key="DarkRed01Brush" Color="{StaticResource DarkRed01Color}" />
+    <SolidColorBrush x:Shared="False" x:Key="DarkRed01Brush" Color="{StaticResource DarkRed01Color}"/>
+
+    <SolidColorBrush x:Shared="False" x:Key="Green01Brush" Color="{StaticResource Green01Color}"/>
 
     <SolidColorBrush x:Shared="False" x:Key="ClutchPedalColor" Color="{StaticResource Yellow01Color}" />
     <SolidColorBrush x:Shared="False" x:Key="ClutchPedalBorderColor" Color="{StaticResource Yellow02Color}" />
+
+    <SolidColorBrush x:Shared="False" x:Key="PurpleTimingBrush" Color="{StaticResource Purple01color}"></SolidColorBrush>
+    <SolidColorBrush x:Shared="False" x:Key="TimingLappedBrush" Color="{StaticResource LightBlue01Color}"></SolidColorBrush>
 
     <Color x:Shared="False" x:Key="LowQuantityColor">#668cff</Color>
     <Color x:Shared="False" x:Key="HighQuantityColor" >#e60000</Color>

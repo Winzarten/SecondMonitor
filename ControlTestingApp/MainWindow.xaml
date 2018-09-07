@@ -45,7 +45,10 @@
                 <controls:TestFuelControl></controls:TestFuelControl>
                 </TabItem>
             <TabItem Header="Pedals">
-            <controls:PedalGearTestControl></controls:PedalGearTestControl>
+                <controls:PedalGearTestControl></controls:PedalGearTestControl>
+            </TabItem>
+            <TabItem Header="Track Info">
+                <controls:TrackInfoTestControl></controls:TrackInfoTestControl>
             </TabItem>
         </TabControl>
     </Grid>

@@ -5,6 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0997A624-2B5E-455F-98BF-8A1A5BAFA00E}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecondMonitor.Timing</RootNamespace>
@@ -68,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LapTimings\ViewModel\DriverLapsWindowManager.cs" />
+    <Compile Include="Presentation\Controls\TimingGridControl\TimingGrid.cs" />
     <Compile Include="Presentation\ViewModel\Commands\ResetCommand.cs" />
     <Compile Include="Presentation\ViewModel\Commands\DelegatedCommand.cs" />
     <Compile Include="LapTimings\ViewModel\DriverLapsViewModel.cs" />
@@ -162,6 +164,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Presentation\Controls\TimingGridControl\TimingGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\View\DisplaySettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

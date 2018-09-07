@@ -73,6 +73,12 @@
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
 
+        public string GetFormattedWithUnits(int decimalPlaces, TemperatureUnits temperatureUnits)
+        {
+            return GetValueInUnits(temperatureUnits).ToString($"F{decimalPlaces}") + " "
+                                                                                   + GetUnitSymbol(temperatureUnits);
+        }
+
         public static string GetUnitSymbol(TemperatureUnits units)
         {
             switch (units)
