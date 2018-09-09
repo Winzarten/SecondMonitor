@@ -7,8 +7,10 @@
 
 
     <Style x:Key="TextBoxStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
+                <Setter Property="Foreground" Value="White" />
                 <Setter Property="Background" Value="{StaticResource Green01Brush}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding IsLastLapBestSessionLap}" Value="True">

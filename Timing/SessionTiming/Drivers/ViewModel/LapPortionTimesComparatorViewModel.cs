@@ -37,6 +37,11 @@
 
         private void UnSubscribeToComparedLap()
         {
+            if (ComparedLap?.LapTelemetryInfo?.PortionTimes == null)
+            {
+                return;
+            }
+
             ComparedLap.LapTelemetryInfo.PortionTimes.PropertyChanged -= PortionTimes_PropertyChanged;
         }
 

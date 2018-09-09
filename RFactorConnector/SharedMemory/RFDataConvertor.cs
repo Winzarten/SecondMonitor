@@ -9,9 +9,9 @@
 
     internal class RFDataConvertor
     {
+        private const int MaxConsecutivePackagesIgnored = 200;
 
         private DriverInfo _lastPlayer = new DriverInfo();
-        private const int maxConsecutivePackagesIgnored = 200;
 
         private int currentlyIgnoredPackage = 0;
 
@@ -21,6 +21,7 @@
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
+            simData.SimulatorSourceInfo.InvalidateLapBySector = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
 
             FillSessionInfo(rfData, simData);
@@ -197,7 +198,7 @@
             if (distance.DistanceInM > 200)
             {
                 currentlyIgnoredPackage++;
-                if (currentlyIgnoredPackage < maxConsecutivePackagesIgnored)
+                if (currentlyIgnoredPackage < MaxConsecutivePackagesIgnored)
                 {
                     throw new RFInvalidPackageException("Players distance was :" + distance.DistanceInM);
                 }

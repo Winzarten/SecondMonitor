@@ -22,10 +22,17 @@
         private static readonly DependencyProperty TyreSlippingIndicationProperty = DependencyProperty.Register("TyreSlippingIndication", typeof(bool), typeof(WheelStatusViewModel));
         private static readonly DependencyProperty TyrePressureProperty = DependencyProperty.Register("TyrePressure", typeof(OptimalQuantity<Pressure>), typeof(WheelStatusViewModel));
         private static readonly DependencyProperty IsLeftWheelProperty = DependencyProperty.Register("IsLeftWheel", typeof(bool), typeof(WheelStatusViewModel));
+        private static readonly DependencyProperty TyreCompoundProperty = DependencyProperty.Register("TyreCompound", typeof(string), typeof(WheelStatusViewModel));
 
         public WheelStatusViewModel(bool isLeft)
         {
             IsLeftWheel = isLeft;
+        }
+
+        public string TyreCompound
+        {
+            get => (string)GetValue(TyreCompoundProperty);
+            set => SetValue(TyreCompoundProperty, value);
         }
 
         public bool TyreSlippingIndication
@@ -125,6 +132,7 @@
             }
 
             TyrePressure = wheelInfo.TyrePressure;
+            TyreCompound = wheelInfo.TyreType;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

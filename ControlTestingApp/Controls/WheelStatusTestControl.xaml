@@ -32,8 +32,8 @@
                 TyreCenterTemperature="{Binding TyreCenterTemperature}"
                 TyreRightTemperature="{Binding TyreRightTemperature}"
                 TyrePressure="{Binding TyrePressure}"
-                PressureUnits="{Binding PressureUnits}">
-            </wheelStatusControl:WheelStatusControl>
+                PressureUnits="{Binding PressureUnits}"
+                TyreCompound="Slick"/>
 
         </Grid>
         <Grid Grid.Column="1">

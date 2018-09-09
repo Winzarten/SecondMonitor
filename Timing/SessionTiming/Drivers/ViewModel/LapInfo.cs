@@ -20,7 +20,7 @@
         }
 
         private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
-        private static readonly TimeSpan MaxPendingTime = TimeSpan.FromSeconds(3);
+        private static readonly TimeSpan MaxPendingTime = TimeSpan.FromSeconds(2);
 
         public class SectorCompletedArgs : EventArgs
         {
@@ -148,8 +148,8 @@
         {
             TimeSpan lapDurationByTiming = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
 
-            // Perform a sanity check on the sim reported lap time. The time difference between what the application counted and the sim counted cannot be more than 5 seconds.
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 5)
+            // Perform a sanity check on the sim reported lap time. The time difference between what the application counted and the sim counted cannot be more than 15 seconds.
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 15)
             {
                 LapEnd = _isPendingStart != TimeSpan.Zero ? _isPendingStart : dataSet.SessionInfo.SessionTime;
             }
@@ -163,6 +163,7 @@
             {
                 Valid = false;
             }
+
             LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
             Completed = true;
         }
@@ -251,6 +252,7 @@
 
         private bool IsMaxSpeedViolated(DriverInfo currentDriverInfo)
         {
+
             if (_previousDriverInfo == null)
             {
                 return false;
@@ -322,8 +324,8 @@
 
         private void FinishSector(SectorTiming sectorTiming, DriverInfo driverInfo, SimulatorDataSet dataSet)
         {
-            sectorTiming.Finish(driverInfo);
-            if (sectorTiming.Duration == TimeSpan.Zero || (Driver.InPits && dataSet.SessionInfo.SessionType != SessionType.Race))
+            sectorTiming.Finish(driverInfo, dataSet);
+            if ((sectorTiming.Duration == TimeSpan.Zero || (Driver.InPits && dataSet.SessionInfo.SessionType != SessionType.Race)) && dataSet.SimulatorSourceInfo.InvalidateLapBySector)
             {
                 Valid = false;
             }
@@ -348,11 +350,24 @@
         // R3E has some weird behavior that sometimes it doesn't report last lap time correctly (reports zero), do not end lap in such weird cases
         public bool SwitchToPendingIfNecessary(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
+            if (dataSet.SimulatorSourceInfo.ForceLapOverTime)
+            {
+                _isPending = true;
+                _isPendingStart = dataSet.SessionInfo.SessionTime;
+            }
+
             if (dataSet.SimulatorSourceInfo.HasLapTimeInformation && driverInfo.Timing.LastLapTime == TimeSpan.Zero)
             {
                 _isPending = true;
                 _isPendingStart = dataSet.SessionInfo.SessionTime;
             }
+
+            if (PreviousLap != null && dataSet.SimulatorSourceInfo.HasLapTimeInformation && (driverInfo.Timing.LastLapTime == PreviousLap.LapTime || PreviousLap.LapTime == TimeSpan.Zero))
+            {
+                _isPending = true;
+                _isPendingStart = dataSet.SessionInfo.SessionTime;
+            }
+
             return _isPending;
         }
 
@@ -369,10 +384,30 @@
                 PendingSector = null;
             }
 
-            if (_isPending && (driverInfo.Timing.LastLapTime != TimeSpan.Zero || dataSet.SessionInfo.SessionTime - _isPendingStart > MaxPendingTime))
+
+            if (dataSet.SessionInfo.SessionTime - _isPendingStart > MaxPendingTime)
             {
                 _isPending = false;
+                return IsPending;
             }
+
+
+            if (dataSet.SimulatorSourceInfo.ForceLapOverTime)
+            {
+                return IsPending;
+            }
+
+            if (_isPending && (driverInfo.Timing.LastLapTime == TimeSpan.Zero))
+            {
+                return IsPending;
+            }
+
+            if (PreviousLap != null && _isPending && (driverInfo.Timing.LastLapTime == PreviousLap.LapTime && PreviousLap.LapTime == TimeSpan.Zero))
+            {
+                return IsPending;
+            }
+
+            _isPending = false;
             return IsPending;
         }
 

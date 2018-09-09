@@ -191,7 +191,7 @@
             double lapLength = LastDataSet.SessionInfo.TrackInfo.LayoutLength;
             double degrees = (driver.LapDistance / lapLength) * 2 * Math.PI - Math.PI / 2;
             double x = (ActualWidth / 2) * Math.Cos(degrees);
-            return x;
+            return double.IsNaN(x) ? 0 : x;
         }
 
         private double GetY(DriverInfo driver)
@@ -199,7 +199,13 @@
             double lapLength = LastDataSet.SessionInfo.TrackInfo.LayoutLength;
             double degrees = (driver.LapDistance / lapLength) * 2 * Math.PI - Math.PI / 2;
             double y = (ActualHeight / 2) * Math.Sin(degrees);
-            return y;
+
+            if (driver.InPits)
+            {
+                y += 30;
+            }
+
+            return double.IsNaN(y) ? 0 : y;
         }
 
         public void AddDrivers(params DriverInfo[] drivers)

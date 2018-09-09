@@ -135,7 +135,7 @@
             }
 
             _lastTrackTemperature = dataSet.SessionInfo.WeatherInfo.TrackTemperature;
-            _lastAirTemperature = dataSet.SessionInfo.WeatherInfo.TrackTemperature;
+            _lastAirTemperature = dataSet.SessionInfo.WeatherInfo.AirTemperature;
             SessionType = dataSet.SessionInfo.SessionType.ToString();
             FormatTrackName(dataSet.SessionInfo.TrackInfo.TrackName, dataSet.SessionInfo.TrackInfo.TrackLayoutName);
             RainIntensity = dataSet.SessionInfo.WeatherInfo.RainIntensity + "%";
@@ -163,7 +163,7 @@
             WeatherInfoAvailable =
                 _lastTrackTemperature != Temperature.Zero || _lastTrackTemperature != Temperature.Zero;
 
-            AirTemperatureInfo = _lastTrackTemperature.GetFormattedWithUnits(1, TemperatureUnits);
+            AirTemperatureInfo = _lastAirTemperature.GetFormattedWithUnits(1, TemperatureUnits);
             TrackTemperatureInfo = _lastTrackTemperature.GetFormattedWithUnits(1, TemperatureUnits);
         }
 
