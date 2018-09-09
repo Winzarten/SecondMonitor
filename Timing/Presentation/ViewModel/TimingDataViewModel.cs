@@ -28,6 +28,7 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using SecondMonitor.ViewModels.CarStatus;
+    using SecondMonitor.ViewModels.SituationOverview;
     using SecondMonitor.ViewModels.TrackInfo;
 
     using SessionTiming.Drivers;
@@ -84,6 +85,7 @@
             _driverLapsWindowManager = new DriverLapsWindowManager(() => Gui, () => SelectedDriverTiming);
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             _reportCreation = new ReportCreationViewModel(DisplaySettings);
+            SituationOverviewProvider = new SituationOverviewProvider(SessionTiming);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -125,6 +127,8 @@
         public SessionInfoViewModel SessionInfoViewModel { get; }
 
         public TrackInfoViewModel TrackInfoViewModel { get; }
+
+        public SituationOverviewProvider SituationOverviewProvider { get; }
 
         public TimingGui Gui { get; private set; }
 
@@ -453,7 +457,7 @@
                 return;
             }
 
-            Gui.TimingCircle.RefreshSession(data);
+            SituationOverviewProvider.ApplyDateSet(data);
         }
 
         private void RefreshBasicInfo(SimulatorDataSet data)
@@ -476,6 +480,7 @@
             CarStatusViewModel.ApplyDateSet(data);
             TrackInfoViewModel.ApplyDateSet(data);
             SessionInfoViewModel.ApplyDateSet(data);
+            SituationOverviewProvider.ApplyDateSet(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
@@ -487,7 +492,7 @@
 
             Gui?.Dispatcher.Invoke(() =>
             {
-                Gui.TimingCircle.RemoveDriver(e.Data.DriverTiming.DriverInfo);
+                SituationOverviewProvider.RemoveDriver(e.Data.DriverTiming.DriverInfo);
                 Collection?.Remove(e.Data);
             });
 
@@ -498,7 +503,7 @@
             Gui?.Dispatcher.Invoke(() =>
             {
                 Collection?.Add(e.Data);
-                Gui.TimingCircle.AddDriver(e.Data.DriverTiming.DriverInfo);
+                SituationOverviewProvider.AddDriver(e.Data.DriverTiming.DriverInfo);
             });
             _driverLapsWindowManager.Rebind(e.Data.DriverTiming);
         }
@@ -516,7 +521,6 @@
                 return;
             }
 
-            Gui.TimingCircle.RefreshSession(data);
             RefreshDataGrid();
 
             if (DisplaySettings.ScrollToPlayer && Gui != null && _timing?.Player != null && Gui.DtTimig.Items.Count > 0)
@@ -555,6 +559,8 @@
             {
                 _driverLapsWindowManager.Rebind(driverTimingModelView.DriverTiming);
             }
+
+            SituationOverviewProvider.PositionCircleInformationProvider = _timing;
             SessionInfoViewModel.SessionTiming = _timing;
             _timing.DriverAdded += Timing_DriverAdded;
             _timing.DriverRemoved += Timing_DriverRemoved;
@@ -562,6 +568,7 @@
 
             CarStatusViewModel.Reset();
             TrackInfoViewModel.Reset();
+            SituationOverviewProvider.Reset();
 
             InitializeGui(data);
             ChangeTimeDisplayMode();
@@ -608,7 +615,7 @@
                 Collection.Add(d);
             }
 
-            Gui.TimingCircle.SetSessionInfo(data);
+            SituationOverviewProvider.ApplyDateSet(data);
 
             //NotifyPropertyChanged("BestLapFormatted");
         }

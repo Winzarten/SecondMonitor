@@ -17,6 +17,12 @@
     </Window.DataContext>
     <Grid Background="Black">
         <TabControl>
+            <TabItem Header="Position Circle">
+                <controls:PositionCircleTestControl/>
+            </TabItem>
+            <TabItem Header="PlayerPosition">
+                <controls:PlayerPositionTestControl/>
+            </TabItem>
             <TabItem Header="Temperature">
                 <Grid Background="Black">
                     <Grid.RowDefinitions>

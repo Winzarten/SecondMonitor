@@ -58,7 +58,7 @@
         public bool TryConnect()
         {
 
-            #if DEBUG
+            #if! DEBUG
             IsConnected = true;
             Thread executionThread = new Thread(new ThreadStart(TestingThreadExecutor));
             executionThread.IsBackground = true;
@@ -237,6 +237,7 @@
             info.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
             info.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(_tyreTemp + 5);
             info.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(_tyreTemp);
+            info.TyreType = "Slick";
             info.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(_brakeTemp);
 
             info.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(200);

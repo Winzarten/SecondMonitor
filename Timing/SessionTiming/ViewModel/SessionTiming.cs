@@ -380,7 +380,7 @@
                 return false;
             }
 
-            return !Drivers?[driver.DriverName].DriverTiming.CurrentLap?.Valid ?? false;
+            return Drivers?[driver.DriverName].DriverTiming.CurrentLap?.Valid ?? false;
         }
     }
 }

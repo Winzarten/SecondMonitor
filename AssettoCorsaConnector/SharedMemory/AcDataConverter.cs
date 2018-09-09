@@ -34,7 +34,8 @@
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = false;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
+            simData.SimulatorSourceInfo.ForceLapOverTime = true;
+            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.SP_ONLY;
 
             FillSessionInfo(acData, simData);
             AddDriversData(simData, acData);
@@ -88,12 +89,14 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempM[(int)AcWheels.FL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempO[(int)AcWheels.FL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreCoreTemperature[(int)AcWheels.FL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = acData.AcsGraphic.tyreCompound;
 
             // Front Right Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempI[(int)AcWheels.FR]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempM[(int)AcWheels.FR]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempO[(int)AcWheels.FR]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreCoreTemperature[(int)AcWheels.FR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreType = acData.AcsGraphic.tyreCompound;
 
 
             // Rear Left Tyre Temps
@@ -101,12 +104,14 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempM[(int)AcWheels.RL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempO[(int)AcWheels.RL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreCoreTemperature[(int)AcWheels.RL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreType = acData.AcsGraphic.tyreCompound;
 
             // Rear Right Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempI[(int)AcWheels.RR]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempM[(int)AcWheels.RR]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempO[(int)AcWheels.RR]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreCoreTemperature[(int)AcWheels.RR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreType = acData.AcsGraphic.tyreCompound;
 
             // Fuel System
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(acData.AcsStatic.maxFuel);
@@ -400,10 +405,8 @@
                 simData.SessionInfo.TotalNumberOfLaps = data.AcsGraphic.numberOfLaps;
             }
 
-            if (_sectorLength == null && simData.SessionInfo.TrackInfo.LayoutLength > 0)
-            {
-                _sectorLength = (int)simData.SessionInfo.TrackInfo.LayoutLength / 3;
-            }
+            _sectorLength = (int)simData.SessionInfo.TrackInfo.LayoutLength / 3;
+
         }
 
         internal static DriverInfo.DriverFinishStatus FromAcStatus(int finishStatus)

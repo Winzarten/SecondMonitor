@@ -13,6 +13,7 @@
         public PendingSector(SectorTiming sector, TimeSpan initializationTime)
         {
             Sector = sector;
+            Sector.SwitchToPending(initializationTime);
             _initializationTime = initializationTime;
         }
 

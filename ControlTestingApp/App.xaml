@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/QuantityText/QuantityText.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

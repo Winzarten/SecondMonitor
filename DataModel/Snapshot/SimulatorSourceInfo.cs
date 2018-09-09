@@ -14,5 +14,10 @@
 
         // Some sims, like AC do not report out lap as invalid
         public bool OutLapIsValid { get; set; }
+
+        // For some sims (i.e. AMS) it is difficult tu check if lap is valid. One of the methods to look if the sectors were updated. This flag allows this behavior.
+        public bool InvalidateLapBySector { get; set; }
+
+        public bool ForceLapOverTime { get; set; }
     }
 }

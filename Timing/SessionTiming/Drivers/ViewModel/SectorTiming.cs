@@ -8,6 +8,7 @@
     public class SectorTiming : IComparable
     {
         private readonly TimeSpan _startTime;
+        private TimeSpan _pendingStart;
 
         public SectorTiming(int sectorNumber, SimulatorDataSet simulatorData, LapInfo lap)
         {
@@ -27,13 +28,33 @@
             Duration = dataSet.SessionInfo.SessionTime - _startTime;
         }
 
-        public void Finish(DriverInfo driverTiming)
+        public void Finish(DriverInfo driverTiming, SimulatorDataSet dataSet)
         {
             Duration = PickTiming(driverTiming);
+            if (Duration == TimeSpan.Zero && dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.SP_ONLY)
+            {
+                Duration = _pendingStart != TimeSpan.Zero ? _pendingStart : Lap.CurrentlyValidProgressTime;
+
+                switch (SectorNumber)
+                {
+                    case 2:
+                        Duration = Lap.Sector1 != null ? Duration - Lap.Sector1.Duration : TimeSpan.Zero;
+                        break;
+                    case 3:
+                        Duration = Lap.Sector2 != null ? Duration - (Lap.Sector1.Duration + Lap.Sector2.Duration) : TimeSpan.Zero;
+                        break;
+                }
+            }
+
             if (Duration.TotalSeconds <= 1)
             {
                 Duration = TimeSpan.Zero;
             }
+        }
+
+        public void SwitchToPending(TimeSpan sessionTime)
+        {
+            _pendingStart = Lap.CurrentlyValidProgressTime;
         }
 
         private TimeSpan PickTiming(DriverInfo driverInfo)

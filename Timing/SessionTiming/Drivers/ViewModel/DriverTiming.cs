@@ -5,6 +5,7 @@
     using System.Linq;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Extensions;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
@@ -13,6 +14,8 @@
     {
 
         private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
+
+        private const int MaxLapsWithTelemetry = 500;
 
         public class LapEventArgs : EventArgs
         {
@@ -315,6 +318,18 @@
             OnLapCompleted(new LapEventArgs(lapToFinish));
 
             ComputePace();
+            PurgeLapsTelemetry();
+        }
+
+        private void PurgeLapsTelemetry()
+        {
+            if (Laps.Count < MaxLapsWithTelemetry)
+            {
+                return;
+            }
+
+            Laps.Where(x => x.Completed && !x.LapTelemetryInfo.IsPurged && x != BestLap).ForEach(x => x.LapTelemetryInfo.Purge());
+
         }
 
         private bool ShouldLapBeDiscarded(LapInfo lap, SimulatorDataSet dataSet)
