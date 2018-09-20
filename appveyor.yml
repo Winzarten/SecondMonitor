@@ -1,0 +1,22 @@
+version: 2.6.{build}
+image: Visual Studio 2017
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+build_script:
+- cmd: >-
+    nuget restore
+
+    msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release
+
+    msbuild WixInstaller\WixInstaller.wixproj /t:Rebuild
+test: off
+artifacts:
+- path: Deployment\
+  name: Binaries
+- path: Installer\SecondMonitor.msi
+  name: Installer
