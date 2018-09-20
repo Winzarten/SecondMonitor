@@ -62,6 +62,7 @@
     <Compile Include="DependencyChecker\FileExistsAndMatchDependency.cs" />
     <Compile Include="DependencyChecker\IDependency.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="GameConnector\AbstractGameConnector.cs" />
     <Compile Include="GameConnector\DataEventArgs.cs" />
     <Compile Include="GameConnector\MessageArgs.cs" />

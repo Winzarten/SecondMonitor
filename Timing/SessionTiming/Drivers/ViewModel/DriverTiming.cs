@@ -328,7 +328,7 @@
                 return;
             }
 
-            Laps.Where(x => x.Completed && !x.LapTelemetryInfo.IsPurged && x != BestLap).ForEach(x => x.LapTelemetryInfo.Purge());
+            Laps.Where(x => x.Completed && !x.LapTelemetryInfo.IsPurged && x != BestLap && x.LapNumber != 1).ForEach(x => x.LapTelemetryInfo.Purge());
 
         }
 

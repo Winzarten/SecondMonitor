@@ -94,7 +94,7 @@
     </Compile>
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="ReportCreation\SessionTImingExtension.cs" />
-    <Compile Include="ReportCreation\ViewModel\ReportCreationViewModel.cs" />
+    <Compile Include="ReportCreation\ViewModel\ReportsController.cs" />
     <Compile Include="SessionTiming\Drivers\DriverListModificationEventArgs.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\CombinedLapPortionComparatorsVM.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\DriverTiming.cs" />

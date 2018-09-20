@@ -1,0 +1,1328 @@
+[33mcommit 63c9867422d5d72c629a2816be7ece826821459d[m[33m ([m[1;36mHEAD -> [m[1;32mfeat/timing_circle_2[m[33m, [m[1;31morigin/feat/timing_circle_2[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Sep 9 20:02:47 2018 +0200
+
+    timing circle reworked + ac MP fixes
+
+[33mcommit e615f33eebfa633d6740f4c199d84826cbc1de87[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Sep 7 23:05:08 2018 +0200
+
+    timing circle reworked
+
+[33mcommit bd88e892b0f00869e0de1fadb719c4a0be7769df[m[33m ([m[1;33mtag: v2.5.0-Beta2[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Matus Celko <42666212+Winzarten@users.noreply.github.com>
+Date:   Fri Sep 7 14:06:45 2018 +0200
+
+    Look and Feel stage 2 (#4)
+    
+    * Timing grid moved into a separate control. Asseto corsa lap timing fix
+    
+    * UI rework continued
+    
+    * Look and feel continuation
+    
+    * Look and feel wip
+
+[33mcommit ffb0ec8e85dbfbbc6805723d9d6e9fd4bd7db948[m[33m ([m[1;33mtag: v2.5.0-Beta[m[33m)[m
+Author: Matus Celko <42666212+Winzarten@users.noreply.github.com>
+Date:   Tue Sep 4 19:54:01 2018 +0200
+
+    UI rework (#3)
+
+[33mcommit 01a63c6943d78c0358dc56173f0991100e3b5e61[m
+Author: Matus Celko <42666212+Winzarten@users.noreply.github.com>
+Date:   Sun Aug 26 17:21:58 2018 +0200
+
+    Create Licence
+
+[33mcommit 609573aaf9df1005a9212b9a732c8c63cd59cb66[m
+Author: Matus Celko <42666212+Winzarten@users.noreply.github.com>
+Date:   Fri Aug 24 19:47:41 2018 +0200
+
+    Updated readme.md
+    
+    Installation directly in release tab
+
+[33mcommit 6d8560d0427c5e63dcc7871930d08e47f4bcbbbf[m
+Author: Matus Celko <42666212+Winzarten@users.noreply.github.com>
+Date:   Fri Aug 24 18:22:35 2018 +0200
+
+    Added screenshot to readme (#2)
+    
+    * Added Screenshots to readme
+    
+    * Delete screenshot.jpg
+    
+    * Delete screenshot.jpg
+
+[33mcommit a4356734868d322a201da32582e8fb1be7f36ed0[m
+Author: Matus Celko <42666212+Winzarten@users.noreply.github.com>
+Date:   Fri Aug 24 17:03:20 2018 +0200
+
+    Feat/readme.md (#1)
+    
+    Initial readmeversion
+
+[33mcommit 4d862f136b7920b4b3332762bd3d4f99c1e769f2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Aug 24 16:09:26 2018 +0200
+
+    VC Fixes
+
+[33mcommit 550e9237d30c8b1b0a0bcf12270e851905ecee01[m[33m ([m[1;32mfeat/TelemetryLoging[m[33m, [m[1;32m=l[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Aug 20 16:41:54 2018 +0200
+
+    Telemetry refactor
+
+[33mcommit a198176a5c3d9101e9a74e1d934773f9ba6c6345[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Aug 19 11:20:24 2018 +0200
+
+    Assetto Corsa fixes
+
+[33mcommit f32f3355cce9c7fa77c2d123151942e039fce9b2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Aug 13 20:43:42 2018 +0200
+
+    Bestsector retreival fixes
+
+[33mcommit 728ddb3c04fe8da8fec4416732d84590ec14daec[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Aug 12 19:59:51 2018 +0200
+
+    Reworked how best sectors are stored
+
+[33mcommit 8bb32b8be56994f9db34e453db98b6709e556b12[m[33m ([m[1;33mtag: 2.2.0[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Aug 11 09:54:42 2018 +0200
+
+    Advanced to version 2.2
+
+[33mcommit 1f0f0ab0b0ce096d8ec7efff277bea3834de14e6[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Aug 10 22:23:20 2018 +0200
+
+    AC fixes
+
+[33mcommit 7219563db66b726055d7c1642b400c2bd65e4ad3[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Aug 9 18:40:39 2018 +0200
+
+    improved handling of invalid laps
+
+[33mcommit 900d1b167ef5e2aacf6fc1bae7bc2c3430af1884[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Aug 7 19:05:32 2018 +0200
+
+    tighter section for delta times
+    wpf cleanup
+
+[33mcommit b862ca15182821fe9c69038ec8ecba70bb021375[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Aug 6 19:56:26 2018 +0200
+
+    AC plugin wip
+    Timing improvements
+
+[33mcommit 222dcffdc18cfa233a06cfd362c73a61cc4c4ff9[m
+Merge: 32ba5e8 b653f06
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Aug 4 18:04:35 2018 +0200
+
+    Merge branch 'master' into feat/AC
+
+[33mcommit b653f06bce1679d43cefdf467a98ff8fcd869863[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Aug 4 18:03:51 2018 +0200
+
+    delta timing implemented
+
+[33mcommit 59edf0e9d38ed9669695bc05b1ac7dfe51cd51b2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Aug 4 08:48:45 2018 +0200
+
+    xlsx export of players laps
+
+[33mcommit 4a7f6a366b3e0dd898e5d3a292694d1462b727bf[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Aug 1 17:39:21 2018 +0200
+
+    Remove redudant qualifies
+
+[33mcommit c92226657ece2ddfae5ec7e01613a38ab630b998[m[33m ([m[1;33mtag: 2.1.0[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Jul 31 19:35:32 2018 +0200
+
+    Automatic dependency installer for rfactor games
+
+[33mcommit fa82314c8f538ca0f14dc169cd37c03246e6d02c[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jul 29 17:56:13 2018 +0200
+
+    Added autoinstaller for rf2
+
+[33mcommit 32ba5e8dd146183a90eaf695e3a0e481a5af9b34[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jul 29 13:37:35 2018 +0200
+
+    asseto corsa plugin
+
+[33mcommit 116083f38ff1b071715bf1a15653eabee37f27d4[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jul 29 11:11:32 2018 +0200
+
+    Changed position circle driver color
+
+[33mcommit 756dd1c9b2abd35a155abd058cab04bf62302c44[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Jul 28 20:43:47 2018 +0200
+
+    rf2 implemation wip
+
+[33mcommit d9a6892ad704b2c7ee72f7ef2a1d6388da4784c3[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Jul 28 13:35:50 2018 +0200
+
+    r3e fixes + rf2 wip
+
+[33mcommit 20be2b605a8ca8ac223535f212438f70871e9b2b[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Jul 26 21:08:45 2018 +0200
+
+    packages upgrade
+
+[33mcommit 29dce1c48e98c4a7346729852b524734eafa4edf[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Jul 26 20:49:31 2018 +0200
+
+    rfactor pause noise fix
+
+[33mcommit f25e6bf3b209c70f724340ce4d408811443a2773[m[33m ([m[1;33mtag: 2.0.0[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Jul 24 18:52:47 2018 +0200
+
+    XSL export fixes
+
+[33mcommit 62a23df41f097a101b532e0e52ecf6175b3eab5d[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Jul 23 20:44:17 2018 +0200
+
+    Spectator fixes
+
+[33mcommit d63c5f031a64192a581b8113778702c500e69d3c[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Jul 23 19:41:03 2018 +0200
+
+    AMS support completed
+
+[33mcommit 586684d0f9ddbe1a4f2c89aae3b15e5c4f744788[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Jun 20 20:40:49 2018 +0200
+
+    Som pit fixes
+
+[33mcommit 4cd20cfa951748252b0411cb52723f5e54ecafb2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Jun 20 19:43:42 2018 +0200
+
+    Increased version + wix installation
+
+[33mcommit 5f2302dfff188a0d1eb3074a09985aeb7678d701[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 17 15:40:13 2018 +0200
+
+    Removed unused usings
+
+[33mcommit dbc01870fa54455f2930e9e860584f3dc06a993f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 17 15:14:18 2018 +0200
+
+    Some ams fixes
+
+[33mcommit f201092a1cd50400fb95f3d5397ac1ff94bd5e9f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Jun 16 22:51:20 2018 +0200
+
+    Initial full support for rfactor games
+
+[33mcommit 897561ce293a897d960861b74fd656cf64ef96aa[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Jun 16 14:53:05 2018 +0200
+
+    Rfactor connector session start + remove this qualificator
+
+[33mcommit 443e4d7685ba525c2f836cce0ce368166e72a904[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Jun 16 14:09:45 2018 +0200
+
+    RFactor fixes
+
+[33mcommit b10d94e2f4045df58564bad812917f9c38073089[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Jun 16 12:02:32 2018 +0200
+
+    Basic AMS connector implemented
+
+[33mcommit 5b657a7e4c1eb9297b109553590955bcb8db57fe[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 10 21:20:06 2018 +0200
+
+    Formatting stuff
+
+[33mcommit 95a98df6021d4e4ad4831d6766c60faaa3edc276[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Mar 23 10:10:23 2018 +0100
+
+    Added Laps information to race timed session
+    Replaced Timespan(0) for timespan.zero
+
+[33mcommit b6eb14a67a27f7b7aa988c3add9807093060a375[m[33m ([m[1;33mtag: 1.0.1[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Mar 18 17:04:42 2018 +0100
+
+    New r3e Data
+    Abstract Connector created
+    version increased to 1.1
+
+[33mcommit d15ec661cd0a6d98746eefb547b095a7b726f8e8[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Mar 10 10:18:38 2018 +0100
+
+    moved to version 1.0
+
+[33mcommit 9006cc30adbe21a3809f7fbcf3a3980669cd9e3a[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Mar 10 10:13:17 2018 +0100
+
+    Upgrade versioning simplified
+
+[33mcommit cb2e14aa2f75fd46372f4cc3ef960dae66f701b5[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Mar 10 09:52:50 2018 +0100
+
+    versionning
+
+[33mcommit 7a5d6275200d5c4e8247989a5f526a605b741544[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Mar 6 19:37:39 2018 +0100
+
+    Invalid sector fixes
+
+[33mcommit ad6a1a1ab76fd7437487ebb039168068af924a47[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Mar 3 19:13:12 2018 +0100
+
+    Report creation implemented
+
+[33mcommit e569b680c0bbf02b82b9ce801d10bfb037be5c01[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Mar 2 19:17:38 2018 +0100
+
+    Added reporting options to settings windows
+    Better Timing support for disconnected players
+    Exported now handled dnf drivers
+    Mocked connector simulating driver disconnect
+
+[33mcommit d8ed33237a036740e89035a5d52ac81712cd693e[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Mar 1 19:48:50 2018 +0100
+
+    Race report settings added to options model/ viewmodel
+
+[33mcommit 5987d99329d4f999c5606bef25cbdd1622a0c32c[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Feb 26 20:19:59 2018 +0100
+
+    Exporter for Summary + Lap Report done
+
+[33mcommit 1d424f288842639d46d0a41a777bdc261911196e[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Feb 22 21:39:49 2018 +0100
+
+    xsls import migrated to epp plus
+    project for datamodel unit tests
+
+[33mcommit a1c92b5a719232b61a3087034d2176f4803a2423[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Feb 21 19:21:23 2018 +0100
+
+    Summary exporter wip
+
+[33mcommit 3374c30570aeca2f463e672c0b98823944254e3d[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Feb 20 19:05:44 2018 +0100
+
+    Summary exporter wip
+
+[33mcommit 5ef4830812f97e6d686b76ed53c6b3bd360d575c[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Feb 18 16:45:41 2018 +0100
+
+    added XSLXExport project + tests project
+
+[33mcommit 8fce647496558d0a847c6d04a1a692936e94c74f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Feb 18 16:22:23 2018 +0100
+
+    Added xslx project
+
+[33mcommit 47e72bc0e88145ae7df89e645463eaa1b8e85d7d[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Feb 18 14:01:44 2018 +0100
+
+    continous datamodel refactro
+
+[33mcommit 334995d495a8fa40a21750e5107453ddea1c23dd[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Feb 17 14:32:27 2018 +0100
+
+    Timing datamodel refractor. Simulator snapshot stuff moved into own namespace
+
+[33mcommit c455fa84d5c6fc21c66155f689f1c5286971d107[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Feb 15 18:44:29 2018 +0100
+
+    Small changes
+
+[33mcommit 1ff44032a16a3dfab204a9e8310cf0e1231ea3d6[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Feb 15 18:35:10 2018 +0100
+
+    Added players current gear to gui
+
+[33mcommit ba8a2d4a791f424eb318e397deb0d91adc44035d[m[33m ([m[1;33mtag: 0.9.0[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Feb 4 16:15:47 2018 +0100
+
+    Squashed commit of the following:
+    
+    commit a797def190341e15fdf66fbdefec18db08121914
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Mon Jan 1 23:12:26 2018 +0100
+    
+        Driver laps timing added
+    
+    commit fd7af74ad75a8bbaa435b546b5817e0b739bd76b
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Mon Dec 25 19:11:39 2017 +0100
+    
+        New r3e corvette added
+        sector timing fixes
+        sector timing column options
+    
+    commit 5546d1ec80ff517158c288d8c6b97de703e3becc
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Mon Dec 25 14:33:08 2017 +0100
+    
+        Timing added to simulator model + r3e support + added to gui
+
+[33mcommit 08e401f9d2128319eb918abf9ff07b38eb50230c[m[33m ([m[1;33mtag: 0.5.0[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Dec 24 11:02:28 2017 +0100
+
+    v0.5
+
+[33mcommit 472a3793ade1849e1d8d5eab0653943af47aa90a[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Dec 23 11:45:16 2017 +0100
+
+    Various Fixes
+
+[33mcommit 3e3b2a086a759211335589b3c7db5cfc8cf4f60a[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Dec 21 13:37:19 2017 +0100
+
+    Code cleanup +reorganization
+
+[33mcommit b80134483b41ef96f833b27d45e2585a52bbded2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Dec 21 13:32:02 2017 +0100
+
+    Code clean-up + reorganization
+
+[33mcommit e5c6683f4d6810fde43ab43a226e565d82c0bf8c[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Dec 21 08:38:40 2017 +0100
+
+    Code cleanup
+
+[33mcommit 8d2ca7eec7a969872afe1e95fe5c311555a13edc[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Dec 21 08:20:10 2017 +0100
+
+    Code cleanup
+
+[33mcommit dcc44f3d7da73af8438980d81ed690b5462c1ec2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Dec 21 07:31:34 2017 +0100
+
+    Coode Cleanup
+
+[33mcommit 3842685e6d0c6a1dbce9c3d8f9bca337c99eba39[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Dec 20 19:00:07 2017 +0100
+
+    Units for session weather + clone clean up
+
+[33mcommit d1d5ad042265a7455db376aee072234d00e06422[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Dec 20 11:54:33 2017 +0100
+
+    Selected velocity units now used for top speed
+    +some refactoring and cleanup
+
+[33mcommit a957cb021375cfe083ed41c6c256531ca2fbbf10[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Dec 20 10:40:34 2017 +0100
+
+    Settings window implemented
+    
+    Squashed commit of the following:
+    
+    commit 03ae358646ed224301db3ff43aea53d7308e5bdd
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Tue Dec 19 08:53:26 2017 +0100
+    
+        Upgrade of application via installer
+    
+    commit 992f5c5159bcff14b290f21a24db21929f972ab7
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Fri Dec 15 20:15:27 2017 +0100
+    
+        Visiblity options for all columns
+    
+    commit 2e403726dff73cdbddbea8e412be0db419c41894
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Fri Dec 15 18:06:20 2017 +0100
+    
+        Modelview for all columns
+    
+    commit 91369f937d528e12b7ab0a37c3e7001efe93a38b
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Fri Dec 15 13:18:43 2017 +0100
+    
+        Headers centered
+    
+    commit 92dd189626db4a018702c41091a267d415b6d985
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Fri Dec 15 13:10:33 2017 +0100
+    
+        back to datagrid
+    
+    commit 905a87e60285f47eeb55d429997049c2876bf4d5
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Fri Dec 15 11:56:59 2017 +0100
+    
+        Model + model view for columns settings
+    
+    commit f9861cee8e6eb1e93591877106b5ec85c895235e
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Fri Dec 15 09:36:42 2017 +0100
+    
+        Ditched global display settings, instead current session display settings are available for quick acess
+    
+    commit 412e8cfecfc8119b1493cc53354989b0d36fdfd5
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Wed Dec 13 20:13:15 2017 +0100
+    
+        namespace fixes
+    
+    commit 344d1003e9eb444c3eb76ebbc62670ed137dc3bd
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Wed Dec 13 08:52:15 2017 +0100
+    
+        Column settings model
+    
+    commit ba4aee314b6531119d56a5c8c2c192aa65cc1dd6
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Wed Dec 13 08:45:26 2017 +0100
+    
+        Settings moved to its own namespace
+    
+    commit 3d6df94ffa4bef9653f623e2560c4ca22e90e5ed
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Tue Dec 12 19:09:03 2017 +0100
+    
+        Ordering/Time display on session change fix
+    
+    commit 142dc9b9309d20137d73e58422326525a2e6e137
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Tue Dec 12 17:40:55 2017 +0100
+    
+        Setting window implemented
+    
+    commit 8ac6c32524b171cc8b8e5bf21025baec7239c1c0
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Tue Dec 12 15:25:11 2017 +0100
+    
+        Configuration view model completed
+    
+    commit dd995001cd497d9a6cfd1d88cbd12e0feed08cb6
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Tue Dec 12 15:18:44 2017 +0100
+    
+        refactor using stlye cop
+    
+    commit 063f1f05cbaf76c5daa413b5a0c42bdddfd6c782
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Mon Dec 11 19:31:54 2017 +0100
+    
+        Session option implementation wip
+    
+    commit 29e9c986cfd8cbbbfee8cc67362706bd7dda4908
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Sun Dec 10 19:59:02 2017 +0100
+    
+         Setings window WIP
+    
+    commit ad657979f84b697461ed08066e1b63a7305c8b95
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Sun Dec 10 13:40:37 2017 +0100
+    
+        Setings window WIP
+    
+    commit 9377e4469f0fa3df300e4f08260dfe648122e2c8
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Fri Dec 8 19:33:00 2017 +0100
+    
+        Display settings window wip
+
+[33mcommit 99496668980625de7385ec247604ca3413b7944a[m
+Merge: fcb5cec e94ab11
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Dec 14 20:49:35 2017 +0100
+
+    Merge branch '0.2.0.FixedInstaller'
+
+[33mcommit e94ab110497b92f76b28b196298f0bb770453458[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Dec 14 20:49:14 2017 +0100
+
+    Installer will used elevated privileges
+
+[33mcommit fcb5cec3a35db112e743a3fd5d397ca2e878519d[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Dec 8 17:21:00 2017 +0100
+
+    Settings loader. Autosaver saving only every 5 seconds
+
+[33mcommit 8d9a94463316e56fb1fa483819de784909606d2f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Dec 6 19:58:31 2017 +0100
+
+    autosaving of settings wip
+
+[33mcommit 1d7a840c2fd9905fa76b8b1c738f1b68ee7fe931[m
+Merge: c773ab7 7c3039f
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Dec 3 18:16:57 2017 +0100
+
+    Merge branch 'feat/DriversInfoBinding'
+
+[33mcommit c773ab7bba29134cda0deab77bf485a65c4749d9[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Dec 3 18:15:48 2017 +0100
+
+    Databinding, mainly on the main datagrid, overhaul.
+    Squashed commit of the following:
+    
+    commit 7c3039fb531b280c966813896ad1463266d8b8e4
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Sun Dec 3 18:14:59 2017 +0100
+    
+        Reworked main datagrid bidning
+    
+    commit cafdbfc442b5309a809cac9aebe48af427005920
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Sat Dec 2 12:51:30 2017 +0100
+    
+        Binding reworked
+    
+    commit fbb66aa6e67a0fa3fbf481546c5823cc074ba452
+    Author: winzarten <matus.celko47@gmail.com>
+    Date:   Sat Dec 2 09:44:14 2017 +0100
+    
+        Binding rework wip
+
+[33mcommit 7c3039fb531b280c966813896ad1463266d8b8e4[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Dec 3 18:14:59 2017 +0100
+
+    Reworked main datagrid bidning
+
+[33mcommit cafdbfc442b5309a809cac9aebe48af427005920[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Dec 2 12:51:30 2017 +0100
+
+    Binding reworked
+
+[33mcommit fbb66aa6e67a0fa3fbf481546c5823cc074ba452[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Dec 2 09:44:14 2017 +0100
+
+    Binding rework wip
+
+[33mcommit f9300cacfa695fe688f5a407990b7d792f00d59e[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Dec 1 21:32:19 2017 +0100
+
+    Numeric settings all binded via wpf
+
+[33mcommit 254f54ab493f982a5b85b080facd40691b7abb37[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Dec 1 19:46:11 2017 +0100
+
+    Batch clode cleanup
+    WPF binding wip
+
+[33mcommit cbf9f928f964cff60db9a7b865273b6d0de7e544[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Nov 30 18:01:09 2017 +0100
+
+    Options moved to MVVM
+
+[33mcommit 63bc943da1bfbc9253a5364b8f053e8bea76d83f[m[33m ([m[1;33mtag: 0.2.0[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Dec 1 17:12:10 2017 +0100
+
+    R3E 64 bit support
+
+[33mcommit e570c59400e70de7c73a68f4f772e752114fd7cb[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Nov 28 18:46:21 2017 +0100
+
+    Installer gitignored
+
+[33mcommit c950dd877bf76a46dfd48237d1a5d150035a56ed[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Nov 28 18:44:42 2017 +0100
+
+    Installer done
+
+[33mcommit 436391ec3e4b8f7f7de1c194d9ccf09f8a60d8f7[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Nov 27 20:05:50 2017 +0100
+
+    Dialog added to wix installation
+
+[33mcommit fa22fd8cec17ecd8c6b2af50ae861a9310b98b0f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Nov 26 17:43:55 2017 +0100
+
+    Reworked how start icon is created
+
+[33mcommit c05081bfbeb0292a88ad93e4c8c0e7e578f5107f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Nov 26 17:27:04 2017 +0100
+
+    Icon in start menu created
+
+[33mcommit 6c9170ffef7cca85ec31b9fe3e8909d37ca052a1[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Nov 26 12:28:34 2017 +0100
+
+    Wix installer in progress
+
+[33mcommit 21082679e8c90fb8065c78c3d26391ff6ec8c944[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Nov 25 17:56:45 2017 +0100
+
+    Wix installer WIP
+
+[33mcommit 2fa75f49435d237384e43341b721afbd11484790[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Nov 25 17:56:11 2017 +0100
+
+    Logging implemented
+
+[33mcommit 2c582fc827f2b7fd031cc023f5a8015c5f272849[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Nov 22 19:58:28 2017 +0100
+
+    Pcars exit detection fix
+
+[33mcommit 9eee178412ab8bd232708e335fd311f51a762b9d[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Nov 21 19:23:58 2017 +0100
+
+    Fix: Best Session lap cleared after reset
+    Fix: Pcars reseting timing when saving pit preset
+
+[33mcommit 77c1864913d7a90161891970eb20331a0a2d3a7a[m[33m ([m[1;33mtag: 0.1.0[m[33m)[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Nov 20 19:43:05 2017 +0100
+
+    Pcars support completed
+    Various code quality fixes
+
+[33mcommit f8084ff5f2297b7df907099842d470e5e6f08a2f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Nov 20 14:24:05 2017 +0100
+
+    MockedConnector/MockedConnector fixes
+
+[33mcommit 7a2d341003898f8625599df215d838d6dec48cf3[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Nov 19 21:26:47 2017 +0100
+
+    Improved dynamic driver disconnect/connect (mp support)
+    WIP pcars support
+
+[33mcommit 3be8ae9425373017e2d31366ed205e9ef3c9a76b[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Nov 16 21:17:46 2017 +0100
+
+    Pcars connector now uses queues
+    Timing able to handle dynamically changing drivers list (mp required)
+
+[33mcommit 93d2005608b4cabefa2c99b0b3aa7dd83436861a[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Nov 13 18:31:02 2017 +0100
+
+    WIP Pcars fully timing support
+
+[33mcommit b324de8dc83bb90ee0f16656b6b3be673d30dae2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Nov 11 22:33:26 2017 +0100
+
+    Pcars support implementation
+    Even handler triggering refactored
+
+[33mcommit 6add3518d7c1f2b28875c2509285637f847652d4[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Oct 29 22:01:34 2017 +0100
+
+    Pcars connector to support disconnact
+    Fuel monitor fix
+
+[33mcommit 4fe5d2022aca1a40edd82e4c1bb49e59d4ce4826[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Oct 29 16:59:34 2017 +0100
+
+    Connectors reworked - plugin manager is not handling connector => ability to change games without restarting/recompiling the app
+
+[33mcommit 1f6fcb4c33b046f94787b6306c26ce9aa09f7fa7[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Oct 29 12:38:56 2017 +0100
+
+    R3E conversion moved to another file
+    Little gui mapping fecatoring
+
+[33mcommit 6d1d4499f9a69f89269e8461977722ae43814c5d[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Oct 29 12:14:12 2017 +0100
+
+    Release chganges.
+    Timing info from sim, when available
+
+[33mcommit b0a345192c935fe22a1717ba4c3c5721d3f396f4[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Oct 26 20:53:58 2017 +0200
+
+    Gap implemented
+    Implemented coloring for lapped instances
+    Reworked coloring
+    Implemented clutch pedal
+
+[33mcommit f654e654f5e3d47a37c3a40d50a68b4375386c78[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Oct 24 20:13:53 2017 +0200
+
+    Cars in blue when in pits
+
+[33mcommit 9992fd42fd1bee8e856445255584a53e710ed6a1[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 24 15:32:49 2017 +0200
+
+    Units to fuel calculations
+    Timing circle pit color
+
+[33mcommit dac17cafeaa328650a0e6286a5dfbf2dbd8c40a0[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 24 14:30:21 2017 +0200
+
+    Fuel panel able to refresh while no consumption
+    Fuel calculator added
+
+[33mcommit 485de271b1b03ab948234fd42e4ec58aa4cfe6a3[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 24 10:33:59 2017 +0200
+
+    added labels
+
+[33mcommit 2cfb958322769c711652b2091cff85ed9dc41670[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Mon Oct 23 15:08:42 2017 +0200
+
+    Units
+
+[33mcommit 2fd25c7558a5f4684a78593b99f819ed56d42810[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Mon Oct 23 14:56:15 2017 +0200
+
+    Selectable units
+
+[33mcommit 92e755615016377613d91c8ee877f40eeda93fa5[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Oct 22 22:50:56 2017 +0200
+
+    session phase fix
+
+[33mcommit 3c3be3713fbceedbfd19b54644f0b2dc962f2550[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Oct 21 21:53:46 2017 +0200
+
+    Relative time added
+
+[33mcommit 3b87d22821caf73ff52892cfa1a9714d988403a6[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Oct 20 20:12:35 2017 +0200
+
+    Added progress bar
+    Reordered columns
+
+[33mcommit 0dfb8fd1fe367303415ccdaff1608844f2a58959[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Oct 19 17:56:12 2017 +0200
+
+    Binding reworked
+
+[33mcommit 899f97c7a492ed3fd0c56785cc618346b81b7e3e[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Thu Oct 19 14:38:19 2017 +0200
+
+    Gui reordered
+
+[33mcommit ee18a128489e682ffb8e66056b80877a8031759f[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Thu Oct 19 11:50:51 2017 +0200
+
+    Changed default temperature for brakes
+    Refresh rate now definable
+
+[33mcommit 7d000f2c35be06f91a2bd42c02c9ae9821e3ec75[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Wed Oct 18 13:42:59 2017 +0200
+
+    Different temeprature units for wheel control
+
+[33mcommit 7908ebbce9c3788f28bc7296fdad1dab5550df49[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Wed Oct 18 11:56:15 2017 +0200
+
+    Farhn... support
+    Icons added
+
+[33mcommit 2657213bdd24d72e61be21f39037e5772230fd0c[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Oct 17 18:54:12 2017 +0200
+
+    water temp added
+
+[33mcommit 9eb4e81466999775aa101156a14260450f70ba99[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 17 15:10:09 2017 +0200
+
+    Replaced pressure icon
+
+[33mcommit f2b3512ed9667c89f567cca936cfd3d6db23c572[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 17 14:48:14 2017 +0200
+
+    Player info refactor
+    Wheel info refactor
+
+[33mcommit d2c317e2875738cd0cd8d32b551efd8d5c6616b6[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 17 10:28:39 2017 +0200
+
+    Session timing support for pcars
+
+[33mcommit 74e9a5303111ad18e6de227c9abc446434b48985[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Oct 16 18:04:13 2017 +0200
+
+    Tyre infor added
+
+[33mcommit 33e39271e6218b19af42b970b6c3db6f8995a70c[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Oct 13 21:50:45 2017 +0200
+
+    Fuel computed also in laps
+
+[33mcommit 3ccd9f4ce43260cd17d03197e2c454dec125172d[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Oct 10 22:39:12 2017 +0200
+
+    focus on players
+
+[33mcommit c535841883ee362aea703b931f06e9b43a61ea7d[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 10 13:57:02 2017 +0200
+
+    Rain information added
+
+[33mcommit 2f9b54e1d2bf5f17ab645c5ef0c56a8c6541326d[m
+Merge: 075a472 5a07902
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Oct 9 17:21:32 2017 +0000
+
+    Merge branch 'feat/circle' into 'master'
+    
+    Circle
+    
+    +1: winzarten
+    
+    Merged-on: http://assembla.com/code/secondmonitor/git/merge_requests/5571403
+
+[33mcommit 5a07902aa3728e2cbbb43de9bab588bf5e707d38[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Oct 9 19:13:36 2017 +0200
+
+    Additional session info
+    PCars support for timing
+
+[33mcommit 947ab1dcb67a10ea6643e0f1bd7355765d416632[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Fri Oct 6 14:40:32 2017 +0200
+
+    Selectable pace laps
+
+[33mcommit 92fd9e43e9b7df8643b047133d28c57ac6e8635a[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Oct 5 19:43:56 2017 +0200
+
+    Fuel indicator
+
+[33mcommit 2d4896d2d82f1a1689db12faf8c7ccbf109f80de[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Oct 4 18:51:51 2017 +0200
+
+    Car name added
+
+[33mcommit f4d941d40db75030a82022a9538ef2114c177e69[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Oct 3 18:58:03 2017 +0200
+
+    Pit not visible on timing circle
+    Color changed
+
+[33mcommit 74a26e8e847b4de1ad970b438adcb8b8c5f84145[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Oct 3 12:18:50 2017 +0200
+
+    text to circle added
+
+[33mcommit 837a96597a30a45d20fec9d8af166e783569b926[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Oct 2 19:15:04 2017 +0200
+
+    Timing circle added
+
+[33mcommit de14ee4ac10f0014d74e5e41018ac1e9cca0573b[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Mon Oct 2 15:17:13 2017 +0200
+
+    Circle
+
+[33mcommit 075a472e92c0e435b7dfb20ac3c0c005e536e72e[m
+Merge: 0b77949 c730d55
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Oct 2 07:03:53 2017 +0000
+
+    Merge branch 'feat/listview' into 'master'
+    
+    Switched datagrid for listview
+    
+    Merged-on: http://assembla.com/code/secondmonitor/git/merge_requests/5541933
+
+[33mcommit c730d55f68b07952ded2b2c952e319ea71ee5e8b[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Oct 1 19:04:21 2017 +0200
+
+    Added Modes to timing
+
+[33mcommit 7b1014d955e752992cf3cecf813e87245a619dbc[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Fri Sep 29 15:24:37 2017 +0200
+
+    Timing mode selector
+
+[33mcommit f07595ef915293b71dc17377343a448eec28dc09[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Sep 28 18:42:45 2017 +0200
+
+    Switched datagrid for listview
+
+[33mcommit 0b779498d9aae60acbf821039de3f11d944c8866[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Sep 28 15:10:47 2017 +0200
+
+    Distance to player calculated
+
+[33mcommit 2780857616e3b38ada84e23338a6be463324e9d7[m
+Merge: ee68230 056dd82
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Sep 26 16:47:39 2017 +0000
+
+    Merge branch 'feat/telemetry' into 'master'
+    
+    Session info implementation
+    
+    Merged-on: http://assembla.com/code/secondmonitor/git/merge_requests/5521743
+
+[33mcommit 056dd8207aa8920c0cd0b44a0a04bea5522021fe[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Sep 26 18:46:40 2017 +0200
+
+    Added reset button
+
+[33mcommit 29cb7b415ab33da6c21cbdaf3414ecfd47fe10b0[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Sep 24 14:02:33 2017 +0200
+
+    Reworked binding to be more WPF like
+
+[33mcommit 9cb0d0090d30c2200962521136e6bcd4cad2e089[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Sep 23 21:11:38 2017 +0200
+
+    Data retreival now assynchronous
+
+[33mcommit f173803e6f616c72a50e77dfee8725300a4ad5a6[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sat Sep 23 14:39:50 2017 +0200
+
+    Timing window now has telemetry info. Pit info extended
+
+[33mcommit 63f803773be3897b5c211c8cb69cb43b487808f4[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Thu Sep 21 21:43:08 2017 +0200
+
+    foo
+
+[33mcommit 1fcbf36e9477d804cb642165223db4293e18197f[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Tue Sep 19 14:32:40 2017 +0200
+
+    Driver detail
+
+[33mcommit d32de908a477e8bcff961f948f046a7f0d272867[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Mon Sep 18 19:05:54 2017 +0200
+
+    Telemetey implemented
+
+[33mcommit 472037089818b3881a15d113c3b40616f9236b27[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Mon Sep 18 14:47:38 2017 +0200
+
+    gui cleanup
+
+[33mcommit 66d42aab76798fcfa1d8c7875dcda449b38317fd[m
+Author: Matus Celko <matus.celko@avitech.aero>
+Date:   Mon Sep 18 14:22:24 2017 +0200
+
+    Invalid lap fix for AI cars
+
+[33mcommit c6770f68fd1f6b225d72ebf1a938e8ab017edc18[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Sep 17 19:58:07 2017 +0200
+
+    Telemetry implemenation
+
+[33mcommit eed8e53c07fb9c345a77ce6857620c073436333a[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Sep 15 19:46:52 2017 +0200
+
+    Timing wpf gui implementation
+
+[33mcommit 65ff7ef027c8cefffaa189979af2b85fd49e3dff[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Sep 13 22:11:25 2017 +0200
+
+    Newest r3e patch implemeted
+
+[33mcommit 1b090f8fdcf11a3672c88fab7e193a374f8d019f[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Sep 13 18:36:48 2017 +0200
+
+    Session info implementation
+
+[33mcommit ee682309aab48113e273b2d6087c86e6b0f8aa25[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Sep 13 16:13:32 2017 +0200
+
+    added artifacts
+
+[33mcommit f6293cca84d8809227b2a4ec79c65832b1978030[m
+Merge: 4f9d73a d7bd68a
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Jul 1 19:09:41 2016 +0000
+
+    Merge branch 'feat/G-Meter' into 'master'
+    
+    Gmeter implemented
+    
+    Merged-on: https://assembla.com/code/secondmonitor/git/merge_requests/3499133
+
+[33mcommit d7bd68acd511c0118198c5585ff7b0893978ed37[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Jul 1 21:08:27 2016 +0200
+
+    Adde pcars support for gmeter
+
+[33mcommit 44afbcb7ab77052b1f92713ef374edf670dab661[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Jul 1 17:56:11 2016 +0200
+
+    Gmeter implemented
+
+[33mcommit 4f9d73a531d44900cfd8246eaac4f4b826272250[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Fri Jul 1 16:36:51 2016 +0200
+
+    Various changes to controls
+
+[33mcommit 2c0b340b524fa1fc0acfc18186055d5c03c13056[m
+Merge: 52dab33 df9bfe1
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Jun 28 17:49:15 2016 +0000
+
+    Merge branch 'feat/PcarsSupport' into 'master'
+    
+    Project cars support
+    
+    Merged-on: https://assembla.com/code/secondmonitor/git/merge_requests/3479203
+
+[33mcommit df9bfe169efab8dfcf02eac21cc40a9eee860727[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Tue Jun 28 19:48:06 2016 +0200
+
+    PCars support done
+
+[33mcommit 501f3b42d361a14ff0ef503643be0cf12e606325[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 22:42:48 2016 +0200
+
+    Project cars support
+
+[33mcommit 52dab3337c20565df4592fcc2933a51ea7b76655[m
+Merge: 8528ed8 2986342
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 19:21:22 2016 +0000
+
+    Merge branch 'feat/mulitpleGamesSupport' into 'master'
+    
+    Refactor to allow multiple games support
+    
+    Merged-on: https://assembla.com/code/secondmonitor/git/merge_requests/3468623
+
+[33mcommit 29863421324ef0601ca2fe1010898dd294c776d2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 21:17:40 2016 +0200
+
+    Added multi-game support. R3E connector added to handle connecting to R3E
+
+[33mcommit 7070d5477e3728d609f534d7ea14bb818e379da2[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 20:51:58 2016 +0200
+
+    Support for multiple plugins implemented. Binaries moved to deployment folder
+
+[33mcommit 9648754545fd36fff57859d2d0152a1d9f9f8f14[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 20:05:09 2016 +0200
+
+    Project reshuffle to allow multiple application + universal plugin support
+
+[33mcommit 485f80d81d73675cb707710f0d495e635101ce22[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 19:45:02 2016 +0200
+
+    Initial commit of multiple games support
+
+[33mcommit 8528ed85a71013246f9162d4bb13ae28c5cc05e7[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 18:12:09 2016 +0200
+
+    Refactored to use own data model
+
+[33mcommit 835a5a896ac1cc49ab00f7698d5917951c3b15e4[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Sun Jun 26 17:37:40 2016 +0200
+
+    Added own data model
+
+[33mcommit 65ad8a664a219d687a722e021876ed6b6f678374[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Jun 22 20:21:49 2016 +0200
+
+    Pressure added to Wheel info control
+
+[33mcommit e9cce304258e5a2132e9987be06ef7745a6595d7[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Jun 22 18:15:47 2016 +0200
+
+    Car status reorganization
+
+[33mcommit 3b0e9e359601c13a25d3145d145534107d3e2754[m
+Merge: 629d617 9ca59f6
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Jun 22 16:00:24 2016 +0000
+
+    Merge branch 'feat/carStatus' into 'master'
+    
+    car status implementation
+    
+    Merged-on: https://assembla.com/code/secondmonitor/git/merge_requests/3454273
+
+[33mcommit 9ca59f6548910a500f2f590c5f5ee5bfc5be2f60[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Jun 22 17:58:01 2016 +0200
+
+    test commit
+
+[33mcommit ff879e3e40cd725a96244418a2572a4303133b8b[m
+Author: winzarten <matus.celko47@gmail.com>
+Date:   Wed Jun 22 17:50:24 2016 +0200
+
+    Fuel indicator added to car monitor
+
+[33mcommit 61538ab7c5605928b08a3ba5f21a839f61d177ac[m
+Author: matus celko <matus.celko47@gmail.com>
+Date:   Tue Jun 21 22:31:51 2016 +0200
+
+    car status implementation
+
+[33mcommit 629d6175252b638f5aaf45a0a234f32a4054936b[m
+Author: matus celko <matus.celko47@gmail.com>
+Date:   Tue Jun 21 21:41:42 2016 +0200
+
+    Load manager initial implementation
+
+[33mcommit bdd8f244de666d0838b0e45bcdaf4e5d1bd45747[m
+Author: matus celko <matus.celko47@gmail.com>
+Date:   Tue Jun 21 18:55:37 2016 +0200
+
+    R3E Connection completed
+
+[33mcommit ccdbb90f7da97dbf8c4ccf71c7b5757d0d38ecc7[m
+Author: matus celko <matus.celko47@gmail.com>
+Date:   Tue Jun 21 18:47:29 2016 +0200
+
+    Connection, wip
+
+[33mcommit 99a6bc4855f9f0c0fcf22a9a4c7305226241db28[m
+Author: matus celko <matus.celko47@gmail.com>
+Date:   Tue Jun 21 17:56:06 2016 +0200
+
+    inital commit
+
+[33mcommit 6af54b2f637ded87acb1cfb2de051cf3907c9168[m
+Author: matus celko <matus.celko47@gmail.com>
+Date:   Tue Jun 21 17:51:18 2016 +0200
+
+    Initial commit

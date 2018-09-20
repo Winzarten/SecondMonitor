@@ -7,7 +7,6 @@
     using System.IO;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
@@ -63,8 +62,6 @@
 
         private DisplaySettingAutoSaver _settingAutoSaver;
 
-        private ReportCreationViewModel _reportCreation;
-
         private PluginsManager _pluginsManager;
         private SessionTiming _timing;
         private DisplaySettingsWindow _settingsWindow;
@@ -84,7 +81,7 @@
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = new DriverLapsWindowManager(() => Gui, () => SelectedDriverTiming);
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
-            _reportCreation = new ReportCreationViewModel(DisplaySettings);
+            ReportsController = new ReportsController(DisplaySettings);
             SituationOverviewProvider = new SituationOverviewProvider(SessionTiming);
         }
 
@@ -95,6 +92,8 @@
 
         // Gets or sets the ObservableCollection
         public ObservableCollection<DriverTimingModelView> Collection { get; set; } = new ObservableCollection<DriverTimingModelView>();
+
+        public ReportsController ReportsController { get; }
 
         public string SessionTime => _timing?.SessionTime.ToString("mm\\:ss\\.fff") ?? string.Empty;
 
@@ -549,9 +548,9 @@
             var invalidateLap = _shouldReset == ResetModeEnum.Manual ||
                                 data.SessionInfo.SessionType != SessionType.Race;
             _lastDataSet = data;
-            if (_timing != null && _reportCreation != null)
+            if (_timing != null && ReportsController != null)
             {
-                _reportCreation.CreateReport(_timing);
+                ReportsController.CreateReport(_timing);
             }
 
             SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this);
@@ -665,9 +664,9 @@
                 timingDataViewModel._settingAutoSaver.DisplaySettingsModelView = newDisplaySettingsModelView;
             }
 
-            if (timingDataViewModel._reportCreation != null)
+            if (timingDataViewModel.ReportsController != null)
             {
-                timingDataViewModel._reportCreation.Settings = newDisplaySettingsModelView;
+                timingDataViewModel.ReportsController.Settings = newDisplaySettingsModelView;
             }
 
         }
