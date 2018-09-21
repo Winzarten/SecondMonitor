@@ -63,6 +63,7 @@
     <Compile Include="BasicProperties\VolumeUnits.cs" />
     <Compile Include="BasicProperties\SessionLengthType.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
+    <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Snapshot\SessionPhase.cs" />
     <Compile Include="BasicProperties\SessionType.cs" />
     <Compile Include="Snapshot\Systems\CarInfo.cs" />

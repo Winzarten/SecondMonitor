@@ -24,7 +24,7 @@
             RecreatePlayerLapToPlayerBest();
         }
 
-        private void DriverOnLapCompleted(object sender, DriverTiming.LapEventArgs e)
+        private void DriverOnLapCompleted(object sender, LapEventArgs e)
         {
             if (e.Lap == _playerLap.Driver.BestLap)
             {

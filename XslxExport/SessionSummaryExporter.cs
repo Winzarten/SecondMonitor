@@ -470,7 +470,7 @@
 
         private void AddDriverInfo(ExcelWorksheet sheet, ExcelRow row, Driver driver, SessionSummary sessionSummary)
         {
-            sheet.Cells[row.Row + 1, 1].Value = driver.Finished ? driver.FinishingPosition.ToString() : "DNF";
+            sheet.Cells[row.Row + 1, 1].Value = GetFinishPositionInfo(driver, sessionSummary.SessionType == SessionType.Race);
             sheet.Cells[row.Row + 1, 2].Value = driver.DriverName;
             sheet.Cells[row.Row + 1, 3].Value = driver.CarName;
             sheet.Cells[row.Row + 1, 4].Value = driver.TotalLaps;
@@ -507,6 +507,23 @@
                 sheet.Cells[row.Row + 1, 8].Style.Fill.BackgroundColor.SetColor(SessionBestColor.ToDrawingColor());
                 sheet.Cells[row.Row + 1, 8].Style.Font.Color.SetColor(System.Drawing.Color.White);
             }
+        }
+
+        private string GetFinishPositionInfo(Driver driver, bool addStartPosition)
+        {
+            string endPosition = driver.Finished ? driver.FinishingPosition.ToString() : "DNF";
+            if (!addStartPosition)
+            {
+                return endPosition;
+            }
+
+            Lap firstLap = driver.Laps.LastOrDefault(x => x.LapNumber == 1);
+            if (firstLap?.LapStartSnapshot == null)
+            {
+                return endPosition;
+            }
+
+            return $"{endPosition} (Started: {firstLap.LapStartSnapshot.PlayerData.Position})";
         }
 
         private void AddDriversInfoHeader(ExcelWorksheet sheet)

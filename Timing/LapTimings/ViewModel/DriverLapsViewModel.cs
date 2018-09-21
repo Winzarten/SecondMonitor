@@ -12,10 +12,8 @@
 
     public class DriverLapsViewModel : DependencyObject
     {
-
         public static readonly DependencyProperty LapsProperty = DependencyProperty.Register("Laps", typeof(ObservableCollection<LapViewModel>), typeof(DriverLapsViewModel));
         public static readonly DependencyProperty DriverNameProperty = DependencyProperty.Register("DriverName", typeof(string), typeof(DriverLapsViewModel));
-
 
         private readonly DriverTiming _driverTiming;
 
@@ -26,8 +24,6 @@
             DriverName = "Design Time";
             Laps = new ObservableCollection<LapViewModel>();
         }
-
-        public DriverTiming DriverTiming => _driverTiming;
 
         public DriverLapsViewModel(DriverTiming driverTiming, DriverLapsWindow gui)
         {
@@ -42,14 +38,18 @@
             _gui.DataContext = this;
         }
 
-        private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
+        public DriverTiming DriverTiming => _driverTiming;
+
+        public ObservableCollection<LapViewModel> Laps
         {
-            _gui.LapsGrid.SelectedItem = null;
+            get => (ObservableCollection<LapViewModel>)GetValue(LapsProperty);
+            private set => SetValue(LapsProperty, value);
         }
 
-        private void GuiOnClosed(object sender, EventArgs eventArgs)
+        public string DriverName
         {
-            UnRegisterOnGui();
+            get => (string)GetValue(DriverNameProperty);
+            private set => SetValue(DriverNameProperty, value);
         }
 
         public void UnRegisterOnGui()
@@ -63,31 +63,26 @@
             }
         }
 
-        private void DriverTimingOnNewLapStarted(object sender, DriverTiming.LapEventArgs e)
+        private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
         {
-            /*if (!Laps.Last().LapInfo.Completed)
-            {
-                Laps.RemoveAt(Laps.Count - 1);
-            }*/
+            _gui.LapsGrid.SelectedItem = null;
+        }
+
+        private void GuiOnClosed(object sender, EventArgs eventArgs)
+        {
+            UnRegisterOnGui();
+        }
+
+        private void DriverTimingOnNewLapStarted(object sender, LapEventArgs e)
+        {
             var newLapModel = new LapViewModel(e.Lap);
             if (Laps.Any() && Laps.Last().LapNumber == newLapModel.LapNumber)
             {
                 Laps.Remove(Laps.Last());
             }
+
             Laps.Add(newLapModel);
             _gui.LapsGrid.ScrollIntoView(newLapModel);
-        }
-
-        public ObservableCollection<LapViewModel> Laps
-        {
-            get => (ObservableCollection<LapViewModel>)GetValue(LapsProperty);
-            private set => SetValue(LapsProperty, value);
-        }
-
-        public string DriverName
-        {
-            get => (string)GetValue(DriverNameProperty);
-            private set => SetValue(DriverNameProperty, value);
         }
 
         private void BuildLapsViewModel()
