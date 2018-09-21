@@ -10,7 +10,12 @@
             Source = source;
             PedalInfo = new PedalInfo();
             SessionInfo = new SessionInfo();
-            DriversInfo = new DriverInfo[0];
+            DriversInfo = new DriverInfo[30];
+            
+            for (int i = 0; i < DriversInfo.Length; i++)
+            {
+                DriversInfo[i] = new DriverInfo();
+            }
             PlayerInfo = new DriverInfo();
             LeaderInfo = new DriverInfo();
         }

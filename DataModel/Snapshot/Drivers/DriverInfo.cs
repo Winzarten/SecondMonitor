@@ -1,10 +1,19 @@
-﻿namespace SecondMonitor.DataModel.Snapshot.Drivers
+﻿using System;
+
+namespace SecondMonitor.DataModel.Snapshot.Drivers
 {
     using BasicProperties;
     using Systems;
 
     public class DriverInfo
     {
+        private static readonly Random random = new Random();
+
+        public DriverInfo()
+        {
+            Position = random.Next(25);
+        }
+
         public enum DriverFinishStatus { Na, None, Finished, Dnf, Dnq, Dns, Dq }
 
         public string DriverName { get; set; }
