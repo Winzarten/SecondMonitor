@@ -4,5 +4,5 @@ $guid = [guid]::NewGuid().ToString()
 $newValue = 'ProductCode = "'+$guid+'"'
 (Get-Content $path) | 
 Foreach-Object {$_ -replace $pattern,$newValue}  | 
-Out-File $path
+Out-File $path -Encoding UTF8
 Get-Content $path
