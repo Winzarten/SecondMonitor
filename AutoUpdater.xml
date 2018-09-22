@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+    <version>2.6.5.0</version>
+    <url>https://github.com/Winzarten/SecondMonitor/releases/download/v2.5.0-Beta3/SecondMonitor.msi</url>
+    <changelog>https://github.com/Winzarten/SecondMonitor/releases</changelog>
+    <mandatory>false</mandatory>
+</item>
