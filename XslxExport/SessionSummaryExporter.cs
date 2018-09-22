@@ -509,7 +509,7 @@
             }
         }
 
-        private string GetFinishPositionInfo(Driver driver, bool addStartPosition)
+        private static string GetFinishPositionInfo(Driver driver, bool addStartPosition)
         {
             string endPosition = driver.Finished ? driver.FinishingPosition.ToString() : "DNF";
             if (!addStartPosition)
@@ -518,12 +518,7 @@
             }
 
             Lap firstLap = driver.Laps.LastOrDefault(x => x.LapNumber == 1);
-            if (firstLap?.LapStartSnapshot == null)
-            {
-                return endPosition;
-            }
-
-            return $"{endPosition} (Started: {firstLap.LapStartSnapshot.PlayerData.Position})";
+            return firstLap?.LapStartSnapshot == null ? endPosition : $"{endPosition} (Started: {firstLap.LapStartSnapshot.PlayerData.Position})";
         }
 
         private void AddDriversInfoHeader(ExcelWorksheet sheet)

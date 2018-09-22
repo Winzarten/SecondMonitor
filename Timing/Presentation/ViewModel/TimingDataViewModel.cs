@@ -21,6 +21,7 @@
     using PluginManager.Core;
     using PluginManager.GameConnector;
 
+    using SecondMonitor.Timing.Controllers;
     using SecondMonitor.Timing.LapTimings.ViewModel;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
@@ -172,6 +173,8 @@
                 Dispatcher.Invoke(RunPlugin);
                 return;
             }
+
+            new AutoUpdateController().CheckForUpdate();
 
             CarStatusViewModel = new CarStatusViewModel();
             ConnectedSource = "Not Connected";
