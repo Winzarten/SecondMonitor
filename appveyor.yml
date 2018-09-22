@@ -24,7 +24,13 @@ artifacts:
   name: Binaries
 - path: Installer\SecondMonitor.msi
   name: Installer
-  
+deploy:
+- provider: GitHub
+  description: Relese Description
+  auth_token:
+    secure: yhQt+R9aeo+1MaDJS5cRZnA8ZGMjlSpTu/y4U2Ity99tDyl3oqE846uvWFx5xndm
+  artifact: Installer
+  draft: true
   
   # here we are going to override common configuration
 #for:
