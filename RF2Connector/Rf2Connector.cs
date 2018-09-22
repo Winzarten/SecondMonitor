@@ -14,7 +14,7 @@
     using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
 
     // Based on https://github.com/TheIronWolfModding/rF2SharedMemoryMapPlugin
-    internal class Rf2Connector : AbstractGameConnectoree
+    internal class Rf2Connector : AbstractGameConnector
     {
         private static readonly string[] RFExecutables = { "rFactor2" };
         private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
