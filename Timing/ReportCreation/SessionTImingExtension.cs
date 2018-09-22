@@ -60,8 +60,9 @@
                                      Sector1 = lapInfo.Sector1?.Duration ?? TimeSpan.Zero,
                                      Sector2 = lapInfo.Sector2?.Duration ?? TimeSpan.Zero,
                                      Sector3 = lapInfo.Sector3?.Duration ?? TimeSpan.Zero,
-                                     LapEndSnapshot =  lapInfo.LapTelemetryInfo.LapEndSnapshot
-                                 };
+                                     LapEndSnapshot = lapInfo.LapTelemetryInfo.LapEndSnapshot,
+                                     LapStartSnapshot = lapInfo.LapTelemetryInfo.LapStarSnapshot
+            };
             return summaryLap;
         }
     }

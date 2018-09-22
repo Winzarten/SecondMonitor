@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "f8f351b7-807b-4db5-9a96-e766b903a911"?>
+  <?define ProductCode = "047f2f25-b745-41d5-91c0-78697d684c5e"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
   <?define ProductVersion = "2.5.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
@@ -125,6 +125,9 @@
       </Component>
       <Component Id="cmp71da85606d444721a9cb25c24ca27a34" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="71da8560-6d44-4721-a9cb-25c24ca27a34">
         <File Id="fil71da85606d444721a9cb25c24ca27a34" KeyPath="yes" Source="..\Deployment\plugins\EPPlus.xml" />
+      </Component>
+      <Component Id="cmpeb4eb708fe424a11b9bb66f9b0a4573a" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="05e02a53-e796-4eae-baf2-c9e4117d82ae">
+        <File Id="fileb4eb708fe424a11b9bb66f9b0a4573a" KeyPath="yes" Source="..\Deployment\plugins\AutoUpdater.NET.dll" />
       </Component>
       <Component Id="cmpad1bc2985c384aceb265ebec29d36042" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="ad1bc298-5c38-4ace-b265-ebec29d36042">
         <File Id="filad1bc2985c384aceb265ebec29d36042" KeyPath="yes" Source="..\Deployment\plugins\ICSharpCode.SharpZipLib.dll" />

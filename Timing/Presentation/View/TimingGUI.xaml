@@ -18,8 +18,8 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
@@ -78,14 +78,15 @@
                                                    TrackTemperatureInfo="{Binding TrackInfoViewModel.TrackTemperatureInfo}"
                                                    WeatherInfoAvailable="{Binding TrackInfoViewModel.WeatherInfoAvailable}" />
             </Border>
-            <Border Grid.Column="1" BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="3" CornerRadius="5">
-            <StackPanel >
-                <wpf:TimeSpanBarControl Title="Δ to Personal Best" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
-                <wpf:TimeSpanBarControl Title="Δ to Previous Lap" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
-            </StackPanel>
+            <Border Grid.Column="1"
+                    BorderBrush="{StaticResource DarkGrey01Brush}"
+                    BorderThickness="3" CornerRadius="5">
+                <StackPanel>
+                    <wpf:TimeSpanBarControl Title="Δ to Personal Best" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
+                    <wpf:TimeSpanBarControl Title="Δ to Previous Lap" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
+                </StackPanel>
             </Border>
-            <view:SessionInfoView Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right"
-                                  VerticalAlignment="Stretch"
+            <view:SessionInfoView Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                   DataContext="{Binding SessionInfoViewModel}" />
         </Grid>
         <Border Grid.Row="1"
@@ -218,26 +219,26 @@
                                                                            PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
                                                                            TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCondition, Mode=OneWay}"
                                                                            TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCoreTemperature, Mode=OneWay}"
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}"
-                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCompound, Mode=OneWay}"/>
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
                                     <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                            PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
                                                                            TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCondition, Mode=OneWay}"
                                                                            TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCoreTemperature, Mode=OneWay}"
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}"
-                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCompound, Mode=OneWay}"/>
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
 
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
@@ -245,26 +246,26 @@
                                                                            PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
                                                                            TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCondition, Mode=OneWay}"
                                                                            TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCoreTemperature, Mode=OneWay}"
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}"
-                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCompound, Mode=OneWay}"/>
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}" />
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
                                                                            PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
                                                                            TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCondition, Mode=OneWay}"
                                                                            TyreCoreTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCoreTemperature, Mode=OneWay}"
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}"
-                                                                           TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCompound, Mode=OneWay}"/>
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}" />
                                 </Grid>
                             </Border>
                             <Grid Grid.Row="1">
@@ -335,7 +336,7 @@
 
             <Grid Column="1">
                 <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
-                    <ContentPresenter Content="{Binding SituationOverviewProvider.SituationOverviewControl}" Margin="20,10,20,10"/>
+                    <ContentPresenter Margin="20,10,20,10" Content="{Binding SituationOverviewProvider.SituationOverviewControl}" />
                 </Border>
             </Grid>
             <Grid Column="2">
@@ -346,34 +347,63 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-
-                        <GroupBox Grid.Row="0" Width="240" Height="107"
-                                  Foreground="{StaticResource LightGrey01Brush}"
-                                  BorderBrush="{StaticResource DarkGrey01Brush}"
-                                  Header="Session Settings">
-                            <Grid Margin="0" VerticalAlignment="Top">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.5*" />
-                                    <ColumnDefinition Width="0.5*" />
-                                </Grid.ColumnDefinitions>
-                                <CheckBox x:Name="ChkScrollToPlayer" Width="100" Margin="10,64,0,-3" HorizontalAlignment="Left"
-                                          VerticalAlignment="Top" Content="Scroll To Player"
+                        <StackPanel Grid.Row="0">
+                            <GroupBox Width="240" Height="107"
+                                      BorderBrush="{StaticResource DarkGrey01Brush}"
+                                      Foreground="{StaticResource LightGrey01Brush}"
+                                      Header="Session Settings">
+                                <Grid Margin="0" VerticalAlignment="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.5*" />
+                                        <ColumnDefinition Width="0.5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox x:Name="ChkScrollToPlayer" Width="100" Margin="10,64,0,-3" HorizontalAlignment="Left"
+                                              VerticalAlignment="Top" Content="Scroll To Player"
+                                              Foreground="{StaticResource LightGrey01Brush}"
+                                              IsChecked="{Binding DisplaySettings.ScrollToPlayer}" />
+                                    <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
+                                           VerticalAlignment="Top" Content="Order:"
+                                           Foreground="{StaticResource LightGrey01Brush}" />
+                                    <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top"
+                                              ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
+                                              SelectedItem="{Binding CurrentSessionOptions.OrderingMode}" />
+                                    <Label Grid.Column="1" Width="74" Height="29" Margin="10,5,0,0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:"
+                                           Foreground="{StaticResource LightGrey01Brush}" />
+                                    <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top"
+                                              ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
+                                              SelectedItem="{Binding CurrentSessionOptions.TimesDisplayMode}" />
+                                </Grid>
+                            </GroupBox>
+                            <Grid HorizontalAlignment="Right">
+                                <GroupBox BorderBrush="{StaticResource DarkGrey01Brush}"
                                           Foreground="{StaticResource LightGrey01Brush}"
-                                          IsChecked="{Binding DisplaySettings.ScrollToPlayer}" />
-                                <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
-                                       VerticalAlignment="Top" Content="Order:"
-                                       Foreground="{StaticResource LightGrey01Brush}" />
-                                <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top"
-                                          ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
-                                          SelectedItem="{Binding CurrentSessionOptions.OrderingMode}" />
-                                <Label Grid.Column="1" Width="74" Height="29" Margin="10,5,0,0"
-                                       HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:"
-                                       Foreground="{StaticResource LightGrey01Brush}" />
-                                <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top"
-                                          ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
-                                          SelectedItem="{Binding CurrentSessionOptions.TimesDisplayMode}" />
+                                          Header="Reports">
+                                    <StackPanel>
+                                        <Button MaxWidth="50" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                                Command="{Binding ReportsController.OpenLastReportCommand, Mode=OneWay}"
+                                                Style="{StaticResource StandardButton}"
+                                                ToolTip="Open Last Report">
+                                            <Button.Content>
+                                                <wpf:ColorAbleIcon Margin="-5,-5,-5,-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                    <ContentPresenter Content="{StaticResource ReportIcon}" />
+                                                </wpf:ColorAbleIcon>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button MaxWidth="50" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                                Command="{Binding ReportsController.OpenReportsFolderCommand, Mode=OneWay}"
+                                                Style="{StaticResource StandardButton}"
+                                                ToolTip="Open Reports Folder">
+                                            <Button.Content>
+                                                <wpf:ColorAbleIcon Margin="-5,-5,-5,-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                    <ContentPresenter Content="{StaticResource FolderIcon}" />
+                                                </wpf:ColorAbleIcon>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                </GroupBox>
                             </Grid>
-                        </GroupBox>
+                        </StackPanel>
                         <Grid Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
@@ -396,8 +426,8 @@
         </Grid>
         <Grid Row="3">
             <Border BorderThickness="1">
-                <StatusBar Height="21" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                           Panel.ZIndex="5" Background="{StaticResource Anthracite01Brush}">
+                <StatusBar Height="21" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Panel.ZIndex="5"
+                           Background="{StaticResource Anthracite01Brush}">
                     <StatusBar.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid>
@@ -414,7 +444,9 @@
                         </ItemsPanelTemplate>
                     </StatusBar.ItemsPanel>
                     <StatusBarItem>
-                        <TextBlock Style="{StaticResource SmallText}" Name="ConnectionStatus" Text="{Binding ConnectedSource, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Name="ConnectionStatus"
+                                   Style="{StaticResource SmallText}"
+                                   Text="{Binding ConnectedSource, UpdateSourceTrigger=PropertyChanged}" />
                     </StatusBarItem>
                     <Separator Grid.Column="1" />
                     <StatusBarItem Grid.Column="2">
@@ -422,14 +454,17 @@
                     </StatusBarItem>
                     <Separator Grid.Column="3" />
                     <StatusBarItem Grid.Column="4" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                        <ProgressBar Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource DarkGrey05Brush}"
-                                     Maximum="1000" Minimum="0"
+                        <ProgressBar Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     Background="{StaticResource DarkGrey05Brush}"
                                      Foreground="{StaticResource Green01Brush}"
+                                     Maximum="1000" Minimum="0"
                                      Value="{Binding SessionCompletedPercentage, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
                     </StatusBarItem>
                     <Separator Grid.Column="5" />
                     <StatusBarItem Grid.Column="6" Margin="10,0,15,0">
-                        <TextBlock Style="{StaticResource SmallText}" Name="SystemTime" Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Name="SystemTime"
+                                   Style="{StaticResource SmallText}"
+                                   Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />
                     </StatusBarItem>
                 </StatusBar>
             </Border>

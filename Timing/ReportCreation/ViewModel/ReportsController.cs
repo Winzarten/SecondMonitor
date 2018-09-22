@@ -1,28 +1,40 @@
 ﻿namespace SecondMonitor.Timing.ReportCreation.ViewModel
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text;
-
-    using NLog;
+    using System.Threading.Tasks;
 
     using DataModel.BasicProperties;
     using DataModel.Summary;
+
+    using NLog;
+
     using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using SecondMonitor.WindowsControls.WPF.Commands;
+
     using Settings.ModelView;
+
     using XslxExport;
 
-    public class ReportCreationViewModel
+    public class ReportsController
     {
 
         private const string ReportNamePrefix = "Report_";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ReportCreationViewModel(DisplaySettingsModelView settings)
+        public ReportsController(DisplaySettingsModelView settings)
         {
             Settings = settings;
+            OpenLastReportCommand = new RelayCommand(OpenLastReport);
+            OpenReportsFolderCommand = new RelayCommand(OpenReportsFolder);
         }
+
+        public RelayCommand OpenLastReportCommand { get; }
+
+        public RelayCommand OpenReportsFolderCommand { get; }
 
         public DisplaySettingsModelView Settings { get; set; }
 
@@ -48,6 +60,29 @@
             {
                 Logger.Error(ex, "Unable to export session info");
             }
+        }
+
+        public void OpenLastReport()
+        {
+            string reportDirectory = Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs;
+            DirectoryInfo di = new DirectoryInfo(reportDirectory);
+            FileInfo fileToOpen = di.GetFiles().OrderBy(x => x.CreationTime).LastOrDefault();
+            if (fileToOpen == null)
+            {
+                return;
+            }
+
+            OpenReport(fileToOpen.FullName);
+        }
+
+        public void OpenReportsFolder()
+        {
+            string reportDirectory = Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs;
+            Task.Run(
+                () =>
+                    {
+                        Process.Start(reportDirectory);
+                    });
         }
 
         private SessionSummaryExporter CreateSessionSummaryExporter()
@@ -104,7 +139,13 @@
             {
                 return;
             }
-            System.Diagnostics.Process.Start(reportPath);
+
+            OpenReport(reportPath);
+        }
+
+        private void OpenReport(string reportPath)
+        {
+            Task.Run(() => { Process.Start(reportPath); });
         }
 
         private string GetReportName(SessionSummary sessionSummary)

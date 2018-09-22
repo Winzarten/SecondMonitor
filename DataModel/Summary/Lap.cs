@@ -27,5 +27,7 @@
 
         public TelemetrySnapshot LapEndSnapshot { get; set; }
 
+        public TelemetrySnapshot LapStartSnapshot { get; set; }
+
     }
 }

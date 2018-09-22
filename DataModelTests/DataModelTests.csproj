@@ -61,6 +61,10 @@
       <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
       <Name>DataModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
+      <Project>{ea13af3c-a4e0-4ad2-94ae-78006b04fc41}</Project>
+      <Name>WindowsControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

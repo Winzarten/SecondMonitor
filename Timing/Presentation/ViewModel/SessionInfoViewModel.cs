@@ -5,6 +5,7 @@
     using System.Windows;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Extensions;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
@@ -149,8 +150,9 @@
             {
                 return "No Best Lap";
             }
+
             return bestLap.Driver.DriverInfo.DriverName + "-(L" + bestLap.LapNumber + "):"
-                   + DriverTiming.FormatTimeSpan(bestLap.LapTime);
+                   + bestLap.LapTime.FormatToDefault();
         }
 
         private string GetSessionRemaining(SimulatorDataSet dataSet)

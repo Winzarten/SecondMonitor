@@ -188,7 +188,7 @@
             return timing;
         }
 
-        private void DriverOnLapCompleted(object sender, DriverTiming.LapEventArgs lapEventArgs)
+        private void DriverOnLapCompleted(object sender, LapEventArgs lapEventArgs)
         {
             if (!lapEventArgs.Lap.Valid)
             {
@@ -251,7 +251,7 @@
             RaiseDriverAddedEvent(newDriverTimingModelView);
         }
 
-        private void LapInvalidatedHandler(object sender, DriverTiming.LapEventArgs e)
+        private void LapInvalidatedHandler(object sender, LapEventArgs e)
         {
             if (BestSector1 == e.Lap.Sector1)
             {

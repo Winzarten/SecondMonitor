@@ -8,18 +8,7 @@
 
     public class LapInfo
     {
-        internal enum CompletionMethod
-        {
-            None,
-            ByLapNumber,
-            ByCrossingTheLine,
-            ByChangingValidity,
-            ByChangingValidity2,
-            ByChangingValidity3,
-
-        }
-
-        private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
+       private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
         private static readonly TimeSpan MaxPendingTime = TimeSpan.FromSeconds(2);
 
         public class SectorCompletedArgs : EventArgs
@@ -38,7 +27,7 @@
         private bool _isPending;
         private TimeSpan _isPendingStart;
         private DriverInfo _previousDriverInfo;
-        internal CompletionMethod LapCompletionMethod { get; set; } = CompletionMethod.None;
+        internal LapCompletionMethod LapCompletionMethod { get; set; } = LapCompletionMethod.None;
 
         public LapInfo(SimulatorDataSet dataSet, int lapNumber, DriverTiming driver, LapInfo previousLapInfo) :
             this(dataSet, lapNumber, driver, false, previousLapInfo)
@@ -62,8 +51,8 @@
 
         public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;
 
-        public event EventHandler<DriverTiming.LapEventArgs> LapInvalidatedEvent;
-        public event EventHandler<DriverTiming.LapEventArgs> LapCompletedEvent;
+        public event EventHandler<LapEventArgs> LapInvalidatedEvent;
+        public event EventHandler<LapEventArgs> LapCompletedEvent;
 
         public TimeSpan LapStart { get; }
 
@@ -79,7 +68,7 @@
                 if (Valid && !value)
                 {
                     _valid = false;
-                    OnLapInvalidatedEvent(new DriverTiming.LapEventArgs(this));
+                    OnLapInvalidatedEvent(new LapEventArgs(this));
                 }
                 else
                 {
@@ -105,7 +94,7 @@
                 _completed = value;
                 if (Completed)
                 {
-                    OnLapCompletedEvent(new DriverTiming.LapEventArgs(this));
+                    OnLapCompletedEvent(new LapEventArgs(this));
                 }
             }
 
@@ -446,12 +435,12 @@
             SectorCompletedEvent?.Invoke(this, e);
         }
 
-        protected virtual void OnLapInvalidatedEvent(DriverTiming.LapEventArgs e)
+        protected virtual void OnLapInvalidatedEvent(LapEventArgs e)
         {
             LapInvalidatedEvent?.Invoke(this, e);
         }
 
-        protected virtual void OnLapCompletedEvent(DriverTiming.LapEventArgs e)
+        protected virtual void OnLapCompletedEvent(LapEventArgs e)
         {
             LapCompletedEvent?.Invoke(this, e);
         }

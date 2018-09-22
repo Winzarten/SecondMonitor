@@ -1,0 +1,36 @@
+environment:
+  majorminorversion: 2.5.0.0
+version: 2.5.0.{build}
+image: Visual Studio 2017
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+build_script:
+- cmd: >-
+    nuget restore    
+
+    msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release
+
+    powershell "".\generateWixGuid.ps1""
+
+    msbuild WixInstaller\WixInstaller.wixproj /t:Rebuild
+test: off
+artifacts:
+- path: Deployment\
+  name: Binaries
+- path: Installer\SecondMonitor.msi
+  name: Installer
+  
+  
+  # here we are going to override common configuration
+#for:
+
+# override settings for `master` branch
+#- branches:
+#    only:
+#      - /feat.*/
+#  version: 2.5.0.0

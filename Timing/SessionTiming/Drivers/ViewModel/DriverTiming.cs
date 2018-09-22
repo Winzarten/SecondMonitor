@@ -12,23 +12,8 @@
 
     public class DriverTiming
     {
-
-        private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
-
         private const int MaxLapsWithTelemetry = 500;
-
-        public class LapEventArgs : EventArgs
-        {
-            public LapEventArgs(LapInfo lapInfo)
-            {
-                Lap = lapInfo;
-            }
-
-            public LapInfo Lap
-            {
-                get;
-            }
-        }
+        private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
 
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
         private readonly List<LapInfo> _lapsInfo;
@@ -70,15 +55,11 @@
 
         public TimeSpan Pace { get; private set; }
 
-        public bool IsCurrentLapValid => CurrentLap?.Valid ?? false;
-
         public double TotalDistanceTraveled => DriverInfo.TotalDistance;
 
         public bool IsLapped => (Session.SessionType == SessionType.Race || CurrentLap == null) ? DriverInfo.IsBeingLappedByPlayer : !CurrentLap.Valid;
 
         public bool IsLapping => DriverInfo.IsLappingPlayer;
-
-        public string DistanceToPits => DriverInfo.DriverDebugInfo.DistanceToPits.ToString("N2");
 
         public LapInfo BestLap { get; private set; }
 
@@ -87,8 +68,6 @@
         public PitStopInfo LastPitStopStop => _pitStopInfo.Count != 0 ? _pitStopInfo[_pitStopInfo.Count - 1] : null;
 
         public double LapPercentage { get; private set; }
-
-        public double DistanceToPlayer => DriverInfo.DistanceToPlayer;
 
         public string CarName => DriverInfo.CarName;
 
@@ -105,6 +84,84 @@
         public SectorTiming BestSector3 { get; private set; }
 
         public IReadOnlyCollection<LapInfo> Laps => _lapsInfo.AsReadOnly();
+
+        public LapInfo CurrentLap
+        {
+            get
+            {
+                if (_lapsInfo.Count == 0)
+                {
+                    return null;
+                }
+
+                return _lapsInfo.Last();
+            }
+        }
+
+        public string LastPitInfo
+        {
+            get
+            {
+                if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf)
+                {
+                    return string.Empty;
+                }
+                if (Session.SessionType != SessionType.Race)
+                {
+                    if (InPits)
+                    {
+                        return "In Pits";
+                    }
+                    else
+                    {
+                        return "Out";
+                    }
+                }
+
+                if (LastPitStopStop == null)
+                {
+                    return "0";
+                }
+                else
+                {
+                    return PitCount + ":(" + LastPitStopStop.PitInfoFormatted + ")";
+                }
+            }
+        }
+
+        public LapInfo LastCompletedLap
+        {
+            get
+            {
+                if (_lapsInfo.Count < 2)
+                {
+                    return null;
+                }
+
+                for (int i = _lapsInfo.Count - 2; i >= 0; i--)
+                {
+                    if (Session.RetrieveAlsoInvalidLaps || _lapsInfo[i].Valid)
+                    {
+                        return _lapsInfo[i];
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public LapInfo LastLap
+        {
+            get
+            {
+                if (_lapsInfo.Count < 2)
+                {
+                    return null;
+                }
+
+                return _lapsInfo[_lapsInfo.Count - 2];
+            }
+        }
 
 
         public bool IsLastLapBestSessionLap
@@ -126,23 +183,7 @@
 
         public Velocity TopSpeed { get; private set; } = Velocity.Zero;
 
-        public static string FormatTimeSpan(TimeSpan timeSpan)
-        {
-            return timeSpan.ToString("mm\\:ss\\.fff");
-        }
 
-        public static string FormatTimeSpanOnlySeconds(TimeSpan timeSpan)
-        {
-
-            if (timeSpan < TimeSpan.Zero)
-            {
-                return "-" + timeSpan.ToString("ss\\.fff");
-            }
-            else
-            {
-                return "+" + timeSpan.ToString("ss\\.fff");
-            }
-        }
 
         public static DriverTiming FromModel(DriverInfo modelDriverInfo, SessionTiming session, bool invalidateFirstLap)
         {
@@ -233,7 +274,7 @@
             // Use completed laps indication to end lap, when we use the sim provided lap times. This gives us the biggest assurance that lap time is already properly set. But wait for lap to be at least 5 seconds in
             if (dataSet.SimulatorSourceInfo.HasLapTimeInformation && (currentLap.LapNumber < DriverInfo.CompletedLaps + 1))
             {
-                currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByLapNumber;
+                currentLap.LapCompletionMethod = LapCompletionMethod.ByLapNumber;
                 return true;
             }
 
@@ -241,31 +282,31 @@
             // Crossed line at out lap
             if (dataSet.SessionInfo.SessionType != SessionType.Race && currentLap.PitLap && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
             {
-                currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByCrossingTheLine;
+                currentLap.LapCompletionMethod = LapCompletionMethod.ByCrossingTheLine;
                 return true;
             }
 
             if ((!dataSet.SimulatorSourceInfo.HasLapTimeInformation || dataSet.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly) && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
             {
-                currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByCrossingTheLine;
+                currentLap.LapCompletionMethod = LapCompletionMethod.ByCrossingTheLine;
                 return true;
             }
 
             if (!dataSet.SimulatorSourceInfo.OutLapIsValid && !currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && (currentLap.FirstLap && !InvalidateFirstLap))
             {
-                currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByChangingValidity;
+                currentLap.LapCompletionMethod = LapCompletionMethod.ByChangingValidity;
                 return true;
             }
 
             if (!dataSet.SimulatorSourceInfo.OutLapIsValid && !currentLap.Valid && DriverInfo.CurrentLapValid && DriverInfo.IsPlayer && currentLap.PitLap && _previousTickLapDistance < DriverInfo.LapDistance && SessionType.Race != sessionInfo.SessionType && !DriverInfo.InPits)
             {
-                currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByChangingValidity2;
+                currentLap.LapCompletionMethod = LapCompletionMethod.ByChangingValidity2;
                 return true;
             }
 
             if (!currentLap.Valid && DriverInfo.CurrentLapValid && SessionType.Race == sessionInfo.SessionType && !DriverInfo.IsPlayer && (currentLap.FirstLap && !InvalidateFirstLap))
             {
-                currentLap.LapCompletionMethod = LapInfo.CompletionMethod.ByChangingValidity3;
+                currentLap.LapCompletionMethod = LapCompletionMethod.ByChangingValidity3;
                 return true;
             }
 
@@ -328,7 +369,7 @@
                 return;
             }
 
-            Laps.Where(x => x.Completed && !x.LapTelemetryInfo.IsPurged && x != BestLap).ForEach(x => x.LapTelemetryInfo.Purge());
+            Laps.Where(x => x.Completed && !x.LapTelemetryInfo.IsPurged && x != BestLap && x.LapNumber != 1).ForEach(x => x.LapTelemetryInfo.Purge());
 
         }
 
@@ -442,83 +483,7 @@
             Pace = totalPaceLaps == 0 ? TimeSpan.Zero : new TimeSpan(pace.Ticks / totalPaceLaps);
         }
 
-        public LapInfo CurrentLap
-        {
-            get
-            {
-                if (_lapsInfo.Count == 0)
-                {
-                    return null;
-                }
 
-                return _lapsInfo.Last();
-            }
-        }
-
-        public string LastPitInfo
-        {
-            get
-            {
-                if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf)
-                {
-                    return string.Empty;
-                }
-                if(Session.SessionType != SessionType.Race)
-                {
-                    if (InPits)
-                    {
-                        return "In Pits";
-                    }
-                    else
-                    {
-                        return "Out";
-                    }
-                }
-
-                if (LastPitStopStop == null)
-                {
-                    return "0";
-                }
-                else
-                {
-                    return PitCount + ":(" + LastPitStopStop.PitInfoFormatted + ")";
-                }
-            }
-        }
-
-        public LapInfo LastCompletedLap
-        {
-            get
-            {
-                if (_lapsInfo.Count < 2)
-                {
-                    return null;
-                }
-
-                for (int i = _lapsInfo.Count - 2; i >= 0; i--)
-                {
-                    if (Session.RetrieveAlsoInvalidLaps || _lapsInfo[i].Valid)
-                    {
-                        return _lapsInfo[i];
-                    }
-                }
-
-                return null;
-            }
-        }
-
-        public LapInfo LastLap
-        {
-            get
-            {
-                if (_lapsInfo.Count < 2)
-                {
-                    return null;
-                }
-
-                return _lapsInfo[_lapsInfo.Count - 2];
-            }
-        }
 
         protected virtual void OnSectorCompletedEvent(LapInfo.SectorCompletedArgs e)
         {
@@ -563,6 +528,19 @@
         {
             return Laps.Where(l => l.Valid).Select(sectorPickerFunc).Where(s => s != null && s.Duration != TimeSpan.Zero)
                 .OrderBy(s => s.Duration).FirstOrDefault();
+        }
+    }
+
+    public class LapEventArgs : EventArgs
+    {
+        public LapEventArgs(LapInfo lapInfo)
+        {
+            Lap = lapInfo;
+        }
+
+        public LapInfo Lap
+        {
+            get;
         }
     }
 }
