@@ -5,3 +5,4 @@ $newValue = 'ProductCode = "'+$guid+'"'
 (Get-Content $path) | 
 Foreach-Object {$_ -replace $pattern,$newValue}  | 
 Out-File $path
+Get-Content $path
