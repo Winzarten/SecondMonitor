@@ -25,10 +25,10 @@ artifacts:
   
   
   # here we are going to override common configuration
-for:
+#for:
 
 # override settings for `master` branch
-- branches:
-    only:
-      - /feat.*/
-  version: 2.5.0.0
+#- branches:
+#    only:
+#      - /feat.*/
+#  version: 2.5.0.0
