@@ -12,11 +12,11 @@ assembly_info:
 build_script:
 - cmd: >-
     nuget restore    
-    
+
     msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release
-	
+
     powershell "".\generateWixGuid.ps1""
-    
+
     msbuild WixInstaller\WixInstaller.wixproj /t:Rebuild
 test: off
 artifacts:
