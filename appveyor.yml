@@ -11,11 +11,11 @@ assembly_info:
   assembly_informational_version: '{version}'
 build_script:
 - cmd: >-
-    nuget restore
-
-    powershell "".\generateWixGuid.ps1""
+    nuget restore    
     
     msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release
+	
+    powershell "".\generateWixGuid.ps1""
     
     msbuild WixInstaller\WixInstaller.wixproj /t:Rebuild
 test: off
