@@ -20,3 +20,19 @@ artifacts:
   name: Binaries
 - path: Installer\SecondMonitor.msi
   name: Installer
+  
+  
+  # here we are going to override common configuration
+for:
+
+# override settings for `master` branch
+- branches:
+    only:
+      - master
+  version: 2.6.{build}
+  
+# override settings for `master` branch
+- branches:
+    only:
+      - /feat.*/
+  version: 2.6.644 
