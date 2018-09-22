@@ -1,16 +1,18 @@
-version: 2.6.0.{build}
+environment:
+  majorminorversion: 2.5
+version: 2.5.0.{build}
 image: Visual Studio 2017
 configuration: Release
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
+  assembly_version: '{majorminorversion}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 build_script:
 - cmd: >-
     nuget restore
-
+    generateWixGuid.ps1	
     msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release
 
     msbuild WixInstaller\WixInstaller.wixproj /t:Rebuild
@@ -29,4 +31,4 @@ for:
 - branches:
     only:
       - /feat.*/
-  version: 2.6.0.0
+  version: 2.5.0.0
