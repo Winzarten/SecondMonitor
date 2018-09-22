@@ -28,11 +28,5 @@ for:
 # override settings for `master` branch
 - branches:
     only:
-      - master
-  version: 2.6.{build}
-  
-# override settings for `master` branch
-- branches:
-    only:
       - /feat.*/
-  version: 2.6.{branch}.{build}
+  version: 2.6.0.0
