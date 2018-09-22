@@ -1,6 +1,4 @@
-environment:
-  majorminorversion: 2.5.0.0
-version: 2.5.0.{build}
+version: 2.5.1.{build}
 image: Visual Studio 2017
 configuration: Release
 assembly_info:
