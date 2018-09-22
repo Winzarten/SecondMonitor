@@ -13,7 +13,7 @@ build_script:
 - cmd: >-
     nuget restore
 
-    generateWixGuid.ps1
+    powershell "& "".\generateWixGuid.ps1"""
     
     msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release
     
