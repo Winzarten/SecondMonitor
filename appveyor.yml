@@ -6,7 +6,7 @@ configuration: Release
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
-  assembly_version: '2.5.0.0'
+  assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 build_script:
