@@ -1,5 +1,9 @@
 # Second Monitor
 
+Master: [![Build status](https://ci.appveyor.com/api/projects/status/9a6pw8no49n8irip/branch/master?svg=true)](https://ci.appveyor.com/project/Winzarten/secondmonitor/branch/master)
+
+Project: [![Build status](https://ci.appveyor.com/api/projects/status/9a6pw8no49n8irip?svg=true)](https://ci.appveyor.com/project/Winzarten/secondmonitor)
+
 ## Introduction:
 
 Second Monitor is Timing/Car information application for racing simulators. It displays the actual session information, timing information and basic car status idication.
