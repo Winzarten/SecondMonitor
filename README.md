@@ -87,7 +87,7 @@ Second Monitor is Timing/Car information application for racing simulators. It d
   * Crr Class instead of Car Model - Pcars doesn't provide car names for other than the player driver, so I used the class for all drivers.
 
 ## Future Plans
- - [ ] Little UI rework (mostly to replace the ugly gauges for something more fresh)
+ - [x] Little UI rework (mostly to replace the ugly gauges for something more fresh)
  - [ ] Rework of the timing circle, so the app can learn track layout so proper map can be displayed.
  - [ ] Increase amount of information for tyres (indicate bottoming up, dirt, slip)
 ## Installation
