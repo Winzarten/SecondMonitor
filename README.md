@@ -65,8 +65,6 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 * Assetto Corsa - Requires custom plugin, than should be automatically installed when the app detect Assetto Corsa running. The plugin needs to be enabled in the options settings manualy. 
 * Project Cars - Limited functionality as split times and lap times are not provided by the sim api. Splits don't work at all, and lap timing is done by the app, so the will be slight difference between what is in the app and what is in sim. Big thanks to mr_belowski for allowing me to use his project cars pit coordinates from CrewChief :)
 
-* Project cars 2 might work with Pcars1 shared data model, but as Pcars 2 doesn't work on my pc (I'm affected by this bug - http://forum.projectcarsgame.com/sh...e-GTX770-Crashes-every-time-amp-or-reboots-pc) I won't be able to support pcars 2 atm. 
-
 
 ## Known Issues
 
@@ -79,7 +77,7 @@ Second Monitor is Timing/Car information application for racing simulators. It d
   * Because AC splits are little bit weird (i.e. track have 15 splits), the app is using custom splits. Each split is 1/3 of track distance.
   * If you restart session soon after start, then the app might not re-initialize property and reset the timing after the first lap is completed.
   * Tyre wear might not work correctly (WIP).
-* **Project Cars 1 & Project Cars 2**
+* **Project Cars 1**
   * Timing is done by app, so there might be slight differences between in-sim and in-app times
   * Pit Detection - pit detection works on comparing driver position with the entry/exit points, so if you teleport back to pits it will not detect you as in pits. There is no easy way to fix this, as the sim doesn't provide any clear indication if a driver is in pits
   * Timing will sometime reset when editing pit presets during race (should be mostly fixed)
