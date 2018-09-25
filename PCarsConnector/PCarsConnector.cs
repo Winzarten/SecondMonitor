@@ -22,7 +22,7 @@
             }
         }
 
-        private static readonly string[] PCarsExecutables =  { "pCARS64", "pCARS2" };
+        private static readonly string[] PCarsExecutables =  { "pCARS64", "pCARS2", "pCARS2AVX" };
         private static readonly string SharedMemoryName = "$pcars$";
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
         private readonly PCarsConvertor _pCarsConvertor;
