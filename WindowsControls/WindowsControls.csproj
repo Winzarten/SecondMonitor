@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecondMonitor.WindowsControls</RootNamespace>
     <AssemblyName>WindowsControls</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -103,7 +104,6 @@
     <Compile Include="WPF\Behaviors\OptimalVolumeToColorBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesHeightBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
-    <Compile Include="WPF\Behaviors\ScaleFontBehavior .cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
     <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Commands\RelayCommand.cs" />
