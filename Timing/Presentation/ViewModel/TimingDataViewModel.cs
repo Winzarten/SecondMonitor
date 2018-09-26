@@ -448,6 +448,7 @@
 
         private void RefreshTimingCircle(SimulatorDataSet data)
         {
+
             if (data == null || Gui == null)
             {
                 return;
@@ -482,7 +483,7 @@
             CarStatusViewModel.ApplyDateSet(data);
             TrackInfoViewModel.ApplyDateSet(data);
             SessionInfoViewModel.ApplyDateSet(data);
-            SituationOverviewProvider.ApplyDateSet(data);
+            //SituationOverviewProvider.ApplyDateSet(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)

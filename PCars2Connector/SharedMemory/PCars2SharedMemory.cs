@@ -1,4 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
+// ReSharper disable StyleCop.SA1307
 namespace SecondMonitor.PCars2Connector.SharedMemory
 {
     using System;
@@ -339,13 +340,6 @@ namespace SecondMonitor.PCars2Connector.SharedMemory
     }
 
     [Serializable]
-    public struct CarClassNameString
-    {
-        [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 20)]
-        public byte[] classNameByteArray;
-    }
-
-    [Serializable]
     public struct ParticipantInfo
     {
         [MarshalAs(UnmanagedType.I1)]
@@ -368,6 +362,11 @@ namespace SecondMonitor.PCars2Connector.SharedMemory
     [Serializable]
     public struct PCars2SharedMemory
     {
+
+        public const int SHARED_MEMORY_VERSION = 8;
+        public const int STRING_LENGTH_MAX = 64;
+        public const int STORED_PARTICIPANTS_MAX = 64;
+        public const int TYRE_COMPOUND_NAME_LENGTH_MAX = 40;
 
         // Version Number
         public uint mVersion;                           // [ RANGE = 0->... ]
@@ -530,9 +529,7 @@ namespace SecondMonitor.PCars2Connector.SharedMemory
         public float mWindSpeed;                                // [ RANGE = 0.0f->100.0f ]   [ UNSET = 2.0f ]
         public float mWindDirectionX;                           // [ UNITS = Normalised Vector X ]
         public float mWindDirectionY;                           // [ UNITS = Normalised Vector Y ]
-        // from sunny all the way to light rain = 2 (at start of session - not transition), rain to thunder storm, blizzard, fog = 1.5.
-        // Transitions from 2 down to 1.9ish as rain starts.
-        // NOTE: this is not in the UDP data for pcars or pcars2 (why?)
+
         public float mCloudBrightness;                          // [ RANGE = 0.0f->... ]
 
         //PCars2 additions start, version 8
@@ -584,10 +581,8 @@ namespace SecondMonitor.PCars2Connector.SharedMemory
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64 * 64)]
         public byte[] mCarNames; // [ string ]
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64 * 64)]
-        public byte[] mCarClassNames; // [ string ]
-                                      /*[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-                                      public pCars2APIParticipantAdditionalDataStruct[] mAdditionalParticipantData;   */   //
-                                                                                                                           // additional race variables
+        public byte[] mCarClassNames;
+
         public int mEnforcedPitStopLap;                          // [ UNITS = in which lap there will be a mandatory pitstop] [ RANGE = 0.0f->... ] [ UNSET = -1 ]
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
         public byte[] mTranslatedTrackLocation;  // [ string ]
@@ -613,60 +608,6 @@ namespace SecondMonitor.PCars2Connector.SharedMemory
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
         public uint[] mNationalities;                      // [ nationality table , SP AND UNSET = 0 ] See nationalities.txt file for details
         public float mSnowDensity;                         // [ UNITS = How much snow will fall ]   [ RANGE = 0.0f->1.0f ], this will be non zero only in Snow season, in other seasons whatever is falling from the sky is reported as rain
-
-
-        // extra from the UDP data
-        public uint mSessionLengthTimeFromGame;  // seconds, 0 => not a timed session
-        public byte mJoyPad1;
-        public byte mJoyPad2; public byte mDPad;
-
-
-        // and other stuff that's missing from the MMF:
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public float[] mSuspensionRideHeight;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-        public float[] mRideHeight;
-
-        // more per-participant data items not in the shared memory. Or documented.
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-        public byte[] participantHighestFlags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-        public float[] lastSectorTimes;
-
-        // this is a big byte array of all the car class names being sent via UDP
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 60)]
-        public CarClassNameString[] carClassNames;
-
-        /*
-        // extras from the UDP data - pcars1
-
-
-
-        public float[] mWheelLocalPosition;
-
-        public float[] mRideHeight;
-
-        public float[] mSuspensionTravel;
-
-        public float[] mSuspensionVelocity;
-
-        public float[] mAirPressure;
-
-        public float mEngineSpeed;
-
-        public float mEngineTorque;
-
-        public int mEnforcedPitStopLap;
-
-        public Boolean hasNewPositionData;
-
-        public Boolean[] isSameClassAsPlayer;
-
-        public Boolean hasOpponentClassData;
-
-        public float[] mLastSectorData;
-
-        public Boolean[] mLapInvalidatedData;*/
     }
 
 }

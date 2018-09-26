@@ -54,13 +54,15 @@
 
         private bool _shouldRefresh;
 
+        private DateTime _nextRefresh = DateTime.Now;
+
         public DriverTimingModelView(DriverTiming driverTiming)
         {
             DriverTiming = driverTiming;
-            ScheduleRefresh(this, CancellationToken.None);
+            //ScheduleRefresh(this, CancellationToken.None);
         }
 
-        private static async void ScheduleRefresh(DriverTimingModelView sender, CancellationToken cancellationToken)
+        /*private static async void ScheduleRefresh(DriverTimingModelView sender, CancellationToken cancellationToken)
         {
 
             while (!cancellationToken.IsCancellationRequested)
@@ -78,7 +80,7 @@
                     sender._shouldRefresh = true;
                 }
             }
-        }
+        }*/
 
         public DriverTiming DriverTiming
         {
@@ -277,10 +279,11 @@
         {
             try
             {
-                if (!_shouldRefresh)
+                if (DateTime.Now < _nextRefresh)
                 {
                     return;
                 }
+
                 Position = DriverTiming.Position.ToString();
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();
                 LastLapTime = GetLastLapTime();
@@ -297,6 +300,7 @@
                 InPits = DriverTiming.InPits;
                 IsLastLapBestSessionLap = DriverTiming.IsLastLapBestSessionLap;
                 IsLastLapBestLap = DriverTiming.IsLastLapBestLap;
+
                 Sector1 = GetSector1();
                 Sector2 = GetSector2();
                 Sector3 = GetSector3();
@@ -311,6 +315,7 @@
                 IsLastSector2PersonalBest = GetIsSector2PersonalBest();
                 IsLastSector3PersonalBest = GetIsSector3PersonalBest();
 
+                _nextRefresh = DisplaySettingsModelView != null ? DateTime.Now + TimeSpan.FromMilliseconds(DisplaySettingsModelView.RefreshRate) : DateTime.Now + TimeSpan.FromSeconds(10);
 
             }
             catch (Exception ex)

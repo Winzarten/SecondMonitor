@@ -42,6 +42,11 @@
             // Acceleration
             AddAcceleration(pcarsData, simData);
 
+            if (simData.PlayerInfo?.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
+            {
+                simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
+            }
+
             return simData;
         }
 
@@ -61,35 +66,40 @@
 
 
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreFrontLeft];
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreFrontRight];
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreRearLeft];
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreRearRight];
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreFrontLeft];
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = data.mTyreWear[(int)WheelIndex.TyreFrontRight];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreRearLeft];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = data.mTyreWear[(int)WheelIndex.TyreRearRight];
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = StringExtensions.FromArray(data.mLFTyreCompoundName);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreType = StringExtensions.FromArray(data.mRFTyreCompoundName);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreType = StringExtensions.FromArray(data.mLRTyreCompoundName);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreType = StringExtensions.FromArray(data.mRRTyreCompoundName);
 
             // Front Left Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreFrontLeft]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreFrontLeft]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreFrontLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontLeft]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontLeft]);
 
 
             // Front Right Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreFrontRight]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreFrontRight]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreFrontRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontRight]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreFrontRight]);
 
 
             // Rear Left Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.LeftTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreRearLeft]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreRearLeft]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreRearLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearLeft]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearLeft]);
 
             // Rear Right Tyre Temps
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreRearRight]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreRearRight]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp.ActualQuantity = Temperature.FromKelvin(data.mTyreCarcassTemp[(int)WheelIndex.TyreRearRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearRight]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius(data.mTyreTemp[(int)WheelIndex.TyreRearRight]);
 
             // Fuel System
@@ -185,10 +195,10 @@
         internal void FillTimingInfo(DriverInfo driverInfo, ParticipantInfo pcVehicleInfo, PCars2SharedMemory pCars2SharedMemory, int vehicleIndex)
         {
             driverInfo.Timing.LastSector1Time = CreateTimeSpan(pCars2SharedMemory.mCurrentSector1Times[vehicleIndex]);
-            driverInfo.Timing.LastSector2Time = CreateTimeSpan(pCars2SharedMemory.mCurrentSector2Times[vehicleIndex] - pCars2SharedMemory.mCurrentSector1Times[vehicleIndex]);
-            driverInfo.Timing.LastSector3Time = CreateTimeSpan(pCars2SharedMemory.mCurrentSector3Times[vehicleIndex] - pCars2SharedMemory.mCurrentSector2Times[vehicleIndex]);
+            driverInfo.Timing.LastSector2Time = CreateTimeSpan(pCars2SharedMemory.mCurrentSector2Times[vehicleIndex]);
+            driverInfo.Timing.LastSector3Time = CreateTimeSpan(pCars2SharedMemory.mCurrentSector3Times[vehicleIndex]);
             driverInfo.Timing.LastLapTime = CreateTimeSpan(pCars2SharedMemory.mLastLapTimes[vehicleIndex]);
-            driverInfo.Timing.CurrentSector = pcVehicleInfo.mCurrentSector;
+            driverInfo.Timing.CurrentSector = pcVehicleInfo.mCurrentSector + 1;
             driverInfo.Timing.CurrentLapTime = TimeSpan.Zero;
         }
 
@@ -212,7 +222,7 @@
                 InPits = pcarsData.mPitModes[vehicleIndex] != 0
             };
 
-            driverInfo.IsPlayer = vehicleIndex == 0;
+            driverInfo.IsPlayer = vehicleIndex == pcarsData.mViewedParticipantIndex;
             driverInfo.Position = (int)pcVehicleInfo.mRacePosition;
             driverInfo.Speed = Velocity.FromMs(pcarsData.mSpeeds[vehicleIndex]);
             driverInfo.LapDistance = pcVehicleInfo.mCurrentLapDistance;
@@ -303,7 +313,7 @@
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.mTrackTemperature);
             simData.SessionInfo.WeatherInfo.RainIntensity = (int) data.mRainDensity * 100;
 
-            switch ((PCars2SessionType)data.mGameState)
+            switch ((PCars2SessionType)data.mSessionState)
             {
                 case PCars2SessionType.SessionInvalid:
                     simData.SessionInfo.SessionType = SessionType.Na;
@@ -331,7 +341,7 @@
                     break;
             }
 
-            switch ((GameState)data.mSessionState)
+            switch ((GameState)data.mGameState)
             {
                 case GameState.GameExited:
                     simData.SessionInfo.SessionPhase = SessionPhase.Countdown;

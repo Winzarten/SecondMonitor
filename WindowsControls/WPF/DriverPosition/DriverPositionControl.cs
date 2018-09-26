@@ -14,7 +14,7 @@
         private static readonly DependencyProperty XProperty = DependencyProperty.Register("X", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnXPropertyChanged });
         private static readonly DependencyProperty YProperty = DependencyProperty.Register("Y", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnYPropertyChanged });
 
-        private static readonly TimeSpan AnimationTime = TimeSpan.FromMilliseconds(100);
+        private static readonly TimeSpan AnimationTime = TimeSpan.FromMilliseconds(300);
 
         private readonly TranslateTransform _translateTransform;
 
@@ -54,18 +54,6 @@
             set => SetValue(YProperty, value);
         }
 
-        private void OnYPropertyChanged()
-        {
-            _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, AnimationTime), HandoffBehavior.SnapshotAndReplace);
-            //_translateTransform.Y = Y;
-        }
-
-        private void OnXPropertyChanged()
-        {
-            _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, AnimationTime), HandoffBehavior.SnapshotAndReplace);
-            //_translateTransform.X = X;
-        }
-
         private static void OnYPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is DriverPositionControl playerPositionControl)
@@ -82,5 +70,16 @@
             }
         }
 
+        private void OnYPropertyChanged()
+        {
+            _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, AnimationTime), HandoffBehavior.SnapshotAndReplace);
+            //_translateTransform.Y = Y;
+        }
+
+        private void OnXPropertyChanged()
+        {
+            _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, AnimationTime), HandoffBehavior.SnapshotAndReplace);
+            //_translateTransform.X = X;
+        }
     }
 }

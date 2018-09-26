@@ -97,7 +97,7 @@
                     _stopwatch.Stop();
                 }
 
-                SimulatorDataSet dataSet = _pCars2DataConvertor.CreateSimulatorDataSet(rawData, TimeSpan.FromTicks(_stopwatch.ElapsedTicks));
+                SimulatorDataSet dataSet = _pCars2DataConvertor.CreateSimulatorDataSet(rawData, TimeSpan.FromMilliseconds(_stopwatch.ElapsedMilliseconds));
 
                 if (CheckSessionStarted(rawData, dataSet))
                 {

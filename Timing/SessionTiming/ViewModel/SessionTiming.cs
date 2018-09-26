@@ -41,6 +41,8 @@
 
         public TimeSpan SessionStarTime { get; private set; }
 
+        private TimeSpan _nextUpdateTime = TimeSpan.Zero;
+
         private LapInfo _bestSessionLap;
 
         private SectorTiming _bestSector1;
@@ -287,7 +289,7 @@
         {
             try
             {
-                HashSet<string> updatedDrivers = new HashSet<string>();
+               HashSet<string> updatedDrivers = new HashSet<string>();
                 Array.ForEach( dataSet.DriversInfo,
                     s =>
                         {
