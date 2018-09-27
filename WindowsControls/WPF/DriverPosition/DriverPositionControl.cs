@@ -13,6 +13,7 @@
         private static readonly DependencyProperty TextBrushProperty = DependencyProperty.Register("TextBrush", typeof(SolidColorBrush), typeof(DriverPositionControl));
         private static readonly DependencyProperty XProperty = DependencyProperty.Register("X", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnXPropertyChanged });
         private static readonly DependencyProperty YProperty = DependencyProperty.Register("Y", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnYPropertyChanged });
+        private static readonly DependencyProperty AnimateProperty = DependencyProperty.Register("Animate", typeof(bool), typeof(DriverPositionControl), new FrameworkPropertyMetadata(true));
 
         private static readonly TimeSpan AnimationTime = TimeSpan.FromMilliseconds(300);
 
@@ -54,6 +55,12 @@
             set => SetValue(YProperty, value);
         }
 
+        public bool Animate
+        {
+            get => (bool)GetValue(AnimateProperty);
+            set => SetValue(AnimateProperty, value);
+        }
+
         private static void OnYPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is DriverPositionControl playerPositionControl)
@@ -72,14 +79,27 @@
 
         private void OnYPropertyChanged()
         {
-            _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, AnimationTime), HandoffBehavior.SnapshotAndReplace);
-            //_translateTransform.Y = Y;
+            if (Animate)
+            {
+                _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, AnimationTime), HandoffBehavior.SnapshotAndReplace);
+            }
+            else
+            {
+                _translateTransform.Y = Y;
+            }
         }
 
         private void OnXPropertyChanged()
         {
-            _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, AnimationTime), HandoffBehavior.SnapshotAndReplace);
-            //_translateTransform.X = X;
+            if (Animate)
+            {
+                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, AnimationTime), HandoffBehavior.SnapshotAndReplace);
+
+            }
+            else
+            {
+                _translateTransform.X = X;
+            }
         }
     }
 }

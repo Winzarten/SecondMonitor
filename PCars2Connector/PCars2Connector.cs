@@ -16,7 +16,6 @@
         private static readonly string[] PCars2Executables = { "pCARS2", "pCARS2AVX" };
         private static readonly string SharedMemoryName = "$pcars2$";
 
-        private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
         private readonly MappedBuffer<PCars2SharedMemory> _sharedMemory;
         private readonly PCars2DataConvertor _pCars2DataConvertor;
         private readonly Stopwatch _stopwatch;
@@ -24,11 +23,9 @@
 
         private bool _isConnected;
         private DateTime _connectionTime = DateTime.MinValue;
-        private SimulatorDataSet _lastDataSet;
 
         private PCars2SessionType _lastRawPCars2SessionType;
         private SessionType _lastSessionType;
-        private SessionPhase _lastSessionPhase;
 
         public PCars2Connector()
             : base(PCars2Executables)
@@ -39,7 +36,6 @@
             _pCars2DataConvertor = new PCars2DataConvertor();
             _lastRawPCars2SessionType = PCars2SessionType.SessionInvalid;
             _lastSessionType = SessionType.Na;
-            _lastSessionPhase = SessionPhase.Countdown;
             _stopwatch = new Stopwatch();
         }
 
@@ -75,8 +71,6 @@
             _stopwatch.Restart();
             _lastRawPCars2SessionType = PCars2SessionType.SessionInvalid;
             _lastSessionType = SessionType.Na;
-            _lastSessionPhase = SessionPhase.Countdown;
-            _lastDataSet = null;
         }
 
         protected override void DaemonMethod()
@@ -97,6 +91,13 @@
                     _stopwatch.Stop();
                 }
 
+                // This a state that sometimes occurs when saving pit preset during race
+                // This state is ignored, otherwise it would trigger a session reset
+                if (rawData.mSessionState == 0 && (rawData.mGameState == 2 || rawData.mGameState == 3))
+                {
+                    continue;
+                }
+
                 SimulatorDataSet dataSet = _pCars2DataConvertor.CreateSimulatorDataSet(rawData, TimeSpan.FromMilliseconds(_stopwatch.ElapsedMilliseconds));
 
                 if (CheckSessionStarted(rawData, dataSet))
@@ -107,7 +108,6 @@
                 }
 
                 RaiseDataLoadedEvent(dataSet);
-                _lastDataSet = dataSet;
 
                 if (!IsProcessRunning())
                 {
@@ -142,7 +142,6 @@
             {
                 _lastSessionType = dataSet.SessionInfo.SessionType;
                 _lastRawPCars2SessionType = (PCars2SessionType)rawData.mSessionState;
-                _lastSessionPhase = dataSet.SessionInfo.SessionPhase;
                 return true;
             }
 

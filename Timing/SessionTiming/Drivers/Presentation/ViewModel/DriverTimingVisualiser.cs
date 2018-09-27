@@ -2,19 +2,15 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Data;
 
+    using DataModel.BasicProperties;
+
     using NLog;
 
-    using DataModel.BasicProperties;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
-    using Properties;
-
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.Settings.ModelView;
 
@@ -48,39 +44,37 @@
         public static readonly DependencyProperty IsLastSector3SessionBestProperty = DependencyProperty.Register("IsLastSector3SessionBest", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsModelView), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty ColorLapsColumnsProperty = DependencyProperty.Register("ColorLapsColumns", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsLastPlayerLapBetterProperty = DependencyProperty.Register("IsLastPlayerLapBetter", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty IsPlayersPaceBetterProperty = DependencyProperty.Register("IsPlayersPaceBetter", typeof(bool), typeof(DriverTimingModelView));
 
 
         private DriverTiming _driverTiming;
-
-        private bool _shouldRefresh;
 
         private DateTime _nextRefresh = DateTime.Now;
 
         public DriverTimingModelView(DriverTiming driverTiming)
         {
             DriverTiming = driverTiming;
-            //ScheduleRefresh(this, CancellationToken.None);
         }
 
-        /*private static async void ScheduleRefresh(DriverTimingModelView sender, CancellationToken cancellationToken)
+        public bool ColorLapsColumns
         {
+            get => (bool)GetValue(ColorLapsColumnsProperty);
+            set => SetValue(ColorLapsColumnsProperty, value);
+        }
 
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                int refreshRate = 1000;
-                if (sender.DisplaySettingsModelView != null)
-                {
-                    refreshRate = sender.DisplaySettingsModelView.RefreshRate;
-                }
+        public bool IsLastPlayerLapBetter
+        {
+            get => (bool)GetValue(IsLastPlayerLapBetterProperty);
+            set => SetValue(IsLastPlayerLapBetterProperty, value);
+        }
 
-                await Task.Delay(refreshRate, cancellationToken);
-
-                if (!cancellationToken.IsCancellationRequested)
-                {
-                    sender._shouldRefresh = true;
-                }
-            }
-        }*/
+        public bool IsPlayersPaceBetter
+        {
+            get => (bool)GetValue(IsPlayersPaceBetterProperty);
+            set => SetValue(IsPlayersPaceBetterProperty, value);
+        }
 
         public DriverTiming DriverTiming
         {
@@ -91,20 +85,6 @@
                 InitializeOneTimeValues();
                 CreateBinding();
             }
-        }
-
-        private void CreateBinding()
-        {
-            Binding newBinding = new Binding("DisplaySettings");
-            newBinding.Mode = BindingMode.OneWay;
-            newBinding.Source = _driverTiming.Session.TimingDataViewModel;
-            BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
-        }
-
-        private void InitializeOneTimeValues()
-        {
-            CarName = DriverTiming.CarName;
-            Name = DriverTiming.Name;
         }
 
         public string Position
@@ -304,17 +284,16 @@
                 Sector1 = GetSector1();
                 Sector2 = GetSector2();
                 Sector3 = GetSector3();
-                /*Sector1 = DriverTiming.DriverInfo.WorldPosition.X.DistanceInM.ToString("N2");
-                Sector2 = DriverTiming.DriverInfo.WorldPosition.Y.DistanceInM.ToString("N2");
-                Sector3 = DriverTiming.DriverInfo.WorldPosition.Z.DistanceInM.ToString("N2");
-                BestLap = DriverTiming?.CurrentLap?.ComputedMaxSpeed?.InKph.ToString("N2");*/
+
                 IsLastSector1SessionBest = GetIsSector1SessionBest();
                 IsLastSector2SessionBest = GetIsSector2SessionBest();
                 IsLastSector3SessionBest = GetIsSector3SessionBest();
                 IsLastSector1PersonalBest = GetIsSector1PersonalBest();
                 IsLastSector2PersonalBest = GetIsSector2PersonalBest();
                 IsLastSector3PersonalBest = GetIsSector3PersonalBest();
-
+                ColorLapsColumns = GetColorLapsColumns();
+                IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
+                IsPlayersPaceBetter = GetIsPlayersPaceBetter();
                 _nextRefresh = DisplaySettingsModelView != null ? DateTime.Now + TimeSpan.FromMilliseconds(DisplaySettingsModelView.RefreshRate) : DateTime.Now + TimeSpan.FromSeconds(10);
 
             }
@@ -322,11 +301,45 @@
             {
                 LogManager.GetCurrentClassLogger().Error(ex);
             }
-            finally
+        }
+
+        private bool GetColorLapsColumns()
+        {
+            return DriverTiming?.Session.SessionType == SessionType.Race && !DriverTiming.IsPlayer && DriverTiming?.Session?.Player?.DriverTiming?.CompletedLaps > 0;
+        }
+
+        private bool GetIsPlayersPaceBetter()
+        {
+            if (!ColorLapsColumns)
             {
-                _shouldRefresh = false;
+                return false;
             }
 
+            return DriverTiming.Pace > DriverTiming.Session.Player.DriverTiming.Pace;
+        }
+
+        private bool GetIsLastPlayerLapBetter()
+        {
+            if (!ColorLapsColumns || DriverTiming.LastCompletedLap is null || DriverTiming.Session.Player.DriverTiming.LastCompletedLap is null)
+            {
+                return false;
+            }
+
+            return DriverTiming.LastCompletedLap.LapTime > DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime;
+        }
+
+        private void CreateBinding()
+        {
+            Binding newBinding = new Binding("DisplaySettings");
+            newBinding.Mode = BindingMode.OneWay;
+            newBinding.Source = _driverTiming.Session.TimingDataViewModel;
+            BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
+        }
+
+        private void InitializeOneTimeValues()
+        {
+            CarName = DriverTiming.CarName;
+            Name = DriverTiming.Name;
         }
 
         private bool GetIsSector1SessionBest()
@@ -597,12 +610,12 @@
 
         }
 
-        public Velocity GetTopSpeed()
+        private Velocity GetTopSpeed()
         {
             return DriverTiming.TopSpeed;
         }
 
-        public string GetTimeToPlayer()
+        private string GetTimeToPlayer()
         {
 
             if (DriverTiming.Session.Player == null)
@@ -665,14 +678,6 @@
                 }
             }
 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 

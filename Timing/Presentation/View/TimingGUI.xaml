@@ -129,7 +129,7 @@
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding LastLapTime, Mode=OneWay}"
-                                            ElementStyle="{StaticResource TextBoxStyle}"
+                                            ElementStyle="{StaticResource TextBoxStyleLastLap}"
                                             Header="Last Lap"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
@@ -149,7 +149,7 @@
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Pace, Mode=OneWay}"
-                                            ElementStyle="{StaticResource TextBoxStyle}"
+                                            ElementStyle="{StaticResource TextBoxStylePace}"
                                             Header="Pace"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"

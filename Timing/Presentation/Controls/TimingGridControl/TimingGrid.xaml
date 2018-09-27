@@ -30,6 +30,48 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="TextBoxStyleLastLap" TargetType="TextBlock" BasedOn="{StaticResource TextBoxStyle}">
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsLastPlayerLapBetter}" Value="True"/>
+                    <Condition Binding="{Binding ColorLapsColumns}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="{StaticResource Green01Brush}" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsLastPlayerLapBetter}" Value="False"/>
+                    <Condition Binding="{Binding ColorLapsColumns}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="{StaticResource DarkRed01Brush}" />
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TextBoxStylePace" TargetType="TextBlock" BasedOn="{StaticResource TextBoxStyle}">
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsPlayersPaceBetter}" Value="True"/>
+                    <Condition Binding="{Binding ColorLapsColumns}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="{StaticResource Green01Brush}" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsPlayersPaceBetter}" Value="False"/>
+                    <Condition Binding="{Binding ColorLapsColumns}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="{StaticResource DarkRed01Brush}" />
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="TextBoxStyleSector2" TargetType="TextBlock">
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsLastSector2PersonalBest}" Value="True">
