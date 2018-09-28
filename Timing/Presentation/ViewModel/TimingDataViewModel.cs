@@ -468,7 +468,6 @@
         {
             if (data == null || Gui == null)
             {
-
                 return;
             }
 
