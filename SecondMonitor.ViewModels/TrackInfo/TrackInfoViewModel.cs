@@ -61,11 +61,6 @@
             get => _rainIntensity;
             set
             {
-                if (_rainIntensity == value)
-                {
-                    return;
-                }
-
                 _rainIntensity = value;
                 NotifyPropertyChanged();
             }

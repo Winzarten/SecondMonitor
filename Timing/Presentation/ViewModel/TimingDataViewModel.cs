@@ -48,7 +48,7 @@
 
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "SecondMonitor\\settingsView.json");
+            "SecondMonitor\\settings.json");
 
         private enum ResetModeEnum
         {
