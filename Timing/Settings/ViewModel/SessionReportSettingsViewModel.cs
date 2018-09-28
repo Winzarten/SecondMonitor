@@ -1,16 +1,16 @@
-﻿namespace SecondMonitor.Timing.Settings.ModelView
+﻿namespace SecondMonitor.Timing.Settings.ViewModel
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using Properties;
-    using Model;
+    using SecondMonitor.Timing.Properties;
+    using SecondMonitor.Timing.Settings.Model;
 
-    public class SessionReportSettingsModelView : DependencyObject, INotifyPropertyChanged
+    public class SessionReportSettingsViewModel : DependencyObject, INotifyPropertyChanged
     {
-        private static readonly DependencyProperty ExportProperty = DependencyProperty.Register("Export", typeof(bool), typeof(SessionReportSettingsModelView), new PropertyMetadata(){ PropertyChangedCallback = PropertyChangedCallback});
-        private static readonly DependencyProperty AutoOpenProperty = DependencyProperty.Register("AutoOpen", typeof(bool), typeof(SessionReportSettingsModelView), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
+        private static readonly DependencyProperty ExportProperty = DependencyProperty.Register("Export", typeof(bool), typeof(SessionReportSettingsViewModel), new PropertyMetadata(){ PropertyChangedCallback = PropertyChangedCallback});
+        private static readonly DependencyProperty AutoOpenProperty = DependencyProperty.Register("AutoOpen", typeof(bool), typeof(SessionReportSettingsViewModel), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,12 +25,12 @@
             get => (bool)GetValue(AutoOpenProperty);
             set => SetValue(AutoOpenProperty, value);
         }
-        
-        public static SessionReportSettingsModelView FromModel(SessionReportSettings model)
+
+        public static SessionReportSettingsViewModel FromModel(SessionReportSettings model)
         {
-            SessionReportSettingsModelView modelView =
-                new SessionReportSettingsModelView() { Export = model.Export, AutoOpen = model.AutoOpen };
-            return modelView;
+            SessionReportSettingsViewModel viewModel =
+                new SessionReportSettingsViewModel() { Export = model.Export, AutoOpen = model.AutoOpen };
+            return viewModel;
         }
 
         public SessionReportSettings ToModel()
@@ -40,7 +40,7 @@
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SessionReportSettingsModelView sessionReportSettingsModelView)
+            if (d is SessionReportSettingsViewModel sessionReportSettingsModelView)
             {
                 sessionReportSettingsModelView.OnPropertyChanged(e.Property.Name);
             }

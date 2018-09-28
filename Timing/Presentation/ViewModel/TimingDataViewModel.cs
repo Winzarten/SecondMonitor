@@ -27,6 +27,7 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using SecondMonitor.Timing.Settings.ViewModel;
     using SecondMonitor.ViewModels.CarStatus;
     using SecondMonitor.ViewModels.SituationOverview;
     using SecondMonitor.ViewModels.TrackInfo;
@@ -35,20 +36,19 @@
 
     using Settings;
     using Settings.Model;
-    using Settings.ModelView;
 
     using View;
 
     public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
     {
 
-        public static readonly DependencyProperty DisplaySettingsProperty = DependencyProperty.Register("DisplaySettings", typeof(DisplaySettingsModelView), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
-        public static readonly DependencyProperty CurrentSessionOptionsProperty = DependencyProperty.Register("CurrentSessionOptions", typeof(SessionOptionsModelView), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
+        public static readonly DependencyProperty DisplaySettingsViewProperty = DependencyProperty.Register("DisplaySettingsView", typeof(DisplaySettingsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
+        public static readonly DependencyProperty CurrentSessionOptionsViewProperty = DependencyProperty.Register("CurrentSessionOptionsView", typeof(SessionOptionsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
         public static readonly DependencyProperty CurrentGearProperty = DependencyProperty.Register("CurrentGear",typeof(string), typeof(TimingDataViewModel));
 
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "SecondMonitor\\settings.json");
+            "SecondMonitor\\settingsView.json");
 
         private enum ResetModeEnum
         {
@@ -82,7 +82,7 @@
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = new DriverLapsWindowManager(() => Gui, () => SelectedDriverTiming);
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
-            ReportsController = new ReportsController(DisplaySettings);
+            ReportsController = new ReportsController(DisplaySettingsView);
             SituationOverviewProvider = new SituationOverviewProvider(SessionTiming);
         }
 
@@ -129,6 +129,7 @@
         public TrackInfoViewModel TrackInfoViewModel { get; }
 
         public SituationOverviewProvider SituationOverviewProvider { get; }
+
 
         public TimingGui Gui { get; private set; }
 
@@ -198,7 +199,7 @@
         private void CreateAutoSaver()
         {
             _settingAutoSaver = new DisplaySettingAutoSaver(SettingsPath);
-            _settingAutoSaver.DisplaySettingsModelView = DisplaySettings;
+            _settingAutoSaver.DisplaySettingsViewModel = DisplaySettingsView;
         }
 
         private bool TerminatePeriodicTasks { get; set; }
@@ -207,7 +208,7 @@
         {
             _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
             _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
-            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 300, this);
+            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 100, this);
         }
 
         private void CreateGuiInstance()
@@ -229,23 +230,23 @@
 
         private void CreateDisplaySettings()
         {
-            DisplaySettingsModelView displaySettingsModelView = new DisplaySettingsModelView();
-            displaySettingsModelView.FromModel(
+            DisplaySettingsViewModel displaySettingsViewModel = new DisplaySettingsViewModel();
+            displaySettingsViewModel.FromModel(
                 new DisplaySettingsLoader().LoadDisplaySettingsFromFileSafe(SettingsPath));
-            DisplaySettings = displaySettingsModelView;
-            CurrentSessionOptions = SessionOptionsModelView.CreateFromModel(new SessionOptions());
+            DisplaySettingsView = displaySettingsViewModel;
+            CurrentSessionOptionsView = SessionOptionsViewModel.CreateFromModel(new SessionOptions());
         }
 
-        public DisplaySettingsModelView DisplaySettings
+        public DisplaySettingsViewModel DisplaySettingsView
         {
-            get => (DisplaySettingsModelView) GetValue(DisplaySettingsProperty);
-            set => SetValue(DisplaySettingsProperty, value);
+            get => (DisplaySettingsViewModel) GetValue(DisplaySettingsViewProperty);
+            set => SetValue(DisplaySettingsViewProperty, value);
         }
 
-        public SessionOptionsModelView CurrentSessionOptions
+        public SessionOptionsViewModel CurrentSessionOptionsView
         {
-            get => (SessionOptionsModelView)GetValue(CurrentSessionOptionsProperty);
-            set => SetValue(CurrentSessionOptionsProperty, value);
+            get => (SessionOptionsViewModel)GetValue(CurrentSessionOptionsViewProperty);
+            set => SetValue(CurrentSessionOptionsViewProperty, value);
         }
 
         private ICommand _resetCommand;
@@ -272,7 +273,7 @@
 
             _settingsWindow = new DisplaySettingsWindow
             {
-                DataContext = DisplaySettings,
+                DataContext = DisplaySettingsView,
                 Owner = Gui
             };
             _settingsWindow.Show();
@@ -284,7 +285,7 @@
         {
             if (_timing != null)
             {
-                _timing.PaceLaps = DisplaySettings.PaceLaps;
+                _timing.PaceLaps = DisplaySettingsView.PaceLaps;
             }
 
             if (!TerminatePeriodicTasks)
@@ -348,32 +349,32 @@
 
         private DisplayModeEnum GetOrderTypeFromSettings()
         {
-            return CurrentSessionOptions.OrderingMode;
+            return CurrentSessionOptionsView.OrderingMode;
         }
 
         private DisplayModeEnum GetTimeDisplayTypeFromSettings()
         {
-            return CurrentSessionOptions.TimesDisplayMode;
+            return CurrentSessionOptionsView.TimesDisplayMode;
         }
 
-        private SessionOptionsModelView GetSessionOptionOfCurrentSession(SimulatorDataSet dataSet)
+        private SessionOptionsViewModel GetSessionOptionOfCurrentSession(SimulatorDataSet dataSet)
         {
             if (dataSet == null)
             {
-                return new SessionOptionsModelView();
+                return new SessionOptionsViewModel();
             }
 
             switch (dataSet.SessionInfo.SessionType)
             {
                 case SessionType.Practice:
                 case SessionType.WarmUp:
-                    return DisplaySettings.PracticeSessionDisplayOptions;
+                    return DisplaySettingsView.PracticeSessionDisplayOptionsView;
                 case SessionType.Qualification:
-                    return DisplaySettings.QualificationSessionDisplayOptions;
+                    return DisplaySettingsView.QualificationSessionDisplayOptionsView;
                 case SessionType.Race:
-                    return DisplaySettings.RaceSessionDisplayOptions;
+                    return DisplaySettingsView.RaceSessionDisplayOptionsView;
                 default:
-                    return new SessionOptionsModelView();
+                    return new SessionOptionsViewModel();
             }
         }
 
@@ -526,7 +527,7 @@
 
             RefreshDataGrid();
 
-            if (DisplaySettings.ScrollToPlayer && Gui != null && _timing?.Player != null && Gui.DtTimig.Items.Count > 0)
+            if (DisplaySettingsView.ScrollToPlayer && Gui != null && _timing?.Player != null && Gui.DtTimig.Items.Count > 0)
             {
                 Gui.DtTimig.ScrollIntoView(Gui.DtTimig.Items[0]);
                 Gui.DtTimig.ScrollIntoView(_timing.Player);
@@ -567,7 +568,7 @@
             SessionInfoViewModel.SessionTiming = _timing;
             _timing.DriverAdded += Timing_DriverAdded;
             _timing.DriverRemoved += Timing_DriverRemoved;
-            _timing.PaceLaps = DisplaySettings.PaceLaps;
+            _timing.PaceLaps = DisplaySettingsView.PaceLaps;
 
             CarStatusViewModel.Reset();
             TrackInfoViewModel.Reset();
@@ -595,7 +596,7 @@
 
         private void UpdateCurrentSessionOption(SimulatorDataSet data)
         {
-            CurrentSessionOptions = GetSessionOptionOfCurrentSession(data);
+            CurrentSessionOptionsView = GetSessionOptionOfCurrentSession(data);
         }
 
         private void InitializeGui(SimulatorDataSet data)
@@ -630,47 +631,47 @@
 
         private void OnDisplaySettingsChange(object sender, PropertyChangedEventArgs args)
         {
-            ApplyDisplaySettings(DisplaySettings);
+            ApplyDisplaySettings(DisplaySettingsView);
             if (args?.PropertyName == "PaceLaps")
             {
                 PaceLapsChanged();
             }
 
-            if (args?.PropertyName == SessionOptionsModelView.OrderingModeProperty.Name)
+            if (args?.PropertyName == SessionOptionsViewModel.OrderingModeProperty.Name)
             {
                 ChangeOrderingMode();
             }
 
-            if (args?.PropertyName == SessionOptionsModelView.TimesDisplayModeProperty.Name)
+            if (args?.PropertyName == SessionOptionsViewModel.TimesDisplayModeProperty.Name)
             {
                 ChangeTimeDisplayMode();
             }
-
         }
 
-        private void ApplyDisplaySettings(DisplaySettingsModelView settings)
+        private void ApplyDisplaySettings(DisplaySettingsViewModel settingsView)
         {
-            TrackInfoViewModel.TemperatureUnits = settings.TemperatureUnits;
+            TrackInfoViewModel.TemperatureUnits = settingsView.TemperatureUnits;
+            SituationOverviewProvider.AnimateDriversPos = settingsView.AnimateDriversPosition;
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             TimingDataViewModel timingDataViewModel = (TimingDataViewModel) dependencyObject;
-            DisplaySettingsModelView newDisplaySettingsModelView =
-                (DisplaySettingsModelView) dependencyPropertyChangedEventArgs.NewValue;
-            newDisplaySettingsModelView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
-            newDisplaySettingsModelView.PracticeSessionDisplayOptions.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
-            newDisplaySettingsModelView.RaceSessionDisplayOptions.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
-            newDisplaySettingsModelView.QualificationSessionDisplayOptions.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
+            DisplaySettingsViewModel newDisplaySettingsViewModel =
+                (DisplaySettingsViewModel) dependencyPropertyChangedEventArgs.NewValue;
+            newDisplaySettingsViewModel.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
+            newDisplaySettingsViewModel.PracticeSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
+            newDisplaySettingsViewModel.RaceSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
+            newDisplaySettingsViewModel.QualificationSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
 
             if (timingDataViewModel._settingAutoSaver != null)
             {
-                timingDataViewModel._settingAutoSaver.DisplaySettingsModelView = newDisplaySettingsModelView;
+                timingDataViewModel._settingAutoSaver.DisplaySettingsViewModel = newDisplaySettingsViewModel;
             }
 
             if (timingDataViewModel.ReportsController != null)
             {
-                timingDataViewModel.ReportsController.Settings = newDisplaySettingsModelView;
+                timingDataViewModel.ReportsController.SettingsView = newDisplaySettingsViewModel;
             }
 
         }

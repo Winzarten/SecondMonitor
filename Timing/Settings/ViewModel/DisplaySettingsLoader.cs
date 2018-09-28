@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Settings.ModelView
+﻿namespace SecondMonitor.Timing.Settings.ViewModel
 {
     using System;
     using System.IO;
@@ -7,7 +7,7 @@
 
     using NLog;
 
-    using Model;
+    using SecondMonitor.Timing.Settings.Model;
 
     public class DisplaySettingsLoader
     {
@@ -25,7 +25,7 @@
             }
             catch (Exception ex)
             {
-                LogManager.GetCurrentClassLogger().Error(ex, "Error while loading display settings - default settings created");
+                LogManager.GetCurrentClassLogger().Error(ex, "Error while loading display settingsView - default settingsView created");
                 return new DisplaySettings();
             }
             

@@ -13,11 +13,11 @@
         private static readonly DependencyProperty TextBrushProperty = DependencyProperty.Register("TextBrush", typeof(SolidColorBrush), typeof(DriverPositionControl));
         private static readonly DependencyProperty XProperty = DependencyProperty.Register("X", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnXPropertyChanged });
         private static readonly DependencyProperty YProperty = DependencyProperty.Register("Y", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnYPropertyChanged });
-        private static readonly DependencyProperty AnimateProperty = DependencyProperty.Register("Animate", typeof(bool), typeof(DriverPositionControl), new FrameworkPropertyMetadata(true));
 
-        private static readonly TimeSpan AnimationTime = TimeSpan.FromMilliseconds(300);
+        private TranslateTransform _translateTransform;
+        private TimeSpan _animationTime = TimeSpan.FromMilliseconds(100);
 
-        private readonly TranslateTransform _translateTransform;
+        private bool _animate;
 
         public DriverPositionControl()
         {
@@ -57,8 +57,15 @@
 
         public bool Animate
         {
-            get => (bool)GetValue(AnimateProperty);
-            set => SetValue(AnimateProperty, value);
+            set
+            {
+                _animate = value;
+                _translateTransform = new TranslateTransform(_translateTransform.X, _translateTransform.Y);
+                RenderTransform = _translateTransform;
+                _animationTime = value ? TimeSpan.FromMilliseconds(100) : TimeSpan.Zero;
+            }
+
+            get => _animate;
         }
 
         private static void OnYPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -81,7 +88,7 @@
         {
             if (Animate)
             {
-                _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, AnimationTime), HandoffBehavior.SnapshotAndReplace);
+                _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, _animationTime), HandoffBehavior.Compose);
             }
             else
             {
@@ -93,7 +100,7 @@
         {
             if (Animate)
             {
-                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, AnimationTime), HandoffBehavior.SnapshotAndReplace);
+                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, _animationTime), HandoffBehavior.Compose);
 
             }
             else

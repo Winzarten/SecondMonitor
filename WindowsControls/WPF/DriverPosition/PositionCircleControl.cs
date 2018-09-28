@@ -8,6 +8,7 @@
     using System.Windows.Shapes;
 
     using SecondMonitor.DataModel.BasicProperties;
+    using SecondMonitor.DataModel.Extensions;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.WindowsControls.WPF.DriverPostion;
@@ -27,13 +28,13 @@
 
         private readonly Dictionary<string, DriverPositionControl> _drivers;
 
+        private bool _animateDriversPosition;
+
         public PositionCircleControl()
         {
             _drivers = new Dictionary<string, DriverPositionControl>();
             SetUpControl();
         }
-
-        private SimulatorDataSet LastDataSet { get; set; }
 
         public SolidColorBrush PlayerForegroundBrush
         {
@@ -95,11 +96,67 @@
             set => SetValue(LappingDriverBackgroundBrushProperty, value);
         }
 
+        public bool AnimateDriversPos
+        {
+            get => _animateDriversPosition;
+            set
+            {
+                _animateDriversPosition = value;
+                _drivers.Values.ForEach(x => x.Animate = value);
+            }
+        }
+
+
         public IPositionCircleInformationProvider PositionCircleInformationProvider
         {
             get;
             set;
         }
+
+        private SimulatorDataSet LastDataSet { get; set; }
+
+        public void AddDrivers(params DriverInfo[] drivers)
+        {
+            foreach (DriverInfo driver in drivers)
+            {
+                AddDriver(driver);
+            }
+        }
+
+        public void RemoveDrivers(params DriverInfo[] drivers)
+        {
+            foreach (DriverInfo driver in drivers)
+            {
+                RemoveDriver(driver.DriverName);
+            }
+        }
+
+        public void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers)
+        {
+            LastDataSet = dataSet;
+            foreach (DriverInfo driver in drivers)
+            {
+                if (_drivers.ContainsKey(driver.DriverName))
+                {
+                    UpdateDriver(driver, _drivers[driver.DriverName]);
+                }
+                else
+                {
+                    AddDriver(driver);
+                }
+            }
+        }
+
+        public void RemoveAllDrivers()
+        {
+            foreach (DriverPositionControl control in _drivers.Values)
+            {
+                Children.Remove(control);
+            }
+
+            _drivers.Clear();
+        }
+
 
         private void AddDriver(DriverInfo driverInfo)
         {
@@ -109,7 +166,8 @@
                         Width = 25,
                         Height = 25,
                         VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Animate = AnimateDriversPos
                     };
             UpdateDriver(driverInfo, newDriverControl);
             Children.Add(newDriverControl);
@@ -197,7 +255,7 @@
         private double GetY(DriverInfo driver)
         {
             double lapLength = LastDataSet.SessionInfo.TrackInfo.LayoutLength;
-            double degrees = (driver.LapDistance / lapLength) * 2 * Math.PI - Math.PI / 2;
+            double degrees = ((driver.LapDistance / lapLength) * 2 * Math.PI) - (Math.PI / 2);
             double y = (ActualHeight / 2) * Math.Sin(degrees);
 
             if (driver.InPits)
@@ -208,47 +266,6 @@
             return double.IsNaN(y) ? 0 : y;
         }
 
-        public void AddDrivers(params DriverInfo[] drivers)
-        {
-            foreach (DriverInfo driver in drivers)
-            {
-                AddDriver(driver);
-            }
-        }
-
-        public void RemoveDrivers(params DriverInfo[] drivers)
-        {
-            foreach (DriverInfo driver in drivers)
-            {
-                RemoveDriver(driver.DriverName);
-            }
-        }
-
-        public void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers)
-        {
-            LastDataSet = dataSet;
-            foreach (DriverInfo driver in drivers)
-            {
-                if (_drivers.ContainsKey(driver.DriverName))
-                {
-                    UpdateDriver(driver, _drivers[driver.DriverName]);
-                }
-                else
-                {
-                    AddDriver(driver);
-                }
-            }
-        }
-
-        public void RemoveAllDrivers()
-        {
-            foreach (DriverPositionControl control in _drivers.Values)
-            {
-                Children.Remove(control);
-            }
-
-            _drivers.Clear();
-        }
 
         private void SetUpControl()
         {

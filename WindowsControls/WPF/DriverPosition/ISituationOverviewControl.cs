@@ -5,6 +5,7 @@
 
     public interface ISituationOverviewControl
     {
+        bool AnimateDriversPos { get; set; }
 
         void AddDrivers(params DriverInfo[] drivers);
 

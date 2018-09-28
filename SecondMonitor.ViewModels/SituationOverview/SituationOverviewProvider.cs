@@ -63,6 +63,12 @@
             }
         }
 
+        public bool AnimateDriversPos
+        {
+            get => SituationOverviewControl.AnimateDriversPos;
+            set => SituationOverviewControl.AnimateDriversPos = value;
+        }
+
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
             _positionCircle.UpdateDrivers(dataSet, dataSet.DriversInfo);

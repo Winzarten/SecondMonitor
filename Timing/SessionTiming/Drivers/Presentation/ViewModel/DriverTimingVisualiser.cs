@@ -12,7 +12,7 @@
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
-    using SecondMonitor.Timing.Settings.ModelView;
+    using SecondMonitor.Timing.Settings.ViewModel;
 
     public class DriverTimingModelView : DependencyObject
     {
@@ -43,7 +43,7 @@
         public static readonly DependencyProperty IsLastSector2SessionBestProperty = DependencyProperty.Register("IsLastSector2SessionBest", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty IsLastSector3SessionBestProperty = DependencyProperty.Register("IsLastSector3SessionBest", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsModelView), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsViewModel), typeof(DriverTimingModelView));
         public static readonly DependencyProperty ColorLapsColumnsProperty = DependencyProperty.Register("ColorLapsColumns", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty IsLastPlayerLapBetterProperty = DependencyProperty.Register("IsLastPlayerLapBetter", typeof(bool), typeof(DriverTimingModelView));
         public static readonly DependencyProperty IsPlayersPaceBetterProperty = DependencyProperty.Register("IsPlayersPaceBetter", typeof(bool), typeof(DriverTimingModelView));
@@ -195,9 +195,9 @@
             set => SetValue(IsLastLapBestSessionLapProperty, value);
         }
 
-        public DisplaySettingsModelView DisplaySettingsModelView
+        public DisplaySettingsViewModel DisplaySettingsViewModel
         {
-            get => (DisplaySettingsModelView) GetValue(DisplaySettingModelViewProperty);
+            get => (DisplaySettingsViewModel) GetValue(DisplaySettingModelViewProperty);
             set => SetValue(DisplaySettingModelViewProperty, value);
         }
 
@@ -272,7 +272,7 @@
                 BestLap = GetBestLap();
                 Remark = DriverTiming.Remark;
                 LastPitInfo = DriverTiming.LastPitInfo;
-                TopSpeed = GetTopSpeed().GetValueInUnits(DriverTiming.Session.TimingDataViewModel.DisplaySettings.VelocityUnits).ToString("N0");
+                TopSpeed = GetTopSpeed().GetValueInUnits(DriverTiming.Session.TimingDataViewModel.DisplaySettingsView.VelocityUnits).ToString("N0");
                 TimeToPlayer = GetTimeToPlayer();
                 IsPlayer = DriverTiming.IsPlayer;
                 IsLapped = DriverTiming.IsLapped;
@@ -294,7 +294,7 @@
                 ColorLapsColumns = GetColorLapsColumns();
                 IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
                 IsPlayersPaceBetter = GetIsPlayersPaceBetter();
-                _nextRefresh = DisplaySettingsModelView != null ? DateTime.Now + TimeSpan.FromMilliseconds(DisplaySettingsModelView.RefreshRate) : DateTime.Now + TimeSpan.FromSeconds(10);
+                _nextRefresh = DisplaySettingsViewModel != null ? DateTime.Now + TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : DateTime.Now + TimeSpan.FromSeconds(10);
 
             }
             catch (Exception ex)
@@ -330,7 +330,7 @@
 
         private void CreateBinding()
         {
-            Binding newBinding = new Binding("DisplaySettings");
+            Binding newBinding = new Binding("DisplaySettingsView");
             newBinding.Mode = BindingMode.OneWay;
             newBinding.Source = _driverTiming.Session.TimingDataViewModel;
             BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);

@@ -8,8 +8,11 @@
     {
         private TimeSpan _timeDifference;
 
+        private DateTime _nextUpdate;
+
         public LapPortionTimesComparatorViewModel(LapInfo referenceLap, LapInfo comparedLap)
         {
+            _nextUpdate = DateTime.Now;
             ReferenceLap = referenceLap;
             ComparedLap = comparedLap;
             TimeDifference = TimeSpan.Zero;
@@ -47,6 +50,12 @@
 
         private void PortionTimes_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+
+            if (DateTime.Now < _nextUpdate)
+            {
+                return;
+            }
+
             if (ReferenceLap.LapTelemetryInfo.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance) != TimeSpan.Zero)
             {
                 TimeDifference = ComparedLap.LapTelemetryInfo.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance)
@@ -56,6 +65,7 @@
             {
                 TimeDifference = TimeSpan.Zero;
             }
+            _nextUpdate = DateTime.Now + TimeSpan.FromMilliseconds(100);
         }
 
         public void Dispose()
