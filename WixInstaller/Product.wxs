@@ -12,7 +12,7 @@
     <WixVariable Id="WixUILicenseRtf" Value="..\Artifacts\eula.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="..\Artifacts\banner.bmp" />
 
-    <MajorUpgrade AllowDowngrades="no" AllowSameVersionUpgrades="no" DowngradeErrorMessage="A newer version of [ProductName] is already installed.  If you are sure you want to downgrade, remove the existing installation via the Control Panel"/>
+    <MajorUpgrade AllowDowngrades="yes"/>
 
     <!--<Upgrade Id='$(var.UpgradeCode)'>
       <UpgradeVersion Minimum='$(var.ProductVersion)'
