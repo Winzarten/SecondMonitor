@@ -13,9 +13,8 @@
     using NLog;
 
     using SecondMonitor.Timing.SessionTiming.ViewModel;
+    using SecondMonitor.Timing.Settings.ViewModel;
     using SecondMonitor.WindowsControls.WPF.Commands;
-
-    using Settings.ModelView;
 
     using XslxExport;
 
@@ -25,9 +24,9 @@
         private const string ReportNamePrefix = "Report_";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ReportsController(DisplaySettingsModelView settings)
+        public ReportsController(DisplaySettingsViewModel settingsView)
         {
-            Settings = settings;
+            SettingsView = settingsView;
             OpenLastReportCommand = new RelayCommand(OpenLastReport);
             OpenReportsFolderCommand = new RelayCommand(OpenReportsFolder);
         }
@@ -36,7 +35,7 @@
 
         public RelayCommand OpenReportsFolderCommand { get; }
 
-        public DisplaySettingsModelView Settings { get; set; }
+        public DisplaySettingsViewModel SettingsView { get; set; }
 
         public void CreateReport(SessionTiming sessionTiming)
         {
@@ -50,7 +49,7 @@
                 string reportName = GetReportName(sessionSummary);
                 SessionSummaryExporter sessionSummaryExporter = CreateSessionSummaryExporter();
                 string fullReportPath = Path.Combine(
-                    Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs,
+                    SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs,
                     reportName);
                 sessionSummaryExporter.ExportSessionSummary(sessionSummary, fullReportPath);
                 OpenReportIfEnabled(sessionSummary, fullReportPath);
@@ -64,7 +63,7 @@
 
         public void OpenLastReport()
         {
-            string reportDirectory = Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs;
+            string reportDirectory = SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs;
             DirectoryInfo di = new DirectoryInfo(reportDirectory);
             FileInfo fileToOpen = di.GetFiles().OrderBy(x => x.CreationTime).LastOrDefault();
             if (fileToOpen == null)
@@ -77,7 +76,7 @@
 
         public void OpenReportsFolder()
         {
-            string reportDirectory = Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs;
+            string reportDirectory = SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs;
             Task.Run(
                 () =>
                     {
@@ -88,13 +87,13 @@
         private SessionSummaryExporter CreateSessionSummaryExporter()
         {
             SessionSummaryExporter sessionSummaryExporter = new SessionSummaryExporter();
-            sessionSummaryExporter.VelocityUnits = Settings.VelocityUnits;
+            sessionSummaryExporter.VelocityUnits = SettingsView.VelocityUnits;
             return sessionSummaryExporter;
         }
 
         private bool ShouldBeExported(SessionTiming sessionTiming)
         {
-            if (sessionTiming.LastSet.SessionInfo.SessionTime.TotalMinutes < Settings.ReportingSettings.MinimumSessionLength)
+            if (sessionTiming.LastSet.SessionInfo.SessionTime.TotalMinutes < SettingsView.ReportingSettingsView.MinimumSessionLength)
             {
                 return false;
             }
@@ -102,13 +101,13 @@
             switch (sessionTiming.SessionType)
             {
                 case SessionType.Practice:
-                    return Settings.ReportingSettings.PracticeReportSettings.Export;
+                    return SettingsView.ReportingSettingsView.PracticeReportSettingsView.Export;
                 case SessionType.Qualification:
-                    return Settings.ReportingSettings.QualificationReportSetting.Export;
+                    return SettingsView.ReportingSettingsView.QualificationReportSettingView.Export;
                 case SessionType.WarmUp:
-                    return Settings.ReportingSettings.WarmUpReportSettings.Export;
+                    return SettingsView.ReportingSettingsView.WarmUpReportSettingsView.Export;
                 case SessionType.Race:
-                    return Settings.ReportingSettings.RaceReportSettings.Export;
+                    return SettingsView.ReportingSettingsView.RaceReportSettingsView.Export;
                 default:
                     return false;
             }
@@ -123,16 +122,16 @@
                     openReport = false;
                     break;
                 case SessionType.Practice:
-                    openReport = Settings.ReportingSettings.PracticeReportSettings.AutoOpen;
+                    openReport = SettingsView.ReportingSettingsView.PracticeReportSettingsView.AutoOpen;
                     break;
                 case SessionType.Qualification:
-                    openReport = Settings.ReportingSettings.QualificationReportSetting.AutoOpen;
+                    openReport = SettingsView.ReportingSettingsView.QualificationReportSettingView.AutoOpen;
                     break;
                 case SessionType.WarmUp:
-                    openReport = Settings.ReportingSettings.WarmUpReportSettings.AutoOpen;
+                    openReport = SettingsView.ReportingSettingsView.WarmUpReportSettingsView.AutoOpen;
                     break;
                 case SessionType.Race:
-                    openReport = Settings.ReportingSettings.RaceReportSettings.AutoOpen;
+                    openReport = SettingsView.ReportingSettingsView.RaceReportSettingsView.AutoOpen;
                     break;
             }
             if (!openReport)
@@ -161,14 +160,14 @@
 
         private void CheckAndDeleteIfMaximumReportsExceeded()
         {
-            DirectoryInfo di = new DirectoryInfo(Settings.ReportingSettings.ExportDirectoryReplacedSpecialDirs);
+            DirectoryInfo di = new DirectoryInfo(SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs);
             FileInfo[] files = di.GetFiles(ReportNamePrefix + "*.xlsx").OrderBy(f => f.CreationTimeUtc).ToArray();
-            if (files.Length <= Settings.ReportingSettings.MaximumReports)
+            if (files.Length <= SettingsView.ReportingSettingsView.MaximumReports)
             {
                 return;
             }
 
-            int filesToDelete = files.Length - Settings.ReportingSettings.MaximumReports;
+            int filesToDelete = files.Length - SettingsView.ReportingSettingsView.MaximumReports;
             for (int i = 0; i < filesToDelete; i++)
             {
                 files[i].Delete();

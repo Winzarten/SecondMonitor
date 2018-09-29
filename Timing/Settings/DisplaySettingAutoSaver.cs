@@ -6,113 +6,113 @@
 
     using Newtonsoft.Json;
 
-    using ModelView;
+    using SecondMonitor.Timing.Settings.ViewModel;
 
     public class DisplaySettingAutoSaver
     {
-        private DisplaySettingsModelView _displaySettings;
+        private DisplaySettingsViewModel _displaySettingsView;
         private bool _inSave;
 
         public DisplaySettingAutoSaver(string filePath) => FilePath = filePath;
 
         public string FilePath { get; private set; }
 
-        public DisplaySettingsModelView DisplaySettingsModelView
+        public DisplaySettingsViewModel DisplaySettingsViewModel
         {
-            get => _displaySettings;
+            get => _displaySettingsView;
             set
             {
                 UnregisteredDisplaySettings();
-                _displaySettings = value;
+                _displaySettingsView = value;
                 RegisterDisplaySettings();
             }
         }
 
         private void UnregisteredDisplaySettings()
         {
-            if (_displaySettings == null)
+            if (_displaySettingsView == null)
             {
                 return;
             }
 
-            _displaySettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            _displaySettings.PracticeSessionDisplayOptions.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            _displaySettings.QualificationSessionDisplayOptions.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            _displaySettings.RaceSessionDisplayOptions.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            UnRegisterColumnsProperties(_displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
-            UnRegisterColumnsProperties(_displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
-            UnRegisterColumnsProperties(_displaySettings.RaceSessionDisplayOptions.ColumnsSettings);
-            UnRegisterReportingSettings(_displaySettings.ReportingSettings);
+            _displaySettingsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.PracticeSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.QualificationSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.RaceSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            UnRegisterColumnsProperties(_displaySettingsView.PracticeSessionDisplayOptionsView.ColumnsSettingsView);
+            UnRegisterColumnsProperties(_displaySettingsView.QualificationSessionDisplayOptionsView.ColumnsSettingsView);
+            UnRegisterColumnsProperties(_displaySettingsView.RaceSessionDisplayOptionsView.ColumnsSettingsView);
+            UnRegisterReportingSettings(_displaySettingsView.ReportingSettingsView);
         }
 
-        private void UnRegisterColumnsProperties(ColumnsSettingsModelView columnsSettingsModelView)
+        private void UnRegisterColumnsProperties(ColumnsSettingsViewModel columnsSettingsViewModel)
         {
-            columnsSettingsModelView.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Position.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Name.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CarName.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CompletedLaps.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastLapTime.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Pace.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.BestLap.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CurrentLapProgressTime.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastPitInfo.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TimeToPlayer.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TopSpeed.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            columnsSettingsViewModel.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.Position.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.Name.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CarName.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CompletedLaps.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.LastLapTime.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.Pace.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.BestLap.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CurrentLapProgressTime.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.LastPitInfo.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.TimeToPlayer.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.TopSpeed.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
         }
 
-        private void UnRegisterReportingSettings(ReportingSettingsModelView reportingSettings)
+        private void UnRegisterReportingSettings(ReportingSettingsViewModel reportingSettingsView)
         {
-            reportingSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            reportingSettings.PracticeReportSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            reportingSettings.QualificationReportSetting.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            reportingSettings.WarmUpReportSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
-            reportingSettings.RaceReportSettings.PropertyChanged -= DisplaySettingsOnPropertyChanged;
+            reportingSettingsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.PracticeReportSettingsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.QualificationReportSettingView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.WarmUpReportSettingsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.RaceReportSettingsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
         }
 
-        private void RegisterColumnsProperties(ColumnsSettingsModelView columnsSettingsModelView)
+        private void RegisterColumnsProperties(ColumnsSettingsViewModel columnsSettingsViewModel)
         {
-            columnsSettingsModelView.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Position.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Name.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CarName.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CompletedLaps.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastLapTime.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.Pace.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.BestLap.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.CurrentLapProgressTime.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.LastPitInfo.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TimeToPlayer.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            columnsSettingsModelView.TopSpeed.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            columnsSettingsViewModel.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.Position.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.Name.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CarName.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CompletedLaps.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.LastLapTime.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.Pace.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.BestLap.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CurrentLapProgressTime.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.LastPitInfo.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.TimeToPlayer.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.TopSpeed.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
         }
 
         private void RegisterDisplaySettings()
         {
-            if (_displaySettings == null)
+            if (_displaySettingsView == null)
             {
                 return;
             }
 
-            _displaySettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            _displaySettings.PracticeSessionDisplayOptions.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            _displaySettings.QualificationSessionDisplayOptions.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            _displaySettings.RaceSessionDisplayOptions.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            RegisterColumnsProperties(_displaySettings.PracticeSessionDisplayOptions.ColumnsSettings);
-            RegisterColumnsProperties(_displaySettings.QualificationSessionDisplayOptions.ColumnsSettings);
-            RegisterColumnsProperties(_displaySettings.RaceSessionDisplayOptions.ColumnsSettings);
-            RegisterReportingSettings(_displaySettings.ReportingSettings);
+            _displaySettingsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.PracticeSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.QualificationSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.RaceSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            RegisterColumnsProperties(_displaySettingsView.PracticeSessionDisplayOptionsView.ColumnsSettingsView);
+            RegisterColumnsProperties(_displaySettingsView.QualificationSessionDisplayOptionsView.ColumnsSettingsView);
+            RegisterColumnsProperties(_displaySettingsView.RaceSessionDisplayOptionsView.ColumnsSettingsView);
+            RegisterReportingSettings(_displaySettingsView.ReportingSettingsView);
         }
 
-        private void RegisterReportingSettings(ReportingSettingsModelView reportingSettings)
+        private void RegisterReportingSettings(ReportingSettingsViewModel reportingSettingsView)
         {
-            reportingSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            reportingSettings.PracticeReportSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            reportingSettings.QualificationReportSetting.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            reportingSettings.WarmUpReportSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
-            reportingSettings.RaceReportSettings.PropertyChanged += DisplaySettingsOnPropertyChanged;
+            reportingSettingsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.PracticeReportSettingsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.QualificationReportSettingView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.WarmUpReportSettingsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            reportingSettingsView.RaceReportSettingsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
         }
 
-        private void DisplaySettingsOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void DisplaySettingsViewOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             Save();
         }
@@ -127,8 +127,8 @@
             _inSave = true;
             await Task.Delay(1000);
             _inSave = false;
-            File.WriteAllText(FilePath, JsonConvert.SerializeObject(_displaySettings.ToModel(), Formatting.Indented));
+            File.WriteAllText(FilePath, JsonConvert.SerializeObject(_displaySettingsView.ToModel(), Formatting.Indented));
         }
-    
+
     }
 }

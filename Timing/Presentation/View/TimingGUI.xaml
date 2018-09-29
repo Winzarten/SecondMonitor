@@ -82,8 +82,8 @@
                     BorderBrush="{StaticResource DarkGrey01Brush}"
                     BorderThickness="3" CornerRadius="5">
                 <StackPanel>
-                    <wpf:TimeSpanBarControl Title="Δ to Personal Best" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
-                    <wpf:TimeSpanBarControl Title="Δ to Previous Lap" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
+                    <wpf:TimeSpanBarControl Title="Δ to Personal Best" AnimateBar="{Binding DisplaySettingsView.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
+                    <wpf:TimeSpanBarControl Title="Δ to Previous Lap" AnimateBar="{Binding DisplaySettingsView.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
                 </StackPanel>
             </Border>
             <view:SessionInfoView Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
@@ -107,76 +107,76 @@
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
                     </timingGridControl:TimingGrid.Resources>
                     <timingGridControl:TimingGrid.Columns>
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Position, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="#"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Position.Visible, Mode=TwoWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Position.Visible, Mode=TwoWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Name, Mode=OneTime}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Name"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Name.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Name.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CarName, Mode=OneTime}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Car"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CompletedLaps, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Laps"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CompletedLaps.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CompletedLaps.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.LastLapTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding LastLapTime, Mode=OneWay}"
-                                            ElementStyle="{StaticResource TextBoxStyle}"
+                                            ElementStyle="{StaticResource TextBoxStyleLastLap}"
                                             Header="Last Lap"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastLapTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.LastLapTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Sector1.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Sector1, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyleSector1}"
                                             Header="S1"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector1.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector2.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Sector1.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Sector2.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Sector2, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyleSector2}"
                                             Header="S2"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector2.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Sector2.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Sector3.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Sector3, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyleSector3}"
                                             Header="S3"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Sector3.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Sector3.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Pace.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Pace, Mode=OneWay}"
-                                            ElementStyle="{StaticResource TextBoxStyle}"
+                                            ElementStyle="{StaticResource TextBoxStylePace}"
                                             Header="Pace"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.Pace.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Pace.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.BestLap.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding BestLap, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Best Lap"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.BestLap.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.BestLap.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CurrentLapProgressTime.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CurrentLapProgressTime, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Current Lap"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.CurrentLapProgressTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CurrentLapProgressTime.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.LastPitInfo.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding LastPitInfo, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Pits"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.LastPitInfo.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.LastPitInfo.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.TimeToPlayer.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding TimeToPlayer, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Gap"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TimeToPlayer.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.TimeToPlayer.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.TopSpeed.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding TopSpeed, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Top Speed"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptions.ColumnsSettings.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                     </timingGridControl:TimingGrid.Columns>
                 </timingGridControl:TimingGrid>
 
@@ -216,8 +216,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCondition, Mode=OneWay}"
@@ -229,8 +229,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCondition, Mode=OneWay}"
@@ -243,8 +243,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCondition, Mode=OneWay}"
@@ -256,8 +256,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettings.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCondition, Mode=OneWay}"
@@ -302,7 +302,7 @@
                                                                      MaximumFuel="{Binding CarStatusViewModel.FuelOverviewViewModel.MaximumFuel}"
                                                                      ResetCommand="{Binding CarStatusViewModel.FuelOverviewViewModel.ResetCommand}"
                                                                      TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
-                                                                     VolumeUnits="{Binding DisplaySettings.VolumeUnits}" />
+                                                                     VolumeUnits="{Binding DisplaySettingsView.VolumeUnits}" />
                                 </Border>
                             </Grid>
                         </Grid>
@@ -320,14 +320,14 @@
                                                                        MaximalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
                                                                        MinimalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                                                                        Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}" />
+                                                                       TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}" />
                                 <temperatureControl:TemperatureControl Grid.Row="1" Width="200" Height="150"
                                                                        Icon="{StaticResource OilIcon}"
                                                                        MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
                                                                        MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
                                                                        MinimalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                                                                        Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding DisplaySettings.TemperatureUnits, Mode=OneWay}" />
+                                                                       TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}" />
                             </Grid>
                         </Border>
                     </Grid>
@@ -351,7 +351,7 @@
                             <GroupBox Width="240" Height="107"
                                       BorderBrush="{StaticResource DarkGrey01Brush}"
                                       Foreground="{StaticResource LightGrey01Brush}"
-                                      Header="Session Settings">
+                                      Header="Session SettingsView">
                                 <Grid Margin="0" VerticalAlignment="Top">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="0.5*" />
@@ -360,19 +360,19 @@
                                     <CheckBox x:Name="ChkScrollToPlayer" Width="100" Margin="10,64,0,-3" HorizontalAlignment="Left"
                                               VerticalAlignment="Top" Content="Scroll To Player"
                                               Foreground="{StaticResource LightGrey01Brush}"
-                                              IsChecked="{Binding DisplaySettings.ScrollToPlayer}" />
+                                              IsChecked="{Binding DisplaySettingsView.ScrollToPlayer}" />
                                     <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
                                            VerticalAlignment="Top" Content="Order:"
                                            Foreground="{StaticResource LightGrey01Brush}" />
                                     <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top"
                                               ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
-                                              SelectedItem="{Binding CurrentSessionOptions.OrderingMode}" />
+                                              SelectedItem="{Binding CurrentSessionOptionsView.OrderingMode}" />
                                     <Label Grid.Column="1" Width="74" Height="29" Margin="10,5,0,0"
                                            HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:"
                                            Foreground="{StaticResource LightGrey01Brush}" />
                                     <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top"
                                               ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
-                                              SelectedItem="{Binding CurrentSessionOptions.TimesDisplayMode}" />
+                                              SelectedItem="{Binding CurrentSessionOptionsView.TimesDisplayMode}" />
                                 </Grid>
                             </GroupBox>
                             <Grid HorizontalAlignment="Right">

@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecondMonitor.Timing</RootNamespace>
     <AssemblyName>Timing.Application</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -112,15 +115,15 @@
     <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingVisualiser.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapInfo.cs" />
     <Compile Include="SessionTiming\ViewModel\SessionTiming.cs" />
-    <Compile Include="Settings\ModelView\ColumnSettingsModelView.cs" />
-    <Compile Include="Settings\ModelView\ColumnsSettingsModelView.cs" />
+    <Compile Include="Settings\ViewModel\ColumnSettingsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\ColumnsSettingsViewModel.cs" />
     <Compile Include="Settings\DisplaySettingAutoSaver.cs" />
-    <Compile Include="Settings\ModelView\DisplaySettingsLoader.cs" />
-    <Compile Include="Settings\ModelView\DisplaySettingsModelView.cs" />
-    <Compile Include="Settings\ModelView\EnumBooleanConverter.cs" />
-    <Compile Include="Settings\ModelView\ReportingSettingsModelView.cs" />
-    <Compile Include="Settings\ModelView\SessionOptionsModelView.cs" />
-    <Compile Include="Settings\ModelView\SessionReportSettingsModelView.cs" />
+    <Compile Include="Settings\ViewModel\DisplaySettingsLoader.cs" />
+    <Compile Include="Settings\ViewModel\DisplaySettingsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\EnumBooleanConverter.cs" />
+    <Compile Include="Settings\ViewModel\ReportingSettingsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\SessionOptionsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\SessionReportSettingsViewModel.cs" />
     <Compile Include="Settings\Model\ColumnSettings.cs" />
     <Compile Include="Settings\Model\ColumnsSettings.cs" />
     <Compile Include="Settings\Model\DisplaySettings.cs" />

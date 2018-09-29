@@ -4,20 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{409B8A90-DBEE-4EC7-8C19-8867012A25A5}</ProjectGuid>
+    <ProjectGuid>{0113F513-66EE-4789-9ED8-DE8305B2AA59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SecondMonitor.RFactorConnector</RootNamespace>
-    <AssemblyName>RFactorConnector</AssemblyName>
+    <RootNamespace>SecondMonitor.PCars2Connector</RootNamespace>
+    <AssemblyName>PCars2Connector</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Deployment\Connectors\RFactor\</OutputPath>
+    <OutputPath>..\Deployment\Connectors\PCars2\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Deployment\Connectors\RFactor\</OutputPath>
+    <OutputPath>..\Deployment\Connectors\PCars2\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,11 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataConvertor\PCars2DataConvertor.cs" />
+    <Compile Include="PCars2Connector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RFConnector.cs" />
-    <Compile Include="RFInvalidPackageException.cs" />
-    <Compile Include="SharedMemory\RFactorMemoryStruct.cs" />
-    <Compile Include="SharedMemory\RFDataConvertor.cs" />
+    <Compile Include="SharedMemory\PCars2SharedMemory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
@@ -60,7 +59,4 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(SolutionDir)Artifacts\Dependencies\Rfactor\rFactorSharedMemoryMap.dll" "$(TargetDir)rFactorSharedMemoryMap.dll"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

@@ -85,6 +85,8 @@
 
         public IReadOnlyCollection<LapInfo> Laps => _lapsInfo.AsReadOnly();
 
+        public double DistanceToPlayer => DriverInfo.DistanceToPlayer;
+
         public LapInfo CurrentLap
         {
             get

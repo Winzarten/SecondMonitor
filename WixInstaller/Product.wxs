@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "047f2f25-b745-41d5-91c0-78697d684c5e"?>
+  <?define ProductCode = "6a1108ed-9edc-4aff-b36e-53d516df0070"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "2.5.1.0"?>
+  <?define ProductVersion = "2.6.1.0"?>
   <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
 
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
     <WixVariable Id="WixUILicenseRtf" Value="..\Artifacts\eula.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="..\Artifacts\banner.bmp" />
 
-    <MajorUpgrade AllowDowngrades="yes" />
+    <MajorUpgrade AllowDowngrades="yes"/>
 
     <!--<Upgrade Id='$(var.UpgradeCode)'>
       <UpgradeVersion Minimum='$(var.ProductVersion)'
@@ -37,7 +37,7 @@
 
     <ComponentGroup Id="DeploymentGroup">
       <Component Id="myapplication.exe" Directory="APPLICATIONROOTDIRECTORY" Guid="c99525a0-e8e2-4e69-abf1-62c90e00201c">
-        <File Id="myapplication.exe" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe"/>
+        <File Id="filemyapplication.exe" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe"/>
       </Component>
       <Component Id="cmp2868120D4264DC206F6C8D8B768491B7" Directory="APPLICATIONROOTDIRECTORY" Guid="f48adf3e-198d-4139-8721-a369ee3fbae5">
         <File Id="fil963D638FA2DE23743A69E9B68CEE6BB6" KeyPath="yes" Source="..\Deployment\AGauge.dll" />
@@ -153,6 +153,10 @@
       <Component Id="cmpcbd241843a4b42039d487ecb57545183" Directory="dirb781d9a060914609a4d5b9fe2684ed60" Guid="a5a81156-5f1b-4bb6-a377-6dcea70c6e1f">
         <File Id="file03639ea9ff044766835841526dce7577" KeyPath="yes" Source="..\Deployment\Connectors\AssettoCorsa\smshared_mem.py" />
       </Component>
+      <Component Id="cmp6263c4e9fe334bb19cfb5bf8fdcee9f8" Directory="dir700ab31efeba489c8f7985492bbbf109" Guid="6cf3d908-1661-488c-b588-310751fa306c">
+        <File Id="filedbb78ec26f024183855fc84a5409cf02" KeyPath="yes" Source="..\Deployment\Connectors\PCars2\PCars2Connector.dll" />
+      </Component>
+
 
     </ComponentGroup>
 
@@ -189,11 +193,15 @@
       <Directory Id="dirb781d9a060914609a4d5b9fe2684ed60" Name="AssettoCorsa" />
     </DirectoryRef>
 
+    <DirectoryRef Id="dir10609BC54973A60FEA796FF193DD15AB">
+      <Directory Id="dir700ab31efeba489c8f7985492bbbf109" Name="PCars2" />
+    </DirectoryRef>
+
 
 
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id ="ApplicationShortcut" Guid="beae9dc1-2f51-4ee9-bb5a-d2aee07c80b6">
-        <Shortcut Id="SecondMonitorShortcut" Target="[#myapplication.exe]" Directory="ApplicationProgramsFolder" Name="Second Monitor" WorkingDirectory='APPLICATIONROOTDIRECTORY' Icon="SecondMonitor.exe" Show="normal">
+        <Shortcut Id="SecondMonitorShortcut" Target="[!filemyapplication.exe]" Directory="ApplicationProgramsFolder" Name="Second Monitor" WorkingDirectory='APPLICATIONROOTDIRECTORY' Icon="SecondMonitor.exe" Show="normal">
           <Icon Id="SecondMonitor.exe" SourceFile="..\Deployment\SecondMonitor.exe" />
         </Shortcut>
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>

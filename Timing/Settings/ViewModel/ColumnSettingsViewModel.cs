@@ -1,16 +1,16 @@
-﻿namespace SecondMonitor.Timing.Settings.ModelView
+﻿namespace SecondMonitor.Timing.Settings.ViewModel
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using Properties;
-    using Model;
+    using SecondMonitor.Timing.Properties;
+    using SecondMonitor.Timing.Settings.Model;
 
-    public class ColumnSettingsModelView : DependencyObject, INotifyPropertyChanged
+    public class ColumnSettingsViewModel : DependencyObject, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty VisibleProperty = DependencyProperty.Register("Visible", typeof(bool), typeof(ColumnSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(ColumnSettingsModelView), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty VisibleProperty = DependencyProperty.Register("Visible", typeof(bool), typeof(ColumnSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(double), typeof(ColumnSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,11 +32,11 @@
             Width = columnSettings.Width;
         }
 
-        public static ColumnSettingsModelView CreateFromModel(ColumnSettings columnSettings)
+        public static ColumnSettingsViewModel CreateFromModel(ColumnSettings columnSettings)
         {
-            ColumnSettingsModelView newModelView = new ColumnSettingsModelView();
-            newModelView.FromModel(columnSettings);
-            return newModelView;
+            ColumnSettingsViewModel newViewModel = new ColumnSettingsViewModel();
+            newViewModel.FromModel(columnSettings);
+            return newViewModel;
         }
 
         public ColumnSettings ToModel()
@@ -52,7 +52,7 @@
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ColumnSettingsModelView columnSettingsModelView)
+            if (d is ColumnSettingsViewModel columnSettingsModelView)
             {
                 columnSettingsModelView.OnPropertyChanged(e.Property.Name);
             }

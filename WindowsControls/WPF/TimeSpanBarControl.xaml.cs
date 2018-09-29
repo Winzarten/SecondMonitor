@@ -16,9 +16,18 @@
         private static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(TimeSpanBarControl), new PropertyMetadata() { DefaultValue = "Title"});
         private static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(TimeSpan), typeof(TimeSpanBarControl), new PropertyMetadata(TimeSpan.Zero, ValuePropertyChangedCallback));
         private static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxValue", typeof(TimeSpan), typeof(TimeSpanBarControl), new PropertyMetadata(TimeSpan.FromSeconds(2), ValuePropertyChangedCallback));
-        private static readonly TimeSpan AnimationSpeed = TimeSpan.FromSeconds(0.3);
+        private static readonly DependencyProperty AnimateBarProperty = DependencyProperty.Register("AnimateBar", typeof(bool), typeof(TimeSpanBarControl));
+        private static readonly TimeSpan _animationSpeed = TimeSpan.FromSeconds(0.3);
 
         private readonly TranslateTransform _translateTransform;
+
+        public TimeSpanBarControl()
+        {
+            InitializeComponent();
+            _translateTransform = new TranslateTransform(0, 0);
+            DeltaRectangle.RenderTransform = _translateTransform;
+            UpdateByValue();
+        }
 
         public string Title
         {
@@ -38,12 +47,10 @@
             set => SetValue(MaxValueProperty, value);
         }
 
-        public TimeSpanBarControl()
+        public bool AnimateBar
         {
-            InitializeComponent();
-            _translateTransform = new TranslateTransform(0,0);
-            DeltaRectangle.RenderTransform = _translateTransform;
-            UpdateByValue();
+            get => (bool)GetValue(AnimateBarProperty);
+            set => SetValue(AnimateBarProperty, value);
         }
 
         private void UpdateByValue()
@@ -61,14 +68,14 @@
             double maxvaluePortion = sanitizedValue / MaxValue.TotalSeconds;
             if (maxvaluePortion > 0)
             {
-                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(0, AnimationSpeed));
+                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(0, AnimateBar ? _animationSpeed : TimeSpan.Zero));
                 DeltaRectangle.Width = (ActualWidth / 2) * maxvaluePortion;
-                DeltaRectangle.BeginAnimation(Rectangle.WidthProperty, new DoubleAnimation((ActualWidth / 2) * maxvaluePortion, AnimationSpeed));
+                DeltaRectangle.BeginAnimation(Rectangle.WidthProperty, new DoubleAnimation((ActualWidth / 2) * maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero), HandoffBehavior.SnapshotAndReplace);
             }
             else
             {
-                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation((ActualWidth / 2) * maxvaluePortion, AnimationSpeed));
-                DeltaRectangle.BeginAnimation(Rectangle.WidthProperty,new DoubleAnimation((ActualWidth / 2) * -maxvaluePortion, AnimationSpeed ));
+                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation((ActualWidth / 2) * maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero));
+                DeltaRectangle.BeginAnimation(Rectangle.WidthProperty,new DoubleAnimation((ActualWidth / 2) * -maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero),HandoffBehavior.SnapshotAndReplace);
             }
         }
 

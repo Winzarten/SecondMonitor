@@ -12,7 +12,7 @@
 
         private int _lastTrackedPortion;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private double _nextPositionUpdate;
 
         public LapPortionTimes(int baseTrackPortionLength, double trackLength, LapInfo lap)
         {
@@ -20,7 +20,10 @@
             _baseTrackPortionLength = baseTrackPortionLength;
             Lap = lap;
             _trackPortions = new TimeSpan[(int)trackLength / baseTrackPortionLength + 1];
+            _nextPositionUpdate = 0;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public LapInfo Lap { get; }
 
@@ -36,8 +39,13 @@
 
         public void UpdateLapPortions()
         {
+            if (Lap.CompletedDistance < _nextPositionUpdate)
+            {
+                return;
+            }
+
             int currentPortion = GetIndexByDistance(Lap.CompletedDistance);
-            if (currentPortion <= _lastTrackedPortion || currentPortion >= _trackPortions.Length)
+            if (currentPortion >= _trackPortions.Length)
             {
                 return;
             }
@@ -48,6 +56,7 @@
                 _trackPortions[_lastTrackedPortion] = Lap.CurrentlyValidProgressTime;
             }
 
+            _nextPositionUpdate += _baseTrackPortionLength;
             LastTrackedPortion = currentPortion;
         }
 
