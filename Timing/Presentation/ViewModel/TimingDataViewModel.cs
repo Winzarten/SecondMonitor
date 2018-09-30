@@ -175,8 +175,6 @@
                 return;
             }
 
-            new AutoUpdateController().CheckForUpdate();
-
             CarStatusViewModel = new CarStatusViewModel();
             ConnectedSource = "Not Connected";
             CreateDisplaySettings();
@@ -194,6 +192,7 @@
 
             OnDisplaySettingsChange(this, null);
             _shouldReset = ResetModeEnum.NoReset;
+            new AutoUpdateController().CheckForUpdate();
         }
 
         private void CreateAutoSaver()
