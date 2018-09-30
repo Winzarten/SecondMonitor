@@ -88,7 +88,7 @@
         {
             if (Animate)
             {
-                _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, _animationTime), HandoffBehavior.Compose);
+                _translateTransform.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(Y, _animationTime), HandoffBehavior.SnapshotAndReplace);
             }
             else
             {
@@ -100,7 +100,7 @@
         {
             if (Animate)
             {
-                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, _animationTime), HandoffBehavior.Compose);
+                _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(X, _animationTime), HandoffBehavior.SnapshotAndReplace);
 
             }
             else

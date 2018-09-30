@@ -135,20 +135,7 @@
         {
             get
             {
-                if (_lapsInfo.Count < 2)
-                {
-                    return null;
-                }
-
-                for (int i = _lapsInfo.Count - 2; i >= 0; i--)
-                {
-                    if (Session.RetrieveAlsoInvalidLaps || _lapsInfo[i].Valid)
-                    {
-                        return _lapsInfo[i];
-                    }
-                }
-
-                return null;
+                return _lapsInfo.LastOrDefault(x => x.Completed && (x.Valid || Session.RetrieveAlsoInvalidLaps));
             }
         }
 

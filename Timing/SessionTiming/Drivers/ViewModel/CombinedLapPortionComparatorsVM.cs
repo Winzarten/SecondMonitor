@@ -43,6 +43,10 @@
                 }
 
                 _playerLap = value;
+                if (_playerLap?.Driver != null)
+                {
+                    _playerLap.Driver.LapCompleted += DriverOnLapCompleted;
+                }
                 OnPropertyChanged();
                 RecreatePlayerLapToPrevious();
                 RecreatePlayerLapToPlayerBest();
