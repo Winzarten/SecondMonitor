@@ -10,11 +10,16 @@
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsLastLapBestLap}" Value="True">
-                <Setter Property="Foreground" Value="White" />
                 <Setter Property="Background" Value="{StaticResource Green01Brush}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding IsLastLapBestSessionLap}" Value="True">
                 <Setter Property="Background" Value="{StaticResource PurpleTimingBrush}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource LightBlueBrush}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource DarkRed01Brush}" />
             </DataTrigger>
         </Style.Triggers>
     </Style>
