@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.XslxExport
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -13,9 +14,11 @@
     using NLog;
 
     using OfficeOpenXml;
+    using OfficeOpenXml.Drawing.Chart;
     using OfficeOpenXml.Style;
     using OfficeOpenXml.Table;
 
+    using SecondMonitor.DataModel.Extensions;
     using SecondMonitor.DataModel.Snapshot.Systems;
     using SecondMonitor.WindowsControls.Colors;
 
@@ -24,6 +27,9 @@
         private const string SummarySheet = "Summary";
         private const string LapsAndSectorsSheet = "Laps & Sectors";
         private const string PlayerLapsSheet = "Players Laps";
+        private const string RaceProgressSheet = "RaceProgress";
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public Color PersonalBestColor { get; set; } = Colors.Green;
 
@@ -39,8 +45,6 @@
 
         public PressureUnits PressureUnits { get; set; } = PressureUnits.Kpa;
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
         public void ExportSessionSummary(SessionSummary sessionSummary, string filePath)
         {
             try
@@ -52,11 +56,17 @@
                 FileInfo newFile = new FileInfo(filePath);
                 ExcelPackage package = new ExcelPackage(newFile);
 
-                CreateWorkBook(package);
+                CreateWorkBook(package, sessionSummary.SessionType == SessionType.Race);
                 ExcelWorkbook workbook = package.Workbook;
                 AddSummary(workbook.Worksheets[SummarySheet], sessionSummary);
                 AddLapsInfo(workbook.Worksheets[LapsAndSectorsSheet], sessionSummary);
                 AddPlayersLaps(workbook.Worksheets[PlayerLapsSheet], sessionSummary);
+
+                if (sessionSummary.SessionType == SessionType.Race)
+                {
+                    AddRaceProgress(workbook.Worksheets[RaceProgressSheet], sessionSummary);
+                }
+
                 package.Save();
             }
             catch (Exception ex)
@@ -64,6 +74,80 @@
                 Logger.Error(ex, "Unable to export session info");
             }
 
+        }
+
+        private void AddRaceProgress(ExcelWorksheet sheet, SessionSummary sessionSummary)
+        {
+            int maxLaps = sessionSummary.Drivers.Select(x => x.Laps.Count).Max();
+            List<Driver> orderedDrivers = sessionSummary.Drivers.OrderBy(x => x.Laps.Last().LapEndSnapshot.PlayerData.Position).ToList();
+            int startRow = 100;
+            int startColumn = 1;
+            sheet.Cells[startRow + 1, startColumn].Value = "Start";
+            GenerateNumberColumn(sheet, new ExcelCellAddress(startRow + 2, startColumn), maxLaps);
+            GenerateDriversRow(sheet, new ExcelCellAddress(startRow, startColumn + 1), orderedDrivers.Select(x => x.DriverName));
+
+            ExcelCellAddress startAddress = new ExcelCellAddress(startRow + 1, startColumn + 1);
+            orderedDrivers.ForEach(
+                x =>
+                    {
+                        GenerateLapsPositionColumn(sheet, startAddress, x.Laps);
+                        startAddress = new ExcelCellAddress(startAddress.Row, startAddress.Column + 1);
+                    });
+            ExcelLineChart chart = (ExcelLineChart)sheet.Drawings.AddChart("Race Progress", eChartType.LineMarkers);
+            chart.SetPosition(0, 0, 0, 0);
+            int currentColumn = 2;
+            orderedDrivers.ForEach(
+                x =>
+                    {
+                        ExcelLineChartSerie series = (ExcelLineChartSerie) chart.Series.Add(ExcelCellBase.GetAddress(startRow + 1, currentColumn, startRow + 1 + maxLaps, currentColumn), ExcelCellBase.GetAddress(startRow + 1, 1, startRow + 1 + maxLaps, 1));
+                        series.Header = x.DriverName;
+                        currentColumn++;
+                    });
+            chart.ShowDataLabelsOverMaximum = false;
+            chart.DataLabel.ShowValue = true;
+            chart.ShowHiddenData = true;
+
+            chart.Axis[1].MinValue = 0;
+            chart.Axis[1].TickLabelPosition = eTickLabelPosition.NextTo;
+            chart.Axis[1].MajorUnit = 1;
+            chart.Axis[1].MinorUnit = 1;
+            chart.Axis[1].Orientation = eAxisOrientation.MaxMin;
+            chart.Axis[1].MaxValue = orderedDrivers.Count;
+            chart.SetSize(100 * orderedDrivers.Count, 30 * maxLaps);
+            chart.Axis[0].MajorUnit = 1;
+            chart.Axis[0].MinorUnit = 1;
+            chart.Title.Text = "Race Progress";
+        }
+
+        private void GenerateLapsPositionColumn(ExcelWorksheet sheet, ExcelCellAddress startAddress, IEnumerable<Lap> laps)
+        {
+            List<Lap> lapsList = laps.ToList();
+            sheet.Cells[startAddress.Address].Value = lapsList.First().LapStartSnapshot.PlayerData.Position;
+            startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
+
+            lapsList.ForEach(x =>
+                {
+                    sheet.Cells[startAddress.Address].Value = x.LapEndSnapshot.PlayerData.Position;
+                    startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
+                });
+        }
+
+        private void GenerateNumberColumn(ExcelWorksheet sheet, ExcelCellAddress cellAddress, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                sheet.Cells[cellAddress.Row + i, cellAddress.Column].Value = i + 1;
+            }
+        }
+
+        private void GenerateDriversRow(ExcelWorksheet sheet, ExcelCellAddress cellAddress, IEnumerable<string> driverNames)
+        {
+            driverNames.ForEach(x =>
+                {
+                    sheet.Cells[cellAddress.Address].Value = x;
+                    sheet.Cells[cellAddress.Address].AutoFitColumns();
+                    cellAddress = new ExcelCellAddress(cellAddress.Row, cellAddress.Column + 1);
+            });
         }
 
         private void AddPlayersLaps(ExcelWorksheet sheet, SessionSummary sessionSummary)
@@ -639,11 +723,12 @@
             return sessionSummary.SessionLength.Minutes + "mins";
         }
 
-        private static void CreateWorkBook(ExcelPackage package)
+        private static void CreateWorkBook(ExcelPackage package, bool includeRaceProgress)
         {
             package.Workbook.Worksheets.Add(SummarySheet);
             package.Workbook.Worksheets.Add(LapsAndSectorsSheet);
             package.Workbook.Worksheets.Add(PlayerLapsSheet);
+            package.Workbook.Worksheets.Add(RaceProgressSheet);
         }
 
         public static string FormatTimeSpan(TimeSpan timeSpan)

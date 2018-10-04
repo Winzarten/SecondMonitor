@@ -101,7 +101,7 @@
     <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
       <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
       <Name>WindowsControls</Name>
-      <Private>False</Private>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
