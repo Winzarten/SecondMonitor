@@ -144,8 +144,8 @@
         private CarModelProperties CreateNewCarModelProperties(string carName, SimulatorDataSet simulatorDataSet)
         {
             CarModelProperties newCarModelProperties = new CarModelProperties() { Name = carName };
-            newCarModelProperties.OptimalBrakeTemperature.InCelsius = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantity.InCelsius;
-            newCarModelProperties.OptimalBrakeTemperatureWindow.InCelsius = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantityWindow.InCelsius;
+            newCarModelProperties.OptimalBrakeTemperature = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantity;
+            newCarModelProperties.OptimalBrakeTemperatureWindow = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantityWindow;
             _dataSourceProperties.AddCarModel(newCarModelProperties);
             _simSettingsLoader.SaveDataSourceProperties(_dataSourceProperties);
             return newCarModelProperties;
