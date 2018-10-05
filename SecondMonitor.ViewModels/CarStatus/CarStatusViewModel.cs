@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
@@ -77,6 +78,11 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
+            if (dataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantity.InCelsius < 1000)
+            {
+                Console.WriteLine(dataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantity.InCelsius);
+            }
+
             _viewModels.ApplyDateSet(dataSet);
 
         }

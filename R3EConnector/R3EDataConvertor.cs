@@ -223,16 +223,11 @@
         {
             driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType =
                 ((Constant.TireSubtype)r3RDriverData.TireSubtypeFront).ToString();
-            driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreTypeFilled =
-                ((Constant.TireSubtype)r3RDriverData.TireSubtypeFront) != Constant.TireSubtype.Unavailable;
             driverInfo.CarInfo.WheelsInfo.FrontRight.TyreType = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType;
-            driverInfo.CarInfo.WheelsInfo.FrontRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreTypeFilled;
 
-            driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled =
-                ((Constant.TireSubtype)r3RDriverData.TireSubtypeRear) != Constant.TireSubtype.Unavailable;
             driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType = ((Constant.TireSubtype)r3RDriverData.TireSubtypeRear).ToString();
             driverInfo.CarInfo.WheelsInfo.RearRight.TyreType = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType;
-            driverInfo.CarInfo.WheelsInfo.RearRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled;
+
         }
 
         private void AddLappingInformation(SimulatorDataSet data, R3ESharedData r3RData, DriverInfo driverInfo)

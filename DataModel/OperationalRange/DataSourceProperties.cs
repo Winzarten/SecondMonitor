@@ -11,23 +11,42 @@
     {
         public DataSourceProperties()
         {
-            TyreCompoundProperties = new Dictionary<string, TyreCompoundProperties>();
-            CarModelsProperties = new Dictionary<string, CarModelProperties>();
+            TyreCompoundsProperties = new List<TyreCompoundProperties>();
+            CarModelsProperties = new List<CarModelProperties>();
         }
 
-        public Dictionary<string, TyreCompoundProperties> TyreCompoundProperties { get; set; }
-        public Dictionary<string, CarModelProperties> CarModelsProperties { get; set; }
+        public List<TyreCompoundProperties> TyreCompoundsProperties { get; set; }
+        public List<CarModelProperties> CarModelsProperties { get; set; }
         public string SourceName { get; set; }
 
         public void OverrideWith(DataSourceProperties overridingProperties)
         {
             SourceName = overridingProperties.SourceName;
 
-            TyreCompoundProperties.RemoveAll(x => overridingProperties.TyreCompoundProperties.Keys.Contains(x));
-            overridingProperties.TyreCompoundProperties.ForEach( x => TyreCompoundProperties[x.Key] = x.Value );
+            TyreCompoundsProperties.RemoveAll(x => overridingProperties.TyreCompoundsProperties.Any(f => f.CompoundName == x.CompoundName));
+            TyreCompoundsProperties.AddRange(overridingProperties.TyreCompoundsProperties);
+            CarModelsProperties.RemoveAll(x => overridingProperties.CarModelsProperties.Any(f => f.Name == x.Name));
+            CarModelsProperties.AddRange(overridingProperties.CarModelsProperties);
+        }
 
-            CarModelsProperties.RemoveAll(x => overridingProperties.CarModelsProperties.Keys.Contains(x));
-            overridingProperties.CarModelsProperties.ForEach(x => CarModelsProperties[x.Key] = x.Value);
+        public CarModelProperties GetCarModel(string modelName)
+        {
+            return CarModelsProperties.FirstOrDefault(x => x.Name == modelName);
+        }
+
+        public void AddCarModel(CarModelProperties newCarModel)
+        {
+           CarModelsProperties.Add(newCarModel);
+        }
+
+        public TyreCompoundProperties GetTyreCompound(string compoundName)
+        {
+            return TyreCompoundsProperties.FirstOrDefault(x => x.CompoundName == compoundName);
+        }
+
+        public void AddTyreCompound(TyreCompoundProperties newCompound)
+        {
+            TyreCompoundsProperties.Add(newCompound);
         }
     }
 }

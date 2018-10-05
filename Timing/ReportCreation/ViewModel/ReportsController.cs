@@ -22,6 +22,8 @@
     {
 
         private const string ReportNamePrefix = "Report_";
+
+        private const string ReportDirectoryName = "Reports";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ReportsController(DisplaySettingsViewModel settingsView)
@@ -49,7 +51,7 @@
                 string reportName = GetReportName(sessionSummary);
                 SessionSummaryExporter sessionSummaryExporter = CreateSessionSummaryExporter();
                 string fullReportPath = Path.Combine(
-                    SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs,
+                    GetReportDirectory(),
                     reportName);
                 sessionSummaryExporter.ExportSessionSummary(sessionSummary, fullReportPath);
                 OpenReportIfEnabled(sessionSummary, fullReportPath);
@@ -63,8 +65,7 @@
 
         public void OpenLastReport()
         {
-            string reportDirectory = SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs;
-            DirectoryInfo di = new DirectoryInfo(reportDirectory);
+            DirectoryInfo di = new DirectoryInfo(GetReportDirectory());
             FileInfo fileToOpen = di.GetFiles().OrderBy(x => x.CreationTime).LastOrDefault();
             if (fileToOpen == null)
             {
@@ -76,7 +77,7 @@
 
         public void OpenReportsFolder()
         {
-            string reportDirectory = SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs;
+            string reportDirectory = GetReportDirectory();
             Task.Run(
                 () =>
                     {
@@ -160,7 +161,7 @@
 
         private void CheckAndDeleteIfMaximumReportsExceeded()
         {
-            DirectoryInfo di = new DirectoryInfo(SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs);
+            DirectoryInfo di = new DirectoryInfo(GetReportDirectory());
             FileInfo[] files = di.GetFiles(ReportNamePrefix + "*.xlsx").OrderBy(f => f.CreationTimeUtc).ToArray();
             if (files.Length <= SettingsView.ReportingSettingsView.MaximumReports)
             {
@@ -172,6 +173,13 @@
             {
                 files[i].Delete();
             }
+        }
+
+        private string GetReportDirectory()
+        {
+            string directoryPath = Path.Combine(SettingsView.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, ReportDirectoryName);
+            Directory.CreateDirectory(directoryPath);
+            return directoryPath;
         }
     }
 }

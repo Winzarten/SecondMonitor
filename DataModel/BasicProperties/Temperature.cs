@@ -22,7 +22,8 @@
             InCelsius = valueInCelsius;
         }
 
-        public double InCelsius { get; }
+        [XmlAttribute]
+        public double InCelsius { get; set; }
 
         [JsonIgnore]
         [XmlIgnore]

@@ -47,7 +47,7 @@
                                  };
 
             TyreWear = 0;
-            TyreTypeFilled = false;
+            TyreType = "Base";
         }
 
         public OptimalQuantity<Temperature> BrakeTemperature { get; set; }
@@ -56,8 +56,6 @@
 
 
         public string TyreType { get; set; }
-
-        public bool TyreTypeFilled { get; set; }
 
         public double TyreWear { get; set; }
 

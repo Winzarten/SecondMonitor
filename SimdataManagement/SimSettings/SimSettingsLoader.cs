@@ -19,7 +19,7 @@
         }
 
         public string PrimaryPath { get; }
-        public string OverridingPath { get; }
+        public string OverridingPath { get; set; }
 
         public DataSourceProperties GetDataSourcePropertiesAsync(string sourceName)
         {
@@ -37,6 +37,7 @@
 
         public void SaveDataSourceProperties(DataSourceProperties properties)
         {
+            Directory.CreateDirectory(OverridingPath);
             string path = Path.Combine(OverridingPath, properties.SourceName + FileSuffix);
             using (FileStream file = File.OpenWrite(path))
             {

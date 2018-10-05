@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.OperationalRange
 {
     using System;
+    using System.Xml.Serialization;
 
     using SecondMonitor.DataModel.BasicProperties;
 
@@ -12,6 +13,7 @@
 
         }
 
+        [XmlAttribute]
         public string CompoundName { get; set; }
 
         public Pressure IdealPressure { get; set; }

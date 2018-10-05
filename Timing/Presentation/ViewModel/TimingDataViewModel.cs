@@ -21,6 +21,7 @@
     using PluginManager.Core;
     using PluginManager.GameConnector;
 
+    using SecondMonitor.SimdataManagement.SimSettings;
     using SecondMonitor.Timing.Controllers;
     using SecondMonitor.Timing.LapTimings.ViewModel;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
@@ -69,6 +70,8 @@
         private SessionType _sessionType = SessionType.Na;
         private SimulatorDataSet _lastDataSet;
 
+        private SimSettingAdapter _simSettingAdapter;
+
         private Task _refreshGuiTask;
         private Task _refreshBasicInfoTask;
         private Task _refreshTimingCircleTask;
@@ -84,6 +87,7 @@
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             ReportsController = new ReportsController(DisplaySettingsView);
             SituationOverviewProvider = new SituationOverviewProvider(SessionTiming);
+            _simSettingAdapter = new SimSettingAdapter(string.Empty);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -408,14 +412,14 @@
 
             if (Dispatcher.CheckAccess())
             {
-
-                _lastDataSet = args.Data;
+                SimulatorDataSet data = args.Data;
+                _simSettingAdapter?.Visit(data);
+                _lastDataSet = data;
                 ConnectedSource = _lastDataSet?.Source;
                 if (ViewSource == null || _timing == null)
                 {
                     return;
                 }
-                SimulatorDataSet data = args.Data;
 
                 if (_sessionType != data.SessionInfo.SessionType)
                 {
@@ -670,6 +674,11 @@
             if (timingDataViewModel.ReportsController != null)
             {
                 timingDataViewModel.ReportsController.SettingsView = newDisplaySettingsViewModel;
+            }
+
+            if (timingDataViewModel._simSettingAdapter != null)
+            {
+                timingDataViewModel._simSettingAdapter.UserConfigPath = Path.Combine(newDisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, "Settings");
             }
 
         }

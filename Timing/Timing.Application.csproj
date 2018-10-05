@@ -160,6 +160,11 @@
       <Name>SecondMonitor.ViewModels</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\SimdataManagement\SimdataManagement.csproj">
+      <Project>{8971F71E-CF2E-40F8-B881-3F45EB8ECC9B}</Project>
+      <Name>SimdataManagement</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
       <Project>{ea13af3c-a4e0-4ad2-94ae-78006b04fc41}</Project>
       <Name>WindowsControls</Name>

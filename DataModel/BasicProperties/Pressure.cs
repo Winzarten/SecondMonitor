@@ -24,7 +24,8 @@
         [XmlIgnore]
         public static Pressure Zero => _zero;
 
-        public double InKpa { get; }
+        [XmlAttribute]
+        public double InKpa { get; set; }
 
         [JsonIgnore]
         [XmlIgnore]
