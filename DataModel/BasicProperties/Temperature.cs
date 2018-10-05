@@ -1,14 +1,15 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
+    using System.Xml.Serialization;
 
     using Newtonsoft.Json;
 
+    [Serializable]
     public class Temperature : IQuantity
     {
-        private readonly bool _isZero;
-
         public static Temperature Zero = new Temperature();
+        private readonly bool _isZero;
 
         public Temperature()
         {
@@ -24,15 +25,23 @@
         public double InCelsius { get; }
 
         [JsonIgnore]
-        public double InFahrenheit => (InCelsius * 9) / 5 + 32;
+        [XmlIgnore]
+        public double InFahrenheit => ((InCelsius * 9) / 5) + 32;
 
         [JsonIgnore]
+        [XmlIgnore]
         public double InKelvin => InCelsius + 273.15;
 
+        [JsonIgnore]
+        [XmlIgnore]
         public IQuantity ZeroQuantity => Zero;
 
+        [JsonIgnore]
+        [XmlIgnore]
         public bool IsZero => _isZero;
 
+        [JsonIgnore]
+        [XmlIgnore]
         public double RawValue => InCelsius;
 
         public static Temperature FromCelsius(double temperatureInCelsius)

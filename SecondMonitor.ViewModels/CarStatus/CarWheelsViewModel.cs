@@ -71,7 +71,7 @@
                 return;
             }
 
-            CarInfo.Wheels wheels = dataSet?.PlayerInfo?.CarInfo?.WheelsInfo;
+            Wheels wheels = dataSet?.PlayerInfo?.CarInfo?.WheelsInfo;
             LeftFrontTyre.ApplyWheelCondition(wheels.FrontLeft);
             RightFrontTyre.ApplyWheelCondition(wheels.FrontRight);
             LeftRearTyre.ApplyWheelCondition(wheels.RearLeft);

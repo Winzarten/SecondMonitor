@@ -64,6 +64,7 @@
     <Compile Include="BasicProperties\SessionLengthType.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
+    <Compile Include="Snapshot\Drivers\DriverFinishStatus.cs" />
     <Compile Include="Snapshot\SessionPhase.cs" />
     <Compile Include="BasicProperties\SessionType.cs" />
     <Compile Include="Snapshot\Systems\CarInfo.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="BasicProperties\Temperature.cs" />
     <Compile Include="Snapshot\SimulatorSourceInfo.cs" />
     <Compile Include="Snapshot\Systems\WaterInfo.cs" />
+    <Compile Include="Snapshot\Systems\Wheels.cs" />
     <Compile Include="Snapshot\TrackInfo.cs" />
     <Compile Include="Snapshot\WeatherInfo.cs" />
     <Compile Include="Snapshot\Systems\WheelInfo.cs" />

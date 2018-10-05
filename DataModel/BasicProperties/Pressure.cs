@@ -1,11 +1,15 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
+    using System.Xml.Serialization;
 
     using Newtonsoft.Json;
 
+    [Serializable]
     public class Pressure : IQuantity
     {
+        private static readonly Pressure _zero = new Pressure();
+
         public Pressure()
         {
             InKpa = -1;
@@ -16,9 +20,35 @@
             InKpa = valueInKpa;
         }
 
+        [JsonIgnore]
+        [XmlIgnore]
+        public static Pressure Zero => _zero;
+
         public double InKpa { get; }
 
-        private static Pressure zero = new Pressure();
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InAtmospheres => InKpa / 101.3;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InBars => InKpa * 0.01;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InPsi => InKpa * 0.145038;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public IQuantity ZeroQuantity => _zero;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool IsZero => InKpa == -1;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double RawValue => InKpa;
 
         public static string GetUnitSymbol(PressureUnits units)
         {
@@ -40,14 +70,6 @@
         {
             return new Pressure(pressureInKpa);
         }
-
-        public IQuantity ZeroQuantity => zero;
-
-        public static Pressure Zero => zero;
-
-        public bool IsZero => InKpa == -1;
-
-        public double RawValue => InKpa;
 
         public static Pressure FromPsi(double pressureInPsi)
         {
@@ -85,14 +107,5 @@
             }
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
-
-        [JsonIgnore]
-        public double InAtmospheres => InKpa / 101.3;
-
-        [JsonIgnore]
-        public double InBars => InKpa * 0.01;
-
-        [JsonIgnore]
-        public double InPsi => InKpa * 0.145038;
     }
 }

@@ -170,7 +170,7 @@
                 LapNumber = driverInfo.CompletedLaps + 1;
             }
 
-            if (dataSet.SimulatorSourceInfo.SectorTimingSupport != DataInputSupport.NONE)
+            if (dataSet.SimulatorSourceInfo.SectorTimingSupport != DataInputSupport.None)
             {
                 TickSectors(dataSet, driverInfo);
             }
@@ -253,7 +253,7 @@
 
         private void TickSectors(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            if (dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.PLAYER_ONLY && !driverInfo.IsPlayer)
+            if (dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.PlayerOnly && !driverInfo.IsPlayer)
             {
                 return;
             }

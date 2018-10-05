@@ -623,7 +623,7 @@
                 return string.Empty;
             }
 
-            if (DriverTiming.DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && DriverTiming.DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na)
+            if (DriverTiming.DriverInfo.FinishStatus != DriverFinishStatus.None && DriverTiming.DriverInfo.FinishStatus != DriverFinishStatus.Na)
             {
                 return DriverTiming.DriverInfo.FinishStatus.ToString();
             }

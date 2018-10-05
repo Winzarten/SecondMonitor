@@ -3,8 +3,14 @@
     using System;
     using SecondMonitor.DataModel.Telemetry;
 
+    [Serializable]
     public class Lap
     {
+        public Lap()
+        {
+
+        }
+
         public Lap(Driver driver, bool isValid)
         {
             Driver = driver;

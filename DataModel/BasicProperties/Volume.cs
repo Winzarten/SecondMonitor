@@ -1,9 +1,11 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
+    using System.Xml.Serialization;
 
     using Newtonsoft.Json;
 
+    [Serializable]
     public class Volume : IQuantity
     {
         public Volume()
@@ -15,6 +17,24 @@
         {
             InLiters = valueInLiters;
         }
+
+        public double InLiters { get; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InUsGallons => InLiters * 0.264172;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public IQuantity ZeroQuantity => new Volume();
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool IsZero => InLiters == -1;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double RawValue => InLiters;
 
         #region Operators
 
@@ -117,12 +137,6 @@
             throw new ArgumentException("Unable to return symbol fir" + units.ToString());
         }
 
-        public IQuantity ZeroQuantity => new Volume();
-
-        public bool IsZero => InLiters == -1;
-
-        public double RawValue => InLiters;
-
         public static Volume FromLiters(double volumeInLiters)
         {
             return new Volume(volumeInLiters);
@@ -167,10 +181,8 @@
             return hashCode;
         }
 
-        public double InLiters { get; }
 
-        [JsonIgnore]
-        public double InUsGallons => InLiters * 0.264172;
+
 
 
     }

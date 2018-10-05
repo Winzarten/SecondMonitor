@@ -4,8 +4,15 @@
 
     using BasicProperties;
 
+    [Serializable]
     public class SessionInfo
     {
+        public SessionInfo()
+        {
+            SessionTime = TimeSpan.Zero;
+            TrackInfo = new TrackInfo();
+        }
+
         public TimeSpan SessionTime { get; set; }
 
         public TrackInfo TrackInfo { get; set; }
@@ -25,11 +32,5 @@
         public int LeaderCurrentLap { get; set; }
 
         public WeatherInfo WeatherInfo { get; set; } = new WeatherInfo();
-
-        public SessionInfo()
-        {
-            SessionTime = TimeSpan.Zero;
-            TrackInfo = new TrackInfo();
-        }
     }
 }

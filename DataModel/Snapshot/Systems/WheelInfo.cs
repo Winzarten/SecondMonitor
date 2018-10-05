@@ -1,7 +1,10 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
+    using System;
+
     using BasicProperties;
 
+    [Serializable]
     public class WheelInfo
     {
         private static readonly Temperature OptimalTemperature = Temperature.FromCelsius(85);

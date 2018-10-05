@@ -24,7 +24,7 @@
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
             simData.SimulatorSourceInfo.InvalidateLapBySector = true;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
+            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
 
             FillSessionInfo(rfData, simData);
             AddDriversData(simData, rfData);
@@ -226,10 +226,10 @@
                 AddLappingInformation(data, rfData, driverInfo);
                 FillTimingInfo(driverInfo, rF2VehicleScoring, rfData);
 
-                if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer.Position)
+                if (driverInfo.FinishStatus == DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer.Position)
                 {
                     driverInfo.CompletedLaps--;
-                    driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.None;
+                    driverInfo.FinishStatus = DriverFinishStatus.None;
                 }
             }
             CheckValidityByPlayer(playersInfo);
@@ -328,8 +328,8 @@
                 return;
             }
 
-            if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
-                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
+            if (driverInfo.FinishStatus == DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverFinishStatus.Dnf ||
+                driverInfo.FinishStatus == DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverFinishStatus.Dns)
             {
                 driverInfo.DistanceToPlayer = double.MaxValue;
                 return;
@@ -442,20 +442,20 @@
             }
         }
 
-        internal static DriverInfo.DriverFinishStatus FromRFStatus(int finishStatus)
+        internal static DriverFinishStatus FromRFStatus(int finishStatus)
         {
             switch ((rFactor2Constants.rF2FinishStatus)finishStatus)
             {
                 case rFactor2Constants.rF2FinishStatus.None:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
                 case rFactor2Constants.rF2FinishStatus.Dnf:
-                    return DriverInfo.DriverFinishStatus.Dnf;
+                    return DriverFinishStatus.Dnf;
                 case rFactor2Constants.rF2FinishStatus.Dq:
-                    return DriverInfo.DriverFinishStatus.Dq;
+                    return DriverFinishStatus.Dq;
                 case rFactor2Constants.rF2FinishStatus.Finished:
-                    return DriverInfo.DriverFinishStatus.Finished;
+                    return DriverFinishStatus.Finished;
                 default:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
             }
         }
     }

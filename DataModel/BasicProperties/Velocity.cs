@@ -1,9 +1,11 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
+    using System.Xml.Serialization;
 
     using Newtonsoft.Json;
 
+    [Serializable]
     public class Velocity : IQuantity
     {
         public static readonly Velocity Zero = FromMs(0);
@@ -16,10 +18,24 @@
         public double InKph => InMs * 3.6;
 
         [JsonIgnore]
+        [XmlIgnore]
         public double InMs { get; }
 
         [JsonIgnore]
+        [XmlIgnore]
         public double InMph => InMs * 2.23694;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public IQuantity ZeroQuantity => Zero;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool IsZero => this == Zero;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double RawValue => InMs;
 
         public static Velocity FromMs(double inMs)
         {
@@ -69,12 +85,6 @@
         {
             return FromMs(v1.InMs - v2.InMs);
         }
-
-        public IQuantity ZeroQuantity => Zero;
-
-        public bool IsZero => this == Zero;
-
-        public double RawValue => InMs;
 
         public double GetValueInUnits(VelocityUnits units)
         {

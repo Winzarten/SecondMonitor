@@ -1,7 +1,15 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Drivers
 {
+    using System;
+
+    [Serializable]
     public class DriverDebugInfo
     {
-        public double DistanceToPits;
+        public DriverDebugInfo()
+        {
+
+        }
+
+        public double DistanceToPits { get; set; }
     }
 }

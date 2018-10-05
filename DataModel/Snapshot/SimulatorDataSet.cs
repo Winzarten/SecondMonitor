@@ -1,8 +1,11 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot
 {
+    using System;
+
     using BasicProperties;
     using Drivers;
 
+    [Serializable]
     public class SimulatorDataSet
     {
         public SimulatorDataSet(string source)

@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Xml.Serialization;
 
     using BasicProperties;
 
+    [Serializable]
     public class Driver
     {
         private Lap _bestPersonalLap;
@@ -32,6 +34,7 @@
 
         public bool Finished { get; set; } = true;
 
+        [XmlIgnore]
         public Lap BestPersonalLap
         {
             get
@@ -44,6 +47,7 @@
             }
         }
 
+        [XmlIgnore]
         public Lap BestSector1Lap
         {
             get
@@ -56,6 +60,7 @@
             }
         }
 
+        [XmlIgnore]
         public Lap BestSector2Lap
         {
             get
@@ -68,6 +73,7 @@
             }
         }
 
+        [XmlIgnore]
         public Lap BestSector3Lap
         {
             get

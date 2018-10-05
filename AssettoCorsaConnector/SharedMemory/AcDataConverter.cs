@@ -35,7 +35,7 @@
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = false;
             simData.SimulatorSourceInfo.ForceLapOverTime = true;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.SP_ONLY;
+            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.SpOnly;
 
             FillSessionInfo(acData, simData);
             AddDriversData(simData, acData);
@@ -327,8 +327,8 @@
                 return;
             }
 
-            if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
-                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
+            if (driverInfo.FinishStatus == DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverFinishStatus.Dnf ||
+                driverInfo.FinishStatus == DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverFinishStatus.Dns)
             {
                 driverInfo.DistanceToPlayer = double.MaxValue;
                 return;
@@ -409,9 +409,9 @@
 
         }
 
-        internal static DriverInfo.DriverFinishStatus FromAcStatus(int finishStatus)
+        internal static DriverFinishStatus FromAcStatus(int finishStatus)
         {
-            return finishStatus == 0 ? DriverInfo.DriverFinishStatus.None : DriverInfo.DriverFinishStatus.Finished;
+            return finishStatus == 0 ? DriverFinishStatus.None : DriverFinishStatus.Finished;
         }
 
         private static string FormatACName(string name)

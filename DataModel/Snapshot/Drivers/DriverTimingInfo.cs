@@ -2,8 +2,14 @@
 {
     using System;
 
+    [Serializable]
     public class DriverTimingInfo
     {
+        public DriverTimingInfo()
+        {
+
+        }
+
         public TimeSpan LastLapTime { get; set; } = TimeSpan.Zero;
 
         public TimeSpan CurrentLapTime { get; set; } = TimeSpan.Zero;

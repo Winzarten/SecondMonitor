@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Xml.Serialization;
 
     using BasicProperties;
     using Snapshot;
 
+    [Serializable]
     public class SessionSummary
     {
         private Lap _sessionBestLaps;
@@ -31,6 +33,7 @@
 
         public List<Driver> Drivers { get; } = new List<Driver>();
 
+        [XmlIgnore]
         public Lap SessionBestLap
         {
             get
@@ -43,6 +46,7 @@
             }
         }
 
+        [XmlIgnore]
         public Lap SessionBestSector1
         {
             get
@@ -55,6 +59,7 @@
             }
         }
 
+        [XmlIgnore]
         public Lap SessionBestSector2
         {
             get
@@ -67,6 +72,7 @@
             }
         }
 
+        [XmlIgnore]
         public Lap SessionBestSector3
         {
             get
@@ -79,8 +85,7 @@
             }
         }
 
-
-        private Lap FindBest(Func<Driver, TimeSpan> comparisonFunc, Func<Driver,Lap> resultFunc, List<Driver> drivers)
+        private static Lap FindBest(Func<Driver, TimeSpan> comparisonFunc, Func<Driver,Lap> resultFunc, List<Driver> drivers)
         {
             return drivers.Count == 0 ? null : resultFunc(drivers.OrderBy(comparisonFunc).First());
         }

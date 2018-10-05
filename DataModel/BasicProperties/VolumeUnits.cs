@@ -1,4 +1,9 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
-    public enum VolumeUnits { Liters, UsGallons}
+    public enum VolumeUnits
+    {
+        Liters,
+
+        UsGallons
+    }
 }
