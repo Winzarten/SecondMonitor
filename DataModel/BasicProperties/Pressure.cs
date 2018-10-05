@@ -22,7 +22,7 @@
 
         [JsonIgnore]
         [XmlIgnore]
-        public static Pressure Zero => _zero;
+        public static Pressure Zero => new Pressure();
 
         [XmlAttribute]
         public double InKpa { get; set; }
