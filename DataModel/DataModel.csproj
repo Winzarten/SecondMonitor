@@ -64,6 +64,9 @@
     <Compile Include="BasicProperties\SessionLengthType.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
+    <Compile Include="OperationalRange\CarModelProperties.cs" />
+    <Compile Include="OperationalRange\DataSourceProperties.cs" />
+    <Compile Include="OperationalRange\TyreCompoundProperties.cs" />
     <Compile Include="Snapshot\Drivers\DriverFinishStatus.cs" />
     <Compile Include="Snapshot\SessionPhase.cs" />
     <Compile Include="BasicProperties\SessionType.cs" />
