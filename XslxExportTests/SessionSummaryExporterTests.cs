@@ -36,7 +36,7 @@
             SessionSummary sessionSummary = GetBlankSessionSummary();
             sessionSummary.TotalNumberOfLaps = 20;
             sessionSummary.SessionLengthType = SessionLengthType.Laps;
-            AddDrivers(40, sessionSummary);
+            AddDrivers(20, sessionSummary);
             sessionSummary.Drivers.ForEach((s) => FillLaps(s, 140, 20));
 
             if (File.Exists(fileName))
@@ -95,7 +95,7 @@
                     Sector1 = TimeSpan.FromSeconds(sectorBase + sector1Add),
                     Sector2 = TimeSpan.FromSeconds(sectorBase + sector2Add),
                     Sector3 = TimeSpan.FromSeconds(sectorBase + sector3Add),
-                    LapEndSnapshot = new TelemetrySnapshot(new DriverInfo(), new WeatherInfo()),
+                    LapEndSnapshot = new TelemetrySnapshot(new DriverInfo() { Position = _random.Next(20) }, new WeatherInfo()),
                     LapStartSnapshot = new TelemetrySnapshot(new DriverInfo() { Position = _random.Next(20) }, new WeatherInfo()),
                     IsValid = _random.Next(4) != 3
                 });
