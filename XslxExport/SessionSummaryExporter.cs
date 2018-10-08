@@ -113,7 +113,7 @@
             chart.Axis[1].MinorUnit = 1;
             chart.Axis[1].Orientation = eAxisOrientation.MaxMin;
             chart.Axis[1].MaxValue = orderedDrivers.Count;
-            chart.SetSize(100 * orderedDrivers.Count, 30 * maxLaps);
+            chart.SetSize(200 * orderedDrivers.Count, 30 * maxLaps);
             chart.Axis[0].MajorUnit = 1;
             chart.Axis[0].MinorUnit = 1;
             chart.Title.Text = "Race Progress";
