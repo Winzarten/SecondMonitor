@@ -28,7 +28,6 @@
                 LogManager.GetCurrentClassLogger().Error(ex, "Error while loading display settingsView - default settingsView created");
                 return new DisplaySettings();
             }
-            
         }
     }
 }

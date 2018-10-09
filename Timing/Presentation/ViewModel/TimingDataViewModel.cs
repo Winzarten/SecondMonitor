@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.IO;
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading;
@@ -12,16 +11,16 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Windows.Threading;
 
     using Commands;
 
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
-    using PluginManager.Core;
     using PluginManager.GameConnector;
 
-    using SecondMonitor.SimdataManagement.SimSettings;
+    using SecondMonitor.DataModel.Extensions;
     using SecondMonitor.Timing.Controllers;
     using SecondMonitor.Timing.LapTimings.ViewModel;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
@@ -29,78 +28,86 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using SecondMonitor.Timing.Settings.ViewModel;
+    using SecondMonitor.ViewModels;
     using SecondMonitor.ViewModels.CarStatus;
     using SecondMonitor.ViewModels.SituationOverview;
     using SecondMonitor.ViewModels.TrackInfo;
 
     using SessionTiming.Drivers;
 
-    using Settings;
     using Settings.Model;
 
-    using View;
-
-    public class TimingDataViewModel : DependencyObject, ISecondMonitorPlugin, INotifyPropertyChanged
+    public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged
     {
 
-        public static readonly DependencyProperty DisplaySettingsViewProperty = DependencyProperty.Register("DisplaySettingsView", typeof(DisplaySettingsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
+        public static readonly DependencyProperty DisplaySettingsViewModelProperty = DependencyProperty.Register("DisplaySettingsView", typeof(DisplaySettingsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
         public static readonly DependencyProperty CurrentSessionOptionsViewProperty = DependencyProperty.Register("CurrentSessionOptionsView", typeof(SessionOptionsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
-        public static readonly DependencyProperty CurrentGearProperty = DependencyProperty.Register("CurrentGear",typeof(string), typeof(TimingDataViewModel));
+        public static readonly DependencyProperty SelectedDriverTimingViewModelProperty = DependencyProperty.Register("SelectedDriverTimingViewModel", typeof(DriverTimingViewModel), typeof(TimingDataViewModel));
+        private readonly DriverLapsWindowManager _driverLapsWindowManager;
 
-        private static readonly string SettingsPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "SecondMonitor\\settings.json");
+        private ICommand _resetCommand;
 
-        private enum ResetModeEnum
-        {
-            NoReset,
+        private TimingDataViewModelResetModeEnum _shouldReset = TimingDataViewModelResetModeEnum.NoReset;
 
-            Manual,
-
-            Automatic
-        }
-
-        private ResetModeEnum _shouldReset = ResetModeEnum.NoReset;
-
-        private DisplaySettingAutoSaver _settingAutoSaver;
-
-        private PluginsManager _pluginsManager;
         private SessionTiming _timing;
-        private DisplaySettingsWindow _settingsWindow;
         private SessionType _sessionType = SessionType.Na;
         private SimulatorDataSet _lastDataSet;
-
-        private SimSettingAdapter _simSettingAdapter;
 
         private Task _refreshGuiTask;
         private Task _refreshBasicInfoTask;
         private Task _refreshTimingCircleTask;
 
         private string _connectedSource;
-        private readonly DriverLapsWindowManager _driverLapsWindowManager;
 
-        public TimingDataViewModel()
+        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager)
         {
             SessionInfoViewModel = new SessionInfoViewModel();
             TrackInfoViewModel = new TrackInfoViewModel();
-            _driverLapsWindowManager = new DriverLapsWindowManager(() => Gui, () => SelectedDriverTiming);
+            _driverLapsWindowManager = driverLapsWindowManager;
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
-            ReportsController = new ReportsController(DisplaySettingsView);
+            ReportsController = new ReportsController(DisplaySettingsViewModel);
             SituationOverviewProvider = new SituationOverviewProvider(SessionTiming);
-            _simSettingAdapter = new SimSettingAdapter(string.Empty);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public DisplaySettingsViewModel DisplaySettingsViewModel
+        {
+            get => (DisplaySettingsViewModel)GetValue(DisplaySettingsViewModelProperty);
+            set => SetValue(DisplaySettingsViewModelProperty, value);
+        }
+
+        public SessionOptionsViewModel CurrentSessionOptionsView
+        {
+            get => (SessionOptionsViewModel)GetValue(CurrentSessionOptionsViewProperty);
+            set => SetValue(CurrentSessionOptionsViewProperty, value);
+        }
+
+        public int SessionCompletedPercentage => _timing?.SessionCompletedPerMiles ?? 50;
+
+        public ICommand ResetCommand => _resetCommand ?? (_resetCommand = new NoArgumentCommand(ScheduleReset));
+
+        public ICommand OpenSettingsCommand { get; set; }
+
+        public ICommand RightClickCommand { get; set; }
+
+        public ICommand ScrollToPlayerCommand { get; set; }
+
+        public ICommand DoubleLeftClickCommand
+        {
+            get;
+            set;
+        }
 
         // Gets or sets the CollectionViewSource
         public CollectionViewSource ViewSource { get; set; }
 
         // Gets or sets the ObservableCollection
-        public ObservableCollection<DriverTimingModelView> Collection { get; set; } = new ObservableCollection<DriverTimingModelView>();
+        public ObservableCollection<DriverTimingViewModel> Collection { get; set; } = new ObservableCollection<DriverTimingViewModel>();
 
         public ReportsController ReportsController { get; }
 
-        public string SessionTime => _timing?.SessionTime.ToString("mm\\:ss\\.fff") ?? string.Empty;
+        public string SessionTime => _timing?.SessionTime.FormatToDefault() ?? string.Empty;
 
         public string ConnectedSource
         {
@@ -134,10 +141,15 @@
 
         public SituationOverviewProvider SituationOverviewProvider { get; }
 
+        public Dispatcher GuiDispatcher { get; set; }
 
-        public TimingGui Gui { get; private set; }
+        public DriverTimingViewModel SelectedDriverTimingViewModel
+        {
+            get => (DriverTimingViewModel)GetValue(SelectedDriverTimingViewModelProperty);
+            set => SetValue(SelectedDriverTimingViewModelProperty, value);
+        }
 
-        public DriverTiming SelectedDriverTiming => ((DriverTimingModelView)Gui?.DtTimig.SelectedItem)?.DriverTiming;
+        public DriverTiming SelectedDriverTiming => SelectedDriverTimingViewModel?.DriverTiming;
 
         public SessionTiming SessionTiming
         {
@@ -149,18 +161,6 @@
             }
         }
 
-        public PluginsManager PluginManager
-        {
-            get => _pluginsManager;
-            set
-            {
-                _pluginsManager = value;
-                _pluginsManager.DataLoaded += OnDataLoaded;
-                _pluginsManager.SessionStarted += OnSessionStarted;
-                _pluginsManager.DisplayMessage += DisplayMessage;
-            }
-        }
-
         public CarStatusViewModel CarStatusViewModel
         {
             get;
@@ -169,25 +169,106 @@
 
         public ICollectionView TimingInfo => ViewSource?.View;
 
-        public bool IsDaemon => false;
+        private bool TerminatePeriodicTasks { get; set; }
 
-        public void RunPlugin()
+        public void TerminatePeriodicTask(List<Exception> exceptions)
+        {
+            TerminatePeriodicTasks = true;
+            if (_refreshBasicInfoTask.IsFaulted && _refreshBasicInfoTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshBasicInfoTask.Exception.InnerExceptions);
+            }
+
+            if (_refreshGuiTask.IsFaulted && _refreshGuiTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshGuiTask.Exception.InnerExceptions);
+            }
+
+            if (_refreshTimingCircleTask.IsFaulted && _refreshTimingCircleTask.Exception != null)
+            {
+                exceptions.AddRange(_refreshTimingCircleTask.Exception.InnerExceptions);
+            }
+        }
+
+        public void ApplyDateSet(SimulatorDataSet data)
+        {
+            if (GuiDispatcher == null)
+            {
+                return;
+            }
+
+            if (Dispatcher.CheckAccess())
+            {
+                _lastDataSet = data;
+                ConnectedSource = _lastDataSet?.Source;
+                if (ViewSource == null || _timing == null)
+                {
+                    return;
+                }
+
+                if (_sessionType != data.SessionInfo.SessionType)
+                {
+                    _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
+                    _sessionType = _timing.SessionType;
+                }
+
+                // Reset state was detected (either reset button was pressed or timing detected a session change)
+                if (_shouldReset != TimingDataViewModelResetModeEnum.NoReset)
+                {
+                    CreateTiming(data);
+                    _shouldReset = TimingDataViewModelResetModeEnum.NoReset;
+                }
+
+                try
+                {
+                    _timing?.UpdateTiming(data);
+                    CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
+                }
+                catch (SessionTiming.DriverNotFoundException)
+                {
+                    _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
+                }
+            }
+            else
+            {
+                Dispatcher.Invoke(() => ApplyDateSet(data));
+            }
+        }
+
+        public void DisplayMessage(MessageArgs e)
+        {
+            if (e.IsDecision)
+            {
+                if (MessageBox.Show(
+                        e.Message,
+                        "Message from connector.",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Information) == MessageBoxResult.Yes)
+                {
+                    e.Action();
+                }
+            }
+            else
+            {
+                MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+        }
+
+        public void Reset()
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(RunPlugin);
+                Dispatcher.Invoke(Reset);
                 return;
             }
 
             CarStatusViewModel = new CarStatusViewModel();
             ConnectedSource = "Not Connected";
-            CreateDisplaySettings();
-            CreateGuiInstance();
-            CreateAutoSaver();
 
-            if (Gui.Dispatcher.CheckAccess())
+            if (GuiDispatcher != null && GuiDispatcher.CheckAccess())
             {
-                Gui.Dispatcher.Invoke(ScheduleRefreshActions);
+                GuiDispatcher.Invoke(ScheduleRefreshActions);
             }
             else
             {
@@ -195,17 +276,9 @@
             }
 
             OnDisplaySettingsChange(this, null);
-            _shouldReset = ResetModeEnum.NoReset;
+            _shouldReset = TimingDataViewModelResetModeEnum.NoReset;
             new AutoUpdateController().CheckForUpdate();
         }
-
-        private void CreateAutoSaver()
-        {
-            _settingAutoSaver = new DisplaySettingAutoSaver(SettingsPath);
-            _settingAutoSaver.DisplaySettingsViewModel = DisplaySettingsView;
-        }
-
-        private bool TerminatePeriodicTasks { get; set; }
 
         private void ScheduleRefreshActions()
         {
@@ -213,94 +286,23 @@
             _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
             _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 100, this);
         }
-
-        private void CreateGuiInstance()
-        {
-            Gui = new TimingGui();
-            Gui.Show();
-            Gui.Closed += Gui_Closed;
-            Gui.MouseLeave += GuiOnMouseLeave;
-            Gui.DataContext = this;
-        }
-
-        private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
-        {
-            if (Gui != null)
-            {
-                Gui.DtTimig.SelectedItem = null;
-            }
-        }
-
-        private void CreateDisplaySettings()
-        {
-            DisplaySettingsViewModel displaySettingsViewModel = new DisplaySettingsViewModel();
-            displaySettingsViewModel.FromModel(
-                new DisplaySettingsLoader().LoadDisplaySettingsFromFileSafe(SettingsPath));
-            DisplaySettingsView = displaySettingsViewModel;
-            CurrentSessionOptionsView = SessionOptionsViewModel.CreateFromModel(new SessionOptions());
-        }
-
-        public DisplaySettingsViewModel DisplaySettingsView
-        {
-            get => (DisplaySettingsViewModel) GetValue(DisplaySettingsViewProperty);
-            set => SetValue(DisplaySettingsViewProperty, value);
-        }
-
-        public SessionOptionsViewModel CurrentSessionOptionsView
-        {
-            get => (SessionOptionsViewModel)GetValue(CurrentSessionOptionsViewProperty);
-            set => SetValue(CurrentSessionOptionsViewProperty, value);
-        }
-
-        private ICommand _resetCommand;
-
-        public ICommand ResetCommand => _resetCommand ?? (_resetCommand = new NoArgumentCommand(ScheduleReset));
-
-        public ICommand OpenSettingsCommand => new NoArgumentCommand(OpenSettingsWindow);
-
-        public ICommand RightClickCommand => new NoArgumentCommand(UnSelectItem);
-
-        public ICommand DoubleLeftClickCommand
-        {
-            get;
-            set;
-        }
-
-        private void OpenSettingsWindow()
-        {
-            if (_settingsWindow != null && _settingsWindow.IsVisible)
-            {
-                _settingsWindow.Focus();
-                return;
-            }
-
-            _settingsWindow = new DisplaySettingsWindow
-            {
-                DataContext = DisplaySettingsView,
-                Owner = Gui
-            };
-            _settingsWindow.Show();
-        }
-
-        public int SessionCompletedPercentage => _timing?.SessionCompletedPerMiles ?? 50;
-
         private void PaceLapsChanged()
         {
             if (_timing != null)
             {
-                _timing.PaceLaps = DisplaySettingsView.PaceLaps;
+                _timing.PaceLaps = DisplaySettingsViewModel.PaceLaps;
             }
 
             if (!TerminatePeriodicTasks)
             {
-                Gui.Dispatcher.Invoke(RefreshDataGrid);
+                GuiDispatcher.Invoke(RefreshDataGrid);
             }
 
         }
 
         private void ScheduleReset()
         {
-            _shouldReset = ResetModeEnum.Manual;
+            _shouldReset = TimingDataViewModelResetModeEnum.Manual;
         }
 
         private void ChangeOrderingMode()
@@ -334,7 +336,7 @@
 
         private void ChangeTimeDisplayMode()
         {
-            if (_timing == null || Gui == null)
+            if (_timing == null || GuiDispatcher == null)
             {
                 return;
             }
@@ -371,89 +373,20 @@
             {
                 case SessionType.Practice:
                 case SessionType.WarmUp:
-                    return DisplaySettingsView.PracticeSessionDisplayOptionsView;
+                    return DisplaySettingsViewModel.PracticeSessionDisplayOptionsView;
                 case SessionType.Qualification:
-                    return DisplaySettingsView.QualificationSessionDisplayOptionsView;
+                    return DisplaySettingsViewModel.QualificationSessionDisplayOptionsView;
                 case SessionType.Race:
-                    return DisplaySettingsView.RaceSessionDisplayOptionsView;
+                    return DisplaySettingsViewModel.RaceSessionDisplayOptionsView;
                 default:
                     return new SessionOptionsViewModel();
-            }
-        }
-
-        private void Gui_Closed(object sender, EventArgs e)
-        {
-            Gui = null;
-            TerminatePeriodicTasks = true;
-            List<Exception> exceptions = new List<Exception>();
-            if (_refreshBasicInfoTask.IsFaulted && _refreshBasicInfoTask.Exception != null)
-            {
-                exceptions.AddRange(_refreshBasicInfoTask.Exception.InnerExceptions);
-            }
-
-            if (_refreshGuiTask.IsFaulted && _refreshGuiTask.Exception != null)
-            {
-                exceptions.AddRange(_refreshGuiTask.Exception.InnerExceptions);
-            }
-
-            if (_refreshTimingCircleTask.IsFaulted && _refreshTimingCircleTask.Exception != null)
-            {
-                exceptions.AddRange(_refreshTimingCircleTask.Exception.InnerExceptions);
-            }
-            _pluginsManager.DeletePlugin(this, exceptions);
-        }
-
-        private void OnDataLoaded(object sender, DataEventArgs args)
-        {
-            if (Gui == null)
-            {
-                return;
-            }
-
-            if (Dispatcher.CheckAccess())
-            {
-                SimulatorDataSet data = args.Data;
-                _simSettingAdapter?.Visit(data);
-                _lastDataSet = data;
-                ConnectedSource = _lastDataSet?.Source;
-                if (ViewSource == null || _timing == null)
-                {
-                    return;
-                }
-
-                if (_sessionType != data.SessionInfo.SessionType)
-                {
-                    _shouldReset = ResetModeEnum.Automatic;
-                    _sessionType = _timing.SessionType;
-                }
-
-                // Reset state was detected (either reset button was pressed or timing detected a session change)
-                if (_shouldReset != ResetModeEnum.NoReset)
-                {
-                    CreateTiming(data);
-                    _shouldReset = ResetModeEnum.NoReset;
-                }
-
-                try
-                {
-                    _timing?.UpdateTiming(data);
-                    CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
-                }
-                catch (SessionTiming.DriverNotFoundException)
-                {
-                    _shouldReset = ResetModeEnum.Automatic;
-                }
-            }
-            else
-            {
-                Dispatcher.Invoke(() => OnDataLoaded(sender, args));
             }
         }
 
         private void RefreshTimingCircle(SimulatorDataSet data)
         {
 
-            if (data == null || Gui == null)
+            if (data == null || GuiDispatcher == null)
             {
                 return;
             }
@@ -469,7 +402,7 @@
 
         private void RefreshBasicInfo(SimulatorDataSet data)
         {
-            if (data == null || Gui == null)
+            if (data == null || GuiDispatcher == null)
             {
                 return;
             }
@@ -496,7 +429,7 @@
                 return;
             }
 
-            Gui?.Dispatcher.Invoke(() =>
+            GuiDispatcher?.Invoke(() =>
             {
                 SituationOverviewProvider.RemoveDriver(e.Data.DriverTiming.DriverInfo);
                 Collection?.Remove(e.Data);
@@ -506,7 +439,7 @@
 
         private void Timing_DriverAdded(object sender, DriverListModificationEventArgs e)
         {
-            Gui?.Dispatcher.Invoke(() =>
+            GuiDispatcher?.Invoke(() =>
             {
                 Collection?.Add(e.Data);
                 SituationOverviewProvider.AddDriver(e.Data.DriverTiming.DriverInfo);
@@ -516,7 +449,7 @@
 
         private void RefreshGui(SimulatorDataSet data)
         {
-            if (data == null || Gui == null)
+            if (data == null || GuiDispatcher == null)
             {
                 return;
             }
@@ -528,21 +461,13 @@
             }
 
             RefreshDataGrid();
-
-            if (DisplaySettingsView.ScrollToPlayer && Gui != null && _timing?.Player != null && Gui.DtTimig.Items.Count > 0)
-            {
-                Gui.DtTimig.ScrollIntoView(Gui.DtTimig.Items[0]);
-                Gui.DtTimig.ScrollIntoView(_timing.Player);
-            }
-
+            ScrollToPlayerCommand?.Execute(null);
         }
 
         private void RefreshDataGrid()
         {
             ViewSource?.View.Refresh();
         }
-
-
 
         private void CreateTiming(SimulatorDataSet data)
         {
@@ -552,7 +477,7 @@
                 return;
             }
 
-            var invalidateLap = _shouldReset == ResetModeEnum.Manual ||
+            var invalidateLap = _shouldReset == TimingDataViewModelResetModeEnum.Manual ||
                                 data.SessionInfo.SessionType != SessionType.Race;
             _lastDataSet = data;
             if (_timing != null && ReportsController != null)
@@ -570,7 +495,7 @@
             SessionInfoViewModel.SessionTiming = _timing;
             _timing.DriverAdded += Timing_DriverAdded;
             _timing.DriverRemoved += Timing_DriverRemoved;
-            _timing.PaceLaps = DisplaySettingsView.PaceLaps;
+            _timing.PaceLaps = DisplaySettingsViewModel.PaceLaps;
 
             CarStatusViewModel.Reset();
             TrackInfoViewModel.Reset();
@@ -584,16 +509,16 @@
             NotifyPropertyChanged(nameof(ConnectedSource));
         }
 
-        private void OnSessionStarted(object sender, DataEventArgs args)
+        public void StartNewSession(SimulatorDataSet dataSet)
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(() => OnSessionStarted(sender, args));
+                Dispatcher.Invoke(() => StartNewSession(dataSet));
                 return;
             }
 
-            CreateTiming(args.Data);
-            UpdateCurrentSessionOption(args.Data);
+            UpdateCurrentSessionOption(dataSet);
+            CreateTiming(dataSet);
         }
 
         private void UpdateCurrentSessionOption(SimulatorDataSet data)
@@ -616,7 +541,7 @@
             }
 
             Collection.Clear();
-            foreach (DriverTimingModelView d in _timing.Drivers.Values)
+            foreach (DriverTimingViewModel d in _timing.Drivers.Values)
             {
                 Collection.Add(d);
             }
@@ -633,7 +558,7 @@
 
         private void OnDisplaySettingsChange(object sender, PropertyChangedEventArgs args)
         {
-            ApplyDisplaySettings(DisplaySettingsView);
+            ApplyDisplaySettings(DisplaySettingsViewModel);
             if (args?.PropertyName == "PaceLaps")
             {
                 PaceLapsChanged();
@@ -666,21 +591,10 @@
             newDisplaySettingsViewModel.RaceSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
             newDisplaySettingsViewModel.QualificationSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
 
-            if (timingDataViewModel._settingAutoSaver != null)
-            {
-                timingDataViewModel._settingAutoSaver.DisplaySettingsViewModel = newDisplaySettingsViewModel;
-            }
-
             if (timingDataViewModel.ReportsController != null)
             {
                 timingDataViewModel.ReportsController.SettingsView = newDisplaySettingsViewModel;
             }
-
-            if (timingDataViewModel._simSettingAdapter != null)
-            {
-                timingDataViewModel._simSettingAdapter.UserConfigPath = Path.Combine(newDisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, "Settings");
-            }
-
         }
 
         private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
@@ -708,36 +622,7 @@
             }
         }
 
-        private void UnSelectItem()
-        {
-            if (Gui == null)
-            {
-                return;
-            }
 
-            Gui.DtTimig.SelectedItem = null;
-        }
-
-
-        private static void DisplayMessage(object sender, MessageArgs e)
-        {
-            if (e.IsDecision)
-            {
-                if (MessageBox.Show(
-                        e.Message,
-                        "Message from connector.",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Information) == MessageBoxResult.Yes)
-                {
-                    e.Action();
-                }
-            }
-            else
-            {
-                MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-
-        }
 
     }
 }

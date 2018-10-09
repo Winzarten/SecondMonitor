@@ -82,8 +82,8 @@
                     BorderBrush="{StaticResource DarkGrey01Brush}"
                     BorderThickness="3" CornerRadius="5">
                 <StackPanel>
-                    <wpf:TimeSpanBarControl Title="Δ to Personal Best" AnimateBar="{Binding DisplaySettingsView.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
-                    <wpf:TimeSpanBarControl Title="Δ to Previous Lap" AnimateBar="{Binding DisplaySettingsView.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
+                    <wpf:TimeSpanBarControl Title="Δ to Personal Best" AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
+                    <wpf:TimeSpanBarControl Title="Δ to Previous Lap" AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
                 </StackPanel>
             </Border>
             <view:SessionInfoView Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
@@ -95,7 +95,7 @@
             <Grid x:Name="SessionTiming" VerticalAlignment="Top" Background="Black">
 
                 <timingGridControl:TimingGrid x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
-                                              ItemsSource="{Binding TimingInfo}">
+                                              ItemsSource="{Binding TimingInfo}" SelectedItem="{Binding SelectedDriverTimingViewModel}">
                     <timingGridControl:TimingGrid.InputBindings>
                         <MouseBinding Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="RightClick" />
                         <MouseBinding Command="{Binding DataContext.DoubleLeftClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="LeftDoubleClick" />
@@ -216,8 +216,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreCondition, Mode=OneWay}"
@@ -229,8 +229,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreCondition, Mode=OneWay}"
@@ -243,8 +243,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreCondition, Mode=OneWay}"
@@ -256,8 +256,8 @@
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
-                                                                           PressureUnits="{Binding DisplaySettingsView.PressureUnits, Mode=OneWay}"
-                                                                           TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}"
+                                                                           PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
+                                                                           TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}"
                                                                            TyreCenterTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCenterTemperature, Mode=OneWay}"
                                                                            TyreCompound="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCompound, Mode=OneWay}"
                                                                            TyreCondition="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreCondition, Mode=OneWay}"
@@ -302,7 +302,7 @@
                                                                      MaximumFuel="{Binding CarStatusViewModel.FuelOverviewViewModel.MaximumFuel}"
                                                                      ResetCommand="{Binding CarStatusViewModel.FuelOverviewViewModel.ResetCommand}"
                                                                      TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
-                                                                     VolumeUnits="{Binding DisplaySettingsView.VolumeUnits}" />
+                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}" />
                                 </Border>
                             </Grid>
                         </Grid>
@@ -320,14 +320,14 @@
                                                                        MaximalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
                                                                        MinimalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                                                                        Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}" />
+                                                                       TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />
                                 <temperatureControl:TemperatureControl Grid.Row="1" Width="200" Height="150"
                                                                        Icon="{StaticResource OilIcon}"
                                                                        MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
                                                                        MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
                                                                        MinimalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                                                                        Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding DisplaySettingsView.TemperatureUnits, Mode=OneWay}" />
+                                                                       TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />
                             </Grid>
                         </Border>
                     </Grid>
@@ -360,7 +360,7 @@
                                     <CheckBox x:Name="ChkScrollToPlayer" Width="100" Margin="10,64,0,-3" HorizontalAlignment="Left"
                                               VerticalAlignment="Top" Content="Scroll To Player"
                                               Foreground="{StaticResource LightGrey01Brush}"
-                                              IsChecked="{Binding DisplaySettingsView.ScrollToPlayer}" />
+                                              IsChecked="{Binding DisplaySettingsViewModel.ScrollToPlayer}" />
                                     <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
                                            VerticalAlignment="Top" Content="Order:"
                                            Foreground="{StaticResource LightGrey01Brush}" />

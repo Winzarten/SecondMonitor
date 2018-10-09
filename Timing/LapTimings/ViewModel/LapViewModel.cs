@@ -32,7 +32,7 @@
         {
             LapInfo = lapInfo;
             RefreshInfo();
-            TimerMethod(RefreshInfo, () => LapInfo.Driver.Session.TimingDataViewModel.DisplaySettingsView.RefreshRate);
+            TimerMethod(RefreshInfo, () => LapInfo.Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.RefreshRate);
 
         }
 

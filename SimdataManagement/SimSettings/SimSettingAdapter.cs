@@ -37,7 +37,7 @@
 
         public void Visit(SimulatorDataSet simulatorDataSet)
         {
-            if (simulatorDataSet?.PlayerInfo?.CarInfo == null)
+            if (simulatorDataSet?.PlayerInfo?.CarName == null)
             {
                 return;
             }

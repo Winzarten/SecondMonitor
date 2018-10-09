@@ -17,6 +17,7 @@
             SimulatorDataSet simData = new SimulatorDataSet("PCars 2");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
+            simData.SimulatorSourceInfo.InvalidateLapBySector = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
 
             FillSessionInfo(pcarsData, simData, sessionTime);

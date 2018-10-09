@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AutoUpdateController.cs" />
+    <Compile Include="Controllers\TimingApplicationController.cs" />
     <Compile Include="LapTimings\ViewModel\DriverLapsWindowManager.cs" />
     <Compile Include="Presentation\Controls\TimingGridControl\TimingGrid.cs" />
     <Compile Include="Presentation\ViewModel\Commands\ResetCommand.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Presentation\ViewModel\SessionInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModel\TimeSpanFormatHelper.cs" />
     <Compile Include="Presentation\ViewModel\TimingDataViewModel.cs" />
+    <Compile Include="Presentation\ViewModel\TimingDataViewModel.ResetModeEnum.cs" />
     <Compile Include="Presentation\View\BindingProxy.cs" />
     <Compile Include="Presentation\View\DisplaySettingsWindow.xaml.cs">
       <DependentUpon>DisplaySettingsWindow.xaml</DependentUpon>

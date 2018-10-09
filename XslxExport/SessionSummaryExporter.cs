@@ -113,7 +113,7 @@
             chart.Axis[1].MinorUnit = 1;
             chart.Axis[1].Orientation = eAxisOrientation.MaxMin;
             chart.Axis[1].MaxValue = orderedDrivers.Count;
-            chart.SetSize(200 * orderedDrivers.Count, 30 * maxLaps);
+            chart.SetSize(70 * maxLaps, 30 * orderedDrivers.Count);
             chart.Axis[0].MajorUnit = 1;
             chart.Axis[0].MinorUnit = 1;
             chart.Title.Text = "Race Progress";
@@ -317,13 +317,11 @@
 
         private void AddSessionBasicInformation(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
-
             sheet.Cells["A2"].Value = "Date: " + sessionSummary.SessionRunTime.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern);
             sheet.Cells["A3"].Value = "Time: " + sessionSummary.SessionRunTime.TimeOfDay.ToString(@"hh\:mm");
             sheet.Cells["A4"].Value = "Simulator: " + sessionSummary.Simulator;
 
             sheet.Cells[2,1,4,1].AutoFitColumns();
-
         }
 
         private void AddDriversInfo(ExcelWorksheet sheet, SessionSummary sessionSummary)
@@ -728,7 +726,11 @@
             package.Workbook.Worksheets.Add(SummarySheet);
             package.Workbook.Worksheets.Add(LapsAndSectorsSheet);
             package.Workbook.Worksheets.Add(PlayerLapsSheet);
-            package.Workbook.Worksheets.Add(RaceProgressSheet);
+
+            if (includeRaceProgress)
+            {
+                package.Workbook.Worksheets.Add(RaceProgressSheet);
+            }
         }
 
         public static string FormatTimeSpan(TimeSpan timeSpan)

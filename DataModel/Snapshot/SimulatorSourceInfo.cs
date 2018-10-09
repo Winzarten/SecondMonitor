@@ -26,6 +26,7 @@
         // For some sims (i.e. AMS) it is difficult tu check if lap is valid. One of the methods to look if the sectors were updated. This flag allows this behavior.
         public bool InvalidateLapBySector { get; set; }
 
+        // Some sims do not update all relevant information when lap changes. This flag forces a pending state when lap changes, allowing all relevant information to be updated properly.
         public bool ForceLapOverTime { get; set; }
 
         // Indicates if the sim has a global pool of tyre compounds (i.e. assetto corsa), or if each car has its own. The latter means that tyre compound for two cars can have different properties, even if the name is the same
