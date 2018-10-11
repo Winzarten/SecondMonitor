@@ -9,7 +9,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <viewModels:WheelStatusTestVM/>
+        <viewModels:WheelStatusTestVm/>
     </UserControl.DataContext>
     <Grid Background="Black" >
         <Grid.ColumnDefinitions>

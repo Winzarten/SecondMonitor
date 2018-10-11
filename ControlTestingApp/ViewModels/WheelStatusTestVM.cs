@@ -7,7 +7,7 @@
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.WindowsControls.WPF.Commands;
 
-    public class WheelStatusTestVM : INotifyPropertyChanged
+    public class WheelStatusTestVm : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,7 +25,7 @@
             }
         }
 
-        public WheelStatusTestVM()
+        public WheelStatusTestVm()
         {
             TyreCoreRawTemperature = 50;
             BrakeRawTemperature = 200;

@@ -17,6 +17,9 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/QuantityText/QuantityText.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CarSettingsControl/CarSettingsControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ComboboxStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

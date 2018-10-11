@@ -69,6 +69,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -104,11 +105,14 @@
     <Compile Include="WPF\Behaviors\OptimalVolumeToColorBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesHeightBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
+    <Compile Include="WPF\CarSettingsControl\CarSettingsControl.cs" />
+    <Compile Include="WPF\CarSettingsControl\ITyreSettingsViewModel.cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
     <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Commands\RelayCommand.cs" />
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
+    <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
@@ -123,9 +127,6 @@
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
     <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />
     <Compile Include="WPF\VisualHelper.cs" />
-    <Compile Include="WPF\FuelMonitor.xaml.cs">
-      <DependentUpon>FuelMonitor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WPF\IPositionCircleInformationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -169,6 +170,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="WPF\CarSettingsControl\CarSettingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\ComboboxStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="WPF\Constants.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -192,10 +201,6 @@
     <Page Include="WPF\CommonResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WPF\FuelMonitor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\PedalControl\PedalGearControl.xaml">
       <Generator>MSBuild:Compile</Generator>

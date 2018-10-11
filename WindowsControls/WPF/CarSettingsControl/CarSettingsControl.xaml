@@ -1,0 +1,95 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:carSettingsControl="clr-namespace:SecondMonitor.WindowsControls.WPF.CarSettingsControl" xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CommonResources.xaml" />
+        <ResourceDictionary Source="../ComboboxStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="Pink"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid Background="Pink"></Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="carSettingsControl:CarSettingsControl">
+        <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
+        <Setter Property="FontSize" Value="{StaticResource BigFontSize}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="carSettingsControl:CarSettingsControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                        <Grid Row="0">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,10,10" FontSize="{StaticResource ExtraBigFontSize}" Text="{Binding CarName, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Grid>
+                        <Grid Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                        <GroupBox Grid.Row="0" Header="Brake Properties">
+                            <StackPanel>
+                                <TextBlock Margin="0,10,0,5"
+                                           FontSize="{StaticResource NormalFontSize}"
+                                           Text="Ideal Temperature:" />
+                                <quantityText:TemperatureText IsReadonly="False"
+                                                              Quantity="{Binding IdealBrakeTemperature, RelativeSource={RelativeSource TemplatedParent}}"
+                                                              ShowUnitSymbol="True"
+                                                              TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
+                                                              ToolTip="Ideal temperature the brakes should be kept for maximum effectiveness." />
+                                <TextBlock Margin="0,10,0,5"
+                                           FontSize="{StaticResource NormalFontSize}"
+                                           Text="Ideal Temperature Window:" />
+                                <quantityText:TemperatureText IsReadonly="False"
+                                                              Quantity="{Binding IdealBrakeTemperatureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                              ShowUnitSymbol="True"
+                                                              TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
+                                                              ToolTip="How big is the window of the ideal temperature for the brakes." />
+                            </StackPanel>
+                        </GroupBox>
+                            <StackPanel Grid.Row="1">
+                                <TextBlock Margin="0,10,0,5" FontSize="{StaticResource NormalFontSize}" Text="Select Tyre:" />
+                                <ComboBox BorderBrush="{StaticResource DarkGrey01Brush}" Style="{StaticResource StandardComboBoxStyle}" ItemsSource="{Binding TyreCompounds ,RelativeSource={RelativeSource TemplatedParent}}" SelectedIndex="0" Background="Pink">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+
+                                            <TextBlock Text="{Binding CompoundName}" Style="{StaticResource StandardText}"  VerticalAlignment="Stretch"></TextBlock>
+
+                                        </DataTemplate>
+                                   </ComboBox.ItemTemplate>
+
+                                    <!--<ComboBox.Resources>
+                                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{StaticResource DarkGrey01Color}" />
+                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrush}" Color="{StaticResource DarkGrey01Color}" />
+                                    </ComboBox.Resources>-->
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+                        <DockPanel Grid.Row="2">
+                            <Button Width="102" Height="55"
+                                    Content="Cancel" DockPanel.Dock="Right"
+                                    Command="{Binding CancelCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Style="{StaticResource StandardButton}" />
+                            <Button Width="117" Height="55" Content="OK" DockPanel.Dock="Right"
+                                    Command="{Binding OkCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Style="{StaticResource StandardButton}" />
+                        </DockPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

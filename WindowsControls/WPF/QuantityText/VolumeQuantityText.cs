@@ -14,6 +14,11 @@
             set => SetValue(VolumeUnitsProperty, value);
         }
 
+        protected override string GetUnitSymbol()
+        {
+            return Volume.GetUnitSymbol(VolumeUnits);
+        }
+
         protected override double GetValueInUnits()
         {
             return Quantity.GetValueInUnits(VolumeUnits);

@@ -14,6 +14,11 @@
             set => SetValue(TemperatureUnitsProperty, value);
         }
 
+        protected override string GetUnitSymbol()
+        {
+            return Temperature.GetUnitSymbol(TemperatureUnits);
+        }
+
         protected override double GetValueInUnits()
         {
             return Quantity.GetValueInUnits(TemperatureUnits);
