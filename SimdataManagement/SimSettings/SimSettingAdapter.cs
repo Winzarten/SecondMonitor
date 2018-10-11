@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.IO;
 
-    using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.DataModel.OperationalRange;
     using SecondMonitor.DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Systems;
@@ -61,9 +60,15 @@
 
         private void ApplyWheelProperty(SimulatorDataSet simulatorDataSet, WheelInfo wheelInfo, CarModelProperties carModel)
         {
+            wheelInfo.BrakeTemperature.IdealQuantity.InCelsius = carModel.OptimalBrakeTemperature.InCelsius;
+            wheelInfo.BrakeTemperature.IdealQuantityWindow.InCelsius = carModel.OptimalBrakeTemperatureWindow.InCelsius;
+
+            if (string.IsNullOrWhiteSpace(wheelInfo.TyreType))
+            {
+                return;
+            }
+
             TyreCompoundProperties tyreCompound = GetTyreCompound(simulatorDataSet, wheelInfo, carModel);
-            wheelInfo.BrakeTemperature.IdealQuantity.InCelsius = 1200; //carModel.OptimalBrakeTemperature.InCelsius;
-            wheelInfo.BrakeTemperature.IdealQuantityWindow.InCelsius = 300;// carModel.OptimalBrakeTemperatureWindow.InCelsius;
 
             wheelInfo.TyrePressure.IdealQuantity.InKpa = tyreCompound.IdealPressure.InKpa;
             wheelInfo.TyrePressure.IdealQuantityWindow.InKpa = tyreCompound.IdealPressureWindow.InKpa;
