@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ComboboxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
@@ -364,13 +365,13 @@
                                     <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
                                            VerticalAlignment="Top" Content="Order:"
                                            Foreground="{StaticResource LightGrey01Brush}" />
-                                    <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top"
+                                    <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top" Style="{StaticResource StandardComboBoxStyle}"
                                               ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
                                               SelectedItem="{Binding CurrentSessionOptionsView.OrderingMode}" />
                                     <Label Grid.Column="1" Width="74" Height="29" Margin="10,5,0,0"
                                            HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:"
                                            Foreground="{StaticResource LightGrey01Brush}" />
-                                    <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top"
+                                    <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top" Style="{StaticResource StandardComboBoxStyle}"
                                               ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
                                               SelectedItem="{Binding CurrentSessionOptionsView.TimesDisplayMode}" />
                                 </Grid>
@@ -406,18 +407,32 @@
                         </StackPanel>
                         <Grid Row="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
-                            <Button Grid.Row="0" Width="102" Height="55"
-                                    Command="{Binding OpenSettingsCommand}"
-                                    Content="Configure"
-                                    Style="{StaticResource StandardButton}" />
-                            <Button x:Name="BtnReset" Grid.Column="1" Width="117" Height="55"
-                                    Command="{Binding ResetCommand}"
-                                    Content="Reset Timing"
-                                    Style="{StaticResource StandardButton}" />
+                            <Button Grid.Column="0" Command="{Binding OpenSettingsCommand}" Height="55" Style="{StaticResource StandardButton}" ToolTip="Opens the configuration window for the current car." >
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
+                                        <ContentPresenter Content="{StaticResource CarSettingsIcon}"/>
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                            <Button Grid.Column="1" Command="{Binding OpenSettingsCommand}" Height="55" Style="{StaticResource StandardButton}" ToolTip="Opens the configuration window for the application.">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
+                                        <ContentPresenter Content="{StaticResource SettingsIcon}"/>
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                                </Button>
+                            <Button x:Name="BtnReset" Grid.Column="2"  Height="55"
+                                    Command="{Binding ResetCommand}" Style="{StaticResource StandardButton}" ToolTip="Resets the timing.">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
+                                        <ContentPresenter Content="{StaticResource ResetIcon}"/>
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
                         </Grid>
                     </Grid>
                 </Border>

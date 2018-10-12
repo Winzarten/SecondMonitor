@@ -1,7 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:carSettingsControl="clr-namespace:SecondMonitor.WindowsControls.WPF.CarSettingsControl" xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:carSettingsControl="clr-namespace:SecondMonitor.WindowsControls.WPF.CarSettingsControl" xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText"
+                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../CommonResources.xaml" />
         <ResourceDictionary Source="../ComboboxStyles.xaml" />
+        <ResourceDictionary Source="../ButtonStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -78,15 +80,25 @@
                                 </ComboBox>
                             </StackPanel>
                         </Grid>
-                        <DockPanel Grid.Row="2">
-                            <Button Width="102" Height="55"
-                                    Content="Cancel" DockPanel.Dock="Right"
-                                    Command="{Binding CancelCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Style="{StaticResource StandardButton}" />
-                            <Button Width="117" Height="55" Content="OK" DockPanel.Dock="Right"
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Height="55"
                                     Command="{Binding OkCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Style="{StaticResource StandardButton}" />
-                        </DockPanel>
+                                    Style="{StaticResource StandardButton}" >
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,0,5,0">
+                                        <ContentPresenter Content="{StaticResource OkIcon}"/>
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                            <Button Height="55" Command="{Binding CancelCommand, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource StandardButton}" >
+                                <Button.Content>
+                                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,0,5,0">
+                                    <ContentPresenter Content="{StaticResource CancelIcon}"/>
+                                </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+
+                        </StackPanel>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
