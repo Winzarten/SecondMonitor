@@ -1,9 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Colors.xaml" />
         <ResourceDictionary Source="Icons.xaml" />
         <ResourceDictionary Source="Constants.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converters:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter"/>
     <Style x:Key="StandardText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />

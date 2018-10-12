@@ -96,15 +96,13 @@
 
             TyreCompoundProperties tyreCompound = null;
 
-            if (!simulatorDataSet.SimulatorSourceInfo.GlobalTyreCompounds)
+            tyreCompound = carModel.GetTyreCompound(compoundName);
+            if (tyreCompound != null)
             {
-                tyreCompound = carModel.GetTyreCompound(compoundName);
-                if (tyreCompound != null)
-                {
-                    _lastCompound = new KeyValuePair<string, TyreCompoundProperties>(tyreCompound.CompoundName, tyreCompound);
-                    return tyreCompound;
-                }
+                _lastCompound = new KeyValuePair<string, TyreCompoundProperties>(tyreCompound.CompoundName, tyreCompound);
+                return tyreCompound;
             }
+
 
             tyreCompound = _dataSourceProperties.GetTyreCompound(compoundName);
             if (tyreCompound == null)

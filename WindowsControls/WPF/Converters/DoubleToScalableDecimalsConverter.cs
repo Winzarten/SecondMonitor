@@ -23,7 +23,12 @@
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value is string stringValue && double.TryParse(stringValue, out double returnValue))
+            {
+                return returnValue;
+            }
+
+            return 0;
         }
     }
 }

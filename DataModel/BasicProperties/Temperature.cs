@@ -27,11 +27,19 @@
 
         [JsonIgnore]
         [XmlIgnore]
-        public double InFahrenheit => ((InCelsius * 9) / 5) + 32;
+        public double InFahrenheit
+        {
+            get => ((InCelsius * 9) / 5) + 32;
+            set => InCelsius = (value - 32) * 0.5556;
+        }
 
         [JsonIgnore]
         [XmlIgnore]
-        public double InKelvin => InCelsius + 273.15;
+        public double InKelvin
+        {
+            get => InCelsius + 273.15;
+            set => InCelsius = value - 273.15;
+        }
 
         [JsonIgnore]
         [XmlIgnore]
@@ -53,6 +61,28 @@
         public static Temperature FromKelvin(double temperetureInKelvin)
         {
             return new Temperature( temperetureInKelvin - 273.15);
+        }
+
+        public static Temperature FromFahrenheit(double temperature)
+        {
+            return new Temperature((temperature - 32) * 0.5556 );
+        }
+
+        public void UpdateValue(double value, TemperatureUnits temperatureUnits)
+        {
+            switch (temperatureUnits)
+            {
+                case TemperatureUnits.Celsius:
+                    InCelsius = value;
+                    return;
+                case TemperatureUnits.Fahrenheit:
+                    InFahrenheit = value;
+                    return;
+                case TemperatureUnits.Kelvin:
+                    InKelvin = value;
+                    return;
+            }
+            throw new ArgumentException("Unable to return value in" + temperatureUnits.ToString());
         }
 
         public double GetValueInUnits(TemperatureUnits units)
@@ -83,12 +113,6 @@
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
 
-        public string GetFormattedWithUnits(int decimalPlaces, TemperatureUnits temperatureUnits)
-        {
-            return GetValueInUnits(temperatureUnits).ToString($"F{decimalPlaces}") + " "
-                                                                                   + GetUnitSymbol(temperatureUnits);
-        }
-
         public static string GetUnitSymbol(TemperatureUnits units)
         {
             switch (units)
@@ -101,6 +125,12 @@
                     return "K";
             }
             throw new ArgumentException("Unable to return symbol fir" + units.ToString());
+        }
+
+        public string GetFormattedWithUnits(int decimalPlaces, TemperatureUnits temperatureUnits)
+        {
+            return GetValueInUnits(temperatureUnits).ToString($"F{decimalPlaces}") + " "
+                                                                                   + GetUnitSymbol(temperatureUnits);
         }
 
         public static bool operator <(Temperature temp1, Temperature temp2)

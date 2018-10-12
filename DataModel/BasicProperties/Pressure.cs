@@ -29,15 +29,27 @@
 
         [JsonIgnore]
         [XmlIgnore]
-        public double InAtmospheres => InKpa / 101.3;
+        public double InAtmospheres
+        {
+            get => InKpa / 101.3;
+            set => InKpa = value * 101.3;
+        }
 
         [JsonIgnore]
         [XmlIgnore]
-        public double InBars => InKpa * 0.01;
+        public double InBars
+        {
+            get => InKpa * 0.01;
+            set => InKpa = value / 0.01;
+        }
 
         [JsonIgnore]
         [XmlIgnore]
-        public double InPsi => InKpa * 0.145038;
+        public double InPsi
+        {
+            get => InKpa * 0.145038;
+            set => InKpa = value / 0.145038;
+        }
 
         [JsonIgnore]
         [XmlIgnore]
@@ -50,6 +62,26 @@
         [JsonIgnore]
         [XmlIgnore]
         public double RawValue => InKpa;
+
+        public void UpdateValue(double value, PressureUnits units)
+        {
+            switch (units)
+            {
+                case PressureUnits.Kpa:
+                    InKpa = value;
+                    return;
+                case PressureUnits.Atmosphere:
+                    InAtmospheres = value;
+                    return;
+                case PressureUnits.Bar:
+                    InBars = value;
+                    return;
+                case PressureUnits.Psi:
+                    InPsi = value;
+                    return;
+            }
+            throw new ArgumentException("Unable to return symbol fir" + units.ToString());
+        }
 
         public static string GetUnitSymbol(PressureUnits units)
         {

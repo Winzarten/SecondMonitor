@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Colors\HSLColor .cs" />
     <Compile Include="Colors\MediaColorExtension.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="WPF\Behaviors\BackgroundByOptimalVolumeBehavior.cs" />
     <Compile Include="WPF\Behaviors\BackgroundByTemperatureBehavior.cs" />
     <Compile Include="WPF\Behaviors\ForceResizeBehavior.cs" />
@@ -107,9 +108,11 @@
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
     <Compile Include="WPF\CarSettingsControl\CarSettingsControl.cs" />
     <Compile Include="WPF\CarSettingsControl\ITyreSettingsViewModel.cs" />
+    <Compile Include="WPF\CarSettingsControl\TyreCompoundSettingsControl.cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
     <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Commands\RelayCommand.cs" />
+    <Compile Include="WPF\Commands\RelayCommandWithCondition.cs" />
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
@@ -171,6 +174,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\CarSettingsControl\CarSettingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\CarSettingsControl\TyreCompoundSettingsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

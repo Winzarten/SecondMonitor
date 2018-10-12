@@ -40,9 +40,11 @@
     public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged
     {
 
-        public static readonly DependencyProperty DisplaySettingsViewModelProperty = DependencyProperty.Register("DisplaySettingsView", typeof(DisplaySettingsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
-        public static readonly DependencyProperty CurrentSessionOptionsViewProperty = DependencyProperty.Register("CurrentSessionOptionsView", typeof(SessionOptionsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
-        public static readonly DependencyProperty SelectedDriverTimingViewModelProperty = DependencyProperty.Register("SelectedDriverTimingViewModel", typeof(DriverTimingViewModel), typeof(TimingDataViewModel));
+        private static readonly DependencyProperty DisplaySettingsViewModelProperty = DependencyProperty.Register("DisplaySettingsView", typeof(DisplaySettingsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
+        private static readonly DependencyProperty CurrentSessionOptionsViewProperty = DependencyProperty.Register("CurrentSessionOptionsView", typeof(SessionOptionsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
+        private static readonly DependencyProperty SelectedDriverTimingViewModelProperty = DependencyProperty.Register("SelectedDriverTimingViewModel", typeof(DriverTimingViewModel), typeof(TimingDataViewModel));
+        private static readonly DependencyProperty OpenCarSettingsCommandProperty = DependencyProperty.Register("OpenCarSettingsCommand", typeof(ICommand), typeof(TimingDataViewModel));
+        private static readonly DependencyProperty OpenCarSettingsCommandEnabledProperty = DependencyProperty.Register("IsOpenCarSettingsCommandEnable", typeof(bool), typeof(TimingDataViewModel));
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
 
         private ICommand _resetCommand;
@@ -92,6 +94,18 @@
         public ICommand RightClickCommand { get; set; }
 
         public ICommand ScrollToPlayerCommand { get; set; }
+
+        public ICommand OpenCarSettingsCommand
+        {
+            get => (ICommand)GetValue(OpenCarSettingsCommandProperty);
+            set => SetValue(OpenCarSettingsCommandProperty, value);
+        }
+
+        public bool IsOpenCarSettingsCommandEnable
+        {
+            get => (bool)GetValue(OpenCarSettingsCommandEnabledProperty);
+            set => SetValue(OpenCarSettingsCommandEnabledProperty, value);
+        }
 
         public ICommand DoubleLeftClickCommand
         {
@@ -200,6 +214,7 @@
             if (Dispatcher.CheckAccess())
             {
                 _lastDataSet = data;
+                IsOpenCarSettingsCommandEnable = !string.IsNullOrWhiteSpace(data?.PlayerInfo?.CarName);
                 ConnectedSource = _lastDataSet?.Source;
                 if (ViewSource == null || _timing == null)
                 {

@@ -13,7 +13,7 @@
         private static readonly DependencyProperty UnitSymbolProperty = DependencyProperty.Register("UnitSymbol", typeof(string), typeof(AbstractQuantityText<T>), new PropertyMetadata());
         private static readonly DependencyProperty ShowUnitSymbolProperty = DependencyProperty.Register("ShowUnitSymbol", typeof(bool), typeof(AbstractQuantityText<T>), new PropertyMetadata(false) { PropertyChangedCallback = QuantityChanged });
         private static readonly DependencyProperty IsReadonlyProperty = DependencyProperty.Register("IsReadonly", typeof(bool), typeof(AbstractQuantityText<T>), new PropertyMetadata(true));
-        private static readonly DependencyProperty ValueInUnitsProperty = DependencyProperty.Register("ValueInUnits", typeof(double), typeof(AbstractQuantityText<T>), new PropertyMetadata());
+        private static readonly DependencyProperty ValueInUnitsProperty = DependencyProperty.Register("ValueInUnits", typeof(double), typeof(AbstractQuantityText<T>), new PropertyMetadata() {PropertyChangedCallback = QuantityInUnitsChanged});
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -55,6 +55,17 @@
             }
         }
 
+        protected static void QuantityInUnitsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+            if (d is AbstractQuantityText<T> abstractQuantityText)
+            {
+                abstractQuantityText.UpdateIQuantity(abstractQuantityText.ValueInUnits);
+            }
+        }
+
+        protected abstract void UpdateIQuantity(double valueInUnits);
+
         protected abstract string GetUnitSymbol();
 
         protected abstract double GetValueInUnits();
@@ -74,5 +85,7 @@
             UnitSymbol = GetUnitSymbol();
             ValueInUnits = GetValueInUnits();
         }
+
+
     }
 }

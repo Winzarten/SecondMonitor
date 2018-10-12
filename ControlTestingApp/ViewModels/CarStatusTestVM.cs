@@ -1,7 +1,9 @@
 ﻿namespace ControlTestingApp.ViewModels
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
 
@@ -11,14 +13,21 @@
 
     public class CarStatusTestVM : INotifyPropertyChanged
     {
+        private readonly RelayCommandWithCondition _copyCompoundCommand;
+        private readonly ObservableCollection<ITyreSettingsViewModel> _tyres;
         private double _tyreCondition = 50.0;
         private TemperatureUnits _temperatureUnits;
         private PressureUnits _pressureUnits = PressureUnits.Atmosphere;
+
+        private ITyreSettingsViewModel _selectedTyreSettingsViewModel;
 
         public CarStatusTestVM()
         {
             TyreCoreRawTemperature = 50;
             BrakeRawTemperature = 200;
+            _copyCompoundCommand = new RelayCommandWithCondition(CopyCompound, () => SelectedTyreSettingsViewModel?.IsGlobalCompound ?? false);
+            _tyres = new ObservableCollection<ITyreSettingsViewModel>() { new TestTyreViewModel("Compound 1"), new TestTyreViewModel("Compound 2") { IsGlobalCompound = true, IdealTyreTemperature = Temperature.FromCelsius(120) }, new TestTyreViewModel("Compound 3") };
+            SelectedTyreSettingsViewModel = _tyres.First();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -53,11 +62,40 @@
             }
         }
 
-        public IReadOnlyCollection<ITyreSettingsViewModel> Tyres => new List<ITyreSettingsViewModel>() { new TestTyreViewMode("Compound 1"), new TestTyreViewMode("Compound 2"), new TestTyreViewMode("Compound 3") };
+        public ITyreSettingsViewModel SelectedTyreSettingsViewModel
+        {
+            get => _selectedTyreSettingsViewModel;
+            set
+            {
+                _selectedTyreSettingsViewModel = value;
+                _copyCompoundCommand.NotifyCanExecuteChange();
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ITyreSettingsViewModel> Tyres => _tyres;
 
         public ICommand ChangeTemperatureUnitsCommand => new RelayCommand(ChangeTemperatureUnits);
 
         public ICommand ChangePressureUnitsCommand => new RelayCommand(ChangePressureUnits);
+
+        public ICommand CopyCompoundCommand => _copyCompoundCommand;
+
+        private void CopyCompound()
+        {
+            TestTyreViewModel newViewModel = new TestTyreViewModel(SelectedTyreSettingsViewModel.CompoundName)
+                                                 {
+                                                     IsGlobalCompound = false, IdealTyreTemperature = Temperature.FromCelsius(SelectedTyreSettingsViewModel.IdealTyreTemperature.InCelsius),
+                                                     IdealTyreTemperatureWindow = Temperature.FromCelsius(SelectedTyreSettingsViewModel.IdealTyreTemperatureWindow.InCelsius),
+                                                     IdealTyrePressure = Pressure.FromKiloPascals(SelectedTyreSettingsViewModel.IdealTyrePressure.InKpa),
+                                                     IdealTyrePressureWindow = Pressure.FromKiloPascals(SelectedTyreSettingsViewModel.IdealTyrePressureWindow.InKpa)
+                                                 };
+            Tyres.Add(newViewModel);
+            ITyreSettingsViewModel previouslySelected = SelectedTyreSettingsViewModel;
+            SelectedTyreSettingsViewModel = newViewModel;
+            _tyres.Remove(previouslySelected);
+
+        }
 
         public Temperature IdealBrakeTemperature { get; private set; }
 
@@ -129,14 +167,29 @@
             }
         }
 
-        private class TestTyreViewMode : ITyreSettingsViewModel
+        private class TestTyreViewModel : ITyreSettingsViewModel
         {
-            public TestTyreViewMode(string name)
+            public TestTyreViewModel(string name)
             {
                 CompoundName = name;
+                IdealTyreTemperature = Temperature.FromCelsius(80);
+                IdealTyreTemperatureWindow = Temperature.FromCelsius(20);
+
+                IdealTyrePressure = Pressure.FromKiloPascals(120);
+                IdealTyrePressureWindow = Pressure.FromKiloPascals(10);
             }
 
             public string CompoundName { get; set; }
+
+            public bool IsGlobalCompound { get; internal set; }
+
+            public Temperature IdealTyreTemperature { get; set; }
+
+            public Temperature IdealTyreTemperatureWindow { get; set; }
+
+            public Pressure IdealTyrePressure { get; set; }
+
+            public Pressure IdealTyrePressureWindow { get; set; }
         }
     }
 }

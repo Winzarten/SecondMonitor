@@ -79,7 +79,7 @@
 
         private void OnDataLoaded(object sender, DataEventArgs e)
         {
-            SimulatorDataSet dataSet = e.Data;
+            SimulatorDataSet dataSet = e.Data;            
             _simSettingAdapter?.Visit(dataSet);
             _timingDataViewModel.ApplyDateSet(dataSet);
         }
@@ -88,12 +88,12 @@
         {
             _timingGui = new TimingGui();
             _timingGui.Show();
-            _timingGui.Closed += Gui_Closed;
+            _timingGui.Closed += OnGuiClosed;
             _timingGui.MouseLeave += GuiOnMouseLeave;
             _timingGui.DataContext = _timingDataViewModel;
         }
 
-        private void Gui_Closed(object sender, EventArgs e)
+        private void OnGuiClosed(object sender, EventArgs e)
         {
             _timingGui = null;
             List<Exception> exceptions = new List<Exception>();

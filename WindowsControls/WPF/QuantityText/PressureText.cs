@@ -14,6 +14,11 @@
             set => SetValue(PressureUnitsProperty, value);
         }
 
+        protected override void UpdateIQuantity(double valueInUnits)
+        {
+            Quantity.UpdateValue(valueInUnits, PressureUnits);
+        }
+
         protected override string GetUnitSymbol()
         {
             return Pressure.GetUnitSymbol(PressureUnits);

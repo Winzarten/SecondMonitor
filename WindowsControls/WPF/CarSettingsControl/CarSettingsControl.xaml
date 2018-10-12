@@ -4,20 +4,9 @@
         <ResourceDictionary Source="../CommonResources.xaml" />
         <ResourceDictionary Source="../ComboboxStyles.xaml" />
         <ResourceDictionary Source="../ButtonStyles.xaml" />
+        <ResourceDictionary Source="TyreCompoundSettingsControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
-    <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="Pink"></Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
-                    <Grid Background="Pink"></Grid>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <Style TargetType="carSettingsControl:CarSettingsControl">
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Setter Property="FontSize" Value="{StaticResource BigFontSize}" />
@@ -28,77 +17,93 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>
                         <Grid Row="0">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,10,10" FontSize="{StaticResource ExtraBigFontSize}" Text="{Binding CarName, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2" CornerRadius="3">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="10,10,10,10" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       FontSize="{StaticResource ExtraBigFontSize}"
+                                       Text="{Binding CarName, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <Button Height="55" HorizontalAlignment="Right"
+                                            Command="{Binding OkCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Style="{StaticResource StandardButton}">
+                                        <Button.Content>
+                                            <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                <ContentPresenter Content="{StaticResource OkIcon}" />
+                                            </wpf:ColorAbleIcon>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button Height="55" HorizontalAlignment="Right"
+                                            Command="{Binding CancelCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Style="{StaticResource StandardButton}">
+                                        <Button.Content>
+                                            <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                <ContentPresenter Content="{StaticResource CancelIcon}" />
+                                            </wpf:ColorAbleIcon>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
                         </Grid>
                         <Grid Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                        <GroupBox Grid.Row="0" Header="Brake Properties">
-                            <StackPanel>
-                                <TextBlock Margin="0,10,0,5"
-                                           FontSize="{StaticResource NormalFontSize}"
-                                           Text="Ideal Temperature:" />
-                                <quantityText:TemperatureText IsReadonly="False"
-                                                              Quantity="{Binding IdealBrakeTemperature, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              ShowUnitSymbol="True"
-                                                              TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              ToolTip="Ideal temperature the brakes should be kept for maximum effectiveness." />
-                                <TextBlock Margin="0,10,0,5"
-                                           FontSize="{StaticResource NormalFontSize}"
-                                           Text="Ideal Temperature Window:" />
-                                <quantityText:TemperatureText IsReadonly="False"
-                                                              Quantity="{Binding IdealBrakeTemperatureWindow, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              ShowUnitSymbol="True"
-                                                              TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
-                                                              ToolTip="How big is the window of the ideal temperature for the brakes." />
-                            </StackPanel>
-                        </GroupBox>
-                            <StackPanel Grid.Row="1">
-                                <TextBlock Margin="0,10,0,5" FontSize="{StaticResource NormalFontSize}" Text="Select Tyre:" />
-                                <ComboBox BorderBrush="{StaticResource DarkGrey01Brush}" Style="{StaticResource StandardComboBoxStyle}" ItemsSource="{Binding TyreCompounds ,RelativeSource={RelativeSource TemplatedParent}}" SelectedIndex="0" Background="Pink">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-
-                                            <TextBlock Text="{Binding CompoundName}" Style="{StaticResource StandardText}"  VerticalAlignment="Stretch"></TextBlock>
-
-                                        </DataTemplate>
-                                   </ComboBox.ItemTemplate>
-
-                                    <!--<ComboBox.Resources>
-                                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="{StaticResource DarkGrey01Color}" />
-                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrush}" Color="{StaticResource DarkGrey01Color}" />
-                                    </ComboBox.Resources>-->
-                                </ComboBox>
-                            </StackPanel>
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border  BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Margin="5,10,5,5" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource NormalFontSize}"
+                                                   Text="Brake Properties:" />
+                                            <TextBlock Margin="5,10,5,5"
+                                                   FontSize="{StaticResource NormalFontSize}"
+                                                   Text="Ideal Temperature:" />
+                                            <quantityText:TemperatureText IsReadonly="False" Margin="5,0,5,0"
+                                                                      Quantity="{Binding IdealBrakeTemperature, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                      ShowUnitSymbol="True"
+                                                                      TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                      ToolTip="Ideal temperature the brakes should be kept for maximum effectiveness." />
+                                            <TextBlock Margin="0,10,5,5"
+                                                   FontSize="{StaticResource NormalFontSize}"
+                                                   Text="Ideal Temperature Window:" />
+                                            <quantityText:TemperatureText IsReadonly="False" Margin="5,0,5,0"
+                                                                      Quantity="{Binding IdealBrakeTemperatureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                      ShowUnitSymbol="True"
+                                                                      TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                      ToolTip="How big is the window of the ideal temperature for the brakes." />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <StackPanel Grid.Row="1">
+                                    <TextBlock Margin="5,10,0,5" FontSize="{StaticResource NormalFontSize}" Text="Select Tyre:" />
+                                    <ComboBox ItemsSource="{Binding TyreCompounds, RelativeSource={RelativeSource TemplatedParent}}" SelectedItem="{Binding SelectedTyreCompound, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource StandardComboBoxStyle}" Margin="5,0,5,0">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding CompoundName}" />
+                                                    <ContentPresenter Visibility="{Binding IsGlobalCompound, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" Margin="5,0,5,0"  Content="{StaticResource WorldIcon}" MaxHeight="15" ToolTip="This is global compound. Changing it will change the compound for all cars using this compound."/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
+                                    <carSettingsControl:TyreCompoundSettingsControl CompoundName="{Binding SelectedTyreCompound.CompoundName, RelativeSource={RelativeSource TemplatedParent}}" IsGlobalCompound="{Binding SelectedTyreCompound.IsGlobalCompound, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                    TemperatureUnit="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}" PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                IdealTyreTemperature="{Binding SelectedTyreCompound.IdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" IdealTyreTemperatureWindow="{Binding SelectedTyreCompound.IdealTyreTemperatureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                        IdealTyrePressure="{Binding SelectedTyreCompound.IdealTyrePressure, RelativeSource={RelativeSource TemplatedParent}}" IdealTyrePressureWindow="{Binding SelectedTyreCompound.IdealTyrePressureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                    CopyCompoundCommand="{Binding CopyCompoundCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                </Border>
+                            </Grid>
                         </Grid>
-                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Height="55"
-                                    Command="{Binding OkCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Style="{StaticResource StandardButton}" >
-                                <Button.Content>
-                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,0,5,0">
-                                        <ContentPresenter Content="{StaticResource OkIcon}"/>
-                                    </wpf:ColorAbleIcon>
-                                </Button.Content>
-                            </Button>
-                            <Button Height="55" Command="{Binding CancelCommand, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource StandardButton}" >
-                                <Button.Content>
-                                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,0,5,0">
-                                    <ContentPresenter Content="{StaticResource CancelIcon}"/>
-                                </wpf:ColorAbleIcon>
-                                </Button.Content>
-                            </Button>
-
-                        </StackPanel>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

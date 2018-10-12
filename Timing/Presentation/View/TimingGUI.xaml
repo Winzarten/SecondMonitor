@@ -411,7 +411,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding OpenSettingsCommand}" Height="55" Style="{StaticResource StandardButton}" ToolTip="Opens the configuration window for the current car." >
+                            <Button Grid.Column="0" IsEnabled="{Binding IsOpenCarSettingsCommandEnable}" Command="{Binding OpenSettingsCommand}" Height="55" Style="{StaticResource StandardButton}" ToolTip="Opens the configuration window for the current car." >
                                 <Button.Content>
                                     <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
                                         <ContentPresenter Content="{StaticResource CarSettingsIcon}"/>

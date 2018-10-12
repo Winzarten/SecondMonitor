@@ -31,7 +31,8 @@
                 <ControlTemplate TargetType="Button">
                     <Border BorderThickness="5" CornerRadius="3" BorderBrush="{StaticResource Anthracite01Brush}">
                         <Grid Background="{StaticResource DarkGrey01Brush}" x:Name="ButtonGrid">
-                            <Label Margin="0,3,0,3" x:Name="TextLabel" VerticalAlignment="Center" FontSize="{StaticResource NormalFontSize}" HorizontalAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Content="{Binding Content ,RelativeSource={RelativeSource AncestorType=Button}}"/>
+                            <Grid ZIndex="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource DarkGrey01Brush}" Opacity="0.8" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"/>
+                            <Label Grid.ZIndex="1"  Margin="0,3,0,3" x:Name="TextLabel" VerticalAlignment="Center" FontSize="{StaticResource NormalFontSize}" HorizontalAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Content="{Binding Content ,RelativeSource={RelativeSource AncestorType=Button}}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
