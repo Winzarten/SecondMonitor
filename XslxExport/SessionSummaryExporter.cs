@@ -18,9 +18,9 @@
     using OfficeOpenXml.Style;
     using OfficeOpenXml.Table;
 
-    using SecondMonitor.DataModel.Extensions;
-    using SecondMonitor.DataModel.Snapshot.Systems;
-    using SecondMonitor.WindowsControls.Colors;
+    using DataModel.Extensions;
+    using DataModel.Snapshot.Systems;
+    using WindowsControls.Colors;
 
     public class SessionSummaryExporter
     {

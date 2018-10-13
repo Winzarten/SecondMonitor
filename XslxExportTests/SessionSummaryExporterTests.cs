@@ -9,8 +9,8 @@
 
     using NUnit.Framework;
 
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.DataModel.Telemetry;
+    using DataModel.Snapshot.Drivers;
+    using DataModel.Telemetry;
 
     using XslxExport;
 

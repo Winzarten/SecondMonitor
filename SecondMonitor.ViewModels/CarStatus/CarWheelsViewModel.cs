@@ -4,9 +4,9 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Systems;
-    using SecondMonitor.ViewModels.Annotations;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Systems;
+    using Annotations;
 
     public class CarWheelsViewModel : DependencyObject, ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

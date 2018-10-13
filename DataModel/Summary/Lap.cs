@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Summary
 {
     using System;
-    using SecondMonitor.DataModel.Telemetry;
+    using Telemetry;
 
     [Serializable]
     public class Lap

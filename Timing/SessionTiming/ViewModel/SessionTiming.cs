@@ -8,15 +8,15 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.SessionTiming.Drivers;
+    using Properties;
+    using Drivers;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
-    using SecondMonitor.WindowsControls.WPF;
+    using WindowsControls.WPF;
 
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {

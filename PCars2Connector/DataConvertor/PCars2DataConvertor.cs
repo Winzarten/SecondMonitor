@@ -2,11 +2,11 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PCars2Connector.SharedMemory;
-    using SecondMonitor.PluginManager.Extensions;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using SharedMemory;
+    using PluginManager.Extensions;
 
     public class PCars2DataConvertor
     {

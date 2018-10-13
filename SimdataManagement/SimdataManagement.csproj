@@ -44,6 +44,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimSettings\SimSettingAdapter.cs" />
     <Compile Include="SimSettings\SimSettingsLoader.cs" />
+    <Compile Include="ViewModel\CarModelPropertiesViewModel.cs" />
+    <Compile Include="ViewModel\TyreCompoundPropertiesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
@@ -56,6 +58,18 @@
       <Name>PluginManager</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj">
+      <Project>{B43064B9-D120-4DD9-9902-E2B8F6006985}</Project>
+      <Name>SecondMonitor.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
+      <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
+      <Name>WindowsControls</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\Factory\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

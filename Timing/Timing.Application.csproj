@@ -74,7 +74,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarSettings\CarSettingsWindow.xaml.cs">
+      <DependentUpon>CarSettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CarSettings\CarSettingsWindowViewModel.cs" />
     <Compile Include="Controllers\AutoUpdateController.cs" />
+    <Compile Include="Controllers\SimSettingController.cs" />
     <Compile Include="Controllers\TimingApplicationController.cs" />
     <Compile Include="LapTimings\ViewModel\DriverLapsWindowManager.cs" />
     <Compile Include="Presentation\Controls\TimingGridControl\TimingGrid.cs" />
@@ -179,6 +184,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CarSettings\CarSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presentation\Controls\TimingGridControl\TimingGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

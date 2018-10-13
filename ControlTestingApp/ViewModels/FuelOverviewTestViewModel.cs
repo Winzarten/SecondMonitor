@@ -3,7 +3,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using ControlTestingApp.Annotations;
+    using Annotations;
 
     using SecondMonitor.DataModel.BasicProperties;
 

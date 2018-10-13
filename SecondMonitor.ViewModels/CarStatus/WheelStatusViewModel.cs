@@ -5,9 +5,9 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot.Systems;
-    using SecondMonitor.ViewModels.Annotations;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot.Systems;
+    using Annotations;
 
     public class WheelStatusViewModel : DependencyObject, IWheelStatusViewModel, INotifyPropertyChanged
     {

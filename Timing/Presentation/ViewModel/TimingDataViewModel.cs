@@ -20,18 +20,18 @@
 
     using PluginManager.GameConnector;
 
-    using SecondMonitor.DataModel.Extensions;
-    using SecondMonitor.Timing.Controllers;
+    using DataModel.Extensions;
+    using Controllers;
     using SecondMonitor.Timing.LapTimings.ViewModel;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using SecondMonitor.Timing.Settings.ViewModel;
-    using SecondMonitor.ViewModels;
-    using SecondMonitor.ViewModels.CarStatus;
-    using SecondMonitor.ViewModels.SituationOverview;
-    using SecondMonitor.ViewModels.TrackInfo;
+    using ViewModels;
+    using ViewModels.CarStatus;
+    using ViewModels.SituationOverview;
+    using ViewModels.TrackInfo;
 
     using SessionTiming.Drivers;
 

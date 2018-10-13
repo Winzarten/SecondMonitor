@@ -7,11 +7,11 @@
     using System.Windows.Media;
     using System.Windows.Shapes;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Extensions;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.WindowsControls.WPF.DriverPostion;
+    using DataModel.BasicProperties;
+    using DataModel.Extensions;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using DriverPostion;
 
     public class PositionCircleControl : Grid, ISituationOverviewControl
     {

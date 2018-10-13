@@ -5,11 +5,13 @@
     using System.Windows.Controls;
     using System.Windows.Input;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public class CarSettingsControl : Control
     {
         private static readonly DependencyProperty IdealBrakeTemperatureProperty = DependencyProperty.Register("IdealBrakeTemperature", typeof(Temperature), typeof(CarSettingsControl));
+
+
         private static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(CarSettingsControl));
         private static readonly DependencyProperty IdealBrakeTemperatureWindowProperty = DependencyProperty.Register("IdealBrakeTemperatureWindow", typeof(Temperature), typeof(CarSettingsControl));
         private static readonly DependencyProperty TemperatureUnitProperties = DependencyProperty.Register("TemperatureUnit", typeof(TemperatureUnits), typeof(CarSettingsControl));

@@ -3,9 +3,9 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.ViewModels.Annotations;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using Annotations;
 
     public class TrackInfoViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

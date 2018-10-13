@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PluginManager.Extensions;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using PluginManager.Extensions;
 
     public class AcDataConverter
     {

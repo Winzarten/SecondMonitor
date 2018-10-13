@@ -5,16 +5,15 @@
     using System.IO;
     using System.Windows.Input;
 
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.Core;
-    using SecondMonitor.PluginManager.GameConnector;
-    using SecondMonitor.SimdataManagement.SimSettings;
-    using SecondMonitor.Timing.LapTimings.ViewModel;
-    using SecondMonitor.Timing.Presentation.View;
-    using SecondMonitor.Timing.Presentation.ViewModel;
-    using SecondMonitor.Timing.Settings;
-    using SecondMonitor.Timing.Settings.ViewModel;
-    using SecondMonitor.WindowsControls.WPF.Commands;
+    using DataModel.Snapshot;
+    using PluginManager.Core;
+    using PluginManager.GameConnector;
+    using LapTimings.ViewModel;
+    using Presentation.View;
+    using Presentation.ViewModel;
+    using Settings;
+    using Settings.ViewModel;
+    using WindowsControls.WPF.Commands;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {
@@ -23,12 +22,13 @@
             "SecondMonitor\\settings.json");
         private readonly TimingDataViewModel _timingDataViewModel;
 
+        private SimSettingController _simSettingController;
         private DisplaySettingsWindow _settingsWindow;
         private PluginsManager _pluginsManager;
         private TimingGui _timingGui;
         private DisplaySettingsViewModel _displaySettingsViewModel;
         private DisplaySettingAutoSaver _settingAutoSaver;
-        private SimSettingAdapter _simSettingAdapter;
+
 
         public TimingApplicationController()
         {
@@ -55,17 +55,14 @@
         {
             CreateDisplaySettingsViewModel();
             CreateAutoSaver();
-            CreateSimSettingsAdapter();
+            CreateSimSettingsController();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
             _timingDataViewModel.DisplaySettingsViewModel = _displaySettingsViewModel;
             _timingDataViewModel?.Reset();
         }
 
-        private void CreateSimSettingsAdapter()
-        {
-            _simSettingAdapter = new SimSettingAdapter(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, "Settings"));
-        }
+
 
         private void DisplayMessage(object sender, MessageArgs e)
         {
@@ -79,9 +76,14 @@
 
         private void OnDataLoaded(object sender, DataEventArgs e)
         {
-            SimulatorDataSet dataSet = e.Data;            
-            _simSettingAdapter?.Visit(dataSet);
+            SimulatorDataSet dataSet = e.Data;
+            _simSettingController?.ApplySimSettings(dataSet);
             _timingDataViewModel.ApplyDateSet(dataSet);
+        }
+
+        private void CreateSimSettingsController()
+        {
+            _simSettingController = new SimSettingController(_displaySettingsViewModel);
         }
 
         private void CreateGui()
@@ -114,6 +116,7 @@
             _timingDataViewModel.RightClickCommand = new RelayCommand(UnSelectItem);
             _timingDataViewModel.OpenSettingsCommand = new RelayCommand(OpenSettingsWindow);
             _timingDataViewModel.ScrollToPlayerCommand = new RelayCommand(ScrollToPlayer);
+            _timingDataViewModel.OpenCarSettingsCommand = new RelayCommand(OpenCarSettingsWindow);
         }
 
         private void UnSelectItem()
@@ -142,6 +145,11 @@
                                       Owner = _timingGui
                                   };
             _settingsWindow.Show();
+        }
+
+        private void OpenCarSettingsWindow()
+        {
+            _simSettingController.OpenCarSettingsControl(_timingGui);
         }
 
         private void CreateAutoSaver()

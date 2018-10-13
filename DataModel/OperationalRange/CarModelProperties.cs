@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Xml.Serialization;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using BasicProperties;
 
     [Serializable]
     public class CarModelProperties

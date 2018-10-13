@@ -3,7 +3,7 @@
     using System.IO;
     using System.Xml.Serialization;
 
-    using SecondMonitor.DataModel.OperationalRange;
+    using DataModel.OperationalRange;
 
     public class SimSettingsLoader
     {

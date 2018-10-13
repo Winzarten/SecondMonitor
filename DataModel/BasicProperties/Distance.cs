@@ -59,7 +59,7 @@
 
             }
 
-            return obj.GetType() == this.GetType() && Equals((Distance)obj);
+            return obj.GetType() == GetType() && Equals((Distance)obj);
         }
 
         public override int GetHashCode()

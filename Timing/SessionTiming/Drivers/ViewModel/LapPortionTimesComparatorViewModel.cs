@@ -48,7 +48,7 @@
             ComparedLap.LapTelemetryInfo.PortionTimes.PropertyChanged -= PortionTimes_PropertyChanged;
         }
 
-        private void PortionTimes_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void PortionTimes_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
             if (DateTime.Now < _nextUpdate)

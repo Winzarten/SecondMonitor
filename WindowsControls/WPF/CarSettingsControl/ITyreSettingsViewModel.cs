@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.WindowsControls.WPF.CarSettingsControl
 {
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public interface ITyreSettingsViewModel
     {

@@ -4,8 +4,8 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.Settings.Model;
+    using Properties;
+    using Model;
 
     public class SessionReportSettingsViewModel : DependencyObject, INotifyPropertyChanged
     {

@@ -6,8 +6,8 @@
     using System.Windows.Controls;
     using System.Windows.Input;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.WindowsControls.Annotations;
+    using DataModel.BasicProperties;
+    using Annotations;
 
     public class TyreCompoundSettingsControl : Control
     {

@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Telemetry
 {
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
+    using Snapshot;
+    using Snapshot.Drivers;
 
     public class TelemetrySnapshot
     {

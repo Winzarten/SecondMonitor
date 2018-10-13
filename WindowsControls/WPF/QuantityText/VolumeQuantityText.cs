@@ -2,7 +2,7 @@
 {
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public class VolumeQuantityText : AbstractQuantityText<Volume>
     {

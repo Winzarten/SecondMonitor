@@ -2,8 +2,8 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
 
     public class FuelConsumptionMonitor
     {

@@ -2,7 +2,7 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class SectorTiming : IComparable

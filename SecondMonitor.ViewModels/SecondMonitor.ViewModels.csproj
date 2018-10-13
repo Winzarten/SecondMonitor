@@ -47,6 +47,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractViewModel.cs" />
     <Compile Include="Base\AbstractTemperatureViewModel.cs" />
     <Compile Include="Base\IViewModelWithIcon.cs" />
     <Compile Include="CarStatus\CarStatusViewModel.cs" />

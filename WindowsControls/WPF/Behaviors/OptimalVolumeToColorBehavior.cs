@@ -6,8 +6,8 @@
     using System.Windows.Interactivity;
     using System.Windows.Media;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.WindowsControls.Colors;
+    using DataModel.BasicProperties;
+    using Colors;
 
     public abstract class OptimalVolumeToColorBehavior<T,V> : Behavior<V> where T : class, IQuantity, new() where V : UIElement
     {

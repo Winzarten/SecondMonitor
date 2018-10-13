@@ -28,7 +28,7 @@
 
         public void Connect()
         {
-            _memoryMappedFile = MemoryMappedFile.OpenExisting(this._bufferName);
+            _memoryMappedFile = MemoryMappedFile.OpenExisting(_bufferName);
         }
 
         public void Disconnect()
@@ -40,10 +40,10 @@
         public MappedBufferT GetMappedDataUnSynchronized()
         {
             MappedBufferT mappedData = new MappedBufferT();
-            using (var sharedMemoryStreamView = this._memoryMappedFile.CreateViewStream())
+            using (var sharedMemoryStreamView = _memoryMappedFile.CreateViewStream())
             {
                 var sharedMemoryStream = new BinaryReader(sharedMemoryStreamView);
-                var sharedMemoryReadBuffer = sharedMemoryStream.ReadBytes(this._bufferSizeBytes);
+                var sharedMemoryReadBuffer = sharedMemoryStream.ReadBytes(_bufferSizeBytes);
 
                 var handleBuffer = GCHandle.Alloc(sharedMemoryReadBuffer, GCHandleType.Pinned);
                 mappedData = (MappedBufferT)Marshal.PtrToStructure(handleBuffer.AddrOfPinnedObject(), typeof(MappedBufferT));

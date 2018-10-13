@@ -3,7 +3,7 @@
     using System;
     using System.Xml.Serialization;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using BasicProperties;
 
     [Serializable]
     public class TyreCompoundProperties

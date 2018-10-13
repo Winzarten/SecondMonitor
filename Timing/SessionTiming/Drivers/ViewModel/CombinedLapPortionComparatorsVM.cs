@@ -4,7 +4,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using SecondMonitor.Timing.Annotations;
+    using Annotations;
 
     public class CombinedLapPortionComparatorsVM : INotifyPropertyChanged, IDisposable
     {

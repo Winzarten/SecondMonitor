@@ -5,7 +5,7 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public abstract class AbstractQuantityText<T> : Control where T : class, IQuantity
     {

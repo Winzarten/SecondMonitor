@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.PluginManager.Visitor
 {
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
 
     public interface IDataSetVisitor
     {

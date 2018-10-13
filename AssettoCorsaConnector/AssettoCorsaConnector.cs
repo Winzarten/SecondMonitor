@@ -5,11 +5,11 @@
     using System.IO;
     using System.Threading;
 
-    using SecondMonitor.AssettoCorsaConnector.SharedMemory;
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.DependencyChecker;
-    using SecondMonitor.PluginManager.GameConnector;
+    using SharedMemory;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using PluginManager.DependencyChecker;
+    using PluginManager.GameConnector;
     using SecondMonitor.PluginManager.GameConnector.SharedMemory;
 
     public class AssettoCorsaConnector : AbstractGameConnector

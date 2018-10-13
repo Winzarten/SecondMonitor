@@ -3,11 +3,11 @@
     using System;
     using System.Linq;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PluginManager.Extensions;
-    using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using PluginManager.Extensions;
+    using rFactor2Data;
 
     internal class RF2DataConvertor
     {

@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 

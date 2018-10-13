@@ -7,7 +7,7 @@
 
     using NLog;
 
-    using SecondMonitor.Timing.Settings.Model;
+    using Model;
 
     public class DisplaySettingsLoader
     {

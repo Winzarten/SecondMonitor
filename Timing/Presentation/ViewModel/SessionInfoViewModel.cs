@@ -4,12 +4,12 @@
     using System.ComponentModel;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Extensions;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Extensions;
+    using DataModel.Snapshot;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.ViewModels;
+    using ViewModels;
 
     public class SessionInfoViewModel : DependencyObject, ISimulatorDataSetViewModel
     {

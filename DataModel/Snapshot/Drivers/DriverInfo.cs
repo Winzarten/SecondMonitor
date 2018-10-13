@@ -4,7 +4,7 @@
 
     using BasicProperties;
 
-    using SecondMonitor.DataModel.Snapshot.Systems;
+    using Systems;
 
     [Serializable]
     public class DriverInfo

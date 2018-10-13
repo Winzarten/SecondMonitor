@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using SecondMonitor.DataModel.Extensions;
+    using Extensions;
 
     [Serializable]
     public class DataSourceProperties
@@ -37,6 +37,12 @@
         public void AddCarModel(CarModelProperties newCarModel)
         {
            CarModelsProperties.Add(newCarModel);
+        }
+
+        public void ReplaceCarModel(CarModelProperties replaceCarModelProperties)
+        {
+            CarModelsProperties.RemoveAll(x => x.Name == replaceCarModelProperties.Name);
+            CarModelsProperties.Add(replaceCarModelProperties);
         }
 
         public TyreCompoundProperties GetTyreCompound(string compoundName)

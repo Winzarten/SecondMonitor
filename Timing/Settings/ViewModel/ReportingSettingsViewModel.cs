@@ -9,8 +9,8 @@
     using System.Windows.Input;
 
     using SecondMonitor.Timing.Presentation.ViewModel.Commands;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.Settings.Model;
+    using Properties;
+    using Model;
 
     public class ReportingSettingsViewModel : DependencyObject, INotifyPropertyChanged
     {

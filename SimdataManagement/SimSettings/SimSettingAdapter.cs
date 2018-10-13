@@ -3,10 +3,10 @@
     using System.Collections.Generic;
     using System.IO;
 
-    using SecondMonitor.DataModel.OperationalRange;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Systems;
-    using SecondMonitor.PluginManager.Visitor;
+    using DataModel.OperationalRange;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Systems;
+    using PluginManager.Visitor;
 
     public class SimSettingAdapter : IDataSetVisitor
     {
@@ -26,6 +26,22 @@
         public SimSettingAdapter(string baseConfigPath, string userConfigPath)
         {
             _simSettingsLoader = new SimSettingsLoader(baseConfigPath, userConfigPath);
+        }
+
+        public CarModelProperties LastUsedCarProperties => _lastCarProperties.Value;
+
+        public TyreCompoundProperties LastUsedCompound => _lastCompound.Value;
+
+        public List<TyreCompoundProperties> GlobalTyreCompoundsProperties
+        {
+            get => _dataSourceProperties.TyreCompoundsProperties;
+            set
+            {
+                _dataSourceProperties.TyreCompoundsProperties = value;
+                _lastCarProperties = new KeyValuePair<string, CarModelProperties>(string.Empty, _lastCarProperties.Value);
+                _lastCompound = new KeyValuePair<string, TyreCompoundProperties>(string.Empty, _lastCompound.Value);
+                _simSettingsLoader.SaveDataSourceProperties(_dataSourceProperties);
+            }
         }
 
         public string UserConfigPath
@@ -48,6 +64,13 @@
 
             CarModelProperties carModel = GetCarModelProperties(simulatorDataSet);
             ApplyCarMode(simulatorDataSet, carModel);
+        }
+
+        public void ReplaceCarModelProperties(CarModelProperties carModelProperties)
+        {
+            _dataSourceProperties.ReplaceCarModel(carModelProperties);
+            _lastCarProperties = new KeyValuePair<string, CarModelProperties>(carModelProperties.Name, carModelProperties);
+            _simSettingsLoader.SaveDataSourceProperties(_dataSourceProperties);
         }
 
         private void ApplyCarMode(SimulatorDataSet simulatorDataSet, CarModelProperties carModel)

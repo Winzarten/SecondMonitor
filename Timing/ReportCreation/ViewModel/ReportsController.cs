@@ -14,7 +14,7 @@
 
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using SecondMonitor.Timing.Settings.ViewModel;
-    using SecondMonitor.WindowsControls.WPF.Commands;
+    using WindowsControls.WPF.Commands;
 
     using XslxExport;
 
