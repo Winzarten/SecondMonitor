@@ -75,20 +75,20 @@
                                                        Text="Brake Properties:" />
                                             <TextBlock Margin="5,10,5,5"
                                                        FontSize="{StaticResource NormalFontSize}"
-                                                       Text="Ideal Temperature:" />
+                                                       Text="Minimal ideal Temperature:" />
                                             <quantityText:TemperatureText Margin="5,0,5,0" IsReadonly="False"
-                                                                          Quantity="{Binding IdealBrakeTemperature, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                          Quantity="{Binding MinimalIdealBrakeTemperature, RelativeSource={RelativeSource TemplatedParent}}"
                                                                           ShowUnitSymbol="True"
                                                                           TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                          ToolTip="Ideal temperature the brakes should be kept for maximum effectiveness." />
+                                                                          ToolTip="Minimal ideal temperature the brakes should be kept for maximum effectiveness." />
                                             <TextBlock Margin="0,10,5,5"
                                                        FontSize="{StaticResource NormalFontSize}"
-                                                       Text="Ideal Temperature Window:" />
+                                                       Text="Max Ideal Temperature:" />
                                             <quantityText:TemperatureText Margin="5,0,5,0" IsReadonly="False"
-                                                                          Quantity="{Binding IdealBrakeTemperatureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                          Quantity="{Binding MaximumIdealBrakeTemperature, RelativeSource={RelativeSource TemplatedParent}}"
                                                                           ShowUnitSymbol="True"
                                                                           TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                          ToolTip="How big is the window of the ideal temperature for the brakes." />
+                                                                          ToolTip="Maximum ideal temperature the brakes should be kept for maximum effectiveness." />
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -118,10 +118,10 @@
                                 <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
                                     <carSettingsControl:TyreCompoundSettingsControl CompoundName="{Binding SelectedTyreCompound.CompoundName, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                     CopyCompoundCommand="{Binding CopyCompoundCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                                                                    IdealTyrePressure="{Binding SelectedTyreCompound.IdealTyrePressure, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                                    IdealTyrePressureWindow="{Binding SelectedTyreCompound.IdealTyrePressureWindow, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                                    IdealTyreTemperature="{Binding SelectedTyreCompound.IdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                                                                    IdealTyreTemperatureWindow="{Binding SelectedTyreCompound.IdealTyreTemperatureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                    MinimalIdealTyrePressure="{Binding SelectedTyreCompound.MinimalIdealTyrePressure, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                    MaximumIdealTyrePressure="{Binding SelectedTyreCompound.MaximumIdealTyrePressure, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                    MinimalIdealTyreTemperature="{Binding SelectedTyreCompound.MinimalIdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                                                    MaximumIdealTyreTemperature="{Binding SelectedTyreCompound.MaximumIdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                     IsGlobalCompound="{Binding SelectedTyreCompound.IsGlobalCompound, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                     PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                     TemperatureUnit="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}" />

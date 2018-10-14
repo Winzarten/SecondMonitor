@@ -21,7 +21,7 @@
         <Grid Grid.Column="0">
             <carSettingsControl:CarSettingsControl CarName="Ford Mustang '96" TemperatureUnit="{Binding TemperatureUnits}"
                                                    TyreCompounds="{Binding Tyres}"
-                                                   IdealBrakeTemperature="{Binding IdealBrakeTemperature}" IdealBrakeTemperatureWindow="{Binding BrakeTemperatureWindow}"
+                                                   MinimalIdealBrakeTemperature="{Binding IdealBrakeTemperature}" MaximumIdealBrakeTemperature="{Binding BrakeTemperatureWindow}"
                                                    PressureUnits="{Binding PressureUnits}" SelectedTyreCompound="{Binding SelectedTyreSettingsViewModel, Mode=TwoWay}"
                                                    CopyCompoundCommand="{Binding CopyCompoundCommand}"/>
         </Grid>

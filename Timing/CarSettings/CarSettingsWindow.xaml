@@ -23,7 +23,7 @@
         <carSettingsControl:CarSettingsControl Foreground="{StaticResource LightGrey01Brush}" Margin="10,10,10,10" OkCommand="{Binding OkButtonCommand}" CancelCommand="{Binding CancelButtonCommand}"
                                                CarName="{Binding CarModelPropertiesViewModel.CarName}"
                                                TemperatureUnit="{Binding TemperatureUnits}" PressureUnits="{Binding PressureUnits}"
-                                               IdealBrakeTemperature="{Binding CarModelPropertiesViewModel.OptimalBrakeTemperature}" IdealBrakeTemperatureWindow="{Binding CarModelPropertiesViewModel.OptimalBrakeTemperatureWindow}"
+                                               MinimalIdealBrakeTemperature="{Binding CarModelPropertiesViewModel.MinimalOptimalBrakeTemperature}" MaximumIdealBrakeTemperature="{Binding CarModelPropertiesViewModel.MaximumOptimalBrakeTemperature}"
                                                TyreCompounds="{Binding TyreSettingsViewModels}" SelectedTyreCompound="{Binding SelectedTyreSettingsViewModel}" CopyCompoundCommand="{Binding CopyCompoundToLocalCommand}"/>
     </Grid>
 </Window>

@@ -7,10 +7,10 @@
         string CompoundName { get; set; }
         bool IsGlobalCompound { get; }
 
-        Temperature IdealTyreTemperature { get; set; }
-        Temperature IdealTyreTemperatureWindow { get; set; }
+        Temperature MinimalIdealTyreTemperature { get; set; }
+        Temperature MaximumIdealTyreTemperature { get; set; }
 
-        Pressure IdealTyrePressure { get; set; }
-        Pressure IdealTyrePressureWindow { get; set; }
+        Pressure MinimalIdealTyrePressure { get; set; }
+        Pressure MaximumIdealTyrePressure { get; set; }
     }
 }

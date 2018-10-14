@@ -9,11 +9,10 @@
 
     public class CarSettingsControl : Control
     {
-        private static readonly DependencyProperty IdealBrakeTemperatureProperty = DependencyProperty.Register("IdealBrakeTemperature", typeof(Temperature), typeof(CarSettingsControl));
-
+        private static readonly DependencyProperty MinimalIdealBrakeTemperatureProperty = DependencyProperty.Register("MinimalIdealBrakeTemperature", typeof(Temperature), typeof(CarSettingsControl));
+        private static readonly DependencyProperty MaximumIdealBrakeTemperatureProperty = DependencyProperty.Register("MaximumIdealBrakeTemperature", typeof(Temperature), typeof(CarSettingsControl));
 
         private static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(CarSettingsControl));
-        private static readonly DependencyProperty IdealBrakeTemperatureWindowProperty = DependencyProperty.Register("IdealBrakeTemperatureWindow", typeof(Temperature), typeof(CarSettingsControl));
         private static readonly DependencyProperty TemperatureUnitProperties = DependencyProperty.Register("TemperatureUnit", typeof(TemperatureUnits), typeof(CarSettingsControl));
         private static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName",typeof(string), typeof(CarSettingsControl));
         private static readonly DependencyProperty OkCommandProperty = DependencyProperty.Register("OkCommand", typeof(ICommand), typeof(CarSettingsControl));
@@ -22,16 +21,16 @@
         private static readonly DependencyProperty SelectedTyreCompoundProperty = DependencyProperty.Register("SelectedTyreCompound", typeof(ITyreSettingsViewModel), typeof(CarSettingsControl));
         private static readonly DependencyProperty CopyCompoundCommandProperty = DependencyProperty.Register("CopyCompoundCommand", typeof(ICommand), typeof(CarSettingsControl));
 
-        public Temperature IdealBrakeTemperature
+        public Temperature MinimalIdealBrakeTemperature
         {
-            get => (Temperature)GetValue(IdealBrakeTemperatureProperty);
-            set => SetValue(IdealBrakeTemperatureProperty, value);
+            get => (Temperature)GetValue(MinimalIdealBrakeTemperatureProperty);
+            set => SetValue(MinimalIdealBrakeTemperatureProperty, value);
         }
 
-        public Temperature IdealBrakeTemperatureWindow
+        public Temperature MaximumIdealBrakeTemperature
         {
-            get => (Temperature)GetValue(IdealBrakeTemperatureWindowProperty);
-            set => SetValue(IdealBrakeTemperatureWindowProperty, value);
+            get => (Temperature)GetValue(MaximumIdealBrakeTemperatureProperty);
+            set => SetValue(MaximumIdealBrakeTemperatureProperty, value);
         }
 
         public TemperatureUnits TemperatureUnit

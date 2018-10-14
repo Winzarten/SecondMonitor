@@ -1,24 +1,21 @@
 ﻿namespace SecondMonitor.WindowsControls.WPF.CarSettingsControl
 {
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
 
     using DataModel.BasicProperties;
-    using Annotations;
 
     public class TyreCompoundSettingsControl : Control
     {
         private static readonly DependencyProperty CompoundNameProperty = DependencyProperty.Register("CompoundName", typeof(string), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty TemperatureUnitProperties = DependencyProperty.Register("TemperatureUnit", typeof(TemperatureUnits), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(TyreCompoundSettingsControl));
-        private static readonly DependencyProperty IdealTyreTemperatureProperty = DependencyProperty.Register("IdealTyreTemperature", typeof(Temperature), typeof(TyreCompoundSettingsControl));
+        private static readonly DependencyProperty MinimalIdealTyreTemperatureProperty = DependencyProperty.Register("MinimalIdealTyreTemperature", typeof(Temperature), typeof(TyreCompoundSettingsControl));
 
-        private static readonly DependencyProperty IdealTyreTemperatureWindowProperty = DependencyProperty.Register("IdealTyreTemperatureWindow", typeof(Temperature), typeof(TyreCompoundSettingsControl));
-        private static readonly DependencyProperty IdealTyrePressureProperty = DependencyProperty.Register("IdealTyrePressure", typeof(Pressure), typeof(TyreCompoundSettingsControl));
-        private static readonly DependencyProperty IdealTyrePressureWindowProperty = DependencyProperty.Register("IdealTyrePressureWindow", typeof(Pressure), typeof(TyreCompoundSettingsControl));
+        private static readonly DependencyProperty MaximumIdealTyreTemperatureProperty = DependencyProperty.Register("MaximumIdealTyreTemperature", typeof(Temperature), typeof(TyreCompoundSettingsControl));
+        private static readonly DependencyProperty MinimalIdealTyrePressureProperty = DependencyProperty.Register("MinimalIdealTyrePressure", typeof(Pressure), typeof(TyreCompoundSettingsControl));
+        private static readonly DependencyProperty MaximumIdealTyrePressureProperty = DependencyProperty.Register("MaximumIdealTyrePressure", typeof(Pressure), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty IsGlobalCompoundProperty = DependencyProperty.Register("IsGlobalCompound", typeof(bool), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty CopyCompoundCommandProperty = DependencyProperty.Register("CopyCompoundCommand", typeof(ICommand), typeof(TyreCompoundSettingsControl));
 
@@ -46,28 +43,28 @@
             set => SetValue(IsGlobalCompoundProperty, value);
         }
 
-        public Temperature IdealTyreTemperature
+        public Temperature MinimalIdealTyreTemperature
         {
-            get => (Temperature)GetValue(IdealTyreTemperatureProperty);
-            set => SetValue(IdealTyreTemperatureProperty, value);
+            get => (Temperature)GetValue(MinimalIdealTyreTemperatureProperty);
+            set => SetValue(MinimalIdealTyreTemperatureProperty, value);
         }
 
-        public Temperature IdealTyreTemperatureWindow
+        public Temperature MaximumIdealTyreTemperature
         {
-            get => (Temperature)GetValue(IdealTyreTemperatureWindowProperty);
-            set => SetValue(IdealTyreTemperatureWindowProperty, value);
+            get => (Temperature)GetValue(MaximumIdealTyreTemperatureProperty);
+            set => SetValue(MaximumIdealTyreTemperatureProperty, value);
         }
 
-        public Pressure IdealTyrePressure
+        public Pressure MinimalIdealTyrePressure
         {
-            get => (Pressure)GetValue(IdealTyrePressureProperty);
-            set => SetValue(IdealTyrePressureProperty, value);
+            get => (Pressure)GetValue(MinimalIdealTyrePressureProperty);
+            set => SetValue(MinimalIdealTyrePressureProperty, value);
         }
 
-        public Pressure IdealTyrePressureWindow
+        public Pressure MaximumIdealTyrePressure
         {
-            get => (Pressure)GetValue(IdealTyrePressureWindowProperty);
-            set => SetValue(IdealTyrePressureWindowProperty, value);
+            get => (Pressure)GetValue(MaximumIdealTyrePressureProperty);
+            set => SetValue(MaximumIdealTyrePressureProperty, value);
         }
 
         public ICommand CopyCompoundCommand

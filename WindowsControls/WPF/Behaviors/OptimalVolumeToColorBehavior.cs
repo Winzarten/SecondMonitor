@@ -82,8 +82,8 @@
                 return _oldComputedColor;
             }
 
-            double threshold = window;
-            double downThreshold = window * 1.5;
+            double threshold = window * 2;
+            double downThreshold = window * 2;
 
             if (value < optimalValue - window - downThreshold)
             {

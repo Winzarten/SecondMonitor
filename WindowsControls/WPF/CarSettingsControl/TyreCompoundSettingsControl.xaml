@@ -32,30 +32,30 @@
                                     </Button>
                                 </Grid>
                             </StackPanel>
-                            <TextBlock Style="{StaticResource StandardText}" Text="Ideal Tyre Temperature:" Margin="5,5,5,5"></TextBlock>
+                            <TextBlock Style="{StaticResource StandardText}" Text="Minimal Ideal Tyre Temperature:" Margin="5,5,5,5"></TextBlock>
                             <quantityText:TemperatureText IsReadonly="False"  Margin="5,0,5,0"
-                                                          Quantity="{Binding IdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                          Quantity="{Binding MinimalIdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                           ShowUnitSymbol="True"
                                                           TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          ToolTip="Ideal temperature the tyres should be kept for maximum effectiveness."  />
-                            <TextBlock Style="{StaticResource StandardText}" Text="Ideal Tyre Temperature Range:" Margin="5,5,5,5"></TextBlock>
+                                                          ToolTip="Minimal Ideal temperature the tyres should be kept for maximum effectiveness."  />
+                            <TextBlock Style="{StaticResource StandardText}" Text="Max Ideal Tyre Temperature:" Margin="5,5,5,5"></TextBlock>
                             <quantityText:TemperatureText IsReadonly="False"
-                                                          Quantity="{Binding IdealTyreTemperatureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                          Quantity="{Binding MaximumIdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}}"
                                                           ShowUnitSymbol="True"
                                                           TemperatureUnits="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          ToolTip="The range of optimal tyre temperature." Margin="5,0,5,0"/>
-                            <TextBlock Style="{StaticResource StandardText}" Text="Ideal Tyre Pressure:" Margin="5,5,5,5"></TextBlock>
+                                                          ToolTip="Maximum Ideal temperature the tyres should be kept for maximum effectiveness." Margin="5,0,5,0"/>
+                            <TextBlock Style="{StaticResource StandardText}" Text="Minimal Ideal Tyre Pressure:" Margin="5,5,5,5"></TextBlock>
                             <quantityText:PressureText IsReadonly="False"
-                                                          Quantity="{Binding IdealTyrePressure, RelativeSource={RelativeSource TemplatedParent}}"
+                                                          Quantity="{Binding MinimalIdealTyrePressure, RelativeSource={RelativeSource TemplatedParent}}"
                                                           ShowUnitSymbol="True"
                                                           PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          ToolTip="Ideal pressure the tyres should be kept for maximum effectiveness." Margin="5,0,5,0"/>
-                            <TextBlock Style="{StaticResource StandardText}" Text="Ideal Tyre Pressure Range:" Margin="5,5,5,5"></TextBlock>
+                                                          ToolTip="Minimal Ideal pressure the tyres should be kept for maximum effectiveness." Margin="5,0,5,0"/>
+                            <TextBlock Style="{StaticResource StandardText}" Text="Max Ideal Tyre Pressure:" Margin="5,5,5,5"></TextBlock>
                             <quantityText:PressureText IsReadonly="False"
-                                                       Quantity="{Binding IdealTyrePressureWindow, RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Quantity="{Binding MaximumIdealTyrePressure, RelativeSource={RelativeSource TemplatedParent}}"
                                                        ShowUnitSymbol="True"
                                                        PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource TemplatedParent}}"
-                                                       ToolTip="The range of pressure the tyres should be kept for maximum effectiveness." Margin="5,0,5,10"/>
+                                                       ToolTip="Maximum Ideal pressure the tyres should be kept for maximum effectiveness." Margin="5,0,5,10"/>
                         </StackPanel>
                     </Grid>
                 </ControlTemplate>
