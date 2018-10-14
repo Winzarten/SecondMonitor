@@ -75,7 +75,7 @@
                                                        Text="Brake Properties:" />
                                             <TextBlock Margin="5,10,5,5"
                                                        FontSize="{StaticResource NormalFontSize}"
-                                                       Text="Minimal ideal Temperature:" />
+                                                       Text="Minimal Ideal Temperature:" />
                                             <quantityText:TemperatureText Margin="5,0,5,0" IsReadonly="False"
                                                                           Quantity="{Binding MinimalIdealBrakeTemperature, RelativeSource={RelativeSource TemplatedParent}}"
                                                                           ShowUnitSymbol="True"
