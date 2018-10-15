@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.SimdataManagement.SimSettings
+﻿using System;
+
+namespace SecondMonitor.SimdataManagement.SimSettings
 {
     using System.IO;
     using System.Xml.Serialization;
@@ -39,7 +41,8 @@
         {
             Directory.CreateDirectory(OverridingPath);
             string path = Path.Combine(OverridingPath, properties.SourceName + FileSuffix);
-            using (FileStream file = File.OpenWrite(path))
+
+            using (FileStream file = File.Exists(path) ? File.Open(path, FileMode.Truncate) : File.Create(path))
             {
                 _xmlSerializer.Serialize(file, properties);
             }
@@ -48,9 +51,11 @@
         private DataSourceProperties LoadDataSourceProperties(string filePath)
         {
             using (StreamReader file = File.OpenText(filePath))
-            {
-                return (DataSourceProperties) _xmlSerializer.Deserialize(file);
-            }
+                {
+                    return (DataSourceProperties) _xmlSerializer.Deserialize(file);
+                }
+
+
         }
     }
 }

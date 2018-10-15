@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
+﻿using System.Linq;
+
+namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
 
@@ -148,7 +150,8 @@
             }
 
             LapTime = LapEnd.Subtract(LapStart);
-            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8)
+            SectorTiming[] sectors = {Sector1, Sector2, Sector3};
+            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8 || (sectors.Any(x => x.Duration != TimeSpan.Zero) && sectors.Any(x=> x.Duration == TimeSpan.Zero)))
             {
                 Valid = false;
             }
