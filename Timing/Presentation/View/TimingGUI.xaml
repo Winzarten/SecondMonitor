@@ -469,13 +469,18 @@
                     </StatusBarItem>
                     <Separator Grid.Column="3" />
                     <StatusBarItem Grid.Column="4" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                        <ProgressBar Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        <Grid>
+                            <TextBlock Grid.ZIndex="2"  Foreground="{StaticResource LightGrey01Brush}" HorizontalAlignment="Center">
+                                <Hyperlink Foreground="{StaticResource LightGrey01Brush}" NavigateUri="https://github.com/Winzarten/SecondMonitor/wiki" RequestNavigate="Hyperlink_OnRequestNavigate">More information available at the Wiki (Click Here)</Hyperlink>
+                            </TextBlock>
+                            <ProgressBar Grid.ZIndex="1" Height="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                      Background="{StaticResource DarkGrey05Brush}"
                                      Foreground="{StaticResource Green01Brush}"
                                      Maximum="1000" Minimum="0"
                                      Value="{Binding SessionCompletedPercentage, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+                        </Grid>
                     </StatusBarItem>
-                    <Separator Grid.Column="5" />
+                    <Separator Grid.Column="5"/>
                     <StatusBarItem Grid.Column="6" Margin="10,0,15,0">
                         <TextBlock Name="SystemTime"
                                    Style="{StaticResource SmallText}"

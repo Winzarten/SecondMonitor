@@ -90,7 +90,7 @@
             orderedDrivers.ForEach(
                 x =>
                     {
-                        GenerateLapsPositionColumn(sheet, startAddress, x.Laps);
+                        GenerateLapsPositionColumn(sheet, startAddress, x.Laps, maxLaps);
                         startAddress = new ExcelCellAddress(startAddress.Row, startAddress.Column + 1);
                     });
             ExcelLineChart chart = (ExcelLineChart)sheet.Drawings.AddChart("Race Progress", eChartType.LineMarkers);
@@ -119,17 +119,23 @@
             chart.Title.Text = "Race Progress";
         }
 
-        private void GenerateLapsPositionColumn(ExcelWorksheet sheet, ExcelCellAddress startAddress, IEnumerable<Lap> laps)
+        private void GenerateLapsPositionColumn(ExcelWorksheet sheet, ExcelCellAddress startAddress, IEnumerable<Lap> laps, int maxLaps)
         {
             List<Lap> lapsList = laps.ToList();
             sheet.Cells[startAddress.Address].Value = lapsList.First().LapStartSnapshot.PlayerData.Position;
             startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
 
             lapsList.ForEach(x =>
-                {
-                    sheet.Cells[startAddress.Address].Value = x.LapEndSnapshot.PlayerData.Position;
+            {
+                    sheet.Cells[startAddress.Address].Value = x.LapEndSnapshot?.PlayerData?.Position > 0 ? x.LapEndSnapshot.PlayerData.Position : x.Driver.FinishingPosition;
                     startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
-                });
+            });
+
+            for (int i = laps.Count(); i < maxLaps; i++)
+            {
+                sheet.Cells[startAddress.Address].Value = laps.Last().Driver.FinishingPosition;
+                startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
+            }
         }
 
         private void GenerateNumberColumn(ExcelWorksheet sheet, ExcelCellAddress cellAddress, int count)

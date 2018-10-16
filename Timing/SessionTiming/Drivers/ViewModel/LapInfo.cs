@@ -151,7 +151,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
             LapTime = LapEnd.Subtract(LapStart);
             SectorTiming[] sectors = {Sector1, Sector2, Sector3};
-            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8 || (sectors.Any(x => x.Duration != TimeSpan.Zero) && sectors.Any(x=> x.Duration == TimeSpan.Zero)))
+            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8 || (sectors.Any(x => x?.Duration != TimeSpan.Zero) && sectors.Any(x=> x == null || x.Duration == TimeSpan.Zero)))
             {
                 Valid = false;
             }
@@ -360,7 +360,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 _isPendingStart = dataSet.SessionInfo.SessionTime;
             }
 
-            return _isPending;
+            return IsPending;
         }
 
         public bool UpdatePendingState(SimulatorDataSet dataSet, DriverInfo driverInfo)

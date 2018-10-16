@@ -43,8 +43,6 @@
                 return;
             }
 
-            LapEndSnapshot = null;
-            LapStarSnapshot = null;
             PortionTimes = null;
             IsPurged = true;
         }

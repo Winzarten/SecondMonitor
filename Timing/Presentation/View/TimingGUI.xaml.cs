@@ -1,4 +1,7 @@
-﻿namespace SecondMonitor.Timing.Presentation.View
+﻿using System.Diagnostics;
+using System.Windows.Navigation;
+
+namespace SecondMonitor.Timing.Presentation.View
 {
     using System;
     using System.Windows;
@@ -25,6 +28,12 @@
             }
 
             base.OnSourceInitialized(e);
+        }
+
+        private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }
