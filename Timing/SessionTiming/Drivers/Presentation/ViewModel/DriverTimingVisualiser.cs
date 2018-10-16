@@ -14,46 +14,46 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.Settings.ViewModel;
 
-    public class DriverTimingModelView : DependencyObject
+    public class DriverTimingViewModel : DependencyObject
     {
-        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty LastLapTimeProperty = DependencyProperty.Register("LastLapTime", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty Sector1Property = DependencyProperty.Register("Sector1", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty Sector2Property = DependencyProperty.Register("Sector2", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty Sector3Property = DependencyProperty.Register("Sector3", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty CurrentLapProgressTimeProperty = DependencyProperty.Register("CurrentLapProgressTime", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty PaceProperty = DependencyProperty.Register("Pace", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty LastPitInfoProperty = DependencyProperty.Register("LastPitInfo", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty RemarkProperty = DependencyProperty.Register("Remark", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty TimeToPlayerProperty = DependencyProperty.Register("TimeToPlayer", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty TopSpeedProperty = DependencyProperty.Register("TopSpeed", typeof(string), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsPlayerProperty = DependencyProperty.Register("IsPlayer", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLappedProperty = DependencyProperty.Register("IsLapped", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLappingProperty = DependencyProperty.Register("IsLapping", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty InPitsProperty = DependencyProperty.Register("InPits", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastLapBestLapProperty = DependencyProperty.Register("IsLastLapBestLap", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastSector1PersonalBestProperty = DependencyProperty.Register("IsLastSector1PersonalBest", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastSector2PersonalBestProperty = DependencyProperty.Register("IsLastSector2PersonalBest", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastSector3PersonalBestProperty = DependencyProperty.Register("IsLastSector3PersonalBest", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastSector1SessionBestProperty = DependencyProperty.Register("IsLastSector1SessionBest", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastSector2SessionBestProperty = DependencyProperty.Register("IsLastSector2SessionBest", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastSector3SessionBestProperty = DependencyProperty.Register("IsLastSector3SessionBest", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsViewModel), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty ColorLapsColumnsProperty = DependencyProperty.Register("ColorLapsColumns", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsLastPlayerLapBetterProperty = DependencyProperty.Register("IsLastPlayerLapBetter", typeof(bool), typeof(DriverTimingModelView));
-        public static readonly DependencyProperty IsPlayersPaceBetterProperty = DependencyProperty.Register("IsPlayersPaceBetter", typeof(bool), typeof(DriverTimingModelView));
+        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty LastLapTimeProperty = DependencyProperty.Register("LastLapTime", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty Sector1Property = DependencyProperty.Register("Sector1", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty Sector2Property = DependencyProperty.Register("Sector2", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty Sector3Property = DependencyProperty.Register("Sector3", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty CurrentLapProgressTimeProperty = DependencyProperty.Register("CurrentLapProgressTime", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty PaceProperty = DependencyProperty.Register("Pace", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty LastPitInfoProperty = DependencyProperty.Register("LastPitInfo", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty RemarkProperty = DependencyProperty.Register("Remark", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty TimeToPlayerProperty = DependencyProperty.Register("TimeToPlayer", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty TopSpeedProperty = DependencyProperty.Register("TopSpeed", typeof(string), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsPlayerProperty = DependencyProperty.Register("IsPlayer", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLappedProperty = DependencyProperty.Register("IsLapped", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLappingProperty = DependencyProperty.Register("IsLapping", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty InPitsProperty = DependencyProperty.Register("InPits", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastLapBestLapProperty = DependencyProperty.Register("IsLastLapBestLap", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastSector1PersonalBestProperty = DependencyProperty.Register("IsLastSector1PersonalBest", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastSector2PersonalBestProperty = DependencyProperty.Register("IsLastSector2PersonalBest", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastSector3PersonalBestProperty = DependencyProperty.Register("IsLastSector3PersonalBest", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastSector1SessionBestProperty = DependencyProperty.Register("IsLastSector1SessionBest", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastSector2SessionBestProperty = DependencyProperty.Register("IsLastSector2SessionBest", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastSector3SessionBestProperty = DependencyProperty.Register("IsLastSector3SessionBest", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsViewModel), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty ColorLapsColumnsProperty = DependencyProperty.Register("ColorLapsColumns", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsLastPlayerLapBetterProperty = DependencyProperty.Register("IsLastPlayerLapBetter", typeof(bool), typeof(DriverTimingViewModel));
+        public static readonly DependencyProperty IsPlayersPaceBetterProperty = DependencyProperty.Register("IsPlayersPaceBetter", typeof(bool), typeof(DriverTimingViewModel));
 
 
         private DriverTiming _driverTiming;
 
         private DateTime _nextRefresh = DateTime.Now;
 
-        public DriverTimingModelView(DriverTiming driverTiming)
+        public DriverTimingViewModel(DriverTiming driverTiming)
         {
             DriverTiming = driverTiming;
         }
@@ -272,7 +272,7 @@
                 BestLap = GetBestLap();
                 Remark = DriverTiming.Remark;
                 LastPitInfo = DriverTiming.LastPitInfo;
-                TopSpeed = GetTopSpeed().GetValueInUnits(DriverTiming.Session.TimingDataViewModel.DisplaySettingsView.VelocityUnits).ToString("N0");
+                TopSpeed = GetTopSpeed().GetValueInUnits(DriverTiming.Session.TimingDataViewModel.DisplaySettingsViewModel.VelocityUnits).ToString("N0");
                 TimeToPlayer = GetTimeToPlayer();
                 IsPlayer = DriverTiming.IsPlayer;
                 IsLapped = DriverTiming.IsLapped;
@@ -623,7 +623,7 @@
                 return string.Empty;
             }
 
-            if (DriverTiming.DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && DriverTiming.DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na)
+            if (DriverTiming.DriverInfo.FinishStatus != DriverFinishStatus.None && DriverTiming.DriverInfo.FinishStatus != DriverFinishStatus.Na)
             {
                 return DriverTiming.DriverInfo.FinishStatus.ToString();
             }

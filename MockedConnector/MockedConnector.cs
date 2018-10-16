@@ -5,11 +5,11 @@
     using System.Linq;
     using System.Threading;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.DataModel.Snapshot.Systems;
-    using SecondMonitor.PluginManager.GameConnector;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Systems;
+    using PluginManager.GameConnector;
 
     public class MockedConnector : IGameConnector
     {
@@ -75,40 +75,40 @@
         {
             RaiseConnectedEvent();
             Thread.Sleep(2000);
-            this.ConnectDriver("Lorem Ipsum", true);
+            ConnectDriver("Lorem Ipsum", true);
             SimulatorDataSet set = PrepareDataSet();
             RaiseSessionStartedEvent(set);
             Thread.Sleep(1000);
             while (true)
             {
-                if (set.SessionInfo.SessionTime.TotalSeconds > 10 && !this._players.ContainsKey("Driver 2") && set.SessionInfo.SessionTime.TotalSeconds < 60)
+                if (set.SessionInfo.SessionTime.TotalSeconds > 10 && !_players.ContainsKey("Driver 2") && set.SessionInfo.SessionTime.TotalSeconds < 60)
                 {
-                    this.ConnectDriver("Driver 2", false);
+                    ConnectDriver("Driver 2", false);
                 }
 
-                if (set.SessionInfo.SessionTime.TotalSeconds > 70 && this._players.ContainsKey("Driver 2") && set.SessionInfo.SessionTime.TotalSeconds < 80 )
+                if (set.SessionInfo.SessionTime.TotalSeconds > 70 && _players.ContainsKey("Driver 2") && set.SessionInfo.SessionTime.TotalSeconds < 80 )
                 {
-                    this._players.Remove("Driver 2");
+                    _players.Remove("Driver 2");
                 }
 
-                if (set.SessionInfo.SessionTime.TotalSeconds > 120 && !this._players.ContainsKey("Driver 2"))
+                if (set.SessionInfo.SessionTime.TotalSeconds > 120 && !_players.ContainsKey("Driver 2"))
                 {
-                    this.ConnectDriver("Driver 2", false);
+                    ConnectDriver("Driver 2", false);
                 }
 
                 if (set.SessionInfo.SessionTime.TotalSeconds > 12)
                 {
-                    this.ConnectDriver("Driver 3", false);
+                    ConnectDriver("Driver 3", false);
                 }
 
                 if (set.SessionInfo.SessionTime.TotalSeconds > 15)
                 {
-                    this.ConnectDriver("Driver 4", false);
+                    ConnectDriver("Driver 4", false);
                 }
 
                 if (set.SessionInfo.SessionTime.TotalSeconds > 35)
                 {
-                    this.ConnectDriver("Driver 5", false);
+                    ConnectDriver("Driver 5", false);
                 }
                 Thread.Sleep(10);
                 set = PrepareDataSet();
@@ -158,9 +158,10 @@
             simulatorDataSet.SessionInfo.SessionPhase = SessionPhase.Green;
             simulatorDataSet.SessionInfo.TrackInfo.LayoutLength = (float)_layoutLength;
             simulatorDataSet.SessionInfo.IsActive = true;
+            simulatorDataSet.SimulatorSourceInfo.GlobalTyreCompounds = true;
             simulatorDataSet.SessionInfo.SessionType = SessionType.Qualification;
 
-            foreach (DriverInfo driver in this._players.Values)
+            foreach (DriverInfo driver in _players.Values)
             {
                 UpdateDriver(driver);
                 if (driver.IsPlayer)
@@ -168,7 +169,7 @@
                     simulatorDataSet.PlayerInfo = driver;
                 }
             }
-            simulatorDataSet.DriversInfo = this._players.Values.ToArray();
+            simulatorDataSet.DriversInfo = _players.Values.ToArray();
             simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft = new WheelInfo();
             simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight = new WheelInfo();
             simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearRight = new WheelInfo();
@@ -182,13 +183,13 @@
 
         private void ConnectDriver(string name, bool isPlayer)
         {
-            if (this._players.ContainsKey(name))
+            if (_players.ContainsKey(name))
             {
                 return;
             }
             DriverInfo driver = new DriverInfo();
-            this._players[name] = driver;
-            driver.CarName = "Foo car";
+            _players[name] = driver;
+            driver.CarName = "Mazda 626";
             driver.CompletedLaps = 0;
             driver.CurrentLapValid = true;
             driver.DistanceToPlayer = 0;
@@ -196,7 +197,7 @@
             driver.InPits = false;
             driver.IsPlayer = isPlayer;
             driver.LapDistance = 0;
-            driver.Position = this._players.Values.Count;
+            driver.Position = _players.Values.Count;
             if (!isPlayer)
             {
                 return;
@@ -211,10 +212,10 @@
 
         private void UpdateDriver(DriverInfo driverInfo)
         {
-            driverInfo.LapDistance += this._playerLocationStep;
+            driverInfo.LapDistance += _playerLocationStep;
             driverInfo.TotalDistance += _playerLocationStep;
 
-            if (driverInfo.LapDistance >= this._layoutLength)
+            if (driverInfo.LapDistance >= _layoutLength)
             {
                 driverInfo.LapDistance = 0;
                 driverInfo.CompletedLaps++;

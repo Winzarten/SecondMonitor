@@ -73,7 +73,7 @@
                         IsPlayer = i == pcarsData.MViewedParticipantIndex,
                         Position = (int)pcarsDriverData.MRacePosition,
                         LapDistance = pcarsDriverData.MCurrentLapDistance,
-                        FinishStatus = DriverInfo.DriverFinishStatus.None,
+                        FinishStatus = DriverFinishStatus.None,
                         CurrentLapValid = true,
                         WorldPosition = new Point3D(Distance.FromMeters(pcarsDriverData.MWorldPosition[0]), Distance.FromMeters(pcarsDriverData.MWorldPosition[1]), Distance.FromMeters(pcarsDriverData.MWorldPosition[2]))
                     };
@@ -85,7 +85,7 @@
 
                 if (pcarsData.MLapsInEvent > 0 && driverInfo.CompletedLaps >= pcarsData.MLapsInEvent)
                 {
-                    driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.Finished;
+                    driverInfo.FinishStatus = DriverFinishStatus.Finished;
                 }
 
                 driverInfo.TotalDistance = driverInfo.CompletedLaps * data.SessionInfo.TrackInfo.LayoutLength + driverInfo.LapDistance;

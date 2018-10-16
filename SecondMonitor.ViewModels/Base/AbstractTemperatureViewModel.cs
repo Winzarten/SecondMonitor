@@ -5,8 +5,8 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
 
     public abstract class AbstractTemperatureViewModel : DependencyObject, INotifyPropertyChanged, ISimulatorDataSetViewModel
     {

@@ -17,6 +17,9 @@
     </Window.DataContext>
     <Grid Background="Black">
         <TabControl>
+            <TabItem Header="Car Settings Control">
+                <controls:CarSettingsTestControl/>
+            </TabItem>
             <TabItem Header="Position Circle">
                 <controls:PositionCircleTestControl/>
             </TabItem>

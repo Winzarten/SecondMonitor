@@ -29,8 +29,8 @@
                 return;
             }
 
-            if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
-                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
+            if (driverInfo.FinishStatus == DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverFinishStatus.Dnf ||
+                driverInfo.FinishStatus == DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverFinishStatus.Dns)
             {
                 driverInfo.DistanceToPlayer = double.MaxValue;
                 return;
@@ -54,26 +54,26 @@
 
         }
 
-        internal static DriverInfo.DriverFinishStatus FromR3RStatus(int finishStatus)
+        internal static DriverFinishStatus FromR3RStatus(int finishStatus)
         {
             switch ((Constant.FinishStatus)finishStatus)
             {
                 case Constant.FinishStatus.Unavailable:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
                 case Constant.FinishStatus.Dnf:
-                    return DriverInfo.DriverFinishStatus.Dnf;
+                    return DriverFinishStatus.Dnf;
                 case Constant.FinishStatus.Dnq:
-                    return DriverInfo.DriverFinishStatus.Dnq;
+                    return DriverFinishStatus.Dnq;
                 case Constant.FinishStatus.Dns:
-                    return DriverInfo.DriverFinishStatus.Dns;
+                    return DriverFinishStatus.Dns;
                 case Constant.FinishStatus.Dq:
-                    return DriverInfo.DriverFinishStatus.Dq;
+                    return DriverFinishStatus.Dq;
                 case Constant.FinishStatus.Finished:
-                    return DriverInfo.DriverFinishStatus.Finished;
+                    return DriverFinishStatus.Finished;
                 case Constant.FinishStatus.None:
-                    return DriverInfo.DriverFinishStatus.None;
+                    return DriverFinishStatus.None;
                 default:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
             }
         }
 
@@ -204,10 +204,10 @@
                 AddLappingInformation(data, r3RData, driverInfo);
                 FillTimingInfo(driverInfo, r3RDriverData, r3RData);
 
-                if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer?.Position)
+                if (driverInfo.FinishStatus == DriverFinishStatus.Finished && !driverInfo.IsPlayer && driverInfo.Position > _lastPlayer?.Position)
                 {
                     driverInfo.CompletedLaps--;
-                    driverInfo.FinishStatus = DriverInfo.DriverFinishStatus.None;
+                    driverInfo.FinishStatus = DriverFinishStatus.None;
                 }
 
                 _connector.StoreLastTickInfo(driverInfo);
@@ -223,16 +223,11 @@
         {
             driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType =
                 ((Constant.TireSubtype)r3RDriverData.TireSubtypeFront).ToString();
-            driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreTypeFilled =
-                ((Constant.TireSubtype)r3RDriverData.TireSubtypeFront) != Constant.TireSubtype.Unavailable;
             driverInfo.CarInfo.WheelsInfo.FrontRight.TyreType = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType;
-            driverInfo.CarInfo.WheelsInfo.FrontRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreTypeFilled;
 
-            driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled =
-                ((Constant.TireSubtype)r3RDriverData.TireSubtypeRear) != Constant.TireSubtype.Unavailable;
             driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType = ((Constant.TireSubtype)r3RDriverData.TireSubtypeRear).ToString();
             driverInfo.CarInfo.WheelsInfo.RearRight.TyreType = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType;
-            driverInfo.CarInfo.WheelsInfo.RearRight.TyreTypeFilled = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreTypeFilled;
+
         }
 
         private void AddLappingInformation(SimulatorDataSet data, R3ESharedData r3RData, DriverInfo driverInfo)
@@ -303,7 +298,7 @@
         {
             SimulatorDataSet simData = new SimulatorDataSet("R3E");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
+            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
             simData.SimulatorSourceInfo.AIInstantFinish = true;
 
             // SimulatorDataSet simData = new SimulatorDataSet("R3R");

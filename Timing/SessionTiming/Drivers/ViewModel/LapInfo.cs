@@ -1,9 +1,11 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
+﻿using System.Linq;
+
+namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class LapInfo
@@ -148,7 +150,8 @@
             }
 
             LapTime = LapEnd.Subtract(LapStart);
-            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8)
+            SectorTiming[] sectors = {Sector1, Sector2, Sector3};
+            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8 || (sectors.Any(x => x?.Duration != TimeSpan.Zero) && sectors.Any(x=> x == null || x.Duration == TimeSpan.Zero)))
             {
                 Valid = false;
             }
@@ -170,7 +173,7 @@
                 LapNumber = driverInfo.CompletedLaps + 1;
             }
 
-            if (dataSet.SimulatorSourceInfo.SectorTimingSupport != DataInputSupport.NONE)
+            if (dataSet.SimulatorSourceInfo.SectorTimingSupport != DataInputSupport.None)
             {
                 TickSectors(dataSet, driverInfo);
             }
@@ -253,7 +256,7 @@
 
         private void TickSectors(SimulatorDataSet dataSet, DriverInfo driverInfo)
         {
-            if (dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.PLAYER_ONLY && !driverInfo.IsPlayer)
+            if (dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.PlayerOnly && !driverInfo.IsPlayer)
             {
                 return;
             }
@@ -357,7 +360,7 @@
                 _isPendingStart = dataSet.SessionInfo.SessionTime;
             }
 
-            return _isPending;
+            return IsPending;
         }
 
         public bool UpdatePendingState(SimulatorDataSet dataSet, DriverInfo driverInfo)

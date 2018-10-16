@@ -8,15 +8,15 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
-    using SecondMonitor.Timing.Properties;
-    using SecondMonitor.Timing.SessionTiming.Drivers;
+    using Properties;
+    using Drivers;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
-    using SecondMonitor.WindowsControls.WPF;
+    using WindowsControls.WPF;
 
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
@@ -59,9 +59,9 @@
             }
         }
 
-        public DriverTimingModelView Player { get; private set; }
+        public DriverTimingViewModel Player { get; private set; }
 
-        public DriverTimingModelView Leader { get; private set; }
+        public DriverTimingViewModel Leader { get; private set; }
 
         public TimeSpan SessionTime { get; private set; }
 
@@ -81,7 +81,7 @@
         public SimulatorDataSet LastSet { get; private set; } = new SimulatorDataSet("None");
 
 
-        public Dictionary<string, DriverTimingModelView> Drivers { get; private set; }
+        public Dictionary<string, DriverTimingViewModel> Drivers { get; private set; }
 
         public int PaceLaps
         {
@@ -153,7 +153,7 @@
 
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel)
         {
-            Dictionary<string, DriverTimingModelView> drivers = new Dictionary<string, DriverTimingModelView>();
+            Dictionary<string, DriverTimingViewModel> drivers = new Dictionary<string, DriverTimingViewModel>();
             SessionTiming timing = new SessionTiming(timingDataViewModel)
                                        {
                                            SessionStarTime = dataSet.SessionInfo.SessionTime,
@@ -175,11 +175,11 @@
                 newDriver.SectorCompletedEvent += timing.OnSectorCompletedEvent;
                 newDriver.LapInvalidated += timing.LapInvalidatedHandler;
                 newDriver.LapCompleted += timing.DriverOnLapCompleted;
-                DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
-                drivers.Add(name, newDriverTimingModelView);
+                DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver);
+                drivers.Add(name, newDriverTimingViewModel);
                 if (newDriver.DriverInfo.IsPlayer)
                 {
-                    timing.Player = newDriverTimingModelView;
+                    timing.Player = newDriverTimingViewModel;
                 }
             });
             timing.Drivers = drivers;
@@ -248,9 +248,9 @@
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
             newDriver.LapCompleted += DriverOnLapCompleted;
-            DriverTimingModelView newDriverTimingModelView = new DriverTimingModelView(newDriver);
-            Drivers.Add(newDriver.Name, newDriverTimingModelView);
-            RaiseDriverAddedEvent(newDriverTimingModelView);
+            DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver);
+            Drivers.Add(newDriver.Name, newDriverTimingViewModel);
+            RaiseDriverAddedEvent(newDriverTimingViewModel);
         }
 
         private void LapInvalidatedHandler(object sender, LapEventArgs e)
@@ -329,9 +329,9 @@
             }
         }
 
-        private void UpdateDriver(DriverInfo modelInfo, DriverTimingModelView driverTimingModelView, SimulatorDataSet set)
+        private void UpdateDriver(DriverInfo modelInfo, DriverTimingViewModel driverTimingViewModel, SimulatorDataSet set)
         {
-            DriverTiming timingInfo = driverTimingModelView.DriverTiming;
+            DriverTiming timingInfo = driverTimingViewModel.DriverTiming;
             timingInfo.DriverInfo = modelInfo;
             if (timingInfo.UpdateLaps(set) && timingInfo.LastCompletedLap != null && timingInfo.LastCompletedLap.LapTime != TimeSpan.Zero && (_bestSessionLap == null || timingInfo.LastCompletedLap.LapTime < _bestSessionLap.LapTime))
             {
@@ -340,16 +340,16 @@
 
             if (timingInfo.Position == 1)
             {
-                Leader = driverTimingModelView;
+                Leader = driverTimingViewModel;
             }
 
-            if (driverTimingModelView.DriverTiming.IsPlayer && driverTimingModelView.DriverTiming.CurrentLap
+            if (driverTimingViewModel.DriverTiming.IsPlayer && driverTimingViewModel.DriverTiming.CurrentLap
                 != CombinedLapPortionComparators.PlayerLap)
             {
-                CombinedLapPortionComparators.PlayerLap = driverTimingModelView.DriverTiming.CurrentLap;
+                CombinedLapPortionComparators.PlayerLap = driverTimingViewModel.DriverTiming.CurrentLap;
             }
 
-            driverTimingModelView.RefreshProperties();
+            driverTimingViewModel.RefreshProperties();
         }
 
         public IEnumerator GetEnumerator()
@@ -357,12 +357,12 @@
             return Drivers.Values.GetEnumerator();
         }
 
-        public void RaiseDriverAddedEvent(DriverTimingModelView driver)
+        public void RaiseDriverAddedEvent(DriverTimingViewModel driver)
         {
             DriverAdded?.Invoke(this, new DriverListModificationEventArgs(driver));
         }
 
-        public void RaiseDriverRemovedEvent(DriverTimingModelView driver)
+        public void RaiseDriverRemovedEvent(DriverTimingViewModel driver)
         {
             DriverRemoved?.Invoke(this, new DriverListModificationEventArgs(driver));
         }

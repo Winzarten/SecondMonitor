@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
 
@@ -32,7 +32,7 @@
         {
             LapInfo = lapInfo;
             RefreshInfo();
-            TimerMethod(RefreshInfo, () => LapInfo.Driver.Session.TimingDataViewModel.DisplaySettingsView.RefreshRate);
+            TimerMethod(RefreshInfo, () => LapInfo.Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.RefreshRate);
 
         }
 

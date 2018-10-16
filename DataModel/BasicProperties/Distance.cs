@@ -1,17 +1,27 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
+    using System;
+    using System.Xml.Serialization;
+
+    [Serializable]
     public class Distance
     {
-        public static Distance ZeroDistance { get; } = new Distance(0, true);
-
 
         private readonly bool _isZero;
+
+        public Distance()
+        {
+
+        }
 
         private Distance(double distanceInM, bool isZero = false)
         {
             DistanceInM = distanceInM;
             _isZero = isZero;
         }
+
+        [XmlIgnore]
+        public static Distance ZeroDistance { get; } = new Distance(0, true);
 
         public double DistanceInM { get; }
 
@@ -30,9 +40,9 @@
             return !(dist1 == dist2);
         }
 
-        protected bool Equals(Distance other)
+        public static Distance operator -(Distance d1, Distance d2)
         {
-            return _isZero == other._isZero && DistanceInM.Equals(other.DistanceInM);
+            return FromMeters(d1.DistanceInM - d2.DistanceInM);
         }
 
         public override bool Equals(object obj)
@@ -49,7 +59,7 @@
 
             }
 
-            return obj.GetType() == this.GetType() && Equals((Distance)obj);
+            return obj.GetType() == GetType() && Equals((Distance)obj);
         }
 
         public override int GetHashCode()
@@ -60,9 +70,9 @@
             }
         }
 
-        public static Distance operator -(Distance d1, Distance d2)
+        protected bool Equals(Distance other)
         {
-            return FromMeters(d1.DistanceInM - d2.DistanceInM);
+            return _isZero == other._isZero && DistanceInM.Equals(other.DistanceInM);
         }
     }
 }

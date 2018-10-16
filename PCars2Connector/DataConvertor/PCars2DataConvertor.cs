@@ -2,11 +2,11 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.PCars2Connector.SharedMemory;
-    using SecondMonitor.PluginManager.Extensions;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using SharedMemory;
+    using PluginManager.Extensions;
 
     public class PCars2DataConvertor
     {
@@ -17,7 +17,8 @@
             SimulatorDataSet simData = new SimulatorDataSet("PCars 2");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
+            simData.SimulatorSourceInfo.InvalidateLapBySector = true;
+            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
 
             FillSessionInfo(pcarsData, simData, sessionTime);
             AddDriversData(simData, pcarsData);
@@ -42,7 +43,7 @@
             // Acceleration
             AddAcceleration(pcarsData, simData);
 
-            if (simData.PlayerInfo?.FinishStatus == DriverInfo.DriverFinishStatus.Dns && simData.SessionInfo.SessionType == SessionType.Race)
+            if (simData.PlayerInfo?.FinishStatus == DriverFinishStatus.Dns && simData.SessionInfo.SessionType == SessionType.Race)
             {
                 simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
             }
@@ -238,34 +239,34 @@
             return seconds > 0 ? TimeSpan.FromSeconds(seconds) : TimeSpan.Zero;
         }
 
-        private static DriverInfo.DriverFinishStatus FromPCarStatus(RaceState finishStatus)
+        private static DriverFinishStatus FromPCarStatus(RaceState finishStatus)
         {
             switch (finishStatus)
             {
                 case RaceState.RaceStateInvalid:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
 
                 case RaceState.RaceStateNotStarted:
-                    return DriverInfo.DriverFinishStatus.Dns;
+                    return DriverFinishStatus.Dns;
 
                 case RaceState.RaceStateRacing:
-                    return DriverInfo.DriverFinishStatus.None;
+                    return DriverFinishStatus.None;
 
                 case RaceState.RaceStateFinished:
-                    return DriverInfo.DriverFinishStatus.Finished;
+                    return DriverFinishStatus.Finished;
 
                 case RaceState.RaceStateDisqualified:
-                    return DriverInfo.DriverFinishStatus.Dnq;
+                    return DriverFinishStatus.Dnq;
 
                 case RaceState.RaceStateRetired:
-                    return DriverInfo.DriverFinishStatus.Dnf;
+                    return DriverFinishStatus.Dnf;
 
                 case RaceState.RaceStateDnf:
-                    return DriverInfo.DriverFinishStatus.Dnf;
+                    return DriverFinishStatus.Dnf;
                 case RaceState.RaceStateMax:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
                 default:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
 
             }
         }
@@ -278,8 +279,8 @@
                 return;
             }
 
-            if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
-                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
+            if (driverInfo.FinishStatus == DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverFinishStatus.Dnf ||
+                driverInfo.FinishStatus == DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverFinishStatus.Dns)
             {
                 driverInfo.DistanceToPlayer = double.MaxValue;
                 return;

@@ -1,11 +1,18 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Drivers
 {
+    using System;
+
     using BasicProperties;
+
     using Systems;
 
+    [Serializable]
     public class DriverInfo
     {
-        public enum DriverFinishStatus { Na, None, Finished, Dnf, Dnq, Dns, Dq }
+        public DriverInfo()
+        {
+
+        }
 
         public string DriverName { get; set; }
 

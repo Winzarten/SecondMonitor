@@ -6,12 +6,12 @@
     using System.Windows;
     using System.Windows.Media;
 
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.ViewModels.Annotations;
-    using SecondMonitor.WindowsControls.WPF;
-    using SecondMonitor.WindowsControls.WPF.DriverPosition;
-    using SecondMonitor.WindowsControls.WPF.DriverPostion;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
+    using Annotations;
+    using WindowsControls.WPF;
+    using WindowsControls.WPF.DriverPosition;
+    using WindowsControls.WPF.DriverPostion;
 
     public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

@@ -2,7 +2,7 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
 
     public class SectorTiming : IComparable
@@ -31,7 +31,7 @@
         public void Finish(DriverInfo driverTiming, SimulatorDataSet dataSet)
         {
             Duration = PickTiming(driverTiming);
-            if (Duration == TimeSpan.Zero && dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.SP_ONLY)
+            if (Duration == TimeSpan.Zero && dataSet.SimulatorSourceInfo.SectorTimingSupport == DataInputSupport.SpOnly)
             {
                 Duration = _pendingStart != TimeSpan.Zero ? _pendingStart : Lap.CurrentlyValidProgressTime;
 

@@ -2,7 +2,7 @@
 {
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public class VolumeQuantityText : AbstractQuantityText<Volume>
     {
@@ -12,6 +12,16 @@
         {
             get => (VolumeUnits)GetValue(VolumeUnitsProperty);
             set => SetValue(VolumeUnitsProperty, value);
+        }
+
+        protected override void UpdateIQuantity(double valueInUnits)
+        {
+
+        }
+
+        protected override string GetUnitSymbol()
+        {
+            return Volume.GetUnitSymbol(VolumeUnits);
         }
 
         protected override double GetValueInUnits()

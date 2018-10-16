@@ -5,13 +5,13 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PluginManager.DependencyChecker;
-    using SecondMonitor.PluginManager.GameConnector;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using PluginManager.DependencyChecker;
+    using PluginManager.GameConnector;
     using SecondMonitor.PluginManager.GameConnector.SharedMemory;
-    using SecondMonitor.RF2Connector.SharedMemory;
-    using SecondMonitor.RF2Connector.SharedMemory.rFactor2Data;
+    using SharedMemory;
+    using SharedMemory.rFactor2Data;
 
     // Based on https://github.com/TheIronWolfModding/rF2SharedMemoryMapPlugin
     internal class Rf2Connector : AbstractGameConnector

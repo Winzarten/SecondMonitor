@@ -3,7 +3,7 @@
     using System.Windows.Controls;
     using System.Windows.Media;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public class BackgroundByOptimalVolumeBehavior<T> : OptimalVolumeToColorBehavior<T,Panel> where T : class, IQuantity, new()
     {

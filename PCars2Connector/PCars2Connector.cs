@@ -4,11 +4,11 @@
     using System.Diagnostics;
     using System.Threading;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.PCars2Connector.DataConvertor;
-    using SecondMonitor.PCars2Connector.SharedMemory;
-    using SecondMonitor.PluginManager.GameConnector;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataConvertor;
+    using SharedMemory;
+    using PluginManager.GameConnector;
     using SecondMonitor.PluginManager.GameConnector.SharedMemory;
 
     public class PCars2Connector : AbstractGameConnector

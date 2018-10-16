@@ -1,54 +1,80 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText"
-                    xmlns:basicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
-                    xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters"
-                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:basicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel" xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors"
+                    xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText">
 
- <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../CommonResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <converters:DoubleToStringNoDecimalConverter x:Key="DoubleToStringConverter"></converters:DoubleToStringNoDecimalConverter>
-    <converters:DoubleToScalableDecimalsConverter x:Key="DoubleToScalableDecimalsConverter"></converters:DoubleToScalableDecimalsConverter>
-    <ControlTemplate x:Key="QuantityText">
-        <TextBlock Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
-                       VerticalAlignment="Center" HorizontalAlignment="Center">
+    <converters:DoubleToStringNoDecimalConverter x:Key="DoubleToStringConverter" />
+    <converters:DoubleToScalableDecimalsConverter x:Key="DoubleToScalableDecimalsConverter" />
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter"/>
+    <ControlTemplate x:Key="QuantityText" x:Shared="False">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
+                       Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
+                                      Color="{StaticResource DarkGrey01Color}" />
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBox HorizontalAlignment="Center" VerticalAlignment="Center"  Background="{StaticResource Anthracite01Brush}" Foreground="{StaticResource LightGrey01Brush}"
+                       Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
+                       Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                <TextBox.Effect>
+                    <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
+                                      Color="{StaticResource DarkGrey01Color}" />
+                </TextBox.Effect>
+            </TextBox>
+            <TextBlock Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Binding UnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                       Visibility="{Binding ShowUnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
+                                      Color="{StaticResource DarkGrey01Color}" />
+                </TextBlock.Effect>
+            </TextBlock>
+        </StackPanel>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="QuantityScalableDecimalsText"  x:Shared="False">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToScalableDecimalsConverter}}">
             <TextBlock.Effect>
-                <DropShadowEffect
-                    ShadowDepth="4"
-                    Direction="330"
-                    Color="{StaticResource DarkGrey01Color}"
-                    Opacity="0.5"
-                    BlurRadius="4"/>
+                <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
+                                  Color="{StaticResource DarkGrey01Color}" />
             </TextBlock.Effect>
         </TextBlock>
+            <TextBox HorizontalAlignment="Center" VerticalAlignment="Center"  Background="{StaticResource Anthracite01Brush}" Foreground="{StaticResource LightGrey01Brush}"
+                     Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToScalableDecimalsConverter}}"
+                     Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                <TextBox.Effect>
+                    <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
+                                      Color="{StaticResource DarkGrey01Color}" />
+                </TextBox.Effect>
+            </TextBox>
+            <TextBlock Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Binding UnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                       Visibility="{Binding ShowUnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
+                                      Color="{StaticResource DarkGrey01Color}" />
+                </TextBlock.Effect>
+            </TextBlock>
+        </StackPanel>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="QuantityScalableDecimalsText">
-    <TextBlock Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToScalableDecimalsConverter}}"
-               VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock.Effect>
-            <DropShadowEffect
-                ShadowDepth="4"
-                Direction="330"
-                Color="{StaticResource DarkGrey01Color}"
-                Opacity="0.5"
-                BlurRadius="4"/>
-        </TextBlock.Effect>
-    </TextBlock>
-    </ControlTemplate>
-
-    <Style TargetType="local:TemperatureText" >
-        <Setter Property="Template" Value="{StaticResource QuantityText}"/>
+    <Style TargetType="local:TemperatureText">
+        <Setter Property="Template" Value="{StaticResource QuantityText}" />
     </Style>
 
-    <Style TargetType="local:VolumeQuantityText" >
-        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}"/>
+    <Style TargetType="local:VolumeQuantityText">
+        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
     </Style>
 
-    <Style TargetType="local:PressureText" >
-        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}"/>
+    <Style TargetType="local:PressureText">
+        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
     </Style>
 
 </ResourceDictionary>

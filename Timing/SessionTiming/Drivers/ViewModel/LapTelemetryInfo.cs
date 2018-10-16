@@ -2,9 +2,9 @@
 {
     using System;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
-    using SecondMonitor.DataModel.Telemetry;
+    using DataModel.Telemetry;
 
     public class LapTelemetryInfo
     {
@@ -43,8 +43,6 @@
                 return;
             }
 
-            LapEndSnapshot = null;
-            LapStarSnapshot = null;
             PortionTimes = null;
             IsPurged = true;
         }

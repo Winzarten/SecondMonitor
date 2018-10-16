@@ -39,7 +39,7 @@
         }
 
         private void OpenWindow(DriverTiming driverTiming, Window ownerWindow )
-        {            
+        {
             DriverLapsWindow lapsWindow = new DriverLapsWindow()
                                               {
                                                   Owner = ownerWindow,

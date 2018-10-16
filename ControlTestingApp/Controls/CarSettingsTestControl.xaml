@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ControlTestingApp.Controls.CarSettingsTestControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ControlTestingApp.Controls"
+             xmlns:carSettingsControl="clr-namespace:SecondMonitor.WindowsControls.WPF.CarSettingsControl;assembly=WindowsControls"
+             xmlns:viewModels="clr-namespace:ControlTestingApp.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModels:CarStatusTestVM/>
+    </UserControl.DataContext>
+    <Grid Background="{StaticResource Anthracite01Brush}">
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <carSettingsControl:CarSettingsControl CarName="Ford Mustang '96" TemperatureUnit="{Binding TemperatureUnits}"
+                                                   TyreCompounds="{Binding Tyres}"
+                                                   MinimalIdealBrakeTemperature="{Binding IdealBrakeTemperature}" MaximumIdealBrakeTemperature="{Binding BrakeTemperatureWindow}"
+                                                   PressureUnits="{Binding PressureUnits}" SelectedTyreCompound="{Binding SelectedTyreSettingsViewModel, Mode=TwoWay}"
+                                                   CopyCompoundCommand="{Binding CopyCompoundCommand}"/>
+        </Grid>
+        <Grid Grid.Column="2">
+            <StackPanel>
+                <Button Content="Change Temp Units" Height="50" Command="{Binding ChangeTemperatureUnitsCommand}"></Button>
+                <Button Content="Change Pressure Units" Height="50" Command="{Binding ChangePressureUnitsCommand}"></Button>
+                <ComboBox Style="{DynamicResource StandardComboBoxStyle}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3">
+            <StackPanel>
+                <Label Content="Ideal Brake Temperature" Foreground="White"></Label>
+                <Slider Value="{Binding TyreCoreRawTemperature, Mode=OneWayToSource}" Minimum="30" Maximum="140"></Slider>
+                <Label Content="Brake Temperature Window" Foreground="White"></Label>
+                <Slider  Value="{Binding BrakeRawTemperature}" Minimum="0" Maximum="600"></Slider>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

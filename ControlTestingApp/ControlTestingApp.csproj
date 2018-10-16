@@ -42,6 +42,7 @@
     <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -63,6 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\CarSettingsTestControl.xaml.cs">
+      <DependentUpon>CarSettingsTestControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PedalGearTestControl.xaml.cs">
       <DependentUpon>PedalGearTestControl.xaml</DependentUpon>
     </Compile>
@@ -82,9 +86,14 @@
       <DependentUpon>WheelStatusTestControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\CarStatusTestVM.cs" />
     <Compile Include="ViewModels\FuelOverviewTestViewModel.cs" />
     <Compile Include="ViewModels\TemperatureTestViewModel.cs" />
     <Compile Include="ViewModels\WheelStatusTestVM.cs" />
+    <Page Include="Controls\CarSettingsTestControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\PedalGearTestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

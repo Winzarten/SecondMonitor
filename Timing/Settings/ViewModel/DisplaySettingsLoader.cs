@@ -7,7 +7,7 @@
 
     using NLog;
 
-    using SecondMonitor.Timing.Settings.Model;
+    using Model;
 
     public class DisplaySettingsLoader
     {
@@ -28,7 +28,6 @@
                 LogManager.GetCurrentClassLogger().Error(ex, "Error while loading display settingsView - default settingsView created");
                 return new DisplaySettings();
             }
-            
         }
     }
 }

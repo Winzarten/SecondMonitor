@@ -1,7 +1,10 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
+    using System;
+
     using BasicProperties;
 
+    [Serializable]
     public class WheelInfo
     {
         private static readonly Temperature OptimalTemperature = Temperature.FromCelsius(85);
@@ -44,7 +47,7 @@
                                  };
 
             TyreWear = 0;
-            TyreTypeFilled = false;
+            TyreType = "Base";
         }
 
         public OptimalQuantity<Temperature> BrakeTemperature { get; set; }
@@ -53,8 +56,6 @@
 
 
         public string TyreType { get; set; }
-
-        public bool TyreTypeFilled { get; set; }
 
         public double TyreWear { get; set; }
 

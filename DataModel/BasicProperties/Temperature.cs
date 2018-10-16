@@ -1,14 +1,15 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
+    using System.Xml.Serialization;
 
     using Newtonsoft.Json;
 
+    [Serializable]
     public class Temperature : IQuantity
     {
-        private readonly bool _isZero;
-
         public static Temperature Zero = new Temperature();
+        private readonly bool _isZero;
 
         public Temperature()
         {
@@ -21,18 +22,35 @@
             InCelsius = valueInCelsius;
         }
 
-        public double InCelsius { get; }
+        [XmlAttribute]
+        public double InCelsius { get; set; }
 
         [JsonIgnore]
-        public double InFahrenheit => (InCelsius * 9) / 5 + 32;
+        [XmlIgnore]
+        public double InFahrenheit
+        {
+            get => ((InCelsius * 9) / 5) + 32;
+            set => InCelsius = (value - 32) * 0.5556;
+        }
 
         [JsonIgnore]
-        public double InKelvin => InCelsius + 273.15;
+        [XmlIgnore]
+        public double InKelvin
+        {
+            get => InCelsius + 273.15;
+            set => InCelsius = value - 273.15;
+        }
 
+        [JsonIgnore]
+        [XmlIgnore]
         public IQuantity ZeroQuantity => Zero;
 
+        [JsonIgnore]
+        [XmlIgnore]
         public bool IsZero => _isZero;
 
+        [JsonIgnore]
+        [XmlIgnore]
         public double RawValue => InCelsius;
 
         public static Temperature FromCelsius(double temperatureInCelsius)
@@ -43,6 +61,28 @@
         public static Temperature FromKelvin(double temperetureInKelvin)
         {
             return new Temperature( temperetureInKelvin - 273.15);
+        }
+
+        public static Temperature FromFahrenheit(double temperature)
+        {
+            return new Temperature((temperature - 32) * 0.5556 );
+        }
+
+        public void UpdateValue(double value, TemperatureUnits temperatureUnits)
+        {
+            switch (temperatureUnits)
+            {
+                case TemperatureUnits.Celsius:
+                    InCelsius = value;
+                    return;
+                case TemperatureUnits.Fahrenheit:
+                    InFahrenheit = value;
+                    return;
+                case TemperatureUnits.Kelvin:
+                    InKelvin = value;
+                    return;
+            }
+            throw new ArgumentException("Unable to return value in" + temperatureUnits.ToString());
         }
 
         public double GetValueInUnits(TemperatureUnits units)
@@ -73,12 +113,6 @@
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
 
-        public string GetFormattedWithUnits(int decimalPlaces, TemperatureUnits temperatureUnits)
-        {
-            return GetValueInUnits(temperatureUnits).ToString($"F{decimalPlaces}") + " "
-                                                                                   + GetUnitSymbol(temperatureUnits);
-        }
-
         public static string GetUnitSymbol(TemperatureUnits units)
         {
             switch (units)
@@ -91,6 +125,12 @@
                     return "K";
             }
             throw new ArgumentException("Unable to return symbol fir" + units.ToString());
+        }
+
+        public string GetFormattedWithUnits(int decimalPlaces, TemperatureUnits temperatureUnits)
+        {
+            return GetValueInUnits(temperatureUnits).ToString($"F{decimalPlaces}") + " "
+                                                                                   + GetUnitSymbol(temperatureUnits);
         }
 
         public static bool operator <(Temperature temp1, Temperature temp2)

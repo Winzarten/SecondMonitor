@@ -6,7 +6,7 @@
     using System.Windows;
     using System.Windows.Input;
 
-    using ControlTestingApp.Annotations;
+    using Annotations;
 
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.ViewModels.CarStatus;

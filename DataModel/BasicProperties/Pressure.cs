@@ -1,11 +1,15 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
+    using System.Xml.Serialization;
 
     using Newtonsoft.Json;
 
+    [Serializable]
     public class Pressure : IQuantity
     {
+        private static readonly Pressure _zero = new Pressure();
+
         public Pressure()
         {
             InKpa = -1;
@@ -16,9 +20,68 @@
             InKpa = valueInKpa;
         }
 
-        public double InKpa { get; }
+        [JsonIgnore]
+        [XmlIgnore]
+        public static Pressure Zero => new Pressure();
 
-        private static Pressure zero = new Pressure();
+        [XmlAttribute]
+        public double InKpa { get; set; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InAtmospheres
+        {
+            get => InKpa / 101.3;
+            set => InKpa = value * 101.3;
+        }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InBars
+        {
+            get => InKpa * 0.01;
+            set => InKpa = value / 0.01;
+        }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InPsi
+        {
+            get => InKpa * 0.145038;
+            set => InKpa = value / 0.145038;
+        }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public IQuantity ZeroQuantity => _zero;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool IsZero => InKpa == -1;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double RawValue => InKpa;
+
+        public void UpdateValue(double value, PressureUnits units)
+        {
+            switch (units)
+            {
+                case PressureUnits.Kpa:
+                    InKpa = value;
+                    return;
+                case PressureUnits.Atmosphere:
+                    InAtmospheres = value;
+                    return;
+                case PressureUnits.Bar:
+                    InBars = value;
+                    return;
+                case PressureUnits.Psi:
+                    InPsi = value;
+                    return;
+            }
+            throw new ArgumentException("Unable to return symbol fir" + units.ToString());
+        }
 
         public static string GetUnitSymbol(PressureUnits units)
         {
@@ -40,14 +103,6 @@
         {
             return new Pressure(pressureInKpa);
         }
-
-        public IQuantity ZeroQuantity => zero;
-
-        public static Pressure Zero => zero;
-
-        public bool IsZero => InKpa == -1;
-
-        public double RawValue => InKpa;
 
         public static Pressure FromPsi(double pressureInPsi)
         {
@@ -85,14 +140,5 @@
             }
             throw new ArgumentException("Unable to return value in" + units.ToString());
         }
-
-        [JsonIgnore]
-        public double InAtmospheres => InKpa / 101.3;
-
-        [JsonIgnore]
-        public double InBars => InKpa * 0.01;
-
-        [JsonIgnore]
-        public double InPsi => InKpa * 0.145038;
     }
 }

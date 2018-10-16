@@ -2,9 +2,9 @@
 {
     public enum DataInputSupport
     {
-        NONE,
-        PLAYER_ONLY,
-        SP_ONLY,
-        FULL
+        None,
+        PlayerOnly,
+        SpOnly,
+        Full
     }
 }

@@ -18,9 +18,9 @@
     using OfficeOpenXml.Style;
     using OfficeOpenXml.Table;
 
-    using SecondMonitor.DataModel.Extensions;
-    using SecondMonitor.DataModel.Snapshot.Systems;
-    using SecondMonitor.WindowsControls.Colors;
+    using DataModel.Extensions;
+    using DataModel.Snapshot.Systems;
+    using WindowsControls.Colors;
 
     public class SessionSummaryExporter
     {
@@ -90,7 +90,7 @@
             orderedDrivers.ForEach(
                 x =>
                     {
-                        GenerateLapsPositionColumn(sheet, startAddress, x.Laps);
+                        GenerateLapsPositionColumn(sheet, startAddress, x.Laps, maxLaps);
                         startAddress = new ExcelCellAddress(startAddress.Row, startAddress.Column + 1);
                     });
             ExcelLineChart chart = (ExcelLineChart)sheet.Drawings.AddChart("Race Progress", eChartType.LineMarkers);
@@ -113,23 +113,29 @@
             chart.Axis[1].MinorUnit = 1;
             chart.Axis[1].Orientation = eAxisOrientation.MaxMin;
             chart.Axis[1].MaxValue = orderedDrivers.Count;
-            chart.SetSize(200 * orderedDrivers.Count, 30 * maxLaps);
+            chart.SetSize(70 * maxLaps, 30 * orderedDrivers.Count);
             chart.Axis[0].MajorUnit = 1;
             chart.Axis[0].MinorUnit = 1;
             chart.Title.Text = "Race Progress";
         }
 
-        private void GenerateLapsPositionColumn(ExcelWorksheet sheet, ExcelCellAddress startAddress, IEnumerable<Lap> laps)
+        private void GenerateLapsPositionColumn(ExcelWorksheet sheet, ExcelCellAddress startAddress, IEnumerable<Lap> laps, int maxLaps)
         {
             List<Lap> lapsList = laps.ToList();
             sheet.Cells[startAddress.Address].Value = lapsList.First().LapStartSnapshot.PlayerData.Position;
             startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
 
             lapsList.ForEach(x =>
-                {
-                    sheet.Cells[startAddress.Address].Value = x.LapEndSnapshot.PlayerData.Position;
+            {
+                    sheet.Cells[startAddress.Address].Value = x.LapEndSnapshot?.PlayerData?.Position > 0 ? x.LapEndSnapshot.PlayerData.Position : x.Driver.FinishingPosition;
                     startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
-                });
+            });
+
+            for (int i = laps.Count(); i < maxLaps; i++)
+            {
+                sheet.Cells[startAddress.Address].Value = laps.Last().Driver.FinishingPosition;
+                startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
+            }
         }
 
         private void GenerateNumberColumn(ExcelWorksheet sheet, ExcelCellAddress cellAddress, int count)
@@ -317,13 +323,11 @@
 
         private void AddSessionBasicInformation(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
-
             sheet.Cells["A2"].Value = "Date: " + sessionSummary.SessionRunTime.Date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern);
             sheet.Cells["A3"].Value = "Time: " + sessionSummary.SessionRunTime.TimeOfDay.ToString(@"hh\:mm");
             sheet.Cells["A4"].Value = "Simulator: " + sessionSummary.Simulator;
 
             sheet.Cells[2,1,4,1].AutoFitColumns();
-
         }
 
         private void AddDriversInfo(ExcelWorksheet sheet, SessionSummary sessionSummary)
@@ -728,7 +732,11 @@
             package.Workbook.Worksheets.Add(SummarySheet);
             package.Workbook.Worksheets.Add(LapsAndSectorsSheet);
             package.Workbook.Worksheets.Add(PlayerLapsSheet);
-            package.Workbook.Worksheets.Add(RaceProgressSheet);
+
+            if (includeRaceProgress)
+            {
+                package.Workbook.Worksheets.Add(RaceProgressSheet);
+            }
         }
 
         public static string FormatTimeSpan(TimeSpan timeSpan)

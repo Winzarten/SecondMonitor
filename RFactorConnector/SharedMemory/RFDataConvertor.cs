@@ -22,7 +22,7 @@
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.InvalidateLapBySector = true;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.FULL;
+            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
 
             FillSessionInfo(rfData, simData);
             AddDriversData(simData, rfData);
@@ -281,8 +281,8 @@
                 return;
             }
 
-            if (driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf ||
-                driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dns)
+            if (driverInfo.FinishStatus == DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverFinishStatus.Dnf ||
+                driverInfo.FinishStatus == DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverFinishStatus.Dns)
             {
                 driverInfo.DistanceToPlayer = double.MaxValue;
                 return;
@@ -391,20 +391,20 @@
             }
         }
 
-        internal static DriverInfo.DriverFinishStatus FromRFStatus(int finishStatus)
+        internal static DriverFinishStatus FromRFStatus(int finishStatus)
         {
             switch ((RfFinishStatus)finishStatus)
             {
                 case RfFinishStatus.None:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
                 case RfFinishStatus.Dnf:
-                    return DriverInfo.DriverFinishStatus.Dnf;
+                    return DriverFinishStatus.Dnf;
                 case RfFinishStatus.Dq:
-                    return DriverInfo.DriverFinishStatus.Dq;
+                    return DriverFinishStatus.Dq;
                 case RfFinishStatus.Finished:
-                    return DriverInfo.DriverFinishStatus.Finished;
+                    return DriverFinishStatus.Finished;
                 default:
-                    return DriverInfo.DriverFinishStatus.Na;
+                    return DriverFinishStatus.Na;
             }
         }
     }

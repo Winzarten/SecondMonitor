@@ -1,11 +1,12 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.ViewModels.Annotations;
-    using SecondMonitor.ViewModels.CarStatus.FuelStatus;
+    using DataModel.Snapshot;
+    using Annotations;
+    using FuelStatus;
 
     public class CarStatusViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {
@@ -77,7 +78,7 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            _viewModels.ApplyDateSet(dataSet);
+           _viewModels.ApplyDateSet(dataSet);
 
         }
 

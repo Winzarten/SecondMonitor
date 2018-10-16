@@ -2,7 +2,7 @@
 {
     using System.Windows;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public class TemperatureText : AbstractQuantityText<Temperature>
     {
@@ -12,6 +12,16 @@
         {
             get => (TemperatureUnits)GetValue(TemperatureUnitsProperty);
             set => SetValue(TemperatureUnitsProperty, value);
+        }
+
+        protected override void UpdateIQuantity(double valueInUnits)
+        {
+            Quantity.UpdateValue(valueInUnits, TemperatureUnits);
+        }
+
+        protected override string GetUnitSymbol()
+        {
+            return Temperature.GetUnitSymbol(TemperatureUnits);
         }
 
         protected override double GetValueInUnits()

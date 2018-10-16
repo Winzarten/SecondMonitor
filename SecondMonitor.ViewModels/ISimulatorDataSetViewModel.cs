@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.ViewModels
 {
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
 
     public interface ISimulatorDataSetViewModel
     {

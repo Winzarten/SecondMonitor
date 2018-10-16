@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.Snapshot;
 
     public class SimulatorDSViewModels : IList<ISimulatorDataSetViewModel>, ISimulatorDataSetViewModel
     {

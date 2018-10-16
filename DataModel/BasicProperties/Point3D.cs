@@ -2,8 +2,14 @@
 {
     using System;
 
+    [Serializable]
     public class Point3D
     {
+        public Point3D()
+        {
+
+        }
+
         public Point3D(Distance x, Distance y, Distance z)
         {
             X = x;

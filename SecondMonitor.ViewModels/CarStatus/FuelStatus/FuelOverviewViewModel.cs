@@ -5,11 +5,11 @@
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.DataModel.Snapshot.Systems;
-    using SecondMonitor.ViewModels.Annotations;
-    using SecondMonitor.WindowsControls.WPF.Commands;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
+    using DataModel.Snapshot.Systems;
+    using Annotations;
+    using WindowsControls.WPF.Commands;
 
     public class FuelOverviewViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

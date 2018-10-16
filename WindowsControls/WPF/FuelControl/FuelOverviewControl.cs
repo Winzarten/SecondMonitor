@@ -9,7 +9,7 @@
     using System.Windows.Media;
     using System.Windows.Media.Animation;
 
-    using SecondMonitor.DataModel.BasicProperties;
+    using DataModel.BasicProperties;
 
     public class FuelOverviewControl : Control, INotifyPropertyChanged
     {

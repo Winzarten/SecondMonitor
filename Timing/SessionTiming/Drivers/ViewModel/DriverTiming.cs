@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.DataModel.Extensions;
-    using SecondMonitor.DataModel.Snapshot;
+    using DataModel.BasicProperties;
+    using DataModel.Extensions;
+    using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
 
@@ -104,7 +104,7 @@
         {
             get
             {
-                if (DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Dnf)
+                if (DriverInfo.FinishStatus == DriverFinishStatus.Dnf)
                 {
                     return string.Empty;
                 }
@@ -194,7 +194,7 @@
                 return false;
             }
 
-            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None && CurrentLap != null && CurrentLap.Completed)
+            if (DriverInfo.FinishStatus != DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverFinishStatus.None && CurrentLap != null && CurrentLap.Completed)
             {
                 return false;
             }
@@ -300,7 +300,7 @@
             }
 
             // Driver is DNF/DQ -> finish timed lap, and set it to invalid
-            if (DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverInfo.DriverFinishStatus.None)
+            if (DriverInfo.FinishStatus != DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverFinishStatus.None)
             {
                 CurrentLap.Valid = false;
                 return true;
@@ -370,8 +370,8 @@
 
         private void CreateNewLap(SimulatorDataSet dataSet, LapInfo lapToCreateFrom)
         {
-            if ((DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.Na
-                || DriverInfo.FinishStatus == DriverInfo.DriverFinishStatus.None) && dataSet.SessionInfo.SessionPhase != SessionPhase.Checkered  )
+            if ((DriverInfo.FinishStatus == DriverFinishStatus.Na
+                || DriverInfo.FinishStatus == DriverFinishStatus.None) && dataSet.SessionInfo.SessionPhase != SessionPhase.Checkered  )
             {
                 var newLap = new LapInfo(
                     dataSet,

@@ -7,12 +7,12 @@
     public class DriverListModificationEventArgs : EventArgs
     {
 
-        public DriverListModificationEventArgs(DriverTimingModelView data)
+        public DriverListModificationEventArgs(DriverTimingViewModel data)
         {
             Data = data;
         }
 
-        public DriverTimingModelView Data
+        public DriverTimingViewModel Data
         {
             get;
             set;

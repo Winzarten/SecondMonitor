@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
 
     using NLog;
@@ -223,6 +224,10 @@
                 DataEventArgs args = new DataEventArgs(data);
                 _oldDataSet = data;
                 DataLoaded?.Invoke(this, args);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Logger.Error(ex);
             }
             catch (Exception)
             {

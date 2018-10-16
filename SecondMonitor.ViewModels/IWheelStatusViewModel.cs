@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.ViewModels
 {
-    using SecondMonitor.DataModel.Snapshot.Systems;
+    using DataModel.Snapshot.Systems;
 
     public interface IWheelStatusViewModel
     {

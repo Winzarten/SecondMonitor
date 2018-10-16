@@ -70,12 +70,12 @@
             {
                 _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(0, AnimateBar ? _animationSpeed : TimeSpan.Zero));
                 DeltaRectangle.Width = (ActualWidth / 2) * maxvaluePortion;
-                DeltaRectangle.BeginAnimation(Rectangle.WidthProperty, new DoubleAnimation((ActualWidth / 2) * maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero), HandoffBehavior.SnapshotAndReplace);
+                DeltaRectangle.BeginAnimation(WidthProperty, new DoubleAnimation((ActualWidth / 2) * maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero), HandoffBehavior.SnapshotAndReplace);
             }
             else
             {
                 _translateTransform.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation((ActualWidth / 2) * maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero));
-                DeltaRectangle.BeginAnimation(Rectangle.WidthProperty,new DoubleAnimation((ActualWidth / 2) * -maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero),HandoffBehavior.SnapshotAndReplace);
+                DeltaRectangle.BeginAnimation(WidthProperty,new DoubleAnimation((ActualWidth / 2) * -maxvaluePortion, AnimateBar ? _animationSpeed : TimeSpan.Zero),HandoffBehavior.SnapshotAndReplace);
             }
         }
 

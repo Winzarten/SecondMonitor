@@ -11,7 +11,7 @@
 
     using PluginManager.GameConnector;
 
-    using SecondMonitor.PluginManager.DependencyChecker;
+    using PluginManager.DependencyChecker;
 
     using SharedMemory;
 

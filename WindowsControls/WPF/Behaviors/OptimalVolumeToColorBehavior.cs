@@ -6,8 +6,8 @@
     using System.Windows.Interactivity;
     using System.Windows.Media;
 
-    using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.WindowsControls.Colors;
+    using DataModel.BasicProperties;
+    using Colors;
 
     public abstract class OptimalVolumeToColorBehavior<T,V> : Behavior<V> where T : class, IQuantity, new() where V : UIElement
     {
@@ -82,8 +82,8 @@
                 return _oldComputedColor;
             }
 
-            double threshold = window;
-            double downThreshold = window * 1.5;
+            double threshold = window * 2;
+            double downThreshold = window * 2;
 
             if (value < optimalValue - window - downThreshold)
             {

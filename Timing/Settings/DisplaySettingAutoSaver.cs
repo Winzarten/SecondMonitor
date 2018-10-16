@@ -6,7 +6,7 @@
 
     using Newtonsoft.Json;
 
-    using SecondMonitor.Timing.Settings.ViewModel;
+    using ViewModel;
 
     public class DisplaySettingAutoSaver
     {

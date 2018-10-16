@@ -3,8 +3,8 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using SecondMonitor.DataModel.Snapshot;
-    using SecondMonitor.ViewModels.Annotations;
+    using DataModel.Snapshot;
+    using Annotations;
 
     public class PedalsAndGearViewModel : INotifyPropertyChanged, ISimulatorDataSetViewModel
     {
