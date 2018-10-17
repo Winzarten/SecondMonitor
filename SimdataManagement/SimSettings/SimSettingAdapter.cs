@@ -86,7 +86,7 @@
             wheelInfo.BrakeTemperature.IdealQuantity.InCelsius = carModel.OptimalBrakeTemperature.InCelsius;
             wheelInfo.BrakeTemperature.IdealQuantityWindow.InCelsius = carModel.OptimalBrakeTemperatureWindow.InCelsius;
 
-            if (string.IsNullOrWhiteSpace(wheelInfo.TyreType))
+            if (string.IsNullOrWhiteSpace(wheelInfo.TyreType) || wheelInfo.TyreType == "\u0001")
             {
                 return;
             }

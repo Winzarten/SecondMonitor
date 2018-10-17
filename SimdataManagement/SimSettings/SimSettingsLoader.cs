@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Xml;
 
 namespace SecondMonitor.SimdataManagement.SimSettings
 {
+    using DataModel.OperationalRange;
     using System.IO;
     using System.Xml.Serialization;
-
-    using DataModel.OperationalRange;
 
     public class SimSettingsLoader
     {
@@ -26,6 +26,7 @@ namespace SecondMonitor.SimdataManagement.SimSettings
         public DataSourceProperties GetDataSourcePropertiesAsync(string sourceName)
         {
             string primaryFilePath = Path.Combine(PrimaryPath, sourceName + FileSuffix);
+
             DataSourceProperties baseProperties = File.Exists(primaryFilePath) ? LoadDataSourceProperties(primaryFilePath) : new DataSourceProperties() { SourceName = sourceName };
 
             string secondaryPath = Path.Combine(OverridingPath, sourceName + FileSuffix);
@@ -50,12 +51,34 @@ namespace SecondMonitor.SimdataManagement.SimSettings
 
         private DataSourceProperties LoadDataSourceProperties(string filePath)
         {
-            using (StreamReader file = File.OpenText(filePath))
+            try
+            {
+                using (TextReader file = File.OpenText(filePath))
                 {
-                    return (DataSourceProperties) _xmlSerializer.Deserialize(file);
+
+                    XmlReader reader = XmlReader.Create(file, new XmlReaderSettings() { CheckCharacters = false });
+                    var foo = (DataSourceProperties)_xmlSerializer.Deserialize(reader);
+                    return foo;
                 }
 
+            }
+            catch (Exception ex)
+            {
+                string copiedFilePath = ResetInvalidFile(filePath);
+                throw new SimSettingsException($"Error in configuration file : {filePath}. File was recreated, but all car settings for sim were lost. Corrupted file was copied to {copiedFilePath}. ", ex);
+            }
+        }
 
+        private static string ResetInvalidFile(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                return string.Empty;
+            }
+
+            string newFileName = filePath + ".error";
+            File.Move(filePath, newFileName);
+            return newFileName;
         }
     }
 }

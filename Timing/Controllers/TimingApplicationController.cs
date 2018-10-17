@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.Controllers
+﻿using SecondMonitor.SimdataManagement.SimSettings;
+
+namespace SecondMonitor.Timing.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -77,7 +79,17 @@
         private void OnDataLoaded(object sender, DataEventArgs e)
         {
             SimulatorDataSet dataSet = e.Data;
-            _simSettingController?.ApplySimSettings(dataSet);
+            try
+            {
+                _simSettingController?.ApplySimSettings(dataSet);
+
+            }
+            catch (SimSettingsException ex)
+            {
+                _timingDataViewModel.DisplayMessage(new MessageArgs(ex.Message));
+                _simSettingController?.ApplySimSettings(dataSet);
+            }
+
             _timingDataViewModel.ApplyDateSet(dataSet);
         }
 

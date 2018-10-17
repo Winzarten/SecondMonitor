@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimSettings\SimSettingAdapter.cs" />
+    <Compile Include="SimSettings\SimSettingsException.cs" />
     <Compile Include="SimSettings\SimSettingsLoader.cs" />
     <Compile Include="ViewModel\CarModelPropertiesViewModel.cs" />
     <Compile Include="ViewModel\TyreCompoundPropertiesViewModel.cs" />

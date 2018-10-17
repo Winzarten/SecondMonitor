@@ -21,6 +21,11 @@
 
         public void OverrideWith(DataSourceProperties overridingProperties)
         {
+            if (overridingProperties == null)
+            {
+                return;
+            }
+
             SourceName = overridingProperties.SourceName;
 
             TyreCompoundsProperties.RemoveAll(x => overridingProperties.TyreCompoundsProperties.Any(f => f.CompoundName == x.CompoundName));

@@ -35,6 +35,7 @@
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = false;
             simData.SimulatorSourceInfo.ForceLapOverTime = true;
+            simData.SimulatorSourceInfo.GlobalTyreCompounds = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.SpOnly;
 
             FillSessionInfo(acData, simData);
