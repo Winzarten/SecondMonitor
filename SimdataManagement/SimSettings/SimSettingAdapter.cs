@@ -107,6 +107,10 @@
 
             wheelInfo.TyreCoreTemperature.IdealQuantity.InCelsius = tyreCompound.IdealTemperature.InCelsius;
             wheelInfo.TyreCoreTemperature.IdealQuantityWindow.InCelsius = tyreCompound.IdealTemperatureWindow.InCelsius;
+
+            wheelInfo.TyreWear.NoWearWearLimit = tyreCompound.NoWearLimit;
+            wheelInfo.TyreWear.LightWearLimit = tyreCompound.LowWearLimit;
+            wheelInfo.TyreWear.HeavyWearLimit = tyreCompound.HeavyWearLimit;
         }
 
         private TyreCompoundProperties GetTyreCompound(SimulatorDataSet simulatorDataSet, WheelInfo wheelInfo, CarModelProperties carModel)
@@ -185,6 +189,10 @@
 
             tyreCompound.IdealTemperature = wheel.CenterTyreTemp.IdealQuantity;
             tyreCompound.IdealTemperatureWindow = wheel.CenterTyreTemp.IdealQuantityWindow;
+
+            tyreCompound.NoWearLimit = wheel.TyreWear.NoWearWearLimit;
+            tyreCompound.LowWearLimit = wheel.TyreWear.LightWearLimit;
+            tyreCompound.HeavyWearLimit = wheel.TyreWear.HeavyWearLimit;
 
             return tyreCompound;
         }

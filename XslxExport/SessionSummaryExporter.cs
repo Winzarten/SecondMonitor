@@ -418,10 +418,10 @@
 
             sheet.Cells[2 + startRow, 7].Value =
                 playerCarInfo.WheelsInfo.FrontLeft.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
-            sheet.Cells[2 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.FrontLeft.TyreWear) * 100).ToString("F0");
+            sheet.Cells[2 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear) * 100).ToString("F0");
             sheet.Cells[2 + startRow, 10].Value =
                 playerCarInfo.WheelsInfo.FrontRight.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
-            sheet.Cells[2 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.FrontRight.TyreWear) * 100).ToString("F0");
+            sheet.Cells[2 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear) * 100).ToString("F0");
 
             sheet.Cells[4 + startRow, 2].Value =
                 lapInfo.LapEndSnapshot.WeatherInfo.AirTemperature.GetValueInUnits(TemperatureUnits, 1);
@@ -438,10 +438,10 @@
                 playerCarInfo.OilSystemInfo.OilTemperature.GetValueInUnits(TemperatureUnits, 1);
             sheet.Cells[5 + startRow, 7].Value =
                 playerCarInfo.WheelsInfo.RearLeft.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
-            sheet.Cells[5 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.RearLeft.TyreWear) * 100).ToString("F0");
+            sheet.Cells[5 + startRow, 8].Value = ((1 - playerCarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear) * 100).ToString("F0");
             sheet.Cells[5 + startRow, 10].Value =
                 playerCarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity.GetValueInUnits(PressureUnits, 2);
-            sheet.Cells[5 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.RearRight.TyreWear) * 100).ToString("F0");
+            sheet.Cells[5 + startRow, 11].Value = ((1 - playerCarInfo.WheelsInfo.RearRight.TyreWear.ActualWear) * 100).ToString("F0");
 
             ExcelRange range = sheet.Cells[startRow + 1,1, startRow + 5,1];
             range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;

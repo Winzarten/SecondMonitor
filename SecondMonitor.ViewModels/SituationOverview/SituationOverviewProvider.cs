@@ -11,7 +11,6 @@
     using Annotations;
     using WindowsControls.WPF;
     using WindowsControls.WPF.DriverPosition;
-    using WindowsControls.WPF.DriverPostion;
 
     public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

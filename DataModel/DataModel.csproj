@@ -57,6 +57,7 @@
     <Compile Include="BasicProperties\Point3D.cs" />
     <Compile Include="BasicProperties\PressureUnits.cs" />
     <Compile Include="BasicProperties\TemperatureUnits.cs" />
+    <Compile Include="BasicProperties\TyreWear.cs" />
     <Compile Include="BasicProperties\Velocity.cs" />
     <Compile Include="BasicProperties\VelocityUnits.cs" />
     <Compile Include="BasicProperties\Volume.cs" />

@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.DataModel.Snapshot.Drivers
+﻿using System.Diagnostics;
+
+namespace SecondMonitor.DataModel.Snapshot.Drivers
 {
     using System;
 
@@ -7,6 +9,7 @@
     using Systems;
 
     [Serializable]
+    [DebuggerDisplay("Driver Name: {DriverName}")]
     public class DriverInfo
     {
         public DriverInfo()

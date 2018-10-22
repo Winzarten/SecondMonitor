@@ -18,6 +18,10 @@
         private static readonly DependencyProperty MaximumIdealTyrePressureProperty = DependencyProperty.Register("MaximumIdealTyrePressure", typeof(Pressure), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty IsGlobalCompoundProperty = DependencyProperty.Register("IsGlobalCompound", typeof(bool), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty CopyCompoundCommandProperty = DependencyProperty.Register("CopyCompoundCommand", typeof(ICommand), typeof(TyreCompoundSettingsControl));
+        private static readonly DependencyProperty NoWearLimitProperty = DependencyProperty.Register("NoWearLimit", typeof(double), typeof(TyreCompoundSettingsControl));
+
+        private static readonly DependencyProperty LowWearLimitProperty = DependencyProperty.Register("LowWearLimit", typeof(double), typeof(TyreCompoundSettingsControl));
+        private static readonly DependencyProperty HeavyWearLimitProperty = DependencyProperty.Register("HeavyWearLimit", typeof(double), typeof(TyreCompoundSettingsControl));
 
         public TemperatureUnits TemperatureUnit
         {
@@ -41,6 +45,24 @@
         {
             get => (bool)GetValue(IsGlobalCompoundProperty);
             set => SetValue(IsGlobalCompoundProperty, value);
+        }
+
+        public double NoWearLimit
+        {
+            get => (double) GetValue(NoWearLimitProperty);
+            set => SetValue(NoWearLimitProperty, value);
+        }
+
+        public double LowWearLimit
+        {
+            get => (double)GetValue(LowWearLimitProperty);
+            set => SetValue(LowWearLimitProperty, value);
+        }
+
+        public double HeavyWearLimit
+        {
+            get => (double)GetValue(HeavyWearLimitProperty);
+            set => SetValue(HeavyWearLimitProperty, value);
         }
 
         public Temperature MinimalIdealTyreTemperature

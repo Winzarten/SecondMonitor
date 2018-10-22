@@ -226,7 +226,10 @@
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                           TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreNoWearWearLimit }"
+                                                                           TyreMildWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreMildWearLimit }"
+                                                                           TyreHeavyWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreHeavyWearLimit }"/>
                                     <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
@@ -239,7 +242,10 @@
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                           TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreNoWearWearLimit }"
+                                                                           TyreMildWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreMildWearLimit }"
+                                                                           TyreHeavyWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreHeavyWearLimit }"/>
 
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
@@ -253,7 +259,10 @@
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                           TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreNoWearWearLimit }"
+                                                                           TyreMildWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreMildWearLimit }"
+                                                                           TyreHeavyWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreHeavyWearLimit }"/>
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
@@ -266,7 +275,10 @@
                                                                            TyreLeftTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreLeftTemperature, Mode=OneWay}"
                                                                            TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyrePressure, Mode=OneWay}"
                                                                            TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                           TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                           TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreNoWearWearLimit }"
+                                                                           TyreMildWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreMildWearLimit }"
+                                                                           TyreHeavyWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreHeavyWearLimit }"/>
                                 </Grid>
                             </Border>
                             <Grid Grid.Row="1">

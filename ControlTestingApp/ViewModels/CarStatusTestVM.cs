@@ -177,6 +177,9 @@
 
                 MinimalIdealTyrePressure = Pressure.FromKiloPascals(120);
                 MaximumIdealTyrePressure = Pressure.FromKiloPascals(10);
+                NoWearLimit = 10;
+                LowWearLimit = 25;
+                HeavyWearLimit = 70;
             }
 
             public string CompoundName { get; set; }
@@ -190,6 +193,9 @@
             public Pressure MinimalIdealTyrePressure { get; set; }
 
             public Pressure MaximumIdealTyrePressure { get; set; }
+            public double NoWearLimit { get; set; }
+            public double LowWearLimit { get; set; }
+            public double HeavyWearLimit { get; set; }
         }
     }
 }

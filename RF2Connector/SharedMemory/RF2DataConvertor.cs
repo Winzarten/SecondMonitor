@@ -85,13 +85,13 @@
 
 
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear =
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear =
                 1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mWear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear =
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear =
                 1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mWear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear =
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear =
                 1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mWear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear =
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear.ActualWear =
                 1 - playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mWear;
 
             // Front Left Tyre Temps

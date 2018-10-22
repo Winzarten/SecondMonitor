@@ -1,10 +1,9 @@
-﻿namespace SecondMonitor.WindowsControls.WPF.Behaviors
+﻿using System.Windows.Controls;
+using System.Windows.Media;
+using SecondMonitor.DataModel.BasicProperties;
+
+namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
 {
-    using System.Windows.Controls;
-    using System.Windows.Media;
-
-    using DataModel.BasicProperties;
-
     public class BackgroundByOptimalVolumeBehavior<T> : OptimalVolumeToColorBehavior<T,Panel> where T : class, IQuantity, new()
     {
         protected override void ApplyColor(Color color)

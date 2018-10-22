@@ -1,8 +1,8 @@
-﻿namespace SecondMonitor.WindowsControls.WPF.DriverPostion
-{
-    using DataModel.Snapshot;
-    using DataModel.Snapshot.Drivers;
+﻿using SecondMonitor.DataModel.Snapshot;
+using SecondMonitor.DataModel.Snapshot.Drivers;
 
+namespace SecondMonitor.WindowsControls.WPF.DriverPosition
+{
     public interface ISituationOverviewControl
     {
         bool AnimateDriversPos { get; set; }
