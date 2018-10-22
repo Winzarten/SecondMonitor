@@ -67,10 +67,10 @@
 
 
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.FrontLeft].Wear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.FrontRight].Wear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.RearLeft].Wear;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = 1 - data.Wheel[(int)RfWheelIndex.RearRight].Wear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.FrontLeft].Wear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.FrontRight].Wear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.RearLeft].Wear;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.RearRight].Wear;
 
             // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].Temperature[0]);

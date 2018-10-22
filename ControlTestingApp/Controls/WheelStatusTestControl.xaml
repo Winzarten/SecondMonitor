@@ -33,7 +33,10 @@
                 TyreRightTemperature="{Binding TyreRightTemperature}"
                 TyrePressure="{Binding TyrePressure}"
                 PressureUnits="{Binding PressureUnits}"
-                TyreCompound="Slick"/>
+                TyreCompound="Slick"
+                TyreNoWearWearLimit="95"
+                TyreMildWearLimit="80"
+                TyreHeavyWearLimit="50"/>
 
         </Grid>
         <Grid Grid.Column="1">

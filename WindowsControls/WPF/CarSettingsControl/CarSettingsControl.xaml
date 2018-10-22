@@ -124,7 +124,10 @@
                                                                                     MaximumIdealTyreTemperature="{Binding SelectedTyreCompound.MaximumIdealTyreTemperature, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                     IsGlobalCompound="{Binding SelectedTyreCompound.IsGlobalCompound, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                     PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                                    TemperatureUnit="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                                                    TemperatureUnit="{Binding TemperatureUnit, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                                    LowWearLimit="{Binding SelectedTyreCompound.LowWearLimit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                                                    NoWearLimit="{Binding SelectedTyreCompound.NoWearLimit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                                                    HeavyWearLimit="{Binding SelectedTyreCompound.HeavyWearLimit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
                                 </Border>
                             </Grid>
                         </Grid>

@@ -11,7 +11,6 @@
     using DataModel.Extensions;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
-    using DriverPostion;
 
     public class PositionCircleControl : Grid, ISituationOverviewControl
     {

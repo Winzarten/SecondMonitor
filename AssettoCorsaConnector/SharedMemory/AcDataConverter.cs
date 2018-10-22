@@ -80,10 +80,10 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure.ActualQuantity = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity = Pressure.FromPsi(acData.AcsPhysics.wheelsPressure[(int)AcWheels.RR]);
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FL]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.RL]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.RL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear.ActualWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
 
             // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.tyreTempI[(int)AcWheels.FL]);

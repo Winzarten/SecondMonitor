@@ -103,10 +103,10 @@
 
 
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = 1 - data.TireWear.FrontLeft;
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = 1 - data.TireWear.FrontRight;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = 1 - data.TireWear.RearLeft;
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = 1 - data.TireWear.RearRight;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear = 1 - data.TireWear.FrontLeft;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear = 1 - data.TireWear.FrontRight;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear = 1 - data.TireWear.RearLeft;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear.ActualWear = 1 - data.TireWear.RearRight;
 
             // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft_Left);
@@ -221,12 +221,23 @@
 
         private static void AddWheelInfo(DriverInfo driverInfo, DriverData r3RDriverData)
         {
-            driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType =
-                ((Constant.TireSubtype)r3RDriverData.TireSubtypeFront).ToString();
+            driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = ((Constant.TireSubtype)r3RDriverData.TireSubtypeFront).ToString();
             driverInfo.CarInfo.WheelsInfo.FrontRight.TyreType = driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType;
 
             driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType = ((Constant.TireSubtype)r3RDriverData.TireSubtypeRear).ToString();
             driverInfo.CarInfo.WheelsInfo.RearRight.TyreType = driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType;
+
+            if (driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType == "Unavailable")
+            {
+                driverInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = "Prime";
+                driverInfo.CarInfo.WheelsInfo.FrontRight.TyreType = "Prime";
+            }
+
+            if (driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType == "Unavailable")
+            {
+                driverInfo.CarInfo.WheelsInfo.RearLeft.TyreType = "Prime";
+                driverInfo.CarInfo.WheelsInfo.RearRight.TyreType = "Prime";
+            }
 
         }
 

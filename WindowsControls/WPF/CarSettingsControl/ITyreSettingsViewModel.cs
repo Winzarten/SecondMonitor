@@ -12,5 +12,10 @@
 
         Pressure MinimalIdealTyrePressure { get; set; }
         Pressure MaximumIdealTyrePressure { get; set; }
+
+        double NoWearLimit { get; set; }
+        double LowWearLimit { get; set; }
+        double HeavyWearLimit { get; set; }
+
     }
 }

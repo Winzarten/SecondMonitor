@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.ViewModels
+﻿using System.Windows;
+
+namespace SecondMonitor.ViewModels
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -11,7 +13,7 @@
         public abstract T SaveToNewModel();
     }
 
-    public abstract class AbstractViewModel : INotifyPropertyChanged
+    public abstract class AbstractViewModel : DependencyObject, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -23,6 +23,9 @@
         private static readonly DependencyProperty TyrePressureProperty = DependencyProperty.Register("TyrePressure", typeof(OptimalQuantity<Pressure>), typeof(WheelStatusViewModel));
         private static readonly DependencyProperty IsLeftWheelProperty = DependencyProperty.Register("IsLeftWheel", typeof(bool), typeof(WheelStatusViewModel));
         private static readonly DependencyProperty TyreCompoundProperty = DependencyProperty.Register("TyreCompound", typeof(string), typeof(WheelStatusViewModel));
+        private static readonly DependencyProperty TyreNoWearWearLimitProperty = DependencyProperty.Register("TyreNoWearWearLimit", typeof(double), typeof(WheelStatusViewModel));
+        private static readonly DependencyProperty TyreMildWearLimitProperty = DependencyProperty.Register("TyreMildWearLimit", typeof(double), typeof(WheelStatusViewModel));
+        private static readonly DependencyProperty TyreHeavyWearLimitProperty = DependencyProperty.Register("TyreHeavyWearLimit", typeof(double), typeof(WheelStatusViewModel));
 
         public WheelStatusViewModel(bool isLeft)
         {
@@ -57,6 +60,24 @@
         {
             get => (double)GetValue(TyreConditionProperty);
             set => SetValue(TyreConditionProperty, value);
+        }
+
+        public double TyreNoWearWearLimit
+        {
+            get => (double)GetValue(TyreNoWearWearLimitProperty);
+            set => SetValue(TyreNoWearWearLimitProperty, value);
+        }
+
+        public double TyreMildWearLimit
+        {
+            get => (double)GetValue(TyreMildWearLimitProperty);
+            set => SetValue(TyreMildWearLimitProperty, value);
+        }
+
+        public double TyreHeavyWearLimit
+        {
+            get => (double)GetValue(TyreHeavyWearLimitProperty);
+            set => SetValue(TyreHeavyWearLimitProperty, value);
         }
 
         public OptimalQuantity<Temperature> TyreCoreTemperature
@@ -103,7 +124,10 @@
 
         public void ApplyWheelCondition(WheelInfo wheelInfo)
         {
-            TyreCondition = 100 * (1 -wheelInfo.TyreWear);
+            TyreCondition = 100 * (1 -wheelInfo.TyreWear.ActualWear);
+            TyreNoWearWearLimit = 100 * (1 - wheelInfo.TyreWear.NoWearWearLimit);
+            TyreMildWearLimit = 100 * (1 - wheelInfo.TyreWear.LightWearLimit);
+            TyreHeavyWearLimit = 100 * (1 - wheelInfo.TyreWear.HeavyWearLimit);
 
             if (wheelInfo.TyreCoreTemperature.ActualQuantity.InCelsius > -200 && (TyreCoreTemperature == null || Math.Abs(TyreCoreTemperature.ActualQuantity.RawValue - wheelInfo.TyreCoreTemperature.ActualQuantity.RawValue) > 0.5))
             {

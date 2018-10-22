@@ -67,10 +67,10 @@
 
 
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreFrontLeft];
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear = data.mTyreWear[(int)WheelIndex.TyreFrontRight];
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear = data.mTyreWear[(int)WheelIndex.TyreRearLeft];
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear = data.mTyreWear[(int)WheelIndex.TyreRearRight];
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear = data.mTyreWear[(int)WheelIndex.TyreFrontLeft];
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear = data.mTyreWear[(int)WheelIndex.TyreFrontRight];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear = data.mTyreWear[(int)WheelIndex.TyreRearLeft];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear.ActualWear = data.mTyreWear[(int)WheelIndex.TyreRearRight];
 
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreType = StringExtensions.FromArray(data.mLFTyreCompoundName);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreType = StringExtensions.FromArray(data.mRFTyreCompoundName);

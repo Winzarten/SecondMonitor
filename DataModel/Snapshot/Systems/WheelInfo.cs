@@ -46,7 +46,7 @@
                                      IdealQuantityWindow = OptimalTemperatureWindow
                                  };
 
-            TyreWear = 0;
+            TyreWear = new TyreWear(){ActualWear = 0.0, NoWearWearLimit = 0.10, LightWearLimit = 0.25, HeavyWearLimit = 0.7};
             TyreType = "Base";
         }
 
@@ -57,7 +57,7 @@
 
         public string TyreType { get; set; }
 
-        public double TyreWear { get; set; }
+        public TyreWear TyreWear { get; set; }
 
         public OptimalQuantity<Temperature> LeftTyreTemp { get; set; }
 

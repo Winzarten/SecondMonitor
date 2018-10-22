@@ -16,6 +16,9 @@
         private static readonly DependencyProperty TyreRightTemperatureProperty = DependencyProperty.Register("TyreRightTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl));
         private static readonly DependencyProperty BrakeTemperatureProperty = DependencyProperty.Register("BrakeTemperature", typeof(OptimalQuantity<Temperature>), typeof(WheelStatusControl), new PropertyMetadata(){ PropertyChangedCallback = PropertyChangedCallback });
         private static readonly DependencyProperty TyreCompoundProperty = DependencyProperty.Register("TyreCompound", typeof(string), typeof(WheelStatusControl));
+        private static readonly DependencyProperty TyreNoWearWearLimitProperty = DependencyProperty.Register("TyreNoWearWearLimit", typeof(double), typeof(WheelStatusControl));
+        private static readonly DependencyProperty TyreMildWearLimitProperty = DependencyProperty.Register("TyreMildWearLimit", typeof(double), typeof(WheelStatusControl));
+        private static readonly DependencyProperty TyreHeavyWearLimitProperty = DependencyProperty.Register("TyreHeavyWearLimit", typeof(double), typeof(WheelStatusControl));
 
         private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -54,12 +57,6 @@
         {
             get => (PressureUnits)GetValue(PressureUnitsProperty);
             set => SetValue(PressureUnitsProperty, value);
-        }
-
-        public double TyreCondition
-        {
-            get => (double)GetValue(TyreConditionProperty);
-            set => SetValue(TyreConditionProperty, value);
         }
 
         public OptimalQuantity<Temperature> TyreCoreTemperature
@@ -102,6 +99,30 @@
         {
             get => (bool)GetValue(IsLeftWheelProperty);
             set => SetValue(IsLeftWheelProperty, value);
+        }
+
+        public double TyreCondition
+        {
+            get => (double)GetValue(TyreConditionProperty);
+            set => SetValue(TyreConditionProperty, value);
+        }
+
+        public double TyreNoWearWearLimit
+        {
+            get => (double)GetValue(TyreNoWearWearLimitProperty);
+            set => SetValue(TyreNoWearWearLimitProperty, value);
+        }
+
+        public double TyreMildWearLimit
+        {
+            get => (double)GetValue(TyreMildWearLimitProperty);
+            set => SetValue(TyreMildWearLimitProperty, value);
+        }
+
+        public double TyreHeavyWearLimit
+        {
+            get => (double)GetValue(TyreHeavyWearLimitProperty);
+            set => SetValue(TyreHeavyWearLimitProperty, value);
         }
     }
 }

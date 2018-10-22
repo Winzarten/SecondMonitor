@@ -1,4 +1,5 @@
-﻿using SecondMonitor.WindowsControls.WPF.CarSettingsControl;
+﻿using System.Windows;
+using SecondMonitor.WindowsControls.WPF.CarSettingsControl;
 
 namespace SecondMonitor.SimdataManagement.ViewModel
 {
@@ -7,6 +8,10 @@ namespace SecondMonitor.SimdataManagement.ViewModel
     using ViewModels;
     public class TyreCompoundPropertiesViewModel : AbstractViewModel<TyreCompoundProperties>, ITyreSettingsViewModel
     {
+        private static readonly DependencyProperty NoWearLimitProperty = DependencyProperty.Register("NoWearLimit", typeof(double), typeof(TyreCompoundPropertiesViewModel));
+        private static readonly DependencyProperty LowWearLimitProperty = DependencyProperty.Register("LowWearLimit", typeof(double), typeof(TyreCompoundPropertiesViewModel));
+        private static readonly DependencyProperty HeavyWearLimitProperty = DependencyProperty.Register("HeavyWearLimit", typeof(double), typeof(TyreCompoundPropertiesViewModel));
+
         private string _compoundName;
 
         private Pressure _minimumIdealTyrePressure;
@@ -55,7 +60,24 @@ namespace SecondMonitor.SimdataManagement.ViewModel
                 _maximumIdealTyrePressure = value;
                 NotifyPropertyChanged();
             }
+        }
 
+        public double NoWearLimit
+        {
+            get => (double)GetValue(NoWearLimitProperty);
+            set => SetValue(NoWearLimitProperty, value);
+        }
+
+        public double LowWearLimit
+        {
+            get => (double)GetValue(LowWearLimitProperty);
+            set => SetValue(LowWearLimitProperty, value);
+        }
+
+        public double HeavyWearLimit
+        {
+            get => (double)GetValue(HeavyWearLimitProperty);
+            set => SetValue(HeavyWearLimitProperty, value);
         }
 
         public Temperature MinimalIdealTyreTemperature
@@ -81,6 +103,10 @@ namespace SecondMonitor.SimdataManagement.ViewModel
         public override void FromModel(TyreCompoundProperties model)
         {
             CompoundName = model.CompoundName;
+            NoWearLimit = model.NoWearLimit * 100.0;
+            LowWearLimit = model.LowWearLimit * 100.0;
+            HeavyWearLimit = model.HeavyWearLimit * 100.0;
+
             MinimalIdealTyrePressure = Pressure.FromKiloPascals(model.IdealPressure.InKpa - model.IdealPressureWindow.InKpa);
             MaximumIdealTyrePressure = Pressure.FromKiloPascals(model.IdealPressure.InKpa + model.IdealPressureWindow.InKpa);
 
@@ -93,6 +119,9 @@ namespace SecondMonitor.SimdataManagement.ViewModel
             return new TyreCompoundProperties()
                        {
                            CompoundName = CompoundName,
+                           LowWearLimit =  LowWearLimit / 100.0,
+                           NoWearLimit = NoWearLimit / 100.0,
+                           HeavyWearLimit = HeavyWearLimit / 100.0,
                            IdealPressure = Pressure.FromKiloPascals((MinimalIdealTyrePressure.InKpa + MaximumIdealTyrePressure.InKpa) * 0.5),
                            IdealPressureWindow = Pressure.FromKiloPascals((MaximumIdealTyrePressure.InKpa - MinimalIdealTyrePressure.InKpa) * 0.5),
 

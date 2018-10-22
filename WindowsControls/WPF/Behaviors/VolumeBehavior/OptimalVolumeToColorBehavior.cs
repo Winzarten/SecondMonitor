@@ -1,22 +1,19 @@
-﻿namespace SecondMonitor.WindowsControls.WPF.Behaviors
+﻿using System.Windows;
+using System.Windows.Interactivity;
+using System.Windows.Media;
+using SecondMonitor.DataModel.BasicProperties;
+using SecondMonitor.WindowsControls.Colors;
+
+namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Interactivity;
-    using System.Windows.Media;
-
-    using DataModel.BasicProperties;
-    using Colors;
-
-    public abstract class OptimalVolumeToColorBehavior<T,V> : Behavior<V> where T : class, IQuantity, new() where V : UIElement
+    public abstract class OptimalVolumeToColorBehavior<T,TV> : Behavior<TV> where T : class, IQuantity, new() where TV : UIElement
     {
-        private static readonly DependencyProperty VolumeProperty = DependencyProperty.Register("Volume", typeof(OptimalQuantity<T>), typeof(OptimalVolumeToColorBehavior<T,V>), new PropertyMetadata(){ PropertyChangedCallback = OptimalVolumeChanged<T,V> });
+        private static readonly DependencyProperty VolumeProperty = DependencyProperty.Register("Volume", typeof(OptimalQuantity<T>), typeof(OptimalVolumeToColorBehavior<T,TV>), new PropertyMetadata(){ PropertyChangedCallback = OptimalVolumeChanged<T,TV> });
 
-        private static readonly DependencyProperty DefaultColorProperty = DependencyProperty.Register("DefaultColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,V>));
-        private static readonly DependencyProperty LowQuantityColorProperty = DependencyProperty.Register("LowQuantityColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,V>));
-        private static readonly DependencyProperty IdealQuantityColorProperty = DependencyProperty.Register("IdealQuantityColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,V>));
-        private static readonly DependencyProperty HighQuantityColorProperty = DependencyProperty.Register("HighQuantityColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,V>));
+        private static readonly DependencyProperty DefaultColorProperty = DependencyProperty.Register("DefaultColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,TV>));
+        private static readonly DependencyProperty LowQuantityColorProperty = DependencyProperty.Register("LowQuantityColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,TV>));
+        private static readonly DependencyProperty IdealQuantityColorProperty = DependencyProperty.Register("IdealQuantityColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,TV>));
+        private static readonly DependencyProperty HighQuantityColorProperty = DependencyProperty.Register("HighQuantityColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,TV>));
 
         private double _oldOptimalValue = double.NaN;
 
