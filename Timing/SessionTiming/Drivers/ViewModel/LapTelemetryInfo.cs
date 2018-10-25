@@ -12,7 +12,7 @@
         {
             LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
             LapInfo = lapInfo;
-            PortionTimes = new LapPortionTimes(10, dataSet.SessionInfo.TrackInfo.LayoutLength, lapInfo);
+            PortionTimes = new LapPortionTimes(10, dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters, lapInfo);
         }
 
         public TelemetrySnapshot LapEndSnapshot { get; private set; }

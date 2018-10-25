@@ -7,8 +7,10 @@
     {
         private static readonly DependencyProperty TrackNameProperty = DependencyProperty.Register("TrackName", typeof(string), typeof(SessionFuelConsumptionViewModel));
         private static readonly DependencyProperty SessionTypeProperty = DependencyProperty.Register("SessionType", typeof(string), typeof(SessionFuelConsumptionViewModel));
-        private static readonly DependencyProperty FuelConsumptionProperty = DependencyProperty.Register("FuelConsumption", typeof(FuelConsumptionInfo), typeof(SessionFuelConsumptionViewModel));
-        private static readonly DependencyProperty LapDistanceProperty = DependencyProperty.Register("LapDistance", typeof(Distance), typeof(SessionFuelConsumptionViewModel));
+        private static readonly DependencyProperty FuelConsumptionProperty = DependencyProperty.Register("FuelConsumption", typeof(FuelConsumptionInfo), typeof(SessionFuelConsumptionViewModel), new FrameworkPropertyMetadata(){ PropertyChangedCallback = OnFuelConsumptionChanged});
+        private static readonly DependencyProperty LapDistanceProperty = DependencyProperty.Register("LapDistance", typeof(Distance), typeof(SessionFuelConsumptionViewModel), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnFuelConsumptionChanged });
+        private static readonly DependencyProperty AvgPerMinuteProperty = DependencyProperty.Register("AvgPerMinute", typeof(Volume), typeof(SessionFuelConsumptionViewModel));
+        private static readonly DependencyProperty AvgPerLapProperty = DependencyProperty.Register("AvgPerLap", typeof(Volume), typeof(SessionFuelConsumptionViewModel));
 
         public string TrackName
         {
@@ -34,6 +36,18 @@
             set => SetValue(FuelConsumptionProperty, value);
         }
 
+        public Volume AvgPerMinute
+        {
+            get => (Volume)GetValue(AvgPerMinuteProperty);
+            set => SetValue(AvgPerMinuteProperty, value);
+        }
+
+        public Volume AvgPerLap
+        {
+            get => (Volume)GetValue(AvgPerLapProperty);
+            set => SetValue(AvgPerLapProperty, value);
+        }
+
         public override void FromModel(SessionFuelConsumptionInfo model)
         {
             TrackName = model.TrackName;
@@ -45,6 +59,25 @@
         public override SessionFuelConsumptionInfo SaveToNewModel()
         {
             throw new System.NotImplementedException();
+        }
+
+        private void OnFuelConsumptionChanged()
+        {
+            if (FuelConsumption == null || LapDistance == null)
+            {
+                return;
+            }
+
+            AvgPerMinute = FuelConsumption.GetAveragePerMinute();
+            AvgPerLap = FuelConsumption.GetAveragePerDistance(LapDistance);
+        }
+
+        private static void OnFuelConsumptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is SessionFuelConsumptionViewModel viewModel)
+            {
+                viewModel.OnFuelConsumptionChanged();
+            }
         }
     }
 }

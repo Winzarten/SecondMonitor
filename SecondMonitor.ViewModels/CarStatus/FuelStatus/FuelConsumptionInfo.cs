@@ -12,10 +12,16 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
         {
             ConsumedFuel = Volume.FromLiters(0);
             ElapsedTime = TimeSpan.Zero;
-            TraveledDistance = 0;
+            TraveledDistance = Distance.ZeroDistance;
         }
 
         public FuelConsumptionInfo(Volume consumedFuel, TimeSpan elapsedTime, double traveledDistance)
+        :this(consumedFuel, elapsedTime, Distance.FromMeters(traveledDistance))
+        {
+         
+        }
+
+        public FuelConsumptionInfo(Volume consumedFuel, TimeSpan elapsedTime, Distance traveledDistance)
         {
             ConsumedFuel = consumedFuel;
             ElapsedTime = elapsedTime;
@@ -26,9 +32,9 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 
         public TimeSpan ElapsedTime { get; }
 
-        public double TraveledDistance { get; }
+        public Distance TraveledDistance { get; }
 
-        public FuelPerDistance Consumption => new FuelPerDistance(ConsumedFuel, Distance.FromMeters(TraveledDistance));
+        public FuelPerDistance Consumption => new FuelPerDistance(ConsumedFuel, Distance.FromMeters(TraveledDistance.InMeters));
 
         public static FuelConsumptionInfo CreateConsumption(FuelStatusSnapshot fromSnapshot, FuelStatusSnapshot toSnapshot)
         {
@@ -38,7 +44,7 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
         public FuelConsumptionInfo AddConsumption(FuelConsumptionInfo fuelConsumption)
         {
             TimeSpan newElapsedTime = ElapsedTime + fuelConsumption.ElapsedTime;
-            return new FuelConsumptionInfo(ConsumedFuel + fuelConsumption.ConsumedFuel, newElapsedTime, TraveledDistance + fuelConsumption.TraveledDistance);
+            return new FuelConsumptionInfo(ConsumedFuel + fuelConsumption.ConsumedFuel, newElapsedTime, TraveledDistance.InMeters + fuelConsumption.TraveledDistance.InMeters);
         }
 
         public Volume GetAveragePerMinute()
@@ -46,15 +52,17 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
             return Volume.FromLiters(ConsumedFuel.InLiters / ElapsedTime.TotalMinutes);
         }
 
+        public Volume GetAveragePerDistance(Distance distance) => GetAveragePerDistance(distance.InMeters);
+
         public Volume GetAveragePerDistance(double distance)
         {
-            double distanceCoef = TraveledDistance / distance;
+            double distanceCoef = TraveledDistance.InMeters / distance;
             return Volume.FromLiters(ConsumedFuel.InLiters / distanceCoef);
         }
 
         public bool IsFuelConsumptionValid(SimulatorDataSet dataSet)
         {
-            if (TraveledDistance < 0)
+            if (TraveledDistance.InMeters < 0)
             {
                 return false;
             }

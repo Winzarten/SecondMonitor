@@ -156,7 +156,7 @@
             simulatorDataSet.SessionInfo.SessionTime = _sessionTime;
 
             simulatorDataSet.SessionInfo.SessionPhase = SessionPhase.Green;
-            simulatorDataSet.SessionInfo.TrackInfo.LayoutLength = (float)_layoutLength;
+            simulatorDataSet.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters(_layoutLength);
             simulatorDataSet.SessionInfo.IsActive = true;
             simulatorDataSet.SimulatorSourceInfo.GlobalTyreCompounds = true;
             simulatorDataSet.SessionInfo.SessionType = SessionType.Qualification;

@@ -99,5 +99,62 @@
         public IQuantity ZeroQuantity => ZeroDistance;
         public bool IsZero => InMeters == 0;
         public double RawValue => InMeters;
+
+        public static string GetUnitsSymbol(DistanceUnits distanceUnits)
+        {
+            switch (distanceUnits)
+            {
+                case DistanceUnits.Meters:
+                    return "m";
+                    
+                case DistanceUnits.Kilometers:
+                    return "Km";
+                   
+                case DistanceUnits.Miles:
+                    return "mi";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
+            }
+        }
+
+        public static Distance operator *(Distance d1, double d)
+        {
+            if(d1 is null)
+            {
+                return null;
+            }
+
+            return FromMeters(d1.InMeters * d);
+        }
+
+        public static Distance operator *(Distance d1, Distance d2)
+        {
+            if (d1 is null || d2 is null)
+            {
+                return null;
+            }
+
+            return FromMeters(d1.InMeters * d2.InMeters);
+        }
+
+        public static bool operator >(Distance d1, Distance d2)
+        {
+            if (d1 is null || d2 is null)
+            {
+                return false;
+            }
+
+            return d1.InMeters > d2.InMeters;
+        }
+
+        public static bool operator <(Distance d1, Distance d2)
+        {
+            if (d1 is null || d2 is null)
+            {
+                return false;
+            }
+
+            return d1.InMeters < d2.InMeters;
+        }
     }
 }

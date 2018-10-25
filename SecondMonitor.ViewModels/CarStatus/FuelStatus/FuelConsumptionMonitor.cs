@@ -74,7 +74,7 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
             }
 
             _sessionsFuelConsumptionInfos.Add(new SessionFuelConsumptionInfo(_totalFuelConsumption, 
-                _lastDataSet.SessionInfo.TrackInfo.TrackName, Distance.FromMeters(_lastDataSet.SessionInfo.TrackInfo.LayoutLength), _lastDataSet.SessionInfo.SessionType));
+                _lastDataSet.SessionInfo.TrackInfo.TrackName, Distance.FromMeters(_lastDataSet.SessionInfo.TrackInfo.LayoutLength.InMeters), _lastDataSet.SessionInfo.SessionType));
         }
 
         private void UpdateMinuteConsumption(SimulatorDataSet simulatorDataSet)

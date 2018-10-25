@@ -151,7 +151,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
             LapTime = LapEnd.Subtract(LapStart);
             SectorTiming[] sectors = {Sector1, Sector2, Sector3};
-            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.8 || (sectors.Any(x => x?.Duration != TimeSpan.Zero) && sectors.Any(x=> x == null || x.Duration == TimeSpan.Zero)))
+            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.8 || (sectors.Any(x => x?.Duration != TimeSpan.Zero) && sectors.Any(x=> x == null || x.Duration == TimeSpan.Zero)))
             {
                 Valid = false;
             }
@@ -185,7 +185,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
             // driverInfo.TraveledDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance.
             // Allow 90% of layout length, as some AC tracks have pit exit before the lap end.
-            if (double.IsNaN(CompletedDistance) && driverInfo.LapDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.9)
+            if (double.IsNaN(CompletedDistance) && driverInfo.LapDistance < dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.9)
             {
                 CompletedDistance = driverInfo.LapDistance;
             }
@@ -214,7 +214,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             }
 
             // We were unable to use the sim provided lap time for 75% for the lap. I thing it is safe to say that this boat has passed
-            if (!LapProgressTimeBySimInitialized && CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength * 0.75)
+            if (!LapProgressTimeBySimInitialized && CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.75)
             {
                 return;
             }
@@ -415,7 +415,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             }
 
             // Lap data is sane if we completed at least 90% of the track and the lap hes run for more than 10 seconds
-            return CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength * 0.9 && LapProgressTimeByTiming > TimeSpan.FromSeconds(10);
+            return CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.9 && LapProgressTimeByTiming > TimeSpan.FromSeconds(10);
         }
 
         private SectorTiming PickSector(int sectorNumber)

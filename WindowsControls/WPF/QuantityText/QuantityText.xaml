@@ -73,6 +73,11 @@
         <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
     </Style>
 
+    <Style TargetType="local:DistanceText">
+        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
+    </Style>
+
+
     <Style TargetType="local:PressureText">
         <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
     </Style>

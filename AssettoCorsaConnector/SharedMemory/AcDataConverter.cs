@@ -356,7 +356,7 @@
         {
             // Timing
             simData.SessionInfo.SessionTime = _connector.SessionTime;
-            simData.SessionInfo.TrackInfo.LayoutLength = data.AcsStatic.trackSPlineLength;
+            simData.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters(data.AcsStatic.trackSPlineLength);
             simData.SessionInfo.TrackInfo.TrackName = FormatACName(data.AcsStatic.track);
             simData.SessionInfo.TrackInfo.TrackLayoutName = data.AcsStatic.trackConfiguration;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AcsPhysics.airTemp);
@@ -406,7 +406,7 @@
                 simData.SessionInfo.TotalNumberOfLaps = data.AcsGraphic.numberOfLaps;
             }
 
-            _sectorLength = (int)simData.SessionInfo.TrackInfo.LayoutLength / 3;
+            _sectorLength = (int)simData.SessionInfo.TrackInfo.LayoutLength.InMeters / 3;
 
         }
 

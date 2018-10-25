@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl">
+                    xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl"
+                    xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../CommonResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -9,7 +10,64 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SessionFuelConsumptionControl">
-                    <Grid Background="Pink"></Grid>
+                    <Grid>
+                        <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}" CornerRadius="2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+
+                                </Grid.RowDefinitions>
+                                <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}">
+                                                                    <StackPanel>
+                                    <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource BigFontSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding TrackName ,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <TextBlock Style="{StaticResource StandardText}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding SessionType ,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                </StackPanel>
+                                </Border>
+
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Running Time: "/>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding RunningTime, Mode=OneWay, Converter={StaticResource TimeSpanToMinutesSecondsConverter }, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Total Distance: " Margin="15,0,0,0"/>
+                                    <quantityText:DistanceText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+                                                                     Quantity="{Binding TraveledDistance, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                     DistanceUnits="{Binding DistanceUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                     ShowUnitSymbol="True"/>
+
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Margin="0,15,0,5">
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                        <TextBlock Style="{StaticResource StandardText}" Text="Fuel Consumed: " Margin="0,0,0,0"/>
+                                        <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+                                                                         Quantity="{Binding TotalConsumedFuel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         VolumeUnits="{Binding VolumeUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         ShowUnitSymbol="True"/>
+                                        </StackPanel>
+                                    
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource StandardText}" Text="Avg Per Lap:" />
+                                        <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+                                                                         Quantity="{Binding AvgPerLap, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         VolumeUnits="{Binding VolumeUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         ShowUnitSymbol="True" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                        <TextBlock Style="{StaticResource StandardText}" Text="Avg Per Minute:" />
+                                        <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+                                                                         Quantity="{Binding AvgPerMinute, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         VolumeUnits="{Binding VolumeUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         ShowUnitSymbol="True" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource StandardText}" Text="Fuel Economy:" />
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

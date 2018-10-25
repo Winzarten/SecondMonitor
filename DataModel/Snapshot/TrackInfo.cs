@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot
 {
     using System;
+    using BasicProperties;
 
     [Serializable]
     public class TrackInfo
@@ -15,6 +16,6 @@
 
         public string TrackLayoutName { get; set; }
 
-        public double LayoutLength { get; set; }
+        public Distance LayoutLength { get; set; }
     }
 }

@@ -309,7 +309,7 @@
         {
             // Timing
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
-            simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
+            simData.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters(data.LapDist);
             simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
             simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AmbientTemp);

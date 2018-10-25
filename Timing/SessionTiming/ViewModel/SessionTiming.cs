@@ -130,7 +130,7 @@
                 if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
                 {
                     return (int)(((LastSet.LeaderInfo.CompletedLaps
-                                   + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.TrackInfo.LayoutLength)
+                                   + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters)
                                   / LastSet.SessionInfo.TotalNumberOfLaps) * 1000);
                 }
 
