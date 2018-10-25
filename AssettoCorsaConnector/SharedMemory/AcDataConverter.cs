@@ -228,12 +228,12 @@
             }
 
             /*Distance distance = Point3D.GetDistance(driver.WorldPosition, _lastPlayer.WorldPosition);
-            if (distance.DistanceInM > 200)
+            if (distance.InMeters > 200)
             {
                 currentlyIgnoredPackage++;
                 if (currentlyIgnoredPackage < MaxConsecutivePackagesIgnored)
                 {
-                    throw new RF2InvalidPackageException("Players distance was :" + distance.DistanceInM);
+                    throw new RF2InvalidPackageException("Players distance was :" + distance.InMeters);
                 }
             }*/
 

@@ -25,7 +25,7 @@
         private FuelLevelStatus _fuelLevelState;
         private Volume _maximumFuel;
 
-        private FuelConsumptionMonitor _fuelConsumptionMonitor;
+        private readonly FuelConsumptionMonitor _fuelConsumptionMonitor;
 
         public FuelOverviewViewModel()
         {

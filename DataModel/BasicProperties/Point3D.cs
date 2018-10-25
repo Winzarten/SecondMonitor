@@ -26,8 +26,8 @@
         public static Distance GetDistance(Point3D p1, Point3D p2)
         {
             double distanceInM = Math.Sqrt(
-                Math.Pow(p1.X.DistanceInM - p2.X.DistanceInM, 2) + Math.Pow(p1.Y.DistanceInM - p2.Y.DistanceInM, 2)
-                + Math.Pow(p1.Z.DistanceInM - p2.Z.DistanceInM, 2));
+                Math.Pow(p1.X.InMeters - p2.X.InMeters, 2) + Math.Pow(p1.Y.InMeters - p2.Y.InMeters, 2)
+                + Math.Pow(p1.Z.InMeters - p2.Z.InMeters, 2));
             return Distance.FromMeters(distanceInM);
         }
     }

@@ -50,6 +50,8 @@
     <Compile Include="BasicProperties\Acceleration.cs" />
     <Compile Include="BasicProperties\Distance.cs" />
     <Compile Include="BasicProperties\FuelCalculationScope.cs" />
+    <Compile Include="BasicProperties\FuelConsumption\FuelPerDistance.cs" />
+    <Compile Include="BasicProperties\FuelConsumption\FuelPerDistanceUnits.cs" />
     <Compile Include="BasicProperties\FuelLevelStatus.cs" />
     <Compile Include="BasicProperties\IQuantity.cs" />
     <Compile Include="BasicProperties\OptimalQuantity.cs" />

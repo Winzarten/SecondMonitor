@@ -251,7 +251,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             }
 
             Distance distance = Point3D.GetDistance(currentDriverInfo.WorldPosition, _previousDriverInfo.WorldPosition);
-            return distance.DistanceInM > MaxDistancePerTick.DistanceInM;
+            return distance.InMeters > MaxDistancePerTick.InMeters;
         }
 
         private void TickSectors(SimulatorDataSet dataSet, DriverInfo driverInfo)

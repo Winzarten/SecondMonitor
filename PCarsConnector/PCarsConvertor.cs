@@ -154,7 +154,7 @@
                     .Subtract(_lastSpeedComputationSet.SessionInfo.SessionTime).TotalSeconds;
 
                 // double speed = lastTickDuration.TotalMilliseconds;
-                double speed = Point3D.GetDistance(currentWorldPosition, previousWorldPosition).DistanceInM / duration;
+                double speed = Point3D.GetDistance(currentWorldPosition, previousWorldPosition).InMeters / duration;
 
                 // if (speed < 200)
                 driverInfo.Speed = Velocity.FromMs(speed);
