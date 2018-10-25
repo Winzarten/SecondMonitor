@@ -15,7 +15,7 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
             TraveledDistance = 0;
         }
 
-        private FuelConsumptionInfo(Volume consumedFuel, TimeSpan elapsedTime, double traveledDistance)
+        public FuelConsumptionInfo(Volume consumedFuel, TimeSpan elapsedTime, double traveledDistance)
         {
             ConsumedFuel = consumedFuel;
             ElapsedTime = elapsedTime;

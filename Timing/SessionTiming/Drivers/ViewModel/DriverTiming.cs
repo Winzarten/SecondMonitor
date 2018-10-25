@@ -139,18 +139,7 @@
             }
         }
 
-        public LapInfo LastLap
-        {
-            get
-            {
-                if (_lapsInfo.Count < 2)
-                {
-                    return null;
-                }
-
-                return _lapsInfo[_lapsInfo.Count - 2];
-            }
-        }
+        public LapInfo LastLap => _lapsInfo.Count < 2 ? null : _lapsInfo[_lapsInfo.Count - 2];
 
 
         public bool IsLastLapBestSessionLap

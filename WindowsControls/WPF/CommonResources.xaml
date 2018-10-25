@@ -8,6 +8,7 @@
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <converters:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter"/>
     <converters:DoubleToStringNoDecimalConverter x:Key="DoubleToStringNoDecimalConverter"/>
+    <converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
     <Style x:Key="StandardText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />

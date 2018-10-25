@@ -52,10 +52,12 @@
     <Compile Include="Base\IViewModelWithIcon.cs" />
     <Compile Include="CarStatus\CarStatusViewModel.cs" />
     <Compile Include="CarStatus\CarWheelsViewModel.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelCalculatorViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionMonitor.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionInfo.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelOverviewViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelStatusSnapshot.cs" />
+    <Compile Include="CarStatus\FuelStatus\RequiredFuelCalculator.cs" />
     <Compile Include="CarStatus\FuelStatus\SessionFuelConsumptionInfo.cs" />
     <Compile Include="CarStatus\OilTemperatureViewModel.cs" />
     <Compile Include="CarStatus\PedalsAndGearViewModel.cs" />

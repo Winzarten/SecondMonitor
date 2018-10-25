@@ -118,10 +118,12 @@
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
+    <Compile Include="WPF\Converters\IntegerToStringConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToMinutesSecondsConverter.cs" />
+    <Compile Include="WPF\FuelControl\FuelCalculatorControl.cs" />
     <Compile Include="WPF\FuelControl\FuelLevelControl.cs" />
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
@@ -190,6 +192,10 @@
     <Page Include="WPF\Constants.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\FuelControl\FuelCalculatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\FuelControl\FuelLevelControl.xaml">
       <Generator>MSBuild:Compile</Generator>

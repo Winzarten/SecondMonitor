@@ -12,19 +12,10 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
             _fuelConsumptionInfo = fuelConsumptionInfo;
         }
 
-        public Volume GetRequiredFuel(TimeSpan time)
-        {
-            return _fuelConsumptionInfo.GetAveragePerMinute() * time.TotalMinutes;
-        }
+        public Volume GetRequiredFuel(TimeSpan time) => _fuelConsumptionInfo == null ? Volume.FromLiters(0) : _fuelConsumptionInfo.GetAveragePerMinute() * time.TotalMinutes;
 
-        public Volume GetRequiredFuel(Distance distance)
-        {
-            return _fuelConsumptionInfo.GetAveragePerDistance(distance.InMeters);
-        }
+        public Volume GetRequiredFuel(Distance distance) => _fuelConsumptionInfo == null ? Volume.FromLiters(0) : _fuelConsumptionInfo.GetAveragePerDistance(distance.InMeters);
 
-        public Volume GetRequiredFuel(TimeSpan time, Distance distance)
-        {
-            return Volume.FromLiters(GetRequiredFuel(time).InLiters + GetRequiredFuel(distance).InLiters);
-        }
+        public Volume GetRequiredFuel(TimeSpan time, Distance distance) => Volume.FromLiters(GetRequiredFuel(time).InLiters + GetRequiredFuel(distance).InLiters);
     }
 }
