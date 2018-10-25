@@ -11,7 +11,7 @@ build_script:
 - cmd: >-
     nuget restore    
 
-    msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release
+    msbuild SecondMonitor.sln /t:Rebuild /p:Configuration=Release /v:m
 
     powershell "".\generateWixGuid.ps1""
 
