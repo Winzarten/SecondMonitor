@@ -13,9 +13,11 @@
     <Grid Background="{StaticResource Anthracite01Brush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <fuelControl:FuelCalculatorControl RequiredLaps="{Binding RequiredLaps, Mode=TwoWay}" RequiredMinutes="{Binding RequiredMinutes, Mode=TwoWay}" VolumeUnits="Liters" RequiredFuel="{Binding RequiredFuel}"/>
+        <fuelControl:SessionFuelConsumptionControl Grid.Column="1"></fuelControl:SessionFuelConsumptionControl>
     </Grid>
 </UserControl>

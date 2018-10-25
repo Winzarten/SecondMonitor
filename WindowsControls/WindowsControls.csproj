@@ -126,6 +126,7 @@
     <Compile Include="WPF\FuelControl\FuelCalculatorControl.cs" />
     <Compile Include="WPF\FuelControl\FuelLevelControl.cs" />
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
+    <Compile Include="WPF\FuelControl\SessionFuelConsumptionControl.cs" />
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
     <Compile Include="WPF\DriverPosition\ISituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\DriverPositionControl.cs" />
@@ -204,6 +205,10 @@
     <Page Include="WPF\FuelControl\FuelOverviewControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\FuelControl\SessionFuelConsumptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>

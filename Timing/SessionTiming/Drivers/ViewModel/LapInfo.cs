@@ -183,7 +183,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 Valid = false;
             }
 
-            // driverInfo.LapDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance.
+            // driverInfo.TraveledDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance.
             // Allow 90% of layout length, as some AC tracks have pit exit before the lap end.
             if (double.IsNaN(CompletedDistance) && driverInfo.LapDistance < dataSet.SessionInfo.TrackInfo.LayoutLength * 0.9)
             {

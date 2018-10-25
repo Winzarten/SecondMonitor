@@ -4,7 +4,7 @@
     using System.Xml.Serialization;
 
     [Serializable]
-    public class Distance
+    public class Distance : IQuantity
     {
 
         private readonly bool _isZero;
@@ -30,6 +30,21 @@
 
         [XmlIgnore]
         public double InMiles => InKilometers / 1.609344;
+
+        public double GetByUnit(DistanceUnits distanceUnits)
+        {
+            switch (distanceUnits)
+            {
+                case DistanceUnits.Meters:
+                    return InMeters;
+                case DistanceUnits.Kilometers:
+                    return InKilometers;
+                case DistanceUnits.Miles:
+                    return InMiles;
+                default:
+                    throw new ArgumentException($"Distance units {distanceUnits} is not known");
+            }
+        }
 
         public static Distance FromMeters(double distanceInM)
         {
@@ -80,5 +95,9 @@
         {
             return _isZero == other._isZero && InMeters.Equals(other.InMeters);
         }
+
+        public IQuantity ZeroQuantity => ZeroDistance;
+        public bool IsZero => InMeters == 0;
+        public double RawValue => InMeters;
     }
 }
