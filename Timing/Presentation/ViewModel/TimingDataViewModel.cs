@@ -636,8 +636,5 @@
                 timingDataViewModel.ChangeTimeDisplayMode();
             }
         }
-
-
-
     }
 }

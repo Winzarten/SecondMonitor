@@ -1,9 +1,8 @@
-﻿using SecondMonitor.DataModel.BasicProperties.FuelConsumption;
-
+﻿
 namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
     using System;
-
+    using DataModel.BasicProperties.FuelConsumption;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
