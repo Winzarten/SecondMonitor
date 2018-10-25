@@ -6,8 +6,8 @@ namespace SecondMonitor.DataModel.BasicProperties.FuelConsumption
     {
         public FuelPerDistance(Volume consumedFuel, Distance distance)
         {
-            ConsumedFuel = consumedFuel;
-            Distance = distance;
+            ConsumedFuel = Volume.FromLiters(consumedFuel.InLiters);
+            Distance = Distance.FromMeters(distance.InMeters);
         }
 
         public Volume ConsumedFuel { get; }

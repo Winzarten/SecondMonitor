@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
+﻿using SecondMonitor.DataModel.BasicProperties.FuelConsumption;
+
+namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
     using System;
 
@@ -26,6 +28,8 @@
         public TimeSpan ElapsedTime { get; }
 
         public double TraveledDistance { get; }
+
+        public FuelPerDistance Consumption => new FuelPerDistance(ConsumedFuel, Distance.FromMeters(TraveledDistance));
 
         public static FuelConsumptionInfo CreateConsumption(FuelStatusSnapshot fromSnapshot, FuelStatusSnapshot toSnapshot)
         {

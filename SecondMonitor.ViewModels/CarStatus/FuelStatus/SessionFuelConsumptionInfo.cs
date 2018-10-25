@@ -1,7 +1,7 @@
-﻿using SecondMonitor.DataModel.BasicProperties;
-
-namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
+﻿namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
+    using DataModel.BasicProperties;
+
     public class SessionFuelConsumptionInfo
     {
         public SessionFuelConsumptionInfo(FuelConsumptionInfo fuelConsumptionInfo, string trackName, SessionType sessionType)
