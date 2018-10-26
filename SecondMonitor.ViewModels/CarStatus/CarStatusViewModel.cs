@@ -2,10 +2,14 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
-
+    using System.Windows.Input;
+    using WindowsControls.WPF.Commands;
     using DataModel.Snapshot;
     using Annotations;
+    using DataModel.BasicProperties;
+    using DataModel.Extensions;
     using FuelStatus;
 
     public class CarStatusViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
@@ -17,6 +21,8 @@
         private OilTemperatureViewModel _oilTemperatureViewModel;
         private CarWheelsViewModel _playersWheelsViewModel;
         private FuelOverviewViewModel _fuelOverviewViewModel;
+        private FuelPlannerViewModel _fuelPlannerViewModel;
+        private bool _isFuelCalculatorShown;
 
         private PedalsAndGearViewModel _pedalAndGearViewModel;
 
@@ -32,6 +38,26 @@
             private set
             {
                 _oilTemperatureViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsFuelCalculatorShown
+        {
+            get => _isFuelCalculatorShown;
+            private set
+            {
+                _isFuelCalculatorShown = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public FuelPlannerViewModel FuelPlannerViewModel
+        {
+            get => _fuelPlannerViewModel;
+            set
+            {
+                _fuelPlannerViewModel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -82,9 +108,45 @@
 
         }
 
+        public ICommand ShowFuelCalculatorCommand => new RelayCommand(ShowFuelCalculator);
+        public ICommand HideFuelCalculatorCommand => new RelayCommand(HideFuelCalculator);
+
         public void Reset()
         {
             _viewModels.Reset();
+        }
+
+        private void ShowFuelCalculator()
+        {
+            if (FuelOverviewViewModel.FuelConsumptionMonitor.SessionFuelConsumptionInfos.Count == 0)
+            {
+                return;
+            }
+
+            FuelPlannerViewModel newViewModel = new FuelPlannerViewModel();        
+            FuelOverviewViewModel.FuelConsumptionMonitor.SessionFuelConsumptionInfos.ForEach(x =>
+            {
+                SessionFuelConsumptionViewModel consumptionViewModel = new SessionFuelConsumptionViewModel();
+                if (x != null)
+                {
+                    consumptionViewModel.FromModel(x);
+                    newViewModel.Sessions.Add(consumptionViewModel);
+                }
+               
+            });
+
+            if (newViewModel.Sessions.Count == 0)
+            {
+                return;
+            }
+            newViewModel.SelectedSession = newViewModel.Sessions.First();
+            FuelPlannerViewModel = newViewModel;
+            IsFuelCalculatorShown = true;
+        }
+
+        private void HideFuelCalculator()
+        {
+            IsFuelCalculatorShown = false;
         }
 
         private void RefreshProperties()

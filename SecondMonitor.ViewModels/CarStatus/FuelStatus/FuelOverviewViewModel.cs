@@ -33,6 +33,8 @@
             _resetCommand = new RelayCommand(Reset);
         }
 
+        public FuelConsumptionMonitor FuelConsumptionMonitor => _fuelConsumptionMonitor;
+
         public ICommand ResetCommand
         {
             get => _resetCommand;

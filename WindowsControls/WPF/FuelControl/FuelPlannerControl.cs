@@ -3,6 +3,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using Contracts.FuelInformation;
     using DataModel.BasicProperties;
     using DataModel.BasicProperties.FuelConsumption;
 
@@ -12,6 +13,13 @@
         private static readonly DependencyProperty DistanceUnitsProperty = DependencyProperty.Register("DistanceUnits", typeof(DistanceUnits), typeof(FuelPlannerControl));
         private static readonly DependencyProperty FuelPerDistanceUnitsProperty = DependencyProperty.Register("FuelPerDistanceUnits", typeof(FuelPerDistanceUnits), typeof(FuelPlannerControl));
         private static readonly DependencyProperty CloseCommandProperty = DependencyProperty.Register("CloseCommand", typeof(ICommand), typeof(FuelPlannerControl));
+        private static readonly DependencyProperty FuelPlannerVmProperty = DependencyProperty.Register("FuelPlannerVm", typeof(IFuelPlannerViewModel), typeof(FuelPlannerControl));
+
+        public IFuelPlannerViewModel FuelPlannerVm
+        {
+            get => (IFuelPlannerViewModel) GetValue(FuelPlannerVmProperty);
+            set => SetValue(FuelPlannerVmProperty, value);
+        }
 
         public ICommand CloseCommand
         {

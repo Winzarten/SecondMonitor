@@ -21,7 +21,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <fuelControl:FuelPlannerControl DistanceUnits="Kilometers" FuelPerDistanceUnits="MilesPerGallon"/>
+            <fuelControl:FuelPlannerControl DistanceUnits="Kilometers" FuelPerDistanceUnits="MilesPerGallon" FuelPlannerVm="{Binding}"/>
         </Grid>
     </Grid>
 </UserControl>

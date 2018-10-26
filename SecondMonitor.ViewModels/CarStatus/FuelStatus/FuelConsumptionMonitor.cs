@@ -48,7 +48,20 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
             private set;
         }
 
-        public IReadOnlyCollection<SessionFuelConsumptionInfo> SessionsConsumptions =>
+        public IReadOnlyCollection<SessionFuelConsumptionInfo> SessionFuelConsumptionInfos
+        {
+            get
+            {
+                List<SessionFuelConsumptionInfo> items = new List<SessionFuelConsumptionInfo>();
+                items.AddRange(CompletedSessionsConsumptions);
+
+                items.Add(GetConsumptionForCurrentSession());
+                items.Reverse();
+                return items.AsReadOnly();
+            }
+        }
+
+        public IReadOnlyCollection<SessionFuelConsumptionInfo> CompletedSessionsConsumptions =>
             _sessionsFuelConsumptionInfos.AsReadOnly();
 
         public void Reset()
@@ -68,13 +81,23 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 
         private void CreateAndAddSessionFuelConsumptionInfo()
         {
-            if (_lastDataSet == null)
+            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < TimeSpan.FromMinutes(5))
             {
                 return;
             }
 
-            _sessionsFuelConsumptionInfos.Add(new SessionFuelConsumptionInfo(_totalFuelConsumption, 
-                _lastDataSet.SessionInfo.TrackInfo.TrackName, Distance.FromMeters(_lastDataSet.SessionInfo.TrackInfo.LayoutLength.InMeters), _lastDataSet.SessionInfo.SessionType));
+            _sessionsFuelConsumptionInfos.Add(GetConsumptionForCurrentSession());
+        }
+
+        private SessionFuelConsumptionInfo GetConsumptionForCurrentSession()
+        {
+            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < TimeSpan.FromMinutes(5))
+            {
+                return null;
+            }
+
+            return new SessionFuelConsumptionInfo(_totalFuelConsumption, 
+                _lastDataSet.SessionInfo.TrackInfo.TrackName, Distance.FromMeters(_lastDataSet.SessionInfo.TrackInfo.LayoutLength.InMeters), _lastDataSet.SessionInfo.SessionType);
         }
 
         private void UpdateMinuteConsumption(SimulatorDataSet simulatorDataSet)
