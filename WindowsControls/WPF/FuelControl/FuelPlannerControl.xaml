@@ -1,0 +1,77 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d"
+                    xmlns:fuelInformation="clr-namespace:SecondMonitor.Contracts.FuelInformation;assembly=Contracts"
+                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF"
+                    d:DataContext="{d:DesignInstance Type=fuelInformation:IFuelPlannerViewModel}"
+                   >
+    <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../CommonResources.xaml" />
+    <ResourceDictionary Source="SessionFuelConsumptionControl.xaml" />
+    <ResourceDictionary Source="FuelCalculatorControl.xaml" />
+    <ResourceDictionary Source="../ButtonStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="local:FuelPlannerControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FuelPlannerControl">
+                    <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2" CornerRadius="2">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                            </Grid>
+                            <ListBox Foreground="{StaticResource LightGrey01Brush}" Background="{StaticResource Anthracite01Brush}" Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding SelectedSession, Mode=TwoWay}" ItemsSource="{Binding Sessions}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="5" BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" CornerRadius="3">
+                                            <StackPanel >
+                                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding SessionType}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <local:SessionFuelConsumptionControl Grid.Column="1" AverageConsumption="{Binding SelectedSession.FuelConsumption.Consumption}" AvgPerLap="{Binding SelectedSession.AvgPerLap}"
+                                                             AvgPerMinute="{Binding SelectedSession.AvgPerMinute}" SessionType="{Binding SelectedSession.SessionType}" TotalConsumedFuel="{Binding SelectedSession.FuelConsumption.ConsumedFuel}"
+                                                             TrackName="{Binding SelectedSession.TrackName}" RunningTime="{Binding SelectedSession.FuelConsumption.ElapsedTime}" TraveledDistance="{Binding SelectedSession.FuelConsumption.TraveledDistance}" 
+                                                                 DistanceUnits="{Binding DistanceUnits, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 FuelPerDistanceUnits="{Binding FuelPerDistanceUnits, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <local:FuelCalculatorControl Grid.Row="0" RequiredFuel="{Binding CalculatorForSelectedSession.RequiredFuel, Mode=TwoWay}" RequiredLaps="{Binding CalculatorForSelectedSession.RequiredLaps, Mode=TwoWay}"
+                                                     RequiredMinutes="{Binding CalculatorForSelectedSession.RequiredMinutes, Mode=TwoWay}"
+                                                             VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <Button Grid.Row="1" Style="{StaticResource StandardButton}" Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" HorizontalAlignment="Right" MaxWidth="50">
+                                    <Button.Content>
+                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
+                                            <ContentPresenter Content="{StaticResource ResetIcon}"/>
+                                        </wpf:ColorAbleIcon>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

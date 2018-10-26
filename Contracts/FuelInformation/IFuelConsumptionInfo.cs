@@ -2,6 +2,7 @@
 {
     using System;
     using DataModel.BasicProperties;
+    using DataModel.BasicProperties.FuelConsumption;
 
     public interface IFuelConsumptionInfo
     {
@@ -10,6 +11,8 @@
         TimeSpan ElapsedTime { get; }
 
         Distance TraveledDistance { get; }
+
+        FuelPerDistance Consumption { get; }
 
         IFuelConsumptionInfo AddConsumption(IFuelConsumptionInfo fuelConsumption);
 

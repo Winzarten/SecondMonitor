@@ -1,32 +1,30 @@
 ﻿namespace ControlTestingApp.ViewModels
 {
     using System;
+    using System.Linq;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.ViewModels.CarStatus.FuelStatus;
 
-    public class FuelCalculatorTestViewModel
+    public class FuelCalculatorTestViewModel : FuelPlannerViewModel
     {
         public FuelCalculatorTestViewModel()
         {
-            FuelCalculatorViewModel = new FuelCalculatorViewModel()
+            Sessions.Add(new SessionFuelConsumptionViewModel()
             {
                 FuelConsumption = new FuelConsumptionInfo(Volume.FromLiters(20), TimeSpan.FromMinutes(30), 12000),
-                LapDistance = 3400,
-                RequiredFuel = Volume.FromLiters(250),
-                RequiredMinutes = 10,
-                RequiredLaps = 30,
-            };
-
-            SessionFuelConsumptionViewModel = new SessionFuelConsumptionViewModel()
-            {
-                FuelConsumption = FuelCalculatorViewModel.FuelConsumption,
                 LapDistance = Distance.FromMeters(3400),
                 SessionType = SessionType.Qualification.ToString(),
                 TrackName = "Brands Hatch",
-            };
-        }
+            });
 
-        public FuelCalculatorViewModel FuelCalculatorViewModel { get; set; }
-        public SessionFuelConsumptionViewModel SessionFuelConsumptionViewModel { get; set; }
+            Sessions.Add(new SessionFuelConsumptionViewModel()
+            {
+                FuelConsumption = new FuelConsumptionInfo(Volume.FromLiters(30), TimeSpan.FromMinutes(40), 25000),
+                LapDistance = Distance.FromMeters(5200),
+                SessionType = SessionType.Race.ToString(),
+                TrackName = "Slovakia Ring",
+            });
+            SelectedSession = Sessions.First();
+        }
     }
 }

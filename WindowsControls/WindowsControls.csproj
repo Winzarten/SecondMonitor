@@ -126,6 +126,7 @@
     <Compile Include="WPF\FuelControl\FuelCalculatorControl.cs" />
     <Compile Include="WPF\FuelControl\FuelLevelControl.cs" />
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
+    <Compile Include="WPF\FuelControl\FuelPlannerControl.cs" />
     <Compile Include="WPF\FuelControl\SessionFuelConsumptionControl.cs" />
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
     <Compile Include="WPF\DriverPosition\ISituationOverviewControl.cs" />
@@ -161,6 +162,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>
@@ -204,6 +209,10 @@
     <Page Include="WPF\FuelControl\FuelOverviewControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\FuelControl\FuelPlannerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\FuelControl\SessionFuelConsumptionControl.xaml">
       <SubType>Designer</SubType>
