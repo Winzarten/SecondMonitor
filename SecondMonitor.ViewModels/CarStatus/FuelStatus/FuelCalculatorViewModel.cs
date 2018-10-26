@@ -3,19 +3,20 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
     using System;
     using System.Windows;
+    using Contracts.FuelInformation;
     using DataModel.BasicProperties;
 
-    public class FuelCalculatorViewModel : DependencyObject
+    public class FuelCalculatorViewModel : DependencyObject, IFuelCalculatorViewModel
     {
         private static readonly DependencyProperty RequiredLapsProperty = DependencyProperty.Register("RequiredLaps", typeof(int), typeof(FuelCalculatorViewModel), new PropertyMetadata() {PropertyChangedCallback = OnRequiredPropertyChanged});
         private static readonly DependencyProperty RequiredMinutesProperty = DependencyProperty.Register("RequiredMinutes", typeof(int), typeof(FuelCalculatorViewModel), new PropertyMetadata() { PropertyChangedCallback = OnRequiredPropertyChanged });
         private static readonly DependencyProperty LapDistanceProperty = DependencyProperty.Register("LapDistance", typeof(double), typeof(FuelCalculatorViewModel));
         private static readonly DependencyProperty RequiredFuelProperty = DependencyProperty.Register("RequiredFuel", typeof(Volume), typeof(FuelCalculatorViewModel));
-        private static readonly DependencyProperty FuelConsumptionProperty = DependencyProperty.Register("FuelConsumption", typeof(FuelConsumptionInfo), typeof(FuelCalculatorViewModel));
+        private static readonly DependencyProperty FuelConsumptionProperty = DependencyProperty.Register("FuelConsumption", typeof(IFuelConsumptionInfo), typeof(FuelCalculatorViewModel));
 
-        public FuelConsumptionInfo FuelConsumption
+        public IFuelConsumptionInfo FuelConsumption
         {
-            get => (FuelConsumptionInfo) GetValue(FuelConsumptionProperty);
+            get => (IFuelConsumptionInfo) GetValue(FuelConsumptionProperty);
             set => SetValue(FuelConsumptionProperty, value);
         }
 

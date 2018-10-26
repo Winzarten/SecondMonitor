@@ -20,6 +20,7 @@
         <fuelControl:FuelCalculatorControl RequiredLaps="{Binding FuelCalculatorViewModel.RequiredLaps, Mode=TwoWay}" RequiredMinutes="{Binding FuelCalculatorViewModel.RequiredMinutes, Mode=TwoWay}" VolumeUnits="Liters" RequiredFuel="{Binding FuelCalculatorViewModel.RequiredFuel}"/>
         <fuelControl:SessionFuelConsumptionControl Grid.Column="1" TrackName="{Binding SessionFuelConsumptionViewModel.TrackName}" SessionType="{Binding SessionFuelConsumptionViewModel.SessionType}" RunningTime="{Binding SessionFuelConsumptionViewModel.FuelConsumption.ElapsedTime}" TotalConsumedFuel="{Binding SessionFuelConsumptionViewModel.FuelConsumption.ConsumedFuel}"
                                                     VolumeUnits="Liters" AvgPerMinute="{Binding SessionFuelConsumptionViewModel.AvgPerMinute}" AvgPerLap="{Binding SessionFuelConsumptionViewModel.AvgPerLap}"
-                                                   DistanceUnits="Kilometers" TraveledDistance="{Binding SessionFuelConsumptionViewModel.FuelConsumption.TraveledDistance}"/>
+                                                   DistanceUnits="Kilometers" TraveledDistance="{Binding SessionFuelConsumptionViewModel.FuelConsumption.TraveledDistance}"
+                                                   AverageConsumption="{Binding SessionFuelConsumptionViewModel.FuelConsumption.Consumption}" FuelPerDistanceUnits="LitersPerHundredKm"/>
     </Grid>
 </UserControl>

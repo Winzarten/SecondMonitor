@@ -2,7 +2,9 @@
 
 namespace SecondMonitor.DataModel.BasicProperties.FuelConsumption
 {
-    public class FuelPerDistance
+    using System;
+
+    public class FuelPerDistance : IQuantity
     {
         public FuelPerDistance(Volume consumedFuel, Distance distance)
         {
@@ -12,6 +14,10 @@ namespace SecondMonitor.DataModel.BasicProperties.FuelConsumption
 
         public Volume ConsumedFuel { get; }
         public Distance Distance { get; }
+
+        public IQuantity ZeroQuantity => new FuelPerDistance(Volume.FromLiters(0), Distance.ZeroDistance);
+        public bool IsZero => Distance.IsZero;
+        public double RawValue => InVolumePer100Km.InLiters;
 
         public Volume InVolumePer100Km
         {
@@ -34,6 +40,19 @@ namespace SecondMonitor.DataModel.BasicProperties.FuelConsumption
                     return InDistancePerGallon.InMiles;
                 default:
                     throw new InvalidEnumArgumentException($"Unknown fuel consumption unit: {fuelPerDistanceUnits}");
+            }
+        }
+
+        public static string GetUnitsSymbol(FuelPerDistanceUnits fuelPerDistanceUnits)
+        {
+            switch (fuelPerDistanceUnits)
+            {
+                case FuelPerDistanceUnits.LitersPerHundredKm:
+                    return "l/100km";
+                case FuelPerDistanceUnits.MilesPerGallon:
+                    return "mpg";
+                default:
+                    throw new ArgumentException($"Unknown units {fuelPerDistanceUnits}");
             }
         }
     }

@@ -17,7 +17,6 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
-
                                 </Grid.RowDefinitions>
                                 <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}">
                                                                     <StackPanel>
@@ -36,34 +35,40 @@
                                                                      ShowUnitSymbol="True"/>
 
                                 </StackPanel>
-                                <StackPanel Grid.Row="2" Margin="0,15,0,5">
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                        <TextBlock Style="{StaticResource StandardText}" Text="Fuel Consumed: " Margin="0,0,0,0"/>
-                                        <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+                                <Border Grid.Row="2" BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}">
+                                    <StackPanel Margin="0,15,0,5">
+                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                            <TextBlock Style="{StaticResource StandardText}" Text="Fuel Consumed: " Margin="0,0,0,0"/>
+                                            <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
                                                                          Quantity="{Binding TotalConsumedFuel, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                                          VolumeUnits="{Binding VolumeUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                                          ShowUnitSymbol="True"/>
                                         </StackPanel>
-                                    
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Style="{StaticResource StandardText}" Text="Avg Per Lap:" />
-                                        <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource StandardText}" Text="Avg Per Lap:" />
+                                            <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
                                                                          Quantity="{Binding AvgPerLap, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                                          VolumeUnits="{Binding VolumeUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                                          ShowUnitSymbol="True" Margin="5,0,0,0"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                        <TextBlock Style="{StaticResource StandardText}" Text="Avg Per Minute:" />
-                                        <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                            <TextBlock Style="{StaticResource StandardText}" Text="Avg Per Minute:" />
+                                            <quantityText:VolumeQuantityText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
                                                                          Quantity="{Binding AvgPerMinute, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                                          VolumeUnits="{Binding VolumeUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                                          ShowUnitSymbol="True" Margin="5,0,0,0"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Style="{StaticResource StandardText}" Text="Fuel Economy:" />
-                                    </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource StandardText}" Text="Fuel Economy:" />
+                                            <quantityText:FuelPerDistanceText Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}"
+                                                                         Quantity="{Binding AverageConsumption, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         FuelPerDistanceUnits ="{Binding FuelPerDistanceUnits, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                         ShowUnitSymbol="True" Margin="5,0,0,0"/>
+                                        </StackPanel>
 
-                                </StackPanel>
+                                    </StackPanel>
+                                </Border>
                             </Grid>
                         </Border>
 

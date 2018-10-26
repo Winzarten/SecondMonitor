@@ -3,14 +3,14 @@
 namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
     using System;
-
+    using Contracts.FuelInformation;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
     public class FuelConsumptionMonitor
     {
         private readonly List<SessionFuelConsumptionInfo> _sessionsFuelConsumptionInfos;
-        private FuelConsumptionInfo _totalFuelConsumption;
+        private IFuelConsumptionInfo _totalFuelConsumption;
         private FuelStatusSnapshot _lastLapFuelStatus;
         private int _lastLapNumber;
         private FuelStatusSnapshot _lastMinuteFuelStatus;

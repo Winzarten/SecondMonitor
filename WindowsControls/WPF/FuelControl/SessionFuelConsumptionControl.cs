@@ -18,11 +18,18 @@
         private static readonly DependencyProperty AverageConsumptionProperty = DependencyProperty.Register("AverageConsumption", typeof(FuelPerDistance), typeof(SessionFuelConsumptionControl));
         private static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumeUnits",typeof(VolumeUnits), typeof(SessionFuelConsumptionControl));
         private static readonly DependencyProperty DistanceUnitsProperty = DependencyProperty.Register("DistanceUnits", typeof(DistanceUnits), typeof(SessionFuelConsumptionControl));
+        private static readonly DependencyProperty FuelPerDistanceUnitsProperty = DependencyProperty.Register("FuelPerDistanceUnits", typeof(FuelPerDistanceUnits), typeof(SessionFuelConsumptionControl));
 
         public VolumeUnits VolumeUnits
         {
             get => (VolumeUnits) GetValue(VolumeUnitsProperty);
             set => SetValue(VolumeUnitsProperty, value);
+        }
+
+        public FuelPerDistanceUnits FuelPerDistanceUnits
+        {
+            get => (FuelPerDistanceUnits) GetValue(FuelPerDistanceUnitsProperty);
+            set => SetValue(FuelPerDistanceUnitsProperty, value);
         }
 
         public DistanceUnits DistanceUnits

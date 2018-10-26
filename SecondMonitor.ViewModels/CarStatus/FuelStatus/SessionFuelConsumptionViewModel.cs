@@ -1,13 +1,14 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
     using System.Windows;
+    using Contracts.FuelInformation;
     using DataModel.BasicProperties;
 
-    public class SessionFuelConsumptionViewModel : AbstractViewModel<SessionFuelConsumptionInfo>
+    public class SessionFuelConsumptionViewModel : AbstractViewModel<SessionFuelConsumptionInfo>, ISessionFuelConsumptionViewModel
     {
         private static readonly DependencyProperty TrackNameProperty = DependencyProperty.Register("TrackName", typeof(string), typeof(SessionFuelConsumptionViewModel));
         private static readonly DependencyProperty SessionTypeProperty = DependencyProperty.Register("SessionType", typeof(string), typeof(SessionFuelConsumptionViewModel));
-        private static readonly DependencyProperty FuelConsumptionProperty = DependencyProperty.Register("FuelConsumption", typeof(FuelConsumptionInfo), typeof(SessionFuelConsumptionViewModel), new FrameworkPropertyMetadata(){ PropertyChangedCallback = OnFuelConsumptionChanged});
+        private static readonly DependencyProperty FuelConsumptionProperty = DependencyProperty.Register("FuelConsumption", typeof(IFuelConsumptionInfo), typeof(SessionFuelConsumptionViewModel), new FrameworkPropertyMetadata(){ PropertyChangedCallback = OnFuelConsumptionChanged});
         private static readonly DependencyProperty LapDistanceProperty = DependencyProperty.Register("LapDistance", typeof(Distance), typeof(SessionFuelConsumptionViewModel), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnFuelConsumptionChanged });
         private static readonly DependencyProperty AvgPerMinuteProperty = DependencyProperty.Register("AvgPerMinute", typeof(Volume), typeof(SessionFuelConsumptionViewModel));
         private static readonly DependencyProperty AvgPerLapProperty = DependencyProperty.Register("AvgPerLap", typeof(Volume), typeof(SessionFuelConsumptionViewModel));
@@ -30,9 +31,9 @@
             set => SetValue(SessionTypeProperty, value);
         }
 
-        public FuelConsumptionInfo FuelConsumption
+        public IFuelConsumptionInfo FuelConsumption
         {
-            get => (FuelConsumptionInfo) GetValue(FuelConsumptionProperty);
+            get => (IFuelConsumptionInfo) GetValue(FuelConsumptionProperty);
             set => SetValue(FuelConsumptionProperty, value);
         }
 

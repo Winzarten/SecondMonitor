@@ -3,11 +3,13 @@ using SecondMonitor.DataModel.BasicProperties;
 
 namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
+    using Contracts.FuelInformation;
+
     public class RequiredFuelCalculator
     {
-        private readonly FuelConsumptionInfo _fuelConsumptionInfo;
+        private readonly IFuelConsumptionInfo _fuelConsumptionInfo;
 
-        public RequiredFuelCalculator(FuelConsumptionInfo fuelConsumptionInfo)
+        public RequiredFuelCalculator(IFuelConsumptionInfo fuelConsumptionInfo)
         {
             _fuelConsumptionInfo = fuelConsumptionInfo;
         }

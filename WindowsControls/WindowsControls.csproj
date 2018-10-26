@@ -132,6 +132,7 @@
     <Compile Include="WPF\DriverPosition\DriverPositionControl.cs" />
     <Compile Include="WPF\DriverPosition\PositionCircleControl.cs" />
     <Compile Include="WPF\QuantityText\DistanceText.cs" />
+    <Compile Include="WPF\QuantityText\FuelPerDistanceText.cs" />
     <Compile Include="WPF\QuantityText\PressureText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
     <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />

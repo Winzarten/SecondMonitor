@@ -2,11 +2,12 @@
 namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
     using System;
+    using Contracts.FuelInformation;
     using DataModel.BasicProperties.FuelConsumption;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
-    public class FuelConsumptionInfo
+    public class FuelConsumptionInfo : IFuelConsumptionInfo
     {
         public FuelConsumptionInfo()
         {
@@ -41,7 +42,7 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
             return new FuelConsumptionInfo(fromSnapshot.FuelLevel - toSnapshot.FuelLevel, toSnapshot.SessionTime - fromSnapshot.SessionTime, toSnapshot.TotalDistance - fromSnapshot.TotalDistance);
         }
 
-        public FuelConsumptionInfo AddConsumption(FuelConsumptionInfo fuelConsumption)
+        public IFuelConsumptionInfo AddConsumption(IFuelConsumptionInfo fuelConsumption)
         {
             TimeSpan newElapsedTime = ElapsedTime + fuelConsumption.ElapsedTime;
             return new FuelConsumptionInfo(ConsumedFuel + fuelConsumption.ConsumedFuel, newElapsedTime, TraveledDistance.InMeters + fuelConsumption.TraveledDistance.InMeters);
