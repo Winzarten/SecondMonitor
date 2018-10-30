@@ -57,6 +57,7 @@
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionInfo.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelOverviewViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelPlannerViewModel.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelPlannerViewModelFactory.cs" />
     <Compile Include="CarStatus\FuelStatus\SessionFuelConsumptionViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelStatusSnapshot.cs" />
     <Compile Include="CarStatus\FuelStatus\RequiredFuelCalculator.cs" />

@@ -16,6 +16,7 @@
     {
 
         private readonly SimulatorDSViewModels _viewModels;
+        private readonly FuelPlannerViewModelFactory _fuelPlannerViewModelFactory;
 
         private WaterTemperatureViewModel _waterTemperatureViewModel;
         private OilTemperatureViewModel _oilTemperatureViewModel;
@@ -29,6 +30,7 @@
         public CarStatusViewModel()
         {
             _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(), new PedalsAndGearViewModel()};
+            _fuelPlannerViewModelFactory = new FuelPlannerViewModelFactory();;
             RefreshProperties();
         }
 
@@ -123,25 +125,8 @@
                 return;
             }
 
-            FuelPlannerViewModel newViewModel = new FuelPlannerViewModel();        
-            FuelOverviewViewModel.FuelConsumptionMonitor.SessionFuelConsumptionInfos.ForEach(x =>
-            {
-                SessionFuelConsumptionViewModel consumptionViewModel = new SessionFuelConsumptionViewModel();
-                if (x != null)
-                {
-                    consumptionViewModel.FromModel(x);
-                    newViewModel.Sessions.Add(consumptionViewModel);
-                }
-               
-            });
-
-            if (newViewModel.Sessions.Count == 0)
-            {
-                return;
-            }
-            newViewModel.SelectedSession = newViewModel.Sessions.First();
-            FuelPlannerViewModel = newViewModel;
-            IsFuelCalculatorShown = true;
+            FuelPlannerViewModel = _fuelPlannerViewModelFactory.Create(FuelOverviewViewModel);
+            IsFuelCalculatorShown = FuelPlannerViewModel.Sessions.Count  != 0;
         }
 
         private void HideFuelCalculator()

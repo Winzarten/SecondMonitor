@@ -9,6 +9,8 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 
     public class FuelConsumptionMonitor
     {
+        private static readonly TimeSpan MinimumSessionLength  = TimeSpan.FromMinutes(2);
+
         private readonly List<SessionFuelConsumptionInfo> _sessionsFuelConsumptionInfos;
         private IFuelConsumptionInfo _totalFuelConsumption;
         private FuelStatusSnapshot _lastLapFuelStatus;
@@ -17,7 +19,7 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
         private FuelStatusSnapshot _lastTickFuelStatus;
         private TimeSpan _nextMinuteConsumptionUpdate;
         private SimulatorDataSet _lastDataSet;
-       
+
         public FuelConsumptionMonitor()
         {
             _sessionsFuelConsumptionInfos = new List<SessionFuelConsumptionInfo>();
@@ -91,12 +93,12 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 
         private SessionFuelConsumptionInfo GetConsumptionForCurrentSession()
         {
-            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < TimeSpan.FromMinutes(5))
+            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < MinimumSessionLength)
             {
                 return null;
             }
 
-            return new SessionFuelConsumptionInfo(_totalFuelConsumption, 
+            return new SessionFuelConsumptionInfo(_totalFuelConsumption,
                 _lastDataSet.SessionInfo.TrackInfo.TrackName, Distance.FromMeters(_lastDataSet.SessionInfo.TrackInfo.LayoutLength.InMeters), _lastDataSet.SessionInfo.SessionType);
         }
 
