@@ -93,7 +93,9 @@
       <Component Id="c74f8cc9acda845fca611e26870f7cb1e" Directory="APPLICATIONROOTDIRECTORY" Guid="82229824-c62a-415b-a1e5-89d1d96310c7">
         <File Id="f128a6330a922457597bdbfa636a51b2" KeyPath="yes" Source="..\Deployment\SimdataManagement.dll" />
       </Component>
-
+      <Component Id="cc8c1c81d226648f1a7eb0ddb8959910d" Directory="APPLICATIONROOTDIRECTORY" Guid="fca38ce3-1f6f-4e29-8233-c1933b064878">
+        <File Id="fc8c1c81d226648f1a7eb0ddb8959910d" KeyPath="yes" Source="..\Deployment\Contracts.dll" />
+      </Component>
       <Component Id="cmp44450B3EA8BEA00A3085509BFE17EA56" Directory="dirF09AC222E5E846B669ECCC3285BC0D7B" Guid="62ae6c28-044b-4029-a248-9b04ee5b0abf">
         <File Id="filCD83CF2407F23ADF1015E2352A06DD75" KeyPath="yes" Source="..\Deployment\Connectors\Pcars\Newtonsoft.Json.dll" />
       </Component>

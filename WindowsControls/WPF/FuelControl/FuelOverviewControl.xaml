@@ -92,8 +92,8 @@
                                     <Button Style="{StaticResource StandardButton}" Command="{Binding FuelCalculatorCommand, RelativeSource={RelativeSource AncestorType=fuelControl:FuelOverviewControl}, Mode=OneWay}" HorizontalAlignment="Right" MaxWidth="50"
                                             ToolTip="Open the Fuel Calculator">
                                         <Button.Content>
-                                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
-                                                <ContentPresenter Content="{StaticResource WorldIcon}"/>
+                                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="2">
+                                                <ContentPresenter Content="{StaticResource CalculatorIcon}"/>
                                             </wpf:ColorAbleIcon>
                                         </Button.Content>
                                         </Button>
