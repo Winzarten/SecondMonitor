@@ -83,7 +83,7 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 
         private void CreateAndAddSessionFuelConsumptionInfo()
         {
-            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < TimeSpan.FromMinutes(5))
+            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < MinimumSessionLength)
             {
                 return;
             }
