@@ -84,9 +84,9 @@
                 switch (VelocityUnits)
                 {
                     case VelocityUnits.Kph:
-                        return FuelPerDistanceUnits.LitersPerHundredKm;                     
+                        return FuelPerDistanceUnits.LitersPerHundredKm;
                     case VelocityUnits.Mph:
-                        return FuelPerDistanceUnits.MilesPerGallon;                       
+                        return FuelPerDistanceUnits.MilesPerGallon;
                     case VelocityUnits.Ms:
                         return FuelPerDistanceUnits.LitersPerHundredKm;
                     default:
@@ -194,6 +194,12 @@
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             DisplaySettingsViewModel sender = (DisplaySettingsViewModel) dependencyObject;
+            if (dependencyPropertyChangedEventArgs.Property.Name == nameof(VelocityUnits))
+            {
+                sender.OnPropertyChanged(nameof(DistanceUnits));
+                sender.OnPropertyChanged(nameof(FuelPerDistanceUnits));
+            }
+
             sender.OnPropertyChanged(dependencyPropertyChangedEventArgs.Property.Name);
         }
 

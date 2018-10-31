@@ -309,7 +309,7 @@
                             }
                         });
                 List<string> driversToRemove = new List<string>();
-                foreach (var obsoleteDriverName in Drivers.Keys.Where(s => !updatedDrivers.Contains(s)))
+                foreach (string obsoleteDriverName in Drivers.Keys.Where(s => !updatedDrivers.Contains(s) && Drivers[s].DriverTiming.IsActive))
                 {
                     driversToRemove.Add(obsoleteDriverName);
                 }

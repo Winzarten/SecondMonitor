@@ -1,15 +1,11 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
-    using System;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
     using WindowsControls.WPF.Commands;
     using DataModel.Snapshot;
     using Annotations;
-    using DataModel.BasicProperties;
-    using DataModel.Extensions;
     using FuelStatus;
 
     public class CarStatusViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged

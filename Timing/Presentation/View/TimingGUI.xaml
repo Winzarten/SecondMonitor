@@ -78,7 +78,9 @@
                                                    SessionType="{Binding TrackInfoViewModel.SessionType}"
                                                    TrackName="{Binding TrackInfoViewModel.TrackName}"
                                                    TrackTemperatureInfo="{Binding TrackInfoViewModel.TrackTemperatureInfo}"
-                                                   WeatherInfoAvailable="{Binding TrackInfoViewModel.WeatherInfoAvailable}" />
+                                                   WeatherInfoAvailable="{Binding TrackInfoViewModel.WeatherInfoAvailable}"
+                                                   LayoutLength="{Binding TrackInfoViewModel.LayoutLength}"
+                                                   DistanceUnits="{Binding DisplaySettingsViewModel.DistanceUnits}"/>
             </Border>
             <Border Grid.Column="1"
                     BorderBrush="{StaticResource DarkGrey01Brush}"
@@ -219,7 +221,7 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96" 
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
                                                                            BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                            IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                            PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"

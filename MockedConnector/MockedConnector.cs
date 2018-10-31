@@ -35,7 +35,7 @@
         private double _totalFuel = 2000;
         private double _fuelStep = -0.01;
 
-        private double _layoutLength = 2000;
+        private double _layoutLength = 5200;
 
         private readonly Dictionary<string, DriverInfo> _players = new Dictionary<string, DriverInfo>();
 
@@ -58,7 +58,7 @@
         public bool TryConnect()
         {
 
-            #if! DEBUG
+            #if DEBUG
             IsConnected = true;
             Thread executionThread = new Thread(new ThreadStart(TestingThreadExecutor));
             executionThread.IsBackground = true;
@@ -156,7 +156,12 @@
             simulatorDataSet.SessionInfo.SessionTime = _sessionTime;
 
             simulatorDataSet.SessionInfo.SessionPhase = SessionPhase.Green;
+            simulatorDataSet.SessionInfo.TrackInfo.TrackName = "Slovakia Ring";
+            simulatorDataSet.SessionInfo.TrackInfo.TrackLayoutName = "Grand Prix";
             simulatorDataSet.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters(_layoutLength);
+            simulatorDataSet.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(25);
+            simulatorDataSet.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(31);
+            simulatorDataSet.SessionInfo.WeatherInfo.RainIntensity = 0;
             simulatorDataSet.SessionInfo.IsActive = true;
             simulatorDataSet.SimulatorSourceInfo.GlobalTyreCompounds = true;
             simulatorDataSet.SessionInfo.SessionType = SessionType.Qualification;

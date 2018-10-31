@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.WindowsControls.WPF.TrackInfoControl
+﻿using SecondMonitor.DataModel.BasicProperties;
+
+namespace SecondMonitor.WindowsControls.WPF.TrackInfoControl
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -11,6 +13,21 @@
         private static readonly DependencyProperty RainIntensityInfoProperty = DependencyProperty.Register("RainIntensityInfo", typeof(string), typeof(TrackInfoControl));
         private static readonly DependencyProperty AirTemperatureInfoProperty = DependencyProperty.Register("AirTemperatureInfo", typeof(string), typeof(TrackInfoControl));
         private static readonly DependencyProperty TrackTemperatureInfoProperty = DependencyProperty.Register("TrackTemperatureInfo", typeof(string), typeof(TrackInfoControl));
+        private static readonly DependencyProperty DistanceUnitsProperty = DependencyProperty.Register("DistanceUnits",typeof(DistanceUnits), typeof(TrackInfoControl));
+        private static readonly DependencyProperty LayoutLengthProperty = DependencyProperty.Register("LayoutLength", typeof(Distance), typeof(TrackInfoControl));
+
+
+        public Distance LayoutLength
+        {
+            get => (Distance) GetValue(LayoutLengthProperty);
+            set => SetValue(LayoutLengthProperty, value);
+        }
+
+        public DistanceUnits DistanceUnits
+        {
+            get => (DistanceUnits) GetValue(DistanceUnitsProperty);
+            set => SetValue(DistanceUnitsProperty, value);
+        }
 
         public string TrackName
         {
