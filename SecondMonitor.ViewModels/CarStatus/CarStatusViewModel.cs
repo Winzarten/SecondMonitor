@@ -1,9 +1,9 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
-    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
+    using System.Windows.Input;
+    using WindowsControls.WPF.Commands;
     using DataModel.Snapshot;
     using Annotations;
     using FuelStatus;
@@ -12,17 +12,21 @@
     {
 
         private readonly SimulatorDSViewModels _viewModels;
+        private readonly FuelPlannerViewModelFactory _fuelPlannerViewModelFactory;
 
         private WaterTemperatureViewModel _waterTemperatureViewModel;
         private OilTemperatureViewModel _oilTemperatureViewModel;
         private CarWheelsViewModel _playersWheelsViewModel;
         private FuelOverviewViewModel _fuelOverviewViewModel;
+        private FuelPlannerViewModel _fuelPlannerViewModel;
+        private bool _isFuelCalculatorShown;
 
         private PedalsAndGearViewModel _pedalAndGearViewModel;
 
         public CarStatusViewModel()
         {
             _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(), new PedalsAndGearViewModel()};
+            _fuelPlannerViewModelFactory = new FuelPlannerViewModelFactory();;
             RefreshProperties();
         }
 
@@ -32,6 +36,26 @@
             private set
             {
                 _oilTemperatureViewModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsFuelCalculatorShown
+        {
+            get => _isFuelCalculatorShown;
+            private set
+            {
+                _isFuelCalculatorShown = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public FuelPlannerViewModel FuelPlannerViewModel
+        {
+            get => _fuelPlannerViewModel;
+            set
+            {
+                _fuelPlannerViewModel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -82,9 +106,28 @@
 
         }
 
+        public ICommand ShowFuelCalculatorCommand => new RelayCommand(ShowFuelCalculator);
+        public ICommand HideFuelCalculatorCommand => new RelayCommand(HideFuelCalculator);
+
         public void Reset()
         {
             _viewModels.Reset();
+        }
+
+        private void ShowFuelCalculator()
+        {
+            if (FuelOverviewViewModel.FuelConsumptionMonitor.SessionFuelConsumptionInfos.Count == 0)
+            {
+                return;
+            }
+
+            FuelPlannerViewModel = _fuelPlannerViewModelFactory.Create(FuelOverviewViewModel);
+            IsFuelCalculatorShown = FuelPlannerViewModel.Sessions.Count  != 0;
+        }
+
+        private void HideFuelCalculator()
+        {
+            IsFuelCalculatorShown = false;
         }
 
         private void RefreshProperties()

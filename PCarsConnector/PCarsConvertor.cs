@@ -32,7 +32,7 @@
 
         private static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, SimulatorDataSet data)
         {
-            double trackLength = data.SessionInfo.TrackInfo.LayoutLength;
+            double trackLength = data.SessionInfo.TrackInfo.LayoutLength.InMeters;
             double playerLapDistance = player.LapDistance;
 
             double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
@@ -88,7 +88,7 @@
                     driverInfo.FinishStatus = DriverFinishStatus.Finished;
                 }
 
-                driverInfo.TotalDistance = driverInfo.CompletedLaps * data.SessionInfo.TrackInfo.LayoutLength + driverInfo.LapDistance;
+                driverInfo.TotalDistance = driverInfo.CompletedLaps * data.SessionInfo.TrackInfo.LayoutLength.InMeters + driverInfo.LapDistance;
 
                 if (driverInfo.IsPlayer)
                 {
@@ -109,8 +109,8 @@
                 AddSpeedInfo(data, computeSpeed, driverInfo);
                 if (data.SessionInfo.SessionType == SessionType.Race && _lastPlayer != null && _lastPlayer.CompletedLaps != 0)
                 {
-                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - data.SessionInfo.TrackInfo.LayoutLength * 0.5);
-                    driverInfo.IsLappingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - data.SessionInfo.TrackInfo.LayoutLength * 0.5);
+                    driverInfo.IsBeingLappedByPlayer = driverInfo.TotalDistance < (_lastPlayer.TotalDistance - data.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.5);
+                    driverInfo.IsLappingPlayer = _lastPlayer.TotalDistance < (driverInfo.TotalDistance - data.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.5);
                 }
 
                 if (driverInfo.Position == 1)
@@ -154,7 +154,7 @@
                     .Subtract(_lastSpeedComputationSet.SessionInfo.SessionTime).TotalSeconds;
 
                 // double speed = lastTickDuration.TotalMilliseconds;
-                double speed = Point3D.GetDistance(currentWorldPosition, previousWorldPosition).DistanceInM / duration;
+                double speed = Point3D.GetDistance(currentWorldPosition, previousWorldPosition).InMeters / duration;
 
                 // if (speed < 200)
                 driverInfo.Speed = Velocity.FromMs(speed);
@@ -286,7 +286,7 @@
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(pCarsData.MAmbientTemperature);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(pCarsData.MTrackTemperature);
             simData.SessionInfo.WeatherInfo.RainIntensity = (int)(pCarsData.MRainDensity * 100);
-            simData.SessionInfo.TrackInfo.LayoutLength = pCarsData.MTrackLength;
+            simData.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters(pCarsData.MTrackLength);
             simData.SessionInfo.IsActive = true; // (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_RACING
 
             // || (eRaceState)pcarsData.mRaceState == eRaceState.RACESTATE_FINISHED;
@@ -379,7 +379,7 @@
                 var driverName = driverInfo.DriverName;
                 if (_driversInPits.Contains(driverName))
                 {
-                    if (trackDetails.AtPitExit(driverInfo) || (driverInfo.LapDistance > 300 && dataSet.SessionInfo.TrackInfo.LayoutLength - driverInfo.LapDistance > 700))
+                    if (trackDetails.AtPitExit(driverInfo) || (driverInfo.LapDistance > 300 && dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - driverInfo.LapDistance > 700))
                     {
                         _driversInPits.Remove(driverName);
                         continue;

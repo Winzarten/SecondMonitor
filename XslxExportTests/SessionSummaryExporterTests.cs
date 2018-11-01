@@ -128,7 +128,7 @@
                            Simulator = "R3E",
                            TrackInfo = new TrackInfo()
                                            {
-                                               LayoutLength = 2000,
+                                               LayoutLength =  Distance.FromMeters(2000),
                                                TrackLayoutName = "Grand Prix",
                                                TrackName = "Red bull Ring"
                                            }

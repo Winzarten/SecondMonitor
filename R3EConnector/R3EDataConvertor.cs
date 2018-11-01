@@ -362,7 +362,7 @@
         {
             // Timing
             simData.SessionInfo.SessionTime = _connector.SessionTime; // TimeSpan.FromSeconds(data.Player.GameSimulationTime);
-            simData.SessionInfo.TrackInfo.LayoutLength = data.LayoutLength;
+            simData.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters( data.LayoutLength);
             simData.SessionInfo.IsActive = (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Green
                 || (Constant.SessionPhase)data.SessionPhase == Constant.SessionPhase.Checkered;
             switch ((Constant.Session)data.SessionType)

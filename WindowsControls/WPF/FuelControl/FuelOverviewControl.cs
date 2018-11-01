@@ -30,6 +30,8 @@
         private static readonly DependencyProperty CurPerMinuteProperty = DependencyProperty.Register("CurPerMinute", typeof(Volume), typeof(FuelOverviewControl), new PropertyMetadata());
         private static readonly DependencyProperty ResetCommandProperty = DependencyProperty.Register("ResetCommand", typeof(ICommand), typeof(FuelOverviewControl), new PropertyMetadata());
         private static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumeUnits", typeof(VolumeUnits), typeof(FuelOverviewControl), new PropertyMetadata());
+        private static readonly DependencyProperty FuelCalculatorCommandProperty = DependencyProperty.Register("FuelCalculatorCommand", typeof(ICommand), typeof(FuelOverviewControl), new PropertyMetadata());
+
 
 
 
@@ -45,6 +47,12 @@
         {
             get => (ICommand)GetValue(ResetCommandProperty);
             set => SetValue(ResetCommandProperty, value);
+        }
+
+        public ICommand FuelCalculatorCommand
+        {
+            get => (ICommand)GetValue(FuelCalculatorCommandProperty);
+            set => SetValue(FuelCalculatorCommandProperty, value);
         }
 
         public TimeSpan TimeLeft

@@ -20,6 +20,8 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CarSettingsControl/CarSettingsControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ComboboxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelCalculatorControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelPlannerControl.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

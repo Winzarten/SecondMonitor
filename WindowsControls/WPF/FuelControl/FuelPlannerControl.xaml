@@ -1,0 +1,77 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d"
+                    xmlns:fuelInformation="clr-namespace:SecondMonitor.Contracts.FuelInformation;assembly=Contracts"
+                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF"
+                   
+                   >
+    <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../CommonResources.xaml" />
+    <ResourceDictionary Source="SessionFuelConsumptionControl.xaml" />
+    <ResourceDictionary Source="FuelCalculatorControl.xaml" />
+    <ResourceDictionary Source="../ButtonStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="local:FuelPlannerControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FuelPlannerControl">
+                    <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2" CornerRadius="2">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                            </Grid>
+                            <ListBox Foreground="{StaticResource LightGrey01Brush}" Background="{StaticResource Anthracite01Brush}" Grid.Column="0" SelectionMode="Single" SelectedItem="{Binding FuelPlannerVm.SelectedSession, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ItemsSource="{Binding FuelPlannerVm.Sessions, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="5" BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" CornerRadius="3">
+                                            <StackPanel >
+                                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding SessionType}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <local:SessionFuelConsumptionControl Grid.Column="1" AverageConsumption="{Binding FuelPlannerVm.SelectedSession.FuelConsumption.Consumption, RelativeSource={RelativeSource TemplatedParent}}" AvgPerLap="{Binding FuelPlannerVm.SelectedSession.AvgPerLap, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             AvgPerMinute="{Binding FuelPlannerVm.SelectedSession.AvgPerMinute, RelativeSource={RelativeSource TemplatedParent}}" SessionType="{Binding FuelPlannerVm.SelectedSession.SessionType, RelativeSource={RelativeSource TemplatedParent}}" TotalConsumedFuel="{Binding FuelPlannerVm.SelectedSession.FuelConsumption.ConsumedFuel, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             TrackName="{Binding FuelPlannerVm.SelectedSession.TrackName, RelativeSource={RelativeSource TemplatedParent}}" RunningTime="{Binding FuelPlannerVm.SelectedSession.FuelConsumption.ElapsedTime, RelativeSource={RelativeSource TemplatedParent}}" TraveledDistance="{Binding FuelPlannerVm.SelectedSession.FuelConsumption.TraveledDistance, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                                 DistanceUnits="{Binding DistanceUnits, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                 FuelPerDistanceUnits="{Binding FuelPerDistanceUnits, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <local:FuelCalculatorControl Grid.Row="0" RequiredFuel="{Binding FuelPlannerVm.CalculatorForSelectedSession.RequiredFuel, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" RequiredLaps="{Binding FuelPlannerVm.CalculatorForSelectedSession.RequiredLaps, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     RequiredMinutes="{Binding FuelPlannerVm.CalculatorForSelectedSession.RequiredMinutes, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             VolumeUnits="{Binding VolumeUnits, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <Button Grid.Row="1" Style="{StaticResource StandardButton}" Command="{Binding CloseCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" HorizontalAlignment="Right" MaxWidth="50" ToolTip="Close the Fuel Calculator">
+                                    <Button.Content>
+                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}">
+                                            <ContentPresenter Content="{StaticResource CancelIcon}"/>
+                                        </wpf:ColorAbleIcon>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

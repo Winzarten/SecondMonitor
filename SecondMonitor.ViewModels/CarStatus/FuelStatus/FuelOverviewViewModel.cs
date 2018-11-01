@@ -25,13 +25,15 @@
         private FuelLevelStatus _fuelLevelState;
         private Volume _maximumFuel;
 
-        private FuelConsumptionMonitor _fuelConsumptionMonitor;
+        private readonly FuelConsumptionMonitor _fuelConsumptionMonitor;
 
         public FuelOverviewViewModel()
         {
             _fuelConsumptionMonitor = new FuelConsumptionMonitor();
             _resetCommand = new RelayCommand(Reset);
         }
+
+        public FuelConsumptionMonitor FuelConsumptionMonitor => _fuelConsumptionMonitor;
 
         public ICommand ResetCommand
         {

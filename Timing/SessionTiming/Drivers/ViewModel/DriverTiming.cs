@@ -139,18 +139,7 @@
             }
         }
 
-        public LapInfo LastLap
-        {
-            get
-            {
-                if (_lapsInfo.Count < 2)
-                {
-                    return null;
-                }
-
-                return _lapsInfo[_lapsInfo.Count - 2];
-            }
-        }
+        public LapInfo LastLap => _lapsInfo.Count < 2 ? null : _lapsInfo[_lapsInfo.Count - 2];
 
 
         public bool IsLastLapBestSessionLap
@@ -269,13 +258,13 @@
 
 
             // Crossed line at out lap
-            if (dataSet.SessionInfo.SessionType != SessionType.Race && currentLap.PitLap && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
+            if (dataSet.SessionInfo.SessionType != SessionType.Race && currentLap.PitLap && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength.InMeters * -0.90))
             {
                 currentLap.LapCompletionMethod = LapCompletionMethod.ByCrossingTheLine;
                 return true;
             }
 
-            if ((!dataSet.SimulatorSourceInfo.HasLapTimeInformation || dataSet.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly) && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength * -0.90))
+            if ((!dataSet.SimulatorSourceInfo.HasLapTimeInformation || dataSet.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly) && (DriverInfo.LapDistance - _previousTickLapDistance < sessionInfo.TrackInfo.LayoutLength.InMeters * -0.90))
             {
                 currentLap.LapCompletionMethod = LapCompletionMethod.ByCrossingTheLine;
                 return true;
@@ -313,7 +302,7 @@
         {
             CurrentLap.Tick(dataSet, DriverInfo);
             CurrentLap.InvalidBySim = !DriverInfo.CurrentLapValid;
-            LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength) * 100;
+            LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters) * 100;
             if (CurrentLap.Valid && SessionType.Race != dataSet.SessionInfo.SessionType && (InPits || !DriverInfo.CurrentLapValid) && _lapsInfo.Count >= 1)
             {
                 CurrentLap.Valid = false;

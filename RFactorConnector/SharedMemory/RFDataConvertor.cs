@@ -195,12 +195,12 @@
             }
 
             Distance distance = Point3D.GetDistance(driver.WorldPosition, _lastPlayer.WorldPosition);
-            if (distance.DistanceInM > 200)
+            if (distance.InMeters > 200)
             {
                 currentlyIgnoredPackage++;
                 if (currentlyIgnoredPackage < MaxConsecutivePackagesIgnored)
                 {
-                    throw new RFInvalidPackageException("Players distance was :" + distance.DistanceInM);
+                    throw new RFInvalidPackageException("Players distance was :" + distance.InMeters);
                 }
             }
 
@@ -309,7 +309,7 @@
         {
             // Timing
             simData.SessionInfo.SessionTime = TimeSpan.FromSeconds(data.CurrentET);
-            simData.SessionInfo.TrackInfo.LayoutLength = data.LapDist;
+            simData.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters(data.LapDist);
             simData.SessionInfo.TrackInfo.TrackName = StringExtensions.FromArray(data.TrackName);
             simData.SessionInfo.TrackInfo.TrackLayoutName = string.Empty;
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.AmbientTemp);

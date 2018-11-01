@@ -21,6 +21,7 @@
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ComboboxStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelPlannerControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
@@ -77,7 +78,9 @@
                                                    SessionType="{Binding TrackInfoViewModel.SessionType}"
                                                    TrackName="{Binding TrackInfoViewModel.TrackName}"
                                                    TrackTemperatureInfo="{Binding TrackInfoViewModel.TrackTemperatureInfo}"
-                                                   WeatherInfoAvailable="{Binding TrackInfoViewModel.WeatherInfoAvailable}" />
+                                                   WeatherInfoAvailable="{Binding TrackInfoViewModel.WeatherInfoAvailable}"
+                                                   LayoutLength="{Binding TrackInfoViewModel.LayoutLength}"
+                                                   DistanceUnits="{Binding DisplaySettingsViewModel.DistanceUnits}"/>
             </Border>
             <Border Grid.Column="1"
                     BorderBrush="{StaticResource DarkGrey01Brush}"
@@ -205,7 +208,11 @@
                             </Grid.RowDefinitions>
                             <Border BorderBrush="{StaticResource DarkGrey01Brush}"
                                     BorderThickness="2" CornerRadius="5">
-                                <Grid Grid.Row="0">
+                                <Grid>
+                                    <fuelControl:FuelPlannerControl CloseCommand="{Binding CarStatusViewModel.HideFuelCalculatorCommand, Mode=OneWay}" Visibility="{Binding CarStatusViewModel.IsFuelCalculatorShown, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                                    VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}" DistanceUnits="{Binding DisplaySettingsViewModel.DistanceUnits}" FuelPerDistanceUnits="{Binding DisplaySettingsViewModel.FuelPerDistanceUnits}"
+                                                                    FuelPlannerVm="{Binding CarStatusViewModel.FuelPlannerViewModel}"/>
+                                    <Grid Grid.Row="0" Visibility="{Binding CarStatusViewModel.IsFuelCalculatorShown, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -280,6 +287,7 @@
                                                                            TyreMildWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreMildWearLimit }"
                                                                            TyreHeavyWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreHeavyWearLimit }"/>
                                 </Grid>
+                                </Grid>
                             </Border>
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
@@ -315,7 +323,8 @@
                                                                      MaximumFuel="{Binding CarStatusViewModel.FuelOverviewViewModel.MaximumFuel}"
                                                                      ResetCommand="{Binding CarStatusViewModel.FuelOverviewViewModel.ResetCommand}"
                                                                      TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
-                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}" />
+                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}"
+                                                                     FuelCalculatorCommand="{Binding CarStatusViewModel.ShowFuelCalculatorCommand, Mode=OneWay}"/>
                                 </Border>
                             </Grid>
                         </Grid>

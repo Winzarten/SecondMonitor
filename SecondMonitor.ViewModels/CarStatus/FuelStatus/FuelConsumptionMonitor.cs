@@ -1,25 +1,28 @@
-﻿namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
+﻿using System.Collections.Generic;
+
+namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
 {
     using System;
-
+    using Contracts.FuelInformation;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
     public class FuelConsumptionMonitor
     {
-        private FuelConsumptionInfo _totalFuelConsumption;
+        private static readonly TimeSpan MinimumSessionLength  = TimeSpan.FromMinutes(2);
 
+        private readonly List<SessionFuelConsumptionInfo> _sessionsFuelConsumptionInfos;
+        private IFuelConsumptionInfo _totalFuelConsumption;
         private FuelStatusSnapshot _lastLapFuelStatus;
-
         private int _lastLapNumber;
         private FuelStatusSnapshot _lastMinuteFuelStatus;
-
         private FuelStatusSnapshot _lastTickFuelStatus;
-
         private TimeSpan _nextMinuteConsumptionUpdate;
+        private SimulatorDataSet _lastDataSet;
 
         public FuelConsumptionMonitor()
         {
+            _sessionsFuelConsumptionInfos = new List<SessionFuelConsumptionInfo>();
             Reset();
         }
 
@@ -47,8 +50,25 @@
             private set;
         }
 
+        public IReadOnlyCollection<SessionFuelConsumptionInfo> SessionFuelConsumptionInfos
+        {
+            get
+            {
+                List<SessionFuelConsumptionInfo> items = new List<SessionFuelConsumptionInfo>();
+                items.AddRange(CompletedSessionsConsumptions);
+
+                items.Add(GetConsumptionForCurrentSession());
+                items.Reverse();
+                return items.AsReadOnly();
+            }
+        }
+
+        public IReadOnlyCollection<SessionFuelConsumptionInfo> CompletedSessionsConsumptions =>
+            _sessionsFuelConsumptionInfos.AsReadOnly();
+
         public void Reset()
         {
+            CreateAndAddSessionFuelConsumptionInfo();
             _nextMinuteConsumptionUpdate = TimeSpan.Zero;
             _lastTickFuelStatus = null;
             _lastMinuteFuelStatus = null;
@@ -61,6 +81,27 @@
             TotalPerLap = Volume.FromLiters(0);
         }
 
+        private void CreateAndAddSessionFuelConsumptionInfo()
+        {
+            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < MinimumSessionLength)
+            {
+                return;
+            }
+
+            _sessionsFuelConsumptionInfos.Add(GetConsumptionForCurrentSession());
+        }
+
+        private SessionFuelConsumptionInfo GetConsumptionForCurrentSession()
+        {
+            if (_lastDataSet == null || _totalFuelConsumption.ElapsedTime < MinimumSessionLength)
+            {
+                return null;
+            }
+
+            return new SessionFuelConsumptionInfo(_totalFuelConsumption,
+                _lastDataSet.SessionInfo.TrackInfo.TrackName, Distance.FromMeters(_lastDataSet.SessionInfo.TrackInfo.LayoutLength.InMeters), _lastDataSet.SessionInfo.SessionType);
+        }
+
         private void UpdateMinuteConsumption(SimulatorDataSet simulatorDataSet)
         {
             if (_nextMinuteConsumptionUpdate > simulatorDataSet.SessionInfo.SessionTime)
@@ -68,6 +109,7 @@
                 return;
             }
 
+            _lastDataSet = simulatorDataSet;
             _nextMinuteConsumptionUpdate = _nextMinuteConsumptionUpdate + TimeSpan.FromMinutes(1);
 
             if (_lastMinuteFuelStatus == null)
@@ -76,10 +118,10 @@
                 return;
             }
 
-            FuelStatusSnapshot _currentMinuteFuelConsumption = new FuelStatusSnapshot(simulatorDataSet);
-            FuelConsumptionInfo fuelConsumption = FuelConsumptionInfo.CreateConsumption(_lastMinuteFuelStatus, _currentMinuteFuelConsumption);
+            FuelStatusSnapshot currentMinuteFuelConsumption = new FuelStatusSnapshot(simulatorDataSet);
+            FuelConsumptionInfo fuelConsumption = FuelConsumptionInfo.CreateConsumption(_lastMinuteFuelStatus, currentMinuteFuelConsumption);
             ActPerMinute = fuelConsumption.ConsumedFuel;
-            _lastMinuteFuelStatus = _currentMinuteFuelConsumption;
+            _lastMinuteFuelStatus = currentMinuteFuelConsumption;
         }
 
         private void UpdateLapConsumption(SimulatorDataSet simulatorDataSet)
@@ -97,10 +139,10 @@
                 return;
             }
 
-            FuelStatusSnapshot _currentLapConsumption = new FuelStatusSnapshot(simulatorDataSet);
-            FuelConsumptionInfo fuelConsumption = FuelConsumptionInfo.CreateConsumption(_lastLapFuelStatus, _currentLapConsumption);
+            FuelStatusSnapshot currentLapConsumption = new FuelStatusSnapshot(simulatorDataSet);
+            FuelConsumptionInfo fuelConsumption = FuelConsumptionInfo.CreateConsumption(_lastLapFuelStatus, currentLapConsumption);
             ActPerLap = fuelConsumption.ConsumedFuel;
-            _lastLapFuelStatus = _currentLapConsumption;
+            _lastLapFuelStatus = currentLapConsumption;
         }
 
         public void UpdateFuelConsumption(SimulatorDataSet simulatorDataSet)

@@ -118,16 +118,22 @@
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
+    <Compile Include="WPF\Converters\IntegerToStringConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToMinutesSecondsConverter.cs" />
+    <Compile Include="WPF\FuelControl\FuelCalculatorControl.cs" />
     <Compile Include="WPF\FuelControl\FuelLevelControl.cs" />
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
+    <Compile Include="WPF\FuelControl\FuelPlannerControl.cs" />
+    <Compile Include="WPF\FuelControl\SessionFuelConsumptionControl.cs" />
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
     <Compile Include="WPF\DriverPosition\ISituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\DriverPositionControl.cs" />
     <Compile Include="WPF\DriverPosition\PositionCircleControl.cs" />
+    <Compile Include="WPF\QuantityText\DistanceText.cs" />
+    <Compile Include="WPF\QuantityText\FuelPerDistanceText.cs" />
     <Compile Include="WPF\QuantityText\PressureText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
     <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />
@@ -138,9 +144,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="WPF\PositionCircle.xaml.cs">
-      <DependentUpon>PositionCircle.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\QuantityText\AbstractQuantityText.cs" />
     <Compile Include="WPF\TemperatureControl\TemperatureControl.cs" />
@@ -159,6 +162,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>
@@ -191,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="WPF\FuelControl\FuelCalculatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WPF\FuelControl\FuelLevelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -198,6 +209,14 @@
     <Page Include="WPF\FuelControl\FuelOverviewControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\FuelControl\FuelPlannerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\FuelControl\SessionFuelConsumptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -218,10 +237,6 @@
     <Page Include="WPF\DriverPosition\DriverPositionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WPF\PositionCircle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\TrackInfoControl\TrackInfoControl.xaml">
       <Generator>MSBuild:Compile</Generator>

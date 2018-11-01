@@ -52,10 +52,16 @@
     <Compile Include="Base\IViewModelWithIcon.cs" />
     <Compile Include="CarStatus\CarStatusViewModel.cs" />
     <Compile Include="CarStatus\CarWheelsViewModel.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelCalculatorViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionMonitor.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionInfo.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelOverviewViewModel.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelPlannerViewModel.cs" />
+    <Compile Include="CarStatus\FuelStatus\FuelPlannerViewModelFactory.cs" />
+    <Compile Include="CarStatus\FuelStatus\SessionFuelConsumptionViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelStatusSnapshot.cs" />
+    <Compile Include="CarStatus\FuelStatus\RequiredFuelCalculator.cs" />
+    <Compile Include="CarStatus\FuelStatus\SessionFuelConsumptionInfo.cs" />
     <Compile Include="CarStatus\OilTemperatureViewModel.cs" />
     <Compile Include="CarStatus\PedalsAndGearViewModel.cs" />
     <Compile Include="CarStatus\WaterTemperatureViewModel.cs" />
@@ -74,6 +80,11 @@
     <Compile Include="TrackInfo\TrackInfoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
+      <Name>Contracts</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>

@@ -593,6 +593,7 @@
         private void ApplyDisplaySettings(DisplaySettingsViewModel settingsView)
         {
             TrackInfoViewModel.TemperatureUnits = settingsView.TemperatureUnits;
+            TrackInfoViewModel.DistanceUnits = settingsView.DistanceUnits;
             SituationOverviewProvider.AnimateDriversPos = settingsView.AnimateDriversPosition;
         }
 
@@ -636,8 +637,5 @@
                 timingDataViewModel.ChangeTimeDisplayMode();
             }
         }
-
-
-
     }
 }

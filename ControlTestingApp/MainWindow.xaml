@@ -17,6 +17,9 @@
     </Window.DataContext>
     <Grid Background="Black">
         <TabControl>
+            <TabItem Header="Fuel Calculator">
+                <controls:FuelCalculatorTestControl/>
+            </TabItem>
             <TabItem Header="Car Settings Control">
                 <controls:CarSettingsTestControl/>
             </TabItem>

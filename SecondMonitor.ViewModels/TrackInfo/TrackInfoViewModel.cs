@@ -15,8 +15,10 @@
         private string _airTemperatureInfo;
         private string _trackTemperatureInfo;
         private bool _weatherInfoAvailable;
+        private Distance _layoutLength;
 
         private TemperatureUnits _temperatureUnits;
+        private DistanceUnits _distanceUnits;
 
         private Temperature _lastAirTemperature;
         private Temperature _lastTrackTemperature;
@@ -37,6 +39,26 @@
                 }
 
                 _trackName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Distance LayoutLength
+        {
+            get => _layoutLength;
+            private set
+            {
+                _layoutLength = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public DistanceUnits DistanceUnits
+        {
+            get => _distanceUnits;
+            set
+            {
+                _distanceUnits = value;
                 NotifyPropertyChanged();
             }
         }
@@ -134,6 +156,7 @@
             SessionType = dataSet.SessionInfo.SessionType.ToString();
             FormatTrackName(dataSet.SessionInfo.TrackInfo.TrackName, dataSet.SessionInfo.TrackInfo.TrackLayoutName);
             RainIntensity = dataSet.SessionInfo.WeatherInfo.RainIntensity + "%";
+            LayoutLength = dataSet.SessionInfo.TrackInfo.LayoutLength;
             RefreshTemperatures();
         }
 

@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -67,6 +68,9 @@
     <Compile Include="Controls\CarSettingsTestControl.xaml.cs">
       <DependentUpon>CarSettingsTestControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FuelCalculatorTestControl.xaml.cs">
+      <DependentUpon>FuelCalculatorTestControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PedalGearTestControl.xaml.cs">
       <DependentUpon>PedalGearTestControl.xaml</DependentUpon>
     </Compile>
@@ -87,10 +91,15 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\CarStatusTestVM.cs" />
+    <Compile Include="ViewModels\FuelCalculatorTestViewModel.cs" />
     <Compile Include="ViewModels\FuelOverviewTestViewModel.cs" />
     <Compile Include="ViewModels\TemperatureTestViewModel.cs" />
     <Compile Include="ViewModels\WheelStatusTestVM.cs" />
     <Page Include="Controls\CarSettingsTestControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FuelCalculatorTestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +169,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>

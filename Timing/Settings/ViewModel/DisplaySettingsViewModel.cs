@@ -1,10 +1,12 @@
 ﻿namespace SecondMonitor.Timing.Settings.ViewModel
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
 
     using DataModel.BasicProperties;
+    using DataModel.BasicProperties.FuelConsumption;
     using Properties;
     using Model;
 
@@ -55,6 +57,42 @@
         {
             get => (FuelCalculationScope) GetValue(FuelCalculationScopeProperty);
             set => SetValue(FuelCalculationScopeProperty, value);
+        }
+
+        public DistanceUnits DistanceUnits
+        {
+            get
+            {
+                switch (VelocityUnits)
+                {
+                    case VelocityUnits.Kph:
+                        return DistanceUnits.Kilometers;
+                    case VelocityUnits.Mph:
+                        return DistanceUnits.Miles;
+                    case VelocityUnits.Ms:
+                        return DistanceUnits.Meters;
+                    default:
+                        return DistanceUnits.Kilometers;
+                }
+            }
+        }
+
+        public FuelPerDistanceUnits FuelPerDistanceUnits
+        {
+            get
+            {
+                switch (VelocityUnits)
+                {
+                    case VelocityUnits.Kph:
+                        return FuelPerDistanceUnits.LitersPerHundredKm;
+                    case VelocityUnits.Mph:
+                        return FuelPerDistanceUnits.MilesPerGallon;
+                    case VelocityUnits.Ms:
+                        return FuelPerDistanceUnits.LitersPerHundredKm;
+                    default:
+                        return FuelPerDistanceUnits.LitersPerHundredKm;
+                }
+            }
         }
 
         public int PaceLaps
@@ -156,6 +194,12 @@
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             DisplaySettingsViewModel sender = (DisplaySettingsViewModel) dependencyObject;
+            if (dependencyPropertyChangedEventArgs.Property.Name == nameof(VelocityUnits))
+            {
+                sender.OnPropertyChanged(nameof(DistanceUnits));
+                sender.OnPropertyChanged(nameof(FuelPerDistanceUnits));
+            }
+
             sender.OnPropertyChanged(dependencyPropertyChangedEventArgs.Property.Name);
         }
 

@@ -130,7 +130,7 @@
                 if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
                 {
                     return (int)(((LastSet.LeaderInfo.CompletedLaps
-                                   + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.TrackInfo.LayoutLength)
+                                   + LastSet.LeaderInfo.LapDistance / LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters)
                                   / LastSet.SessionInfo.TotalNumberOfLaps) * 1000);
                 }
 
@@ -309,7 +309,7 @@
                             }
                         });
                 List<string> driversToRemove = new List<string>();
-                foreach (var obsoleteDriverName in Drivers.Keys.Where(s => !updatedDrivers.Contains(s)))
+                foreach (string obsoleteDriverName in Drivers.Keys.Where(s => !updatedDrivers.Contains(s) && Drivers[s].DriverTiming.IsActive))
                 {
                     driversToRemove.Add(obsoleteDriverName);
                 }
