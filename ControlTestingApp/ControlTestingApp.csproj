@@ -71,6 +71,9 @@
     <Compile Include="Controls\FuelCalculatorTestControl.xaml.cs">
       <DependentUpon>FuelCalculatorTestControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GeometryTestControl.xaml.cs">
+      <DependentUpon>GeometryTestControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PedalGearTestControl.xaml.cs">
       <DependentUpon>PedalGearTestControl.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FuelCalculatorTestControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\GeometryTestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
