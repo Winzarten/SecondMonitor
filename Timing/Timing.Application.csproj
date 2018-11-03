@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="CarSettings\CarSettingsWindowViewModel.cs" />
     <Compile Include="Controllers\AutoUpdateController.cs" />
+    <Compile Include="Controllers\MapManagementController.cs" />
     <Compile Include="Controllers\SimSettingController.cs" />
     <Compile Include="Controllers\TimingApplicationController.cs" />
     <Compile Include="LapTimings\ViewModel\DriverLapsWindowManager.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="SessionTiming\Drivers\ViewModel\SectorTiming.cs" />
     <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingVisualiser.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapInfo.cs" />
+    <Compile Include="SessionTiming\LapEventArgs.cs" />
     <Compile Include="SessionTiming\ViewModel\SessionTiming.cs" />
     <Compile Include="Settings\ViewModel\ColumnSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\ColumnsSettingsViewModel.cs" />
@@ -145,6 +147,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings\Model\SessionReportSettings.cs" />
+    <Compile Include="TrackMap\TrackMapFromTelemetryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">

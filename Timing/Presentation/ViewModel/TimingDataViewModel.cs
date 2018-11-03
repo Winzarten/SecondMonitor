@@ -14,7 +14,7 @@
     using System.Windows.Threading;
 
     using Commands;
-
+    using Contracts.TrackMap;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
@@ -60,6 +60,7 @@
         private Task _refreshTimingCircleTask;
 
         private string _connectedSource;
+        private MapManagementController _mapManagementController;
 
         public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager)
         {
@@ -83,6 +84,16 @@
         {
             get => (SessionOptionsViewModel)GetValue(CurrentSessionOptionsViewProperty);
             set => SetValue(CurrentSessionOptionsViewProperty, value);
+        }
+
+        public MapManagementController MapManagementController
+        {
+            set
+            {
+                _mapManagementController = value;
+                SituationOverviewProvider.MapManagementController = value;
+                value.SessionTiming = SessionTiming;
+            }
         }
 
         public int SessionCompletedPercentage => _timing?.SessionCompletedPerMiles ?? 50;
@@ -515,6 +526,10 @@
             CarStatusViewModel.Reset();
             TrackInfoViewModel.Reset();
             SituationOverviewProvider.Reset();
+            if (_mapManagementController != null)
+            {
+                _mapManagementController.SessionTiming = _timing;
+            }
 
             InitializeGui(data);
             ChangeTimeDisplayMode();

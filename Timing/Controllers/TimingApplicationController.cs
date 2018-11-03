@@ -16,6 +16,8 @@ namespace SecondMonitor.Timing.Controllers
     using Settings;
     using Settings.ViewModel;
     using WindowsControls.WPF.Commands;
+    using SimdataManagement;
+    using TrackMap;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {
@@ -29,6 +31,7 @@ namespace SecondMonitor.Timing.Controllers
         private PluginsManager _pluginsManager;
         private TimingGui _timingGui;
         private DisplaySettingsViewModel _displaySettingsViewModel;
+        private MapManagementController _mapManagementController;
         private DisplaySettingAutoSaver _settingAutoSaver;
 
 
@@ -58,12 +61,13 @@ namespace SecondMonitor.Timing.Controllers
             CreateDisplaySettingsViewModel();
             CreateAutoSaver();
             CreateSimSettingsController();
+            CreateMapManagementController();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
             _timingDataViewModel.DisplaySettingsViewModel = _displaySettingsViewModel;
+            _timingDataViewModel.MapManagementController = _mapManagementController;
             _timingDataViewModel?.Reset();
         }
-
 
 
         private void DisplayMessage(object sender, MessageArgs e)
@@ -141,6 +145,11 @@ namespace SecondMonitor.Timing.Controllers
            _displaySettingsViewModel = new DisplaySettingsViewModel();
            _displaySettingsViewModel.FromModel(
                 new DisplaySettingsLoader().LoadDisplaySettingsFromFileSafe(SettingsPath));
+        }
+
+        private void CreateMapManagementController()
+        {
+            _mapManagementController = new MapManagementController(_displaySettingsViewModel, new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(500),100), new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory,"TrackMaps")));
         }
 
         private void OpenSettingsWindow()

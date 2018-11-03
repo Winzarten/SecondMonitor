@@ -7,6 +7,10 @@ namespace SecondMonitor.WindowsControls.WPF.DriverPosition
     {
         bool AnimateDriversPos { get; set; }
 
+        string AdditionalInformation { get; set; }
+
+        IPositionCircleInformationProvider PositionCircleInformationProvider { get; set; }
+
         void AddDrivers(params DriverInfo[] drivers);
 
         void RemoveDrivers(params DriverInfo[] drivers);

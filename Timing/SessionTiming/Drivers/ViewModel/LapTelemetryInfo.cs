@@ -13,10 +13,12 @@
             LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
             LapInfo = lapInfo;
             PortionTimes = new LapPortionTimes(10, dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters, lapInfo);
+            TimedTelemetrySnapshots = new TimedTelemetrySnapshots(TimeSpan.Zero);
         }
 
         public TelemetrySnapshot LapEndSnapshot { get; private set; }
-        public TelemetrySnapshot LapStarSnapshot { get; private set; }
+        public TelemetrySnapshot LapStarSnapshot { get; }
+        public TimedTelemetrySnapshots TimedTelemetrySnapshots { get; private set; }
         public bool IsPurged { get; private set; }
         public LapPortionTimes PortionTimes { get; private set; }
         public LapInfo LapInfo { get; }
@@ -26,7 +28,7 @@
             LapEndSnapshot = new TelemetrySnapshot(driverInfo, weather);
         }
 
-        public void UpdateTelemetry()
+        public void UpdateTelemetry(SimulatorDataSet dataSet)
         {
             if (IsPurged)
             {
@@ -34,6 +36,7 @@
             }
 
             PortionTimes.UpdateLapPortions();
+            TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo);
         }
 
         public void Purge()
@@ -44,6 +47,7 @@
             }
 
             PortionTimes = null;
+            TimedTelemetrySnapshots = null;
             IsPurged = true;
         }
     }

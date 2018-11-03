@@ -33,6 +33,8 @@
             }
         }
 
+        public event EventHandler<LapEventArgs> LapCompleted;
+
         public event EventHandler<DriverListModificationEventArgs> DriverAdded;
 
         public event EventHandler<DriverListModificationEventArgs> DriverRemoved;
@@ -192,6 +194,8 @@
 
         private void DriverOnLapCompleted(object sender, LapEventArgs lapEventArgs)
         {
+            LapCompleted?.Invoke(this, lapEventArgs);
+
             if (!lapEventArgs.Lap.Valid)
             {
                 return;

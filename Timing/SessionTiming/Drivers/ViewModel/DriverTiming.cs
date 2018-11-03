@@ -12,7 +12,7 @@
 
     public class DriverTiming
     {
-        private const int MaxLapsWithTelemetry = 500;
+        private const int MaxLapsWithTelemetry = 5;
         private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
 
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
@@ -203,7 +203,6 @@
                         };
                 firstLap.SectorCompletedEvent += LapSectorCompletedEvent;
                 firstLap.LapInvalidatedEvent += LapInvalidatedHandler;
-                firstLap.LapCompletedEvent += LapCompletedHandler;
                 _lapsInfo.Add(firstLap);
                 OnNewLapStarted(new LapEventArgs(firstLap));
             }
@@ -314,7 +313,6 @@
         {
             lapToFinish.FinishLap(dataSet, DriverInfo);
             lapToFinish.SectorCompletedEvent -= LapSectorCompletedEvent;
-            lapToFinish.LapCompletedEvent -= LapCompletedHandler;
             lapToFinish.LapInvalidatedEvent -= LapInvalidatedHandler;
 
             if (lapToFinish.LapTime == TimeSpan.Zero)
@@ -342,13 +340,7 @@
 
         private void PurgeLapsTelemetry()
         {
-            if (Laps.Count < MaxLapsWithTelemetry)
-            {
-                return;
-            }
-
-            Laps.Where(x => x.Completed && !x.LapTelemetryInfo.IsPurged && x != BestLap && x.LapNumber != 1).ForEach(x => x.LapTelemetryInfo.Purge());
-
+            Laps.Where(x => x.Completed && !x.LapTelemetryInfo.IsPurged && x != BestLap && x.LapNumber != 1 && x != x.Driver.LastCompletedLap).Skip(MaxLapsWithTelemetry).ForEach(x => x.LapTelemetryInfo.Purge());
         }
 
         private bool ShouldLapBeDiscarded(LapInfo lap, SimulatorDataSet dataSet)
@@ -368,7 +360,6 @@
                     this,
                     lapToCreateFrom);
                 newLap.SectorCompletedEvent += LapSectorCompletedEvent;
-                newLap.LapCompletedEvent += LapCompletedHandler;
                 newLap.LapInvalidatedEvent += LapInvalidatedHandler;
                 _lapsInfo.Add(newLap);
                 OnNewLapStarted(new LapEventArgs(newLap));
@@ -506,19 +497,6 @@
         {
             return Laps.Where(l => l.Valid).Select(sectorPickerFunc).Where(s => s != null && s.Duration != TimeSpan.Zero)
                 .OrderBy(s => s.Duration).FirstOrDefault();
-        }
-    }
-
-    public class LapEventArgs : EventArgs
-    {
-        public LapEventArgs(LapInfo lapInfo)
-        {
-            Lap = lapInfo;
-        }
-
-        public LapInfo Lap
-        {
-            get;
         }
     }
 }

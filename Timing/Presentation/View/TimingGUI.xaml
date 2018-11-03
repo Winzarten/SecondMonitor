@@ -358,7 +358,7 @@
 
             <Grid Column="1">
                 <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
-                    <ContentPresenter Margin="20,10,20,10" Content="{Binding SituationOverviewProvider.SituationOverviewControl}" />
+                    <ContentPresenter Margin="20,10,20,10" MaxHeight="350" Content="{Binding SituationOverviewProvider.SituationOverviewControl}" />
                 </Border>
             </Grid>
             <Grid Column="2">

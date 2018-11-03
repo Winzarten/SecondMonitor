@@ -11,17 +11,19 @@
     using Annotations;
     using WindowsControls.WPF;
     using WindowsControls.WPF.DriverPosition;
+    using Contracts.TrackMap;
+    using DataModel.TrackMap;
+    using Timing.Controllers;
 
     public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {
 
         private readonly ResourceDictionary _commonResources;
-
-        private PositionCircleControl _positionCircle;
-
+        private bool _animateDrivers;
         private ISituationOverviewControl _situationOverviewControl;
-
         private IPositionCircleInformationProvider _positionCircleInformationProvider;
+        private IMapManagementController _mapManagementController;
+        private (string trackName, string layoutName, string simName) _currentTrackTuple;
 
         public SituationOverviewProvider(IPositionCircleInformationProvider positionCircleInformation)
         {
@@ -33,8 +35,7 @@
                                    };
 
             PositionCircleInformationProvider = positionCircleInformation;
-            InitializePositionCircle();
-            SituationOverviewControl = _positionCircle;
+            SituationOverviewControl = InitializePositionCircle();
 
         }
 
@@ -55,22 +56,46 @@
             set
             {
                 _positionCircleInformationProvider = value;
-                if(_positionCircle != null)
+                if(SituationOverviewControl != null)
                 {
-                    _positionCircle.PositionCircleInformationProvider = value;
+                    SituationOverviewControl.PositionCircleInformationProvider = value;
                 }
             }
         }
 
         public bool AnimateDriversPos
         {
-            get => SituationOverviewControl.AnimateDriversPos;
-            set => SituationOverviewControl.AnimateDriversPos = value;
+            get => _animateDrivers;
+            set
+            {
+                _animateDrivers = value;
+                SituationOverviewControl.AnimateDriversPos = value;
+            }
+
         }
+
+        public IMapManagementController MapManagementController
+        {
+            get => _mapManagementController;
+            set
+            {
+                UnsubscribeMapManager();
+                _mapManagementController = value;
+                SubscribeMapManager();
+            }
+        }
+
+
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            _positionCircle.UpdateDrivers(dataSet, dataSet.DriversInfo);
+            SituationOverviewControl.UpdateDrivers(dataSet, dataSet.DriversInfo);
+
+            if (_currentTrackTuple.trackName != dataSet.SessionInfo.TrackInfo.TrackName || _currentTrackTuple.layoutName != dataSet.SessionInfo.TrackInfo.TrackLayoutName || _currentTrackTuple.simName != dataSet.Source)
+            {
+                _currentTrackTuple = (dataSet.SessionInfo.TrackInfo.TrackName, dataSet.SessionInfo.TrackInfo.TrackLayoutName, dataSet.Source);
+                LoadCurrentMap();
+            }
         }
 
         public void Reset()
@@ -88,9 +113,9 @@
             _situationOverviewControl.AddDrivers(driver);
         }
 
-        private void InitializePositionCircle()
+        private PositionCircleControl InitializePositionCircle()
         {
-            _positionCircle = new PositionCircleControl
+            return new PositionCircleControl
             {
                 PositionCircleInformationProvider = PositionCircleInformationProvider,
 
@@ -107,7 +132,9 @@
                 LappedDriverForegroundBrush = (SolidColorBrush)_commonResources["TimingLappedForegroundBrush"],
 
                 LappingDriverBackgroundBrush = (SolidColorBrush)_commonResources["TimingLappingBrush"],
-                LappingDriverForegroundBrush = (SolidColorBrush)_commonResources["TimingLappingForegroundBrush"]
+                LappingDriverForegroundBrush = (SolidColorBrush)_commonResources["TimingLappingForegroundBrush"],
+
+                AnimateDriversPos = AnimateDriversPos
             };
         }
 
@@ -117,6 +144,79 @@
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void SubscribeMapManager()
+        {
+            if (_mapManagementController == null)
+            {
+                return;
+            }
+
+            _mapManagementController.NewMapAvailable += OnNewMapAvailable;
+        }
+
+        private void UnsubscribeMapManager()
+        {
+            if (_mapManagementController == null)
+            {
+                return;
+            }
+
+            _mapManagementController.NewMapAvailable -= OnNewMapAvailable;
+        }
+
+        private void LoadCurrentMap()
+        {
+            if (string.IsNullOrEmpty(_currentTrackTuple.trackName) || _mapManagementController == null)
+            {
+                return;
+            }
+
+            if (!_mapManagementController.TryGetMap(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName, out TrackMapDto trackMapDto))
+            {
+                SituationOverviewControl = InitializePositionCircle();
+                SituationOverviewControl.AdditionalInformation = $"No Valid Map for {_currentTrackTuple.trackName}\nComplete one valid lap for full map";
+            }
+            else
+            {
+                SituationOverviewControl = InitializeFullMap(trackMapDto);
+            }
+
+
+        }
+
+        private FullMapControl InitializeFullMap(TrackMapDto trackMapDto)
+        {
+            return new FullMapControl(trackMapDto)
+            {
+                PositionCircleInformationProvider = PositionCircleInformationProvider,
+
+                DriverBackgroundBrush = (SolidColorBrush) _commonResources["DriverBackgroundColor"],
+                DriverForegroundBrush = (SolidColorBrush) _commonResources["DriverForegroundColor"],
+
+                DriverPitsBackgroundBrush = (SolidColorBrush) _commonResources["DriverPitsBackgroundColor"],
+                DriverPitsForegroundBrush = (SolidColorBrush) _commonResources["DriverPitsForegroundColor"],
+
+                PlayerBackgroundBrush = (SolidColorBrush) _commonResources["PlayerBackgroundColor"],
+                PlayerForegroundBrush = (SolidColorBrush) _commonResources["PlayerForegroundColor"],
+
+                LappedDriverBackgroundBrush = (SolidColorBrush) _commonResources["TimingLappedBrush"],
+                LappedDriverForegroundBrush = (SolidColorBrush) _commonResources["TimingLappedForegroundBrush"],
+
+                LappingDriverBackgroundBrush = (SolidColorBrush) _commonResources["TimingLappingBrush"],
+                LappingDriverForegroundBrush = (SolidColorBrush) _commonResources["TimingLappingForegroundBrush"],
+
+                AnimateDriversPos = AnimateDriversPos
+            };
+        }
+
+        private void OnNewMapAvailable(object sender, MapEventArgs e)
+        {
+            if (_currentTrackTuple.simName == e.TrackMapDto.SimulatorSource && _currentTrackTuple.trackName == e.TrackMapDto.TrackName && _currentTrackTuple.layoutName == e.TrackMapDto.LayoutName)
+            {
+                SituationOverviewControl = InitializeFullMap(e.TrackMapDto);
+            }
         }
     }
 }
