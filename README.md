@@ -82,11 +82,10 @@ Second Monitor is Timing/Car information application for racing simulators. It d
   * Top speed is wonky :), that's because speed isn't provided by sim and has to be computed, which is prone to some error. I will try to make it less wonky ;)
   * Crr Class instead of Car Model - Pcars doesn't provide car names for other than the player driver, so I used the class for all drivers.
 
-## Future Plans
- - [x] Little UI rework (mostly to replace the ugly gauges for something more fresh)
+## Future Plans 
  - [x] Add Race Progress and Position Percentages charts to reports
  - [x] Add ability to modify optimal tyre and brakes temperature for cars / tyre types
- - [ ] Reintroduce the fuel calculator
+ - [x] Reintroduce the fuel calculator
  - [ ] Rework of the timing circle, so the app can learn track layout so proper map can be displayed.
  - [ ] Increase amount of information for tyres (indicate bottoming up, dirt, slip)
 ## Installation
