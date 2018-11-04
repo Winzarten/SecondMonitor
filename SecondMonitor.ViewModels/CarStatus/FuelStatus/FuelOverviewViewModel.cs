@@ -8,8 +8,8 @@
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Systems;
-    using Annotations;
     using WindowsControls.WPF.Commands;
+    using Properties;
 
     public class FuelOverviewViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

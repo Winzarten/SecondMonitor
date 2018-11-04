@@ -14,8 +14,8 @@ namespace SecondMonitor.Timing.Controllers
     using SimdataManagement.SimSettings;
     using SimdataManagement.ViewModel;
     using CarSettings;
-    using Settings.ViewModel;
     using WindowsControls.WPF.Commands;
+    using ViewModels.Settings.ViewModel;
 
     public class SimSettingController
     {

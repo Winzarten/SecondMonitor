@@ -1,11 +1,10 @@
-﻿namespace SecondMonitor.Timing.Settings.ViewModel
+﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
-
-    using Properties;
     using Model;
+    using Properties;
 
     public class ColumnSettingsViewModel : DependencyObject, INotifyPropertyChanged
     {

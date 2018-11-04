@@ -13,9 +13,8 @@
     using NLog;
 
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.Timing.Settings.ViewModel;
     using WindowsControls.WPF.Commands;
-
+    using ViewModels.Settings.ViewModel;
     using XslxExport;
 
     public class ReportsController

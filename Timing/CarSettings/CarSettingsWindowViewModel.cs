@@ -7,8 +7,8 @@ namespace SecondMonitor.Timing.CarSettings
 
     using DataModel.BasicProperties;
     using SimdataManagement.ViewModel;
-    using Settings.ViewModel;
     using ViewModels;
+    using ViewModels.Settings.ViewModel;
 
     public class CarSettingsWindowViewModel : AbstractViewModel
     {

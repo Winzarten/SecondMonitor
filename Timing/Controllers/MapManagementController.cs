@@ -6,9 +6,9 @@
     using DataModel.TrackMap;
     using SessionTiming;
     using SessionTiming.ViewModel;
-    using Settings.ViewModel;
     using SimdataManagement;
     using TrackMap;
+    using ViewModels.Settings.ViewModel;
 
     public class MapManagementController : IMapManagementController
     {

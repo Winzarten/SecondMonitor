@@ -1,11 +1,9 @@
-﻿namespace SecondMonitor.Timing.Settings
+﻿namespace SecondMonitor.ViewModels.Settings
 {
     using System.ComponentModel;
     using System.IO;
     using System.Threading.Tasks;
-
     using Newtonsoft.Json;
-
     using ViewModel;
 
     public class DisplaySettingAutoSaver

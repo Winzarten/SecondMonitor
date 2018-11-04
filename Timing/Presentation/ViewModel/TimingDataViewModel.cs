@@ -27,15 +27,14 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.Timing.Settings.ViewModel;
     using ViewModels;
     using ViewModels.CarStatus;
     using ViewModels.SituationOverview;
     using ViewModels.TrackInfo;
 
     using SessionTiming.Drivers;
-
-    using Settings.Model;
+    using ViewModels.Settings.Model;
+    using ViewModels.Settings.ViewModel;
 
     public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged
     {

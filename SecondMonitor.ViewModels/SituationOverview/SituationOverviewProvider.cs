@@ -9,12 +9,12 @@
 
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
-    using Annotations;
     using WindowsControls.WPF;
     using WindowsControls.WPF.Commands;
     using WindowsControls.WPF.DriverPosition;
     using Contracts.TrackMap;
     using DataModel.TrackMap;
+    using Properties;
     using Timing.Controllers;
 
     public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged, IMapSidePanelViewModel

@@ -6,9 +6,9 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:model="clr-namespace:SecondMonitor.Timing.Settings.Model"
-        xmlns:viewModel="clr-namespace:SecondMonitor.Timing.Settings.ViewModel"
-        mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
+             xmlns:viewModel="clr-namespace:SecondMonitor.ViewModels.Settings.ViewModel;assembly=SecondMonitor.ViewModels"
+             xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
         Title="SettingsView" Width="1158.091" Height="536.989"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>

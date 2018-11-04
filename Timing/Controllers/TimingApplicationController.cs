@@ -13,11 +13,11 @@ namespace SecondMonitor.Timing.Controllers
     using LapTimings.ViewModel;
     using Presentation.View;
     using Presentation.ViewModel;
-    using Settings;
-    using Settings.ViewModel;
     using WindowsControls.WPF.Commands;
     using SimdataManagement;
     using TrackMap;
+    using ViewModels.Settings;
+    using ViewModels.Settings.ViewModel;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {

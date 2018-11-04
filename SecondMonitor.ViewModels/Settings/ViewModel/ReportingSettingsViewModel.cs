@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Settings.ViewModel
+﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System;
     using System.ComponentModel;
@@ -7,10 +7,9 @@
     using System.Windows;
     using System.Windows.Forms;
     using System.Windows.Input;
-
-    using SecondMonitor.Timing.Presentation.ViewModel.Commands;
-    using Properties;
+    using WindowsControls.WPF.Commands;
     using Model;
+    using Properties;
 
     public class ReportingSettingsViewModel : DependencyObject, INotifyPropertyChanged
     {
@@ -31,7 +30,7 @@
 
         public ReportingSettingsViewModel()
         {
-            SelectExportDirCommand = new NoArgumentCommand(SelectExportDir, () => true);
+            SelectExportDirCommand = new RelayCommand(SelectExportDir);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

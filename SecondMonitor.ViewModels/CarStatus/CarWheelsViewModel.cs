@@ -6,7 +6,7 @@
 
     using DataModel.Snapshot;
     using DataModel.Snapshot.Systems;
-    using Annotations;
+    using Properties;
 
     public class CarWheelsViewModel : DependencyObject, ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

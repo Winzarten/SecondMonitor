@@ -12,7 +12,7 @@
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
-    using SecondMonitor.Timing.Settings.ViewModel;
+    using ViewModels.Settings.ViewModel;
 
     public class DriverTimingViewModel : DependencyObject
     {
