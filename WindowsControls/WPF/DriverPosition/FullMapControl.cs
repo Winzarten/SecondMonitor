@@ -4,7 +4,9 @@
     using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Input;
     using System.Windows.Media;
+    using System.Windows.Media.Animation;
     using System.Windows.Shapes;
     using DataModel.Snapshot.Drivers;
     using DataModel.TrackMap;
@@ -18,6 +20,7 @@
         private readonly string _fullMapGeometry;
         private readonly string _finnishLineGeometry;
 
+        private MapSidePanelControl _mapSidePanelControl;
         private Canvas _mainCanvas;
 
         public FullMapControl(ITrackMap trackMap)
@@ -66,6 +69,20 @@
             return driver.WorldPosition.Z.InMeters - GetDriverControlSize() / 2;
         }
 
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            DoubleAnimation showAnimation = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.4));
+            _mapSidePanelControl.BeginAnimation(OpacityProperty, showAnimation);
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            DoubleAnimation showAnimation = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.4));
+            _mapSidePanelControl.BeginAnimation(OpacityProperty, showAnimation);
+        }
+
         private void InitializeMap()
         {
             ClipToBounds = true;
@@ -90,6 +107,11 @@
 
             Viewbox viewbox = new Viewbox {Stretch = Stretch.Uniform, Child = topCanvas};
             Children.Add(viewbox);
+
+            _mapSidePanelControl = new MapSidePanelControl {VerticalAlignment = VerticalAlignment.Stretch, HorizontalAlignment = HorizontalAlignment.Left};
+            _mapSidePanelControl.Opacity = 0;
+            Children.Add(_mapSidePanelControl);
+            this.Background = Brushes.Transparent;
         }
     }
 }

@@ -4,18 +4,20 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Input;
     using System.Windows.Media;
 
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using Annotations;
     using WindowsControls.WPF;
+    using WindowsControls.WPF.Commands;
     using WindowsControls.WPF.DriverPosition;
     using Contracts.TrackMap;
     using DataModel.TrackMap;
     using Timing.Controllers;
 
-    public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged
+    public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged, IMapSidePanelViewModel
     {
 
         private readonly ResourceDictionary _commonResources;
@@ -38,6 +40,8 @@
             SituationOverviewControl = InitializePositionCircle();
 
         }
+
+        public ICommand DeleteMapCommand  => new RelayCommand(RemoveCurrentMap);
 
         public ISituationOverviewControl SituationOverviewControl
         {
@@ -207,7 +211,8 @@
                 LappingDriverBackgroundBrush = (SolidColorBrush) _commonResources["TimingLappingBrush"],
                 LappingDriverForegroundBrush = (SolidColorBrush) _commonResources["TimingLappingForegroundBrush"],
 
-                AnimateDriversPos = AnimateDriversPos
+                AnimateDriversPos = AnimateDriversPos,
+                DataContext = this
             };
         }
 
@@ -217,6 +222,11 @@
             {
                 SituationOverviewControl = InitializeFullMap(e.TrackMapDto);
             }
+        }
+
+        private void RemoveCurrentMap()
+        {
+
         }
     }
 }
