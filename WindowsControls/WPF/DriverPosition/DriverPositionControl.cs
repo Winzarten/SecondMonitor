@@ -11,8 +11,8 @@
         private static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",typeof(int), typeof(DriverPositionControl));
         private static readonly DependencyProperty CircleBrushProperty = DependencyProperty.Register("CircleBrush", typeof(SolidColorBrush), typeof(DriverPositionControl));
         private static readonly DependencyProperty TextBrushProperty = DependencyProperty.Register("TextBrush", typeof(SolidColorBrush), typeof(DriverPositionControl));
-        private static readonly DependencyProperty XProperty = DependencyProperty.Register("X", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnXPropertyChanged });
-        private static readonly DependencyProperty YProperty = DependencyProperty.Register("Y", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnYPropertyChanged });
+        public static readonly DependencyProperty XProperty = DependencyProperty.Register("X", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnXPropertyChanged });
+        public static readonly DependencyProperty YProperty = DependencyProperty.Register("Y", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnYPropertyChanged });
         private static readonly DependencyProperty LabelSizeProperty = DependencyProperty.Register("LabelSize", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata(20.0) { PropertyChangedCallback = OnYPropertyChanged });
 
         private TranslateTransform _translateTransform;

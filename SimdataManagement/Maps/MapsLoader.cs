@@ -54,6 +54,16 @@
             }
         }
 
+        public void RemoveMap(string simulator, string trackName)
+        {
+            string directory = Path.Combine(MapsPath, simulator);
+            string fullPathName = Path.Combine(directory, trackName + FileSuffix);
+            if (File.Exists(fullPathName))
+            {
+                File.Delete(fullPathName);
+            }
+        }
+
         public string MapsPath { get; }
     }
 }

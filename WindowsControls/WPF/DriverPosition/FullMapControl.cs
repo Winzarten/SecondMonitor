@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
@@ -22,6 +23,9 @@
 
         private MapSidePanelControl _mapSidePanelControl;
         private Canvas _mainCanvas;
+        private bool _autoScaleDriverControls;
+
+        public static readonly DependencyProperty DriverControllerSizeProperty = DependencyProperty.Register("DriverControllerSize", typeof(double), typeof(FullMapControl));
 
         public FullMapControl(ITrackMap trackMap)
         {
@@ -31,12 +35,44 @@
             _canvasHeight = trackMap.TrackGeometry.Height;
             _fullMapGeometry = trackMap.TrackGeometry.FullMapGeometry;
             _finnishLineGeometry = trackMap.TrackGeometry.StartLineGeometry;
+            RefreshDriverControllerSize();
             InitializeMap();
+        }
+
+        public bool AutoScaleDriverControls
+        {
+            get => _autoScaleDriverControls;
+            set
+            {
+                _autoScaleDriverControls = value;
+                RefreshDriverControllerSize();
+            }
+        }
+
+        protected double DriverControllerSize
+        {
+            get => (double)GetValue(DriverControllerSizeProperty);
+            set => SetValue(DriverControllerSizeProperty, value);
+        }
+
+        protected void RefreshDriverControllerSize()
+        {
+            DriverControllerSize = AutoScaleDriverControls ? _canvasHeight * 0.08 : 25;
         }
 
         protected override void PostDriverCreation(DriverPositionControl driverPositionControl)
         {
-            //Nothing to DO
+            Binding xBinding = new Binding(nameof(DriverControllerSize))
+            {
+                Source = this,
+            };
+            driverPositionControl.SetBinding(DriverPositionControl.XProperty, xBinding);
+
+            Binding yBinding = new Binding(nameof(DriverControllerSize))
+            {
+                Source = this,
+            };
+            driverPositionControl.SetBinding(DriverPositionControl.YProperty, yBinding);
         }
 
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)
@@ -49,10 +85,7 @@
             _mainCanvas.Children.Add(driverPositionControl);
         }
 
-        protected override double GetDriverControlSize()
-        {
-            return _canvasHeight * 0.08;
-        }
+        protected override double GetDriverControlSize() => DriverControllerSize;
 
         protected override double GetLabelSize()
         {

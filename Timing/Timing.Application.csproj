@@ -124,12 +124,14 @@
     <Compile Include="SessionTiming\Drivers\ViewModel\LapInfo.cs" />
     <Compile Include="SessionTiming\LapEventArgs.cs" />
     <Compile Include="SessionTiming\ViewModel\SessionTiming.cs" />
+    <Compile Include="Settings\Model\MapDisplaySettings.cs" />
     <Compile Include="Settings\ViewModel\ColumnSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\ColumnsSettingsViewModel.cs" />
     <Compile Include="Settings\DisplaySettingAutoSaver.cs" />
     <Compile Include="Settings\ViewModel\DisplaySettingsLoader.cs" />
     <Compile Include="Settings\ViewModel\DisplaySettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\EnumBooleanConverter.cs" />
+    <Compile Include="Settings\ViewModel\MapDisplaySettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\ReportingSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\SessionOptionsViewModel.cs" />
     <Compile Include="Settings\ViewModel\SessionReportSettingsViewModel.cs" />

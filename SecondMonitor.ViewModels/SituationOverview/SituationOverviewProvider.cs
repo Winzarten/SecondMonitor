@@ -158,6 +158,7 @@
             }
 
             _mapManagementController.NewMapAvailable += OnNewMapAvailable;
+            _mapManagementController.MapRemoved += OnMapRemoved;
         }
 
         private void UnsubscribeMapManager()
@@ -168,7 +169,10 @@
             }
 
             _mapManagementController.NewMapAvailable -= OnNewMapAvailable;
+            _mapManagementController.MapRemoved -= OnMapRemoved;
         }
+
+
 
         private void LoadCurrentMap()
         {
@@ -212,7 +216,8 @@
                 LappingDriverForegroundBrush = (SolidColorBrush) _commonResources["TimingLappingForegroundBrush"],
 
                 AnimateDriversPos = AnimateDriversPos,
-                DataContext = this
+                DataContext = this,
+                AutoScaleDriverControls = true,
             };
         }
 
@@ -224,9 +229,17 @@
             }
         }
 
+        private void OnMapRemoved(object sender, MapEventArgs e)
+        {
+            if (_currentTrackTuple.simName == e.TrackMapDto.SimulatorSource && _currentTrackTuple.trackName == e.TrackMapDto.TrackName && _currentTrackTuple.layoutName == e.TrackMapDto.LayoutName)
+            {
+                LoadCurrentMap();
+            }
+        }
+
         private void RemoveCurrentMap()
         {
-
+            _mapManagementController.RemoveMap(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName);
         }
     }
 }

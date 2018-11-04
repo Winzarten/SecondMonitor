@@ -7,6 +7,10 @@
     public interface IMapManagementController
     {
         event EventHandler<MapEventArgs> NewMapAvailable;
+        event EventHandler<MapEventArgs> MapRemoved;
+
         bool TryGetMap(string simulator, string trackName, string layoutName, out TrackMapDto trackMapDto);
+
+        void RemoveMap(string simulator, string trackName, string layoutName);
     }
 }

@@ -5,7 +5,6 @@
     using Contracts.TrackMap;
     using DataModel.TrackMap;
     using SessionTiming;
-    using SessionTiming.Drivers.ViewModel;
     using SessionTiming.ViewModel;
     using Settings.ViewModel;
     using SimdataManagement;
@@ -19,6 +18,7 @@
         private SessionTiming _sessionSessionTiming;
 
         public event EventHandler<MapEventArgs> NewMapAvailable;
+        public event EventHandler<MapEventArgs> MapRemoved;
 
         public MapManagementController(DisplaySettingsViewModel displaySettingsViewModel, TrackMapFromTelemetryFactory trackMapFromTelemetryFactory, MapsLoader mapsLoader)
         {
@@ -114,6 +114,17 @@
 
             _lastUnknownMap = formattedTrackName;
             return false;
+        }
+
+        public void RemoveMap(string simulator, string trackName, string layoutName)
+        {
+            if (!TryGetMap(simulator, trackName, layoutName, out TrackMapDto trackMapDto))
+            {
+                return;
+            }
+
+            _mapsLoader.RemoveMap(simulator, FormatTrackName(trackName, layoutName));
+            MapRemoved?.Invoke(this, new MapEventArgs(trackMapDto));
         }
 
         private static string FormatTrackName(string trackName, string layoutName)

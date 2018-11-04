@@ -1,6 +1,5 @@
 ﻿namespace SecondMonitor.Timing.Settings.ViewModel
 {
-    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
@@ -26,6 +25,7 @@
         public static readonly DependencyProperty ReportingSettingsViewProperty = DependencyProperty.Register("SettingsView", typeof(ReportingSettingsViewModel), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty AnimateDriversPositionProperty = DependencyProperty.Register("AnimateDriversPosition", typeof(bool), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty AnimateDeltaTimesProperty = DependencyProperty.Register("AnimateDeltaTimes", typeof(bool), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty MapDisplaySettingsViewModelProperty = DependencyProperty.Register("MapDisplaySettingsViewModel", typeof(MapDisplaySettingsViewModel), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -149,6 +149,12 @@
             set => SetValue(ReportingSettingsViewProperty, value);
         }
 
+        public MapDisplaySettingsViewModel MapDisplaySettingsViewModel
+        {
+            get => (MapDisplaySettingsViewModel)GetValue(MapDisplaySettingsViewModelProperty);
+            set => SetValue(MapDisplaySettingsViewModelProperty, value);
+        }
+
         public void FromModel(DisplaySettings settings)
         {
             TemperatureUnits = settings.TemperatureUnits;
@@ -161,6 +167,9 @@
             ScrollToPlayer = settings.ScrollToPlayer;
             AnimateDeltaTimes = settings.AnimateDeltaTimes;
             AnimateDriversPosition = settings.AnimateDriversPosition;
+
+            MapDisplaySettingsViewModel = new MapDisplaySettingsViewModel();
+            MapDisplaySettingsViewModel.FromModel(settings.MapDisplaySettings);
 
             PracticeSessionDisplayOptionsView = SessionOptionsViewModel.CreateFromModel(settings.PracticeOptions);
             QualificationSessionDisplayOptionsView = SessionOptionsViewModel.CreateFromModel(settings.QualificationOptions);
@@ -187,7 +196,8 @@
                 RaceOptions = RaceSessionDisplayOptionsView.ToModel(),
                 ReportingSettings = ReportingSettingsView.ToModel(),
                 AnimateDriversPosition =  AnimateDriversPosition,
-                AnimateDeltaTimes =  AnimateDeltaTimes
+                AnimateDeltaTimes =  AnimateDeltaTimes,
+                MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel()
             };
         }
 
