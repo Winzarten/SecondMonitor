@@ -316,7 +316,7 @@
             driverInfo.LapDistance = rfVehicleInfo.mLapDist;
             driverInfo.TotalDistance = rfVehicleInfo.mTotalLaps * rfData.scoring.mScoringInfo.mLapDist + rfVehicleInfo.mLapDist;
             driverInfo.FinishStatus = FromRFStatus(rfVehicleInfo.mFinishStatus);
-            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(rfVehicleInfo.mPos.x), Distance.FromMeters(rfVehicleInfo.mPos.y), Distance.FromMeters(rfVehicleInfo.mPos.z));
+            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(-rfVehicleInfo.mPos.x), Distance.FromMeters(rfVehicleInfo.mPos.y), Distance.FromMeters(rfVehicleInfo.mPos.z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, rfData);
             return driverInfo;
         }

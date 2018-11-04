@@ -31,6 +31,11 @@
             InitializeMap();
         }
 
+        protected override void PostDriverCreation(DriverPositionControl driverPositionControl)
+        {
+            //Nothing to DO
+        }
+
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)
         {
             _mainCanvas.Children.Remove(driverPositionControl);
@@ -44,6 +49,11 @@
         protected override double GetDriverControlSize()
         {
             return _canvasHeight * 0.08;
+        }
+
+        protected override double GetLabelSize()
+        {
+            return GetDriverControlSize() * 0.75;
         }
 
         protected override double GetX(DriverInfo driver)

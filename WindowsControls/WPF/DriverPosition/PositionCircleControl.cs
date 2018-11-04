@@ -16,6 +16,11 @@
             SetUpControl();
         }
 
+        protected override void PostDriverCreation(DriverPositionControl driverPositionControl)
+        {
+            //Nothing to do
+        }
+
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)
         {
             Children.Remove(driverPositionControl);
@@ -29,6 +34,11 @@
         protected override double GetDriverControlSize()
         {
             return 25;
+        }
+
+        protected override double GetLabelSize()
+        {
+            return 20;
         }
 
         protected override double GetX(DriverInfo driver)

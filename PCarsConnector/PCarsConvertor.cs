@@ -75,7 +75,7 @@
                         LapDistance = pcarsDriverData.MCurrentLapDistance,
                         FinishStatus = DriverFinishStatus.None,
                         CurrentLapValid = true,
-                        WorldPosition = new Point3D(Distance.FromMeters(pcarsDriverData.MWorldPosition[0]), Distance.FromMeters(pcarsDriverData.MWorldPosition[1]), Distance.FromMeters(pcarsDriverData.MWorldPosition[2]))
+                        WorldPosition = new Point3D(Distance.FromMeters(-pcarsDriverData.MWorldPosition[0]), Distance.FromMeters(pcarsDriverData.MWorldPosition[1]), Distance.FromMeters(pcarsDriverData.MWorldPosition[2]))
                     };
 
                 if (_lastPlayer != null)

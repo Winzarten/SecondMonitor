@@ -229,7 +229,7 @@
             driverInfo.LapDistance = pcVehicleInfo.mCurrentLapDistance;
             driverInfo.TotalDistance = (pcVehicleInfo.mLapsCompleted * pcarsData.mTrackLength) + driverInfo.LapDistance;
             driverInfo.FinishStatus = FromPCarStatus((RaceState)pcarsData.mRaceStates[vehicleIndex]);
-            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(pcVehicleInfo.mWorldPosition[0]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[1]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[2]));
+            driverInfo.WorldPosition = new Point3D(Distance.FromMeters(-pcVehicleInfo.mWorldPosition[0]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[1]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[2]));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, pcarsData);
             return driverInfo;
         }

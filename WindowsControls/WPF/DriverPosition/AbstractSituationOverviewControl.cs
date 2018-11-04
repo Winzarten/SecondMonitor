@@ -172,12 +172,16 @@
                     Height = GetDriverControlSize(),
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center,
-                    Animate = AnimateDriversPos
+                    Animate = AnimateDriversPos,
+                    LabelSize = GetLabelSize()
                 };
+            PostDriverCreation(newDriverControl);
             UpdateDriver(driverInfo, newDriverControl);
             AddDriver(newDriverControl);
             _drivers.Add(driverInfo.DriverName, newDriverControl);
         }
+
+        protected abstract void PostDriverCreation(DriverPositionControl driverPositionControl);
 
         protected abstract void RemoveDriver(DriverPositionControl driverPositionControl);
 
@@ -255,9 +259,8 @@
             return !PositionCircleInformationProvider.IsDriverOnValidLap(driver);
         }
 
+        protected abstract double GetLabelSize();
         protected abstract double GetX(DriverInfo driver);
-
-
         protected abstract double GetY(DriverInfo driver);
     }
 }
