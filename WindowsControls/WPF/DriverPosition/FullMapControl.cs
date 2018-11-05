@@ -24,8 +24,10 @@
         private MapSidePanelControl _mapSidePanelControl;
         private Canvas _mainCanvas;
         private bool _autoScaleDriverControls;
+        private Viewbox _viewbox;
 
         public static readonly DependencyProperty DriverControllerSizeProperty = DependencyProperty.Register("DriverControllerSize", typeof(double), typeof(FullMapControl));
+        public static readonly DependencyProperty DriverControllerFontSizeProperty = DependencyProperty.Register("DriverControllerFontSize", typeof(double), typeof(FullMapControl));
 
         public FullMapControl(ITrackMap trackMap)
         {
@@ -39,6 +41,12 @@
             InitializeMap();
         }
 
+        public double DriverControllerFontSize
+        {
+            get => (double)GetValue(DriverControllerFontSizeProperty);
+            set => SetValue(DriverControllerFontSizeProperty, value);
+        }
+
         public bool AutoScaleDriverControls
         {
             get => _autoScaleDriverControls;
@@ -47,6 +55,12 @@
                 _autoScaleDriverControls = value;
                 RefreshDriverControllerSize();
             }
+        }
+
+        public bool KeepMapRatio
+        {
+            get => _viewbox.Stretch == Stretch.Uniform;
+            set => _viewbox.Stretch = value ? Stretch.Uniform : Stretch.Fill;
         }
 
         protected double DriverControllerSize
@@ -58,6 +72,7 @@
         protected void RefreshDriverControllerSize()
         {
             DriverControllerSize = AutoScaleDriverControls ? _canvasHeight * 0.08 : 25;
+            DriverControllerFontSize = DriverControllerSize * 0.75;
         }
 
         protected override void PostDriverCreation(DriverPositionControl driverPositionControl)
@@ -66,13 +81,19 @@
             {
                 Source = this,
             };
-            driverPositionControl.SetBinding(DriverPositionControl.XProperty, xBinding);
+            driverPositionControl.SetBinding(DriverPositionControl.WidthProperty, xBinding);
 
             Binding yBinding = new Binding(nameof(DriverControllerSize))
             {
                 Source = this,
             };
-            driverPositionControl.SetBinding(DriverPositionControl.YProperty, yBinding);
+            driverPositionControl.SetBinding(DriverPositionControl.HeightProperty, yBinding);
+
+            Binding fontSizeBinding = new Binding(nameof(DriverControllerFontSize))
+            {
+                Source = this,
+            };
+            driverPositionControl.SetBinding(DriverPositionControl.LabelSizeProperty, fontSizeBinding);
         }
 
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)
@@ -87,10 +108,7 @@
 
         protected override double GetDriverControlSize() => DriverControllerSize;
 
-        protected override double GetLabelSize()
-        {
-            return GetDriverControlSize() * 0.75;
-        }
+        protected override double GetLabelSize() => DriverControllerFontSize;
 
         protected override double GetX(DriverInfo driver)
         {
@@ -130,16 +148,21 @@
 
             _mainCanvas.Children.Add(mainPath);
             _mainCanvas.Children.Add(finishLinePath);
-            _mainCanvas.RenderTransform = new TranslateTransform()
+            TransformGroup transformGroup = new TransformGroup();
+            transformGroup.Children.Add(new TranslateTransform()
             {
                 X = -_leftOffset,
                 Y = -_topOffset
-            };
+            });
+
+            _mainCanvas.RenderTransform = transformGroup;
+
+
 
             topCanvas.Children.Add(_mainCanvas);
 
-            Viewbox viewbox = new Viewbox {Stretch = Stretch.Uniform, Child = topCanvas};
-            Children.Add(viewbox);
+            _viewbox = new Viewbox {Stretch = Stretch.Uniform, Child = topCanvas};
+            Children.Add(_viewbox);
 
             _mapSidePanelControl = new MapSidePanelControl {VerticalAlignment = VerticalAlignment.Stretch, HorizontalAlignment = HorizontalAlignment.Left};
             _mapSidePanelControl.Opacity = 0;

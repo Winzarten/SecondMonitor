@@ -14,32 +14,18 @@
     {
         private readonly MapsLoader _mapsLoader;
         private string _lastUnknownMap;
-        private DisplaySettingsViewModel _displaySettingsViewModel;
         private SessionTiming _sessionSessionTiming;
 
         public event EventHandler<MapEventArgs> NewMapAvailable;
         public event EventHandler<MapEventArgs> MapRemoved;
 
-        public MapManagementController(DisplaySettingsViewModel displaySettingsViewModel, TrackMapFromTelemetryFactory trackMapFromTelemetryFactory, MapsLoader mapsLoader)
+        public MapManagementController(TrackMapFromTelemetryFactory trackMapFromTelemetryFactory, MapsLoader mapsLoader)
         {
             _mapsLoader = mapsLoader;
-            DisplaySettingsViewModel = displaySettingsViewModel;
             TrackMapFromTelemetryFactory = trackMapFromTelemetryFactory;
         }
 
         public TrackMapFromTelemetryFactory TrackMapFromTelemetryFactory { get; }
-
-        public DisplaySettingsViewModel DisplaySettingsViewModel
-        {
-            get => _displaySettingsViewModel;
-            set
-            {
-                UnsubscribeDisplaySettings();
-                _displaySettingsViewModel = value;
-                SubscribeDisplaySettings();
-            }
-
-        }
 
         public SessionTiming SessionTiming
         {
@@ -50,6 +36,13 @@
                 _sessionSessionTiming = value;
                 SubscribeSessionTiming();
             }
+
+        }
+
+        public TimeSpan MapPointsInterval
+        {
+            get => TrackMapFromTelemetryFactory.MapsPointsInterval;
+            set => TrackMapFromTelemetryFactory.MapsPointsInterval = value;
 
         }
 
@@ -140,28 +133,8 @@
         private void SaveMap(string simulator, string formattedTrackName, TrackMapDto trackMapDto)
         {
             _mapsLoader.SaveMap(simulator, formattedTrackName, trackMapDto);
+            _lastUnknownMap = string.Empty;
             NewMapAvailable?.Invoke(this, new MapEventArgs(trackMapDto));
-        }
-
-        private void SubscribeDisplaySettings()
-        {
-            if (_displaySettingsViewModel != null)
-            {
-                _displaySettingsViewModel.PropertyChanged += OnDisplaySettingsChanged;
-            }
-        }
-
-        private void OnDisplaySettingsChanged(object sender, PropertyChangedEventArgs e)
-        {
-            //TODO: Implement
-        }
-
-        private void UnsubscribeDisplaySettings()
-        {
-            if (_displaySettingsViewModel != null)
-            {
-                _displaySettingsViewModel.PropertyChanged -= OnDisplaySettingsChanged;
-            }
         }
     }
 }

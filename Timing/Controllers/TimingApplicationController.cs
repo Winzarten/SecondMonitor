@@ -24,8 +24,8 @@ namespace SecondMonitor.Timing.Controllers
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SecondMonitor\\settings.json");
-        private readonly TimingDataViewModel _timingDataViewModel;
 
+        private TimingDataViewModel _timingDataViewModel;
         private SimSettingController _simSettingController;
         private DisplaySettingsWindow _settingsWindow;
         private PluginsManager _pluginsManager;
@@ -37,9 +37,6 @@ namespace SecondMonitor.Timing.Controllers
 
         public TimingApplicationController()
         {
-            DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
-            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager);
-            BindCommands();
         }
 
         public PluginsManager PluginManager
@@ -62,10 +59,11 @@ namespace SecondMonitor.Timing.Controllers
             CreateAutoSaver();
             CreateSimSettingsController();
             CreateMapManagementController();
+            DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
+            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel) {MapManagementController = _mapManagementController};
+            BindCommands();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
-            _timingDataViewModel.DisplaySettingsViewModel = _displaySettingsViewModel;
-            _timingDataViewModel.MapManagementController = _mapManagementController;
             _timingDataViewModel?.Reset();
         }
 
@@ -149,7 +147,7 @@ namespace SecondMonitor.Timing.Controllers
 
         private void CreateMapManagementController()
         {
-            _mapManagementController = new MapManagementController(_displaySettingsViewModel, new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(500),100), new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory,"TrackMaps")));
+            _mapManagementController = new MapManagementController(new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(_displaySettingsViewModel.MapDisplaySettingsViewModel.MapPointsInterval),100), new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory,"TrackMaps")));
         }
 
         private void OpenSettingsWindow()

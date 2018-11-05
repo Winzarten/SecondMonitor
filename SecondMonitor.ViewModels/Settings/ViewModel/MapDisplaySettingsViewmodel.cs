@@ -5,16 +5,17 @@
 
     public class MapDisplaySettingsViewModel : AbstractViewModel<MapDisplaySettings>
     {
-        private bool _autosScaleDrivers;
+        private bool _autoScaleDrivers;
         private bool _keepMapRatio;
+        private int _mapPointsInterval;
 
 
-        public bool AutosScaleDrivers
+        public bool AutoScaleDrivers
         {
-            get => _autosScaleDrivers;
+            get => _autoScaleDrivers;
             set
             {
-                _autosScaleDrivers = value;
+                _autoScaleDrivers = value;
                 NotifyPropertyChanged();
             }
         }
@@ -29,18 +30,30 @@
             }
         }
 
+        public int MapPointsInterval
+        {
+            get => _mapPointsInterval;
+            set
+            {
+                _mapPointsInterval = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public override void FromModel(MapDisplaySettings model)
         {
             KeepMapRatio = model.KeepMapRatio;
-            AutosScaleDrivers = model.AutosScaleDrivers;
+            AutoScaleDrivers = model.AutosScaleDrivers;
+            MapPointsInterval = model.MapPointsInterval;
         }
 
         public override MapDisplaySettings SaveToNewModel()
         {
             return new MapDisplaySettings()
             {
-                AutosScaleDrivers = AutosScaleDrivers,
+                AutosScaleDrivers = AutoScaleDrivers,
                 KeepMapRatio = KeepMapRatio,
+                MapPointsInterval = MapPointsInterval
             };
         }
     }

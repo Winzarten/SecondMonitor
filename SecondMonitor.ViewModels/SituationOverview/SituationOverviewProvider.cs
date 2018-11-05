@@ -15,19 +15,20 @@
     using Contracts.TrackMap;
     using DataModel.TrackMap;
     using Properties;
+    using Settings.ViewModel;
     using Timing.Controllers;
 
     public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged, IMapSidePanelViewModel
     {
 
         private readonly ResourceDictionary _commonResources;
-        private bool _animateDrivers;
         private ISituationOverviewControl _situationOverviewControl;
         private IPositionCircleInformationProvider _positionCircleInformationProvider;
         private IMapManagementController _mapManagementController;
         private (string trackName, string layoutName, string simName) _currentTrackTuple;
+        private DisplaySettingsViewModel _displaySettingsViewModel;
 
-        public SituationOverviewProvider(IPositionCircleInformationProvider positionCircleInformation)
+        public SituationOverviewProvider(IPositionCircleInformationProvider positionCircleInformation, DisplaySettingsViewModel displaySettingsViewModel)
         {
             _commonResources = new ResourceDictionary
                                    {
@@ -35,10 +36,8 @@
                                            @"pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml",
                                            UriKind.RelativeOrAbsolute)
                                    };
-
+            _displaySettingsViewModel = DisplaySettingsViewModel;
             PositionCircleInformationProvider = positionCircleInformation;
-            SituationOverviewControl = InitializePositionCircle();
-
         }
 
         public ICommand DeleteMapCommand  => new RelayCommand(RemoveCurrentMap);
@@ -67,17 +66,6 @@
             }
         }
 
-        public bool AnimateDriversPos
-        {
-            get => _animateDrivers;
-            set
-            {
-                _animateDrivers = value;
-                SituationOverviewControl.AnimateDriversPos = value;
-            }
-
-        }
-
         public IMapManagementController MapManagementController
         {
             get => _mapManagementController;
@@ -89,17 +77,55 @@
             }
         }
 
+        public DisplaySettingsViewModel DisplaySettingsViewModel
+        {
+            get => _displaySettingsViewModel;
+            set
+            {
+                UnSubscribeDisplaySettings();
+                _displaySettingsViewModel = value;
+                ApplyDisplaySettings();
+                SubscribeDisplaySettings();
+            }
+        }
 
+        private void ApplyDisplaySettings()
+        {
+            if (_displaySettingsViewModel == null )
+            {
+                return;
+            }
+
+            if (MapManagementController != null)
+            {
+                MapManagementController.MapPointsInterval = TimeSpan.FromMilliseconds(DisplaySettingsViewModel.MapDisplaySettingsViewModel.MapPointsInterval);
+            }
+
+            if (SituationOverviewControl == null)
+            {
+                return;
+            }
+
+            SituationOverviewControl.AnimateDriversPos = DisplaySettingsViewModel.AnimateDriversPosition;
+
+            if (SituationOverviewControl is FullMapControl fullMapControl)
+            {
+                fullMapControl.AutoScaleDriverControls = DisplaySettingsViewModel.MapDisplaySettingsViewModel.AutoScaleDrivers;
+                fullMapControl.KeepMapRatio = DisplaySettingsViewModel.MapDisplaySettingsViewModel.KeepMapRatio;
+            }
+
+
+        }
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            SituationOverviewControl.UpdateDrivers(dataSet, dataSet.DriversInfo);
-
             if (_currentTrackTuple.trackName != dataSet.SessionInfo.TrackInfo.TrackName || _currentTrackTuple.layoutName != dataSet.SessionInfo.TrackInfo.TrackLayoutName || _currentTrackTuple.simName != dataSet.Source)
             {
                 _currentTrackTuple = (dataSet.SessionInfo.TrackInfo.TrackName, dataSet.SessionInfo.TrackInfo.TrackLayoutName, dataSet.Source);
                 LoadCurrentMap();
             }
+
+            SituationOverviewControl?.UpdateDrivers(dataSet, dataSet.DriversInfo);
         }
 
         public void Reset()
@@ -138,7 +164,7 @@
                 LappingDriverBackgroundBrush = (SolidColorBrush)_commonResources["TimingLappingBrush"],
                 LappingDriverForegroundBrush = (SolidColorBrush)_commonResources["TimingLappingForegroundBrush"],
 
-                AnimateDriversPos = AnimateDriversPos
+                AnimateDriversPos = DisplaySettingsViewModel.AnimateDriversPosition
             };
         }
 
@@ -172,6 +198,32 @@
             _mapManagementController.MapRemoved -= OnMapRemoved;
         }
 
+        private void SubscribeDisplaySettings()
+        {
+            if (_displaySettingsViewModel == null)
+            {
+                return;
+            }
+
+            _displaySettingsViewModel.PropertyChanged += OnDisplaySettingsChanged;
+            _displaySettingsViewModel.MapDisplaySettingsViewModel.PropertyChanged += OnDisplaySettingsChanged;
+        }
+
+        private void UnSubscribeDisplaySettings()
+        {
+            if (_displaySettingsViewModel == null)
+            {
+                return;
+            }
+
+            _displaySettingsViewModel.PropertyChanged -= OnDisplaySettingsChanged;
+            _displaySettingsViewModel.MapDisplaySettingsViewModel.PropertyChanged -= OnDisplaySettingsChanged;
+        }
+
+        private void OnDisplaySettingsChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ApplyDisplaySettings();
+        }
 
 
         private void LoadCurrentMap()
@@ -190,8 +242,6 @@
             {
                 SituationOverviewControl = InitializeFullMap(trackMapDto);
             }
-
-
         }
 
         private FullMapControl InitializeFullMap(TrackMapDto trackMapDto)
@@ -215,9 +265,10 @@
                 LappingDriverBackgroundBrush = (SolidColorBrush) _commonResources["TimingLappingBrush"],
                 LappingDriverForegroundBrush = (SolidColorBrush) _commonResources["TimingLappingForegroundBrush"],
 
-                AnimateDriversPos = AnimateDriversPos,
+                AnimateDriversPos = DisplaySettingsViewModel.AnimateDriversPosition,
                 DataContext = this,
-                AutoScaleDriverControls = true,
+                AutoScaleDriverControls = DisplaySettingsViewModel.MapDisplaySettingsViewModel.AutoScaleDrivers,
+                KeepMapRatio = DisplaySettingsViewModel.MapDisplaySettingsViewModel.KeepMapRatio,
             };
         }
 

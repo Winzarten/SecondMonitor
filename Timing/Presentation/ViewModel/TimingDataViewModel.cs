@@ -61,14 +61,15 @@
         private string _connectedSource;
         private MapManagementController _mapManagementController;
 
-        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager)
+        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel)
         {
             SessionInfoViewModel = new SessionInfoViewModel();
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = driverLapsWindowManager;
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             ReportsController = new ReportsController(DisplaySettingsViewModel);
-            SituationOverviewProvider = new SituationOverviewProvider(SessionTiming);
+            DisplaySettingsViewModel = displaySettingsViewModel;
+            SituationOverviewProvider = new SituationOverviewProvider(SessionTiming, displaySettingsViewModel);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -608,7 +609,7 @@
         {
             TrackInfoViewModel.TemperatureUnits = settingsView.TemperatureUnits;
             TrackInfoViewModel.DistanceUnits = settingsView.DistanceUnits;
-            SituationOverviewProvider.AnimateDriversPos = settingsView.AnimateDriversPosition;
+            SituationOverviewProvider.DisplaySettingsViewModel  = settingsView;
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)

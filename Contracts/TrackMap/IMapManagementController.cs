@@ -12,5 +12,7 @@
         bool TryGetMap(string simulator, string trackName, string layoutName, out TrackMapDto trackMapDto);
 
         void RemoveMap(string simulator, string trackName, string layoutName);
+
+        TimeSpan MapPointsInterval { get; set; }
     }
 }

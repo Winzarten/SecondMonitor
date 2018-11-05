@@ -8,10 +8,13 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:viewModel="clr-namespace:SecondMonitor.ViewModels.Settings.ViewModel;assembly=SecondMonitor.ViewModels"
              xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
+             xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters;assembly=WindowsControls"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
-        Title="SettingsView" Width="1158.091" Height="536.989"
-        WindowStartupLocation="CenterOwner">
+        Title="SettingsView"
+        WindowStartupLocation="CenterOwner"
+        SizeToContent="WidthAndHeight">
     <Window.Resources>
+        <converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
         <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -92,10 +95,38 @@
             </Border>
         </DataTemplate>
     </Window.Resources>
-    <DockPanel>
-        <Grid Background="Black">
-            <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Margin="10,250,0,10" Width="150">
-                <Grid VerticalAlignment="Top">
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="0" Margin="5">
+            <GroupBox Header="Timing Grid" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" DockPanel.Dock="Top">
+                <StackPanel Margin="0,0,0,5">
+                    <Label Content="Pace Laps:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
+                    <xctk:IntegerUpDown x:Name="UpDownPaceLaps" VerticalAlignment="Top" Minimum="1" Maximum="10" Text="" Value="{Binding PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </xctk:IntegerUpDown>
+                    <Label Content="Refresh Rate:" HorizontalAlignment="Left"  VerticalAlignment="Top" Foreground="White"/>
+                    <xctk:IntegerUpDown x:Name="UpDownRefreshRate" VerticalAlignment="Top" Minimum="50" Maximum="5000" Text="" Value="{Binding RefreshRate}" Increment="50">
+                    </xctk:IntegerUpDown>
+                    <CheckBox Content="Scroll to Player" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding ScrollToPlayer}"></CheckBox>
+                    <CheckBox Content="Animate Delta Bar" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDeltaTimes}" ToolTip="Enables and Disables the fluid animation of delta times bars. Disable to lower CPU usage of application."></CheckBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Map Options" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Top">
+                <StackPanel Margin="0,0,0,5">
+                    <CheckBox Content="Animate Drivers Pos." Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDriversPosition}" ToolTip="Enables and Disables the fluid animation of drivers in the circle maps. Disable to lower CPU usage of application."></CheckBox>
+                    <CheckBox Content="Scale Drivers" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding MapDisplaySettingsViewModel.AutoScaleDrivers}" ToolTip="Sets if drivers icons should be scaled with the map. If checked the drivers icons will always be the same size. If unchecked driver icon will always be with scale to the map - always 25 meters."></CheckBox>
+                    <CheckBox Content="Keep Map Ratio" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding MapDisplaySettingsViewModel.KeepMapRatio}" ToolTip="If enabled the map will always keep the ration. If unchecked the map will fill the whole available space, at the cost of distortion."></CheckBox>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding MapDisplaySettingsViewModel.MapPointsInterval, Converter={StaticResource IntegerToStringConverter}, ConverterParameter=500}" Width="40" Margin="0,5,0,0"  ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)"/>
+                        <TextBlock Margin="5,5,0,0" Text="Points interval" ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Width="150" DockPanel.Dock="Top">
+                <Grid VerticalAlignment="Top" Margin="0,0,0,5">
                     <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}" SelectedItem="{Binding TemperatureUnits}"/>
                     <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}" SelectedItem="{Binding PressureUnits}"/>
                     <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}" SelectedItem="{Binding VolumeUnits}"/>
@@ -106,22 +137,10 @@
                     <Label Content="Velocity" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Foreground="White"/>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Timing Grid" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="150" Height="240">
-                <StackPanel>
-                    <Label Content="Pace Laps:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
-                    <xctk:IntegerUpDown x:Name="UpDownPaceLaps" VerticalAlignment="Top" Minimum="1" Maximum="10" Text="" Value="{Binding PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    </xctk:IntegerUpDown>
-                    <Label Content="Refresh Rate:" HorizontalAlignment="Left"  VerticalAlignment="Top" Foreground="White"/>
-                    <xctk:IntegerUpDown x:Name="UpDownRefreshRate" VerticalAlignment="Top" Minimum="50" Maximum="5000" Text="" Value="{Binding RefreshRate}" Increment="50">
-                    </xctk:IntegerUpDown>
-                    <CheckBox Content="Scroll to Player" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding ScrollToPlayer}"></CheckBox>
-                    <CheckBox Content="Animate Drivers Pos." Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDriversPosition}" ToolTip="Enables and Disables the fluid animation of drivers in the circle maps. Disable to lower CPU usage of application."></CheckBox>
-                    <CheckBox Content="Animate Delta Bar" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDeltaTimes}" ToolTip="Enables and Disables the fluid animation of delta times bars. Disable to lower CPU usage of application."></CheckBox>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Session Options" Foreground="White" HorizontalAlignment="Stretch" Margin="165,10,328,10"
-                      >
-                <DockPanel>
+        </DockPanel>
+        <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Stretch">
+            <GroupBox Header="Session Options" Foreground="White" VerticalAlignment="Stretch">
+                <StackPanel VerticalAlignment="Stretch">
                     <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
                     <ContentPresenter DockPanel.Dock="Top" Content="{Binding PracticeSessionDisplayOptionsView}"></ContentPresenter>
 
@@ -131,9 +150,11 @@
                     <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
                     <ContentPresenter DockPanel.Dock="Top" Content="{Binding RaceSessionDisplayOptionsView}"></ContentPresenter>
 
-                </DockPanel>
+                </StackPanel>
             </GroupBox>
-            <GroupBox Header="Report Options" Foreground="White"  HorizontalAlignment="Right" Margin="0,10,10,10" VerticalAlignment="Stretch" Width="313">
+        </DockPanel>
+        <DockPanel Grid.Column="2" Margin="5">
+            <GroupBox Header="Report Options" Foreground="White"  VerticalAlignment="Stretch" Width="313">
                 <DockPanel>
                     <GroupBox DockPanel.Dock="Top" Margin="0,8,0,0" Header="General" Height="145">
                         <Grid Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
@@ -158,25 +179,8 @@
 
                     <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
                     <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettingsView.RaceReportSettingsView}"></ContentPresenter>
-
                 </DockPanel>
             </GroupBox>
-
-        </Grid>
-    </DockPanel>
+        </DockPanel>
+    </Grid>
 </Window>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

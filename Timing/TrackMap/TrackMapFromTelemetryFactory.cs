@@ -13,14 +13,15 @@
     {
         public const int ExporterVersion = 1;
         private const int TrackBounds = 10;
-        private readonly TimeSpan _pointsTimeSpan;
         private readonly int _finishLineLength;
 
-        public TrackMapFromTelemetryFactory(TimeSpan pointsTimeSpan, int finishLineLength)
+        public TrackMapFromTelemetryFactory(TimeSpan mapsPointsInterval, int finishLineLength)
         {
-            _pointsTimeSpan = pointsTimeSpan;
+            MapsPointsInterval = mapsPointsInterval;
             _finishLineLength = finishLineLength;
         }
+
+        public TimeSpan MapsPointsInterval { get; set; }
 
         public TrackGeometryDto BuildTrackGeometryDto(TimedTelemetrySnapshots timedTelemetrySnapshots)
         {
@@ -103,7 +104,7 @@
                 }
 
                 filteredSnapshots.Add(snapshot);
-                nextSnapShot += _pointsTimeSpan;
+                nextSnapShot += MapsPointsInterval;
             }
 
             return filteredSnapshots;
