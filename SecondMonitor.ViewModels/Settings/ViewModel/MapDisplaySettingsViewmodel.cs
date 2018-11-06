@@ -8,6 +8,7 @@
         private bool _autoScaleDrivers;
         private bool _keepMapRatio;
         private int _mapPointsInterval;
+        private bool _alwaysUseCirce;
 
 
         public bool AutoScaleDrivers
@@ -26,6 +27,16 @@
             set
             {
                 _keepMapRatio = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool AlwaysUseCirce
+        {
+            get => _alwaysUseCirce;
+            set
+            {
+                _alwaysUseCirce = value;
                 NotifyPropertyChanged();
             }
         }

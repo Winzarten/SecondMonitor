@@ -156,11 +156,7 @@
             });
 
             _mainCanvas.RenderTransform = transformGroup;
-
-
-
             topCanvas.Children.Add(_mainCanvas);
-
             _viewbox = new Viewbox {Stretch = Stretch.Uniform, Child = topCanvas};
             Children.Add(_viewbox);
 

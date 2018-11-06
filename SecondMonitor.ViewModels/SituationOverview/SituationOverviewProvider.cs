@@ -27,6 +27,7 @@
         private IMapManagementController _mapManagementController;
         private (string trackName, string layoutName, string simName) _currentTrackTuple;
         private DisplaySettingsViewModel _displaySettingsViewModel;
+        private bool _alwaysUseCircle;
 
         public SituationOverviewProvider(IPositionCircleInformationProvider positionCircleInformation, DisplaySettingsViewModel displaySettingsViewModel)
         {
@@ -89,12 +90,29 @@
             }
         }
 
+        private bool AlwaysUseCircle
+        {
+            get => _alwaysUseCircle;
+            set
+            {
+                if (_alwaysUseCircle == value)
+                {
+                    return;
+                }
+
+                _alwaysUseCircle = value;
+                LoadCurrentMap();
+            }
+        }
+
         private void ApplyDisplaySettings()
         {
             if (_displaySettingsViewModel == null )
             {
                 return;
             }
+
+            AlwaysUseCircle = _displaySettingsViewModel.MapDisplaySettingsViewModel.AlwaysUseCirce;
 
             if (MapManagementController != null)
             {
@@ -233,10 +251,13 @@
                 return;
             }
 
-            if (!_mapManagementController.TryGetMap(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName, out TrackMapDto trackMapDto))
+            if (AlwaysUseCircle || !_mapManagementController.TryGetMap(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName, out TrackMapDto trackMapDto))
             {
                 SituationOverviewControl = InitializePositionCircle();
-                SituationOverviewControl.AdditionalInformation = $"No Valid Map for {_currentTrackTuple.trackName}\nComplete one valid lap for full map";
+                if (!AlwaysUseCircle)
+                {
+                    SituationOverviewControl.AdditionalInformation = $"No Valid Map for {_currentTrackTuple.trackName}\nComplete one valid lap for full map";
+                }
             }
             else
             {

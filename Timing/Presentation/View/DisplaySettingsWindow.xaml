@@ -123,6 +123,7 @@
                         <TextBox Text="{Binding MapDisplaySettingsViewModel.MapPointsInterval, Converter={StaticResource IntegerToStringConverter}, ConverterParameter=500}" Width="40" Margin="0,5,0,0"  ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)"/>
                         <TextBlock Margin="5,5,0,0" Text="Points interval" ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)"/>
                     </StackPanel>
+                    <CheckBox Content="Always Use Circle" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding MapDisplaySettingsViewModel.AlwaysUseCirce}" ToolTip="Forces the app to always use the circle instead of a track map."></CheckBox>
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Width="150" DockPanel.Dock="Top">
