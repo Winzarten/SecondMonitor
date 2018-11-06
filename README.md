@@ -86,7 +86,7 @@ Second Monitor is Timing/Car information application for racing simulators. It d
  - [x] Add Race Progress and Position Percentages charts to reports
  - [x] Add ability to modify optimal tyre and brakes temperature for cars / tyre types
  - [x] Reintroduce the fuel calculator
- - [ ] Rework of the timing circle, so the app can learn track layout so proper map can be displayed.
+ - [x] Rework of the timing circle, so the app can learn track layout so proper map can be displayed.
  - [ ] Increase amount of information for tyres (indicate bottoming up, dirt, slip)
 ## Installation
 
