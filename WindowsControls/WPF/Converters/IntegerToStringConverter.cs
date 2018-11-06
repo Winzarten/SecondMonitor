@@ -18,6 +18,8 @@
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            int defaultValue = parameter is int i ? i : 0;
+
             if (value is string stringValue)
             {
                 if (int.TryParse(stringValue, out var toReturn))
@@ -26,7 +28,7 @@
                 }
             }
 
-            return 0;
+            return defaultValue;
         }
     }
 }

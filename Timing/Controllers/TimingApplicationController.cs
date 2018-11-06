@@ -13,30 +13,30 @@ namespace SecondMonitor.Timing.Controllers
     using LapTimings.ViewModel;
     using Presentation.View;
     using Presentation.ViewModel;
-    using Settings;
-    using Settings.ViewModel;
     using WindowsControls.WPF.Commands;
+    using SimdataManagement;
+    using TrackMap;
+    using ViewModels.Settings;
+    using ViewModels.Settings.ViewModel;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SecondMonitor\\settings.json");
-        private readonly TimingDataViewModel _timingDataViewModel;
 
+        private TimingDataViewModel _timingDataViewModel;
         private SimSettingController _simSettingController;
         private DisplaySettingsWindow _settingsWindow;
         private PluginsManager _pluginsManager;
         private TimingGui _timingGui;
         private DisplaySettingsViewModel _displaySettingsViewModel;
+        private MapManagementController _mapManagementController;
         private DisplaySettingAutoSaver _settingAutoSaver;
 
 
         public TimingApplicationController()
         {
-            DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
-            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager);
-            BindCommands();
         }
 
         public PluginsManager PluginManager
@@ -58,12 +58,14 @@ namespace SecondMonitor.Timing.Controllers
             CreateDisplaySettingsViewModel();
             CreateAutoSaver();
             CreateSimSettingsController();
+            CreateMapManagementController();
+            DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
+            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel) {MapManagementController = _mapManagementController};
+            BindCommands();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
-            _timingDataViewModel.DisplaySettingsViewModel = _displaySettingsViewModel;
             _timingDataViewModel?.Reset();
         }
-
 
 
         private void DisplayMessage(object sender, MessageArgs e)
@@ -141,6 +143,11 @@ namespace SecondMonitor.Timing.Controllers
            _displaySettingsViewModel = new DisplaySettingsViewModel();
            _displaySettingsViewModel.FromModel(
                 new DisplaySettingsLoader().LoadDisplaySettingsFromFileSafe(SettingsPath));
+        }
+
+        private void CreateMapManagementController()
+        {
+            _mapManagementController = new MapManagementController(new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(_displaySettingsViewModel.MapDisplaySettingsViewModel.MapPointsInterval),100), new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory,"TrackMaps")));
         }
 
         private void OpenSettingsWindow()

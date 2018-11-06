@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="SecondMonitor.WindowsControls.WPF.DriverPosition.MapSidePanelControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.DriverPosition"
+             xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:IMapSidePanelViewModel}">
+    <Control.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../CommonResources.xaml" />
+                <ResourceDictionary Source="../ButtonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Control.Resources>
+    <Grid Background="{StaticResource Anthracite01Brush}">
+        <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" Padding="1">
+        <StackPanel>
+        <Button MaxWidth="50"
+                Command="{Binding DeleteMapCommand, Mode=OneWay}"
+                Style="{StaticResource StandardButton}"
+                ToolTip="Remove current map, forcing the app to re-learn the track layout.">
+            <Button.Content>
+                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                        <ContentPresenter Content="{StaticResource TrashIcon}" />
+                </wpf:ColorAbleIcon>
+            </Button.Content>
+        </Button>
+        </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

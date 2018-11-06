@@ -47,6 +47,8 @@
     <Compile Include="FuelInformation\IFuelPlannerViewModel.cs" />
     <Compile Include="FuelInformation\ISessionFuelConsumptionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrackMap\IMapManagementController.cs" />
+    <Compile Include="TrackMap\MapEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
@@ -54,6 +56,9 @@
       <Name>DataModel</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SessionTiming\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

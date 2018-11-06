@@ -5,8 +5,8 @@
     using System.Windows.Input;
     using WindowsControls.WPF.Commands;
     using DataModel.Snapshot;
-    using Annotations;
     using FuelStatus;
+    using Properties;
 
     public class CarStatusViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

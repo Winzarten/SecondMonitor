@@ -1,11 +1,9 @@
-﻿namespace SecondMonitor.Timing.Settings
+﻿namespace SecondMonitor.ViewModels.Settings
 {
     using System.ComponentModel;
     using System.IO;
     using System.Threading.Tasks;
-
     using Newtonsoft.Json;
-
     using ViewModel;
 
     public class DisplaySettingAutoSaver
@@ -39,6 +37,7 @@
             _displaySettingsView.PracticeSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.QualificationSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.RaceSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.MapDisplaySettingsViewModel.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             UnRegisterColumnsProperties(_displaySettingsView.PracticeSessionDisplayOptionsView.ColumnsSettingsView);
             UnRegisterColumnsProperties(_displaySettingsView.QualificationSessionDisplayOptionsView.ColumnsSettingsView);
             UnRegisterColumnsProperties(_displaySettingsView.RaceSessionDisplayOptionsView.ColumnsSettingsView);
@@ -97,6 +96,7 @@
             _displaySettingsView.PracticeSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.QualificationSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.RaceSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.MapDisplaySettingsViewModel.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             RegisterColumnsProperties(_displaySettingsView.PracticeSessionDisplayOptionsView.ColumnsSettingsView);
             RegisterColumnsProperties(_displaySettingsView.QualificationSessionDisplayOptionsView.ColumnsSettingsView);
             RegisterColumnsProperties(_displaySettingsView.RaceSessionDisplayOptionsView.ColumnsSettingsView);

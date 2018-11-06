@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Settings.ViewModel
+﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System;
     using System.Globalization;

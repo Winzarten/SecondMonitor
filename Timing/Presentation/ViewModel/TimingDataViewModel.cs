@@ -14,7 +14,7 @@
     using System.Windows.Threading;
 
     using Commands;
-
+    using Contracts.TrackMap;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
@@ -27,15 +27,14 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using SecondMonitor.Timing.Settings.ViewModel;
     using ViewModels;
     using ViewModels.CarStatus;
     using ViewModels.SituationOverview;
     using ViewModels.TrackInfo;
 
     using SessionTiming.Drivers;
-
-    using Settings.Model;
+    using ViewModels.Settings.Model;
+    using ViewModels.Settings.ViewModel;
 
     public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged
     {
@@ -60,15 +59,17 @@
         private Task _refreshTimingCircleTask;
 
         private string _connectedSource;
+        private MapManagementController _mapManagementController;
 
-        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager)
+        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel)
         {
             SessionInfoViewModel = new SessionInfoViewModel();
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = driverLapsWindowManager;
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             ReportsController = new ReportsController(DisplaySettingsViewModel);
-            SituationOverviewProvider = new SituationOverviewProvider(SessionTiming);
+            DisplaySettingsViewModel = displaySettingsViewModel;
+            SituationOverviewProvider = new SituationOverviewProvider(SessionTiming, displaySettingsViewModel);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -83,6 +84,16 @@
         {
             get => (SessionOptionsViewModel)GetValue(CurrentSessionOptionsViewProperty);
             set => SetValue(CurrentSessionOptionsViewProperty, value);
+        }
+
+        public MapManagementController MapManagementController
+        {
+            set
+            {
+                _mapManagementController = value;
+                SituationOverviewProvider.MapManagementController = value;
+                value.SessionTiming = SessionTiming;
+            }
         }
 
         public int SessionCompletedPercentage => _timing?.SessionCompletedPerMiles ?? 50;
@@ -515,6 +526,10 @@
             CarStatusViewModel.Reset();
             TrackInfoViewModel.Reset();
             SituationOverviewProvider.Reset();
+            if (_mapManagementController != null)
+            {
+                _mapManagementController.SessionTiming = _timing;
+            }
 
             InitializeGui(data);
             ChangeTimeDisplayMode();
@@ -594,7 +609,7 @@
         {
             TrackInfoViewModel.TemperatureUnits = settingsView.TemperatureUnits;
             TrackInfoViewModel.DistanceUnits = settingsView.DistanceUnits;
-            SituationOverviewProvider.AnimateDriversPos = settingsView.AnimateDriversPosition;
+            SituationOverviewProvider.DisplaySettingsViewModel  = settingsView;
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)

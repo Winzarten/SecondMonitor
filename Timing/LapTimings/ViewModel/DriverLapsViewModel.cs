@@ -7,7 +7,7 @@
     using System.Windows.Input;
 
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
-
+    using SessionTiming;
     using DriverLapsWindow = View.DriverLapsWindow;
 
     public class DriverLapsViewModel : DependencyObject

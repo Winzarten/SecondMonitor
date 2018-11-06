@@ -1608,4 +1608,32 @@
         </Canvas>
     </Viewbox>
 
+    <Viewbox x:Key="TrashIcon" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+        <Canvas Width="48" Height="50.365215" Canvas.Left="0" Canvas.Top="0">
+            <!--Unknown tag: metadata-->
+            <!--Unknown tag: sodipodi:namedview-->
+            <Canvas >
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.69565217 0 0 0.69565217 -10.782609 -9.5999999"/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="M 81.5 24.6 H 62.7 v -3.8 a 7 7 0 0 0 -7 -7 H 44.3 a 7 7 0 0 0 -7 7 v 3.8 H 18.5 a 3 3 0 0 0 0 6 h 6.1 v 44.6 a 11 11 0 0 0 11 11 h 28.8 a 11 11 0 0 0 11 -11 V 30.6 h 6.1 a 3 3 0 0 0 0 -6 z M 43.3 20.8 a 1 1 0 0 1 1 -1 h 11.4 a 1 1 0 0 1 1 1 v 3.8 H 43.3 Z m 26 54.5 a 5 5 0 0 1 -5 5 H 35.6 a 5 5 0 0 1 -5 -5 V 30.6 h 38.8 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="m 57.5 73 a 3 3 0 0 0 3 -3 V 40.1 a 3 3 0 1 0 -6 0 V 70 a 3 3 0 0 0 3 3 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="m 42.5 73 a 3 3 0 0 0 3 -3 V 40.1 a 3 3 0 1 0 -6 0 V 70 a 3 3 0 0 0 3 3 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+
 </ResourceDictionary>

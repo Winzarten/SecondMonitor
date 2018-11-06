@@ -4,7 +4,7 @@
     using System.Runtime.CompilerServices;
 
     using DataModel.Snapshot;
-    using Annotations;
+    using Properties;
 
     public class PedalsAndGearViewModel : INotifyPropertyChanged, ISimulatorDataSetViewModel
     {

@@ -32,11 +32,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.10\lib\net45\NLog.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,6 +83,24 @@
     <Compile Include="ISimulatorDataSetViewModel.cs" />
     <Compile Include="IWheelStatusViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Settings\DisplaySettingAutoSaver.cs" />
+    <Compile Include="Settings\Model\ColumnSettings.cs" />
+    <Compile Include="Settings\Model\ColumnsSettings.cs" />
+    <Compile Include="Settings\Model\DisplayModeEnum.cs" />
+    <Compile Include="Settings\Model\DisplaySettings.cs" />
+    <Compile Include="Settings\Model\MapDisplaySettings.cs" />
+    <Compile Include="Settings\Model\ReportingSettings.cs" />
+    <Compile Include="Settings\Model\SessionOptions.cs" />
+    <Compile Include="Settings\Model\SessionReportSettings.cs" />
+    <Compile Include="Settings\ViewModel\ColumnSettingsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\ColumnsSettingsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\DisplaySettingsLoader.cs" />
+    <Compile Include="Settings\ViewModel\DisplaySettingsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\EnumBooleanConverter.cs" />
+    <Compile Include="Settings\ViewModel\MapDisplaySettingsViewmodel.cs" />
+    <Compile Include="Settings\ViewModel\ReportingSettingsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\SessionOptionsViewModel.cs" />
+    <Compile Include="Settings\ViewModel\SessionReportSettingsViewModel.cs" />
     <Compile Include="SimulatorDSViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -105,6 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\oil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

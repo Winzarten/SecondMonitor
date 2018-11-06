@@ -1,13 +1,10 @@
-﻿namespace SecondMonitor.Timing.Settings.ViewModel
+﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System;
     using System.IO;
-
-    using Newtonsoft.Json;
-
-    using NLog;
-
     using Model;
+    using Newtonsoft.Json;
+    using NLog;
 
     public class DisplaySettingsLoader
     {

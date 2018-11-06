@@ -7,7 +7,7 @@
 
     using DataModel.BasicProperties;
     using DataModel.Snapshot.Systems;
-    using Annotations;
+    using Properties;
 
     public class WheelStatusViewModel : DependencyObject, IWheelStatusViewModel, INotifyPropertyChanged
     {

@@ -3,10 +3,10 @@
 namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
-
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
+    using TrackMap;
 
     public class LapInfo
     {
@@ -157,6 +157,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             }
 
             LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
+
             Completed = true;
         }
 
@@ -195,7 +196,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 CompletedDistance = driverInfo.LapDistance;
                 if (Driver.IsPlayer)
                 {
-                     LapTelemetryInfo.UpdateTelemetry();
+                     LapTelemetryInfo.UpdateTelemetry(dataSet);
                 }
             }
 

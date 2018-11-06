@@ -5,7 +5,7 @@
 
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
-    using Annotations;
+    using Properties;
 
     public class TrackInfoViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {

@@ -23,6 +23,11 @@
 
         public Distance Z { get; }
 
+        public Distance GetDistance(Point3D p2)
+        {
+            return GetDistance(this, p2);
+        }
+
         public static Distance GetDistance(Point3D p1, Point3D p2)
         {
             double distanceInM = Math.Sqrt(

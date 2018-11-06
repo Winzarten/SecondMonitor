@@ -4,8 +4,7 @@ namespace SecondMonitor.ViewModels
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
-    using Annotations;
+    using Properties;
 
     public abstract class AbstractViewModel<T> : AbstractViewModel
     {

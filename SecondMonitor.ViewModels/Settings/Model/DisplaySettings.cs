@@ -1,7 +1,6 @@
-﻿namespace SecondMonitor.Timing.Settings.Model
+﻿namespace SecondMonitor.ViewModels.Settings.Model
 {
     using System;
-
     using DataModel.BasicProperties;
 
     [Serializable]
@@ -41,6 +40,8 @@
         public SessionOptions RaceOptions { get; set; } = new SessionOptions { OrderingDisplayMode = DisplayModeEnum.Relative, TimesDisplayMode = DisplayModeEnum.Relative, SessionName = "Race" };
 
         public ReportingSettings ReportingSettings { get; set; } = new ReportingSettings();
+
+        public MapDisplaySettings MapDisplaySettings { get; set; } = new MapDisplaySettings();
     }
 
 }

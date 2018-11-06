@@ -97,6 +97,12 @@
     <Compile Include="Summary\Lap.cs" />
     <Compile Include="Summary\SessionSummary.cs" />
     <Compile Include="Telemetry\TelemetrySnapshot.cs" />
+    <Compile Include="Telemetry\TimedTelemetrySnapshot.cs" />
+    <Compile Include="Telemetry\TimedTelemetrySnapshots.cs" />
+    <Compile Include="TrackMap\ITrackGeometry.cs" />
+    <Compile Include="TrackMap\ITrackMap.cs" />
+    <Compile Include="TrackMap\TrackGeometryDTO.cs" />
+    <Compile Include="TrackMap\TrackMapDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
