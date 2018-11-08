@@ -133,7 +133,7 @@
             }
         }
 
-        public void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers)
+        public virtual void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers)
         {
             LastDataSet = dataSet;
             foreach (DriverInfo driver in drivers)

@@ -286,6 +286,9 @@
                 LappingDriverBackgroundBrush = (SolidColorBrush) _commonResources["TimingLappingBrush"],
                 LappingDriverForegroundBrush = (SolidColorBrush) _commonResources["TimingLappingForegroundBrush"],
 
+                GreenSectorBrush = (SolidColorBrush)_commonResources["Green01Brush"],
+                PurpleSectorBrush = (SolidColorBrush)_commonResources["PurpleTimingBrush"],
+
                 AnimateDriversPos = DisplaySettingsViewModel.AnimateDriversPosition,
                 DataContext = this,
                 AutoScaleDriverControls = DisplaySettingsViewModel.MapDisplaySettingsViewModel.AutoScaleDrivers,

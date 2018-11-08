@@ -388,5 +388,45 @@
 
             return Drivers?[driver.DriverName].DriverTiming.CurrentLap?.Valid ?? false;
         }
+
+        public bool IsDriverLastSectorGreen(DriverInfo driver, int sectorNumber)
+        {
+            if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
+            {
+                return false;
+            }
+
+            switch (sectorNumber)
+            {
+                case 1:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector1PersonalBest;
+                case 2:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector2PersonalBest;
+                case 3:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector3PersonalBest;
+            }
+
+            return false;
+        }
+
+        public bool IsDriverLastSectorPurple(DriverInfo driver, int sectorNumber)
+        {
+            if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
+            {
+                return false;
+            }
+
+            switch (sectorNumber)
+            {
+                case 1:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector1SessionBest;
+                case 2:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector2SessionBest;
+                case 3:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector3SessionBest;
+            }
+
+            return false;
+        }
     }
 }

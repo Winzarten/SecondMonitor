@@ -50,6 +50,7 @@
     <Compile Include="BasicProperties\Acceleration.cs" />
     <Compile Include="BasicProperties\Distance.cs" />
     <Compile Include="BasicProperties\DistanceUnits.cs" />
+    <Compile Include="BasicProperties\FlagKind.cs" />
     <Compile Include="BasicProperties\FuelCalculationScope.cs" />
     <Compile Include="BasicProperties\FuelConsumption\FuelPerDistance.cs" />
     <Compile Include="BasicProperties\FuelConsumption\FuelPerDistanceUnits.cs" />

@@ -48,7 +48,48 @@
                 simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
             }
 
+            AddActiveFlags(pcarsData, simData);
+
             return simData;
+        }
+
+        public void AddActiveFlags(PCars2SharedMemory pcarsData, SimulatorDataSet simData)
+        {
+            for (int i = 0; i < pcarsData.mNumParticipants; i++)
+            {
+                HighestFlagColor highestFlagColor = (HighestFlagColor)pcarsData.mHighestFlagColours[i];
+                if (highestFlagColor == HighestFlagColor.FlagColourNone)
+                {
+                    continue;
+                }
+
+                if (highestFlagColor == HighestFlagColor.FlagColourYellow || highestFlagColor == HighestFlagColor.FlagColourDoubleYellow)
+                {
+                    int sector = pcarsData.mParticipantData[i].mCurrentSector + 1;
+                    switch (sector)
+                    {
+                        case 1:
+                            if (!simData.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector1))
+                            {
+                                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector1);
+                            }
+                            break;
+                        case 2:
+                            if (!simData.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector2))
+                            {
+                                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector2);
+                            }
+                            break;
+                        case 3:
+                            if (!simData.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector3))
+                            {
+                                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector3);
+                            }
+                            break;
+                    }
+                }
+            }
+
         }
 
         private static void AddAcceleration(PCars2SharedMemory data, SimulatorDataSet simData)
