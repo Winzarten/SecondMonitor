@@ -1,27 +1,27 @@
 ﻿namespace SecondMonitor.Timing.Controllers
 {
     using System;
-    using System.ComponentModel;
     using Contracts.TrackMap;
     using DataModel.TrackMap;
     using SessionTiming;
     using SessionTiming.ViewModel;
     using SimdataManagement;
     using TrackMap;
-    using ViewModels.Settings.ViewModel;
 
     public class MapManagementController : IMapManagementController
     {
         private readonly MapsLoader _mapsLoader;
+        private readonly ITrackDtoManipulator _trackDtoManipulator;
         private string _lastUnknownMap;
         private SessionTiming _sessionSessionTiming;
 
         public event EventHandler<MapEventArgs> NewMapAvailable;
         public event EventHandler<MapEventArgs> MapRemoved;
 
-        public MapManagementController(TrackMapFromTelemetryFactory trackMapFromTelemetryFactory, MapsLoader mapsLoader)
+        public MapManagementController(TrackMapFromTelemetryFactory trackMapFromTelemetryFactory, MapsLoader mapsLoader, ITrackDtoManipulator trackDtoManipulator)
         {
             _mapsLoader = mapsLoader;
+            _trackDtoManipulator = trackDtoManipulator;
             TrackMapFromTelemetryFactory = trackMapFromTelemetryFactory;
         }
 
@@ -118,6 +118,29 @@
 
             _mapsLoader.RemoveMap(simulator, FormatTrackName(trackName, layoutName));
             MapRemoved?.Invoke(this, new MapEventArgs(trackMapDto));
+        }
+
+        public TrackMapDto RotateMapRight(string simulator, string trackName, string layoutName)
+        {
+            if (!TryGetMap(simulator, trackName, layoutName, out TrackMapDto trackMapDto))
+            {
+                throw new ArgumentException($"Unknown Map: {simulator} - {trackName} - {layoutName}");
+            }
+            trackMapDto = _trackDtoManipulator.RotateRight(trackMapDto);
+            SaveMap(simulator, trackName, layoutName, trackMapDto);
+            return trackMapDto;
+        }
+
+        public TrackMapDto RotateMapLeft(string simulator, string trackName, string layoutName)
+        {
+            if (!TryGetMap(simulator, trackName, layoutName, out TrackMapDto trackMapDto))
+            {
+                throw new ArgumentException($"Unknown Map: {simulator} - {trackName} - {layoutName}");
+            }
+
+            trackMapDto = _trackDtoManipulator.RotateLeft(trackMapDto);
+            SaveMap(simulator, trackName, layoutName, trackMapDto);
+            return trackMapDto;
         }
 
         private static string FormatTrackName(string trackName, string layoutName)

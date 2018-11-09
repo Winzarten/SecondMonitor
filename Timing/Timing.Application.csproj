@@ -131,6 +131,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TrackMap\TrackDtoManipulator.cs" />
     <Compile Include="TrackMap\TrackMapFromTelemetryFactory.cs" />
   </ItemGroup>
   <ItemGroup>

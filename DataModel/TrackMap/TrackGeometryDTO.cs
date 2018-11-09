@@ -6,6 +6,9 @@ namespace SecondMonitor.DataModel.TrackMap
     public class TrackGeometryDto : ITrackGeometry
     {
         public int ExporterVersion { get; set; }
+        public bool IsSwappedAxis { get; set; } = false;
+        public double XCoef { get; set; } = 1;
+        public double YCoef { get; set; } = 1;
         public double LeftOffset { get; set; }
         public double TopOffset { get; set; }
         public double Width { get; set; }

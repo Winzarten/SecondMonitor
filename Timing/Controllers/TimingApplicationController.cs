@@ -147,7 +147,9 @@ namespace SecondMonitor.Timing.Controllers
 
         private void CreateMapManagementController()
         {
-            _mapManagementController = new MapManagementController(new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(_displaySettingsViewModel.MapDisplaySettingsViewModel.MapPointsInterval),100), new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory,"TrackMaps")));
+            _mapManagementController = new MapManagementController(new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(_displaySettingsViewModel.MapDisplaySettingsViewModel.MapPointsInterval),100),
+                new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory,"TrackMaps")),
+                new TrackDtoManipulator());
         }
 
         private void OpenSettingsWindow()

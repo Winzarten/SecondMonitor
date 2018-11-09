@@ -7,8 +7,9 @@
     using DataModel.Snapshot.Drivers;
     using SharedMemory;
     using PluginManager.Extensions;
+    using PluginManager.GameConnector;
 
-    public class PCars2DataConvertor
+    public class PCars2DataConvertor : AbstractDataConvertor
     {
         private DriverInfo _lastPlayer = new DriverInfo();
 
@@ -271,7 +272,7 @@
             driverInfo.TotalDistance = (pcVehicleInfo.mLapsCompleted * pcarsData.mTrackLength) + driverInfo.LapDistance;
             driverInfo.FinishStatus = FromPCarStatus((RaceState)pcarsData.mRaceStates[vehicleIndex]);
             driverInfo.WorldPosition = new Point3D(Distance.FromMeters(-pcVehicleInfo.mWorldPosition[0]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[1]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[2]));
-            ComputeDistanceToPlayer(_lastPlayer, driverInfo, pcarsData);
+            ComputeDistanceToPlayer(_lastPlayer, driverInfo, pcarsData.mTrackLength);
             return driverInfo;
         }
 
@@ -310,38 +311,6 @@
                     return DriverFinishStatus.Na;
 
             }
-        }
-
-
-        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, PCars2SharedMemory PCars2SharedMemory)
-        {
-            if (player == null)
-            {
-                return;
-            }
-
-            if (driverInfo.FinishStatus == DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverFinishStatus.Dnf ||
-                driverInfo.FinishStatus == DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverFinishStatus.Dns)
-            {
-                driverInfo.DistanceToPlayer = double.MaxValue;
-                return;
-            }
-
-            double trackLength = PCars2SharedMemory.mTrackLength;
-            double playerLapDistance = player.LapDistance;
-
-            double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
-            if (distanceToPlayer < -(trackLength / 2))
-            {
-                distanceToPlayer = distanceToPlayer + trackLength;
-            }
-
-            if (distanceToPlayer > (trackLength / 2))
-            {
-                distanceToPlayer = distanceToPlayer - trackLength;
-            }
-
-            driverInfo.DistanceToPlayer = distanceToPlayer;
         }
 
         internal void FillSessionInfo(PCars2SharedMemory data, SimulatorDataSet simData, TimeSpan sessionTime)

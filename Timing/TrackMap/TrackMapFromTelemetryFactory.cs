@@ -12,7 +12,7 @@
     public class TrackMapFromTelemetryFactory
     {
         public const int ExporterVersion = 1;
-        private const int TrackBounds = 10;
+        public const int TrackBounds = 30;
         private readonly int _finishLineLength;
 
         public TrackMapFromTelemetryFactory(TimeSpan mapsPointsInterval, int finishLineLength)
@@ -70,6 +70,11 @@
         private static string GetGeometry(List<TimedTelemetrySnapshot> fullTrackPoints, bool wrapAround)
         {
             Point[] points = ExtractWorldPoints(fullTrackPoints);
+            return GetGeometry(points, wrapAround);
+        }
+
+        public static string GetGeometry(Point[] points, bool wrapAround)
+        {
             StringBuilder sb = new StringBuilder($"M {points.First().X} {points.First().Y} ");
             points.Skip(1).ForEach(x => sb.Append($"L {x.X} {x.Y} "));
             if (wrapAround)
@@ -77,7 +82,7 @@
                 sb.Append($"Z");
             }
 
-            return sb.ToString().Replace(",",".");
+            return sb.ToString().Replace(",", ".");
         }
 
         private string GetSectorGeometry(List<TimedTelemetrySnapshot> fullTrackPoints, Func<TimedTelemetrySnapshot, bool> sectorPredicate)

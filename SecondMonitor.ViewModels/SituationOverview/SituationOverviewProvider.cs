@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
@@ -42,6 +43,8 @@
         }
 
         public ICommand DeleteMapCommand  => new RelayCommand(RemoveCurrentMap);
+        public ICommand RotateMapLeftCommand => new RelayCommand(RotateCurrentMapLeft);
+        public ICommand RotateMapRightCommand  => new RelayCommand(RotateCurrentMapRight);
 
         public ISituationOverviewControl SituationOverviewControl
         {
@@ -316,5 +319,18 @@
         {
             _mapManagementController.RemoveMap(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName);
         }
+
+        private void RotateCurrentMapLeft()
+        {
+            TrackMapDto trackMapDto = _mapManagementController.RotateMapLeft(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName);
+            InitializeFullMap(trackMapDto);
+        }
+
+        private void RotateCurrentMapRight()
+        {
+            TrackMapDto trackMapDto = _mapManagementController.RotateMapRight(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName);
+            InitializeFullMap(trackMapDto);
+        }
+
     }
 }
