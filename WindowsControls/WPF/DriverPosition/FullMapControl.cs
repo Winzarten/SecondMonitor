@@ -95,20 +95,37 @@
                 return;
             }
 
+            bool showSector1 = false;
+            bool showSector2 = false;
+            bool showSector3 = false;
 
-            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 1), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 1), dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector1) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.FullCourseYellow) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.VirtualSafetyCar) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.SafetyCar), _sector1Path);
-            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 2), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 2), dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector2) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.FullCourseYellow) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.VirtualSafetyCar) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.SafetyCar), _sector2Path);
-            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 3), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 3), dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector3) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.FullCourseYellow) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.VirtualSafetyCar) ||
-                                                                                                                                                                                                   dataSet.SessionInfo.ActiveFlags.Contains(FlagKind.SafetyCar), _sector3Path);
+            foreach (FlagKind flag in dataSet.SessionInfo.ActiveFlags)
+            {
+                if (flag == FlagKind.FullCourseYellow || flag == FlagKind.VirtualSafetyCar || flag == FlagKind.FullCourseYellow)
+                {
+                    showSector1 = true;
+                    showSector2 = true;
+                    showSector3 = true;
+                    break;
+                }
 
+                switch (flag)
+                {
+                    case FlagKind.YellowSector1:
+                        showSector1 = true;
+                        break;
+                    case FlagKind.YellowSector2:
+                        showSector2 = true;
+                        break;
+                    case FlagKind.YellowSector3:
+                        showSector3 = true;
+                        break;
+                }
+            }
+
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 1), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 1), showSector1, _sector1Path);
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 2), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 2), showSector2, _sector2Path);
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 3), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 3), showSector3, _sector3Path);
         }
 
         private void UpdateSectorColor(bool isSectorGreen, bool isSectorPurple, bool isSectorYellow, Shape sectorPath)
@@ -136,7 +153,7 @@
                 sectorPath.Stroke = brushToUse;
             }
 
-            if ((shouldBeVisible && sectorPath.Opacity < 1) || (!shouldBeVisible && sectorPath.Opacity > 0))
+            if ((shouldBeVisible && sectorPath.Opacity == 0) || (!shouldBeVisible && sectorPath.Opacity == 1))
             {
                 if (!AnimateDriversPos)
                 {

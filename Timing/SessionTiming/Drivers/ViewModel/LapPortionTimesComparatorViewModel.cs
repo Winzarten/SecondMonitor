@@ -56,6 +56,11 @@
                 return;
             }
 
+            if (ReferenceLap?.LapTelemetryInfo == null)
+            {
+                return;
+            }
+
             if (ReferenceLap.LapTelemetryInfo.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance) != TimeSpan.Zero)
             {
                 TimeDifference = ComparedLap.LapTelemetryInfo.PortionTimes.GetTimeAtDistance(ComparedLap.CompletedDistance)

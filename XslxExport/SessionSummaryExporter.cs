@@ -79,7 +79,7 @@
         private void AddRaceProgress(ExcelWorksheet sheet, SessionSummary sessionSummary)
         {
             int maxLaps = sessionSummary.Drivers.Select(x => x.Laps.Count).Max();
-            List<Driver> orderedDrivers = sessionSummary.Drivers.OrderBy(x => x.Laps.Last().LapEndSnapshot.PlayerData.Position).ToList();
+            List<Driver> orderedDrivers = sessionSummary.Drivers.OrderBy(x => x.Laps.LastOrDefault()?.LapEndSnapshot.PlayerData.Position).ToList();
             int startRow = 100;
             int startColumn = 1;
             sheet.Cells[startRow + 1, startColumn].Value = "Start";
@@ -131,9 +131,9 @@
                     startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
             });
 
-            for (int i = laps.Count(); i < maxLaps; i++)
+            for (int i = lapsList.Count(); i < maxLaps; i++)
             {
-                sheet.Cells[startAddress.Address].Value = laps.Last().Driver.FinishingPosition;
+                sheet.Cells[startAddress.Address].Value = lapsList.Last().Driver.FinishingPosition;
                 startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
             }
         }

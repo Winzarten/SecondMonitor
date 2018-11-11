@@ -336,7 +336,28 @@
             // Acceleration
             AddAcceleration(data, simData);
 
+            //Add Flags Info
+            AddFlags(data, simData);
+
             return simData;
+        }
+
+        private void AddFlags(R3ESharedData data, SimulatorDataSet simData)
+        {
+            if (data.SectorYellow.Sector1 == 1)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector1);
+            }
+
+            if (data.SectorYellow.Sector2 == 1)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector2);
+            }
+
+            if (data.SectorYellow.Sector3 == 1)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector3);
+            }
         }
 
         private static void FillPlayersGear(R3ESharedData data, SimulatorDataSet simData)

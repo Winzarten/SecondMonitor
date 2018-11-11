@@ -291,6 +291,7 @@
 
                 GreenSectorBrush = (SolidColorBrush)_commonResources["Green01Brush"],
                 PurpleSectorBrush = (SolidColorBrush)_commonResources["PurpleTimingBrush"],
+                YellowSectorBrush = (SolidColorBrush) _commonResources["YellowSectorBrush"],
 
                 AnimateDriversPos = DisplaySettingsViewModel.AnimateDriversPosition,
                 DataContext = this,

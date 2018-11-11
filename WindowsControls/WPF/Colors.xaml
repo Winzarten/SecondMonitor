@@ -41,6 +41,7 @@
 
     <SolidColorBrush x:Shared="False" x:Key="Green01Brush" Color="{StaticResource Green01Color}"/>
 
+    <SolidColorBrush x:Shared="False" x:Key="YellowSectorBrush" Color="{StaticResource Yellow01Color}" />
     <SolidColorBrush x:Shared="False" x:Key="ClutchPedalColor" Color="{StaticResource Yellow01Color}" />
     <SolidColorBrush x:Shared="False" x:Key="ClutchPedalBorderColor" Color="{StaticResource Yellow02Color}" />
 
