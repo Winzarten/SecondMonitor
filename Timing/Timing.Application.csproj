@@ -111,7 +111,7 @@
     <Compile Include="ReportCreation\SessionTImingExtension.cs" />
     <Compile Include="ReportCreation\ViewModel\ReportsController.cs" />
     <Compile Include="SessionTiming\Drivers\DriverListModificationEventArgs.cs" />
-    <Compile Include="SessionTiming\Drivers\ViewModel\CombinedLapPortionComparatorsVM.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\CombinedLapPortionComparatorsViewModel.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\DriverTiming.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapCompletionMethod.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapPortionTimes.cs" />

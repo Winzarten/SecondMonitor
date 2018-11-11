@@ -322,7 +322,7 @@
             simData.SessionInfo.TrackInfo.TrackLayoutName = StringExtensions.FromArray(data.mTranslatedTrackVariation);
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.mAmbientTemperature);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.mTrackTemperature);
-            simData.SessionInfo.WeatherInfo.RainIntensity = (int) (data.mRainDensity * 100.0);
+            simData.SessionInfo.WeatherInfo.RainIntensity = (int) (Math.Max(data.mRainDensity, data.mSnowDensity) * 100.0);
 
             switch ((PCars2SessionType)data.mSessionState)
             {

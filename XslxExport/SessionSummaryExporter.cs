@@ -122,6 +122,11 @@
         private void GenerateLapsPositionColumn(ExcelWorksheet sheet, ExcelCellAddress startAddress, IEnumerable<Lap> laps, int maxLaps)
         {
             List<Lap> lapsList = laps.ToList();
+            if (!lapsList.Any())
+            {
+                return;
+            }
+
             sheet.Cells[startAddress.Address].Value = lapsList.First().LapStartSnapshot.PlayerData.Position;
             startAddress = new ExcelCellAddress(startAddress.Row + 1, startAddress.Column);
 

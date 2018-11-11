@@ -56,7 +56,7 @@
                 return;
             }
 
-            if (ReferenceLap?.LapTelemetryInfo == null)
+            if (ReferenceLap?.LapTelemetryInfo?.PortionTimes == null || ReferenceLap.LapTelemetryInfo.IsPurged)
             {
                 return;
             }

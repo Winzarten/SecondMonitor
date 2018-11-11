@@ -88,8 +88,8 @@
                     BorderBrush="{StaticResource DarkGrey01Brush}"
                     BorderThickness="3" CornerRadius="5">
                 <StackPanel>
-                    <wpf:TimeSpanBarControl Title="Δ to Personal Best" AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToBestPlayerComparator.TimeDifference}" />
-                    <wpf:TimeSpanBarControl Title="Δ to Previous Lap" AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparators.PlayerLapToPreviousComparator.TimeDifference}" />
+                    <wpf:TimeSpanBarControl Title="Δ to Personal Best" AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparator.PlayerLapToBestPlayerComparator.TimeDifference}" />
+                    <wpf:TimeSpanBarControl Title="Δ to Previous Lap" AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}" Value="{Binding Path=SessionTiming.CombinedLapPortionComparator.PlayerLapToPreviousComparator.TimeDifference}" />
                 </StackPanel>
             </Border>
             <view:SessionInfoView Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
