@@ -18,17 +18,38 @@
     <Grid Background="{StaticResource Anthracite01Brush}">
         <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" Padding="1">
         <StackPanel>
-        <Button MaxWidth="50"
-                Command="{Binding DeleteMapCommand, Mode=OneWay}"
-                Style="{StaticResource StandardButton}"
-                ToolTip="Remove current map, forcing the app to re-learn the track layout.">
-            <Button.Content>
-                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+
+            <Button MaxWidth="50"
+                    Command="{Binding RotateMapLeftCommand, Mode=OneWay}"
+                    Style="{StaticResource StandardButton}"
+                    ToolTip="Rotate the current map counter-clockwise">
+                <Button.Content>
+                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                        <ContentPresenter Content="{StaticResource RotateLeftIcon}" />
+                    </wpf:ColorAbleIcon>
+                </Button.Content>
+            </Button>
+            <Button MaxWidth="50"
+                    Command="{Binding RotateMapRightCommand, Mode=OneWay}"
+                    Style="{StaticResource StandardButton}"
+                    ToolTip="Rotate Current Map Clockwise">
+                <Button.Content>
+                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                        <ContentPresenter Content="{StaticResource RotateRightIcon}" />
+                    </wpf:ColorAbleIcon>
+                </Button.Content>
+            </Button>
+            <Button MaxWidth="50"
+                    Command="{Binding DeleteMapCommand, Mode=OneWay}"
+                    Style="{StaticResource StandardButton}"
+                    ToolTip="Remove current map, forcing the app to re-learn the track layout.">
+                <Button.Content>
+                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                         <ContentPresenter Content="{StaticResource TrashIcon}" />
-                </wpf:ColorAbleIcon>
-            </Button.Content>
-        </Button>
-        </StackPanel>
+                    </wpf:ColorAbleIcon>
+                </Button.Content>
+            </Button>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

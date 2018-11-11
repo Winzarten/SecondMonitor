@@ -30,6 +30,7 @@
         private SessionPhase _lastSessionPhase;
         private SessionType _lastSessionType;
         private bool _isConnected;
+        private TimeSpan _previousSessionTime;
 
         public Rf2Connector()
             : base(RFExecutables)
@@ -115,6 +116,7 @@
             _rawLastSessionType = int.MinValue;
             _lastSessionType = SessionType.Na;
             _lastSessionPhase = SessionPhase.Countdown;
+            _previousSessionTime = TimeSpan.MinValue;;
         }
 
         protected override string ConnectorName => "RFactor2";
@@ -141,6 +143,7 @@
                     RaiseSessionStartedEvent(dataSet);
                 }
 
+                _previousSessionTime = dataSet.SessionInfo.SessionTime;
                 RaiseDataLoadedEvent(dataSet);
 
                 if (!IsProcessRunning())
@@ -171,6 +174,11 @@
 
         private bool CheckSessionStarted(Rf2FullData rfData, SimulatorDataSet dataSet)
         {
+            if (_previousSessionTime > dataSet.SessionInfo.SessionTime)
+            {
+                return true;
+            }
+
             if (_rawLastSessionType != rfData.scoring.mScoringInfo.mSession || _lastSessionType != dataSet.SessionInfo.SessionType)
             {
                 _lastSessionType = dataSet.SessionInfo.SessionType;

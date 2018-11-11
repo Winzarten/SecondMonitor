@@ -34,9 +34,7 @@
         }
 
         public event EventHandler<LapEventArgs> LapCompleted;
-
         public event EventHandler<DriverListModificationEventArgs> DriverAdded;
-
         public event EventHandler<DriverListModificationEventArgs> DriverRemoved;
 
         public double TotalSessionLength { get; private set; }
@@ -50,6 +48,8 @@
         private SectorTiming _bestSector1;
         private SectorTiming _bestSector2;
         private SectorTiming _bestSector3;
+
+        private CombinedLapPortionComparatorsViewModel _combinedLapPortionComparatorsViewModel;
 
         public LapInfo BestSessionLap
         {
@@ -121,7 +121,15 @@
             }
         }
 
-        public CombinedLapPortionComparatorsVM CombinedLapPortionComparators{ get; }
+        public CombinedLapPortionComparatorsViewModel CombinedLapPortionComparator
+        {
+            get => _combinedLapPortionComparatorsViewModel;
+            private set
+            {
+                _combinedLapPortionComparatorsViewModel = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool RetrieveAlsoInvalidLaps { get; set; }
 
@@ -150,7 +158,6 @@
             PaceLaps = 4;
             DisplayBindTimeRelative = false;
             TimingDataViewModel = timingDataViewModel;
-            CombinedLapPortionComparators = new CombinedLapPortionComparatorsVM(null);
         }
 
         public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel)
@@ -182,6 +189,7 @@
                 if (newDriver.DriverInfo.IsPlayer)
                 {
                     timing.Player = newDriverTimingViewModel;
+                    timing.CombinedLapPortionComparator = new CombinedLapPortionComparatorsViewModel(newDriver);
                 }
             });
             timing.Drivers = drivers;
@@ -347,12 +355,6 @@
                 Leader = driverTimingViewModel;
             }
 
-            if (driverTimingViewModel.DriverTiming.IsPlayer && driverTimingViewModel.DriverTiming.CurrentLap
-                != CombinedLapPortionComparators.PlayerLap)
-            {
-                CombinedLapPortionComparators.PlayerLap = driverTimingViewModel.DriverTiming.CurrentLap;
-            }
-
             driverTimingViewModel.RefreshProperties();
         }
 
@@ -387,6 +389,46 @@
             }
 
             return Drivers?[driver.DriverName].DriverTiming.CurrentLap?.Valid ?? false;
+        }
+
+        public bool IsDriverLastSectorGreen(DriverInfo driver, int sectorNumber)
+        {
+            if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
+            {
+                return false;
+            }
+
+            switch (sectorNumber)
+            {
+                case 1:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector1PersonalBest;
+                case 2:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector2PersonalBest;
+                case 3:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector3PersonalBest;
+            }
+
+            return false;
+        }
+
+        public bool IsDriverLastSectorPurple(DriverInfo driver, int sectorNumber)
+        {
+            if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
+            {
+                return false;
+            }
+
+            switch (sectorNumber)
+            {
+                case 1:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector1SessionBest;
+                case 2:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector2SessionBest;
+                case 3:
+                    return Drivers != null && Drivers[driver.DriverName].IsLastSector3SessionBest;
+            }
+
+            return false;
         }
     }
 }

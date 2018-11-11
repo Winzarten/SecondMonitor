@@ -14,7 +14,6 @@
     using System.Windows.Threading;
 
     using Commands;
-    using Contracts.TrackMap;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
@@ -445,7 +444,6 @@
             CarStatusViewModel.ApplyDateSet(data);
             TrackInfoViewModel.ApplyDateSet(data);
             SessionInfoViewModel.ApplyDateSet(data);
-            //SituationOverviewProvider.ApplyDateSet(data);
         }
 
         private void Timing_DriverRemoved(object sender, DriverListModificationEventArgs e)
@@ -577,8 +575,6 @@
             }
 
             SituationOverviewProvider.ApplyDateSet(data);
-
-            //NotifyPropertyChanged("BestLapFormatted");
         }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)

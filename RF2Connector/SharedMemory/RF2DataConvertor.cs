@@ -36,33 +36,59 @@
             }
 
 
-                rF2VehicleTelemetry playerF2VehicleTelemetry =
-                    rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
+            rF2VehicleTelemetry playerF2VehicleTelemetry =
+                rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
 
-                FillPlayersGear(playerF2VehicleTelemetry, simData);
+            FillPlayersGear(playerF2VehicleTelemetry, simData);
 
-                // PEDAL INFO
-                AddPedalInfo(playerF2VehicleTelemetry, simData);
+            // PEDAL INFO
+            AddPedalInfo(playerF2VehicleTelemetry, simData);
 
-                // WaterSystemInfo
-                AddWaterSystemInfo(playerF2VehicleTelemetry, simData);
+            // WaterSystemInfo
+            AddWaterSystemInfo(playerF2VehicleTelemetry, simData);
 
-                // OilSystemInfo
-                AddOilSystemInfo(playerF2VehicleTelemetry, simData);
+            // OilSystemInfo
+            AddOilSystemInfo(playerF2VehicleTelemetry, simData);
 
-                // Brakes Info
-                AddBrakesInfo(playerF2VehicleTelemetry, simData);
+            // Brakes Info
+            AddBrakesInfo(playerF2VehicleTelemetry, simData);
 
-                // Tyre Pressure Info
-                AddTyresAndFuelInfo(simData, playerF2VehicleTelemetry);
+            // Tyre Pressure Info
+            AddTyresAndFuelInfo(simData, playerF2VehicleTelemetry);
 
-                // Acceleration
-                AddAcceleration(simData, playerF2VehicleTelemetry);
+            // Acceleration
+            AddAcceleration(simData, playerF2VehicleTelemetry);
 
-                currentlyIgnoredPackage = 0;
+            AddFlags(rfData, simData);
+
+            currentlyIgnoredPackage = 0;
 
 
             return simData;
+        }
+
+        private void AddFlags(Rf2FullData rfData, SimulatorDataSet simData)
+        {
+            if ((rFactor2Constants.rF2GamePhase)rfData.scoring.mScoringInfo.mGamePhase == rFactor2Constants.rF2GamePhase.FullCourseYellow)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.FullCourseYellow);
+                return;
+            }
+
+            if (rfData.scoring.mScoringInfo.mSectorFlag[0] == 1)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector1);
+            }
+
+            if (rfData.scoring.mScoringInfo.mSectorFlag[1] == 1)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector2);
+            }
+
+            if (rfData.scoring.mScoringInfo.mSectorFlag[2] == 1)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector3);
+            }
         }
 
         private void AddAcceleration(SimulatorDataSet simData, rF2VehicleTelemetry playerVehicleTelemetry)
@@ -102,7 +128,7 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.ActualQuantity =
                 Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mTemperature[1]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreCoreTemperature.ActualQuantity =
-                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mTireCarcassTemperature);
+                Temperature.FromKelvin(Math.Min(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mTireCarcassTemperature, 2000));
 
 
             // Front Right Tyre Temps
@@ -113,7 +139,7 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp.ActualQuantity =
                 Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mTemperature[1]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreCoreTemperature.ActualQuantity =
-                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mTireCarcassTemperature);
+                Temperature.FromKelvin(Math.Min(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mTireCarcassTemperature, 2000));
 
 
             // Rear Left Tyre Temps
@@ -124,7 +150,7 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp.ActualQuantity =
                 Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mTemperature[1]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreCoreTemperature.ActualQuantity =
-                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mTireCarcassTemperature);
+                Temperature.FromKelvin(Math.Min(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mTireCarcassTemperature, 2000));
 
             // Rear Right Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp.ActualQuantity =
@@ -134,7 +160,7 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp.ActualQuantity =
                 Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mTemperature[1]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreCoreTemperature.ActualQuantity =
-                Temperature.FromKelvin(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mTireCarcassTemperature);
+                Temperature.FromKelvin(Math.Min(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mTireCarcassTemperature, 2000));
 
             // Fuel System
             simData.PlayerInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(playerVehicleTelemetry.mFuelCapacity);

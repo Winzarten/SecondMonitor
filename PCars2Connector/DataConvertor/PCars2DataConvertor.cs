@@ -7,8 +7,9 @@
     using DataModel.Snapshot.Drivers;
     using SharedMemory;
     using PluginManager.Extensions;
+    using PluginManager.GameConnector;
 
-    public class PCars2DataConvertor
+    public class PCars2DataConvertor : AbstractDataConvertor
     {
         private DriverInfo _lastPlayer = new DriverInfo();
 
@@ -48,7 +49,48 @@
                 simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
             }
 
+            AddActiveFlags(pcarsData, simData);
+
             return simData;
+        }
+
+        public void AddActiveFlags(PCars2SharedMemory pcarsData, SimulatorDataSet simData)
+        {
+            for (int i = 0; i < pcarsData.mNumParticipants; i++)
+            {
+                HighestFlagColor highestFlagColor = (HighestFlagColor)pcarsData.mHighestFlagColours[i];
+                if (highestFlagColor == HighestFlagColor.FlagColourNone)
+                {
+                    continue;
+                }
+
+                if (highestFlagColor == HighestFlagColor.FlagColourYellow || highestFlagColor == HighestFlagColor.FlagColourDoubleYellow)
+                {
+                    int sector = pcarsData.mParticipantData[i].mCurrentSector + 1;
+                    switch (sector)
+                    {
+                        case 1:
+                            if (!simData.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector1))
+                            {
+                                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector1);
+                            }
+                            break;
+                        case 2:
+                            if (!simData.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector2))
+                            {
+                                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector2);
+                            }
+                            break;
+                        case 3:
+                            if (!simData.SessionInfo.ActiveFlags.Contains(FlagKind.YellowSector3))
+                            {
+                                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector3);
+                            }
+                            break;
+                    }
+                }
+            }
+
         }
 
         private static void AddAcceleration(PCars2SharedMemory data, SimulatorDataSet simData)
@@ -230,7 +272,7 @@
             driverInfo.TotalDistance = (pcVehicleInfo.mLapsCompleted * pcarsData.mTrackLength) + driverInfo.LapDistance;
             driverInfo.FinishStatus = FromPCarStatus((RaceState)pcarsData.mRaceStates[vehicleIndex]);
             driverInfo.WorldPosition = new Point3D(Distance.FromMeters(-pcVehicleInfo.mWorldPosition[0]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[1]), Distance.FromMeters(pcVehicleInfo.mWorldPosition[2]));
-            ComputeDistanceToPlayer(_lastPlayer, driverInfo, pcarsData);
+            ComputeDistanceToPlayer(_lastPlayer, driverInfo, pcarsData.mTrackLength);
             return driverInfo;
         }
 
@@ -271,38 +313,6 @@
             }
         }
 
-
-        internal static void ComputeDistanceToPlayer(DriverInfo player, DriverInfo driverInfo, PCars2SharedMemory PCars2SharedMemory)
-        {
-            if (player == null)
-            {
-                return;
-            }
-
-            if (driverInfo.FinishStatus == DriverFinishStatus.Dq || driverInfo.FinishStatus == DriverFinishStatus.Dnf ||
-                driverInfo.FinishStatus == DriverFinishStatus.Dnq || driverInfo.FinishStatus == DriverFinishStatus.Dns)
-            {
-                driverInfo.DistanceToPlayer = double.MaxValue;
-                return;
-            }
-
-            double trackLength = PCars2SharedMemory.mTrackLength;
-            double playerLapDistance = player.LapDistance;
-
-            double distanceToPlayer = playerLapDistance - driverInfo.LapDistance;
-            if (distanceToPlayer < -(trackLength / 2))
-            {
-                distanceToPlayer = distanceToPlayer + trackLength;
-            }
-
-            if (distanceToPlayer > (trackLength / 2))
-            {
-                distanceToPlayer = distanceToPlayer - trackLength;
-            }
-
-            driverInfo.DistanceToPlayer = distanceToPlayer;
-        }
-
         internal void FillSessionInfo(PCars2SharedMemory data, SimulatorDataSet simData, TimeSpan sessionTime)
         {
             // Timing
@@ -312,7 +322,7 @@
             simData.SessionInfo.TrackInfo.TrackLayoutName = StringExtensions.FromArray(data.mTranslatedTrackVariation);
             simData.SessionInfo.WeatherInfo.AirTemperature = Temperature.FromCelsius(data.mAmbientTemperature);
             simData.SessionInfo.WeatherInfo.TrackTemperature = Temperature.FromCelsius(data.mTrackTemperature);
-            simData.SessionInfo.WeatherInfo.RainIntensity = (int) (data.mRainDensity * 100.0);
+            simData.SessionInfo.WeatherInfo.RainIntensity = (int) (Math.Max(data.mRainDensity, data.mSnowDensity) * 100.0);
 
             switch ((PCars2SessionType)data.mSessionState)
             {

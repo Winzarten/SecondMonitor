@@ -9,37 +9,56 @@
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
+    using DataModel.BasicProperties;
+    using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using DataModel.TrackMap;
 
     public class FullMapControl : AbstractSituationOverviewControl
     {
-        private readonly double _topOffset;
-        private readonly double _leftOffset;
-        private readonly double _canvasWidth;
-        private readonly double _canvasHeight;
-        private readonly string _fullMapGeometry;
-        private readonly string _finnishLineGeometry;
+
+        private readonly ITrackMap _trackMap;
 
         private MapSidePanelControl _mapSidePanelControl;
         private Canvas _mainCanvas;
         private bool _autoScaleDriverControls;
         private Viewbox _viewbox;
+        private Path _sector1Path;
+        private Path _sector2Path;
+        private Path _sector3Path;
 
         public static readonly DependencyProperty DriverControllerSizeProperty = DependencyProperty.Register("DriverControllerSize", typeof(double), typeof(FullMapControl));
         public static readonly DependencyProperty DriverControllerFontSizeProperty = DependencyProperty.Register("DriverControllerFontSize", typeof(double), typeof(FullMapControl));
 
+        public static readonly DependencyProperty YellowSectorBrushProperty = DependencyProperty.Register("YellowSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
+        public static readonly DependencyProperty GreenSectorBrushProperty = DependencyProperty.Register("GreenSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
+        public static readonly DependencyProperty PurpleSectorBrushProperty = DependencyProperty.Register("PurpleSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
+
         public FullMapControl(ITrackMap trackMap)
         {
-            _topOffset = trackMap.TrackGeometry.TopOffset;
-            _leftOffset = trackMap.TrackGeometry.LeftOffset;
-            _canvasWidth = trackMap.TrackGeometry.Width;
-            _canvasHeight = trackMap.TrackGeometry.Height;
-            _fullMapGeometry = trackMap.TrackGeometry.FullMapGeometry;
-            _finnishLineGeometry = trackMap.TrackGeometry.StartLineGeometry;
+            _trackMap = trackMap;
             RefreshDriverControllerSize();
             InitializeMap();
         }
+
+        public SolidColorBrush PurpleSectorBrush
+        {
+            get => (SolidColorBrush)GetValue(PurpleSectorBrushProperty);
+            set => SetValue(PurpleSectorBrushProperty, value);
+        }
+
+        public SolidColorBrush GreenSectorBrush
+        {
+            get => (SolidColorBrush)GetValue(GreenSectorBrushProperty);
+            set => SetValue(GreenSectorBrushProperty, value);
+        }
+
+        public SolidColorBrush YellowSectorBrush
+        {
+            get => (SolidColorBrush)GetValue(YellowSectorBrushProperty);
+            set => SetValue(YellowSectorBrushProperty, value);
+        }
+
 
         public double DriverControllerFontSize
         {
@@ -63,6 +82,91 @@
             set => _viewbox.Stretch = value ? Stretch.Uniform : Stretch.Fill;
         }
 
+        public override void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers)
+        {
+            base.UpdateDrivers(dataSet, drivers);
+            UpdateSectorsColor(dataSet);
+        }
+
+        private void UpdateSectorsColor(SimulatorDataSet dataSet)
+        {
+            if (PositionCircleInformationProvider == null || dataSet.PlayerInfo == null)
+            {
+                return;
+            }
+
+            bool showSector1 = false;
+            bool showSector2 = false;
+            bool showSector3 = false;
+
+            foreach (FlagKind flag in dataSet.SessionInfo.ActiveFlags)
+            {
+                if (flag == FlagKind.FullCourseYellow || flag == FlagKind.VirtualSafetyCar || flag == FlagKind.FullCourseYellow)
+                {
+                    showSector1 = true;
+                    showSector2 = true;
+                    showSector3 = true;
+                    break;
+                }
+
+                switch (flag)
+                {
+                    case FlagKind.YellowSector1:
+                        showSector1 = true;
+                        break;
+                    case FlagKind.YellowSector2:
+                        showSector2 = true;
+                        break;
+                    case FlagKind.YellowSector3:
+                        showSector3 = true;
+                        break;
+                }
+            }
+
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 1), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 1), showSector1, _sector1Path);
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 2), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 2), showSector2, _sector2Path);
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 3), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 3), showSector3, _sector3Path);
+        }
+
+        private void UpdateSectorColor(bool isSectorGreen, bool isSectorPurple, bool isSectorYellow, Shape sectorPath)
+        {
+            bool shouldBeVisible = isSectorGreen || isSectorPurple || isSectorYellow;
+            SolidColorBrush brushToUse = null;
+
+            if (shouldBeVisible && isSectorGreen)
+            {
+                brushToUse = GreenSectorBrush;
+            }
+
+            if (shouldBeVisible && isSectorPurple)
+            {
+                brushToUse = PurpleSectorBrush;
+            }
+
+            if (shouldBeVisible && isSectorYellow)
+            {
+                brushToUse = YellowSectorBrush;
+            }
+
+            if (brushToUse != null && brushToUse != sectorPath.Stroke)
+            {
+                sectorPath.Stroke = brushToUse;
+            }
+
+            if ((shouldBeVisible && sectorPath.Opacity == 0) || (!shouldBeVisible && sectorPath.Opacity == 1))
+            {
+                if (!AnimateDriversPos)
+                {
+                    sectorPath.Opacity = shouldBeVisible ? 1 : 0;
+                }
+                else
+                {
+                    DoubleAnimation newDoubleAnimation = new DoubleAnimation(sectorPath.Opacity, shouldBeVisible ? 1.0 : 0.0, TimeSpan.FromSeconds(0.5));
+                    sectorPath.BeginAnimation(Shape.OpacityProperty, newDoubleAnimation);
+                }
+            }
+        }
+
         protected double DriverControllerSize
         {
             get => (double)GetValue(DriverControllerSizeProperty);
@@ -71,7 +175,7 @@
 
         protected void RefreshDriverControllerSize()
         {
-            DriverControllerSize = AutoScaleDriverControls ? _canvasHeight * 0.08 : 25;
+            DriverControllerSize = AutoScaleDriverControls ? _trackMap.TrackGeometry.Height * 0.08 : 25;
             DriverControllerFontSize = DriverControllerSize * 0.75;
         }
 
@@ -112,12 +216,14 @@
 
         protected override double GetX(DriverInfo driver)
         {
-            return driver.WorldPosition.X.InMeters - GetDriverControlSize() / 2;
+            double xCoord = _trackMap.TrackGeometry.IsSwappedAxis ? driver.WorldPosition.Z.InMeters * _trackMap.TrackGeometry.YCoef : driver.WorldPosition.X.InMeters * _trackMap.TrackGeometry.XCoef;
+            return xCoord - GetDriverControlSize() / 2;
         }
 
         protected override double GetY(DriverInfo driver)
         {
-            return driver.WorldPosition.Z.InMeters - GetDriverControlSize() / 2;
+            double yCoord = _trackMap.TrackGeometry.IsSwappedAxis ? driver.WorldPosition.X.InMeters * _trackMap.TrackGeometry.XCoef : driver.WorldPosition.Z.InMeters * _trackMap.TrackGeometry.YCoef;
+            return yCoord - GetDriverControlSize() / 2;
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
@@ -139,21 +245,29 @@
             ClipToBounds = true;
             ResourceDictionary resource = new ResourceDictionary();
             resource.Source = new Uri(@"pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml", UriKind.RelativeOrAbsolute);
-            Canvas topCanvas = new Canvas {Width = _canvasWidth, Height = _canvasHeight};
+            Canvas topCanvas = new Canvas {Width = _trackMap.TrackGeometry.Width, Height = _trackMap.TrackGeometry.Height};
 
             _mainCanvas = new Canvas();
 
-            Path mainPath = new Path {Stroke = (Brush) resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_fullMapGeometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator))};
-            Path finishLinePath = new Path { Stroke = (Brush)resource["LightBlueBrush"], StrokeThickness = 30, Data = Geometry.Parse(_finnishLineGeometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)) };
+            Path mainPath = new Path {Stroke = (Brush) resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.FullMapGeometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator))};
+            _sector1Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector1Geometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)), Opacity = 0 };
+            _sector2Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector2Geometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)), Opacity = 0 };
+            _sector3Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector3Geometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)), Opacity = 0 };
+            Path finishLinePath = new Path { Stroke = (Brush)resource["LightBlueBrush"], StrokeThickness = 30, Data = Geometry.Parse(_trackMap.TrackGeometry.StartLineGeometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)) };
 
             _mainCanvas.Children.Add(mainPath);
+            _mainCanvas.Children.Add(_sector1Path);
+            _mainCanvas.Children.Add(_sector2Path);
+            _mainCanvas.Children.Add(_sector3Path);
             _mainCanvas.Children.Add(finishLinePath);
             TransformGroup transformGroup = new TransformGroup();
             transformGroup.Children.Add(new TranslateTransform()
             {
-                X = -_leftOffset,
-                Y = -_topOffset
+                X = -_trackMap.TrackGeometry.LeftOffset,
+                Y = -_trackMap.TrackGeometry.TopOffset
             });
+
+
 
             _mainCanvas.RenderTransform = transformGroup;
             topCanvas.Children.Add(_mainCanvas);

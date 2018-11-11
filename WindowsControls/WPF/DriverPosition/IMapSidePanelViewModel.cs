@@ -5,5 +5,7 @@
     public interface IMapSidePanelViewModel
     {
         ICommand DeleteMapCommand { get; }
+        ICommand RotateMapLeftCommand { get; }
+        ICommand RotateMapRightCommand { get; }
     }
 }

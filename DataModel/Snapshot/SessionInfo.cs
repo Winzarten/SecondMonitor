@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot
 {
     using System;
-
+    using System.Collections.Generic;
     using BasicProperties;
 
     [Serializable]
@@ -32,5 +32,7 @@
         public int LeaderCurrentLap { get; set; }
 
         public WeatherInfo WeatherInfo { get; set; } = new WeatherInfo();
+
+        public List<FlagKind> ActiveFlags = new List<FlagKind>();
     }
 }

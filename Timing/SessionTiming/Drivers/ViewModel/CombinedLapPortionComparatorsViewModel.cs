@@ -6,57 +6,31 @@
 
     using Annotations;
 
-    public class CombinedLapPortionComparatorsVM : INotifyPropertyChanged, IDisposable
+    public class CombinedLapPortionComparatorsViewModel : INotifyPropertyChanged, IDisposable
     {
+        private readonly DriverTiming _driver;
         private LapPortionTimesComparatorViewModel _playerLapToPrevious;
         private LapPortionTimesComparatorViewModel _playerLapToPlayerBest;
 
-        private LapInfo _playerLap;
-
-        public CombinedLapPortionComparatorsVM(LapInfo playerLap)
+        public CombinedLapPortionComparatorsViewModel(DriverTiming driver)
         {
-            _playerLap = playerLap;
-            if (playerLap?.Driver != null)
-            {
-                _playerLap.Driver.LapCompleted += DriverOnLapCompleted;
-            }
-            RecreatePlayerLapToPrevious();
+            _driver = driver;
+            _driver.NewLapStarted += DriverOnLapCompletedOrInvalidated;
+            _driver.LapCompleted += DriverOnLapCompletedOrInvalidated;
+            _driver.LapInvalidated += DriverOnLapCompletedOrInvalidated;
             RecreatePlayerLapToPlayerBest();
         }
 
-        private void DriverOnLapCompleted(object sender, LapEventArgs e)
+        private void DriverOnLapCompletedOrInvalidated(object sender, LapEventArgs e)
         {
-            if (e.Lap == _playerLap.Driver.BestLap)
-            {
-                RecreatePlayerLapToPlayerBest();
-            }
-        }
-
-        public LapInfo PlayerLap
-        {
-            get => _playerLap;
-            set
-            {
-                if (_playerLap != null)
-                {
-                    _playerLap.Driver.LapCompleted -= DriverOnLapCompleted;
-                }
-
-                _playerLap = value;
-                if (_playerLap?.Driver != null)
-                {
-                    _playerLap.Driver.LapCompleted += DriverOnLapCompleted;
-                }
-                OnPropertyChanged();
-                RecreatePlayerLapToPrevious();
-                RecreatePlayerLapToPlayerBest();
-            }
+            RecreatePlayerLapToPlayerBest();
+            RecreatePlayerLapToPrevious();
         }
 
         public LapPortionTimesComparatorViewModel PlayerLapToPreviousComparator
         {
             get => _playerLapToPrevious;
-            set
+            protected set
             {
                 _playerLapToPrevious = value;
                 OnPropertyChanged();
@@ -66,7 +40,7 @@
         public LapPortionTimesComparatorViewModel PlayerLapToBestPlayerComparator
         {
             get => _playerLapToPlayerBest;
-            set
+            protected set
             {
                 _playerLapToPlayerBest = value;
                 OnPropertyChanged();
@@ -77,24 +51,24 @@
         {
             _playerLapToPrevious?.Dispose();
 
-            if (_playerLap?.Driver.LastCompletedLap == null)
+            if (_driver.LastCompletedLap == null || _driver.CurrentLap == null)
             {
                 return;
             }
 
-            PlayerLapToPreviousComparator = new LapPortionTimesComparatorViewModel(_playerLap.Driver.LastCompletedLap, _playerLap);
+            PlayerLapToPreviousComparator = new LapPortionTimesComparatorViewModel(_driver.LastCompletedLap, _driver.CurrentLap);
         }
 
         private void RecreatePlayerLapToPlayerBest()
         {
             _playerLapToPlayerBest?.Dispose();
 
-            if (_playerLap?.Driver.BestLap == null)
+            if (_driver.BestLap == null || _driver.CurrentLap == null)
             {
                 return;
             }
 
-            PlayerLapToBestPlayerComparator = new LapPortionTimesComparatorViewModel(_playerLap.Driver.BestLap, _playerLap);
+            PlayerLapToBestPlayerComparator = new LapPortionTimesComparatorViewModel(_driver.BestLap, _driver.CurrentLap);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -109,7 +83,9 @@
         {
             _playerLapToPrevious?.Dispose();
             _playerLapToPlayerBest?.Dispose();
-            _playerLap.Driver.LapCompleted -= DriverOnLapCompleted;
+            _driver.NewLapStarted -= DriverOnLapCompletedOrInvalidated;
+            _driver.LapCompleted -= DriverOnLapCompletedOrInvalidated;
+            _driver.LapInvalidated -= DriverOnLapCompletedOrInvalidated;
         }
     }
 }

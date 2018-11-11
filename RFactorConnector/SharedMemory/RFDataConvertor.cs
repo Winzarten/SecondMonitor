@@ -47,8 +47,34 @@
             // Acceleration
             AddAcceleration(rfData, simData);
 
+            AddFlags(rfData, simData);
+
             currentlyIgnoredPackage = 0;
             return simData;
+        }
+
+        private void AddFlags(RfShared rfData, SimulatorDataSet simData)
+        {
+            if ((RfGamePhase) rfData.GamePhase == RfGamePhase.FullCourseYellow)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.FullCourseYellow);
+                return;
+            }
+
+            if (rfData.SectorFlag[1] == 2 )
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector1);
+            }
+
+            if (rfData.SectorFlag[2] == 2)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector2);
+            }
+
+            if (rfData.SectorFlag[0] == 2)
+            {
+                simData.SessionInfo.ActiveFlags.Add(FlagKind.YellowSector3);
+            }
         }
 
         private static void AddAcceleration(RfShared data, SimulatorDataSet simData)

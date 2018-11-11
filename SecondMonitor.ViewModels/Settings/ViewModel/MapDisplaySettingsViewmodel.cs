@@ -56,6 +56,7 @@
             KeepMapRatio = model.KeepMapRatio;
             AutoScaleDrivers = model.AutosScaleDrivers;
             MapPointsInterval = model.MapPointsInterval;
+            AlwaysUseCirce = model.AlwaysUseCirce;
         }
 
         public override MapDisplaySettings SaveToNewModel()
@@ -64,7 +65,8 @@
             {
                 AutosScaleDrivers = AutoScaleDrivers,
                 KeepMapRatio = KeepMapRatio,
-                MapPointsInterval = MapPointsInterval
+                MapPointsInterval = MapPointsInterval,
+                AlwaysUseCirce = AlwaysUseCirce
             };
         }
     }
