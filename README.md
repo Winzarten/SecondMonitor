@@ -33,7 +33,7 @@ Second Monitor is Timing/Car information application for racing simulators. It d
   * Gap to player
   * Maximum speed
 * Live detla times between your current lap and previous + personal best
-* Timing Circle (ellipse :D ): Position of cars on track projected on an ellipse
+* Timing Circle (ellipse :D ) / Track Map: Position of cars on the track. The app needs one fully timed lap for to be able to show the track map. 
 * Car Information:
   * Wheel status (for each wheel):
   * Left, center and right tyre temperature
@@ -74,13 +74,13 @@ Second Monitor is Timing/Car information application for racing simulators. It d
   * Not all cars in AC have brake temp simulated
   * Because AC splits are little bit weird (i.e. track have 15 splits), the app is using custom splits. Each split is 1/3 of track distance.
   * If you restart session soon after start, then the app might not re-initialize property and reset the timing after the first lap is completed.
-  * Tyre wear might not work correctly (WIP).
+  
 * **Project Cars 1**
   * Timing is done by app, so there might be slight differences between in-sim and in-app times
   * Pit Detection - pit detection works on comparing driver position with the entry/exit points, so if you teleport back to pits it will not detect you as in pits. There is no easy way to fix this, as the sim doesn't provide any clear indication if a driver is in pits
   * Timing will sometime reset when editing pit presets during race (should be mostly fixed)
   * Top speed is wonky :), that's because speed isn't provided by sim and has to be computed, which is prone to some error. I will try to make it less wonky ;)
-  * Crr Class instead of Car Model - Pcars doesn't provide car names for other than the player driver, so I used the class for all drivers.
+  * Car Class instead of Car Model - Pcars doesn't provide car names for other than the player driver, so I used the class for all drivers.
 
 ## Future Plans  
  - [x] Reintroduce the fuel calculator
@@ -90,4 +90,3 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 ## Installation
 
 Check release tab for latests version
-
