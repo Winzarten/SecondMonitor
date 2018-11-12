@@ -326,7 +326,11 @@
                                                                      ResetCommand="{Binding CarStatusViewModel.FuelOverviewViewModel.ResetCommand}"
                                                                      TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
                                                                      VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}"
-                                                                     FuelCalculatorCommand="{Binding CarStatusViewModel.ShowFuelCalculatorCommand, Mode=OneWay}"/>
+                                                                     FuelCalculatorCommand="{Binding CarStatusViewModel.ShowFuelCalculatorCommand, Mode=OneWay}"
+                                                                     ShowAdditionalInfo="{Binding CarStatusViewModel.FuelOverviewViewModel.ShowDeltaInfo}"
+                                                                     LapsDelta="{Binding CarStatusViewModel.FuelOverviewViewModel.LapsDelta}"
+                                                                     FuelDelta="{Binding CarStatusViewModel.FuelOverviewViewModel.FuelDelta}"
+                                                                     TimeDelta="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeDelta}"/>
                                 </Border>
                             </Grid>
                         </Grid>
