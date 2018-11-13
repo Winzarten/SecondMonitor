@@ -6,7 +6,7 @@ namespace SecondMonitor.Timing.Controllers
     using System.Collections.Generic;
     using System.IO;
     using System.Windows.Input;
-
+    using WindowsControls.Extension;
     using DataModel.Snapshot;
     using PluginManager.Core;
     using PluginManager.GameConnector;
@@ -182,8 +182,7 @@ namespace SecondMonitor.Timing.Controllers
         {
             if (_displaySettingsViewModel.ScrollToPlayer && _timingGui != null && _timingDataViewModel?.SessionTiming?.Player != null && _timingGui.DtTimig.Items.Count > 0)
             {
-                _timingGui.DtTimig.ScrollIntoView(_timingGui.DtTimig.Items[0]);
-                _timingGui.DtTimig.ScrollIntoView(_timingDataViewModel.SessionTiming.Player);
+                _timingGui.DtTimig.ScrollToCenterOfView(_timingDataViewModel.SessionTiming.Player);
             }
         }
     }
