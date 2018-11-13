@@ -47,7 +47,7 @@
                                  };
 
             TyreWear = new TyreWear(){ActualWear = 0.0, NoWearWearLimit = 0.10, LightWearLimit = 0.25, HeavyWearLimit = 0.7};
-            TyreType = "Base";
+            TyreType = "Prime";
         }
 
         public OptimalQuantity<Temperature> BrakeTemperature { get; set; }

@@ -168,7 +168,7 @@
                 return;
             }
 
-            TrackName = trackName + " (" + trackLayout + " )";
+            TrackName = trackName + " (" + trackLayout + ")";
         }
 
         private void RefreshTemperatures()
