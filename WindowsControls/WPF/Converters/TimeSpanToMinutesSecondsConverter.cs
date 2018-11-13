@@ -9,7 +9,8 @@
         {
             if (value is TimeSpan valueSpan)
             {
-                return valueSpan.ToString("mm\\:ss");
+                string seconds = valueSpan.Seconds.ToString("00").Replace("-", string.Empty);
+                return $"{(int)valueSpan.TotalMinutes}:{seconds}";
             }
 
             return string.Empty;

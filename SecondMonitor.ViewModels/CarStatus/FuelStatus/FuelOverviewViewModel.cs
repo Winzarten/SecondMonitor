@@ -24,6 +24,10 @@
         private double _fuelPercentage;
         private FuelLevelStatus _fuelLevelState;
         private Volume _maximumFuel;
+        private bool _showDeltaInfo;
+        private TimeSpan _timeDelta;
+        private double _lapsDelta;
+        private Volume _fuelDelta;
 
         private readonly FuelConsumptionMonitor _fuelConsumptionMonitor;
 
@@ -41,6 +45,51 @@
             private set
             {
                 _resetCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public TimeSpan TimeDelta
+        {
+            get => _timeDelta;
+            set
+            {
+                _timeDelta = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double LapsDelta
+        {
+            get => _lapsDelta;
+            set
+            {
+                _lapsDelta = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Volume FuelDelta
+        {
+            get => _fuelDelta;
+            set
+            {
+                _fuelDelta = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool ShowDeltaInfo
+        {
+            get => _showDeltaInfo;
+            set
+            {
+                if (value == _showDeltaInfo)
+                {
+                    return;
+                }
+
+                _showDeltaInfo = value;
                 NotifyPropertyChanged();
             }
         }
@@ -203,14 +252,16 @@
 
         private void UpdateFuelStateByToTimeLeft(SimulatorDataSet dataSet)
         {
-            TimeSpan timeDelta = TimeSpan.FromSeconds(TimeLeft.TotalSeconds - dataSet.SessionInfo.SessionTimeRemaining);
-            if (timeDelta.TotalMinutes > 3)
+            TimeDelta = TimeSpan.FromSeconds(TimeLeft.TotalSeconds - dataSet.SessionInfo.SessionTimeRemaining);
+            LapsDelta = FuelDelta.InLiters / AvgPerLap.InLiters;
+            FuelDelta = Volume.FromLiters(TimeDelta.TotalMinutes * AvgPerMinute.InLiters);
+            if (TimeDelta.TotalMinutes > 3)
             {
                 FuelState = FuelLevelStatus.IsEnoughForSession;
                 return;
             }
 
-            if (timeDelta.TotalMinutes > 1)
+            if (TimeDelta.TotalMinutes > 1)
             {
                 FuelState = FuelLevelStatus.PossiblyEnoughForSession;
                 return;
@@ -224,19 +275,26 @@
             {
                 FuelState = FuelLevelStatus.NotEnoughForSession;
             }
-
         }
 
         private void UpdateFuelStateByLapsSessionLength(SimulatorDataSet dataSet)
         {
-            double lapsDelta = LapsLeft - (dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1);
-            if (lapsDelta > 1.5)
+            if (dataSet.LeaderInfo == null)
+            {
+                return;
+            }
+
+            double lapsToGo = (dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1) - dataSet.LeaderInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+            LapsDelta = LapsLeft - lapsToGo;
+            FuelDelta = Volume.FromLiters(CurrentPerLap.InLiters * LapsDelta);
+            TimeDelta = TimeSpan.FromMinutes(FuelDelta.InLiters / AvgPerMinute.InLiters);
+            if (LapsDelta > 1.5)
             {
                 FuelState = FuelLevelStatus.IsEnoughForSession;
                 return;
             }
 
-            if (lapsDelta > 0)
+            if (LapsDelta > 0)
             {
                 FuelState = FuelLevelStatus.PossiblyEnoughForSession;
                 return;
@@ -250,7 +308,6 @@
             {
                 FuelState = FuelLevelStatus.NotEnoughForSession;
             }
-
         }
 
         private void UpdateFuelStateByLapsLeft()
@@ -278,6 +335,7 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
+            ShowDeltaInfo = dataSet.SessionInfo.SessionType == SessionType.Race;
             ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
             _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
             UpdateActualData(dataSet);
@@ -291,6 +349,10 @@
             AvgPerLap = _fuelConsumptionMonitor.TotalPerLap;
             AvgPerMinute = _fuelConsumptionMonitor.TotalPerMinute;
             FuelState = FuelLevelStatus.Unknown;
+            TimeDelta = TimeSpan.Zero;
+            LapsDelta = 0;
+            FuelDelta = Volume.FromLiters(0);
+            ShowDeltaInfo = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

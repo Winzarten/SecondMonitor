@@ -31,6 +31,34 @@
         private static readonly DependencyProperty ResetCommandProperty = DependencyProperty.Register("ResetCommand", typeof(ICommand), typeof(FuelOverviewControl), new PropertyMetadata());
         private static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumeUnits", typeof(VolumeUnits), typeof(FuelOverviewControl), new PropertyMetadata());
         private static readonly DependencyProperty FuelCalculatorCommandProperty = DependencyProperty.Register("FuelCalculatorCommand", typeof(ICommand), typeof(FuelOverviewControl), new PropertyMetadata());
+        public static readonly DependencyProperty ShowAdditionalInfoProperty = DependencyProperty.Register("ShowAdditionalInfo", typeof(bool), typeof(FuelOverviewControl));
+        public static readonly DependencyProperty FuelDeltaProperty = DependencyProperty.Register("FuelDelta", typeof(Volume), typeof(FuelOverviewControl));
+        public static readonly DependencyProperty LapsDeltaProperty = DependencyProperty.Register("LapsDelta", typeof(double), typeof(FuelOverviewControl));
+        public static readonly DependencyProperty TimeDeltaProperty = DependencyProperty.Register("TimeDelta", typeof(TimeSpan), typeof(FuelOverviewControl));
+
+        public TimeSpan TimeDelta
+        {
+            get => (TimeSpan) GetValue(TimeDeltaProperty);
+            set => SetValue(TimeDeltaProperty, value);
+        }
+
+        public double LapsDelta
+        {
+            get => (double) GetValue(LapsDeltaProperty);
+            set => SetValue(LapsDeltaProperty, value);
+        }
+
+        public Volume FuelDelta
+        {
+            get => (Volume) GetValue(FuelDeltaProperty);
+            set => SetValue(FuelDeltaProperty, value);
+        }
+
+        public bool ShowAdditionalInfo
+        {
+            get => (bool) GetValue(ShowAdditionalInfoProperty);
+            set => SetValue(ShowAdditionalInfoProperty, value);
+        }
 
 
 

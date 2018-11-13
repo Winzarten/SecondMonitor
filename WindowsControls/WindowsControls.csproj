@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Colors\HSLColor .cs" />
     <Compile Include="Colors\MediaColorExtension.cs" />
+    <Compile Include="Extension\ItemsControlExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="WPF\Behaviors\TyreWear\ColorAbleIconByLimits.cs" />
     <Compile Include="WPF\Behaviors\TyreWear\ColorByLinearLimitsBehavior.cs" />
