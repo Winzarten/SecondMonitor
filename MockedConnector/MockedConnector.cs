@@ -58,7 +58,7 @@
         public bool TryConnect()
         {
 
-            #if! DEBUG
+            #if DEBUG
             IsConnected = true;
             Thread executionThread = new Thread(new ThreadStart(TestingThreadExecutor));
             executionThread.IsBackground = true;
@@ -156,6 +156,7 @@
             simulatorDataSet.SessionInfo.SessionTime = _sessionTime;
 
             simulatorDataSet.SessionInfo.SessionPhase = SessionPhase.Green;
+            simulatorDataSet.SimulatorSourceInfo.WorldPositionInvalid = true;
             simulatorDataSet.SessionInfo.TrackInfo.TrackName = "Slovakia Ring";
             simulatorDataSet.SessionInfo.TrackInfo.TrackLayoutName = "Grand Prix";
             simulatorDataSet.SessionInfo.TrackInfo.LayoutLength = Distance.FromMeters(_layoutLength);

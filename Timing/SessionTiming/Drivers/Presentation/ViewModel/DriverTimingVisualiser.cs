@@ -1,10 +1,6 @@
 ﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
-    using System.ComponentModel;
-    using System.Windows;
-    using System.Windows.Data;
-
     using DataModel.BasicProperties;
 
     using NLog;
@@ -24,7 +20,7 @@
 
         public DriverTimingViewModel(DriverTiming driverTiming, DisplaySettingsViewModel displaySettingsViewModel)
         {
-            displaySettingsViewModel = _displaySettingsViewModel;
+            _displaySettingsViewModel = displaySettingsViewModel;
             DriverTiming = driverTiming;
         }
 
@@ -167,7 +163,11 @@
         public DisplaySettingsViewModel DisplaySettingsViewModel
         {
             get => _displaySettingsViewModel;
-            set { _displaySettingsViewModel = value; }
+            set
+            {
+                _displaySettingsViewModel = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public string Sector1

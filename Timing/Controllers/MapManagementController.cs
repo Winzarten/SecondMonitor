@@ -68,7 +68,13 @@
 
         private void OnLapCompleted(object sender, LapEventArgs e)
         {
+
             if (string.IsNullOrWhiteSpace(_lastUnknownMap) || !e.Lap.Driver.IsPlayer || !e.Lap.Valid || e.Lap.LapTelemetryInfo?.TimedTelemetrySnapshots == null)
+            {
+                return;
+            }
+
+            if (e.Lap.Driver.Session.LastSet.SimulatorSourceInfo.WorldPositionInvalid)
             {
                 return;
             }

@@ -2,8 +2,8 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Windows;
-
+    using System.Runtime.CompilerServices;
+    using Annotations;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
     using DataModel.Snapshot;
@@ -11,15 +11,15 @@
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using ViewModels;
 
-    public class SessionInfoViewModel : DependencyObject, ISimulatorDataSetViewModel
+    public class SessionInfoViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
     {
 
-        public static readonly DependencyProperty BestSector1Property = DependencyProperty.Register("BestSector1", typeof(string), typeof(SessionInfoViewModel));
-        public static readonly DependencyProperty BestSector2Property = DependencyProperty.Register("BestSector2", typeof(string), typeof(SessionInfoViewModel));
-        public static readonly DependencyProperty BestSector3Property = DependencyProperty.Register("BestSector3", typeof(string), typeof(SessionInfoViewModel));
-        public static readonly DependencyProperty AnySectorFilledProperty = DependencyProperty.Register("AnySectorFilled", typeof(bool), typeof(SessionInfoViewModel));
-        public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(string), typeof(SessionInfoViewModel));
-        public static readonly DependencyProperty SessionRemainingProperty = DependencyProperty.Register("SessionRemaining", typeof(string), typeof(SessionInfoViewModel));
+        private string _bestSector1;
+        private string _bestSector2;
+        private string _bestSector3;
+        private bool _anySectorFilled;
+        private string _bestLap;
+        private string _sessionRemaining;
 
         private SessionTiming _timing;
 
@@ -41,38 +41,62 @@
 
         public string BestSector1
         {
-            get => (string)GetValue(BestSector1Property);
-            set => SetValue(BestSector1Property, value);
+            get => _bestSector1;
+            set
+            {
+                _bestSector1 = value;
+                OnPropertyChanged();
+            }
         }
 
         public string BestSector2
         {
-            get => (string)GetValue(BestSector2Property);
-            set => SetValue(BestSector2Property, value);
+            get => _bestSector2;
+            set
+            {
+                _bestSector2 = value;
+                OnPropertyChanged();
+            }
         }
 
         public string BestSector3
         {
-            get => (string)GetValue(BestSector3Property);
-            set => SetValue(BestSector3Property, value);
+            get => _bestSector3;
+            set
+            {
+                _bestSector3 = value;
+                OnPropertyChanged();
+            }
         }
 
         public string BestLap
         {
-            get => (string)GetValue(BestLapProperty);
-            set => SetValue(BestLapProperty, value);
+            get => _bestLap;
+            set
+            {
+                _bestLap = value;
+                OnPropertyChanged();
+            }
         }
 
         public string SessionRemaining
         {
-            get => (string)GetValue(SessionRemainingProperty);
-            set => SetValue(SessionRemainingProperty, value);
+            get => _sessionRemaining;
+            set
+            {
+                _sessionRemaining = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool AnySectorFilled
         {
-            get => (bool)GetValue(AnySectorFilledProperty);
-            set => SetValue(AnySectorFilledProperty, value);
+            get => _anySectorFilled;
+            set
+            {
+                _anySectorFilled = value;
+                OnPropertyChanged();
+            }
         }
 
         private void RefreshAll()
@@ -115,22 +139,22 @@
 
         private void SessionTimingOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(SessionTiming.BestSector1))
+            switch (propertyChangedEventArgs.PropertyName)
             {
-                BestSector1 = FormatSectorTime(SessionTiming.BestSector1);
+                case nameof(SessionTiming.BestSector1):
+                    BestSector1 = FormatSectorTime(SessionTiming.BestSector1);
+                    break;
+                case nameof(SessionTiming.BestSector2):
+                    BestSector2 = FormatSectorTime(SessionTiming.BestSector2);
+                    break;
+                case nameof(SessionTiming.BestSector3):
+                    BestSector3 = FormatSectorTime(SessionTiming.BestSector3);
+                    break;
+                case nameof(SessionTiming.BestSessionLap):
+                    BestLap = FormatBestLap(SessionTiming.BestSessionLap);
+                    break;
             }
-            if (propertyChangedEventArgs.PropertyName == nameof(SessionTiming.BestSector2))
-            {
-                BestSector2 = FormatSectorTime(SessionTiming.BestSector2);
-            }
-            if (propertyChangedEventArgs.PropertyName == nameof(SessionTiming.BestSector3))
-            {
-                BestSector3 = FormatSectorTime(SessionTiming.BestSector3);
-            }
-            if (propertyChangedEventArgs.PropertyName == nameof(SessionTiming.BestSessionLap))
-            {
-                BestLap = FormatBestLap(SessionTiming.BestSessionLap);
-            }
+
             UpdateAnySectorsFilled();
         }
 
@@ -204,6 +228,14 @@
         public void Reset()
         {
 
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -282,12 +282,6 @@
 
         public void Reset()
         {
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(Reset);
-                return;
-            }
-
             CarStatusViewModel = new CarStatusViewModel();
             ConnectedSource = "Not Connected";
 
@@ -307,9 +301,9 @@
 
         private void ScheduleRefreshActions()
         {
-            _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
-            _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
-            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 100, this);
+            _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this, true);
+            _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this, true);
+            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 100, this, true);
         }
         private void PaceLapsChanged()
         {
@@ -427,14 +421,8 @@
 
         private void RefreshBasicInfo(SimulatorDataSet data)
         {
-            if (data == null || GuiDispatcher == null)
+            if (data == null)
             {
-                return;
-            }
-
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(() => RefreshBasicInfo(data));
                 return;
             }
 
@@ -473,14 +461,8 @@
 
         private void RefreshGui(SimulatorDataSet data)
         {
-            if (data == null || GuiDispatcher == null)
+            if (data == null)
             {
-                return;
-            }
-
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(() => RefreshGui(data));
                 return;
             }
 
@@ -533,7 +515,6 @@
             ChangeTimeDisplayMode();
             ChangeOrderingMode();
             ConnectedSource = data.Source;
-            //NotifyPropertyChanged("BestLapFormatted");
             NotifyPropertyChanged(nameof(ConnectedSource));
         }
 
@@ -585,19 +566,17 @@
         private void OnDisplaySettingsChange(object sender, PropertyChangedEventArgs args)
         {
             ApplyDisplaySettings(DisplaySettingsViewModel);
-            if (args?.PropertyName == "PaceLaps")
+            switch (args?.PropertyName)
             {
-                PaceLapsChanged();
-            }
-
-            if (args?.PropertyName == SessionOptionsViewModel.OrderingModeProperty.Name)
-            {
-                ChangeOrderingMode();
-            }
-
-            if (args?.PropertyName == SessionOptionsViewModel.TimesDisplayModeProperty.Name)
-            {
-                ChangeTimeDisplayMode();
+                case nameof(DisplaySettingsViewModel.PaceLaps):
+                    PaceLapsChanged();
+                    break;
+                case nameof(SessionOptionsViewModel.OrderingMode):
+                    ChangeOrderingMode();
+                    break;
+                case nameof(SessionOptionsViewModel.TimesDisplayMode):
+                    ChangeTimeDisplayMode();
+                    break;
             }
         }
 
@@ -622,12 +601,12 @@
             }
         }
 
-        private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
+        private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender, bool captureContext)
         {
 
             while (!sender.TerminatePeriodicTasks)
             {
-                await Task.Delay(periodInMs, CancellationToken.None);
+                await Task.Delay(periodInMs, CancellationToken.None).ConfigureAwait(captureContext);
 
                 if (!sender.TerminatePeriodicTasks)
                 {
