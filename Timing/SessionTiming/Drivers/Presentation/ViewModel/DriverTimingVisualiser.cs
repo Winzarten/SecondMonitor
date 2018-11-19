@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
+﻿using System.Windows.Media;
+
+namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
     using DataModel.BasicProperties;
@@ -22,6 +24,18 @@
         {
             _displaySettingsViewModel = displaySettingsViewModel;
             DriverTiming = driverTiming;
+        }
+
+        public bool HasCustomOutline
+        {
+            get;
+            private set;
+        }
+
+        public SolidColorBrush OutlineBrush
+        {
+            get;
+            private set;
         }
 
         public bool ColorLapsColumns

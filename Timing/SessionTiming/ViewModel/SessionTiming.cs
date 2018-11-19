@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.ViewModel
+﻿using System.Windows.Media;
+
+namespace SecondMonitor.Timing.SessionTiming.ViewModel
 {
     using System;
     using System.Collections;
@@ -430,6 +432,16 @@
             }
 
             return false;
+        }
+
+        public SolidColorBrush GetCustomOutline(DriverInfo driverInfo)
+        {
+            if (driverInfo == null || string.IsNullOrEmpty(driverInfo.DriverName) || Drivers == null || !Drivers.TryGetValue(driverInfo.DriverName, out DriverTimingViewModel driverTimingViewModel))
+            {
+                return null;
+            }
+
+            return driverTimingViewModel.HasCustomOutline ? driverTimingViewModel.OutlineBrush : null;
         }
     }
 }

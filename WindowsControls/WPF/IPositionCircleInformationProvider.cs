@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.WindowsControls.WPF
+﻿using System.Windows.Media;
+
+namespace SecondMonitor.WindowsControls.WPF
 {
     using DataModel.Snapshot.Drivers;
 
@@ -7,5 +9,7 @@
         bool IsDriverOnValidLap(DriverInfo driver);
         bool IsDriverLastSectorGreen(DriverInfo driver, int sectorNumber);
         bool IsDriverLastSectorPurple(DriverInfo driver, int sectorNumber);
+
+        SolidColorBrush GetCustomOutline(DriverInfo driverInfo);
     }
 }

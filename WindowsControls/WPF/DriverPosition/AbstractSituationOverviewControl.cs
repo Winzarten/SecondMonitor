@@ -183,7 +183,10 @@
             PostDriverCreation(newDriverControl);
             UpdateDriver(driverInfo, newDriverControl);
             AddDriver(newDriverControl);
-            _drivers.Add(driverInfo.DriverName, newDriverControl);
+            lock (_drivers)
+            {
+                _drivers[driverInfo.DriverName] = newDriverControl;
+            }
         }
 
         protected abstract void PostDriverCreation(DriverPositionControl driverPositionControl);
@@ -229,6 +232,8 @@
                 driverPositionControl.OutLineColor = PlayerOutLineBrush;
                 return;
             }
+
+            driverPositionControl.OutLineColor = PositionCircleInformationProvider.GetCustomOutline(driverInfo);
 
             if (driverInfo.InPits)
             {
