@@ -17,6 +17,7 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using WindowsControls.WPF;
+    using ViewModels.Settings.ViewModel;
 
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
@@ -184,7 +185,7 @@
                 newDriver.SectorCompletedEvent += timing.OnSectorCompletedEvent;
                 newDriver.LapInvalidated += timing.LapInvalidatedHandler;
                 newDriver.LapCompleted += timing.DriverOnLapCompleted;
-                DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver);
+                DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, timingDataViewModel.DisplaySettingsViewModel);
                 drivers.Add(name, newDriverTimingViewModel);
                 if (newDriver.DriverInfo.IsPlayer)
                 {
@@ -260,7 +261,7 @@
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
             newDriver.LapCompleted += DriverOnLapCompleted;
-            DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver);
+            DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, TimingDataViewModel.DisplaySettingsViewModel);
             Drivers.Add(newDriver.Name, newDriverTimingViewModel);
             RaiseDriverAddedEvent(newDriverTimingViewModel);
         }
