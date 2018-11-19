@@ -17,7 +17,7 @@
                 <Canvas>
                     <Path Stroke="{StaticResource LightGrey02Brush}" StrokeThickness="15" Data="{Binding Path=Text, ElementName=DataTextBlock}"/>
                     <Path Stroke="{StaticResource LightBlueBrush}" StrokeThickness="30" Data="M -279.724639892578 243.158706665039 L -336.859954833984 269.082489013672 L -395.564208984375 294.142028808594 "/>
-                    <driverPosition:DriverPositionControl X="-520" Y="85" Width="25" Height="25" CircleBrush="Black" Position="1" />
+                    <driverPosition:DriverPositionControl X="-520" Y="85" Width="25" Height="25" CircleBrush="Black" Position="3" TextBrush="{StaticResource LightGrey01Brush}" OutLineColor="{StaticResource PlayerOutLineColor}" />
                     <Canvas.RenderTransform>
                         <TranslateTransform X="611.93548583984375" Y="98.6330795288086"/>
                 </Canvas.RenderTransform>

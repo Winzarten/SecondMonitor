@@ -8,11 +8,17 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="driverPosition:DriverPositionControl">
-                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Ellipse Stroke="{Binding CircleBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" Fill="{Binding CircleBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"></Ellipse>
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource StandardText}" FontSize="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" FontWeight="Bold" Text="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{Binding TextBrush, RelativeSource={RelativeSource TemplatedParent}}"></TextBlock>
+                    <Viewbox Stretch="Uniform">
+                    <Grid Width="25" Height="25">
+                        <Ellipse Stroke="{Binding OutLineColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" StrokeThickness="2"
+                                 Fill="{Binding CircleBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                        <TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Center" Style="{StaticResource StandardText}" Margin="0,-2,0,0"
+                                   FontSize="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                   FontWeight="Bold" Text="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Foreground="{Binding TextBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <ContentPresenter/>
                     </Grid>
+                    </Viewbox>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

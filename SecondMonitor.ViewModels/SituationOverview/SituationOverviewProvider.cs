@@ -3,7 +3,6 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
@@ -185,6 +184,8 @@
                 LappingDriverBackgroundBrush = (SolidColorBrush)_commonResources["TimingLappingBrush"],
                 LappingDriverForegroundBrush = (SolidColorBrush)_commonResources["TimingLappingForegroundBrush"],
 
+                PlayerOutLineBrush = (SolidColorBrush) _commonResources["PlayerOutLineColor"],
+
                 AnimateDriversPos = DisplaySettingsViewModel.AnimateDriversPosition
             };
         }
@@ -292,6 +293,8 @@
                 GreenSectorBrush = (SolidColorBrush)_commonResources["Green01Brush"],
                 PurpleSectorBrush = (SolidColorBrush)_commonResources["PurpleTimingBrush"],
                 YellowSectorBrush = (SolidColorBrush) _commonResources["YellowSectorBrush"],
+
+                PlayerOutLineBrush = (SolidColorBrush) _commonResources["PlayerOutLineColor"],
 
                 AnimateDriversPos = DisplaySettingsViewModel.AnimateDriversPosition,
                 DataContext = this,

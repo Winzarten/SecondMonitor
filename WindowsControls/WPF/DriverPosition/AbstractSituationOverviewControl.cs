@@ -22,6 +22,7 @@
         private static readonly DependencyProperty DriverPitsForegroundBrushProperty = DependencyProperty.Register("DriverPitsForegroundBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl));
         private static readonly DependencyProperty DriverPitsBackgroundBrushProperty = DependencyProperty.Register("DriverPitsBackgroundBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl));
         private static readonly DependencyProperty AdditionalInformationProperty = DependencyProperty.Register("AdditionalInformation", typeof(string), typeof(AbstractSituationOverviewControl));
+        public static readonly DependencyProperty PlayerOutLineBrushProperty = DependencyProperty.Register("PlayerOutLineBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl), new PropertyMetadata(Brushes.Transparent));
 
         private readonly Dictionary<string, DriverPositionControl> _drivers;
 
@@ -30,6 +31,12 @@
         protected AbstractSituationOverviewControl()
         {
             _drivers = new Dictionary<string, DriverPositionControl>();
+        }
+
+        public SolidColorBrush PlayerOutLineBrush
+        {
+            get => (SolidColorBrush) GetValue(PlayerOutLineBrushProperty);
+            set => SetValue(PlayerOutLineBrushProperty, value);
         }
 
         public string AdditionalInformation
@@ -219,6 +226,7 @@
                 driverPositionControl.CircleBrush = PlayerBackgroundBrush;
                 driverPositionControl.TextBrush = PlayerForegroundBrush;
                 SetZIndex(driverPositionControl, 100);
+                driverPositionControl.OutLineColor = PlayerOutLineBrush;
                 return;
             }
 

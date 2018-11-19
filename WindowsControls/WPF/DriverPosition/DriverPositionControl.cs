@@ -14,9 +14,16 @@
         public static readonly DependencyProperty XProperty = DependencyProperty.Register("X", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnXPropertyChanged });
         public static readonly DependencyProperty YProperty = DependencyProperty.Register("Y", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata() { PropertyChangedCallback = OnYPropertyChanged });
         public static readonly DependencyProperty LabelSizeProperty = DependencyProperty.Register("LabelSize", typeof(double), typeof(DriverPositionControl), new FrameworkPropertyMetadata(20.0) { PropertyChangedCallback = OnYPropertyChanged });
+        public static readonly DependencyProperty OutLineColorProperty = DependencyProperty.Register("OutLineColor", typeof(SolidColorBrush), typeof(DriverPositionControl), new PropertyMetadata(Brushes.Transparent));
 
         private TranslateTransform _translateTransform;
         private TimeSpan _animationTime = TimeSpan.FromMilliseconds(100);
+
+        public SolidColorBrush OutLineColor
+        {
+            get => (SolidColorBrush) GetValue(OutLineColorProperty);
+            set => SetValue(OutLineColorProperty, value);
+        }
 
         private bool _animate;
 
