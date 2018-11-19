@@ -112,6 +112,8 @@
                 <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
                 <Setter Property="FontSize" Value="21" />
                 <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="BorderBrush" Value="{StaticResource PlayerOutLineColor}"/>
+                <Setter Property="BorderThickness" Value="2"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource LightBlueBrush}" />
