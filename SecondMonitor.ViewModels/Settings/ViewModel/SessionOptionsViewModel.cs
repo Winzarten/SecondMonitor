@@ -2,41 +2,55 @@
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using System.Windows;
     using Model;
     using Properties;
 
-    public class SessionOptionsViewModel : DependencyObject, INotifyPropertyChanged
+    public class SessionOptionsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public static readonly DependencyProperty TimesDisplayModeProperty = DependencyProperty.Register("TimesDisplayMode", typeof(DisplayModeEnum), typeof(SessionOptionsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty OrderingModeProperty = DependencyProperty.Register("OrderingMode", typeof(DisplayModeEnum), typeof(SessionOptionsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty SessionNameProperty = DependencyProperty.Register("SessionName", typeof(string), typeof(SessionOptionsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty ColumnsSettingsViewProperty = DependencyProperty.Register("ColumnsSettingsView", typeof(ColumnsSettingsViewModel), typeof(SessionOptionsViewModel), new PropertyMetadata{ PropertyChangedCallback = PropertyChangedCallback});
+        private DisplayModeEnum _timesDisplayMode;
+        private DisplayModeEnum _orderingMode;
+        private string _sessionName;
+        private ColumnsSettingsViewModel _columnsSettingsViewModel;
 
         public DisplayModeEnum TimesDisplayMode
         {
-            get => (DisplayModeEnum)GetValue(TimesDisplayModeProperty);
-            set => SetValue(TimesDisplayModeProperty, value);
+            get => _timesDisplayMode;
+            set
+            {
+                _timesDisplayMode = value;
+                OnPropertyChanged();
+            }
         }
 
         public DisplayModeEnum OrderingMode
         {
-            get => (DisplayModeEnum)GetValue(OrderingModeProperty);
-            set => SetValue(OrderingModeProperty, value);
+            get => _orderingMode;
+            set
+            {
+                _orderingMode = value;
+                OnPropertyChanged();
+            }
         }
 
         public string SessionName
         {
-            get => (string)GetValue(SessionNameProperty);
-            set => SetValue(SessionNameProperty, value);
+            get => _sessionName;
+            set
+            {
+                _sessionName = value;
+                OnPropertyChanged();
+            }
         }
 
         public ColumnsSettingsViewModel ColumnsSettingsView
         {
-            get => (ColumnsSettingsViewModel)GetValue(ColumnsSettingsViewProperty);
-            set => SetValue(ColumnsSettingsViewProperty, value);
+            get => _columnsSettingsViewModel;
+            set
+            {
+                _columnsSettingsViewModel = value;
+                OnPropertyChanged();
+            }
         }
 
         public void FromModel(SessionOptions model)
@@ -71,12 +85,5 @@
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            SessionOptionsViewModel sender = (SessionOptionsViewModel)dependencyObject;
-            sender.OnPropertyChanged(dependencyPropertyChangedEventArgs.Property.Name);
-        }
-
     }
 }

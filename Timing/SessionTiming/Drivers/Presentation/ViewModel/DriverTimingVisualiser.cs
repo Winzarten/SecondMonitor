@@ -1,10 +1,6 @@
 ﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
-    using System.ComponentModel;
-    using System.Windows;
-    using System.Windows.Data;
-
     using DataModel.BasicProperties;
 
     using NLog;
@@ -12,68 +8,38 @@
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
+    using ViewModels;
     using ViewModels.Settings.ViewModel;
 
-    public class DriverTimingViewModel : DependencyObject
+    public class DriverTimingViewModel : AbstractViewModel
     {
-        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty LastLapTimeProperty = DependencyProperty.Register("LastLapTime", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty Sector1Property = DependencyProperty.Register("Sector1", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty Sector2Property = DependencyProperty.Register("Sector2", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty Sector3Property = DependencyProperty.Register("Sector3", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty CurrentLapProgressTimeProperty = DependencyProperty.Register("CurrentLapProgressTime", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty PaceProperty = DependencyProperty.Register("Pace", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty LastPitInfoProperty = DependencyProperty.Register("LastPitInfo", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty RemarkProperty = DependencyProperty.Register("Remark", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty TimeToPlayerProperty = DependencyProperty.Register("TimeToPlayer", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty TopSpeedProperty = DependencyProperty.Register("TopSpeed", typeof(string), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsPlayerProperty = DependencyProperty.Register("IsPlayer", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLappedProperty = DependencyProperty.Register("IsLapped", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLappingProperty = DependencyProperty.Register("IsLapping", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty InPitsProperty = DependencyProperty.Register("InPits", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastLapBestLapProperty = DependencyProperty.Register("IsLastLapBestLap", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastSector1PersonalBestProperty = DependencyProperty.Register("IsLastSector1PersonalBest", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastSector2PersonalBestProperty = DependencyProperty.Register("IsLastSector2PersonalBest", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastSector3PersonalBestProperty = DependencyProperty.Register("IsLastSector3PersonalBest", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastSector1SessionBestProperty = DependencyProperty.Register("IsLastSector1SessionBest", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastSector2SessionBestProperty = DependencyProperty.Register("IsLastSector2SessionBest", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastSector3SessionBestProperty = DependencyProperty.Register("IsLastSector3SessionBest", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastLapBestSessionLapProperty = DependencyProperty.Register("IsLastLapBestSessionLap", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty DisplaySettingModelViewProperty = DependencyProperty.Register("DisplaySettingModelView", typeof(DisplaySettingsViewModel), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty ColorLapsColumnsProperty = DependencyProperty.Register("ColorLapsColumns", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsLastPlayerLapBetterProperty = DependencyProperty.Register("IsLastPlayerLapBetter", typeof(bool), typeof(DriverTimingViewModel));
-        public static readonly DependencyProperty IsPlayersPaceBetterProperty = DependencyProperty.Register("IsPlayersPaceBetter", typeof(bool), typeof(DriverTimingViewModel));
-
-
-        private DriverTiming _driverTiming;
+       private DriverTiming _driverTiming;
 
         private DateTime _nextRefresh = DateTime.Now;
+        private DisplaySettingsViewModel _displaySettingsViewModel;
 
-        public DriverTimingViewModel(DriverTiming driverTiming)
+        public DriverTimingViewModel(DriverTiming driverTiming, DisplaySettingsViewModel displaySettingsViewModel)
         {
+            _displaySettingsViewModel = displaySettingsViewModel;
             DriverTiming = driverTiming;
         }
 
         public bool ColorLapsColumns
         {
-            get => (bool)GetValue(ColorLapsColumnsProperty);
-            set => SetValue(ColorLapsColumnsProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastPlayerLapBetter
         {
-            get => (bool)GetValue(IsLastPlayerLapBetterProperty);
-            set => SetValue(IsLastPlayerLapBetterProperty, value);
+            get;
+            private set;
         }
 
         public bool IsPlayersPaceBetter
         {
-            get => (bool)GetValue(IsPlayersPaceBetterProperty);
-            set => SetValue(IsPlayersPaceBetterProperty, value);
+            get;
+            private set;
         }
 
         public DriverTiming DriverTiming
@@ -83,176 +49,179 @@
             {
                 _driverTiming = value;
                 InitializeOneTimeValues();
-                CreateBinding();
             }
         }
 
         public string Position
         {
-            get => (string) GetValue(PositionProperty);
-            set => SetValue(PositionProperty, value);
+            get;
+            private set;
         }
 
         public string CarName
         {
-            get => (string)GetValue(CarNameProperty);
-            set => SetValue(CarNameProperty, value);
+            get;
+            private set;
         }
 
         public string Name
         {
-            get => (string)GetValue(NameProperty);
-            set => SetValue(NameProperty, value);
+            get;
+            private set;
         }
 
         public string CompletedLaps
         {
-            get => (string)GetValue(CompletedLapsProperty);
-            set => SetValue(CompletedLapsProperty, value);
+            get;
+            private set;
         }
 
         public string LastLapTime
         {
-            get => (string)GetValue(LastLapTimeProperty);
-            set => SetValue(LastLapTimeProperty, value);
+            get;
+            private set;
         }
 
         public string CurrentLapProgressTime
         {
-            get => (string)GetValue(CurrentLapProgressTimeProperty);
-            set => SetValue(CurrentLapProgressTimeProperty, value);
+            get;
+            private set;
         }
 
         public string Pace
         {
-            get => (string)GetValue(PaceProperty);
-            set => SetValue(PaceProperty, value);
+            get;
+            private set;
         }
 
         public string BestLap
         {
-            get => (string)GetValue(BestLapProperty);
-            set => SetValue(BestLapProperty, value);
+            get;
+            private set;
         }
 
         public string LastPitInfo
         {
-            get => (string)GetValue(LastPitInfoProperty);
-            set => SetValue(LastPitInfoProperty, value);
+            get;
+            private set;
         }
 
         public string Remark
         {
-            get => (string)GetValue(RemarkProperty);
-            set => SetValue(RemarkProperty, value);
+            get;
+            private set;
         }
 
         public string TimeToPlayer
         {
-            get => (string)GetValue(TimeToPlayerProperty);
-            set => SetValue(TimeToPlayerProperty, value);
+            get;
+            private set;
         }
 
         public string TopSpeed
         {
-            get => (string)GetValue(TopSpeedProperty);
-            set => SetValue(TopSpeedProperty, value);
+            get;
+            private set;
         }
 
         public bool IsPlayer
         {
-            get => (bool)GetValue(IsPlayerProperty);
-            set => SetValue(IsPlayerProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLapped
         {
-            get => (bool)GetValue(IsLappedProperty);
-            set => SetValue(IsLappedProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLapping
         {
-            get => (bool)GetValue(IsLappingProperty);
-            set => SetValue(IsLappingProperty, value);
+            get;
+            private set;
         }
 
         public bool InPits
         {
-            get => (bool)GetValue(InPitsProperty);
-            set => SetValue(InPitsProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastLapBestLap
         {
-            get => (bool)GetValue(IsLastLapBestLapProperty);
-            set => SetValue(IsLastLapBestLapProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastLapBestSessionLap
         {
-            get => (bool)GetValue(IsLastLapBestSessionLapProperty);
-            set => SetValue(IsLastLapBestSessionLapProperty, value);
+            get;
+            private set;
         }
 
         public DisplaySettingsViewModel DisplaySettingsViewModel
         {
-            get => (DisplaySettingsViewModel) GetValue(DisplaySettingModelViewProperty);
-            set => SetValue(DisplaySettingModelViewProperty, value);
+            get => _displaySettingsViewModel;
+            set
+            {
+                _displaySettingsViewModel = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public string Sector1
         {
-            get => (string)GetValue(Sector1Property);
-            set => SetValue(Sector1Property, value);
+            get;
+            private set;
         }
 
         public string Sector2
         {
-            get => (string)GetValue(Sector2Property);
-            set => SetValue(Sector2Property, value);
+            get;
+            private set;
         }
 
         public string Sector3
         {
-            get => (string)GetValue(Sector3Property);
-            set => SetValue(Sector3Property, value);
+            get;
+            private set;
         }
 
         public bool IsLastSector1PersonalBest
         {
-            get => (bool)GetValue(IsLastSector1PersonalBestProperty);
-            set => SetCurrentValue(IsLastSector1PersonalBestProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastSector2PersonalBest
         {
-            get => (bool)GetValue(IsLastSector2PersonalBestProperty);
-            set => SetCurrentValue(IsLastSector2PersonalBestProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastSector3PersonalBest
         {
-            get => (bool)GetValue(IsLastSector3PersonalBestProperty);
-            set => SetCurrentValue(IsLastSector3PersonalBestProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastSector1SessionBest
         {
-            get => (bool)GetValue(IsLastSector1SessionBestProperty);
-            set => SetCurrentValue(IsLastSector1SessionBestProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastSector2SessionBest
         {
-            get => (bool)GetValue(IsLastSector2SessionBestProperty);
-            set => SetCurrentValue(IsLastSector2SessionBestProperty, value);
+            get;
+            private set;
         }
 
         public bool IsLastSector3SessionBest
         {
-            get => (bool)GetValue(IsLastSector3SessionBestProperty);
-            set => SetCurrentValue(IsLastSector3SessionBestProperty, value);
+            get;
+            private set;
         }
 
         public void RefreshProperties()
@@ -295,7 +264,7 @@
                 IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
                 IsPlayersPaceBetter = GetIsPlayersPaceBetter();
                 _nextRefresh = DisplaySettingsViewModel != null ? DateTime.Now + TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : DateTime.Now + TimeSpan.FromSeconds(10);
-
+                NotifyPropertyChanged(string.Empty);
             }
             catch (Exception ex)
             {
@@ -326,14 +295,6 @@
             }
 
             return DriverTiming.LastCompletedLap.LapTime > DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime;
-        }
-
-        private void CreateBinding()
-        {
-            Binding newBinding = new Binding("DisplaySettingsView");
-            newBinding.Mode = BindingMode.OneWay;
-            newBinding.Source = _driverTiming.Session.TimingDataViewModel;
-            BindingOperations.SetBinding(this, DisplaySettingModelViewProperty, newBinding);
         }
 
         private void InitializeOneTimeValues()

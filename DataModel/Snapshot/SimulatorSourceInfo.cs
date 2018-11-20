@@ -31,5 +31,8 @@
 
         // Indicates if the sim has a global pool of tyre compounds (i.e. assetto corsa), or if each car has its own. The latter means that tyre compound for two cars can have different properties, even if the name is the same
         public bool GlobalTyreCompounds { get; set; }
+
+        //Indicates that the world positions (x,y,z) provided by the sim are not valid.
+        public bool WorldPositionInvalid { get; set; }
     }
 }

@@ -37,12 +37,9 @@
 
     public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged
     {
-
-        private static readonly DependencyProperty DisplaySettingsViewModelProperty = DependencyProperty.Register("DisplaySettingsView", typeof(DisplaySettingsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, PropertyChangedCallback));
         private static readonly DependencyProperty CurrentSessionOptionsViewProperty = DependencyProperty.Register("CurrentSessionOptionsView", typeof(SessionOptionsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
         private static readonly DependencyProperty SelectedDriverTimingViewModelProperty = DependencyProperty.Register("SelectedDriverTimingViewModel", typeof(DriverTimingViewModel), typeof(TimingDataViewModel));
         private static readonly DependencyProperty OpenCarSettingsCommandProperty = DependencyProperty.Register("OpenCarSettingsCommand", typeof(ICommand), typeof(TimingDataViewModel));
-        private static readonly DependencyProperty OpenCarSettingsCommandEnabledProperty = DependencyProperty.Register("IsOpenCarSettingsCommandEnable", typeof(bool), typeof(TimingDataViewModel));
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
 
         private ICommand _resetCommand;
@@ -52,6 +49,7 @@
         private SessionTiming _timing;
         private SessionType _sessionType = SessionType.Na;
         private SimulatorDataSet _lastDataSet;
+        private bool _isOpenCarSettingsCommandEnable;
 
         private Task _refreshGuiTask;
         private Task _refreshBasicInfoTask;
@@ -59,6 +57,7 @@
 
         private string _connectedSource;
         private MapManagementController _mapManagementController;
+        private DisplaySettingsViewModel _displaySettingsViewModel;
 
         public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel)
         {
@@ -75,8 +74,13 @@
 
         public DisplaySettingsViewModel DisplaySettingsViewModel
         {
-            get => (DisplaySettingsViewModel)GetValue(DisplaySettingsViewModelProperty);
-            set => SetValue(DisplaySettingsViewModelProperty, value);
+            get => _displaySettingsViewModel;
+            set
+            {
+                _displaySettingsViewModel = value;
+                NotifyPropertyChanged();
+                DisplaySettingsChanged();
+            }
         }
 
         public SessionOptionsViewModel CurrentSessionOptionsView
@@ -113,8 +117,12 @@
 
         public bool IsOpenCarSettingsCommandEnable
         {
-            get => (bool)GetValue(OpenCarSettingsCommandEnabledProperty);
-            set => SetValue(OpenCarSettingsCommandEnabledProperty, value);
+            get => _isOpenCarSettingsCommandEnable;
+            set
+            {
+                _isOpenCarSettingsCommandEnable = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public ICommand DoubleLeftClickCommand
@@ -216,13 +224,9 @@
 
         public void ApplyDateSet(SimulatorDataSet data)
         {
-            if (GuiDispatcher == null)
-            {
-                return;
-            }
 
-            if (Dispatcher.CheckAccess())
-            {
+
+
                 _lastDataSet = data;
                 IsOpenCarSettingsCommandEnable = !string.IsNullOrWhiteSpace(data?.PlayerInfo?.CarName);
                 ConnectedSource = _lastDataSet?.Source;
@@ -253,11 +257,7 @@
                 {
                     _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
                 }
-            }
-            else
-            {
-                Dispatcher.Invoke(() => ApplyDateSet(data));
-            }
+
         }
 
         public void DisplayMessage(MessageArgs e)
@@ -282,12 +282,6 @@
 
         public void Reset()
         {
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(Reset);
-                return;
-            }
-
             CarStatusViewModel = new CarStatusViewModel();
             ConnectedSource = "Not Connected";
 
@@ -307,9 +301,9 @@
 
         private void ScheduleRefreshActions()
         {
-            _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this);
-            _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this);
-            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 100, this);
+            _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), 10000, this, true);
+            _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), 100, this, true);
+            _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), 100, this, true);
         }
         private void PaceLapsChanged()
         {
@@ -427,14 +421,8 @@
 
         private void RefreshBasicInfo(SimulatorDataSet data)
         {
-            if (data == null || GuiDispatcher == null)
+            if (data == null)
             {
-                return;
-            }
-
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(() => RefreshBasicInfo(data));
                 return;
             }
 
@@ -473,14 +461,8 @@
 
         private void RefreshGui(SimulatorDataSet data)
         {
-            if (data == null || GuiDispatcher == null)
+            if (data == null)
             {
-                return;
-            }
-
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(() => RefreshGui(data));
                 return;
             }
 
@@ -533,7 +515,6 @@
             ChangeTimeDisplayMode();
             ChangeOrderingMode();
             ConnectedSource = data.Source;
-            //NotifyPropertyChanged("BestLapFormatted");
             NotifyPropertyChanged(nameof(ConnectedSource));
         }
 
@@ -585,19 +566,17 @@
         private void OnDisplaySettingsChange(object sender, PropertyChangedEventArgs args)
         {
             ApplyDisplaySettings(DisplaySettingsViewModel);
-            if (args?.PropertyName == "PaceLaps")
+            switch (args?.PropertyName)
             {
-                PaceLapsChanged();
-            }
-
-            if (args?.PropertyName == SessionOptionsViewModel.OrderingModeProperty.Name)
-            {
-                ChangeOrderingMode();
-            }
-
-            if (args?.PropertyName == SessionOptionsViewModel.TimesDisplayModeProperty.Name)
-            {
-                ChangeTimeDisplayMode();
+                case nameof(DisplaySettingsViewModel.PaceLaps):
+                    PaceLapsChanged();
+                    break;
+                case nameof(SessionOptionsViewModel.OrderingMode):
+                    ChangeOrderingMode();
+                    break;
+                case nameof(SessionOptionsViewModel.TimesDisplayMode):
+                    ChangeTimeDisplayMode();
+                    break;
             }
         }
 
@@ -608,28 +587,26 @@
             SituationOverviewProvider.DisplaySettingsViewModel  = settingsView;
         }
 
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private void DisplaySettingsChanged()
         {
-            TimingDataViewModel timingDataViewModel = (TimingDataViewModel) dependencyObject;
-            DisplaySettingsViewModel newDisplaySettingsViewModel =
-                (DisplaySettingsViewModel) dependencyPropertyChangedEventArgs.NewValue;
-            newDisplaySettingsViewModel.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
-            newDisplaySettingsViewModel.PracticeSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
-            newDisplaySettingsViewModel.RaceSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
-            newDisplaySettingsViewModel.QualificationSessionDisplayOptionsView.PropertyChanged += timingDataViewModel.OnDisplaySettingsChange;
+            DisplaySettingsViewModel newDisplaySettingsViewModel = _displaySettingsViewModel;
+            newDisplaySettingsViewModel.PropertyChanged += OnDisplaySettingsChange;
+            newDisplaySettingsViewModel.PracticeSessionDisplayOptionsView.PropertyChanged += OnDisplaySettingsChange;
+            newDisplaySettingsViewModel.RaceSessionDisplayOptionsView.PropertyChanged += OnDisplaySettingsChange;
+            newDisplaySettingsViewModel.QualificationSessionDisplayOptionsView.PropertyChanged += OnDisplaySettingsChange;
 
-            if (timingDataViewModel.ReportsController != null)
+            if (ReportsController != null)
             {
-                timingDataViewModel.ReportsController.SettingsView = newDisplaySettingsViewModel;
+                ReportsController.SettingsView = newDisplaySettingsViewModel;
             }
         }
 
-        private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender)
+        private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender, bool captureContext)
         {
 
             while (!sender.TerminatePeriodicTasks)
             {
-                await Task.Delay(periodInMs, CancellationToken.None);
+                await Task.Delay(periodInMs, CancellationToken.None).ConfigureAwait(captureContext);
 
                 if (!sender.TerminatePeriodicTasks)
                 {

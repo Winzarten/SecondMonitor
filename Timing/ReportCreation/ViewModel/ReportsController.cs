@@ -93,6 +93,11 @@
 
         private bool ShouldBeExported(SessionTiming sessionTiming)
         {
+            if (sessionTiming?.LastSet?.SessionInfo == null || SettingsView == null)
+            {
+                return false;
+            }
+
             if (sessionTiming.LastSet.SessionInfo.SessionTime.TotalMinutes < SettingsView.ReportingSettingsView.MinimumSessionLength)
             {
                 return false;

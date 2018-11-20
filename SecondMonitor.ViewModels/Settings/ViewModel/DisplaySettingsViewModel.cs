@@ -2,60 +2,81 @@
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using System.Windows;
     using DataModel.BasicProperties;
     using DataModel.BasicProperties.FuelConsumption;
     using Model;
     using Properties;
 
-    public class DisplaySettingsViewModel : DependencyObject, INotifyPropertyChanged
+    public class DisplaySettingsViewModel : INotifyPropertyChanged
     {
-        public static readonly DependencyProperty TemperatureUnitsProperty = DependencyProperty.Register("TemperatureUnits", typeof(TemperatureUnits), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty VolumeUnitsProperty = DependencyProperty.Register("VolumeUnits", typeof(VolumeUnits), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty VelocityUnitsProperty = DependencyProperty.Register("VelocityUnits", typeof(VelocityUnits), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty FuelCalculationScopeProperty = DependencyProperty.Register("FuelCalculationScope", typeof(FuelCalculationScope), typeof(DisplaySettingsViewModel), new PropertyMetadata{ PropertyChangedCallback = PropertyChangedCallback});
-        public static readonly DependencyProperty PaceLapsProperty = DependencyProperty.Register("PaceLaps", typeof(int), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty RefreshRateProperty = DependencyProperty.Register("RefreshRate", typeof(int), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty ScrollToPlayerProperty = DependencyProperty.Register("ScrollToPlayer", typeof(bool), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty PracticeSessionDisplayOptionsViewProperty = DependencyProperty.Register("PracticeSessionDisplayOptionsView", typeof(SessionOptionsViewModel), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty QualificationSessionDisplayOptionsViewProperty = DependencyProperty.Register("QualificationSessionDisplayOptionsView", typeof(SessionOptionsViewModel), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty RaceSessionDisplayOptionsViewProperty = DependencyProperty.Register("RaceSessionDisplayOptionsView", typeof(SessionOptionsViewModel), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty ReportingSettingsViewProperty = DependencyProperty.Register("SettingsView", typeof(ReportingSettingsViewModel), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty AnimateDriversPositionProperty = DependencyProperty.Register("AnimateDriversPosition", typeof(bool), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty AnimateDeltaTimesProperty = DependencyProperty.Register("AnimateDeltaTimes", typeof(bool), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty MapDisplaySettingsViewModelProperty = DependencyProperty.Register("MapDisplaySettingsViewModel", typeof(MapDisplaySettingsViewModel), typeof(DisplaySettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        private VelocityUnits _velocityUnits;
+        private TemperatureUnits _temperatureUnits;
+        private PressureUnits _pressureUnits;
+        private VolumeUnits _volumeUnits;
+        private FuelCalculationScope _fuelCalculationScope;
+        private int _paceLaps;
+        private int _refreshRate;
+        private bool _scrollToPlayer;
+        private SessionOptionsViewModel _practiceSessionDisplayOptionsView;
+        private SessionOptionsViewModel _qualificationSessionDisplayOptionsView;
+        private SessionOptionsViewModel _raceSessionDisplayOptionsView;
+        private ReportingSettingsViewModel _reportingSettingsView;
+        private bool _animateDriverPosition;
+        private bool _animateDeltaTimes;
+        private MapDisplaySettingsViewModel _mapDisplaySettingsViewModel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public TemperatureUnits TemperatureUnits
         {
-            get => (TemperatureUnits)GetValue(TemperatureUnitsProperty);
-            set => SetValue(TemperatureUnitsProperty, value);
+            get => _temperatureUnits;
+            set
+            {
+                _temperatureUnits = value;
+                OnPropertyChanged();
+            }
         }
 
         public PressureUnits PressureUnits
         {
-            get => (PressureUnits)GetValue(PressureUnitsProperty);
-            set => SetValue(PressureUnitsProperty, value);
+            get => _pressureUnits;
+            set
+            {
+                _pressureUnits = value;
+                OnPropertyChanged();
+            }
         }
 
         public VolumeUnits VolumeUnits
         {
-            get => (VolumeUnits)GetValue(VolumeUnitsProperty);
-            set => SetValue(VolumeUnitsProperty, value);
+            get => _volumeUnits;
+            set
+            {
+                _volumeUnits = value;
+                OnPropertyChanged();
+            }
         }
 
         public VelocityUnits VelocityUnits
         {
-            get => (VelocityUnits)GetValue(VelocityUnitsProperty);
-            set => SetValue(VelocityUnitsProperty, value);
+            get => _velocityUnits;
+            set
+            {
+                _velocityUnits = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DistanceUnits));
+                OnPropertyChanged(nameof(FuelPerDistanceUnits));
+            }
         }
 
         public FuelCalculationScope FuelCalculationScope
         {
-            get => (FuelCalculationScope) GetValue(FuelCalculationScopeProperty);
-            set => SetValue(FuelCalculationScopeProperty, value);
+            get => _fuelCalculationScope;
+            set
+            {
+                _fuelCalculationScope = value;
+                OnPropertyChanged();
+            }
         }
 
         public DistanceUnits DistanceUnits
@@ -96,62 +117,102 @@
 
         public int PaceLaps
         {
-            get => (int) GetValue(PaceLapsProperty);
-            set => SetValue(PaceLapsProperty, value);
+            get => _paceLaps;
+            set
+            {
+                _paceLaps = value;
+                OnPropertyChanged();
+            }
         }
 
         public int RefreshRate
         {
-            get => (int) GetValue(RefreshRateProperty);
-            set => SetValue(RefreshRateProperty, value);
+            get => _refreshRate;
+            set
+            {
+                _refreshRate = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool ScrollToPlayer
         {
-            get => (bool) GetValue(ScrollToPlayerProperty);
-            set => SetValue(ScrollToPlayerProperty, value);
+            get => _scrollToPlayer;
+            set
+            {
+                _scrollToPlayer = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool AnimateDriversPosition
         {
-            get => (bool)GetValue(AnimateDriversPositionProperty);
-            set => SetValue(AnimateDriversPositionProperty, value);
+            get => _animateDriverPosition;
+            set
+            {
+                _animateDriverPosition = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool AnimateDeltaTimes
         {
-            get => (bool)GetValue(AnimateDeltaTimesProperty);
-            set => SetValue(AnimateDeltaTimesProperty, value);
+            get => _animateDeltaTimes;
+            set
+            {
+                _animateDeltaTimes = value;
+                OnPropertyChanged();
+            }
         }
 
         public SessionOptionsViewModel PracticeSessionDisplayOptionsView
         {
-            get => (SessionOptionsViewModel)GetValue(PracticeSessionDisplayOptionsViewProperty);
-            set => SetValue(PracticeSessionDisplayOptionsViewProperty, value);
+            get => _practiceSessionDisplayOptionsView;
+            set
+            {
+                _practiceSessionDisplayOptionsView = value;
+                OnPropertyChanged();
+            }
         }
 
         public SessionOptionsViewModel QualificationSessionDisplayOptionsView
         {
-            get => (SessionOptionsViewModel)GetValue(QualificationSessionDisplayOptionsViewProperty);
-            set => SetValue(QualificationSessionDisplayOptionsViewProperty, value);
+            get => _qualificationSessionDisplayOptionsView;
+            set
+            {
+                _qualificationSessionDisplayOptionsView = value;
+                OnPropertyChanged();
+            }
         }
 
         public SessionOptionsViewModel RaceSessionDisplayOptionsView
         {
-            get => (SessionOptionsViewModel)GetValue(RaceSessionDisplayOptionsViewProperty);
-            set => SetValue(RaceSessionDisplayOptionsViewProperty, value);
+            get => _raceSessionDisplayOptionsView;
+            set
+            {
+                _raceSessionDisplayOptionsView = value;
+                OnPropertyChanged();
+            }
         }
 
         public ReportingSettingsViewModel ReportingSettingsView
         {
-            get => (ReportingSettingsViewModel)GetValue(ReportingSettingsViewProperty);
-            set => SetValue(ReportingSettingsViewProperty, value);
+            get => _reportingSettingsView;
+            set
+            {
+                _reportingSettingsView = value;
+                OnPropertyChanged();
+            }
         }
 
         public MapDisplaySettingsViewModel MapDisplaySettingsViewModel
         {
-            get => (MapDisplaySettingsViewModel)GetValue(MapDisplaySettingsViewModelProperty);
-            set => SetValue(MapDisplaySettingsViewModelProperty, value);
+            get => _mapDisplaySettingsViewModel;
+            set
+            {
+                _mapDisplaySettingsViewModel = value;
+                OnPropertyChanged();
+            }
         }
 
         public void FromModel(DisplaySettings settings)
@@ -199,19 +260,6 @@
                 MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel()
             };
         }
-
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            DisplaySettingsViewModel sender = (DisplaySettingsViewModel) dependencyObject;
-            if (dependencyPropertyChangedEventArgs.Property.Name == nameof(VelocityUnits))
-            {
-                sender.OnPropertyChanged(nameof(DistanceUnits));
-                sender.OnPropertyChanged(nameof(FuelPerDistanceUnits));
-            }
-
-            sender.OnPropertyChanged(dependencyPropertyChangedEventArgs.Property.Name);
-        }
-
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
