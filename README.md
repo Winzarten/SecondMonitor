@@ -85,8 +85,8 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 ## Future Plans  
  - [x] Reintroduce the fuel calculator
  - [x] Rework of the timing circle, so the app can learn track layout so proper map can be displayed.
- - [ ] Improve the fuel calculator to show delta fuel.
- - [ ] Increase amount of information for tyres (indicate bottoming up, dirt, slip)
+ - [x] Improve the fuel calculator to show delta fuel. 
+
 ## Installation
 
 Check release tab for latests version
