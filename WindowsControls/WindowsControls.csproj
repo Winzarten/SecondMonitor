@@ -116,6 +116,7 @@
     <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Commands\RelayCommand.cs" />
     <Compile Include="WPF\Commands\RelayCommandWithCondition.cs" />
+    <Compile Include="WPF\Converters\ColorToBrushConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />

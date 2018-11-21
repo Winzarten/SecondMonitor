@@ -113,11 +113,11 @@
                 <Setter Property="FontSize" Value="21" />
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="BorderBrush" Value="{StaticResource PlayerOutLineColor}"/>
-                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderThickness" Value="3"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding HasCustomOutline, Mode=OneWay}" Value="True">
                 <Setter Property="BorderBrush" Value="{Binding OutlineBrush}"/>
-                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderThickness" Value="3"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource LightBlueBrush}" />

@@ -11,11 +11,15 @@
     <Color x:Shared="False" x:Key="Purple01Color">#9e2e9e</Color>
 
     <Color x:Shared="False" x:Key="LightBlue01Color">#668cff</Color>
+    <Color x:Shared="False" x:Key="Blue01Color">#FF0071B9</Color>
+    <Color x:Shared="False" x:Key="Blue02Color">#FFA1DAE1</Color>
+    <Color x:Shared="False" x:Key="Blue03Color">#FF0010FF</Color>
+    <Color x:Shared="False" x:Key="Blue04Color">#FF008CE8</Color>
 
     <Color x:Shared="False" x:Key="Green01Color">#0c8d37</Color>
-    <Color x:Key="Green02Color">#FFC2FF00</Color>
-    <Color x:Key="Green03Color">#FF00FF1D</Color>
-    <Color x:Key="Green04Color">#FF77FFD7</Color>
+    <Color x:Shared="False" x:Key="Green02Color">#FFC2FF00</Color>
+    <Color x:Shared="False" x:Key="Green03Color">#FF00FF1D</Color>
+    <Color x:Shared="False" x:Key="Green04Color">#FF77FFD7</Color>
 
     <Color x:Shared="False" x:Key="LightGrey01Color">#F1E9DB</Color>
     <Color x:Shared="False" x:Key="LightGrey02Color">#BFACB5</Color>

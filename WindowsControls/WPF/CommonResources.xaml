@@ -10,6 +10,7 @@
     <converters:DoubleToStringNoDecimalConverter x:Key="DoubleToStringNoDecimalConverter"/>
     <converters:TimeSpanToMinutesSecondsConverter x:Key="TimeSpanToMinutesSecondsConverter"/>
     <converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
+    <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     <Style x:Key="StandardText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />

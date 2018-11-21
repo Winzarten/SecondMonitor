@@ -61,7 +61,7 @@
 
             // Compute the center point of the container relative to the scrollInfo
             Size size = container.RenderSize;
-            Point center = container.TransformToAncestor((Visual)scrollInfo).Transform(new Point(size.Width / 2, size.Height / 2));
+            Point center = container.TransformToAncestor((Visual)scrollInfo).Transform(new Point(0, size.Height / 2));
             center.Y += scrollInfo.VerticalOffset;
             center.X += scrollInfo.HorizontalOffset;
 
@@ -86,10 +86,10 @@
                 scrollInfo.SetVerticalOffset(CenteringOffset(center.Y, scrollInfo.ViewportHeight, scrollInfo.ExtentHeight));
             }
 
-            if (scrollInfo.CanHorizontallyScroll)
+            /*if (scrollInfo.CanHorizontallyScroll)
             {
                 scrollInfo.SetHorizontalOffset(CenteringOffset(center.X, scrollInfo.ViewportWidth, scrollInfo.ExtentWidth));
-            }
+            }*/
 
             return true;
         }

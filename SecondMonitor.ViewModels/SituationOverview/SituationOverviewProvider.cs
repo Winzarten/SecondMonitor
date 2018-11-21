@@ -18,7 +18,7 @@
     using Settings.ViewModel;
     using Timing.Controllers;
 
-    public class SituationOverviewProvider : ISimulatorDataSetViewModel, INotifyPropertyChanged, IMapSidePanelViewModel
+    public class SituationOverviewProvider : DependencyObject, ISimulatorDataSetViewModel, INotifyPropertyChanged, IMapSidePanelViewModel
     {
 
         private readonly ResourceDictionary _commonResources;
@@ -28,6 +28,7 @@
         private (string trackName, string layoutName, string simName) _currentTrackTuple;
         private DisplaySettingsViewModel _displaySettingsViewModel;
         private bool _alwaysUseCircle;
+
 
         public SituationOverviewProvider(IPositionCircleInformationProvider positionCircleInformation, DisplaySettingsViewModel displaySettingsViewModel)
         {
@@ -155,12 +156,12 @@
 
         public void RemoveDriver(DriverInfo driver)
         {
-            _situationOverviewControl.RemoveDrivers(driver);
+            _situationOverviewControl?.RemoveDrivers(driver);
         }
 
         public void AddDriver(DriverInfo driver)
         {
-            _situationOverviewControl.AddDrivers(driver);
+            _situationOverviewControl?.AddDrivers(driver);
         }
 
         private PositionCircleControl InitializePositionCircle()
@@ -250,6 +251,11 @@
 
         private void LoadCurrentMap()
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(LoadCurrentMap);
+            }
+
             if (string.IsNullOrEmpty(_currentTrackTuple.trackName) || _mapManagementController == null)
             {
                 return;
@@ -271,6 +277,11 @@
 
         private FullMapControl InitializeFullMap(TrackMapDto trackMapDto)
         {
+            if (!Dispatcher.CheckAccess())
+            {
+                return Dispatcher.Invoke(() => InitializeFullMap(trackMapDto));
+            }
+
             return new FullMapControl(trackMapDto)
             {
                 PositionCircleInformationProvider = PositionCircleInformationProvider,

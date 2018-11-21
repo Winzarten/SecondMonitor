@@ -126,10 +126,7 @@
 
         public void AddDrivers(params DriverInfo[] drivers)
         {
-            foreach (DriverInfo driver in drivers)
-            {
-                AddDriver(driver);
-            }
+
         }
 
         public void RemoveDrivers(params DriverInfo[] drivers)
@@ -170,21 +167,25 @@
 
         private void AddDriver(DriverInfo driverInfo)
         {
-            DriverPositionControl newDriverControl =
-                new DriverPositionControl
-                {
-                    Width = GetDriverControlSize(),
-                    Height = GetDriverControlSize(),
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Animate = AnimateDriversPos,
-                    LabelSize = GetLabelSize()
-                };
-            PostDriverCreation(newDriverControl);
-            UpdateDriver(driverInfo, newDriverControl);
-            AddDriver(newDriverControl);
             lock (_drivers)
             {
+                if (_drivers.ContainsKey(driverInfo.DriverName))
+                {
+                    RemoveDriver(driverInfo.DriverName);
+                }
+
+                DriverPositionControl newDriverControl =
+                    new DriverPositionControl
+                    {
+                        Width = GetDriverControlSize(),
+                        Height = GetDriverControlSize(),
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Animate = AnimateDriversPos,
+                    };
+                PostDriverCreation(newDriverControl);
+                UpdateDriver(driverInfo, newDriverControl);
+                AddDriver(newDriverControl);
                 _drivers[driverInfo.DriverName] = newDriverControl;
             }
         }
@@ -233,7 +234,11 @@
                 return;
             }
 
-            driverPositionControl.OutLineColor = PositionCircleInformationProvider.GetCustomOutline(driverInfo);
+            if(PositionCircleInformationProvider.GetTryCustomOutline(driverInfo, out SolidColorBrush outlineBrush))
+            {
+                driverPositionControl.OutLineColor = outlineBrush;
+                SetZIndex(driverPositionControl, 100);
+            }
 
             if (driverInfo.InPits)
             {

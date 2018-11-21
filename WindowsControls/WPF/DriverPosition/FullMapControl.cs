@@ -32,14 +32,14 @@
 
         public static readonly DependencyProperty YellowSectorBrushProperty = DependencyProperty.Register("YellowSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
         public static readonly DependencyProperty GreenSectorBrushProperty = DependencyProperty.Register("GreenSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
-        public static readonly DependencyProperty PurpleSectorBrushProperty = DependencyProperty.Register("PurpleSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));            
+        public static readonly DependencyProperty PurpleSectorBrushProperty = DependencyProperty.Register("PurpleSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
 
         public FullMapControl(ITrackMap trackMap)
         {
             _trackMap = trackMap;
             RefreshDriverControllerSize();
             InitializeMap();
-        }       
+        }
 
         public SolidColorBrush PurpleSectorBrush
         {
@@ -192,12 +192,6 @@
                 Source = this,
             };
             driverPositionControl.SetBinding(DriverPositionControl.HeightProperty, yBinding);
-
-            Binding fontSizeBinding = new Binding(nameof(DriverControllerFontSize))
-            {
-                Source = this,
-            };
-            driverPositionControl.SetBinding(DriverPositionControl.LabelSizeProperty, fontSizeBinding);
         }
 
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)

@@ -4,7 +4,7 @@
 
     public interface ISessionFuelConsumptionViewModel
     {
-         string TrackName { get; set; }    
+         string TrackName { get; set; }
          Distance LapDistance { get; set; }
          string SessionType { get; set; }
          IFuelConsumptionInfo FuelConsumption { get; set; }
