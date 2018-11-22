@@ -251,8 +251,9 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 return false;
             }
 
+            double lapDistance = Math.Abs(_previousDriverInfo.LapDistance - currentDriverInfo.LapDistance);
             Distance distance = Point3D.GetDistance(currentDriverInfo.WorldPosition, _previousDriverInfo.WorldPosition);
-            return distance.InMeters > MaxDistancePerTick.InMeters;
+            return distance.InMeters > MaxDistancePerTick.InMeters || (lapDistance > 500 && lapDistance < Driver.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.8);
         }
 
         private void TickSectors(SimulatorDataSet dataSet, DriverInfo driverInfo)

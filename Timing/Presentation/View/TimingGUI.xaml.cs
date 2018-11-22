@@ -12,9 +12,11 @@ namespace SecondMonitor.Timing.Presentation.View
     /// </summary>
     public partial class TimingGui : Window
     {
+        private readonly bool _useAcceleration;
 
-        public TimingGui()
+        public TimingGui(bool useAcceleration)
         {
+            _useAcceleration = useAcceleration;
             InitializeComponent();
         }
 
@@ -22,7 +24,7 @@ namespace SecondMonitor.Timing.Presentation.View
         {
             var hwndSource = PresentationSource.FromVisual(this) as HwndSource;
 
-            if (hwndSource != null)
+            if (hwndSource != null && !_useAcceleration)
             {
                 hwndSource.CompositionTarget.RenderMode = RenderMode.SoftwareOnly;
             }

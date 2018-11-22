@@ -192,12 +192,6 @@
                 Source = this,
             };
             driverPositionControl.SetBinding(DriverPositionControl.HeightProperty, yBinding);
-
-            Binding fontSizeBinding = new Binding(nameof(DriverControllerFontSize))
-            {
-                Source = this,
-            };
-            driverPositionControl.SetBinding(DriverPositionControl.LabelSizeProperty, fontSizeBinding);
         }
 
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)

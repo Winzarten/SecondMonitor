@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.ViewModel
+﻿using System.Windows.Media;
+
+namespace SecondMonitor.Timing.SessionTiming.ViewModel
 {
     using System;
     using System.Collections;
@@ -17,10 +19,12 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using WindowsControls.WPF;
-    using ViewModels.Settings.ViewModel;
+    using SimdataManagement.DriverPresentation;
 
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
+        private readonly DriverPresentationsManager _driverPresentationsManager;
+
         public class DriverNotFoundException : Exception
         {
             public DriverNotFoundException(string message) : base(message)
@@ -154,17 +158,18 @@
             }
         }
 
-        private SessionTiming(TimingDataViewModel timingDataViewModel)
+        private SessionTiming(TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager)
         {
+            _driverPresentationsManager = driverPresentationsManager;
             PaceLaps = 4;
             DisplayBindTimeRelative = false;
             TimingDataViewModel = timingDataViewModel;
         }
 
-        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel)
+        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager)
         {
             Dictionary<string, DriverTimingViewModel> drivers = new Dictionary<string, DriverTimingViewModel>();
-            SessionTiming timing = new SessionTiming(timingDataViewModel)
+            SessionTiming timing = new SessionTiming(timingDataViewModel, driverPresentationsManager)
                                        {
                                            SessionStarTime = dataSet.SessionInfo.SessionTime,
                                            SessionType = dataSet.SessionInfo.SessionType,
@@ -185,7 +190,7 @@
                 newDriver.SectorCompletedEvent += timing.OnSectorCompletedEvent;
                 newDriver.LapInvalidated += timing.LapInvalidatedHandler;
                 newDriver.LapCompleted += timing.DriverOnLapCompleted;
-                DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, timingDataViewModel.DisplaySettingsViewModel);
+                DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, timingDataViewModel.DisplaySettingsViewModel,driverPresentationsManager);
                 drivers.Add(name, newDriverTimingViewModel);
                 if (newDriver.DriverInfo.IsPlayer)
                 {
@@ -249,6 +254,12 @@
 
         private void AddNewDriver(DriverInfo newDriverInfo)
         {
+            if (TimingDataViewModel.GuiDispatcher != null && !TimingDataViewModel.GuiDispatcher.CheckAccess())
+            {
+                TimingDataViewModel.GuiDispatcher.Invoke(() => AddNewDriver(newDriverInfo));
+                return;
+            }
+
             if (Drivers.ContainsKey(newDriverInfo.DriverName))
             {
                 if (Drivers[newDriverInfo.DriverName].DriverTiming.IsActive)
@@ -261,7 +272,7 @@
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
             newDriver.LapCompleted += DriverOnLapCompleted;
-            DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, TimingDataViewModel.DisplaySettingsViewModel);
+            DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, TimingDataViewModel.DisplaySettingsViewModel, _driverPresentationsManager);
             Drivers.Add(newDriver.Name, newDriverTimingViewModel);
             RaiseDriverAddedEvent(newDriverTimingViewModel);
         }
@@ -430,6 +441,19 @@
             }
 
             return false;
+        }
+
+        public bool GetTryCustomOutline(DriverInfo driverInfo, out SolidColorBrush outlineBrush)
+        {
+            if (driverInfo == null || string.IsNullOrEmpty(driverInfo.DriverName) || Drivers == null || !Drivers.TryGetValue(driverInfo.DriverName, out DriverTimingViewModel driverTimingViewModel))
+            {
+                outlineBrush = null;
+                return false;
+            }
+
+            outlineBrush = driverTimingViewModel.HasCustomOutline ? driverTimingViewModel.OutlineBrush : null;
+            return driverTimingViewModel.HasCustomOutline;
+
         }
     }
 }

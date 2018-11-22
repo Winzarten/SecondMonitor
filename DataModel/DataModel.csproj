@@ -38,6 +38,7 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicProperties\Acceleration.cs" />
+    <Compile Include="BasicProperties\ColorDTO.cs" />
     <Compile Include="BasicProperties\Distance.cs" />
     <Compile Include="BasicProperties\DistanceUnits.cs" />
     <Compile Include="BasicProperties\FlagKind.cs" />
@@ -67,6 +69,8 @@
     <Compile Include="BasicProperties\Volume.cs" />
     <Compile Include="BasicProperties\VolumeUnits.cs" />
     <Compile Include="BasicProperties\SessionLengthType.cs" />
+    <Compile Include="DriversPresentation\DriverPresentationDTO.cs" />
+    <Compile Include="DriversPresentation\DriverPresentationsDTO.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="OperationalRange\CarModelProperties.cs" />

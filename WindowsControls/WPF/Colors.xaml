@@ -11,8 +11,15 @@
     <Color x:Shared="False" x:Key="Purple01Color">#9e2e9e</Color>
 
     <Color x:Shared="False" x:Key="LightBlue01Color">#668cff</Color>
+    <Color x:Shared="False" x:Key="Blue01Color">#FF0071B9</Color>
+    <Color x:Shared="False" x:Key="Blue02Color">#FFA1DAE1</Color>
+    <Color x:Shared="False" x:Key="Blue03Color">#FF0010FF</Color>
+    <Color x:Shared="False" x:Key="Blue04Color">#FF008CE8</Color>
 
     <Color x:Shared="False" x:Key="Green01Color">#0c8d37</Color>
+    <Color x:Shared="False" x:Key="Green02Color">#FFC2FF00</Color>
+    <Color x:Shared="False" x:Key="Green03Color">#FF00FF1D</Color>
+    <Color x:Shared="False" x:Key="Green04Color">#FF77FFD7</Color>
 
     <Color x:Shared="False" x:Key="LightGrey01Color">#F1E9DB</Color>
     <Color x:Shared="False" x:Key="LightGrey02Color">#BFACB5</Color>
@@ -45,20 +52,21 @@
     <SolidColorBrush x:Shared="False" x:Key="ClutchPedalColor" Color="{StaticResource Yellow01Color}" />
     <SolidColorBrush x:Shared="False" x:Key="ClutchPedalBorderColor" Color="{StaticResource Yellow02Color}" />
 
-    <SolidColorBrush x:Shared="False" x:Key="PurpleTimingBrush" Color="{StaticResource Purple01Color}"></SolidColorBrush>
-    <SolidColorBrush x:Shared="False" x:Key="LightBlueBrush" Color="{StaticResource LightBlue01Color}"></SolidColorBrush>
+    <SolidColorBrush x:Shared="False" x:Key="PurpleTimingBrush" Color="{StaticResource Purple01Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="LightBlueBrush" Color="{StaticResource LightBlue01Color}"/>
 
-    <SolidColorBrush x:Shared="False" x:Key="TimingLappedBrush" Color="{StaticResource DarkGrey01Color}"></SolidColorBrush>
-    <SolidColorBrush x:Shared="False" x:Key="TimingLappedForegroundBrush" Color="{StaticResource LightBlue01Color}"></SolidColorBrush>
+    <SolidColorBrush x:Shared="False" x:Key="TimingLappedBrush" Color="{StaticResource DarkGrey01Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="TimingLappedForegroundBrush" Color="{StaticResource LightBlue01Color}"/>
 
-    <SolidColorBrush x:Shared="False" x:Key="TimingLappingBrush" Color="{StaticResource DarkRed01Color}"></SolidColorBrush>
-    <SolidColorBrush x:Shared="False" x:Key="TimingLappingForegroundBrush" Color="{StaticResource LightGrey01Color}"></SolidColorBrush>
+    <SolidColorBrush x:Shared="False" x:Key="TimingLappingBrush" Color="{StaticResource DarkRed01Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="TimingLappingForegroundBrush" Color="{StaticResource LightGrey01Color}"/>
 
-    <SolidColorBrush x:Shared="False" x:Key="PlayerForegroundColor" Color="{StaticResource Anthracite01Color}"></SolidColorBrush>
-    <SolidColorBrush x:Shared="False" x:Key="PlayerBackgroundColor" Color="{StaticResource LightGrey01Color}"></SolidColorBrush>
+    <SolidColorBrush x:Shared="False" x:Key="PlayerForegroundColor" Color="{StaticResource Anthracite01Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="PlayerBackgroundColor" Color="{StaticResource LightGrey01Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="PlayerOutLineColor" Color="{StaticResource Green02Color}"/>
 
-    <SolidColorBrush x:Shared="False" x:Key="DriverForegroundColor" Color="{StaticResource LightGrey01Color}"></SolidColorBrush>
-    <SolidColorBrush x:Shared="False" x:Key="DriverBackgroundColor" Color="{StaticResource DarkGrey01Color}"></SolidColorBrush>
+    <SolidColorBrush x:Shared="False" x:Key="DriverForegroundColor" Color="{StaticResource LightGrey01Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="DriverBackgroundColor" Color="{StaticResource DarkGrey01Color}"/>
 
     <SolidColorBrush x:Shared="False" x:Key="DriverPitsForegroundColor" Color="{StaticResource Anthracite01Color}"></SolidColorBrush>
     <SolidColorBrush x:Shared="False" x:Key="DriverPitsBackgroundColor" Color="{StaticResource Yellow01Color}"></SolidColorBrush>

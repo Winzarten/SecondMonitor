@@ -33,7 +33,7 @@
             SimulatorDataSet simData = new SimulatorDataSet("Assetto Corsa");
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
-            simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = false;
+            simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
             simData.SimulatorSourceInfo.ForceLapOverTime = true;
             simData.SimulatorSourceInfo.GlobalTyreCompounds = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.SpOnly;

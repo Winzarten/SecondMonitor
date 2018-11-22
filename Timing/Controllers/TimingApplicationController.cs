@@ -15,12 +15,15 @@ namespace SecondMonitor.Timing.Controllers
     using Presentation.ViewModel;
     using WindowsControls.WPF.Commands;
     using SimdataManagement;
+    using SimdataManagement.DriverPresentation;
     using TrackMap;
     using ViewModels.Settings;
     using ViewModels.Settings.ViewModel;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {
+        private const string MapFolder = "TrackMaps";
+        private const string SettingsFolder = "Settings";
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SecondMonitor\\settings.json");
@@ -32,6 +35,7 @@ namespace SecondMonitor.Timing.Controllers
         private TimingGui _timingGui;
         private DisplaySettingsViewModel _displaySettingsViewModel;
         private MapManagementController _mapManagementController;
+        private DriverPresentationsManager _driverPresentationsManager;
         private DisplaySettingAutoSaver _settingAutoSaver;
 
 
@@ -59,8 +63,9 @@ namespace SecondMonitor.Timing.Controllers
             CreateAutoSaver();
             CreateSimSettingsController();
             CreateMapManagementController();
+            CreateDriverPresentationManager();
             DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
-            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel) {MapManagementController = _mapManagementController};
+            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel, _driverPresentationsManager) {MapManagementController = _mapManagementController};
             BindCommands();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
@@ -102,7 +107,7 @@ namespace SecondMonitor.Timing.Controllers
 
         private void CreateGui()
         {
-            _timingGui = new TimingGui();
+            _timingGui = new TimingGui(false);
             _timingGui.Show();
             _timingGui.Closed += OnGuiClosed;
             _timingGui.MouseLeave += GuiOnMouseLeave;
@@ -148,8 +153,13 @@ namespace SecondMonitor.Timing.Controllers
         private void CreateMapManagementController()
         {
             _mapManagementController = new MapManagementController(new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(_displaySettingsViewModel.MapDisplaySettingsViewModel.MapPointsInterval),100),
-                new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory,"TrackMaps")),
+                new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory, MapFolder)),
                 new TrackDtoManipulator());
+        }
+
+        private void CreateDriverPresentationManager()
+        {
+            _driverPresentationsManager = new DriverPresentationsManager(new DriverPresentationsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory, SettingsFolder)));
         }
 
         private void OpenSettingsWindow()

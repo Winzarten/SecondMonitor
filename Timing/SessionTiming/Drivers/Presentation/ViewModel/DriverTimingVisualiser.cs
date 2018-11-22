@@ -1,6 +1,11 @@
-﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
+﻿using System.Windows;
+using System.Windows.Media;
+
+namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
+    using System.Windows.Input;
+    using WindowsControls.WPF.Commands;
     using DataModel.BasicProperties;
 
     using NLog;
@@ -8,6 +13,7 @@
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
+    using SimdataManagement.DriverPresentation;
     using ViewModels;
     using ViewModels.Settings.ViewModel;
 
@@ -17,11 +23,45 @@
 
         private DateTime _nextRefresh = DateTime.Now;
         private DisplaySettingsViewModel _displaySettingsViewModel;
+        private readonly DriverPresentationsManager _driverPresentationsManager;
+        private Color _outLineColor;
+        private bool _hasCustomOutline;
 
-        public DriverTimingViewModel(DriverTiming driverTiming, DisplaySettingsViewModel displaySettingsViewModel)
+        public DriverTimingViewModel(DriverTiming driverTiming, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager)
         {
             _displaySettingsViewModel = displaySettingsViewModel;
+            _driverPresentationsManager = driverPresentationsManager;
             DriverTiming = driverTiming;
+        }
+
+        public bool HasCustomOutline
+        {
+            get => _hasCustomOutline && !IsPlayer;
+            set
+            {
+                _hasCustomOutline = value;
+                _driverPresentationsManager.SetOutLineColorEnabled(Name, value);
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Color OutLineColor
+        {
+            get => _outLineColor;
+            set
+            {
+                _outLineColor = value;
+                OutlineBrush = new SolidColorBrush(_outLineColor);
+                _driverPresentationsManager.SetOutLineColor(Name, value);
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(OutlineBrush));
+            }
+        }
+
+        public SolidColorBrush OutlineBrush
+        {
+            get;
+            private set;
         }
 
         public bool ColorLapsColumns
@@ -301,6 +341,11 @@
         {
             CarName = DriverTiming.CarName;
             Name = DriverTiming.Name;
+            HasCustomOutline = _driverPresentationsManager.IsCustomOutlineEnabled(Name);
+            if (_driverPresentationsManager.TryGetOutLineColor(Name, out Color color))
+            {
+                OutLineColor = color;
+            }
         }
 
         private bool GetIsSector1SessionBest()

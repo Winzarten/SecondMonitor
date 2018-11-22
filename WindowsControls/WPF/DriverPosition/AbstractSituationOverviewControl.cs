@@ -22,6 +22,7 @@
         private static readonly DependencyProperty DriverPitsForegroundBrushProperty = DependencyProperty.Register("DriverPitsForegroundBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl));
         private static readonly DependencyProperty DriverPitsBackgroundBrushProperty = DependencyProperty.Register("DriverPitsBackgroundBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl));
         private static readonly DependencyProperty AdditionalInformationProperty = DependencyProperty.Register("AdditionalInformation", typeof(string), typeof(AbstractSituationOverviewControl));
+        public static readonly DependencyProperty PlayerOutLineBrushProperty = DependencyProperty.Register("PlayerOutLineBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl), new PropertyMetadata(Brushes.Transparent));
 
         private readonly Dictionary<string, DriverPositionControl> _drivers;
 
@@ -30,6 +31,12 @@
         protected AbstractSituationOverviewControl()
         {
             _drivers = new Dictionary<string, DriverPositionControl>();
+        }
+
+        public SolidColorBrush PlayerOutLineBrush
+        {
+            get => (SolidColorBrush) GetValue(PlayerOutLineBrushProperty);
+            set => SetValue(PlayerOutLineBrushProperty, value);
         }
 
         public string AdditionalInformation
@@ -119,10 +126,7 @@
 
         public void AddDrivers(params DriverInfo[] drivers)
         {
-            foreach (DriverInfo driver in drivers)
-            {
-                AddDriver(driver);
-            }
+
         }
 
         public void RemoveDrivers(params DriverInfo[] drivers)
@@ -163,20 +167,27 @@
 
         private void AddDriver(DriverInfo driverInfo)
         {
-            DriverPositionControl newDriverControl =
-                new DriverPositionControl
+            lock (_drivers)
+            {
+                if (_drivers.ContainsKey(driverInfo.DriverName))
                 {
-                    Width = GetDriverControlSize(),
-                    Height = GetDriverControlSize(),
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Animate = AnimateDriversPos,
-                    LabelSize = GetLabelSize()
-                };
-            PostDriverCreation(newDriverControl);
-            UpdateDriver(driverInfo, newDriverControl);
-            AddDriver(newDriverControl);
-            _drivers.Add(driverInfo.DriverName, newDriverControl);
+                    RemoveDriver(driverInfo.DriverName);
+                }
+
+                DriverPositionControl newDriverControl =
+                    new DriverPositionControl
+                    {
+                        Width = GetDriverControlSize(),
+                        Height = GetDriverControlSize(),
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Animate = AnimateDriversPos,
+                    };
+                PostDriverCreation(newDriverControl);
+                UpdateDriver(driverInfo, newDriverControl);
+                AddDriver(newDriverControl);
+                _drivers[driverInfo.DriverName] = newDriverControl;
+            }
         }
 
         protected abstract void PostDriverCreation(DriverPositionControl driverPositionControl);
@@ -219,7 +230,14 @@
                 driverPositionControl.CircleBrush = PlayerBackgroundBrush;
                 driverPositionControl.TextBrush = PlayerForegroundBrush;
                 SetZIndex(driverPositionControl, 100);
+                driverPositionControl.OutLineColor = PlayerOutLineBrush;
                 return;
+            }
+
+            if(PositionCircleInformationProvider.GetTryCustomOutline(driverInfo, out SolidColorBrush outlineBrush))
+            {
+                driverPositionControl.OutLineColor = outlineBrush;
+                SetZIndex(driverPositionControl, 100);
             }
 
             if (driverInfo.InPits)
