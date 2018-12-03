@@ -256,7 +256,7 @@
             {
                 double distanceToGo = (dataSet.SessionInfo.SessionTimeRemaining /
                                   _timing.Leader.DriverTiming.Pace.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
-                double distanceWithLapDistance = distanceToGo + dataSet.LeaderInfo.LapDistance;
+                double distanceWithLapDistance = distanceToGo + dataSet.PlayerInfo.LapDistance;
                 double distanceToFinishLap = dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - ((int)distanceWithLapDistance % (int)dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
                 double totalDistanceToGo = distanceToGo + distanceToFinishLap;
                 return totalDistanceToGo / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
