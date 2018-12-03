@@ -227,9 +227,6 @@
 
         public void ApplyDateSet(SimulatorDataSet data)
         {
-
-
-
                 _lastDataSet = data;
                 IsOpenCarSettingsCommandEnable = !string.IsNullOrWhiteSpace(data?.PlayerInfo?.CarName);
                 ConnectedSource = _lastDataSet?.Source;

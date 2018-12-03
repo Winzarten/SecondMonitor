@@ -29,5 +29,11 @@
                 return "+" + timeSpan.ToString(SecondOnly);
             }
         }
+
+        public static string FormatToMinutesSeconds(this TimeSpan timeSpan)
+        {
+            return ((int)(timeSpan.TotalSeconds / 60)) + ":"
+                + ((int)timeSpan.TotalSeconds % 60).ToString("00");
+        }
     }
 }

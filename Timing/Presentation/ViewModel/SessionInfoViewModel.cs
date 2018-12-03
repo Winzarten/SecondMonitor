@@ -188,13 +188,10 @@
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
             {
-                string timeRemaining = "Time Remaining: " + ((int)(dataSet.SessionInfo.SessionTimeRemaining / 60)) + ":"
-                                       + ((int)dataSet.SessionInfo.SessionTimeRemaining % 60).ToString("00");
+                string timeRemaining = "Time Remaining: " + GetTimeRemaining(dataSet).FormatToMinutesSeconds();
                 if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
                 {
-                    double lapsToGo = dataSet.SessionInfo.SessionTimeRemaining /
-                                      _timing.Leader.DriverTiming.Pace.TotalSeconds;
-                    timeRemaining += "\nLaps:" + lapsToGo.ToString("N1");
+                    timeRemaining += "\nLaps:" + GetLapsRemaining(dataSet).ToString("N1");
                 }
 
                 return timeRemaining;
@@ -214,6 +211,10 @@
                 string lapsToDisplay = lapsToGo < 2000
                                            ? lapsToGo.ToString()
                                            : "Infinite";
+                if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
+                {
+                    lapsToDisplay += "\nTime:" + GetTimeRemaining(dataSet).FormatToMinutesSeconds();
+                }
                 return "Leader laps to go: " + lapsToDisplay;
             }
 
@@ -228,6 +229,44 @@
         public void Reset()
         {
 
+        }
+
+        private TimeSpan GetTimeRemaining(SimulatorDataSet dataSet)
+        {
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
+            {
+                return TimeSpan.FromSeconds(dataSet.SessionInfo.SessionTimeRemaining);
+            }
+            else
+            {
+                return SessionTiming?.Leader?.DriverTiming?.Pace != null
+                    ? SessionTiming.Leader.DriverTiming.Pace - SessionTiming.Leader.DriverTiming.CurrentLap.CurrentlyValidProgressTime
+                    : TimeSpan.Zero;
+            }
+        }
+
+        private double GetLapsRemaining(SimulatorDataSet dataSet)
+        {
+
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
+            {
+                return GetLeaderLapsToGo(dataSet);
+            }
+            else
+            {
+                double distanceToGo = (dataSet.SessionInfo.SessionTimeRemaining /
+                                  _timing.Leader.DriverTiming.Pace.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+                double distanceWithLapDistance = distanceToGo + dataSet.LeaderInfo.LapDistance;
+                double distanceToFinishLap = dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - ((int)distanceWithLapDistance % (int)dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
+                double totalDistanceToGo = distanceToGo + distanceToFinishLap;
+                return totalDistanceToGo / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+            }
+        }
+
+        private double GetLeaderLapsToGo(SimulatorDataSet dataSet)
+        {
+            double fullLapsToGo = dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1;
+            return fullLapsToGo - (dataSet.LeaderInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
