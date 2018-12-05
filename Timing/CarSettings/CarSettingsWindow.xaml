@@ -24,6 +24,7 @@
                                                CarName="{Binding CarModelPropertiesViewModel.CarName}"
                                                TemperatureUnit="{Binding TemperatureUnits}" PressureUnits="{Binding PressureUnits}"
                                                MinimalIdealBrakeTemperature="{Binding CarModelPropertiesViewModel.MinimalOptimalBrakeTemperature}" MaximumIdealBrakeTemperature="{Binding CarModelPropertiesViewModel.MaximumOptimalBrakeTemperature}"
-                                               TyreCompounds="{Binding TyreSettingsViewModels}" SelectedTyreCompound="{Binding SelectedTyreSettingsViewModel}" CopyCompoundCommand="{Binding CopyCompoundToLocalCommand}"/>
+                                               TyreCompounds="{Binding TyreSettingsViewModels}" SelectedTyreCompound="{Binding SelectedTyreSettingsViewModel}" CopyCompoundCommand="{Binding CopyCompoundToLocalCommand}"
+                                               WheelRotation="{Binding CarModelPropertiesViewModel.WheelRotation}"/>
     </Grid>
 </Window>

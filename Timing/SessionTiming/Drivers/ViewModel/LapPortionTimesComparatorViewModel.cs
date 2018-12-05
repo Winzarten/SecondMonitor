@@ -10,17 +10,15 @@
 
         private DateTime _nextUpdate;
 
-        public LapPortionTimesComparatorViewModel(LapInfo referenceLap, LapInfo comparedLap)
+        public LapPortionTimesComparatorViewModel()
         {
             _nextUpdate = DateTime.Now;
-            ReferenceLap = referenceLap;
-            ComparedLap = comparedLap;
             TimeDifference = TimeSpan.Zero;
             SubscribeToComparedLap();
         }
 
-        public LapInfo ReferenceLap { get; }
-        public LapInfo ComparedLap { get; }
+        public LapInfo ReferenceLap { get; private set; }
+        public LapInfo ComparedLap { get; private set; }
 
         public TimeSpan TimeDifference
         {
@@ -32,9 +30,21 @@
             }
         }
 
+        public void ChangeReferencedLaps(LapInfo referencedLap, LapInfo comparedLap)
+        {
+            UnSubscribeToComparedLap();
+            ReferenceLap = referencedLap;
+            ComparedLap = comparedLap;
+            SubscribeToComparedLap();
+        }
+
 
         private void SubscribeToComparedLap()
         {
+            if (ComparedLap?.LapTelemetryInfo?.PortionTimes == null)
+            {
+                return;
+            }
             ComparedLap.LapTelemetryInfo.PortionTimes.PropertyChanged += PortionTimes_PropertyChanged;
         }
 

@@ -191,7 +191,7 @@
                 string timeRemaining = "Time Remaining: " + GetTimeRemaining(dataSet).FormatToMinutesSeconds();
                 if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
                 {
-                    timeRemaining += "\nLaps:" + GetLapsRemaining(dataSet).ToString("N1");
+                    timeRemaining += "\nEst. Laps:" + (Math.Floor(GetLapsRemaining(dataSet) * 10) / 10.0).ToString("N1");
                 }
 
                 return timeRemaining;
@@ -213,7 +213,7 @@
                                            : "Infinite";
                 if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
                 {
-                    lapsToDisplay += "\nTime:" + GetTimeRemaining(dataSet).FormatToMinutesSeconds();
+                    lapsToDisplay += "\nEst. Time: " + GetTimeRemaining(dataSet).FormatToMinutesSeconds();
                 }
                 return "Leader laps to go: " + lapsToDisplay;
             }
@@ -240,7 +240,7 @@
             else
             {
                 return SessionTiming?.Leader?.DriverTiming?.Pace != null
-                    ? SessionTiming.Leader.DriverTiming.Pace - SessionTiming.Leader.DriverTiming.CurrentLap.CurrentlyValidProgressTime
+                    ? TimeSpan.FromSeconds(GetLeaderLapsToGo(dataSet) * SessionTiming.Leader.DriverTiming.Pace.TotalSeconds)
                     : TimeSpan.Zero;
             }
         }
@@ -254,13 +254,24 @@
             }
             else
             {
-                double distanceToGo = (dataSet.SessionInfo.SessionTimeRemaining /
-                                  _timing.Leader.DriverTiming.Pace.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+                double secondsTillSessionEnds = dataSet.LeaderInfo.IsPlayer ? dataSet.SessionInfo.SessionTimeRemaining : GetSecondsTillLeaderFinished(dataSet);
+                double distanceToGo = (secondsTillSessionEnds / _timing.Player.DriverTiming.Pace.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
                 double distanceWithLapDistance = distanceToGo + dataSet.PlayerInfo.LapDistance;
                 double distanceToFinishLap = dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - ((int)distanceWithLapDistance % (int)dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
                 double totalDistanceToGo = distanceToGo + distanceToFinishLap;
                 return totalDistanceToGo / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
             }
+        }
+
+        private double GetSecondsTillLeaderFinished(SimulatorDataSet dataSet)
+        {
+            double distanceToGo = (dataSet.SessionInfo.SessionTimeRemaining /
+                                   _timing.Leader.DriverTiming.Pace.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+            double distanceWithLapDistance = distanceToGo + dataSet.LeaderInfo.LapDistance;
+            double distanceToFinishLap = dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - ((int)distanceWithLapDistance % (int)dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
+            double totalDistanceToGo = distanceToGo + distanceToFinishLap;
+            double totalLapsToGo = totalDistanceToGo / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+            return totalLapsToGo * _timing.Leader.DriverTiming.Pace.TotalSeconds;
         }
 
         private double GetLeaderLapsToGo(SimulatorDataSet dataSet)

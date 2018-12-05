@@ -11,7 +11,7 @@
         public SimulatorDataSet(string source)
         {
             Source = source;
-            PedalInfo = new PedalInfo();
+            InputInfo = new InputInfo();
             SessionInfo = new SessionInfo();
             DriversInfo = new DriverInfo[0];
             PlayerInfo = new DriverInfo();
@@ -20,7 +20,7 @@
 
         public string Source { get; set; }
 
-        public PedalInfo PedalInfo { get; set; }
+        public InputInfo InputInfo { get; set; }
 
         public SessionInfo SessionInfo { get; set; }
 

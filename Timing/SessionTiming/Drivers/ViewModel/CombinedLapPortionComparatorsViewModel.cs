@@ -18,6 +18,8 @@
             _driver.NewLapStarted += DriverOnLapCompletedOrInvalidated;
             _driver.LapCompleted += DriverOnLapCompletedOrInvalidated;
             _driver.LapInvalidated += DriverOnLapCompletedOrInvalidated;
+            PlayerLapToBestPlayerComparator = new LapPortionTimesComparatorViewModel();
+            PlayerLapToPreviousComparator = new LapPortionTimesComparatorViewModel();
             RecreatePlayerLapToPlayerBest();
         }
 
@@ -56,7 +58,7 @@
                 return;
             }
 
-            PlayerLapToPreviousComparator = new LapPortionTimesComparatorViewModel(_driver.LastCompletedLap, _driver.CurrentLap);
+            PlayerLapToPreviousComparator.ChangeReferencedLaps(_driver.LastCompletedLap, _driver.CurrentLap);
         }
 
         private void RecreatePlayerLapToPlayerBest()
@@ -68,7 +70,7 @@
                 return;
             }
 
-            PlayerLapToBestPlayerComparator = new LapPortionTimesComparatorViewModel(_driver.BestLap, _driver.CurrentLap);
+            PlayerLapToBestPlayerComparator.ChangeReferencedLaps(_driver.BestLap, _driver.CurrentLap);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

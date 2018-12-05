@@ -19,6 +19,8 @@
                 <Slider Margin="0,5,0,5" Maximum="100" Minimum="0"
                         Value="{Binding ClutchPercentage, ElementName=PedalGearControl}" />
                 <TextBox Text="{Binding Gear, ElementName=PedalGearControl, FallbackValue='R'}"/>
+                <Slider Margin="0,5,0,5" Maximum="270" Minimum="-270"
+                        Value="{Binding WheelRotation, ElementName=PedalGearControl}" />
 
             </StackPanel>
         </Grid>

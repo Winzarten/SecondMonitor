@@ -88,10 +88,10 @@
                 <StackPanel>
                     <wpf:TimeSpanBarControl Title="Δ to Personal Best"
                                             AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}"
-                                            Value="{Binding Path=SessionTiming.CombinedLapPortionComparator.PlayerLapToBestPlayerComparator.TimeDifference}" />
+                                            Value="{Binding Path=SessionTiming.CombinedLapPortionComparator.PlayerLapToBestPlayerComparator.TimeDifference, Mode=OneWay}" />
                     <wpf:TimeSpanBarControl Title="Δ to Previous Lap"
                                             AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}"
-                                            Value="{Binding Path=SessionTiming.CombinedLapPortionComparator.PlayerLapToPreviousComparator.TimeDifference}" />
+                                            Value="{Binding Path=SessionTiming.CombinedLapPortionComparator.PlayerLapToPreviousComparator.TimeDifference, Mode=OneWay}" />
                 </StackPanel>
             </Border>
             <view:SessionInfoView Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Stretch"
@@ -334,7 +334,8 @@
                                     <pedalControl:PedalGearControl BrakePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.BrakePercentage}"
                                                                    ClutchPercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ClutchPercentage}"
                                                                    Gear="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Gear}"
-                                                                   ThrottlePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ThrottlePercentage}" />
+                                                                   ThrottlePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ThrottlePercentage}"
+                                                                   WheelRotation="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.WheelRotation}"/>
                                 </Border>
                                 <Border Grid.Column="1"
                                         BorderBrush="{StaticResource Anthracite01Brush}"

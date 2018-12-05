@@ -8,7 +8,14 @@
         private static readonly DependencyProperty ThrottlePercentageProperty = DependencyProperty.Register("ThrottlePercentage",typeof(double), typeof(PedalGearControl));
         private static readonly DependencyProperty BrakePercentageProperty = DependencyProperty.Register("BrakePercentage", typeof(double), typeof(PedalGearControl));
         private static readonly DependencyProperty ClutchPercentageProperty = DependencyProperty.Register("ClutchPercentage", typeof(double), typeof(PedalGearControl));
+        private static readonly DependencyProperty WheelRotationProperty = DependencyProperty.Register("WheelRotation", typeof(double), typeof(PedalGearControl));
         private static readonly DependencyProperty GearProperty = DependencyProperty.Register("Gear", typeof(string), typeof(PedalGearControl));
+
+        public double WheelRotation
+        {
+            get => (double)GetValue(WheelRotationProperty);
+            set => SetValue(WheelRotationProperty, value);
+        }
 
         public double ThrottlePercentage
         {

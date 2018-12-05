@@ -12,6 +12,7 @@
         private Temperature _maximumOptimalBrakeTemperature;
 
         private string _carName;
+        private int _wheelRotation;
 
         public CarModelPropertiesViewModel()
         {
@@ -24,6 +25,16 @@
             set
             {
                 _carName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int WheelRotation
+        {
+            get => _wheelRotation;
+            set
+            {
+                _wheelRotation = value;
                 NotifyPropertyChanged();
             }
         }
@@ -55,6 +66,7 @@
         {
             TyreCompoundsProperties.Clear();
             CarName = model.Name;
+            WheelRotation = model.WheelRotation;
             MinimalOptimalBrakeTemperature = Temperature.FromCelsius(model.OptimalBrakeTemperature.InCelsius - (model.OptimalBrakeTemperatureWindow.InCelsius));
             MaximumOptimalBrakeTemperature = Temperature.FromCelsius(model.OptimalBrakeTemperature.InCelsius + (model.OptimalBrakeTemperatureWindow.InCelsius));
             foreach (TyreCompoundProperties modelTyreCompoundsProperty in model.TyreCompoundsProperties)
@@ -72,7 +84,8 @@
                            Name = CarName,
                            OptimalBrakeTemperature = Temperature.FromCelsius((MinimalOptimalBrakeTemperature.InCelsius + MaximumOptimalBrakeTemperature.InCelsius) * 0.5),
                            OptimalBrakeTemperatureWindow = Temperature.FromCelsius((MaximumOptimalBrakeTemperature.InCelsius - MinimalOptimalBrakeTemperature.InCelsius) * 0.5),
-                           TyreCompoundsProperties = TyreCompoundsProperties.Select(x => x.SaveToNewModel()).ToList()
+                           TyreCompoundsProperties = TyreCompoundsProperties.Select(x => x.SaveToNewModel()).ToList(),
+                           WheelRotation = WheelRotation
                            };
             }
         }

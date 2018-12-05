@@ -178,9 +178,9 @@
             SimulatorDataSet simData = new SimulatorDataSet("PCars");
 
             // PEDAL INFO
-            simData.PedalInfo.ThrottlePedalPosition = data.MThrottle;
-            simData.PedalInfo.BrakePedalPosition = data.MBrake;
-            simData.PedalInfo.ClutchPedalPosition = data.MClutch;
+            simData.InputInfo.ThrottlePedalPosition = data.MThrottle;
+            simData.InputInfo.BrakePedalPosition = data.MBrake;
+            simData.InputInfo.ClutchPedalPosition = data.MClutch;
 
             FillSessionInfo(data, simData, lastTickDuration);
             AddDriversData(data, simData);
