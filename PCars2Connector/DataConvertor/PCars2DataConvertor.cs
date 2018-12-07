@@ -170,9 +170,10 @@
 
         private static void AddPedalInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
-            simData.PedalInfo.ThrottlePedalPosition = data.mUnfilteredThrottle;
-            simData.PedalInfo.BrakePedalPosition = data.mUnfilteredBrake;
-            simData.PedalInfo.ClutchPedalPosition = data.mUnfilteredClutch;
+            simData.InputInfo.ThrottlePedalPosition = data.mUnfilteredThrottle;
+            simData.InputInfo.BrakePedalPosition = data.mUnfilteredBrake;
+            simData.InputInfo.ClutchPedalPosition = data.mUnfilteredClutch;
+            simData.InputInfo.SteeringInput = data.mUnfilteredSteering;
         }
 
 

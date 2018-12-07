@@ -7,7 +7,7 @@
     {
         public SimulatorSourceInfo()
         {
-
+            TelemetryInfo = new TelemetryInfo();
         }
 
         public bool HasLapTimeInformation { get; set; }
@@ -34,5 +34,7 @@
 
         //Indicates that the world positions (x,y,z) provided by the sim are not valid.
         public bool WorldPositionInvalid { get; set; }
+
+        public TelemetryInfo TelemetryInfo { get; set; }
     }
 }

@@ -13,10 +13,14 @@
         public CarModelProperties()
         {
             TyreCompoundsProperties = new List<TyreCompoundProperties>();
+            WheelRotation = 540;
         }
 
         [XmlAttribute]
         public string Name { get; set; }
+
+        [XmlAttribute]
+        public int WheelRotation { get; set; }
 
         public Temperature OptimalBrakeTemperature { get; set; }
         public Temperature OptimalBrakeTemperatureWindow { get; set; }

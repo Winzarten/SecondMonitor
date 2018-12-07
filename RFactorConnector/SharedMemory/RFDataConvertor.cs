@@ -149,9 +149,10 @@
 
         private static void AddPedalInfo(RfShared data, SimulatorDataSet simData)
         {
-            simData.PedalInfo.ThrottlePedalPosition = data.UnfilteredThrottle;
-            simData.PedalInfo.BrakePedalPosition = data.UnfilteredBrake;
-            simData.PedalInfo.ClutchPedalPosition = data.UnfilteredClutch;
+            simData.InputInfo.ThrottlePedalPosition = data.UnfilteredThrottle;
+            simData.InputInfo.BrakePedalPosition = data.UnfilteredBrake;
+            simData.InputInfo.ClutchPedalPosition = data.UnfilteredClutch;
+            simData.InputInfo.SteeringInput = data.UnfilteredSteering;
         }
 
 

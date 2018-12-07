@@ -42,6 +42,8 @@ namespace SecondMonitor.Timing.CarSettings
             }
         }
 
+        public bool WheelRotationVisible { get; }
+
         public TyreCompoundPropertiesViewModel SelectedTyreSettingsViewModel
         {
             get => _selectedTyreSettingsViewModel;

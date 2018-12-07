@@ -75,6 +75,7 @@
 
         private void ApplyCarMode(SimulatorDataSet simulatorDataSet, CarModelProperties carModel)
         {
+            simulatorDataSet.InputInfo.WheelAngle = ((carModel.WheelRotation) / 2.0) * simulatorDataSet.InputInfo.SteeringInput;
             ApplyWheelProperty(simulatorDataSet, simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft, carModel);
             ApplyWheelProperty(simulatorDataSet, simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontRight, carModel);
             ApplyWheelProperty(simulatorDataSet, simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.RearLeft, carModel);

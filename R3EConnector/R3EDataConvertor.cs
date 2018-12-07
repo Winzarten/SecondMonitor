@@ -161,9 +161,9 @@
 
         private static void AddPedalInfo(R3ESharedData data, SimulatorDataSet simData)
         {
-            simData.PedalInfo.ThrottlePedalPosition = data.ThrottlePedal;
-            simData.PedalInfo.BrakePedalPosition = data.BrakePedal;
-            simData.PedalInfo.ClutchPedalPosition = data.ClutchPedal;
+            simData.InputInfo.ThrottlePedalPosition = data.ThrottlePedal;
+            simData.InputInfo.BrakePedalPosition = data.BrakePedal;
+            simData.InputInfo.ClutchPedalPosition = data.ClutchPedal;
         }
 
         internal void AddDriversData(SimulatorDataSet data, R3ESharedData r3RData)

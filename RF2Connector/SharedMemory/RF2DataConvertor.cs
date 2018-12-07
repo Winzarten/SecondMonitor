@@ -191,9 +191,10 @@
 
         private static void AddPedalInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PedalInfo.ThrottlePedalPosition = playerVehicleTelemetry.mUnfilteredThrottle;
-            simData.PedalInfo.BrakePedalPosition = playerVehicleTelemetry.mUnfilteredBrake;
-            simData.PedalInfo.ClutchPedalPosition = playerVehicleTelemetry.mUnfilteredClutch;
+            simData.InputInfo.ThrottlePedalPosition = playerVehicleTelemetry.mUnfilteredThrottle;
+            simData.InputInfo.BrakePedalPosition = playerVehicleTelemetry.mUnfilteredBrake;
+            simData.InputInfo.ClutchPedalPosition = playerVehicleTelemetry.mUnfilteredClutch;
+            simData.InputInfo.SteeringInput = playerVehicleTelemetry.mUnfilteredSteering;
         }
 
 

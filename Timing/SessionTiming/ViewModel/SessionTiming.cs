@@ -46,7 +46,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         public TimeSpan SessionStarTime { get; private set; }
 
-        private TimeSpan _nextUpdateTime = TimeSpan.Zero;
+        private DateTime _nextUpdateTime = DateTime.Now;
 
         private LapInfo _bestSessionLap;
 
@@ -303,10 +303,15 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
+            /*if (DateTime.Now < _nextUpdateTime)
+            {
+                return;
+            }*/
             LastSet = dataSet;
             SessionTime = dataSet.SessionInfo.SessionTime - SessionStarTime;
             SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
+            /*_nextUpdateTime = DateTime.Now + TimeSpan.FromMilliseconds(500);*/
         }
 
         private void UpdateDrivers(SimulatorDataSet dataSet)

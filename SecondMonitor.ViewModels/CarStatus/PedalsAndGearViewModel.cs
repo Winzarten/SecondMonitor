@@ -14,6 +14,7 @@
         private double _clutchPercentage;
         private double _brakePercentage;
         private string _gear;
+        private double _wheelRotation;
 
         public double ThrottlePercentage
         {
@@ -21,6 +22,16 @@
             set
             {
                 _throttlePercentage = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double WheelRotation
+        {
+            get => _wheelRotation;
+            set
+            {
+                _wheelRotation = value;
                 NotifyPropertyChanged();
             }
         }
@@ -63,27 +74,29 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            if (dataSet?.PlayerInfo?.CarInfo == null || dataSet.PedalInfo == null)
+            if (dataSet?.PlayerInfo?.CarInfo == null || dataSet.InputInfo == null)
             {
                 return;
             }
 
-            if (dataSet.PedalInfo.ThrottlePedalPosition >= 0)
+            if (dataSet.InputInfo.ThrottlePedalPosition >= 0)
             {
-                ThrottlePercentage = dataSet.PedalInfo.ThrottlePedalPosition * 100;
+                _throttlePercentage = dataSet.InputInfo.ThrottlePedalPosition * 100;
             }
 
-            if (dataSet.PedalInfo.BrakePedalPosition >= 0)
+            if (dataSet.InputInfo.BrakePedalPosition >= 0)
             {
-                BrakePercentage = dataSet.PedalInfo.BrakePedalPosition * 100;
+                _brakePercentage = dataSet.InputInfo.BrakePedalPosition * 100;
             }
 
-            if (dataSet.PedalInfo.ClutchPedalPosition >= 0)
+            if (dataSet.InputInfo.ClutchPedalPosition >= 0)
             {
-                ClutchPercentage = dataSet.PedalInfo.ClutchPedalPosition * 100;
+                _clutchPercentage = dataSet.InputInfo.ClutchPedalPosition * 100;
             }
 
-            Gear = dataSet.PlayerInfo.CarInfo.CurrentGear;
+            _wheelRotation = dataSet.InputInfo.WheelAngle;
+            _gear = dataSet.PlayerInfo.CarInfo.CurrentGear;
+            NotifyPropertyChanged(string.Empty);
         }
 
         public void Reset()

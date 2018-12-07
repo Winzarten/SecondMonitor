@@ -151,9 +151,10 @@
 
         private static void AddPedalInfo(AssettoCorsaShared acData, SimulatorDataSet simData)
         {
-            simData.PedalInfo.ThrottlePedalPosition = acData.AcsPhysics.gas;
-            simData.PedalInfo.BrakePedalPosition = acData.AcsPhysics.brake;
-            simData.PedalInfo.ClutchPedalPosition = 1 - acData.AcsPhysics.clutch;
+            simData.InputInfo.ThrottlePedalPosition = acData.AcsPhysics.gas;
+            simData.InputInfo.BrakePedalPosition = acData.AcsPhysics.brake;
+            simData.InputInfo.ClutchPedalPosition = 1 - acData.AcsPhysics.clutch;
+            simData.InputInfo.SteeringInput = acData.AcsPhysics.steerAngle;
         }
 
 

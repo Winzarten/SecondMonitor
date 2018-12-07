@@ -20,6 +20,13 @@
         private static readonly DependencyProperty TyreCompoundsProperty = DependencyProperty.Register("TyreCompounds", typeof(IReadOnlyCollection<ITyreSettingsViewModel>), typeof(CarSettingsControl));
         private static readonly DependencyProperty SelectedTyreCompoundProperty = DependencyProperty.Register("SelectedTyreCompound", typeof(ITyreSettingsViewModel), typeof(CarSettingsControl));
         private static readonly DependencyProperty CopyCompoundCommandProperty = DependencyProperty.Register("CopyCompoundCommand", typeof(ICommand), typeof(CarSettingsControl));
+        public static readonly DependencyProperty WheelRotationProperty = DependencyProperty.Register("WheelRotation", typeof(int), typeof(CarSettingsControl), new PropertyMetadata(default(int)));
+
+        public int WheelRotation
+        {
+            get => (int) GetValue(WheelRotationProperty);
+            set => SetValue(WheelRotationProperty, value);
+        }
 
         public Temperature MinimalIdealBrakeTemperature
         {
