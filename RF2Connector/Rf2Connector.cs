@@ -9,6 +9,7 @@
     using DataModel.Snapshot;
     using PluginManager.DependencyChecker;
     using PluginManager.GameConnector;
+    using PluginManager.Visitor;
     using SecondMonitor.PluginManager.GameConnector.SharedMemory;
     using SharedMemory;
     using SharedMemory.rFactor2Data;
@@ -24,6 +25,7 @@
         private readonly MappedBuffer<rF2Rules> _rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME);
         private readonly MappedBuffer<rF2Extended> _extendedBuffer = new MappedBuffer<rF2Extended>(rFactor2Constants.MM_EXTENDED_FILE_NAME);
         private readonly DependencyChecker dependencies;
+        private readonly SessionTimeInterpolator _sessionTimeInterpolator;
 
         private DateTime _connectionTime = DateTime.MinValue;
         private int _rawLastSessionType = int.MinValue;
@@ -38,7 +40,8 @@
             TickTime = 10;
 
             dependencies = new DependencyChecker(new FileExistDependency[]{ new FileExistDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
-            _rf2DataConvertor = new RF2DataConvertor();
+            _sessionTimeInterpolator = new SessionTimeInterpolator(TimeSpan.FromMilliseconds(200));
+            _rf2DataConvertor = new RF2DataConvertor(_sessionTimeInterpolator);
         }
 
         public override bool IsConnected => _isConnected;
@@ -140,6 +143,7 @@
 
                 if (CheckSessionStarted(rFactorData, dataSet))
                 {
+                    _sessionTimeInterpolator.Reset();
                     RaiseSessionStartedEvent(dataSet);
                 }
 
