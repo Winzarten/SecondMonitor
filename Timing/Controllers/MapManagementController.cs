@@ -3,6 +3,7 @@
     using System;
     using Contracts.TrackMap;
     using DataModel.TrackMap;
+    using NLog;
     using SessionTiming;
     using SessionTiming.ViewModel;
     using SimdataManagement;
@@ -10,6 +11,8 @@
 
     public class MapManagementController : IMapManagementController
     {
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly MapsLoader _mapsLoader;
         private readonly ITrackDtoManipulator _trackDtoManipulator;
         private string _lastUnknownMap;
@@ -94,6 +97,7 @@
                 TrackGeometry = newTrackGeometryDto,
                 SimulatorSource = e.Lap.Driver.Session.LastSet.Source,
             };
+            Logger.Info($"Notified on Lap Completed on unknown map: {formattedTrackName}, Saving");
             SaveMap(e.Lap.Driver.Session.LastSet.Source, formattedTrackName, newTrack);
         }
 
@@ -102,15 +106,17 @@
             string formattedTrackName = FormatTrackName(trackName, layoutName);
             if (!_mapsLoader.TryLoadMap(simulator, formattedTrackName, out trackMapDto))
             {
+                Logger.Info($"Trying to get map: {formattedTrackName}, Map unknown");
                 _lastUnknownMap = formattedTrackName;
                 return false;
             }
 
             if (trackMapDto.TrackGeometry.ExporterVersion == TrackMapFromTelemetryFactory.ExporterVersion)
             {
+                Logger.Info($"Trying to get map: {formattedTrackName}, Map Loaded.");
                 return true;
             }
-
+            Logger.Info($"Trying to get map: {formattedTrackName}, Map Loaded, but outdated version.");
             _lastUnknownMap = formattedTrackName;
             return false;
         }
@@ -121,7 +127,7 @@
             {
                 return;
             }
-
+            Logger.Info($"Trying to remove map: Simulator {simulator}, Track Name '{trackName}', Layout Name: '{layoutName}'");
             _mapsLoader.RemoveMap(simulator, FormatTrackName(trackName, layoutName));
             MapRemoved?.Invoke(this, new MapEventArgs(trackMapDto));
         }
@@ -133,6 +139,7 @@
                 throw new ArgumentException($"Unknown Map: {simulator} - {trackName} - {layoutName}");
             }
             trackMapDto = _trackDtoManipulator.RotateRight(trackMapDto);
+            Logger.Info($"Trying to rotate map right: Simulator {simulator}, Track Name '{trackName}', Layout Name: '{layoutName}'");
             SaveMap(simulator, trackName, layoutName, trackMapDto);
             return trackMapDto;
         }
@@ -145,6 +152,7 @@
             }
 
             trackMapDto = _trackDtoManipulator.RotateLeft(trackMapDto);
+            Logger.Info($"Trying to rotate left: Simulator {simulator}, Track Name '{trackName}', Layout Name: '{layoutName}'");
             SaveMap(simulator, trackName, layoutName, trackMapDto);
             return trackMapDto;
         }
@@ -161,6 +169,7 @@
 
         private void SaveMap(string simulator, string formattedTrackName, TrackMapDto trackMapDto)
         {
+            Logger.Info($"Trying to save map: Simulator {simulator}, Track Name '{formattedTrackName}'");
             _mapsLoader.SaveMap(simulator, formattedTrackName, trackMapDto);
             _lastUnknownMap = string.Empty;
             NewMapAvailable?.Invoke(this, new MapEventArgs(trackMapDto));

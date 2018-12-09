@@ -8,19 +8,54 @@
 
     public class CombinedLapPortionComparatorsViewModel : INotifyPropertyChanged, IDisposable
     {
-        private readonly DriverTiming _driver;
+        private  DriverTiming _driver;
         private LapPortionTimesComparatorViewModel _playerLapToPrevious;
         private LapPortionTimesComparatorViewModel _playerLapToPlayerBest;
 
         public CombinedLapPortionComparatorsViewModel(DriverTiming driver)
         {
-            _driver = driver;
+            Driver = driver;
             _driver.NewLapStarted += DriverOnLapCompletedOrInvalidated;
             _driver.LapCompleted += DriverOnLapCompletedOrInvalidated;
             _driver.LapInvalidated += DriverOnLapCompletedOrInvalidated;
             PlayerLapToBestPlayerComparator = new LapPortionTimesComparatorViewModel();
             PlayerLapToPreviousComparator = new LapPortionTimesComparatorViewModel();
             RecreatePlayerLapToPlayerBest();
+        }
+
+        public DriverTiming Driver
+        {
+            get => _driver;
+            set
+            {
+                UnSubscribeToDriverEvents();
+                _driver = value;
+                SubscribeToDriverEvents();
+            }
+        }
+
+        private void SubscribeToDriverEvents()
+        {
+            if (_driver == null)
+            {
+                return;
+            }
+
+            _driver.NewLapStarted += DriverOnLapCompletedOrInvalidated;
+            _driver.LapCompleted += DriverOnLapCompletedOrInvalidated;
+            _driver.LapInvalidated += DriverOnLapCompletedOrInvalidated;
+        }
+
+        private void UnSubscribeToDriverEvents()
+        {
+            if (_driver == null)
+            {
+                return;
+            }
+
+            _driver.NewLapStarted -= DriverOnLapCompletedOrInvalidated;
+            _driver.LapCompleted -= DriverOnLapCompletedOrInvalidated;
+            _driver.LapInvalidated -= DriverOnLapCompletedOrInvalidated;
         }
 
         private void DriverOnLapCompletedOrInvalidated(object sender, LapEventArgs e)

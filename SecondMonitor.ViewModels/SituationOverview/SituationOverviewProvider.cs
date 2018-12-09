@@ -14,13 +14,14 @@
     using WindowsControls.WPF.DriverPosition;
     using Contracts.TrackMap;
     using DataModel.TrackMap;
+    using NLog;
     using Properties;
     using Settings.ViewModel;
     using Timing.Controllers;
 
     public class SituationOverviewProvider : DependencyObject, ISimulatorDataSetViewModel, INotifyPropertyChanged, IMapSidePanelViewModel
     {
-
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ResourceDictionary _commonResources;
         private ISituationOverviewControl _situationOverviewControl;
         private IPositionCircleInformationProvider _positionCircleInformationProvider;
@@ -166,6 +167,7 @@
 
         private PositionCircleControl InitializePositionCircle()
         {
+            Logger.Info("Initializing Position Circle");
             return new PositionCircleControl
             {
                 PositionCircleInformationProvider = PositionCircleInformationProvider,
@@ -255,12 +257,11 @@
             {
                 Dispatcher.Invoke(LoadCurrentMap);
             }
-
             if (string.IsNullOrEmpty(_currentTrackTuple.trackName) || _mapManagementController == null)
             {
                 return;
             }
-
+            Logger.Info("Loading New Map");
             if (AlwaysUseCircle || !_mapManagementController.TryGetMap(_currentTrackTuple.simName, _currentTrackTuple.trackName, _currentTrackTuple.layoutName, out TrackMapDto trackMapDto))
             {
                 SituationOverviewControl = InitializePositionCircle();
@@ -281,6 +282,8 @@
             {
                 return Dispatcher.Invoke(() => InitializeFullMap(trackMapDto));
             }
+
+            Logger.Info("Initializing Full Map Control");
 
             return new FullMapControl(trackMapDto)
             {
@@ -318,6 +321,7 @@
         {
             if (_currentTrackTuple.simName == e.TrackMapDto.SimulatorSource && _currentTrackTuple.trackName == e.TrackMapDto.TrackName && _currentTrackTuple.layoutName == e.TrackMapDto.LayoutName)
             {
+                Logger.Info($"New Map is Available: {_currentTrackTuple.simName}, {_currentTrackTuple.trackName}, {_currentTrackTuple.layoutName}");
                 SituationOverviewControl = InitializeFullMap(e.TrackMapDto);
             }
         }
@@ -326,6 +330,7 @@
         {
             if (_currentTrackTuple.simName == e.TrackMapDto.SimulatorSource && _currentTrackTuple.trackName == e.TrackMapDto.TrackName && _currentTrackTuple.layoutName == e.TrackMapDto.LayoutName)
             {
+                Logger.Info($" Map Removed: {_currentTrackTuple.simName}, {_currentTrackTuple.trackName}, {_currentTrackTuple.layoutName}");
                 LoadCurrentMap();
             }
         }

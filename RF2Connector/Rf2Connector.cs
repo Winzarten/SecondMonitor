@@ -9,6 +9,7 @@
     using DataModel.Snapshot;
     using PluginManager.DependencyChecker;
     using PluginManager.GameConnector;
+    using PluginManager.Visitor;
     using SecondMonitor.PluginManager.GameConnector.SharedMemory;
     using SharedMemory;
     using SharedMemory.rFactor2Data;
