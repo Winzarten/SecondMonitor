@@ -35,7 +35,7 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string ExportDirectory
+        internal string ExportDirectory
         {
             get => (string)GetValue(ExportDirectoryProperty);
             set
