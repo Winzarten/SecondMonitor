@@ -7,6 +7,7 @@
 
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
+    using NLog;
     using PluginManager.DependencyChecker;
     using PluginManager.GameConnector;
     using PluginManager.Visitor;
@@ -17,6 +18,9 @@
     // Based on https://github.com/TheIronWolfModding/rF2SharedMemoryMapPlugin
     internal class Rf2Connector : AbstractGameConnector
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+
         private static readonly string[] RFExecutables = { "rFactor2" };
         private readonly TimeSpan _connectionTimeout = TimeSpan.FromSeconds(120);
         private readonly RF2DataConvertor _rf2DataConvertor;
@@ -134,8 +138,12 @@
                 {
                     dataSet = _rf2DataConvertor.CreateSimulatorDataSet(rFactorData);
                 }
-                catch (RF2InvalidPackageException)
+                catch (RF2InvalidPackageException ex)
                 {
+                    if (ex.InnerException != null)
+                    {
+                        Logger.Error(ex, "RF2Invalid Package Caused by Exception");
+                    }
                     continue;
                 }
 

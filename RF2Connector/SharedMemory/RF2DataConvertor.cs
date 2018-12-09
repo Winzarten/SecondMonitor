@@ -19,52 +19,60 @@
 
         public SimulatorDataSet CreateSimulatorDataSet(Rf2FullData rfData)
         {
-
-            SimulatorDataSet simData = new SimulatorDataSet("RFactor 2");
-            simData.SimulatorSourceInfo.HasLapTimeInformation = true;
-            simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
-            simData.SimulatorSourceInfo.InvalidateLapBySector = true;
-            simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
-
-            FillSessionInfo(rfData, simData);
-            AddDriversData(simData, rfData);
-
-            if (_lastPlayerId == -1)
+            try
             {
+
+                SimulatorDataSet simData = new SimulatorDataSet("RFactor 2");
+                simData.SimulatorSourceInfo.HasLapTimeInformation = true;
+                simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
+                simData.SimulatorSourceInfo.InvalidateLapBySector = true;
+                simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
+
+                FillSessionInfo(rfData, simData);
+                AddDriversData(simData, rfData);
+
+                if (_lastPlayerId == -1)
+                {
+                    return simData;
+
+                }
+
+
+                rF2VehicleTelemetry playerF2VehicleTelemetry =
+                    rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
+
+                FillPlayersGear(playerF2VehicleTelemetry, simData);
+
+                // PEDAL INFO
+                AddPedalInfo(playerF2VehicleTelemetry, simData);
+
+                // WaterSystemInfo
+                AddWaterSystemInfo(playerF2VehicleTelemetry, simData);
+
+                // OilSystemInfo
+                AddOilSystemInfo(playerF2VehicleTelemetry, simData);
+
+                // Brakes Info
+                AddBrakesInfo(playerF2VehicleTelemetry, simData);
+
+                // Tyre Pressure Info
+                AddTyresAndFuelInfo(simData, playerF2VehicleTelemetry);
+
+                // Acceleration
+                AddAcceleration(simData, playerF2VehicleTelemetry);
+
+                AddFlags(rfData, simData);
+
+                currentlyIgnoredPackage = 0;
+
+
                 return simData;
-
+            }catch(Exception ex)
+            {
+                _lastPlayerId = -1;
+                _lastPlayer = new DriverInfo();
+                throw new RF2InvalidPackageException(ex);
             }
-
-
-            rF2VehicleTelemetry playerF2VehicleTelemetry =
-                rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
-
-            FillPlayersGear(playerF2VehicleTelemetry, simData);
-
-            // PEDAL INFO
-            AddPedalInfo(playerF2VehicleTelemetry, simData);
-
-            // WaterSystemInfo
-            AddWaterSystemInfo(playerF2VehicleTelemetry, simData);
-
-            // OilSystemInfo
-            AddOilSystemInfo(playerF2VehicleTelemetry, simData);
-
-            // Brakes Info
-            AddBrakesInfo(playerF2VehicleTelemetry, simData);
-
-            // Tyre Pressure Info
-            AddTyresAndFuelInfo(simData, playerF2VehicleTelemetry);
-
-            // Acceleration
-            AddAcceleration(simData, playerF2VehicleTelemetry);
-
-            AddFlags(rfData, simData);
-
-            currentlyIgnoredPackage = 0;
-
-
-            return simData;
         }
 
         private void AddFlags(Rf2FullData rfData, SimulatorDataSet simData)
@@ -213,7 +221,7 @@
                     simData.PlayerInfo.CarInfo.CurrentGear = "R";
                     break;
                 case -2:
-                    simData.PlayerInfo.CarInfo.CurrentGear = String.Empty;
+                    simData.PlayerInfo.CarInfo.CurrentGear = string.Empty;
                     break;
                 default:
                     simData.PlayerInfo.CarInfo.CurrentGear = playerVehicleTelemetry.mGear.ToString();
