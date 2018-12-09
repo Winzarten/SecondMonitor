@@ -5,11 +5,12 @@
     using System.Xml;
     using System.Xml.Serialization;
     using DataModel.TrackMap;
+    using NLog;
 
     public class MapsLoader
     {
         private const string FileSuffix = ".xml";
-
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly XmlSerializer _xmlSerializer;
 
         public MapsLoader(string mapsPath)
@@ -21,6 +22,7 @@
         public bool TryLoadMap(string simulator, string trackName, out TrackMapDto trackMapDto)
         {
             string fullPathName = Path.Combine(Path.Combine(MapsPath, simulator), trackName + FileSuffix);
+            Logger.Info($"Trying to Load Map for Simulator {simulator}, track: {trackName}, path: {fullPathName} ");
             try
             {
                 using (TextReader file = File.OpenText(fullPathName))
@@ -31,8 +33,9 @@
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e, "Error Loading Map");
                 if (File.Exists(fullPathName))
                 {
                     File.Delete(fullPathName);
@@ -48,6 +51,7 @@
             string directory = Path.Combine(MapsPath, simulator);
             Directory.CreateDirectory(directory);
             string fullPathName = Path.Combine(directory, trackName + FileSuffix);
+            Logger.Info($"Trying to Save Map for Simulator {simulator}, track: {trackName}, path: {fullPathName} ");
             using (FileStream file = File.Exists(fullPathName) ? File.Open(fullPathName, FileMode.Truncate) : File.Create(fullPathName))
             {
                 _xmlSerializer.Serialize(file, trackMapDto);
@@ -58,6 +62,7 @@
         {
             string directory = Path.Combine(MapsPath, simulator);
             string fullPathName = Path.Combine(directory, trackName + FileSuffix);
+            Logger.Info($"Trying to Remove Map for Simulator {simulator}, track: {trackName}, path: {fullPathName} ");
             if (File.Exists(fullPathName))
             {
                 File.Delete(fullPathName);

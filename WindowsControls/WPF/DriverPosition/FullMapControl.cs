@@ -13,12 +13,13 @@
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using DataModel.TrackMap;
+    using NLog;
 
     public class FullMapControl : AbstractSituationOverviewControl
     {
 
         private readonly ITrackMap _trackMap;
-
+        Logger Logger = LogManager.GetCurrentClassLogger();
         private MapSidePanelControl _mapSidePanelControl;
         private Canvas _mainCanvas;
         private bool _autoScaleDriverControls;
@@ -236,6 +237,9 @@
 
         private void InitializeMap()
         {
+            Logger.Info("Creating Map");
+            Logger.Info($"Geometry: {_trackMap.TrackGeometry.FullMapGeometry}");
+            Logger.Info($"Decimal Separator: {CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}");
             ClipToBounds = true;
             ResourceDictionary resource = new ResourceDictionary();
             resource.Source = new Uri(@"pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml", UriKind.RelativeOrAbsolute);
@@ -243,11 +247,11 @@
 
             _mainCanvas = new Canvas();
 
-            Path mainPath = new Path {Stroke = (Brush) resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.FullMapGeometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator))};
-            _sector1Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector1Geometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)), Opacity = 0 };
-            _sector2Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector2Geometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)), Opacity = 0 };
-            _sector3Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector3Geometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)), Opacity = 0 };
-            Path finishLinePath = new Path { Stroke = (Brush)resource["LightBlueBrush"], StrokeThickness = 30, Data = Geometry.Parse(_trackMap.TrackGeometry.StartLineGeometry.Replace(".", CultureInfo.CurrentUICulture.NumberFormat.CurrencyDecimalSeparator)) };
+            Path mainPath = new Path {Stroke = (Brush) resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.FullMapGeometry)};
+            _sector1Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector1Geometry), Opacity = 0 };
+            _sector2Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector2Geometry), Opacity = 0 };
+            _sector3Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector3Geometry), Opacity = 0 };
+            Path finishLinePath = new Path { Stroke = (Brush)resource["LightBlueBrush"], StrokeThickness = 30, Data = Geometry.Parse(_trackMap.TrackGeometry.StartLineGeometry)};
 
             _mainCanvas.Children.Add(mainPath);
             _mainCanvas.Children.Add(_sector1Path);
