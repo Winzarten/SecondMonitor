@@ -1,7 +1,13 @@
 ﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
+    using System;
     using System.ComponentModel;
+    using System.Diagnostics;
+    using System.IO;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
+    using WindowsControls.WPF.Commands;
     using DataModel.BasicProperties;
     using DataModel.BasicProperties.FuelConsumption;
     using Model;
@@ -26,6 +32,8 @@
         private MapDisplaySettingsViewModel _mapDisplaySettingsViewModel;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand OpenLogDirectoryCommand => new RelayCommand(OpenLogDirectory);
 
         public TemperatureUnits TemperatureUnits
         {
@@ -259,6 +267,17 @@
                 AnimateDeltaTimes =  AnimateDeltaTimes,
                 MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel()
             };
+        }
+
+        private void OpenLogDirectory()
+        {
+            string reportDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SecondMonitor");
+            Task.Run(
+                () =>
+                {
+                    Process.Start(reportDirectory);
+                });
         }
 
         [NotifyPropertyChangedInvocator]

@@ -9,11 +9,26 @@
              xmlns:viewModel="clr-namespace:SecondMonitor.ViewModels.Settings.ViewModel;assembly=SecondMonitor.ViewModels"
              xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
              xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters;assembly=WindowsControls"
+             xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
         Title="SettingsView"
         WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight">
     <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Controls/TimingGridControl/TimingGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ComboboxStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelPlannerControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
         <converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
         <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
@@ -94,6 +109,7 @@
                 </DockPanel>
             </Border>
         </DataTemplate>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
@@ -155,19 +171,19 @@
             </GroupBox>
         </DockPanel>
         <DockPanel Grid.Column="2" Margin="5">
-            <GroupBox Header="Report Options" Foreground="White"  VerticalAlignment="Stretch" Width="313">
+            <GroupBox Header="Report Options" Foreground="White"  VerticalAlignment="Stretch" Width="313" DockPanel.Dock="Top">
                 <DockPanel>
-                    <GroupBox DockPanel.Dock="Top" Margin="0,8,0,0" Header="General" Height="145">
-                        <Grid Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
-                            <Label Margin="2,0,0,0" VerticalAlignment="Top" Foreground="White" Content="User Files Path:"/>
-                            <TextBox Margin="2,28,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" IsReadOnly="True" Text="{Binding ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            <Button Content="..." VerticalContentAlignment="Center" Margin="0,51,10,0" Height="21" HorizontalAlignment="Right" VerticalAlignment="Top"  Width="19" Command="{Binding Path=ReportingSettingsView.SelectExportDirCommand}"/>
-                            <Label Margin="0,51,170,0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Content="Maximum Reports:" Height="27"/>
-                            <xctk:IntegerUpDown HorizontalAlignment="Right"  Margin="0,53,124,0" VerticalAlignment="Top" Minimum="1" Maximum="100" Text="" Value="{Binding ReportingSettingsView.MaximumReports, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            </xctk:IntegerUpDown>
-                            <Label Margin="0,78,114,0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Content="Minimum Session (minutes):" Height="27" Width="165"/>
-                            <xctk:IntegerUpDown HorizontalAlignment="Right"  Margin="0,80,80,0" VerticalAlignment="Top" Minimum="1" Maximum="100" Text="" Value="{Binding ReportingSettingsView.MinimumSessionLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </Grid>
+                    <GroupBox DockPanel.Dock="Top" Margin="0,8,0,0" Header="General">
+                        <StackPanel Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Label HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Content="Maximum Reports:" Height="27"/>
+                                <xctk:IntegerUpDown HorizontalAlignment="Right" VerticalAlignment="Top" Minimum="1" Maximum="100" Text="" Value="{Binding ReportingSettingsView.MaximumReports, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Content="Minimum Session (minutes):" Height="27" Width="165"/>
+                                <xctk:IntegerUpDown HorizontalAlignment="Right"  VerticalAlignment="Top" Minimum="1" Maximum="100" Text="" Value="{Binding ReportingSettingsView.MinimumSessionLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
                     </GroupBox>
                     <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
                     <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettingsView.PracticeReportSettingsView}"></ContentPresenter>
@@ -182,6 +198,22 @@
                     <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettingsView.RaceReportSettingsView}"></ContentPresenter>
                 </DockPanel>
             </GroupBox>
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="BtnReset" Grid.Column="0" Height="55"
+                    Command="{Binding OpenLogDirectoryCommand}"
+                    Style="{StaticResource StandardButton}"
+                    ToolTip="Opens the log directory">
+                <Button.Content>
+                    <wpf:ColorAbleIcon Margin="5,5,5,5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                        <ContentPresenter Content="{StaticResource FolderIcon}" />
+                    </wpf:ColorAbleIcon>
+                </Button.Content>
+            </Button>
+            </Grid>
         </DockPanel>
     </Grid>
 </Window>

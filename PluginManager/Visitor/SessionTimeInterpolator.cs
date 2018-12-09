@@ -20,7 +20,7 @@
 
         public void Visit(SimulatorDataSet simulatorDataSet)
         {
-            /*if (simulatorDataSet.SessionInfo.SessionTime != _lastSessionTime)
+            if (simulatorDataSet.SessionInfo.SessionTime != _lastSessionTime)
             {
                 _lastSessionTime = simulatorDataSet.SessionInfo.SessionTime;
                 _stopwatch.Restart();
@@ -36,12 +36,12 @@
                 _lastInterpolation = _stopwatch.Elapsed;
             }
 
-            simulatorDataSet.SessionInfo.SessionTime = simulatorDataSet.SessionInfo.SessionTime + _lastInterpolation;*/
+            simulatorDataSet.SessionInfo.SessionTime = simulatorDataSet.SessionInfo.SessionTime + _lastInterpolation;
         }
 
         public TimeSpan ApplyInterpolation(TimeSpan timeSpan)
         {
-            return timeSpan;//; + _lastInterpolation;
+            return timeSpan + _lastInterpolation;
         }
 
         public void Reset()

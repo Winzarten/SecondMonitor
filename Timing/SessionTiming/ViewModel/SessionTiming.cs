@@ -274,6 +274,10 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             newDriver.LapCompleted += DriverOnLapCompleted;
             DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, TimingDataViewModel.DisplaySettingsViewModel, _driverPresentationsManager);
             Drivers.Add(newDriver.Name, newDriverTimingViewModel);
+            if (newDriver.IsPlayer)
+            {
+                CombinedLapPortionComparator.Driver = newDriver;
+            }
             RaiseDriverAddedEvent(newDriverTimingViewModel);
         }
 
