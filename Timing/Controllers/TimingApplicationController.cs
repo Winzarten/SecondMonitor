@@ -153,13 +153,13 @@ namespace SecondMonitor.Timing.Controllers
         private void CreateMapManagementController()
         {
             _mapManagementController = new MapManagementController(new TrackMapFromTelemetryFactory(TimeSpan.FromMilliseconds(_displaySettingsViewModel.MapDisplaySettingsViewModel.MapPointsInterval),100),
-                new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory, MapFolder)),
+                new MapsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, MapFolder)),
                 new TrackDtoManipulator());
         }
 
         private void CreateDriverPresentationManager()
         {
-            _driverPresentationsManager = new DriverPresentationsManager(new DriverPresentationsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectory, SettingsFolder)));
+            _driverPresentationsManager = new DriverPresentationsManager(new DriverPresentationsLoader(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, SettingsFolder)));
         }
 
         private void OpenSettingsWindow()
