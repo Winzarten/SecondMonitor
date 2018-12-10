@@ -1,5 +1,6 @@
-﻿namespace SecondMonitor.DataModel.BasicProperties.Tests
+﻿namespace SecondMonitor.DataModelTests.BasicProperties
 {
+    using DataModel.BasicProperties;
     using NUnit.Framework;
 
     [TestFixture]
