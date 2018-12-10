@@ -39,14 +39,8 @@
       <Component Id="myapplication.exe" Directory="APPLICATIONROOTDIRECTORY" Guid="c99525a0-e8e2-4e69-abf1-62c90e00201c">
         <File Id="filemyapplication.exe" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe"/>
       </Component>
-      <Component Id="cmp2868120D4264DC206F6C8D8B768491B7" Directory="APPLICATIONROOTDIRECTORY" Guid="f48adf3e-198d-4139-8721-a369ee3fbae5">
-        <File Id="fil963D638FA2DE23743A69E9B68CEE6BB6" KeyPath="yes" Source="..\Deployment\AGauge.dll" />
-      </Component>
       <Component Id="cmpA5CBA5AEBA67AF3740096B2C71AA5E30" Directory="APPLICATIONROOTDIRECTORY" Guid="b957aee4-905f-4894-8044-abce46beade4">
         <File Id="fil82C32F720D16C0F30EB4769A24E1D5A1" KeyPath="yes" Source="..\Deployment\DataModel.dll" />
-      </Component>
-      <Component Id="cmp5F5AF01C9C167A061943BE1B97309D29" Directory="APPLICATIONROOTDIRECTORY" Guid="1ab8a162-b020-423f-969f-b93b861d6b95">
-        <File Id="fil31680B1E52306E3391EF0F687D0EE629" KeyPath="yes" Source="..\Deployment\LCDLabel.dll" />
       </Component>
       <Component Id="cmp2BE70F4303347811DB70BB7ED092F617" Directory="APPLICATIONROOTDIRECTORY" Guid="d62baf83-45c5-46be-9c52-cf7d1ffd7bd6">
         <File Id="filFEF582307CF918B5B695B3D806851C75" KeyPath="yes" Source="..\Deployment\Newtonsoft.Json.dll" />
