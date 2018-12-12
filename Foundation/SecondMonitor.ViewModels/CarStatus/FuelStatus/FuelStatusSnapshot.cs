@@ -22,4 +22,4 @@
         public double TotalDistance { get; }
 
     }
-}
+}       
