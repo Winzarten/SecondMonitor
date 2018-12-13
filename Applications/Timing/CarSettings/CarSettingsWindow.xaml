@@ -25,6 +25,6 @@
                                                TemperatureUnit="{Binding TemperatureUnits}" PressureUnits="{Binding PressureUnits}"
                                                MinimalIdealBrakeTemperature="{Binding CarModelPropertiesViewModel.MinimalOptimalBrakeTemperature}" MaximumIdealBrakeTemperature="{Binding CarModelPropertiesViewModel.MaximumOptimalBrakeTemperature}"
                                                TyreCompounds="{Binding TyreSettingsViewModels}" SelectedTyreCompound="{Binding SelectedTyreSettingsViewModel}" CopyCompoundCommand="{Binding CopyCompoundToLocalCommand}"
-                                               WheelRotation="{Binding CarModelPropertiesViewModel.WheelRotation}"/>
+                                               WheelRotation="{Binding CarModelPropertiesViewModel.WheelRotation, Mode=TwoWay}"/>
     </Grid>
 </Window>

@@ -19,7 +19,7 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
         public FuelConsumptionInfo(Volume consumedFuel, TimeSpan elapsedTime, double traveledDistance)
         :this(consumedFuel, elapsedTime, Distance.FromMeters(traveledDistance))
         {
-         
+
         }
 
         public FuelConsumptionInfo(Volume consumedFuel, TimeSpan elapsedTime, Distance traveledDistance)

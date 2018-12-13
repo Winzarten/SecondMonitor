@@ -152,6 +152,11 @@ namespace SecondMonitor.ViewModels.CarStatus.FuelStatus
                 return;
             }
 
+            if (simulatorDataSet?.PlayerInfo.CarInfo.FuelSystemInfo.FuelRemaining.InLiters <= 0)
+            {
+                return;
+            }
+
             if (_lastTickFuelStatus?.SessionTime == simulatorDataSet.SessionInfo.SessionTime)
             {
                 return;

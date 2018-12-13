@@ -99,7 +99,7 @@
                                                    FontSize="{StaticResource NormalFontSize}"
                                                    Text="Wheel Rotation:" />
                                         <TextBox Margin="5,5,5,5" Style="{StaticResource StandardTextBox}" Text="{Binding WheelRotation  ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntegerToStringConverter}}" MinWidth="40"
-                                                 ToolTip="Wear in % (0 = no wear). If tyre wear is below this limit, then the tyres will be considered in perfect condition."/>
+                                                 ToolTip="Wheel Rotation Range in degrees"/>
                                     </StackPanel>
                                 </Border>
                                 <StackPanel Grid.Row="2">

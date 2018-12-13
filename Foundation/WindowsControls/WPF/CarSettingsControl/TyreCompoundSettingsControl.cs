@@ -8,13 +8,7 @@
 
     public class TyreCompoundSettingsControl : Control
     {
-        private static readonly DependencyProperty CompoundNameProperty = DependencyProperty.Register("CompoundName", typeof(string), typeof(TyreCompoundSettingsControl), new PropertyMetadata() {PropertyChangedCallback = OnPropertyChanged});
-
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-
+        private static readonly DependencyProperty CompoundNameProperty = DependencyProperty.Register("CompoundName", typeof(string), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty TemperatureUnitProperties = DependencyProperty.Register("TemperatureUnit", typeof(TemperatureUnits), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty PressureUnitsProperty = DependencyProperty.Register("PressureUnits", typeof(PressureUnits), typeof(TyreCompoundSettingsControl));
         private static readonly DependencyProperty MinimalIdealTyreTemperatureProperty = DependencyProperty.Register("MinimalIdealTyreTemperature", typeof(Temperature), typeof(TyreCompoundSettingsControl));
