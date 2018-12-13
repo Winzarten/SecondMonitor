@@ -3,54 +3,54 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{30DEA773-F579-4A77-9C73-3D58C81612D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "Foundation\DataModel\DataModel.csproj", "{30DEA773-F579-4A77-9C73-3D58C81612D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{9CB31996-7FF5-4BB2-AAF7-5A9A88AADC48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Foundation\Launcher\Launcher.csproj", "{9CB31996-7FF5-4BB2-AAF7-5A9A88AADC48}"
 	ProjectSection(ProjectDependencies) = postProject
 		{30DEA773-F579-4A77-9C73-3D58C81612D0} = {30DEA773-F579-4A77-9C73-3D58C81612D0}
 		{E61DBD85-BC10-4ABD-9C0B-22770399DE70} = {E61DBD85-BC10-4ABD-9C0B-22770399DE70}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginManager", "PluginManager\PluginManager.csproj", "{E61DBD85-BC10-4ABD-9C0B-22770399DE70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginManager", "Foundation\PluginManager\PluginManager.csproj", "{E61DBD85-BC10-4ABD-9C0B-22770399DE70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R3EConnector", "R3EConnector\R3EConnector.csproj", "{060ADE67-1E25-42AE-B164-1477162745BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R3EConnector", "Connectors\R3EConnector\R3EConnector.csproj", "{060ADE67-1E25-42AE-B164-1477162745BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCarsConnector", "PCarsConnector\PCarsConnector.csproj", "{B8CBD252-5867-4AB6-9166-0751A52D2155}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCarsConnector", "Connectors\PCarsConnector\PCarsConnector.csproj", "{B8CBD252-5867-4AB6-9166-0751A52D2155}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing.Application", "Timing\Timing.Application.csproj", "{0997A624-2B5E-455F-98BF-8A1A5BAFA00E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing.Application", "Applications\Timing\Timing.Application.csproj", "{0997A624-2B5E-455F-98BF-8A1A5BAFA00E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7A5D6D7A-39B3-43E9-B0CF-EFCEC6578224} = {7A5D6D7A-39B3-43E9-B0CF-EFCEC6578224}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsControls", "WindowsControls\WindowsControls.csproj", "{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsControls", "Foundation\WindowsControls\WindowsControls.csproj", "{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockedConnector", "MockedConnector\MockedConnector.csproj", "{93ED0FE3-E7C1-4419-9B05-AC15B8332211}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockedConnector", "Connectors\MockedConnector\MockedConnector.csproj", "{93ED0FE3-E7C1-4419-9B05-AC15B8332211}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WixInstaller", "WixInstaller\WixInstaller.wixproj", "{9F42D4D5-96F5-4741-BC37-8FC6C950FD31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExport", "XslxExport\XslxExport.csproj", "{7A5D6D7A-39B3-43E9-B0CF-EFCEC6578224}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExport", "Applications\XslxExport\XslxExport.csproj", "{7A5D6D7A-39B3-43E9-B0CF-EFCEC6578224}"
 	ProjectSection(ProjectDependencies) = postProject
 		{30DEA773-F579-4A77-9C73-3D58C81612D0} = {30DEA773-F579-4A77-9C73-3D58C81612D0}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExportTests", "XslxExportTests\XslxExportTests.csproj", "{02F2803B-39F3-4C65-869D-80601D149954}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslxExportTests", "Tests\XslxExportTests\XslxExportTests.csproj", "{02F2803B-39F3-4C65-869D-80601D149954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModelTests", "DataModelTests\DataModelTests.csproj", "{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModelTests", "Tests\DataModelTests\DataModelTests.csproj", "{EA58C6D7-1F9F-4A81-8461-5562C1A988F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFactorConnector", "RFactorConnector\RFactorConnector.csproj", "{409B8A90-DBEE-4EC7-8C19-8867012A25A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFactorConnector", "Connectors\RFactorConnector\RFactorConnector.csproj", "{409B8A90-DBEE-4EC7-8C19-8867012A25A5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{30DEA773-F579-4A77-9C73-3D58C81612D0} = {30DEA773-F579-4A77-9C73-3D58C81612D0}
 		{E61DBD85-BC10-4ABD-9C0B-22770399DE70} = {E61DBD85-BC10-4ABD-9C0B-22770399DE70}
 		{9CB31996-7FF5-4BB2-AAF7-5A9A88AADC48} = {9CB31996-7FF5-4BB2-AAF7-5A9A88AADC48}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RF2Connector", "RF2Connector\RF2Connector.csproj", "{427B24C7-51F1-4189-ACA0-B76BB3C93B12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RF2Connector", "Connectors\RF2Connector\RF2Connector.csproj", "{427B24C7-51F1-4189-ACA0-B76BB3C93B12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry", "Telemetry\Telemetry.csproj", "{2A31197A-A648-49F3-B15E-CA8249E7F979}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry", "Applications\Telemetry\Telemetry.csproj", "{2A31197A-A648-49F3-B15E-CA8249E7F979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssettoCorsaConnector", "AssettoCorsaConnector\AssettoCorsaConnector.csproj", "{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssettoCorsaConnector", "Connectors\AssettoCorsaConnector\AssettoCorsaConnector.csproj", "{E86CDCEF-7A81-4CCD-83C6-0899B42E2EBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlTestingApp", "ControlTestingApp\ControlTestingApp.csproj", "{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlTestingApp", "Tests\ControlTestingApp\ControlTestingApp.csproj", "{F441147B-8EA3-4A32-8E04-D8F6DA89E95F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", "{3317499C-3F30-45BA-80A4-C8FB1F24D512}"
 EndProject
@@ -60,13 +60,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Foundation", "Foundation", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{F8D0D3D2-9722-44E1-B842-1F8894C7085D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondMonitor.ViewModels", "SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj", "{B43064B9-D120-4DD9-9902-E2B8F6006985}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondMonitor.ViewModels", "Foundation\SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj", "{B43064B9-D120-4DD9-9902-E2B8F6006985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCars2Connector", "PCars2Connector\PCars2Connector.csproj", "{0113F513-66EE-4789-9ED8-DE8305B2AA59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCars2Connector", "Connectors\PCars2Connector\PCars2Connector.csproj", "{0113F513-66EE-4789-9ED8-DE8305B2AA59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimdataManagement", "SimdataManagement\SimdataManagement.csproj", "{8971F71E-CF2E-40F8-B881-3F45EB8ECC9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimdataManagement", "Applications\SimdataManagement\SimdataManagement.csproj", "{8971F71E-CF2E-40F8-B881-3F45EB8ECC9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{55275247-8D2E-421F-AB35-4BA77449B05A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Foundation\Contracts\Contracts.csproj", "{55275247-8D2E-421F-AB35-4BA77449B05A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
