@@ -31,8 +31,6 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
 
         public bool CurrentLapValid { get; set; }
 
-        public Velocity Speed { get; set; } = Velocity.Zero;
-
         public double LapDistance { get; set; }
 
         public double TotalDistance { get; set; }
@@ -52,5 +50,7 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
         public Point3D WorldPosition { get; set; } = new Point3D(Distance.ZeroDistance, Distance.ZeroDistance, Distance.ZeroDistance);
 
         public DriverDebugInfo DriverDebugInfo { get; } = new DriverDebugInfo();
+
+        public Velocity Speed { get; set; } = Velocity.Zero;
     }
 }

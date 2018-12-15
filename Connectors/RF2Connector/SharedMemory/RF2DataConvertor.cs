@@ -41,7 +41,7 @@
                 rF2VehicleTelemetry playerF2VehicleTelemetry =
                     rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
 
-                FillPlayersGear(playerF2VehicleTelemetry, simData);
+                FillPlayerCarInfo(playerF2VehicleTelemetry, simData);
 
                 // PEDAL INFO
                 AddPedalInfo(playerF2VehicleTelemetry, simData);
@@ -210,8 +210,9 @@
         }
 
 
-        private static void FillPlayersGear(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
+        private static void FillPlayerCarInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
+            simData.PlayerInfo.CarInfo.EngineRpm = (int)playerVehicleTelemetry.mEngineRPM;
             switch (playerVehicleTelemetry.mGear)
             {
                 case 0:

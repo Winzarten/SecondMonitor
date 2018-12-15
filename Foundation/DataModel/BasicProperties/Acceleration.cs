@@ -40,10 +40,13 @@
             set => ZinMs = value * GConst;
         }
 
+        [XmlAttribute]
         public double XinMs { get; set; }
 
+        [XmlAttribute]
         public double YinMs { get; set; }
 
+        [XmlAttribute]
         public double ZinMs { get; set; }
     }
 }

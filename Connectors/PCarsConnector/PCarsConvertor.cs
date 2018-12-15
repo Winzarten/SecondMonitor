@@ -185,7 +185,7 @@
             FillSessionInfo(data, simData, lastTickDuration);
             AddDriversData(data, simData);
 
-            FillPlayersGear(data, simData);
+            FillPlayerCarInfo(data, simData);
 
             // WaterSystemInfo
             simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature =
@@ -249,8 +249,9 @@
             return simData;
         }
 
-        private static void FillPlayersGear(PCarsApiStruct data, SimulatorDataSet simData)
+        private static void FillPlayerCarInfo(PCarsApiStruct data, SimulatorDataSet simData)
         {
+            simData.PlayerInfo.CarInfo.EngineRpm = (int)data.MRpm;
             switch (data.MGear)
             {
                 case 0:

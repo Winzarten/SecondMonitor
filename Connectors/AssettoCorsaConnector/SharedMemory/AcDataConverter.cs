@@ -41,7 +41,7 @@
             FillSessionInfo(acData, simData);
             AddDriversData(simData, acData);
 
-            FillPlayersGear(acData, simData);
+            FillPlayerCarInfo(acData, simData);
 
             // PEDAL INFO
             AddPedalInfo(acData, simData);
@@ -64,6 +64,12 @@
 
             _startObserver.Observe(simData);
             return simData;
+        }
+
+        private void FillPlayerCarInfo(AssettoCorsaShared acData, SimulatorDataSet simData)
+        {
+            FillPlayersGear(acData, simData);
+            simData.PlayerInfo.CarInfo.EngineRpm = acData.AcsPhysics.rpms;
         }
 
         private static void AddAcceleration(SimulatorDataSet simData, AssettoCorsaShared acData)

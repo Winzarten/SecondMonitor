@@ -3,7 +3,8 @@
                     xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors"
                     xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl">
+                    xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl"
+                    xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../CommonResources.xaml" />
         <ResourceDictionary Source="../ButtonStyles.xaml" />
@@ -108,11 +109,30 @@
                         </Grid>
                         <Border Grid.Row="1" BorderBrush="{StaticResource DarkGrey05Brush}"
                                 BorderThickness="2" CornerRadius="2">
-                            <TextBlock HorizontalAlignment="Center"
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <quantityText:VelocityText Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                              FontSize="{StaticResource NormalFontSize}"
+                                                              FontWeight="Bold"
+                                                              Foreground="{StaticResource LightGrey01Brush}"
+                                                              Quantity="{Binding Speed, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                              VelocityUnits="{Binding VelocityUnits, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                <TextBlock HorizontalAlignment="Center" Grid.Column="1"
                                        FontSize="{StaticResource GearIndicationFontSize}"
                                        FontWeight="Bold"
                                        Style="{StaticResource StandardText}"
                                        Text="{Binding Gear, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <TextBlock HorizontalAlignment="Center" Grid.Column="2" VerticalAlignment="Center"
+                                           FontSize="{StaticResource NormalFontSize}"
+                                           FontWeight="Bold"
+                                           Style="{StaticResource StandardText}"
+                                           Text="{Binding Rpm, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Grid>
                         </Border>
                     </Grid>
                 </ControlTemplate>

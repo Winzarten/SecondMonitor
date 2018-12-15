@@ -316,7 +316,7 @@
             FillSessionInfo(data, simData);
             AddDriversData(simData, data);
 
-            FillPlayersGear(data, simData);
+            FillPlayerCarInfo(data, simData);
 
             // PEDAL INFO
             AddPedalInfo(data, simData);
@@ -360,8 +360,9 @@
             }
         }
 
-        private static void FillPlayersGear(R3ESharedData data, SimulatorDataSet simData)
+        private static void FillPlayerCarInfo(R3ESharedData data, SimulatorDataSet simData)
         {
+            simData.PlayerInfo.CarInfo.EngineRpm = (int)(data.EngineRps / 0.104719755);
             switch (data.Gear)
             {
                 case 0:
