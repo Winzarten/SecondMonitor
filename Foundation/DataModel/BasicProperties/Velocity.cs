@@ -15,11 +15,16 @@
             InMs = ms;
         }
 
-        public double InKph => InMs * 3.6;
+        [XmlAttribute]
+        public double InKph
+        {
+            get => InMs * 3.6;
+            set => InMs = value / 3.6;
+        }
 
         [JsonIgnore]
         [XmlIgnore]
-        public double InMs { get; }
+        public double InMs { get; set; }
 
         [JsonIgnore]
         [XmlIgnore]

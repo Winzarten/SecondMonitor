@@ -335,7 +335,10 @@
                                                                    ClutchPercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ClutchPercentage}"
                                                                    Gear="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Gear}"
                                                                    ThrottlePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ThrottlePercentage}"
-                                                                   WheelRotation="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.WheelRotation}"/>
+                                                                   WheelRotation="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.WheelRotation}"
+                                                                   VelocityUnits="{Binding Path=DisplaySettingsViewModel.VelocityUnits}"
+                                                                   Rpm="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Rpm}"
+                                                                   Speed="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Speed}"/>
                                 </Border>
                                 <Border Grid.Column="1"
                                         BorderBrush="{StaticResource Anthracite01Brush}"

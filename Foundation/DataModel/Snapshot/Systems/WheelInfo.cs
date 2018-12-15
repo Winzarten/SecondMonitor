@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
     using System;
-
+    using System.Xml.Serialization;
     using BasicProperties;
 
     [Serializable]
@@ -54,8 +54,9 @@
 
         public OptimalQuantity<Pressure> TyrePressure { get; set; }
 
-
+        [XmlAttribute]
         public string TyreType { get; set; }
+
 
         public TyreWear TyreWear { get; set; }
 

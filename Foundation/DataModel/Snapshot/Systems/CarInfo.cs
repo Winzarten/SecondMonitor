@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
     using System;
-
+    using System.Xml.Serialization;
     using BasicProperties;
 
     [Serializable]
@@ -26,7 +26,11 @@
 
         public Acceleration Acceleration { get; set; }
 
+        [XmlAttribute]
         public string CurrentGear { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        public int EngineRpm { get; set; } = 0;
 
     }
 }

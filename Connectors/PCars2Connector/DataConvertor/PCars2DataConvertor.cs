@@ -24,7 +24,7 @@
             FillSessionInfo(pcarsData, simData, sessionTime);
             AddDriversData(simData, pcarsData);
 
-            FillPlayersGear(pcarsData, simData);
+            FillPlayerCarInfo(pcarsData, simData);
 
             // PEDAL INFO
             AddPedalInfo(pcarsData, simData);
@@ -177,8 +177,9 @@
         }
 
 
-        private static void FillPlayersGear(PCars2SharedMemory data, SimulatorDataSet simData)
+        private static void FillPlayerCarInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
+            simData.PlayerInfo.CarInfo.EngineRpm = (int)data.mRpm;
             switch (data.mGear)
             {
                 case 0:

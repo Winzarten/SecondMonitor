@@ -27,7 +27,7 @@
             FillSessionInfo(rfData, simData);
             AddDriversData(simData, rfData);
 
-            FillPlayersGear(rfData, simData);
+            FillPlayerCarInfo(rfData, simData);
 
             // PEDAL INFO
             AddPedalInfo(rfData, simData);
@@ -156,8 +156,9 @@
         }
 
 
-        private static void FillPlayersGear(RfShared data, SimulatorDataSet simData)
+        private static void FillPlayerCarInfo(RfShared data, SimulatorDataSet simData)
         {
+            simData.PlayerInfo.CarInfo.EngineRpm = (int)data.EngineRPM;
             switch (data.Gear)
             {
                 case 0:

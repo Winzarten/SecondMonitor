@@ -158,6 +158,7 @@
     <Compile Include="WPF\QuantityText\DistanceText.cs" />
     <Compile Include="WPF\QuantityText\FuelPerDistanceText.cs" />
     <Compile Include="WPF\QuantityText\PressureText.cs" />
+    <Compile Include="WPF\QuantityText\VelocityText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
     <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />
     <Compile Include="WPF\VisualHelper.cs" />

@@ -73,6 +73,10 @@
         <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
     </Style>
 
+    <Style TargetType="local:VelocityText">
+        <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
+    </Style>
+
     <Style TargetType="local:DistanceText">
         <Setter Property="Template" Value="{StaticResource QuantityScalableDecimalsText}" />
     </Style>

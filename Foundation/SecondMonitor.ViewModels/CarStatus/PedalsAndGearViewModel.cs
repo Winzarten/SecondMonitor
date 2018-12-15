@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
+    using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using Properties;
 
@@ -25,6 +25,10 @@
                 NotifyPropertyChanged();
             }
         }
+
+        public Velocity Speed { get; private set; }
+
+        public int Rpm { get; private set; }
 
         public double WheelRotation
         {
@@ -93,6 +97,10 @@
             {
                 _clutchPercentage = dataSet.InputInfo.ClutchPedalPosition * 100;
             }
+
+            Speed = dataSet.PlayerInfo.Speed;
+            Rpm = dataSet.PlayerInfo.CarInfo.EngineRpm;
+
 
             _wheelRotation = dataSet.InputInfo.WheelAngle;
             _gear = dataSet.PlayerInfo.CarInfo.CurrentGear;
