@@ -30,10 +30,21 @@
         private bool _animateDriverPosition;
         private bool _animateDeltaTimes;
         private MapDisplaySettingsViewModel _mapDisplaySettingsViewModel;
+        private TelemetrySettingsViewModel _telemetrySettingsViewModel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand OpenLogDirectoryCommand => new RelayCommand(OpenLogDirectory);
+
+        public TelemetrySettingsViewModel TelemetrySettingsViewModel
+        {
+            get => _telemetrySettingsViewModel;
+            set
+            {
+                _telemetrySettingsViewModel = value;
+                OnPropertyChanged();
+            }
+        }
 
         public TemperatureUnits TemperatureUnits
         {
@@ -245,6 +256,9 @@
 
             ReportingSettingsView = new ReportingSettingsViewModel();
             ReportingSettingsView.FromModel(settings.ReportingSettings);
+
+            TelemetrySettingsViewModel = new TelemetrySettingsViewModel();
+            TelemetrySettingsViewModel.FromModel(settings.TelemetrySettings);
         }
 
         public DisplaySettings ToModel()
@@ -265,7 +279,8 @@
                 ReportingSettings = ReportingSettingsView.ToModel(),
                 AnimateDriversPosition =  AnimateDriversPosition,
                 AnimateDeltaTimes =  AnimateDeltaTimes,
-                MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel()
+                MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel(),
+                TelemetrySettings = TelemetrySettingsViewModel.SaveToNewModel()
             };
         }
 

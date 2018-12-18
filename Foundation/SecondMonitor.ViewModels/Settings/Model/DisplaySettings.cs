@@ -42,6 +42,8 @@
         public ReportingSettings ReportingSettings { get; set; } = new ReportingSettings();
 
         public MapDisplaySettings MapDisplaySettings { get; set; } = new MapDisplaySettings();
+
+        public TelemetrySettings TelemetrySettings { get; set; } = new TelemetrySettings();
     }
 
 }

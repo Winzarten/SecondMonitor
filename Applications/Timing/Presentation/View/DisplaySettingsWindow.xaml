@@ -1,16 +1,17 @@
 ﻿<Window x:Class="SecondMonitor.Timing.Presentation.View.DisplaySettingsWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:viewModel="clr-namespace:SecondMonitor.ViewModels.Settings.ViewModel;assembly=SecondMonitor.ViewModels"
-             xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
-             xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters;assembly=WindowsControls"
-             xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
+        xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:viewModel="clr-namespace:SecondMonitor.ViewModels.Settings.ViewModel;assembly=SecondMonitor.ViewModels"
+        xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
+        xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters;assembly=WindowsControls"
+        xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
         Title="SettingsView"
         WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight">
@@ -19,200 +20,320 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Controls/TimingGridControl/TimingGrid.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ComboboxStyles.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelPlannerControl.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelPlannerControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-        <converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
-        <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
-                            ObjectType="{x:Type system:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dmBasicProperties:TemperatureUnits"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="DataFromPressureEnum" MethodName="GetValues"
-                            ObjectType="{x:Type system:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dmBasicProperties:PressureUnits"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="DataFromVolumeEnum" MethodName="GetValues"
-                            ObjectType="{x:Type system:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dmBasicProperties:VolumeUnits"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="DataFromFuelEnum" MethodName="GetValues"
-                            ObjectType="{x:Type system:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dmBasicProperties:FuelCalculationScope"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="DataFromVelocityEnum" MethodName="GetValues"
-                            ObjectType="{x:Type system:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="dmBasicProperties:VelocityUnits"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="DataFromDisplayModeEnum" MethodName="GetValues"
-                            ObjectType="{x:Type system:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="model:DisplayModeEnum"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <DataTemplate DataType="{x:Type viewModel:SessionOptionsViewModel}">
-            <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
-                <Grid>
-                    <ComboBox  HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}" SelectedItem="{Binding TimesDisplayMode}"/>
-                    <ComboBox  HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}" SelectedItem="{Binding OrderingMode}"/>
-                    <Label Content="Drivers Order" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <Label Content="Display Times" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <Grid Background="Black" HorizontalAlignment="Stretch" Margin="130,5,5,0">
-                        <DockPanel>
-                            <DockPanel DockPanel.Dock="Top">
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Position" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Position.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Name" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Name.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Car" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.CarName.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Completed Laps" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.CompletedLaps.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Last Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.LastLapTime.Visible}"></CheckBox>
+            <converters:IntegerToStringConverter x:Key="IntegerToStringConverter" />
+            <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="dmBasicProperties:TemperatureUnits" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataFromPressureEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="dmBasicProperties:PressureUnits" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataFromVolumeEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="dmBasicProperties:VolumeUnits" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataFromFuelEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="dmBasicProperties:FuelCalculationScope" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataFromVelocityEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="dmBasicProperties:VelocityUnits" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataFromDisplayModeEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="model:DisplayModeEnum" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <DataTemplate DataType="{x:Type viewModel:SessionOptionsViewModel}">
+                <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
+                    <Grid>
+                        <ComboBox HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
+                                  SelectedItem="{Binding TimesDisplayMode}" />
+                        <ComboBox HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
+                                  SelectedItem="{Binding OrderingMode}" />
+                        <Label Content="Drivers Order" HorizontalAlignment="Left" Margin="6,0,0,0"
+                               VerticalAlignment="Top" Foreground="White" />
+                        <Label Content="Display Times" HorizontalAlignment="Left" Margin="10,48,0,0"
+                               VerticalAlignment="Top" Foreground="White" />
+                        <Grid Background="Black" HorizontalAlignment="Stretch" Margin="130,5,5,0">
+                            <DockPanel>
+                                <DockPanel DockPanel.Dock="Top">
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Position"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.Position.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Name"
+                                              Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Name.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Car" Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.CarName.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Completed Laps"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.CompletedLaps.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Last Lap Time"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.LastLapTime.Visible}" />
+                                </DockPanel>
+                                <DockPanel DockPanel.Dock="Top">
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pace"
+                                              Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Pace.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Best Lap Time"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.BestLap.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Current Lap Time"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.CurrentLapProgressTime.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pit Info"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.LastPitInfo.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Gap to Player"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.TimeToPlayer.Visible}" />
+                                </DockPanel>
+                                <DockPanel DockPanel.Dock="Top">
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Top Speed"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.TopSpeed.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 1"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.Sector1.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 2"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.Sector2.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 3"
+                                              Margin="10,0,0,10"
+                                              IsChecked="{Binding ColumnsSettingsView.Sector3.Visible}" />
+                                </DockPanel>
                             </DockPanel>
-                            <DockPanel DockPanel.Dock="Top">
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pace" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Pace.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Best Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.BestLap.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Current Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.CurrentLapProgressTime.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pit Info" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.LastPitInfo.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Gap to Player" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.TimeToPlayer.Visible}"></CheckBox>
-                            </DockPanel>
-                            <DockPanel DockPanel.Dock="Top">
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Top Speed" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.TopSpeed.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 1" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector1.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 2" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector2.Visible}"></CheckBox>
-                                <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 3" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector3.Visible}"></CheckBox>
-                            </DockPanel>
-                        </DockPanel>
 
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Border>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:SessionReportSettingsViewModel}">
-            <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
-                <DockPanel>
-                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="- Export" Margin="10,8,0,10" IsChecked="{Binding Export}" HorizontalContentAlignment="Left" ></CheckBox>
-                    <CheckBox DockPanel.Dock="Right" Foreground="White" Content="- Auto Open" Margin="10,8,0,10" IsChecked="{Binding AutoOpen}" HorizontalContentAlignment="Left"></CheckBox>
-                </DockPanel>
-            </Border>
-        </DataTemplate>
+                </Border>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:SessionReportSettingsViewModel}">
+                <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
+                    <DockPanel>
+                        <CheckBox DockPanel.Dock="Left" Foreground="White" Content="- Export" Margin="10,8,0,10"
+                                  IsChecked="{Binding Export}" HorizontalContentAlignment="Left" />
+                        <CheckBox DockPanel.Dock="Right" Foreground="White" Content="- Auto Open" Margin="10,8,0,10"
+                                  IsChecked="{Binding AutoOpen}" HorizontalContentAlignment="Left" />
+                    </DockPanel>
+                </Border>
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Margin="5">
-            <GroupBox Header="Timing Grid" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" DockPanel.Dock="Top">
+            <GroupBox Header="Timing Grid" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"
+                      Width="150" DockPanel.Dock="Top">
                 <StackPanel Margin="0,0,0,5">
-                    <Label Content="Pace Laps:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
-                    <xctk:IntegerUpDown x:Name="UpDownPaceLaps" VerticalAlignment="Top" Minimum="1" Maximum="10" Text="" Value="{Binding PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    </xctk:IntegerUpDown>
-                    <Label Content="Refresh Rate:" HorizontalAlignment="Left"  VerticalAlignment="Top" Foreground="White"/>
-                    <xctk:IntegerUpDown x:Name="UpDownRefreshRate" VerticalAlignment="Top" Minimum="50" Maximum="5000" Text="" Value="{Binding RefreshRate}" Increment="50">
-                    </xctk:IntegerUpDown>
-                    <CheckBox Content="Scroll to Player" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding ScrollToPlayer}"></CheckBox>
-                    <CheckBox Content="Animate Delta Bar" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDeltaTimes}" ToolTip="Enables and Disables the fluid animation of delta times bars. Disable to lower CPU usage of application."></CheckBox>
+                    <Label Content="Pace Laps:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" />
+                    <xctk:IntegerUpDown x:Name="UpDownPaceLaps" VerticalAlignment="Top" Minimum="1" Maximum="10"
+                                        Text=""
+                                        Value="{Binding PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Label Content="Refresh Rate:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Foreground="White" />
+                    <xctk:IntegerUpDown x:Name="UpDownRefreshRate" VerticalAlignment="Top" Minimum="50" Maximum="5000"
+                                        Text="" Value="{Binding RefreshRate}" Increment="50" />
+                    <CheckBox Content="Scroll to Player" Foreground="White" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding ScrollToPlayer}" />
+                    <CheckBox Content="Animate Delta Bar" Foreground="White" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDeltaTimes}"
+                              ToolTip="Enables and Disables the fluid animation of delta times bars. Disable to lower CPU usage of application." />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Map Options" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Top">
+            <GroupBox Header="Map Options" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      DockPanel.Dock="Top">
                 <StackPanel Margin="0,0,0,5">
-                    <CheckBox Content="Animate Drivers Pos." Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDriversPosition}" ToolTip="Enables and Disables the fluid animation of drivers in the circle maps. Disable to lower CPU usage of application."></CheckBox>
-                    <CheckBox Content="Scale Drivers" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding MapDisplaySettingsViewModel.AutoScaleDrivers}" ToolTip="Sets if drivers icons should be scaled with the map. If checked the drivers icons will always be the same size. If unchecked driver icon will always be with scale to the map - always 25 meters."></CheckBox>
-                    <CheckBox Content="Keep Map Ratio" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding MapDisplaySettingsViewModel.KeepMapRatio}" ToolTip="If enabled the map will always keep the ration. If unchecked the map will fill the whole available space, at the cost of distortion."></CheckBox>
+                    <CheckBox Content="Animate Drivers Pos." Foreground="White" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDriversPosition}"
+                              ToolTip="Enables and Disables the fluid animation of drivers in the circle maps. Disable to lower CPU usage of application." />
+                    <CheckBox Content="Scale Drivers" Foreground="White" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Margin="0,10,0,0"
+                              IsChecked="{Binding MapDisplaySettingsViewModel.AutoScaleDrivers}"
+                              ToolTip="Sets if drivers icons should be scaled with the map. If checked the drivers icons will always be the same size. If unchecked driver icon will always be with scale to the map - always 25 meters." />
+                    <CheckBox Content="Keep Map Ratio" Foreground="White" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Margin="0,10,0,0"
+                              IsChecked="{Binding MapDisplaySettingsViewModel.KeepMapRatio}"
+                              ToolTip="If enabled the map will always keep the ration. If unchecked the map will fill the whole available space, at the cost of distortion." />
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding MapDisplaySettingsViewModel.MapPointsInterval, Converter={StaticResource IntegerToStringConverter}, ConverterParameter=500}" Width="40" Margin="0,5,0,0"  ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)"/>
-                        <TextBlock Margin="5,5,0,0" Text="Points interval" ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)"/>
+                        <TextBox
+                            Text="{Binding MapDisplaySettingsViewModel.MapPointsInterval, Converter={StaticResource IntegerToStringConverter}, ConverterParameter=500}"
+                            Width="40" Margin="0,5,0,0"
+                            ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)" />
+                        <TextBlock Margin="5,5,0,0" Text="Points interval"
+                                   ToolTip="Interval (in MS) defining how often the app should take the drivers position when creating a new map for unknown track. (default is 500ms)" />
                     </StackPanel>
-                    <CheckBox Content="Always Use Circle" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding MapDisplaySettingsViewModel.AlwaysUseCirce}" ToolTip="Forces the app to always use the circle instead of a track map."></CheckBox>
+                    <CheckBox Content="Always Use Circle" Foreground="White" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Margin="0,10,0,0"
+                              IsChecked="{Binding MapDisplaySettingsViewModel.AlwaysUseCirce}"
+                              ToolTip="Forces the app to always use the circle instead of a track map." />
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Width="150" DockPanel.Dock="Top">
                 <Grid VerticalAlignment="Top" Margin="0,0,0,5">
-                    <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}" SelectedItem="{Binding TemperatureUnits}"/>
-                    <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}" SelectedItem="{Binding PressureUnits}"/>
-                    <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}" SelectedItem="{Binding VolumeUnits}"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="94" ItemsSource="{Binding Source={StaticResource DataFromVelocityEnum}}" SelectedItem="{Binding VelocityUnits}"/>
-                    <Label Content="Volume" HorizontalAlignment="Left" Margin="6,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <Label Content="Temperature" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <Label Content="Pressure" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <Label Content="Velocity" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left" Margin="10,82,0,0"
+                              VerticalAlignment="Top" Width="94"
+                              ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}"
+                              SelectedItem="{Binding TemperatureUnits}" />
+                    <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left" Margin="10,128,0,0"
+                              VerticalAlignment="Top" Width="94"
+                              ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}"
+                              SelectedItem="{Binding PressureUnits}" />
+                    <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top"
+                              Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}"
+                              SelectedItem="{Binding VolumeUnits}" />
+                    <ComboBox HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="94"
+                              ItemsSource="{Binding Source={StaticResource DataFromVelocityEnum}}"
+                              SelectedItem="{Binding VelocityUnits}" />
+                    <Label Content="Volume" HorizontalAlignment="Left" Margin="6,8,0,0" VerticalAlignment="Top"
+                           Foreground="White" />
+                    <Label Content="Temperature" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top"
+                           Foreground="White" />
+                    <Label Content="Pressure" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top"
+                           Foreground="White" />
+                    <Label Content="Velocity" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top"
+                           Foreground="White" />
                 </Grid>
             </GroupBox>
         </DockPanel>
         <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Stretch">
             <GroupBox Header="Session Options" Foreground="White" VerticalAlignment="Stretch">
                 <StackPanel VerticalAlignment="Stretch">
-                    <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding PracticeSessionDisplayOptionsView}"></ContentPresenter>
+                    <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           VerticalAlignment="Top" Foreground="White" />
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding PracticeSessionDisplayOptionsView}" />
 
-                    <Label DockPanel.Dock="Top" Content="Qualification:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding QualificationSessionDisplayOptionsView}" ></ContentPresenter>
+                    <Label DockPanel.Dock="Top" Content="Qualification:" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           VerticalAlignment="Top" Foreground="White" />
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding QualificationSessionDisplayOptionsView}" />
 
-                    <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding RaceSessionDisplayOptionsView}"></ContentPresenter>
+                    <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           VerticalAlignment="Top" Foreground="White" />
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding RaceSessionDisplayOptionsView}" />
 
                 </StackPanel>
             </GroupBox>
         </DockPanel>
         <DockPanel Grid.Column="2" Margin="5">
-            <GroupBox Header="Report Options" Foreground="White"  VerticalAlignment="Stretch" Width="313" DockPanel.Dock="Top">
+            <GroupBox Header="Report Options" Foreground="White" VerticalAlignment="Stretch" Width="313"
+                      DockPanel.Dock="Top">
                 <DockPanel>
                     <GroupBox DockPanel.Dock="Top" Margin="0,8,0,0" Header="General">
-                        <StackPanel Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                        <StackPanel Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Margin="0,0,0,0">
                             <StackPanel Orientation="Horizontal">
-                                <Label HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Content="Maximum Reports:" Height="27"/>
-                                <xctk:IntegerUpDown HorizontalAlignment="Right" VerticalAlignment="Top" Minimum="1" Maximum="100" Text="" Value="{Binding ReportingSettingsView.MaximumReports, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Label HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White"
+                                       Content="Maximum Reports:" Height="27" />
+                                <xctk:IntegerUpDown HorizontalAlignment="Right" VerticalAlignment="Top" Minimum="1"
+                                                    Maximum="100" Text=""
+                                                    Value="{Binding ReportingSettingsView.MaximumReports, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Content="Minimum Session (minutes):" Height="27" Width="165"/>
-                                <xctk:IntegerUpDown HorizontalAlignment="Right"  VerticalAlignment="Top" Minimum="1" Maximum="100" Text="" Value="{Binding ReportingSettingsView.MinimumSessionLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Label HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White"
+                                       Content="Minimum Session (minutes):" Height="27" Width="165" />
+                                <xctk:IntegerUpDown HorizontalAlignment="Right" VerticalAlignment="Top" Minimum="1"
+                                                    Maximum="100" Text=""
+                                                    Value="{Binding ReportingSettingsView.MinimumSessionLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettingsView.PracticeReportSettingsView}"></ContentPresenter>
+                    <Label DockPanel.Dock="Top" Content="Practice:" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           VerticalAlignment="Top" Foreground="White" />
+                    <ContentPresenter DockPanel.Dock="Top"
+                                      Content="{Binding ReportingSettingsView.PracticeReportSettingsView}" />
 
-                    <Label DockPanel.Dock="Top" Content="Qualification:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettingsView.QualificationReportSettingView}"></ContentPresenter>
+                    <Label DockPanel.Dock="Top" Content="Qualification:" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           VerticalAlignment="Top" Foreground="White" />
+                    <ContentPresenter DockPanel.Dock="Top"
+                                      Content="{Binding ReportingSettingsView.QualificationReportSettingView}" />
 
-                    <Label DockPanel.Dock="Top" Content="Warm Up:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettingsView.WarmUpReportSettingsView}"></ContentPresenter>
+                    <Label DockPanel.Dock="Top" Content="Warm Up:" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           VerticalAlignment="Top" Foreground="White" />
+                    <ContentPresenter DockPanel.Dock="Top"
+                                      Content="{Binding ReportingSettingsView.WarmUpReportSettingsView}" />
 
-                    <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Foreground="White"/>
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding ReportingSettingsView.RaceReportSettingsView}"></ContentPresenter>
+                    <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           VerticalAlignment="Top" Foreground="White" />
+                    <ContentPresenter DockPanel.Dock="Top"
+                                      Content="{Binding ReportingSettingsView.RaceReportSettingsView}" />
                 </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Telemetry" Foreground="White" VerticalAlignment="Stretch" Width="313"
+                      DockPanel.Dock="Top" Visibility="{Binding TelemetrySettingsViewModel.IsFeatureEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel>
+                    <CheckBox Content="Enable Telemetry" Foreground="White" Margin="5,5,0,0"
+                              IsChecked="{Binding TelemetrySettingsViewModel.IsTelemetryLoggingEnabled}" />
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox
+                            Text="{Binding TelemetrySettingsViewModel.LoggingInterval, Converter={StaticResource IntegerToStringConverter}, ConverterParameter=50}"
+                            Width="40" Margin="5,5,0,0"
+                            ToolTip="Interval (in MS) defining how often the app should log the telemetry information." />
+                        <TextBlock Margin="5,5,0,0" Text="Telemetry Data Interval (ms)"
+                                   ToolTip="Interval (in MS) defining how often the app should log the telemetry information." />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox
+                            Text="{Binding TelemetrySettingsViewModel.MaxSessionsKept, Converter={StaticResource IntegerToStringConverter}, ConverterParameter=10}"
+                            Width="40" Margin="5,5,0,0"
+                            ToolTip="Defines How Many Sessions, at maximum, should be kept stored. If the number is exceeded, then the application if automatically delete the oldest telemetry data." />
+                        <TextBlock Margin="5,5,0,0" Text="Maximum Sessions Stored"
+                                   ToolTip="Defines How Many Sessions, at maximum, should be kept stored. If the number is exceeded, then the application if automatically delete the oldest telemetry data." />
+                    </StackPanel>
+                </StackPanel>
+
             </GroupBox>
             <Grid DockPanel.Dock="Bottom">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button x:Name="BtnReset" Grid.Column="0" Height="55"
-                    Command="{Binding OpenLogDirectoryCommand}"
-                    Style="{StaticResource StandardButton}"
-                    ToolTip="Opens the log directory">
-                <Button.Content>
-                    <wpf:ColorAbleIcon Margin="5,5,5,5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                        <ContentPresenter Content="{StaticResource FolderIcon}" />
-                    </wpf:ColorAbleIcon>
-                </Button.Content>
-            </Button>
+                        Command="{Binding OpenLogDirectoryCommand}"
+                        Style="{StaticResource StandardButton}"
+                        ToolTip="Opens the log directory">
+                    <Button.Content>
+                        <wpf:ColorAbleIcon Margin="5,5,5,5"
+                                           StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                            <ContentPresenter Content="{StaticResource FolderIcon}" />
+                        </wpf:ColorAbleIcon>
+                    </Button.Content>
+                </Button>
             </Grid>
         </DockPanel>
     </Grid>
