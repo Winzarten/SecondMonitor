@@ -282,7 +282,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             Drivers.Add(newDriver.Name, newDriverTimingViewModel);
             if (newDriver.IsPlayer)
             {
-                CombinedLapPortionComparator.Driver = newDriver;
+                CombinedLapPortionComparator = new CombinedLapPortionComparatorsViewModel(newDriver);
             }
             RaiseDriverAddedEvent(newDriverTimingViewModel);
             Logger.Info($"Added new driver");
@@ -328,7 +328,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                HashSet<string> updatedDrivers = new HashSet<string>();
                 Array.ForEach( dataSet.DriversInfo,
                     s =>
-                        {                            
+                        {
                             updatedDrivers.Add(s.DriverName);
                             if (Drivers.ContainsKey(s.DriverName) && Drivers[s.DriverName].DriverTiming.IsActive)
                             {
