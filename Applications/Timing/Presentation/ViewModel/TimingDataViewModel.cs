@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading;
@@ -227,37 +228,41 @@
 
         public void ApplyDateSet(SimulatorDataSet data)
         {
-                _lastDataSet = data;
-                IsOpenCarSettingsCommandEnable = !string.IsNullOrWhiteSpace(data?.PlayerInfo?.CarName);
-                ConnectedSource = _lastDataSet?.Source;
-                if (ViewSource == null || _timing == null)
-                {
-                    return;
-                }
+            if (data == null)
+            {
+                return;
+            }
 
-                if (_sessionType != data.SessionInfo.SessionType)
-                {
-                    _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
-                    _sessionType = _timing.SessionType;
-                }
+            _lastDataSet = data;
+            IsOpenCarSettingsCommandEnable = !string.IsNullOrWhiteSpace(data?.PlayerInfo?.CarName);
+            ConnectedSource = _lastDataSet?.Source;
+            if (ViewSource == null || _timing == null)
+            {
+                return;
+            }
 
-                // Reset state was detected (either reset button was pressed or timing detected a session change)
-                if (_shouldReset != TimingDataViewModelResetModeEnum.NoReset)
-                {
-                    CreateTiming(data);
-                    _shouldReset = TimingDataViewModelResetModeEnum.NoReset;
-                }
+            if (_sessionType != data.SessionInfo.SessionType)
+            {
+                _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
+                _sessionType = _timing.SessionType;
+            }
 
-                try
-                {
-                    _timing?.UpdateTiming(data);
-                    CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
-                }
-                catch (SessionTiming.DriverNotFoundException)
-                {
-                    _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
-                }
+            // Reset state was detected (either reset button was pressed or timing detected a session change)
+            if (_shouldReset != TimingDataViewModelResetModeEnum.NoReset)
+            {
+                CreateTiming(data);
+                _shouldReset = TimingDataViewModelResetModeEnum.NoReset;
+            }
 
+            try
+            {
+                _timing?.UpdateTiming(data);
+                CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
+            }
+            catch (SessionTiming.DriverNotFoundException)
+            {
+                _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
+            }
         }
 
         public void DisplayMessage(MessageArgs e)
@@ -603,7 +608,8 @@
 
         private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender, bool captureContext)
         {
-
+            Stopwatch stpStopwatch = new Stopwatch();
+            stpStopwatch.Start();
             while (!sender.TerminatePeriodicTasks)
             {
                 await Task.Delay(periodInMs, CancellationToken.None).ConfigureAwait(captureContext);
