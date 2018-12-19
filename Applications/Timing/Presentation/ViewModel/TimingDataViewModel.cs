@@ -34,6 +34,7 @@
 
     using SessionTiming.Drivers;
     using SimdataManagement.DriverPresentation;
+    using Telemetry;
     using ViewModels.Settings.Model;
     using ViewModels.Settings.ViewModel;
 
@@ -44,6 +45,7 @@
         private static readonly DependencyProperty OpenCarSettingsCommandProperty = DependencyProperty.Register("OpenCarSettingsCommand", typeof(ICommand), typeof(TimingDataViewModel));
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
         private readonly DriverPresentationsManager _driverPresentationsManager;
+        private readonly ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
 
         private ICommand _resetCommand;
 
@@ -62,12 +64,13 @@
         private MapManagementController _mapManagementController;
         private DisplaySettingsViewModel _displaySettingsViewModel;
 
-        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager)
+        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory)
         {
             SessionInfoViewModel = new SessionInfoViewModel();
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = driverLapsWindowManager;
             _driverPresentationsManager = driverPresentationsManager;
+            _sessionTelemetryControllerFactory = sessionTelemetryControllerFactory;
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             ReportsController = new ReportsController(DisplaySettingsViewModel);
             DisplaySettingsViewModel = displaySettingsViewModel;
@@ -496,7 +499,7 @@
                 ReportsController.CreateReport(_timing);
             }
 
-            SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this, _driverPresentationsManager);
+            SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this, _driverPresentationsManager, _sessionTelemetryControllerFactory);
             foreach (var driverTimingModelView in _timing.Drivers.Values)
             {
                 _driverLapsWindowManager.Rebind(driverTimingModelView.DriverTiming);

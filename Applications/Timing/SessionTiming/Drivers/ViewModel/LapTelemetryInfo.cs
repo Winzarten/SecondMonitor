@@ -8,12 +8,15 @@
 
     public class LapTelemetryInfo
     {
-        public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo)
+        private readonly bool _captureDetailedTelemetry;
+
+        public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo, bool captureDetailedTelemetry, TimeSpan snapshotInterval)
         {
+            _captureDetailedTelemetry = captureDetailedTelemetry;
             LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
             LapInfo = lapInfo;
             PortionTimes = new LapPortionTimes(10, dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters, lapInfo);
-            TimedTelemetrySnapshots = new TimedTelemetrySnapshots(TimeSpan.Zero);
+            TimedTelemetrySnapshots = new TimedTelemetrySnapshots(snapshotInterval);
         }
 
         public TelemetrySnapshot LapEndSnapshot { get; private set; }
@@ -36,7 +39,10 @@
             }
 
             PortionTimes.UpdateLapPortions();
-            TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo);
+            if (_captureDetailedTelemetry)
+            {
+                TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo);
+            }
         }
 
         public void Purge()

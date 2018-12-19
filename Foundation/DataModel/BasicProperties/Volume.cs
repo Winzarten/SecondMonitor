@@ -18,7 +18,7 @@
             InLiters = valueInLiters;
         }
 
-        public double InLiters { get; }
+        public double InLiters { get; set; }
 
         [JsonIgnore]
         [XmlIgnore]

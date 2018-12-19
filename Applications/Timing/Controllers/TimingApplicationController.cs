@@ -14,8 +14,10 @@ namespace SecondMonitor.Timing.Controllers
     using Presentation.View;
     using Presentation.ViewModel;
     using WindowsControls.WPF.Commands;
+    using SecondMonitor.Telemetry.TelemetryManagement.Repository;
     using SimdataManagement;
     using SimdataManagement.DriverPresentation;
+    using Telemetry;
     using TrackMap;
     using ViewModels.Settings;
     using ViewModels.Settings.ViewModel;
@@ -24,6 +26,7 @@ namespace SecondMonitor.Timing.Controllers
     {
         private const string MapFolder = "TrackMaps";
         private const string SettingsFolder = "Settings";
+        private const string TelemetryFolder = "Telemetry";
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SecondMonitor\\settings.json");
@@ -36,6 +39,7 @@ namespace SecondMonitor.Timing.Controllers
         private DisplaySettingsViewModel _displaySettingsViewModel;
         private MapManagementController _mapManagementController;
         private DriverPresentationsManager _driverPresentationsManager;
+        private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
         private DisplaySettingAutoSaver _settingAutoSaver;
 
 
@@ -64,12 +68,18 @@ namespace SecondMonitor.Timing.Controllers
             CreateSimSettingsController();
             CreateMapManagementController();
             CreateDriverPresentationManager();
+            CreateSessionTelemetryControllerFactory();
             DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
-            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel, _driverPresentationsManager) {MapManagementController = _mapManagementController};
+            _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel, _driverPresentationsManager, _sessionTelemetryControllerFactory) {MapManagementController = _mapManagementController};
             BindCommands();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
             _timingDataViewModel?.Reset();
+        }
+
+        private void CreateSessionTelemetryControllerFactory()
+        {
+            _sessionTelemetryControllerFactory = new SessionTelemetryControllerFactory(new TelemetryRepository(Path.Combine(_displaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, TelemetryFolder), _displaySettingsViewModel.TelemetrySettingsViewModel.MaxSessionsKept));
         }
 
 
