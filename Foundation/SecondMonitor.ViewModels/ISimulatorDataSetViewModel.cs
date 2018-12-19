@@ -1,10 +1,11 @@
 ﻿namespace SecondMonitor.ViewModels
 {
+    using WindowsControls.Properties;
     using DataModel.Snapshot;
 
     public interface ISimulatorDataSetViewModel
     {
-        void ApplyDateSet(SimulatorDataSet dataSet);
+        void ApplyDateSet([NotNull]SimulatorDataSet dataSet);
 
         void Reset();
     }
