@@ -169,9 +169,10 @@
       <Name>WindowsControls</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Telemetry\Repository\TelemetryManagement.csproj">
-      <Project>{5271AFE9-29A9-4F65-AB04-58F93C72AD03}</Project>
+    <ProjectReference Include="..\..\Telemetry\TelemetryManagement\TelemetryManagement.csproj">
+      <Project>{5271afe9-29a9-4f65-ab04-58f93c72ad03}</Project>
       <Name>TelemetryManagement</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\SimdataManagement\SimdataManagement.csproj">
       <Project>{8971F71E-CF2E-40F8-B881-3F45EB8ECC9B}</Project>

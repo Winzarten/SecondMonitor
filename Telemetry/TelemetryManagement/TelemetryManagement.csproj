@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\LapSummaryDTO.cs" />
     <Compile Include="DTO\LapTelemetryDTO.cs" />
     <Compile Include="DTO\SessionInfoDTO.cs" />
     <Compile Include="Repository\ITelemetryReposiory.cs" />

@@ -225,7 +225,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
             if (lapEventArgs.Lap.Driver.IsPlayer && TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled)
             {
-                SessionTelemetryController.SaveLapTelemetry(lapEventArgs.Lap);
+                SessionTelemetryController.TrySaveLapTelemetry(lapEventArgs.Lap);
             }
 
             if (BestSessionLap == null || (BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero))

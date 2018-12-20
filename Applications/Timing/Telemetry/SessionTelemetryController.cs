@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Timing.Telemetry
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using DataModel.BasicProperties;
@@ -13,7 +14,7 @@
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ITelemetryRepository _telemetryRepository;
-        private bool _sessionInfoSaved;
+        private SessionInfoDto _sessionInfoDto;
 
         public SessionTelemetryController(string trackName, SessionType sessionType, ITelemetryRepository telemetryRepository)
         {
@@ -23,46 +24,63 @@
 
         public string SessionIdentifier { get; }
 
-        public Task SaveLapTelemetry(LapInfo lapInfo)
+        public Task<bool> TrySaveLapTelemetry(LapInfo lapInfo)
         {
             Logger.Info($"Saving Telemetry for Lap:{lapInfo.LapNumber}");
             if (lapInfo.LapTelemetryInfo.IsPurged)
             {
                 Logger.Error("Lap Is PURGED! Cannot Save");
-                return Task.CompletedTask;
+                return Task.FromResult(false);
             }
 
             if (!lapInfo.Valid)
             {
                 Logger.Error("Lap Is Invalid! Cannot Save");
-                return Task.CompletedTask;
+                return Task.FromResult(false);
             }
 
             return Task.Run(() => SaveLapTelemetrySync(lapInfo));
         }
 
-        private void SaveLapTelemetrySync(LapInfo lapInfo)
+        private bool SaveLapTelemetrySync(LapInfo lapInfo)
         {
-            if (!_sessionInfoSaved)
+            if (_sessionInfoDto == null)
             {
-                SaveSessionInfo(lapInfo);
+                _sessionInfoDto = CreateSessionInfo(lapInfo);
             }
 
-            SaveLap(lapInfo);
+            return TrySaveLap(lapInfo);
         }
 
-        private void SaveLap(LapInfo lapInfo)
+        private bool TrySaveLap(LapInfo lapInfo)
         {
-            LapTelemetryDto lapTelemetryDto = new LapTelemetryDto()
+            try
             {
-                LapNumber = lapInfo.LapNumber,
-                LapTimeSeconds = lapInfo.LapTime.TotalSeconds,
-                TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.ToArray()
-            };
-            _telemetryRepository.SaveSessionLap(lapTelemetryDto, SessionIdentifier);
+                LapSummaryDto lapSummaryDto = new LapSummaryDto()
+                {
+                    LapNumber = lapInfo.LapNumber,
+                    LapTimeSeconds = lapInfo.LapTime.TotalSeconds
+                };
+
+                LapTelemetryDto lapTelemetryDto = new LapTelemetryDto()
+                {
+                    LapSummary = lapSummaryDto,
+                    TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.ToArray()
+                };
+                _sessionInfoDto.LapsSummary.Add(lapSummaryDto);
+
+                _telemetryRepository.SaveSessionInformation(_sessionInfoDto, SessionIdentifier);
+                _telemetryRepository.SaveSessionLap(lapTelemetryDto, SessionIdentifier);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex,"Uanble to Save Telemetry");
+                return false;
+            }
         }
 
-        private void SaveSessionInfo(LapInfo lapInfo)
+        private SessionInfoDto CreateSessionInfo(LapInfo lapInfo)
         {
             SessionInfoDto sessionInfoDto = new SessionInfoDto()
             {
@@ -72,9 +90,10 @@
                 LayoutLength = lapInfo.Driver.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters,
                 PlayerName = lapInfo.Driver.Name,
                 Simulator = lapInfo.Driver.Session.LastSet.Source,
+                SessionRunDateTime = DateTime.Now,
+                LapsSummary = new List<LapSummaryDto>()
             };
-            _telemetryRepository.SaveSessionInformation(sessionInfoDto, SessionIdentifier);
-            _sessionInfoSaved = true;
+            return sessionInfoDto;
         }
     }
 }

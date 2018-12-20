@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryManagement.Repository
 {
     using System.IO;
+    using System.Linq;
     using System.Xml.Serialization;
     using DTO;
     using NLog;
@@ -30,8 +31,8 @@
         public void SaveSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier)
         {
             string directory = Path.Combine(_repositoryDirectory, sessionIdentifier);
-            string fileName = Path.Combine(directory, $"{lapTelemetry.LapNumber}.xml");
-            Logger.Info($"Saving lap info {lapTelemetry.LapNumber} to file: {fileName}");
+            string fileName = Path.Combine(directory, $"{lapTelemetry.LapSummary.LapNumber}.xml");
+            Logger.Info($"Saving lap info {lapTelemetry.LapSummary.LapNumber} to file: {fileName}");
             Directory.CreateDirectory(directory);
             Save(lapTelemetry, fileName);
         }
@@ -44,6 +45,8 @@
             {
                 xmlSerializer.Serialize(file, sessionInfoDto);
             }
+
+            RemoveObsoleteSessions();
         }
 
         private void Save(LapTelemetryDto lapTelemetryDto, string path)
@@ -53,6 +56,22 @@
             using (FileStream file = File.Exists(path) ? File.Open(path, FileMode.Truncate) : File.Create(path))
             {
                 xmlSerializer.Serialize(file, lapTelemetryDto);
+            }
+        }
+
+        private void RemoveObsoleteSessions()
+        {
+            DirectoryInfo info = new DirectoryInfo(_repositoryDirectory);
+            DirectoryInfo[] dis = info.GetDirectories().OrderBy(x => x.CreationTime).ToArray();
+            if (dis.Length <= _maxStoredSessions)
+            {
+                return;
+            }
+
+            int toDelete = dis.Length - _maxStoredSessions;
+            for (int i = 0; i < toDelete; i++)
+            {
+                Directory.Delete(dis[i].FullName, true);
             }
         }
 
