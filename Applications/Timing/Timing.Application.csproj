@@ -136,6 +136,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Telemetry\ISessionTelementryControllerFactory.cs" />
+    <Compile Include="Telemetry\ISessionTelemetryController.cs" />
+    <Compile Include="Telemetry\ISessionTelemetryControllerFactory.cs" />
+    <Compile Include="Telemetry\SessionTelemetryController.cs" />
     <Compile Include="TrackMap\TrackDtoManipulator.cs" />
     <Compile Include="TrackMap\TrackMapFromTelemetryFactory.cs" />
   </ItemGroup>
@@ -163,6 +167,11 @@
     <ProjectReference Include="..\..\Foundation\WindowsControls\WindowsControls.csproj">
       <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
       <Name>WindowsControls</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Telemetry\TelemetryManagement\TelemetryManagement.csproj">
+      <Project>{5271afe9-29a9-4f65-ab04-58f93c72ad03}</Project>
+      <Name>TelemetryManagement</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\SimdataManagement\SimdataManagement.csproj">

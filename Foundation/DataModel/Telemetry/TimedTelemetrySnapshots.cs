@@ -22,7 +22,7 @@ namespace SecondMonitor.DataModel.Telemetry
 
         public void AddNextSnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo)
         {
-            if (lapTime < _nextSnapshotTime)
+            if ((playerInfo.InPits && playerInfo.Speed.InKph < 5) || lapTime < _nextSnapshotTime)
             {
                 return;
             }

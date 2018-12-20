@@ -5,8 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Windows.Forms;
-
     using NLog;
 
     using PluginManager.Core;
@@ -31,6 +29,7 @@
             {
                 //Application.EnableVisualStyles();
                 //Application.SetCompatibleTextRenderingDefault(false);
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                 Application app = new Application();
                 LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConnectorsDir));
                 app.Run();
@@ -40,6 +39,12 @@
             {
                 LogManager.GetCurrentClassLogger().Error(ex, "Application experienced an error");
             }
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            LogManager.GetCurrentClassLogger().Error("Application experienced an unhandled excpetion");
+            LogManager.GetCurrentClassLogger().Error(e.ExceptionObject);
         }
 
         private static void LoadUsingGameConnectorsFromDirectory(string connectorsDir)

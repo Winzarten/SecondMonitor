@@ -19,11 +19,14 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using WindowsControls.WPF;
+    using NLog;
     using SimdataManagement.DriverPresentation;
+    using Telemetry;
 
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
         private readonly DriverPresentationsManager _driverPresentationsManager;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public class DriverNotFoundException : Exception
         {
@@ -56,6 +59,15 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         private CombinedLapPortionComparatorsViewModel _combinedLapPortionComparatorsViewModel;
 
+        private SessionTiming(TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryController sessionTelemetryController)
+        {
+            _driverPresentationsManager = driverPresentationsManager;
+            PaceLaps = 4;
+            DisplayBindTimeRelative = false;
+            TimingDataViewModel = timingDataViewModel;
+            SessionTelemetryController = sessionTelemetryController;
+        }
+
         public LapInfo BestSessionLap
         {
             get => _bestSessionLap;
@@ -84,6 +96,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         public bool DisplayGapToPlayerRelative { get; set; }
 
         public TimingDataViewModel TimingDataViewModel { get; private set; }
+        public ISessionTelemetryController SessionTelemetryController { get; }
 
         public SimulatorDataSet LastSet { get; private set; } = new SimulatorDataSet("None");
 
@@ -158,18 +171,12 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             }
         }
 
-        private SessionTiming(TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager)
+        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory)
         {
-            _driverPresentationsManager = driverPresentationsManager;
-            PaceLaps = 4;
-            DisplayBindTimeRelative = false;
-            TimingDataViewModel = timingDataViewModel;
-        }
 
-        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager)
-        {
             Dictionary<string, DriverTimingViewModel> drivers = new Dictionary<string, DriverTimingViewModel>();
-            SessionTiming timing = new SessionTiming(timingDataViewModel, driverPresentationsManager)
+            Logger.Info($"New Seesion Started :{dataSet.SessionInfo.SessionType.ToString()}");
+            SessionTiming timing = new SessionTiming(timingDataViewModel, driverPresentationsManager, sessionTelemetryControllerFactory.Create(dataSet))
                                        {
                                            SessionStarTime = dataSet.SessionInfo.SessionTime,
                                            SessionType = dataSet.SessionInfo.SessionType,
@@ -192,6 +199,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                 newDriver.LapCompleted += timing.DriverOnLapCompleted;
                 DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, timingDataViewModel.DisplaySettingsViewModel,driverPresentationsManager);
                 drivers.Add(name, newDriverTimingViewModel);
+                Logger.Info($"Driver Added: {name}");
                 if (newDriver.DriverInfo.IsPlayer)
                 {
                     timing.Player = newDriverTimingViewModel;
@@ -213,6 +221,11 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             if (!lapEventArgs.Lap.Valid)
             {
                 return;
+            }
+
+            if (lapEventArgs.Lap.Driver.IsPlayer && TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled)
+            {
+                SessionTelemetryController.TrySaveLapTelemetry(lapEventArgs.Lap);
             }
 
             if (BestSessionLap == null || (BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero))
@@ -268,6 +281,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                 }
                 Drivers.Remove(newDriverInfo.DriverName);
             }
+            Logger.Info($"Adding new driver: {newDriverInfo.DriverName}");
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionType.Race);
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
@@ -276,9 +290,10 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             Drivers.Add(newDriver.Name, newDriverTimingViewModel);
             if (newDriver.IsPlayer)
             {
-                CombinedLapPortionComparator.Driver = newDriver;
+                CombinedLapPortionComparator = new CombinedLapPortionComparatorsViewModel(newDriver);
             }
             RaiseDriverAddedEvent(newDriverTimingViewModel);
+            Logger.Info($"Added new driver");
         }
 
         private void LapInvalidatedHandler(object sender, LapEventArgs e)
@@ -307,15 +322,11 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         public void UpdateTiming(SimulatorDataSet dataSet)
         {
-            /*if (DateTime.Now < _nextUpdateTime)
-            {
-                return;
-            }*/
             LastSet = dataSet;
             SessionTime = dataSet.SessionInfo.SessionTime - SessionStarTime;
             SessionType = dataSet.SessionInfo.SessionType;
             UpdateDrivers(dataSet);
-            /*_nextUpdateTime = DateTime.Now + TimeSpan.FromMilliseconds(500);*/
+
         }
 
         private void UpdateDrivers(SimulatorDataSet dataSet)
@@ -341,16 +352,14 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                                 AddNewDriver(s);
                             }
                         });
-                List<string> driversToRemove = new List<string>();
-                foreach (string obsoleteDriverName in Drivers.Keys.Where(s => !updatedDrivers.Contains(s) && Drivers[s].DriverTiming.IsActive))
-                {
-                    driversToRemove.Add(obsoleteDriverName);
-                }
+                List<string> driversToRemove = Drivers.Keys.Where(s => !updatedDrivers.Contains(s) && Drivers[s].DriverTiming.IsActive).ToList();
 
                 driversToRemove.ForEach(s =>
                 {
+                    Logger.Info($"Removing driver {Drivers[s].Name}");
                     RaiseDriverRemovedEvent(Drivers[s]);
                     Drivers[s].DriverTiming.IsActive = false;
+                    Logger.Info($"Driver Removed");
                 });
 
 
@@ -358,7 +367,6 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             catch (KeyNotFoundException ex)
             {
                 throw new DriverNotFoundException("Driver not found", ex);
-
             }
         }
 

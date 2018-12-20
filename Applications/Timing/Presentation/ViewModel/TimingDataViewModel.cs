@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading;
@@ -33,6 +34,7 @@
 
     using SessionTiming.Drivers;
     using SimdataManagement.DriverPresentation;
+    using Telemetry;
     using ViewModels.Settings.Model;
     using ViewModels.Settings.ViewModel;
 
@@ -43,6 +45,7 @@
         private static readonly DependencyProperty OpenCarSettingsCommandProperty = DependencyProperty.Register("OpenCarSettingsCommand", typeof(ICommand), typeof(TimingDataViewModel));
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
         private readonly DriverPresentationsManager _driverPresentationsManager;
+        private readonly ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
 
         private ICommand _resetCommand;
 
@@ -61,12 +64,13 @@
         private MapManagementController _mapManagementController;
         private DisplaySettingsViewModel _displaySettingsViewModel;
 
-        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager)
+        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory)
         {
             SessionInfoViewModel = new SessionInfoViewModel();
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = driverLapsWindowManager;
             _driverPresentationsManager = driverPresentationsManager;
+            _sessionTelemetryControllerFactory = sessionTelemetryControllerFactory;
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             ReportsController = new ReportsController(DisplaySettingsViewModel);
             DisplaySettingsViewModel = displaySettingsViewModel;
@@ -227,37 +231,41 @@
 
         public void ApplyDateSet(SimulatorDataSet data)
         {
-                _lastDataSet = data;
-                IsOpenCarSettingsCommandEnable = !string.IsNullOrWhiteSpace(data?.PlayerInfo?.CarName);
-                ConnectedSource = _lastDataSet?.Source;
-                if (ViewSource == null || _timing == null)
-                {
-                    return;
-                }
+            if (data == null)
+            {
+                return;
+            }
 
-                if (_sessionType != data.SessionInfo.SessionType)
-                {
-                    _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
-                    _sessionType = _timing.SessionType;
-                }
+            _lastDataSet = data;
+            IsOpenCarSettingsCommandEnable = !string.IsNullOrWhiteSpace(data?.PlayerInfo?.CarName);
+            ConnectedSource = _lastDataSet?.Source;
+            if (ViewSource == null || _timing == null)
+            {
+                return;
+            }
 
-                // Reset state was detected (either reset button was pressed or timing detected a session change)
-                if (_shouldReset != TimingDataViewModelResetModeEnum.NoReset)
-                {
-                    CreateTiming(data);
-                    _shouldReset = TimingDataViewModelResetModeEnum.NoReset;
-                }
+            if (_sessionType != data.SessionInfo.SessionType)
+            {
+                _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
+                _sessionType = _timing.SessionType;
+            }
 
-                try
-                {
-                    _timing?.UpdateTiming(data);
-                    CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
-                }
-                catch (SessionTiming.DriverNotFoundException)
-                {
-                    _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
-                }
+            // Reset state was detected (either reset button was pressed or timing detected a session change)
+            if (_shouldReset != TimingDataViewModelResetModeEnum.NoReset)
+            {
+                CreateTiming(data);
+                _shouldReset = TimingDataViewModelResetModeEnum.NoReset;
+            }
 
+            try
+            {
+                _timing?.UpdateTiming(data);
+                CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
+            }
+            catch (SessionTiming.DriverNotFoundException)
+            {
+                _shouldReset = TimingDataViewModelResetModeEnum.Automatic;
+            }
         }
 
         public void DisplayMessage(MessageArgs e)
@@ -491,7 +499,7 @@
                 ReportsController.CreateReport(_timing);
             }
 
-            SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this, _driverPresentationsManager);
+            SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this, _driverPresentationsManager, _sessionTelemetryControllerFactory);
             foreach (var driverTimingModelView in _timing.Drivers.Values)
             {
                 _driverLapsWindowManager.Rebind(driverTimingModelView.DriverTiming);
@@ -603,7 +611,8 @@
 
         private static async Task SchedulePeriodicAction(Action action, int periodInMs, TimingDataViewModel sender, bool captureContext)
         {
-
+            Stopwatch stpStopwatch = new Stopwatch();
+            stpStopwatch.Start();
             while (!sender.TerminatePeriodicTasks)
             {
                 await Task.Delay(periodInMs, CancellationToken.None).ConfigureAwait(captureContext);

@@ -19,7 +19,7 @@
     {
 
         private readonly ITrackMap _trackMap;
-        Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private MapSidePanelControl _mapSidePanelControl;
         private Canvas _mainCanvas;
         private bool _autoScaleDriverControls;
@@ -197,7 +197,10 @@
 
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)
         {
-            _mainCanvas.Children.Remove(driverPositionControl);
+            if (_mainCanvas.Children.Contains(driverPositionControl))
+            {
+                _mainCanvas.Children.Remove(driverPositionControl);
+            }
         }
 
         protected override void AddDriver(DriverPositionControl driverPositionControl)
