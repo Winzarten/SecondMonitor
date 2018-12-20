@@ -13665,7 +13665,7 @@
 				},
 				{
 					"Name": "#25",
-					"Team": 4676,
+					"Team": 7004,
 					"Car": 4675,
 					"Id": 7001,
 					"Class": 6345,
@@ -13680,7 +13680,7 @@
 				},
 				{
 					"Name": "#70",
-					"Team": 4676,
+					"Team": 7004,
 					"Car": 4675,
 					"Id": 7002,
 					"Class": 6345,
@@ -13695,7 +13695,7 @@
 				},
 				{
 					"Name": "#01",
-					"Team": 4676,
+					"Team": 7004,
 					"Car": 4675,
 					"Id": 7003,
 					"Class": 6345,
@@ -25085,6 +25085,571 @@
 							"Forename": "Jamie",
 							"Surname": "Green",
 							"Id": 6816
+						}
+					]
+				}
+			]
+		},
+		"7282": {
+			"Name": "Porsche 934 Turbo RSR",
+			"BrandName": "Porsche",
+			"CarManufacturer": 3013,
+			"DefaultLivery": 7421,
+			"Id": 7282,
+			"Class": 7304,
+			"liveries": [
+				{
+					"Name": "#00",
+					"Team": 7283,
+					"Car": 7282,
+					"Id": 7402,
+					"Class": 7304,
+					"TeamName": "Interscope Racing",
+					"drivers": [
+						{
+							"Forename": "Danny",
+							"Surname": "Ongais",
+							"Id": 7353
+						}
+					]
+				},
+				{
+					"Name": "#6",
+					"Team": 7513,
+					"Car": 7282,
+					"Id": 7403,
+					"Class": 7304,
+					"TeamName": "Kremer Racing",
+					"drivers": [
+						{
+							"Forename": "Bob",
+							"Surname": "Wollek",
+							"Id": 7350
+						}
+					]
+				},
+				{
+					"Name": "#6",
+					"Team": 7513,
+					"Car": 7282,
+					"Id": 7404,
+					"Class": 7304,
+					"TeamName": "Kremer Racing",
+					"drivers": [
+						{
+							"Forename": "Bob",
+							"Surname": "Wollek",
+							"Id": 7354
+						}
+					]
+				},
+				{
+					"Name": "#9",
+					"Team": 7522,
+					"Car": 7282,
+					"Id": 7405,
+					"Class": 7304,
+					"TeamName": "Jolly Club",
+					"drivers": [
+						{
+							"Forename": "Vittorio",
+							"Surname": "Brambilla",
+							"Id": 7355
+						}
+					]
+				},
+				{
+					"Name": "#14",
+					"Team": 7521,
+					"Car": 7282,
+					"Id": 7406,
+					"Class": 7304,
+					"TeamName": "G. W. Dickinson",
+					"drivers": [
+						{
+							"Forename": "Al",
+							"Surname": "Holbert",
+							"Id": 7356
+						}
+					]
+				},
+				{
+					"Name": "#16",
+					"Team": 7523,
+					"Car": 7282,
+					"Id": 7407,
+					"Class": 7304,
+					"TeamName": "Vasek Polak Racing",
+					"drivers": [
+						{
+							"Forename": "George",
+							"Surname": "Follmer",
+							"Id": 7357
+						}
+					]
+				},
+				{
+					"Name": "#25",
+					"Team": 7514,
+					"Car": 7282,
+					"Id": 7408,
+					"Class": 7304,
+					"TeamName": "Wrangler Racing Team",
+					"drivers": [
+						{
+							"Forename": "Preben",
+							"Surname": "Kristoffersen",
+							"Id": 7509
+						}
+					]
+				},
+				{
+					"Name": "#32",
+					"Team": 7283,
+					"Car": 7282,
+					"Id": 7409,
+					"Class": 7304,
+					"TeamName": "Electrodyne Racing",
+					"drivers": [
+						{
+							"Forename": "Chester",
+							"Surname": "Vincentz",
+							"Id": 7359
+						}
+					]
+				},
+				{
+					"Name": "#51",
+					"Team": 7520,
+					"Car": 7282,
+					"Id": 7410,
+					"Class": 7304,
+					"TeamName": "Tebernum Racing George Loos",
+					"drivers": [
+						{
+							"Forename": "Toine",
+							"Surname": "Hezemans",
+							"Id": 7360
+						}
+					]
+				},
+				{
+					"Name": "#52",
+					"Team": 7520,
+					"Car": 7282,
+					"Id": 7411,
+					"Class": 7304,
+					"TeamName": "Tebernum Racing George Loos",
+					"drivers": [
+						{
+							"Forename": "Tim",
+							"Surname": "Schenken",
+							"Id": 7361
+						}
+					]
+				},
+				{
+					"Name": "#53",
+					"Team": 7517,
+					"Car": 7282,
+					"Id": 7412,
+					"Class": 7304,
+					"TeamName": "Max Moritz Porsche",
+					"drivers": [
+						{
+							"Forename": "Helmut",
+							"Surname": "Kelleners",
+							"Id": 7362
+						}
+					]
+				},
+				{
+					"Name": "#54",
+					"Team": 7283,
+					"Car": 7282,
+					"Id": 7413,
+					"Class": 7304,
+					"TeamName": "BP",
+					"drivers": [
+						{
+							"Forename": "Hubert",
+							"Surname": "Striebig",
+							"Id": 7364
+						}
+					]
+				},
+				{
+					"Name": "#55",
+					"Team": 7516,
+					"Car": 7282,
+					"Id": 7414,
+					"Class": 7304,
+					"TeamName": "Kannacher Racing",
+					"drivers": [
+						{
+							"Forename": "Eberhard",
+							"Surname": "Sindel",
+							"Id": 7365
+						}
+					]
+				},
+				{
+					"Name": "#55",
+					"Team": 7526,
+					"Car": 7282,
+					"Id": 7415,
+					"Class": 7304,
+					"TeamName": "Escuderia Montjuich",
+					"drivers": [
+						{
+							"Forename": "Jean",
+							"Surname": "Fernandez",
+							"Id": 7366
+						}
+					]
+				},
+				{
+					"Name": "#56",
+					"Team": 7512,
+					"Car": 7282,
+					"Id": 7416,
+					"Class": 7304,
+					"TeamName": "J.M.S. Racing Team",
+					"drivers": [
+						{
+							"Forename": "Jean-Louis",
+							"Surname": "Bousquet",
+							"Id": 7367
+						}
+					]
+				},
+				{
+					"Name": "#57",
+					"Team": 7527,
+					"Car": 7282,
+					"Id": 7417,
+					"Class": 7304,
+					"TeamName": "Nicolas Koob Racing",
+					"drivers": [
+						{
+							"Forename": "Willy",
+							"Surname": "Braillard",
+							"Id": 7368
+						}
+					]
+				},
+				{
+					"Name": "#58",
+					"Team": 7528,
+					"Car": 7282,
+					"Id": 7418,
+					"Class": 7304,
+					"TeamName": "Porsche Kremer Racing Team",
+					"drivers": [
+						{
+							"Forename": "Philippe",
+							"Surname": "Gurdjian",
+							"Id": 7369
+						}
+					]
+				},
+				{
+					"Name": "#58",
+					"Team": 7529,
+					"Car": 7282,
+					"Id": 7419,
+					"Class": 7304,
+					"TeamName": "Porsche Club Romand",
+					"drivers": [
+						{
+							"Forename": "Bernard",
+							"Surname": "Cheneviere",
+							"Id": 7370
+						}
+					]
+				},
+				{
+					"Name": "#59",
+					"Team": 7519,
+					"Car": 7282,
+					"Id": 7420,
+					"Class": 7304,
+					"TeamName": "Schiller Racing",
+					"drivers": [
+						{
+							"Forename": "François",
+							"Surname": "Servanin",
+							"Id": 7371
+						}
+					]
+				},
+				{
+					"Name": "#61",
+					"Team": 7515,
+					"Car": 7282,
+					"Id": 7421,
+					"Class": 7304,
+					"TeamName": "Brumos Porsche",
+					"drivers": [
+						{
+							"Forename": "Jim",
+							"Surname": "Busby",
+							"Id": 7372
+						}
+					]
+				},
+				{
+					"Name": "#61",
+					"Team": 7518,
+					"Car": 7282,
+					"Id": 7422,
+					"Class": 7304,
+					"TeamName": "A.S.A. Cachia",
+					"drivers": [
+						{
+							"Forename": "Henri",
+							"Surname": "Cachia",
+							"Id": 7510
+						}
+					]
+				},
+				{
+					"Name": "#62",
+					"Team": 7530,
+					"Car": 7282,
+					"Id": 7423,
+					"Class": 7304,
+					"TeamName": "Segolen (Bravo)",
+					"drivers": [
+						{
+							"Forename": "Jean-Claude",
+							"Surname": "Briavoine",
+							"Id": 7468
+						}
+					]
+				},
+				{
+					"Name": "#64",
+					"Team": 7531,
+					"Car": 7282,
+					"Id": 7424,
+					"Class": 7304,
+					"TeamName": "Georges Bourdillat",
+					"drivers": [
+						{
+							"Forename": "Georges",
+							"Surname": "Bourdillat",
+							"Id": 7469
+						}
+					]
+				},
+				{
+					"Name": "#65",
+					"Team": 7528,
+					"Car": 7282,
+					"Id": 7425,
+					"Class": 7304,
+					"TeamName": "Porsche Kremer Racing Team",
+					"drivers": [
+						{
+							"Forename": "Marie-Claude",
+							"Surname": "Beaumont",
+							"Id": 7470
+						}
+					]
+				},
+				{
+					"Name": "#69",
+					"Team": 7519,
+					"Car": 7282,
+					"Id": 7426,
+					"Class": 7304,
+					"TeamName": "Schiller Racing Team",
+					"drivers": [
+						{
+							"Forename": "Florian",
+							"Surname": "Vetsch",
+							"Id": 7471
+						}
+					]
+				},
+				{
+					"Name": "#69",
+					"Team": 7532,
+					"Car": 7282,
+					"Id": 7427,
+					"Class": 7304,
+					"TeamName": "Ravenel - V.S.D",
+					"drivers": [
+						{
+							"Forename": "Philippe",
+							"Surname": "Dagoreau",
+							"Id": 7472
+						}
+					]
+				},
+				{
+					"Name": "#70",
+					"Team": 7533,
+					"Car": 7282,
+					"Id": 7428,
+					"Class": 7304,
+					"TeamName": "Beurlys",
+					"drivers": [
+						{
+							"Forename": "Jean",
+							"Surname": "Blaton",
+							"Id": 7473
+						}
+					]
+				},
+				{
+					"Name": "#70",
+					"Team": 7534,
+					"Car": 7282,
+					"Id": 7429,
+					"Class": 7304,
+					"TeamName": "Thierry Perrier",
+					"drivers": [
+						{
+							"Forename": "Thierry",
+							"Surname": "Perrier",
+							"Id": 7474
+						}
+					]
+				},
+				{
+					"Name": "#74",
+					"Team": 7535,
+					"Car": 7282,
+					"Id": 7430,
+					"Class": 7304,
+					"TeamName": "Quarry",
+					"drivers": [
+						{
+							"Forename": "Ferruccio",
+							"Surname": "Caliceti",
+							"Id": 7475
+						}
+					]
+				},
+				{
+					"Name": "#82",
+					"Team": 7536,
+					"Car": 7282,
+					"Id": 7431,
+					"Class": 7304,
+					"TeamName": "Lubrifilm Racing Team",
+					"drivers": [
+						{
+							"Forename": "Angelo",
+							"Surname": "Pallavicini",
+							"Id": 7476
+						}
+					]
+				},
+				{
+					"Name": "#84",
+					"Team": 7537,
+					"Car": 7282,
+					"Id": 7432,
+					"Class": 7304,
+					"TeamName": "Anny-Charlotte Verney",
+					"drivers": [
+						{
+							"Forename": "Anny-Charlotte",
+							"Surname": "Verney",
+							"Id": 7477
+						}
+					]
+				},
+				{
+					"Name": "#86",
+					"Team": 7538,
+					"Car": 7282,
+					"Id": 7433,
+					"Class": 7304,
+					"TeamName": "Kores Racing",
+					"drivers": [
+						{
+							"Forename": "Roland",
+							"Surname": "Ennequin",
+							"Id": 7478
+						}
+					]
+				},
+				{
+					"Name": "#87",
+					"Team": 7283,
+					"Car": 7282,
+					"Id": 7434,
+					"Class": 7304,
+					"TeamName": "Christian Bussi",
+					"drivers": [
+						{
+							"Forename": "Bernard",
+							"Surname": "Salam",
+							"Id": 7481
+						}
+					]
+				},
+				{
+					"Name": "#90",
+					"Team": 7531,
+					"Car": 7282,
+					"Id": 7435,
+					"Class": 7304,
+					"TeamName": "Georges Bourdillat Racing",
+					"drivers": [
+						{
+							"Forename": "Alain-Michel",
+							"Surname": "Bernard",
+							"Id": 7480
+						}
+					]
+				},
+				{
+					"Name": "#91",
+					"Team": 7518,
+					"Car": 7282,
+					"Id": 7436,
+					"Class": 7304,
+					"TeamName": "A.S.A. Cachia",
+					"drivers": [
+						{
+							"Forename": "Christian",
+							"Surname": "Bussi",
+							"Id": 7479
+						}
+					]
+				},
+				{
+					"Name": "#94",
+					"Team": 7540,
+					"Car": 7282,
+					"Id": 7437,
+					"Class": 7304,
+					"TeamName": "Equipe Alméras Freres",
+					"drivers": [
+						{
+							"Forename": "Jean-Marie",
+							"Surname": "Alméras",
+							"Id": 7482
+						}
+					]
+				},
+				{
+					"Name": "#167",
+					"Team": 7540,
+					"Car": 7282,
+					"Id": 7438,
+					"Class": 7304,
+					"TeamName": "Equipe Alméras Freres",
+					"drivers": [
+						{
+							"Forename": "Jacques",
+							"Surname": "Alméras",
+							"Id": 7483
 						}
 					]
 				}
@@ -46954,7 +47519,7 @@
 		},
 		"7001": {
 			"Name": "#25",
-			"Team": 4676,
+			"Team": 7004,
 			"Car": 4675,
 			"Id": 7001,
 			"Class": 6345,
@@ -46969,7 +47534,7 @@
 		},
 		"7002": {
 			"Name": "#70",
-			"Team": 4676,
+			"Team": 7004,
 			"Car": 4675,
 			"Id": 7002,
 			"Class": 6345,
@@ -46984,7 +47549,7 @@
 		},
 		"7003": {
 			"Name": "#01",
-			"Team": 4676,
+			"Team": 7004,
 			"Car": 4675,
 			"Id": 7003,
 			"Class": 6345,
@@ -48541,6 +49106,561 @@
 					"Id": 7296
 				}
 			]
+		},
+		"7402": {
+			"Name": "#00",
+			"Team": 7283,
+			"Car": 7282,
+			"Id": 7402,
+			"Class": 7304,
+			"TeamName": "Interscope Racing",
+			"drivers": [
+				{
+					"Forename": "Danny",
+					"Surname": "Ongais",
+					"Id": 7353
+				}
+			]
+		},
+		"7403": {
+			"Name": "#6",
+			"Team": 7513,
+			"Car": 7282,
+			"Id": 7403,
+			"Class": 7304,
+			"TeamName": "Kremer Racing",
+			"drivers": [
+				{
+					"Forename": "Bob",
+					"Surname": "Wollek",
+					"Id": 7350
+				}
+			]
+		},
+		"7404": {
+			"Name": "#6",
+			"Team": 7513,
+			"Car": 7282,
+			"Id": 7404,
+			"Class": 7304,
+			"TeamName": "Kremer Racing",
+			"drivers": [
+				{
+					"Forename": "Bob",
+					"Surname": "Wollek",
+					"Id": 7354
+				}
+			]
+		},
+		"7405": {
+			"Name": "#9",
+			"Team": 7522,
+			"Car": 7282,
+			"Id": 7405,
+			"Class": 7304,
+			"TeamName": "Jolly Club",
+			"drivers": [
+				{
+					"Forename": "Vittorio",
+					"Surname": "Brambilla",
+					"Id": 7355
+				}
+			]
+		},
+		"7406": {
+			"Name": "#14",
+			"Team": 7521,
+			"Car": 7282,
+			"Id": 7406,
+			"Class": 7304,
+			"TeamName": "G. W. Dickinson",
+			"drivers": [
+				{
+					"Forename": "Al",
+					"Surname": "Holbert",
+					"Id": 7356
+				}
+			]
+		},
+		"7407": {
+			"Name": "#16",
+			"Team": 7523,
+			"Car": 7282,
+			"Id": 7407,
+			"Class": 7304,
+			"TeamName": "Vasek Polak Racing",
+			"drivers": [
+				{
+					"Forename": "George",
+					"Surname": "Follmer",
+					"Id": 7357
+				}
+			]
+		},
+		"7408": {
+			"Name": "#25",
+			"Team": 7514,
+			"Car": 7282,
+			"Id": 7408,
+			"Class": 7304,
+			"TeamName": "Wrangler Racing Team",
+			"drivers": [
+				{
+					"Forename": "Preben",
+					"Surname": "Kristoffersen",
+					"Id": 7509
+				}
+			]
+		},
+		"7409": {
+			"Name": "#32",
+			"Team": 7283,
+			"Car": 7282,
+			"Id": 7409,
+			"Class": 7304,
+			"TeamName": "Electrodyne Racing",
+			"drivers": [
+				{
+					"Forename": "Chester",
+					"Surname": "Vincentz",
+					"Id": 7359
+				}
+			]
+		},
+		"7410": {
+			"Name": "#51",
+			"Team": 7520,
+			"Car": 7282,
+			"Id": 7410,
+			"Class": 7304,
+			"TeamName": "Tebernum Racing George Loos",
+			"drivers": [
+				{
+					"Forename": "Toine",
+					"Surname": "Hezemans",
+					"Id": 7360
+				}
+			]
+		},
+		"7411": {
+			"Name": "#52",
+			"Team": 7520,
+			"Car": 7282,
+			"Id": 7411,
+			"Class": 7304,
+			"TeamName": "Tebernum Racing George Loos",
+			"drivers": [
+				{
+					"Forename": "Tim",
+					"Surname": "Schenken",
+					"Id": 7361
+				}
+			]
+		},
+		"7412": {
+			"Name": "#53",
+			"Team": 7517,
+			"Car": 7282,
+			"Id": 7412,
+			"Class": 7304,
+			"TeamName": "Max Moritz Porsche",
+			"drivers": [
+				{
+					"Forename": "Helmut",
+					"Surname": "Kelleners",
+					"Id": 7362
+				}
+			]
+		},
+		"7413": {
+			"Name": "#54",
+			"Team": 7283,
+			"Car": 7282,
+			"Id": 7413,
+			"Class": 7304,
+			"TeamName": "BP",
+			"drivers": [
+				{
+					"Forename": "Hubert",
+					"Surname": "Striebig",
+					"Id": 7364
+				}
+			]
+		},
+		"7414": {
+			"Name": "#55",
+			"Team": 7516,
+			"Car": 7282,
+			"Id": 7414,
+			"Class": 7304,
+			"TeamName": "Kannacher Racing",
+			"drivers": [
+				{
+					"Forename": "Eberhard",
+					"Surname": "Sindel",
+					"Id": 7365
+				}
+			]
+		},
+		"7415": {
+			"Name": "#55",
+			"Team": 7526,
+			"Car": 7282,
+			"Id": 7415,
+			"Class": 7304,
+			"TeamName": "Escuderia Montjuich",
+			"drivers": [
+				{
+					"Forename": "Jean",
+					"Surname": "Fernandez",
+					"Id": 7366
+				}
+			]
+		},
+		"7416": {
+			"Name": "#56",
+			"Team": 7512,
+			"Car": 7282,
+			"Id": 7416,
+			"Class": 7304,
+			"TeamName": "J.M.S. Racing Team",
+			"drivers": [
+				{
+					"Forename": "Jean-Louis",
+					"Surname": "Bousquet",
+					"Id": 7367
+				}
+			]
+		},
+		"7417": {
+			"Name": "#57",
+			"Team": 7527,
+			"Car": 7282,
+			"Id": 7417,
+			"Class": 7304,
+			"TeamName": "Nicolas Koob Racing",
+			"drivers": [
+				{
+					"Forename": "Willy",
+					"Surname": "Braillard",
+					"Id": 7368
+				}
+			]
+		},
+		"7418": {
+			"Name": "#58",
+			"Team": 7528,
+			"Car": 7282,
+			"Id": 7418,
+			"Class": 7304,
+			"TeamName": "Porsche Kremer Racing Team",
+			"drivers": [
+				{
+					"Forename": "Philippe",
+					"Surname": "Gurdjian",
+					"Id": 7369
+				}
+			]
+		},
+		"7419": {
+			"Name": "#58",
+			"Team": 7529,
+			"Car": 7282,
+			"Id": 7419,
+			"Class": 7304,
+			"TeamName": "Porsche Club Romand",
+			"drivers": [
+				{
+					"Forename": "Bernard",
+					"Surname": "Cheneviere",
+					"Id": 7370
+				}
+			]
+		},
+		"7420": {
+			"Name": "#59",
+			"Team": 7519,
+			"Car": 7282,
+			"Id": 7420,
+			"Class": 7304,
+			"TeamName": "Schiller Racing",
+			"drivers": [
+				{
+					"Forename": "François",
+					"Surname": "Servanin",
+					"Id": 7371
+				}
+			]
+		},
+		"7421": {
+			"Name": "#61",
+			"Team": 7515,
+			"Car": 7282,
+			"Id": 7421,
+			"Class": 7304,
+			"TeamName": "Brumos Porsche",
+			"drivers": [
+				{
+					"Forename": "Jim",
+					"Surname": "Busby",
+					"Id": 7372
+				}
+			]
+		},
+		"7422": {
+			"Name": "#61",
+			"Team": 7518,
+			"Car": 7282,
+			"Id": 7422,
+			"Class": 7304,
+			"TeamName": "A.S.A. Cachia",
+			"drivers": [
+				{
+					"Forename": "Henri",
+					"Surname": "Cachia",
+					"Id": 7510
+				}
+			]
+		},
+		"7423": {
+			"Name": "#62",
+			"Team": 7530,
+			"Car": 7282,
+			"Id": 7423,
+			"Class": 7304,
+			"TeamName": "Segolen (Bravo)",
+			"drivers": [
+				{
+					"Forename": "Jean-Claude",
+					"Surname": "Briavoine",
+					"Id": 7468
+				}
+			]
+		},
+		"7424": {
+			"Name": "#64",
+			"Team": 7531,
+			"Car": 7282,
+			"Id": 7424,
+			"Class": 7304,
+			"TeamName": "Georges Bourdillat",
+			"drivers": [
+				{
+					"Forename": "Georges",
+					"Surname": "Bourdillat",
+					"Id": 7469
+				}
+			]
+		},
+		"7425": {
+			"Name": "#65",
+			"Team": 7528,
+			"Car": 7282,
+			"Id": 7425,
+			"Class": 7304,
+			"TeamName": "Porsche Kremer Racing Team",
+			"drivers": [
+				{
+					"Forename": "Marie-Claude",
+					"Surname": "Beaumont",
+					"Id": 7470
+				}
+			]
+		},
+		"7426": {
+			"Name": "#69",
+			"Team": 7519,
+			"Car": 7282,
+			"Id": 7426,
+			"Class": 7304,
+			"TeamName": "Schiller Racing Team",
+			"drivers": [
+				{
+					"Forename": "Florian",
+					"Surname": "Vetsch",
+					"Id": 7471
+				}
+			]
+		},
+		"7427": {
+			"Name": "#69",
+			"Team": 7532,
+			"Car": 7282,
+			"Id": 7427,
+			"Class": 7304,
+			"TeamName": "Ravenel - V.S.D",
+			"drivers": [
+				{
+					"Forename": "Philippe",
+					"Surname": "Dagoreau",
+					"Id": 7472
+				}
+			]
+		},
+		"7428": {
+			"Name": "#70",
+			"Team": 7533,
+			"Car": 7282,
+			"Id": 7428,
+			"Class": 7304,
+			"TeamName": "Beurlys",
+			"drivers": [
+				{
+					"Forename": "Jean",
+					"Surname": "Blaton",
+					"Id": 7473
+				}
+			]
+		},
+		"7429": {
+			"Name": "#70",
+			"Team": 7534,
+			"Car": 7282,
+			"Id": 7429,
+			"Class": 7304,
+			"TeamName": "Thierry Perrier",
+			"drivers": [
+				{
+					"Forename": "Thierry",
+					"Surname": "Perrier",
+					"Id": 7474
+				}
+			]
+		},
+		"7430": {
+			"Name": "#74",
+			"Team": 7535,
+			"Car": 7282,
+			"Id": 7430,
+			"Class": 7304,
+			"TeamName": "Quarry",
+			"drivers": [
+				{
+					"Forename": "Ferruccio",
+					"Surname": "Caliceti",
+					"Id": 7475
+				}
+			]
+		},
+		"7431": {
+			"Name": "#82",
+			"Team": 7536,
+			"Car": 7282,
+			"Id": 7431,
+			"Class": 7304,
+			"TeamName": "Lubrifilm Racing Team",
+			"drivers": [
+				{
+					"Forename": "Angelo",
+					"Surname": "Pallavicini",
+					"Id": 7476
+				}
+			]
+		},
+		"7432": {
+			"Name": "#84",
+			"Team": 7537,
+			"Car": 7282,
+			"Id": 7432,
+			"Class": 7304,
+			"TeamName": "Anny-Charlotte Verney",
+			"drivers": [
+				{
+					"Forename": "Anny-Charlotte",
+					"Surname": "Verney",
+					"Id": 7477
+				}
+			]
+		},
+		"7433": {
+			"Name": "#86",
+			"Team": 7538,
+			"Car": 7282,
+			"Id": 7433,
+			"Class": 7304,
+			"TeamName": "Kores Racing",
+			"drivers": [
+				{
+					"Forename": "Roland",
+					"Surname": "Ennequin",
+					"Id": 7478
+				}
+			]
+		},
+		"7434": {
+			"Name": "#87",
+			"Team": 7283,
+			"Car": 7282,
+			"Id": 7434,
+			"Class": 7304,
+			"TeamName": "Christian Bussi",
+			"drivers": [
+				{
+					"Forename": "Bernard",
+					"Surname": "Salam",
+					"Id": 7481
+				}
+			]
+		},
+		"7435": {
+			"Name": "#90",
+			"Team": 7531,
+			"Car": 7282,
+			"Id": 7435,
+			"Class": 7304,
+			"TeamName": "Georges Bourdillat Racing",
+			"drivers": [
+				{
+					"Forename": "Alain-Michel",
+					"Surname": "Bernard",
+					"Id": 7480
+				}
+			]
+		},
+		"7436": {
+			"Name": "#91",
+			"Team": 7518,
+			"Car": 7282,
+			"Id": 7436,
+			"Class": 7304,
+			"TeamName": "A.S.A. Cachia",
+			"drivers": [
+				{
+					"Forename": "Christian",
+					"Surname": "Bussi",
+					"Id": 7479
+				}
+			]
+		},
+		"7437": {
+			"Name": "#94",
+			"Team": 7540,
+			"Car": 7282,
+			"Id": 7437,
+			"Class": 7304,
+			"TeamName": "Equipe Alméras Freres",
+			"drivers": [
+				{
+					"Forename": "Jean-Marie",
+					"Surname": "Alméras",
+					"Id": 7482
+				}
+			]
+		},
+		"7438": {
+			"Name": "#167",
+			"Team": 7540,
+			"Car": 7282,
+			"Id": 7438,
+			"Class": 7304,
+			"TeamName": "Equipe Alméras Freres",
+			"drivers": [
+				{
+					"Forename": "Jacques",
+					"Surname": "Alméras",
+					"Id": 7483
+				}
+			]
 		}
 	},
 	"tracks": {
@@ -48653,13 +49773,13 @@
 				{
 					"Name": "Full Run",
 					"Track": 1681,
-					"MaxNumberOfVehicles": 36,
+					"MaxNumberOfVehicles": 1,
 					"Id": 1682
 				},
 				{
 					"Name": "Reverse",
 					"Track": 1681,
-					"MaxNumberOfVehicles": 36,
+					"MaxNumberOfVehicles": 1,
 					"Id": 2181
 				}
 			]
@@ -48731,13 +49851,13 @@
 				{
 					"Name": "Full Run",
 					"Track": 1705,
-					"MaxNumberOfVehicles": 36,
+					"MaxNumberOfVehicles": 1,
 					"Id": 1709
 				},
 				{
 					"Name": "Reverse",
 					"Track": 1705,
-					"MaxNumberOfVehicles": 36,
+					"MaxNumberOfVehicles": 1,
 					"Id": 2214
 				}
 			]
@@ -49449,7 +50569,7 @@
 		"1682": {
 			"Name": "Full Run",
 			"Track": 1681,
-			"MaxNumberOfVehicles": 36,
+			"MaxNumberOfVehicles": 1,
 			"Id": 1682
 		},
 		"1684": {
@@ -49473,7 +50593,7 @@
 		"1709": {
 			"Name": "Full Run",
 			"Track": 1705,
-			"MaxNumberOfVehicles": 36,
+			"MaxNumberOfVehicles": 1,
 			"Id": 1709
 		},
 		"1763": {
@@ -49611,13 +50731,13 @@
 		"2181": {
 			"Name": "Reverse",
 			"Track": 1681,
-			"MaxNumberOfVehicles": 36,
+			"MaxNumberOfVehicles": 1,
 			"Id": 2181
 		},
 		"2214": {
 			"Name": "Reverse",
 			"Track": 1705,
-			"MaxNumberOfVehicles": 36,
+			"MaxNumberOfVehicles": 1,
 			"Id": 2214
 		},
 		"2384": {
@@ -50737,6 +51857,15 @@
 				}
 			],
 			"Id": 7168
+		},
+		"7304": {
+			"Name": "Group 4",
+			"Cars": [
+				{
+					"Id": 7282
+				}
+			],
+			"Id": 7304
 		}
 	},
 	"manufacturers": {
@@ -55480,6 +56609,11 @@
 			"Name": "Cor Euser Racing",
 			"Id": 7277
 		},
+		"7283": {
+			"Type": "CarTeam",
+			"Name": "Interscope Racing",
+			"Id": 7283
+		},
 		"7374": {
 			"Type": "CarTeam",
 			"Name": "RYS Team True Racing",
@@ -55584,6 +56718,151 @@
 			"Type": "CarTeam",
 			"Name": "ISSY Racing",
 			"Id": 7395
+		},
+		"7512": {
+			"Type": "CarTeam",
+			"Name": "J.M.S. Racing Team",
+			"Id": 7512
+		},
+		"7513": {
+			"Type": "CarTeam",
+			"Name": "Kremer Racing",
+			"Id": 7513
+		},
+		"7514": {
+			"Type": "CarTeam",
+			"Name": "Wrangler Racing Team",
+			"Id": 7514
+		},
+		"7515": {
+			"Type": "CarTeam",
+			"Name": "Brumos Porsche",
+			"Id": 7515
+		},
+		"7516": {
+			"Type": "CarTeam",
+			"Name": "Kannacher Racing",
+			"Id": 7516
+		},
+		"7517": {
+			"Type": "CarTeam",
+			"Name": "Max Moritz Porsche",
+			"Id": 7517
+		},
+		"7518": {
+			"Type": "CarTeam",
+			"Name": "A.S.A. Cachia",
+			"Id": 7518
+		},
+		"7519": {
+			"Type": "CarTeam",
+			"Name": "Schiller Racing Team",
+			"Id": 7519
+		},
+		"7520": {
+			"Type": "CarTeam",
+			"Name": "Tebernum Racing George Loos",
+			"Id": 7520
+		},
+		"7521": {
+			"Type": "CarTeam",
+			"Name": "G. W. Dickinson",
+			"Id": 7521
+		},
+		"7522": {
+			"Type": "CarTeam",
+			"Name": "Jolly Club",
+			"Id": 7522
+		},
+		"7523": {
+			"Type": "CarTeam",
+			"Name": "Vasek Polak Racing",
+			"Id": 7523
+		},
+		"7524": {
+			"Type": "CarTeam",
+			"Name": "Electrodyne Racing",
+			"Id": 7524
+		},
+		"7525": {
+			"Type": "CarTeam",
+			"Name": "BP",
+			"Id": 7525
+		},
+		"7526": {
+			"Type": "CarTeam",
+			"Name": "Escuderia Montjuich",
+			"Id": 7526
+		},
+		"7527": {
+			"Type": "CarTeam",
+			"Name": "Nicolas Koob Racing",
+			"Id": 7527
+		},
+		"7528": {
+			"Type": "CarTeam",
+			"Name": "Porsche Kremer Racing Team",
+			"Id": 7528
+		},
+		"7529": {
+			"Type": "CarTeam",
+			"Name": "Porsche Club Romand",
+			"Id": 7529
+		},
+		"7530": {
+			"Type": "CarTeam",
+			"Name": "Segolen (Bravo)",
+			"Id": 7530
+		},
+		"7531": {
+			"Type": "CarTeam",
+			"Name": "Georges Bourdillat Racing",
+			"Id": 7531
+		},
+		"7532": {
+			"Type": "CarTeam",
+			"Name": "Ravenel - V.S.D",
+			"Id": 7532
+		},
+		"7533": {
+			"Type": "CarTeam",
+			"Name": "Beurlys",
+			"Id": 7533
+		},
+		"7534": {
+			"Type": "CarTeam",
+			"Name": "Thierry Perrier",
+			"Id": 7534
+		},
+		"7535": {
+			"Type": "CarTeam",
+			"Name": "Quarry",
+			"Id": 7535
+		},
+		"7536": {
+			"Type": "CarTeam",
+			"Name": "Lubrifilm Racing Team",
+			"Id": 7536
+		},
+		"7537": {
+			"Type": "CarTeam",
+			"Name": "Anny-Charlotte Verney",
+			"Id": 7537
+		},
+		"7538": {
+			"Type": "CarTeam",
+			"Name": "Kores Racing",
+			"Id": 7538
+		},
+		"7539": {
+			"Type": "CarTeam",
+			"Name": "Christian Bussi",
+			"Id": 7539
+		},
+		"7540": {
+			"Type": "CarTeam",
+			"Name": "Equipe Alméras Freres",
+			"Id": 7540
 		}
 	}
 }
