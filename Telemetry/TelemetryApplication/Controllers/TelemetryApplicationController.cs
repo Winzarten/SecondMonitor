@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers
 {
     using System.Windows;
+    using MainWindow;
     using Ninject;
     using ViewModels.Controllers;
 

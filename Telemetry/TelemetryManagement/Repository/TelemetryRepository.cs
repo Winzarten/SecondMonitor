@@ -37,6 +37,19 @@
             Save(lapTelemetry, fileName);
         }
 
+        public SessionInfoDto LoadSessionInformation(string sessionIdentifier)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SessionInfoDto));
+            string directory = Path.Combine(_repositoryDirectory, sessionIdentifier);
+            string fileName = Path.Combine(directory, SessionInfoFile);
+            Logger.Info($"Loading Session info: {fileName}");
+
+            using (FileStream file = File.Open(fileName, FileMode.Open))
+            {
+                 return xmlSerializer.Deserialize(file) as SessionInfoDto;
+            }
+        }
+
         private void Save(SessionInfoDto sessionInfoDto, string path)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(SessionInfoDto));

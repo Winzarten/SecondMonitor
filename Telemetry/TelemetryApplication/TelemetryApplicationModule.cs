@@ -1,8 +1,12 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication
 {
     using Controllers;
+    using Controllers.MainWindow;
+    using Controllers.TelemetryLoad;
     using Ninject.Extensions.NamedScope;
     using Ninject.Modules;
+    using Repository;
+    using Settings;
 
     public class TelemetryApplicationModule : NinjectModule
     {
@@ -12,6 +16,11 @@
         public override void Load()
         {
             Bind<IMainWindowController>().To<MainWindowController>().DefinesNamedScope(MainWidowScopeName);
+
+            Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InNamedScope(MainWidowScopeName);
+            Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
+
+            Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
         }
     }
 }

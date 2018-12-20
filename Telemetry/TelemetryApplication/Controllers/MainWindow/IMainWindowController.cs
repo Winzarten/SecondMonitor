@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow
 {
     using System.Windows;
     using ViewModels.Controllers;

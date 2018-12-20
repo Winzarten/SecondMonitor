@@ -6,5 +6,7 @@
     {
         void SaveSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier);
         void SaveSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier);
+
+        SessionInfoDto LoadSessionInformation(string sessionIdentifier);
     }
 }
