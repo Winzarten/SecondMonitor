@@ -132,6 +132,7 @@
     <Compile Include="WPF\Commands\RelayCommand.cs" />
     <Compile Include="WPF\Commands\RelayCommandWithCondition.cs" />
     <Compile Include="WPF\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="WPF\Converters\DateTimeToCurrentConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
+    <Compile Include="WPF\Converters\TimeSpanToMinutesSecondMilisecondsConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToMinutesSecondsConverter.cs" />
     <Compile Include="WPF\DriverPosition\AbstractSituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\FullMapControl.cs" />

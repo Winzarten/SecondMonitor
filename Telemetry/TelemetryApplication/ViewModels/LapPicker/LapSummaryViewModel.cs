@@ -9,6 +9,7 @@
 
         private TimeSpan _lapTime;
         private int _lapNumber;
+        private bool _display;
 
         public TimeSpan LapTime
         {
@@ -16,6 +17,16 @@
             set
             {
                 _lapTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool Display
+        {
+            get => _display;
+            set
+            {
+                _display = value;
                 NotifyPropertyChanged();
             }
         }

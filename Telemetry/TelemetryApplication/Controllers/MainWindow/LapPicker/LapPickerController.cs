@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.LapPicker
 {
+    using System.Linq;
     using Factory;
     using Synchronization;
     using TelemetryManagement.DTO;
@@ -42,7 +43,11 @@
         private void ReinitializeViewMode(SessionInfoDto sessionInfoDto)
         {
             _lapSelectionViewModel.Clear();
-            foreach (LapSummaryDto lapSummaryDto in sessionInfoDto.LapsSummary)
+            _lapSelectionViewModel.TrackName = string.IsNullOrEmpty(sessionInfoDto.LayoutName) ? sessionInfoDto.TrackName : $"{sessionInfoDto.TrackName} - {sessionInfoDto.LayoutName}";
+            _lapSelectionViewModel.CarName = sessionInfoDto.CarName;
+            _lapSelectionViewModel.SessionTime = sessionInfoDto.SessionRunDateTime;
+            _lapSelectionViewModel.SimulatorName = sessionInfoDto.Simulator;
+            foreach (LapSummaryDto lapSummaryDto in sessionInfoDto.LapsSummary.OrderBy(x => x.LapNumber))
             {
                 ILapSummaryViewModel newViewModel = _viewModelFactory.Create<ILapSummaryViewModel>();
                 newViewModel.FromModel(lapSummaryDto);

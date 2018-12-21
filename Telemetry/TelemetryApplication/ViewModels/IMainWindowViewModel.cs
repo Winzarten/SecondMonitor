@@ -1,8 +1,9 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels
 {
     using LapPicker;
+    using SecondMonitor.ViewModels;
 
-    public interface IMainWindowViewModel
+    public interface IMainWindowViewModel : IAbstractViewModel
     {
         ILapSelectionViewModel LapSelectionViewModel { get; }
     }

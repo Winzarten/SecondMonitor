@@ -4,24 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SecondMonitor.TelemetryPresentation.MainWindow"
+        xmlns:viewModels="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels;assembly=TelemetryApplication"
+        xmlns:lapsSummary="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.LapsSummary"
         mc:Ignorable="d"
-        Title="Telemetry Viewer" Height="450" Width="800">
+        Title="Telemetry Viewer" Height="450" Width="800" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}" WindowState="Maximized">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelOverviewControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TemperatureControl/TemperatureControlT.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/PedalControl/PedalGearControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/WheelStatusControl/WheelStatucControlT.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/TrackInfoControl/TrackInfoControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/DriverPosition/DriverPositionControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/ComboboxStyles.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/FuelControl/FuelPlannerControl.xaml" />
+                <ResourceDictionary Source="../TelemetryPresentation.xaml" />
             </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
    </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Column="0" MaxHeight="350">
+                <lapsSummary:LapSelectionControl DataContext="{Binding LapSelectionViewModel}"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

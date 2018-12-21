@@ -2,8 +2,9 @@
 {
     using Factory;
     using LapPicker;
+    using SecondMonitor.ViewModels;
 
-    public class MainWindowViewModel : IMainWindowViewModel
+    public class MainWindowViewModel : AbstractViewModel, IMainWindowViewModel
     {
         private readonly IViewModelFactory _viewModelFactory;
 
