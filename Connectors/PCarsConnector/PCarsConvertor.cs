@@ -7,8 +7,9 @@
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using enums;
+    using PluginManager.GameConnector;
 
-    public class PCarsConvertor
+    public class PCarsConvertor : AbstractDataConvertor
     {
 
         private readonly TimeSpan _pitTimeDelay = TimeSpan.FromMilliseconds(2000);
@@ -68,7 +69,8 @@
                     {
                         DriverName = pcarsDriverData.MName,
                         CompletedLaps = (int)pcarsDriverData.MLapsCompleted,
-                        CarName = pcarsData.MCarClassName,
+                        CarName = "N/A",
+                        CarClassName = pcarsData.MCarClassName,
                         InPits = false,
                         IsPlayer = i == pcarsData.MViewedParticipantIndex,
                         Position = (int)pcarsDriverData.MRacePosition,
@@ -246,6 +248,8 @@
             simData.PlayerInfo.CarInfo.Acceleration.YinMs = data.MLocalAcceleration[1];
             simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.MLocalAcceleration[2];
 
+
+            PopulateClassPositions(simData);
             return simData;
         }
 

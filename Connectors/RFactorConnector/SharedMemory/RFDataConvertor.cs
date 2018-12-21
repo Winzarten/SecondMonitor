@@ -291,7 +291,8 @@
                                         {
                                             DriverName = StringExtensions.FromArray(rfVehicleInfo.DriverName),
                                             CompletedLaps = rfVehicleInfo.TotalLaps,
-                                            CarName = StringExtensions.FromArray(rfVehicleInfo.VehicleClass),
+                                            CarName = StringExtensions.FromArray(rfVehicleInfo.VehicleName),
+                                            CarClassName = StringExtensions.FromArray(rfVehicleInfo.VehicleClass),
                                             InPits = rfVehicleInfo.InPits == 1
                                         };
 

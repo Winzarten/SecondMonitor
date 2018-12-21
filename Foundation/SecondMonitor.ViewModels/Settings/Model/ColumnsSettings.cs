@@ -8,6 +8,7 @@
         public ColumnSettings Position { get; set; } = new ColumnSettings { Visible = true, Width = 60 };
         public ColumnSettings Name { get; set; } = new ColumnSettings { Visible = true, Width = 180 };
         public ColumnSettings CarName { get; set; } = new ColumnSettings { Visible = true, Width = 250 };
+        public ColumnSettings CarClassName { get; set; } = new ColumnSettings { Visible = true, Width = 150 };
         public ColumnSettings CompletedLaps { get; set; } = new ColumnSettings { Visible = true, Width = 60 };
         public ColumnSettings LastLapTime { get; set; } = new ColumnSettings { Visible = true, Width = 150 };
         public ColumnSettings Pace { get; set; } = new ColumnSettings { Visible = true, Width = 150 };

@@ -5,8 +5,9 @@
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
+    using PluginManager.GameConnector;
 
-    internal class R3EDataConvertor
+    internal class R3EDataConvertor : AbstractDataConvertor
     {
 
         private readonly R3RDatabase _database;
@@ -269,6 +270,7 @@
             driverInfo.LapDistance = r3RDriverData.LapDistance;
             driverInfo.TotalDistance = r3RDriverData.CompletedLaps * r3RData.LayoutLength + r3RDriverData.LapDistance;
             driverInfo.CarName = _database.GetCarName(r3RDriverData.DriverInfo.ModelId);
+            driverInfo.CarClassName = _database.GetClassName(r3RDriverData.DriverInfo.ClassId);
             driverInfo.FinishStatus = FromR3RStatus(r3RDriverData.FinishStatus);
             driverInfo.WorldPosition = new Point3D(Distance.FromMeters(r3RDriverData.Position.X * -1), Distance.FromMeters(r3RDriverData.Position.Y), Distance.FromMeters(r3RDriverData.Position.Z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3RData);
@@ -338,6 +340,8 @@
 
             //Add Flags Info
             AddFlags(data, simData);
+
+            PopulateClassPositions(simData);
 
             return simData;
         }

@@ -58,6 +58,7 @@
             columnsSettingsViewModel.LastPitInfo.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             columnsSettingsViewModel.TimeToPlayer.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             columnsSettingsViewModel.TopSpeed.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CarClassName.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
         }
 
         private void UnRegisterReportingSettings(ReportingSettingsViewModel reportingSettingsView)
@@ -83,6 +84,7 @@
             columnsSettingsViewModel.LastPitInfo.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             columnsSettingsViewModel.TimeToPlayer.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             columnsSettingsViewModel.TopSpeed.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            columnsSettingsViewModel.CarClassName.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
         }
 
         private void RegisterDisplaySettings()
