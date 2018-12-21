@@ -312,6 +312,7 @@
                 DriverName = StringExtensions.FromArray(acVehicleInfo.driverName),
                 CompletedLaps = acVehicleInfo.lapCount,
                 CarName = FormatACName(StringExtensions.FromArray(acVehicleInfo.carModel)),
+                CarClassName = "N/A"
             };
 
             driverInfo.InPits = acVehicleInfo.isCarInPit == 1 || acVehicleInfo.isCarInPitlane == 1;

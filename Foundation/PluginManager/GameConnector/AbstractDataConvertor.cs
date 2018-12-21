@@ -1,5 +1,9 @@
 ﻿namespace SecondMonitor.PluginManager.GameConnector
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using DataModel.Extensions;
+    using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
 
     public abstract class AbstractDataConvertor
@@ -32,6 +36,21 @@
             }
 
             driverInfo.DistanceToPlayer = distanceToPlayer;
+        }
+
+        protected static void PopulateClassPositions(SimulatorDataSet dataSet)
+        {
+            IEnumerable<IGrouping<string, DriverInfo>> classPotions = dataSet.DriversInfo.GroupBy(x => x.CarClassName);
+
+            foreach (IGrouping<string, DriverInfo> classPotion in classPotions)
+            {
+                int position = 1;
+                foreach (DriverInfo driverInfo in classPotion.OrderBy(x => x.Position))
+                {
+                    driverInfo.PositionInClass = position;
+                    position++;
+                }
+            }
         }
     }
 }

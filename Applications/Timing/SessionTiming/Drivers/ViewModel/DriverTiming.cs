@@ -49,6 +49,8 @@
 
         public int Position => DriverInfo.Position;
 
+        public int PositionInClass => DriverInfo.PositionInClass;
+
         public int CompletedLaps => DriverInfo.CompletedLaps;
 
         public bool InPits { get; private set; }
@@ -70,6 +72,8 @@
         public double LapPercentage { get; private set; }
 
         public string CarName => DriverInfo.CarName;
+
+        public string CarClassName => DriverInfo.CarClassName;
 
         public int PaceLaps => Session.PaceLaps;
 
