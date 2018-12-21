@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers
 {
+    using System.Threading.Tasks;
     using System.Windows;
     using MainWindow;
     using Ninject;
@@ -20,6 +21,16 @@
         {
             InitializeKernel();
             StartChildControllers();
+        }
+
+        public void StopController()
+        {
+            _mainWindowController.StopController();
+        }
+
+        public async Task OpenFromRepository(string sessionIdentifier)
+        {
+            await _mainWindowController.LoadTelemetrySession(sessionIdentifier);
         }
 
         private void StartChildControllers()

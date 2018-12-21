@@ -51,7 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MainWindow\IMainWindowController.cs" />
+    <Compile Include="Controllers\MainWindow\LapPicker\ILapPickerController.cs" />
+    <Compile Include="Controllers\MainWindow\LapPicker\LapPickerController.cs" />
     <Compile Include="Controllers\MainWindow\MainWindowController.cs" />
+    <Compile Include="Controllers\Synchronization\ITelemetryViewsSynchronization.cs" />
+    <Compile Include="Controllers\Synchronization\TelemetrySessionArgs.cs" />
+    <Compile Include="Controllers\Synchronization\TelemetryViewsSynchronization.cs" />
     <Compile Include="Controllers\TelemetryApplicationController.cs" />
     <Compile Include="Controllers\TelemetryLoad\ITelemetryLoadController.cs" />
     <Compile Include="Controllers\TelemetryLoad\TelemetryLoadController.cs" />

@@ -3,5 +3,7 @@
     public interface IController
     {
         void StartController();
+
+        void StopController();
     }
 }

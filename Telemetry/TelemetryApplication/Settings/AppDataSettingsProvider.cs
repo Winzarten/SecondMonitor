@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Threading;
     using ViewModels.Settings.ViewModel;
 
     public class AppDataSettingsProvider : ISettingsProvider
@@ -17,7 +18,7 @@
 
         public AppDataSettingsProvider()
         {
-            _displaySettingsLazy = new Lazy<DisplaySettingsViewModel>(LoadSettings);
+            _displaySettingsLazy = new Lazy<DisplaySettingsViewModel>(LoadSettings, LazyThreadSafetyMode.PublicationOnly);
         }
 
         public DisplaySettingsViewModel DisplaySettingsViewModel => _displaySettingsLazy.Value;
@@ -29,8 +30,7 @@
             DisplaySettingsViewModel displaySettingsViewModel = new DisplaySettingsViewModel();
             displaySettingsViewModel.FromModel(
                 new DisplaySettingsLoader().LoadDisplaySettingsFromFileSafe(SettingsPath));
-            return DisplaySettingsViewModel;
-
+            return displaySettingsViewModel;
         }
     }
 }

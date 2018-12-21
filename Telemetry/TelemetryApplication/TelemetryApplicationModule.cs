@@ -2,6 +2,8 @@
 {
     using Controllers;
     using Controllers.MainWindow;
+    using Controllers.MainWindow.LapPicker;
+    using Controllers.Synchronization;
     using Controllers.TelemetryLoad;
     using Ninject.Extensions.NamedScope;
     using Ninject.Modules;
@@ -19,8 +21,10 @@
 
             Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
+            Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InNamedScope(MainWidowScopeName);
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
+            Bind<ILapPickerController>().To<LapPickerController>();
         }
     }
 }
