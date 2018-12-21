@@ -7,10 +7,11 @@
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using PluginManager.Extensions;
+    using PluginManager.GameConnector;
     using PluginManager.Visitor;
     using rFactor2Data;
 
-    internal class RF2DataConvertor
+    internal class RF2DataConvertor : AbstractDataConvertor
     {
         private const int MaxConsecutivePackagesIgnored = 200;
         private DriverInfo _lastPlayer = new DriverInfo();
@@ -65,6 +66,7 @@
 
                 currentlyIgnoredPackage = 0;
 
+                PopulateClassPositions(simData);
 
                 return simData;
             }catch(Exception ex)
@@ -345,6 +347,7 @@
                                             DriverName = StringExtensions.FromArray(rfVehicleInfo.mDriverName),
                                             CompletedLaps = rfVehicleInfo.mTotalLaps,
                                             CarName = StringExtensions.FromArray(rfVehicleInfo.mVehicleName),
+                                            CarClassName = StringExtensions.FromArray(rfVehicleInfo.mVehicleClass),
                                             InPits = rfVehicleInfo.mInPits == 1
                                         };
 

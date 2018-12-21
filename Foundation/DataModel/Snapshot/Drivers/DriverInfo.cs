@@ -21,6 +21,8 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
 
         public string CarName { get; set; }
 
+        public string CarClassName { get; set; }
+
         public int CompletedLaps { get; set; }
 
         public bool InPits { get; set; }
@@ -28,6 +30,8 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
         public bool IsPlayer { get; set; }
 
         public int Position { get; set; }
+
+        public int PositionInClass { get; set; }
 
         public bool CurrentLapValid { get; set; }
 

@@ -22,6 +22,13 @@
         public static readonly DependencyProperty Sector1Property = DependencyProperty.Register("Sector1", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty Sector2Property = DependencyProperty.Register("Sector2", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
         public static readonly DependencyProperty Sector3Property = DependencyProperty.Register("Sector3", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+        public static readonly DependencyProperty CarClassNameProperty = DependencyProperty.Register("CarClassName", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
+
+        public ColumnSettingsViewModel CarClassName
+        {
+            get => (ColumnSettingsViewModel) GetValue(CarClassNameProperty);
+            set => SetValue(CarClassNameProperty, value);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -114,6 +121,7 @@
             Position = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Position);
             Name = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Name);
             CarName = ColumnSettingsViewModel.CreateFromModel(columnsSettings.CarName);
+            CarClassName = ColumnSettingsViewModel.CreateFromModel(columnsSettings.CarClassName);
             CompletedLaps = ColumnSettingsViewModel.CreateFromModel(columnsSettings.CompletedLaps);
             LastLapTime = ColumnSettingsViewModel.CreateFromModel(columnsSettings.LastLapTime);
             Pace = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Pace);
@@ -141,6 +149,7 @@
                            Position = Position.ToModel(),
                            Name = Name.ToModel(),
                            CarName = CarName.ToModel(),
+                           CarClassName = CarClassName.ToModel(),
                            CompletedLaps = CompletedLaps.ToModel(),
                            LastLapTime = LastLapTime.ToModel(),
                            Pace = Pace.ToModel(),

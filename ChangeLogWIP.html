@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html>
 <body>
+<h2>Version 2.9.0 - Basic <b>multiclass</b> support</h2>
+
+<br/>
+<b>Chamges:</b>
+<ul>
+	<li> Added New "Class" column displaying the class of the car.</li>
+	<li> Position : If the race is multiclass, and the driver is not in the leading class, then the position within the class is show, with the overall position in brackets.</li>
+</ul>
+	<b>Limitations	:</b>
+	<ul>
+	<li>Best Lap/Sector times are, for now, still overall. Making them per-class will require extensive work.</li>
+	<li>Assetto Corsa: AC has no multiclass concept in telemetry. The "Class" column will not be populated, and overall position will be shown at all times.</li>	
+	<li>Automobilista: AMS way of reporting classes is weird. Reported class is in reality the manufacturer/team. Because of this the position within class has no real value. So, while this information is shown, the position will always, on purpose, display the overall position.</li>
+	<li>PCars 1: PCars 1 does not report car name, but only class name. This was previously shown in car name column. It is now moved to the correct column, but car name is not filled.</li>
+</ul>
 <h2>Version 2.8.11</h2>
 <ul>
 	<li>R3E: Porsche 934 Turbo RSR added to DB.</li>	

@@ -98,6 +98,12 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             private set;
         }
 
+        public string PositionInClass
+        {
+            get;
+            private set;
+        }
+
         public string CarName
         {
             get;
@@ -200,6 +206,12 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             private set;
         }
 
+        public string CarClassName
+        {
+            get;
+            private set;
+        }
+
         public DisplaySettingsViewModel DisplaySettingsViewModel
         {
             get => _displaySettingsViewModel;
@@ -274,6 +286,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 }
 
                 Position = DriverTiming.Position.ToString();
+                PositionInClass = DriverTiming.PositionInClass > 0 && DriverTiming.PositionInClass != DriverTiming.Position ? $"{DriverTiming.PositionInClass.ToString()} ({Position})" : Position;
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();
                 LastLapTime = GetLastLapTime();
                 CurrentLapProgressTime = GetCurrentLapProgressTime();
@@ -340,6 +353,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
         private void InitializeOneTimeValues()
         {
             CarName = DriverTiming.CarName;
+            CarClassName = DriverTiming.CarClassName;
             Name = DriverTiming.Name;
             HasCustomOutline = _driverPresentationsManager.IsCustomOutlineEnabled(Name);
             if (_driverPresentationsManager.TryGetOutLineColor(Name, out Color color))

@@ -11,17 +11,21 @@
     public class R3RDatabase
     {
         private readonly Dictionary<int, string> _carNames;
+        private readonly Dictionary<int, string> _classNames;
 
         public R3RDatabase()
         {
             _carNames = new Dictionary<int, string>();
+            _classNames = new Dictionary<int, string>();
         }
 
         public void Load()
-        {            
+        {
             JObject jsonDb = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(Path.Combine(AssemblyDirectory, "data.json")));
             JToken cars = jsonDb.GetValue("cars");
-            LoadCarNames(cars);        
+            JToken classes = jsonDb.GetValue("classes");
+            LoadCarNames(cars);
+            LoadClasses(classes);
         }
 
         private static string AssemblyDirectory
@@ -47,6 +51,18 @@
             }
         }
 
+        private void LoadClasses(JToken classesJson)
+        {
+            _classNames.Clear();
+            foreach (var carJson in classesJson)
+            {
+                JToken classDefinition = carJson.First;
+                int id = classDefinition.Value<int>("Id");
+                string name = classDefinition.Value<string>("Name");
+                _classNames[id] = name;
+            }
+        }
+
         public string GetCarName(int id)
         {
             if (!_carNames.ContainsKey(id))
@@ -55,6 +71,16 @@
             }
 
             return _carNames[id];
+        }
+
+        public string GetClassName(int id)
+        {
+            if (!_classNames.ContainsKey(id))
+            {
+                _classNames[id] = "Unknown";
+            }
+
+            return _classNames[id];
         }
     }
 }
