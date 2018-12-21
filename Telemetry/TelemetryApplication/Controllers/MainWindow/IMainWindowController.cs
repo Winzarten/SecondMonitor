@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using System.Windows;
-    using ViewModels.Controllers;
+    using SecondMonitor.ViewModels.Controllers;
 
     public interface IMainWindowController : IController
     {

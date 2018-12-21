@@ -3,7 +3,7 @@
     using System;
     using System.IO;
     using System.Threading;
-    using ViewModels.Settings.ViewModel;
+    using SecondMonitor.ViewModels.Settings.ViewModel;
 
     public class AppDataSettingsProvider : ISettingsProvider
     {

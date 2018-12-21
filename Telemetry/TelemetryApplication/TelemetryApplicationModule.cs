@@ -1,14 +1,16 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication
 {
-    using Controllers;
     using Controllers.MainWindow;
     using Controllers.MainWindow.LapPicker;
     using Controllers.Synchronization;
     using Controllers.TelemetryLoad;
+    using Factory;
     using Ninject.Extensions.NamedScope;
     using Ninject.Modules;
     using Repository;
     using Settings;
+    using ViewModels;
+    using ViewModels.LapPicker;
 
     public class TelemetryApplicationModule : NinjectModule
     {
@@ -22,9 +24,14 @@
             Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InNamedScope(MainWidowScopeName);
+            Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InNamedScope(MainWidowScopeName);
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
             Bind<ILapPickerController>().To<LapPickerController>();
+            Bind<IViewModelFactory>().To<ViewModelFactory>();
+
+            Bind<ILapSelectionViewModel>().To<LapSelectionViewModel>();
+            Bind<ILapSummaryViewModel>().To<LapSummaryViewModel>();
         }
     }
 }

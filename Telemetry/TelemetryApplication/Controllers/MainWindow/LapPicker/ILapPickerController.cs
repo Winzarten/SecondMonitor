@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.LapPicker
 {
-    using ViewModels.Controllers;
+    using SecondMonitor.ViewModels.Controllers;
 
     public interface ILapPickerController : IController
     {

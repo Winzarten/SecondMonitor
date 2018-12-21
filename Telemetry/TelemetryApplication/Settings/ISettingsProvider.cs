@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Settings
 {
-    using ViewModels.Settings.ViewModel;
+    using SecondMonitor.ViewModels.Settings.ViewModel;
 
     public interface ISettingsProvider
     {
