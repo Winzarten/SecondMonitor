@@ -90,52 +90,29 @@
                         <Grid Background="Black" HorizontalAlignment="Stretch" Margin="130,5,5,0">
                             <DockPanel>
                                 <DockPanel DockPanel.Dock="Top">
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Position"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.Position.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Name"
-                                              Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Name.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Car" Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.CarName.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Completed Laps"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.CompletedLaps.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Last Lap Time"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.LastLapTime.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Position" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Position.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Name" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Name.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Car" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.CarName.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Class" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.CarClassName.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Completed Laps" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.CompletedLaps.Visible}"></CheckBox>
+
                                 </DockPanel>
                                 <DockPanel DockPanel.Dock="Top">
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pace"
-                                              Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Pace.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Best Lap Time"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.BestLap.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Current Lap Time"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.CurrentLapProgressTime.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pit Info"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.LastPitInfo.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Gap to Player"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.TimeToPlayer.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Last Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.LastLapTime.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pace" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Pace.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Best Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.BestLap.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Current Lap Time" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.CurrentLapProgressTime.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Pit Info" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.LastPitInfo.Visible}"></CheckBox>
+
                                 </DockPanel>
                                 <DockPanel DockPanel.Dock="Top">
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Top Speed"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.TopSpeed.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 1"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.Sector1.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 2"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.Sector2.Visible}" />
-                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 3"
-                                              Margin="10,0,0,10"
-                                              IsChecked="{Binding ColumnsSettingsView.Sector3.Visible}" />
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Gap to Player" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.TimeToPlayer.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Top Speed" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.TopSpeed.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 1" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector1.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 2" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector2.Visible}"></CheckBox>
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 3" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector3.Visible}"></CheckBox>
                                 </DockPanel>
                             </DockPanel>
-
                         </Grid>
                     </Grid>
                 </Border>

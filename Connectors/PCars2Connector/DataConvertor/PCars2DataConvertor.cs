@@ -49,6 +49,7 @@
                 simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
             }
 
+            PopulateClassPositions(simData);
             AddActiveFlags(pcarsData, simData);
 
             return simData;
@@ -264,6 +265,7 @@
                 DriverName = StringExtensions.FromArray(pcVehicleInfo.mName),
                 CompletedLaps = (int) pcVehicleInfo.mLapsCompleted,
                 CarName = StringExtensions.FromArray(pcarsData.mCarNames, vehicleIndex * 64),
+                CarClassName = StringExtensions.FromArray(pcarsData.mCarClassNames, vehicleIndex * 64),
                 InPits = pcarsData.mPitModes[vehicleIndex] != 0
             };
 
