@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SecondMonitor.TelemetryPresentation.MainWindow"
         xmlns:viewModels="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels;assembly=TelemetryApplication"
         xmlns:lapsSummary="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.LapsSummary"
+        xmlns:snapshotSection="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.SnapshotSection"
         mc:Ignorable="d"
         Title="Telemetry Viewer" Height="450" Width="800" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}" WindowState="Maximized">
     <Window.Resources>
@@ -28,6 +29,12 @@
             <Grid Column="0" MaxHeight="350">
                 <lapsSummary:LapSelectionControl DataContext="{Binding LapSelectionViewModel}"/>
             </Grid>
+            <Border Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}" Padding="5">
+            <Grid>
+                    <snapshotSection:SnapshotSectionControl DataContext="{Binding SnapshotSectionViewModel }"/>
+            </Grid>
+            </Border>
         </Grid>
+
     </Grid>
 </Window>

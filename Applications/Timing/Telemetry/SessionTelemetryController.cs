@@ -59,7 +59,8 @@
                 LapSummaryDto lapSummaryDto = new LapSummaryDto()
                 {
                     LapNumber = lapInfo.LapNumber,
-                    LapTimeSeconds = lapInfo.LapTime.TotalSeconds
+                    LapTimeSeconds = lapInfo.LapTime.TotalSeconds,
+                    SessionIdentifier = SessionIdentifier
                 };
 
                 LapTelemetryDto lapTelemetryDto = new LapTelemetryDto()

@@ -80,6 +80,7 @@
     <Compile Include="CarStatus\WaterTemperatureViewModel.cs" />
     <Compile Include="CarStatus\WheelStatusViewModel.cs" />
     <Compile Include="Controllers\IController.cs" />
+    <Compile Include="IDisableViewModel.cs" />
     <Compile Include="IAbstractViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />
     <Compile Include="IWheelStatusViewModel.cs" />

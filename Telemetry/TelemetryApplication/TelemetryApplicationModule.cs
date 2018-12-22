@@ -11,8 +11,10 @@
     using Ninject.Modules;
     using Repository;
     using Settings;
+    using TelemetryManagement.StoryBoard;
     using ViewModels;
     using ViewModels.LapPicker;
+    using ViewModels.Replay;
     using ViewModels.SnapshotSection;
 
     public class TelemetryApplicationModule : NinjectModule
@@ -23,6 +25,7 @@
         public override void Load()
         {
             Bind<IMainWindowController>().To<MainWindowController>().DefinesNamedScope(MainWidowScopeName);
+            Bind<TelemetryStoryBoardFactory>().ToSelf();
 
             Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
@@ -38,6 +41,7 @@
 
             Bind<ILapSelectionViewModel>().To<LapSelectionViewModel>();
             Bind<ILapSummaryViewModel>().To<LapSummaryViewModel>();
+            Bind<IReplayViewModel>().To<ReplayViewModel>();
         }
     }
 }

@@ -49,7 +49,7 @@
 
         private void LapSelectionViewModelOnLapUnselected(object sender, LapSummaryArgs e)
         {
-            _telemetryLoadController.UnloadLap(e.LapSummary.LapNumber);
+            _telemetryLoadController.UnloadLap(e.LapSummary);
         }
 
         private void LapSelectionViewModelOnLapSelected(object sender, LapSummaryArgs e)

@@ -116,6 +116,24 @@
             }
         }
 
+        public DistanceUnits DistanceUnitsSmall
+        {
+            get
+            {
+                switch (VelocityUnits)
+                {
+                    case VelocityUnits.Kph:
+                        return DistanceUnits.Meters;
+                    case VelocityUnits.Mph:
+                        return DistanceUnits.Feet;
+                    case VelocityUnits.Ms:
+                        return DistanceUnits.Meters;
+                    default:
+                        return DistanceUnits.Meters;
+                }
+            }
+        }
+
         public FuelPerDistanceUnits FuelPerDistanceUnits
         {
             get

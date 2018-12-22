@@ -1,13 +1,15 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.Synchronization
 {
     using System;
+    using DataModel.Telemetry;
     using TelemetryManagement.DTO;
 
     public class TelemetryViewsSynchronization : ITelemetryViewsSynchronization
     {
         public event EventHandler<TelemetrySessionArgs> NewSessionLoaded;
         public event EventHandler<LapTelemetryArgs> LapLoaded;
-        public event EventHandler<LapNumberArgs> LapUnloaded;
+        public event EventHandler<LapSummaryArgs> LapUnloaded;
+        public event EventHandler<TelemetrySnapshotArgs> SyncTelemetryView;
 
         public void NotifyNewSessionLoaded(SessionInfoDto sessionInfoDto)
         {
@@ -21,10 +23,16 @@
             LapLoaded?.Invoke(this, lapTelemetryArgs);
         }
 
-        public void NotifyLapUnloaded(int lapNumber)
+        public void NotifyLapUnloaded(LapSummaryDto lapSummaryDto)
         {
-            LapNumberArgs args = new LapNumberArgs(lapNumber);
+            LapSummaryArgs args = new LapSummaryArgs(lapSummaryDto);
             LapUnloaded?.Invoke(this, args);
+        }
+
+        public void NotifySynchronizeToSnapshot(TimedTelemetrySnapshot telemetrySnapshot, LapSummaryDto lapSummary)
+        {
+            TelemetrySnapshotArgs args = new TelemetrySnapshotArgs(telemetrySnapshot, lapSummary);
+            SyncTelemetryView?.Invoke(this, args);
         }
     }
 }

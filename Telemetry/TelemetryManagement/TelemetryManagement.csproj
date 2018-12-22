@@ -56,6 +56,9 @@
     <Compile Include="Repository\ITelemetryReposiory.cs" />
     <Compile Include="Repository\TelemetryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoryBoard\TelemetryFrame.cs" />
+    <Compile Include="StoryBoard\TelemetryStoryboard.cs" />
+    <Compile Include="StoryBoard\TelemetryStoryBoardFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

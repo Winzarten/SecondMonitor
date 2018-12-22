@@ -35,9 +35,9 @@
             return lapTelemetryDto;
         }
 
-        public Task UnloadLap(int lapNumber)
+        public Task UnloadLap(LapSummaryDto lapSummaryDto)
         {
-            _telemetryViewsSynchronization.NotifyLapUnloaded(lapNumber);
+            _telemetryViewsSynchronization.NotifyLapUnloaded(lapSummaryDto);
             return Task.CompletedTask;
         }
     }

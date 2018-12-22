@@ -9,6 +9,6 @@
 
         Task<LapTelemetryDto> LoadLap(int lapNumber);
 
-        Task UnloadLap(int lapNumber);
+        Task UnloadLap(LapSummaryDto lapSummaryDto);
     }
 }

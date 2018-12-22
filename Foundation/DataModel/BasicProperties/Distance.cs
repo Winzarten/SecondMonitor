@@ -31,6 +31,9 @@
         [XmlIgnore]
         public double InMiles => InKilometers / 1.609344;
 
+        [XmlIgnore]
+        public double InFeet => InMeters * 3.28084;
+
         public double GetByUnit(DistanceUnits distanceUnits)
         {
             switch (distanceUnits)
@@ -41,6 +44,8 @@
                     return InKilometers;
                 case DistanceUnits.Miles:
                     return InMiles;
+                case DistanceUnits.Feet:
+                    return InFeet;
                 default:
                     throw new ArgumentException($"Distance units {distanceUnits} is not known");
             }
@@ -106,12 +111,29 @@
             {
                 case DistanceUnits.Meters:
                     return "m";
-                    
                 case DistanceUnits.Kilometers:
                     return "Km";
-                   
                 case DistanceUnits.Miles:
                     return "mi";
+                case DistanceUnits.Feet:
+                    return "ft";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
+            }
+        }
+
+        public static Distance CreateByUnits(double value, DistanceUnits distanceUnits)
+        {
+            switch (distanceUnits)
+            {
+                case DistanceUnits.Meters:
+                    return FromMeters(value);
+                case DistanceUnits.Kilometers:
+                    return FromMeters(value * 1000);
+                case DistanceUnits.Miles:
+                    return FromMeters(value * 1609.34);
+                case DistanceUnits.Feet:
+                    return FromMeters(value * 0.3047992424196);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
             }

@@ -27,6 +27,8 @@
             _viewModelFactory = viewModelFactory;
             _mainWindowViewModel = mainWindowViewModel;
             _snapshotSectionController = snapshotSectionController;
+
+            _snapshotSectionController.MainWindowViewModel = _mainWindowViewModel;
         }
 
         public Window MainWindow { get; set; }
