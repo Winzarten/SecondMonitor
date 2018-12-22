@@ -54,6 +54,12 @@
     <Compile Include="Controllers\MainWindow\LapPicker\ILapPickerController.cs" />
     <Compile Include="Controllers\MainWindow\LapPicker\LapPickerController.cs" />
     <Compile Include="Controllers\MainWindow\MainWindowController.cs" />
+    <Compile Include="Controllers\MainWindow\Replay\IReplayController.cs" />
+    <Compile Include="Controllers\MainWindow\Replay\ReplayController.cs" />
+    <Compile Include="Controllers\MainWindow\Snapshot\IMainLapController.cs" />
+    <Compile Include="Controllers\MainWindow\Snapshot\IRequireSnapshotViewModel.cs" />
+    <Compile Include="Controllers\MainWindow\Snapshot\ISnapshotSectionController.cs" />
+    <Compile Include="Controllers\MainWindow\Snapshot\SnapshotSectionController.cs" />
     <Compile Include="Controllers\Synchronization\ITelemetryViewsSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\LapNumberArgs.cs" />
     <Compile Include="Controllers\Synchronization\LapSummaryArgs.cs" />
@@ -78,6 +84,8 @@
     <Compile Include="ViewModels\LapPicker\LapSelectionViewModel.cs" />
     <Compile Include="ViewModels\LapPicker\LapSummaryViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\SnapshotSection\ISnapshotSectionViewModel.cs" />
+    <Compile Include="ViewModels\SnapshotSection\SnapshotSectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation\SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj">

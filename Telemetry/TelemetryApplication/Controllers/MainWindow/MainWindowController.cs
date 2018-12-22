@@ -6,6 +6,7 @@
     using Factory;
     using LapPicker;
     using Settings;
+    using Snapshot;
     using TelemetryLoad;
     using ViewModels;
 
@@ -16,14 +17,16 @@
         private readonly ILapPickerController _lapPickerController;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IMainWindowViewModel _mainWindowViewModel;
+        private readonly ISnapshotSectionController _snapshotSectionController;
 
-        public MainWindowController(ISettingsProvider settingsProvider, ITelemetryLoadController telemetryLoadController, ILapPickerController lapPickerController, IViewModelFactory viewModelFactory, IMainWindowViewModel mainWindowViewModel)
+        public MainWindowController(ISettingsProvider settingsProvider, ITelemetryLoadController telemetryLoadController, ILapPickerController lapPickerController, IViewModelFactory viewModelFactory, IMainWindowViewModel mainWindowViewModel, ISnapshotSectionController snapshotSectionController)
         {
             _settingsProvider = settingsProvider;
             _telemetryLoadController = telemetryLoadController;
             _lapPickerController = lapPickerController;
             _viewModelFactory = viewModelFactory;
             _mainWindowViewModel = mainWindowViewModel;
+            _snapshotSectionController = snapshotSectionController;
         }
 
         public Window MainWindow { get; set; }
@@ -49,11 +52,13 @@
         private void StartChildControllers()
         {
             _lapPickerController.StartController();
+            _snapshotSectionController.StartController();
         }
 
         private void StopChildControllers()
         {
             _lapPickerController.StopController();
+            _snapshotSectionController.StopController();
         }
 
         private void MainWindowOnClosed(object sender, EventArgs e)
