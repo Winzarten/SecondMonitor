@@ -18,11 +18,27 @@
             _telemetryRepository = telemetryRepositoryFactory.Create(settingsProvider);
         }
 
+        public string LastLoadedSessionIdentifier { get; private set; }
+
         public async Task<SessionInfoDto> LoadSessionAsync(string sessionIdentifier)
         {
             SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.LoadSessionInformation(sessionIdentifier));
             _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
+            LastLoadedSessionIdentifier = sessionIdentifier;
             return sessionInfoDto;
+        }
+
+        public async Task<LapTelemetryDto> LoadLap(int lapNumber)
+        {
+            LapTelemetryDto lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));
+            _telemetryViewsSynchronization.NotifyLapLoaded(lapTelemetryDto);
+            return lapTelemetryDto;
+        }
+
+        public Task UnloadLap(int lapNumber)
+        {
+            _telemetryViewsSynchronization.NotifyLapUnloaded(lapNumber);
+            return Task.CompletedTask;
         }
     }
 }

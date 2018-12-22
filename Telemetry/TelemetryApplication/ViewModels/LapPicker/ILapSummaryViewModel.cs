@@ -8,6 +8,7 @@
     {
         int LapNumber { get; }
         TimeSpan LapTime { get; }
-        bool Display { get; set; }
+        bool Selected { get; set; }
+
     }
 }

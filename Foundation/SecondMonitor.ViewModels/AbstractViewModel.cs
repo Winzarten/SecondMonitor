@@ -8,7 +8,16 @@ namespace SecondMonitor.ViewModels
 
     public abstract class AbstractViewModel<T> : AbstractViewModel, IAbstractViewModel<T>
     {
-        public abstract void FromModel(T model);
+
+        public T OriginalModel { get; private set; }
+
+        protected abstract void ApplyModel(T model);
+
+        public void FromModel(T model)
+        {
+            OriginalModel = model;
+            ApplyModel(model);
+        }
         public abstract T SaveToNewModel();
     }
 

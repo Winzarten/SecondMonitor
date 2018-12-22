@@ -3,6 +3,7 @@
     using System.Linq;
     using Factory;
     using Synchronization;
+    using TelemetryLoad;
     using TelemetryManagement.DTO;
     using ViewModels;
     using ViewModels.LapPicker;
@@ -10,12 +11,14 @@
     public class LapPickerController : ILapPickerController
     {
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
+        private readonly ITelemetryLoadController _telemetryLoadController;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly ILapSelectionViewModel _lapSelectionViewModel;
 
-        public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory)
+        public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, ITelemetryLoadController telemetryLoadController, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory)
         {
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
+            _telemetryLoadController = telemetryLoadController;
             _lapSelectionViewModel = mainWindowViewModel.LapSelectionViewModel;
             _viewModelFactory = viewModelFactory;
         }
@@ -33,11 +36,25 @@
         private void Subscribe()
         {
             _telemetryViewsSynchronization.NewSessionLoaded += OnSessionStarted;
+            _lapSelectionViewModel.LapSelected += LapSelectionViewModelOnLapSelected;
+            _lapSelectionViewModel.LapUnselected += LapSelectionViewModelOnLapUnselected;
         }
 
         private void UnSubscribe()
         {
             _telemetryViewsSynchronization.NewSessionLoaded -= OnSessionStarted;
+            _lapSelectionViewModel.LapSelected -= LapSelectionViewModelOnLapSelected;
+            _lapSelectionViewModel.LapUnselected -= LapSelectionViewModelOnLapUnselected;
+        }
+
+        private void LapSelectionViewModelOnLapUnselected(object sender, LapSummaryArgs e)
+        {
+            _telemetryLoadController.UnloadLap(e.LapSummary.LapNumber);
+        }
+
+        private void LapSelectionViewModelOnLapSelected(object sender, LapSummaryArgs e)
+        {
+            _telemetryLoadController.LoadLap(e.LapSummary.LapNumber);
         }
 
         private void ReinitializeViewMode(SessionInfoDto sessionInfoDto)

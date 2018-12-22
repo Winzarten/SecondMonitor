@@ -50,7 +50,7 @@
                                         <TextBlock Style="{StaticResource StandardText}" Text="Lap: " VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Style="{StaticResource StandardText}" Text="{Binding LapNumber}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Style="{StaticResource StandardText}" Margin="10,0,0,0" Text="{Binding LapTime, Mode=OneWay, Converter={StaticResource TimeSpanToMinutesSecondMilisecondsConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <CheckBox IsChecked="{Binding Display}" Margin="5"></CheckBox>
+                                        <CheckBox IsChecked="{Binding Selected}" Margin="5"></CheckBox>
                                     </StackPanel>
                                 </StackPanel>
                     </Border>

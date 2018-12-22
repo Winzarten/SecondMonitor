@@ -50,6 +50,19 @@
             }
         }
 
+        public LapTelemetryDto LoadLapTelemetryDto(string sessionIdentifier, int lapNumber)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(LapTelemetryDto));
+            string directory = Path.Combine(_repositoryDirectory, sessionIdentifier);
+            string fileName = Path.Combine(directory, $"{lapNumber}.xml");
+            Logger.Info($"Loading lap info {lapNumber} from file: {fileName}");
+
+            using (FileStream file = File.Open(fileName, FileMode.Open))
+            {
+                return xmlSerializer.Deserialize(file) as LapTelemetryDto;
+            }
+        }
+
         private void Save(SessionInfoDto sessionInfoDto, string path)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(SessionInfoDto));

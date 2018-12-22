@@ -8,5 +8,7 @@
         void SaveSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier);
 
         SessionInfoDto LoadSessionInformation(string sessionIdentifier);
+        LapTelemetryDto LoadLapTelemetryDto(string sessionIdentifier, int lapNumber);
+
     }
 }

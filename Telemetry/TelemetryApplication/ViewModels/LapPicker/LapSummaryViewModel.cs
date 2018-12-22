@@ -21,7 +21,7 @@
             }
         }
 
-        public bool Display
+        public bool Selected
         {
             get => _display;
             set
@@ -41,7 +41,7 @@
             }
         }
 
-        public override void FromModel(LapSummaryDto model)
+        protected override void ApplyModel(LapSummaryDto model)
         {
             LapTime = model.LapTime;
             LapNumber = model.LapNumber;

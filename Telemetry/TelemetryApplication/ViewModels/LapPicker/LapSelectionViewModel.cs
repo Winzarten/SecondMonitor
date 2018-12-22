@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using Controllers.Synchronization;
     using SecondMonitor.ViewModels;
 
     public class LapSelectionViewModel : AbstractViewModel, ILapSelectionViewModel
@@ -16,6 +18,9 @@
         {
             LapSummaries = new ObservableCollection<ILapSummaryViewModel>();
         }
+
+        public event EventHandler<LapSummaryArgs> LapSelected;
+        public event EventHandler<LapSummaryArgs> LapUnselected;
 
         public ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }
 
@@ -71,12 +76,35 @@
 
         public void AddLapSummaryViewModel(ILapSummaryViewModel lapSummaryViewModel)
         {
+            lapSummaryViewModel.PropertyChanged+= LapSummaryViewModelOnPropertyChanged;
             LapSummaries.Add(lapSummaryViewModel);
         }
 
         public void Clear()
         {
+            foreach (ILapSummaryViewModel lapSummaryViewModel in LapSummaries)
+            {
+                lapSummaryViewModel.PropertyChanged -= LapSummaryViewModelOnPropertyChanged;
+            }
+
             LapSummaries.Clear();
+        }
+
+        private void LapSummaryViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(ILapSummaryViewModel.Selected) || !(sender is ILapSummaryViewModel lapSummaryViewModel))
+            {
+                return;
+            }
+
+            if (lapSummaryViewModel.Selected)
+            {
+                LapSelected?.Invoke(this, new LapSummaryArgs(lapSummaryViewModel.OriginalModel));
+            }
+            else
+            {
+                LapUnselected?.Invoke(this, new LapSummaryArgs(lapSummaryViewModel.OriginalModel));
+            }
         }
     }
 }

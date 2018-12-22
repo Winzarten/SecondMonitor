@@ -2,13 +2,16 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using Controllers.Synchronization;
     using SecondMonitor.ViewModels;
 
     public interface ILapSelectionViewModel : IAbstractViewModel
     {
-        ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }
 
-        ILapSummaryViewModel Selected { get; set; }
+        event EventHandler<LapSummaryArgs> LapSelected;
+        event EventHandler<LapSummaryArgs> LapUnselected;
+
+        ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }
 
         string CarName { get; set; }
 

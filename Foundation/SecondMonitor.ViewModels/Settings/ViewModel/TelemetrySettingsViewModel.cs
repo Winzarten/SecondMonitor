@@ -50,7 +50,7 @@
         }
 
 
-        public override void FromModel(TelemetrySettings model)
+        protected override void ApplyModel(TelemetrySettings model)
         {
             IsFeatureEnabled = model.IsFeatureEnabled;
             IsTelemetryLoggingEnabled = model.IsTelemetryLoggingEnabled;

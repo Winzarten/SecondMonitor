@@ -6,5 +6,9 @@
     public interface ITelemetryLoadController
     {
         Task<SessionInfoDto> LoadSessionAsync(string sessionIdentifier);
+
+        Task<LapTelemetryDto> LoadLap(int lapNumber);
+
+        Task UnloadLap(int lapNumber);
     }
 }

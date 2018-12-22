@@ -62,7 +62,7 @@
 
         public ObservableCollection<TyreCompoundPropertiesViewModel> TyreCompoundsProperties { get; }
 
-        public override void FromModel(CarModelProperties model)
+        protected override void ApplyModel(CarModelProperties model)
         {
             TyreCompoundsProperties.Clear();
             CarName = model.Name;

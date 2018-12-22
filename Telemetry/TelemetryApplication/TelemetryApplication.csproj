@@ -55,6 +55,9 @@
     <Compile Include="Controllers\MainWindow\LapPicker\LapPickerController.cs" />
     <Compile Include="Controllers\MainWindow\MainWindowController.cs" />
     <Compile Include="Controllers\Synchronization\ITelemetryViewsSynchronization.cs" />
+    <Compile Include="Controllers\Synchronization\LapNumberArgs.cs" />
+    <Compile Include="Controllers\Synchronization\LapSummaryArgs.cs" />
+    <Compile Include="Controllers\Synchronization\LapTelemetryArgs.cs" />
     <Compile Include="Controllers\Synchronization\TelemetrySessionArgs.cs" />
     <Compile Include="Controllers\Synchronization\TelemetryViewsSynchronization.cs" />
     <Compile Include="Controllers\TelemetryApplicationController.cs" />

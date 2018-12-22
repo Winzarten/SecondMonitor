@@ -4,6 +4,8 @@
 
     public interface IAbstractViewModel<T> : IAbstractViewModel
     {
+        T OriginalModel { get; }
+
         void FromModel(T model);
         T SaveToNewModel();
     }

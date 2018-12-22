@@ -49,7 +49,7 @@
             set => SetValue(AvgPerLapProperty, value);
         }
 
-        public override void FromModel(SessionFuelConsumptionInfo model)
+        protected override void ApplyModel(SessionFuelConsumptionInfo model)
         {
             TrackName = model.TrackName;
             LapDistance = model.LapDistance;
