@@ -78,6 +78,8 @@
     <Compile Include="Settings\ISettingsProvider.cs" />
     <Compile Include="Settings\AppDataSettingsProvider.cs" />
     <Compile Include="TelemetryApplicationModule.cs" />
+    <Compile Include="ViewModels\AbstractSnapshotViewModel.cs" />
+    <Compile Include="ViewModels\IAbstractSnapshotViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="ViewModels\Replay\IReplayViewModel.cs" />
     <Compile Include="ViewModels\LapPicker\ILapSelectionViewModel.cs" />
@@ -86,7 +88,9 @@
     <Compile Include="ViewModels\LapPicker\LapSummaryViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Replay\ReplayViewModel.cs" />
+    <Compile Include="ViewModels\SnapshotSection\IPedalSectionViewModel.cs" />
     <Compile Include="ViewModels\SnapshotSection\ISnapshotSectionViewModel.cs" />
+    <Compile Include="ViewModels\SnapshotSection\PedalSectionViewModel.cs" />
     <Compile Include="ViewModels\SnapshotSection\SnapshotSectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +102,11 @@
     <ProjectReference Include="..\..\Foundation\SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj">
       <Project>{B43064B9-D120-4DD9-9902-E2B8F6006985}</Project>
       <Name>SecondMonitor.ViewModels</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Foundation\WindowsControls\WindowsControls.csproj">
+      <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
+      <Name>WindowsControls</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\TelemetryManagement\TelemetryManagement.csproj">

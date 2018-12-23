@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.Replay"
              xmlns:replay="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.Replay;assembly=TelemetryApplication"
              xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText;assembly=WindowsControls"
+             xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=replay:ReplayViewModel}">
     <UserControl.Resources>
@@ -24,6 +25,57 @@
         </Grid.RowDefinitions>
         <Grid Row="0">
             <Slider Minimum="0" Maximum="{Binding TrackLengthRaw, Mode=OneWay}" Value="{Binding SelectedDistance}" TickFrequency="100" IsSnapToTickEnabled="False" TickPlacement="Both"></Slider>
+        </Grid>
+        <Grid Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Command="{Binding PreviousFrameCommand, Mode=OneWay}"
+                            Style="{StaticResource StandardButton}"
+                            ToolTip="Move to Previous Frame">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}" Margin="-5">
+                                <ContentPresenter Content="{StaticResource PreviousFrame}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Command="{Binding StopCommand, Mode=OneWay}"
+                            Style="{StaticResource StandardButton}"
+                            ToolTip="Stop the Replay">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}" Margin="-5">
+                                <ContentPresenter Content="{StaticResource Stop}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Command="{Binding PlayCommand, Mode=OneWay}"
+                            Style="{StaticResource StandardButton}"
+                            ToolTip="Play the Replay">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}" Margin="-5">
+                                <ContentPresenter Content="{StaticResource Play}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Command="{Binding NextFrameCommand, Mode=OneWay}"
+                            Style="{StaticResource StandardButton}"
+                            ToolTip="Move to Next Frame">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}" Margin="-5">
+                                <ContentPresenter Content="{StaticResource NextFrame}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Border>
         </Grid>
         <Grid Row="2">
             <Grid.ColumnDefinitions>

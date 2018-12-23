@@ -1485,7 +1485,7 @@
                     </Path>
                 </Canvas>
                 <Canvas Name="g16">
-                    <Polygon xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Points="-87.7,-60.5 -81.4,-54.7 -53.5,-54.7 -42.7,-26.3 -98.4,-26.3 -109.4,-60.5 " Name="polygon12" FillRule="NonZero" Fill="#FFFFFFFF"/>
+                    <Polygon xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Points="-87.7,-60.5 -81.4,-54.7 -53.5,-54.7 -42.7,-26.3 -98.4,-26.3 -109.4,-60.5 " Name="polygon12" FillRule="NonZero" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
                     <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path14" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
                         <Path.Data>
                             <PathGeometry Figures="m -88.2 -59 5.4 5 0.9 0.8 h 1.2 26.2 l 9.7 25.4 H -97.3 L -107.4 -59 h 19.2 m 1.1 -3 h -24.4 l 12 37.2 h 59 l -12 -31.4 h -28.3 z" FillRule="NonZero"/>
@@ -1608,7 +1608,7 @@
         </Canvas>
     </Viewbox>
 
-    <Viewbox x:Key="TrashIcon" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+    <Viewbox x:Key="TrashIcon" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" x:Shared="False">
         <Canvas Width="48" Height="50.365215" Canvas.Left="0" Canvas.Top="0">
             <!--Unknown tag: metadata-->
             <!--Unknown tag: sodipodi:namedview-->
@@ -1635,7 +1635,7 @@
         </Canvas>
     </Viewbox>
 
-    <Viewbox x:Key="RotateRightIcon" Stretch="Uniform">
+    <Viewbox x:Key="RotateRightIcon" Stretch="Uniform" x:Shared="False">
         <Canvas Width="48" Height="42.599461" >
             <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeThickness="0.55132079">
                 <Path.Data>
@@ -1644,7 +1644,7 @@
             </Path>
         </Canvas>
     </Viewbox>
-    <Viewbox x:Key="RotateLeftIcon" Stretch="Uniform">
+    <Viewbox x:Key="RotateLeftIcon" Stretch="Uniform" x:Shared="False">
         <Canvas Width="48.063999" Height="42.666435">
             <Path  Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeThickness="0.5520519">
                 <Path.Data>
@@ -1654,11 +1654,56 @@
         </Canvas>
     </Viewbox>
 
-    <Viewbox x:Key="SteeringWheel" Stretch="Uniform">
+    <Viewbox x:Key="SteeringWheel" Stretch="Uniform" x:Shared="False">
         <Canvas Width="48" Height="48">
             <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeThickness="0.48979592">
                 <Path.Data>
                     <PathGeometry Figures="M 24 0 A 24 24 0 1 0 48 24 24.029388 24.029388 0 0 0 24 0 Z M 18.563265 41.142857 A 18.053878 18.053878 0 0 1 6.8571429 29.314286 1.0726531 1.0726531 0 0 1 7.8661224 27.918367 v 0 A 12.107755 12.107755 0 0 1 19.964082 39.585306 v 0.489796 a 1.082449 1.082449 0 0 1 -1.400817 1.067755 z M 9.521633 17.461224 a 1.1216327 1.1216327 0 0 1 -0.5975514 0.176327 v 0 a 1.1363265 1.1363265 0 0 1 -1.0089796 -1.645714 17.965714 17.965714 0 0 1 32.174694 0 1.1363265 1.1363265 0 0 1 -1.013878 1.640816 1.1216327 1.1216327 0 0 1 -0.597551 -0.176326 C 35.147755 15.364898 29.902041 14.027755 24 14.027755 c -5.902041 0 -11.147755 1.342041 -14.478367 3.433469 z M 41.142857 29.314286 A 18.053878 18.053878 0 0 1 29.426939 41.142857 1.082449 1.082449 0 0 1 28.006531 40.08 V 39.590204 A 12.107755 12.107755 0 0 1 40.124082 27.918367 v 0 a 1.0726531 1.0726531 0 0 1 1.018775 1.395919 z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox x:Key="Stop" Stretch="Uniform" x:Shared="False">
+        <Canvas Width="48" Height="48">
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="3.4285714 0 0 3.4285714 -17.142857 -17.142857"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                    <Path.Data>
+                        <PathGeometry Figures="M 16.67 19 H 7.33 A 2.33 2.33 0 0 1 5 16.67 V 7.33 A 2.33 2.33 0 0 1 7.33 5 h 9.34 A 2.33 2.33 0 0 1 19 7.33 v 9.34 A 2.33 2.33 0 0 1 16.67 19 Z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox x:Key="Play" Stretch="Uniform" x:Shared="False">
+        <Canvas Width="48" Height="47.890629" Canvas.Left="0" Canvas.Top="0">
+            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeThickness="0.4978236">
+                <Path.Data>
+                    <PathGeometry Figures="m 46.70105 11.798419 c 0 0 -1.543253 -7.367789 -8.214089 -9.956472 C 35.350672 0.64717 29.625701 0.049782 24.000294 0 18.374887 0.049782 12.649916 0.64717 9.5136271 1.841947 c -6.6708358 2.588683 -8.214089 9.956472 -8.214089 9.956472 -0.99564715 4.181718 -1.34412365 8.413219 -1.29434125 12.146896 -0.049782 3.733677 0.2489118 8.01496 1.29434125 12.146896 0 0 1.5432532 7.367789 8.214089 9.956472 3.1362889 1.194776 8.8612599 1.792165 14.4866669 1.841947 5.625407 -0.04978 11.350378 -0.597388 14.486667 -1.841947 6.670836 -2.588683 8.214089 -9.956472 8.214089 -9.956472 0.995648 -4.181719 1.344124 -8.413219 1.294342 -12.146896 0.04978 -3.733677 -0.298694 -7.965178 -1.294342 -12.146896 z M 33.060684 25.389003 21.361829 32.90614 c -0.348476 0.248911 -0.746735 0.348476 -1.194777 0.348476 -0.348476 0 -0.696953 -0.09956 -1.045429 -0.248912 -0.696953 -0.398259 -1.144994 -1.095212 -1.144994 -1.891729 V 16.079702 c 0 -0.796518 0.448041 -1.543253 1.144994 -1.89173 0.696953 -0.398259 1.543253 -0.348476 2.190424 0.09956 l 11.698854 7.517136 c 0.647171 0.398259 0.995648 1.095212 0.995648 1.841948 0 0.746735 -0.298695 1.344123 -0.945865 1.742382 z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox x:Key="NextFrame" Stretch="Uniform" x:Shared="False">
+        <Canvas Width="48" Height="48">
+            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeThickness="0.47999999">
+                <Path.Data>
+                    <PathGeometry Figures="M 24 0 C 10.752 0 0 10.752 0 24 0 37.248 10.752 48 24 48 37.248 48 48 37.248 48 24 48 10.752 37.248 0 24 0 Z m -4.464 31.488 c 0 1.68 -1.392 3.12 -3.12 3.12 h -0.864 c -1.68 0 -3.12 -1.392 -3.12 -3.12 V 16.512 c 0 -1.68 1.392 -3.12 3.12 -3.12 h 0.864 c 1.68 0 3.12 1.392 3.12 3.12 z m 16.704 -5.52 -9.216 7.68 c -1.296 1.104 -2.4 0.576 -2.4 -1.104 v -17.04 c 0 -1.68 1.056 -2.208 2.4 -1.104 l 9.168 7.632 c 1.344 1.056 1.344 2.88 0.048 3.936 z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox x:Key="PreviousFrame" Stretch="Uniform" x:Shared="False">
+        <Canvas Width="48" Height="48">
+            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" StrokeThickness="0.47999999">
+                <Path.Data>
+                    <PathGeometry Figures="M 24 48 C 37.248 48 48 37.248 48 24 48 10.752 37.248 0 24 0 10.752 0 0 10.752 0 24 0 37.248 10.752 48 24 48 Z m 4.464 -31.488 c 0 -1.68 1.392 -3.12 3.12 -3.12 h 0.864 c 1.68 0 3.12 1.392 3.12 3.12 v 14.976 c 0 1.68 -1.392 3.12 -3.12 3.12 h -0.864 c -1.68 0 -3.12 -1.392 -3.12 -3.12 z m -16.704 5.52 9.216 -7.68 c 1.296 -1.104 2.4 -0.576 2.4 1.104 v 17.04 c 0 1.68 -1.056 2.208 -2.4 1.104 l -9.168 -7.632 c -1.344 -1.056 -1.344 -2.88 -0.048 -3.936 z" FillRule="NonZero"/>
                 </Path.Data>
             </Path>
         </Canvas>

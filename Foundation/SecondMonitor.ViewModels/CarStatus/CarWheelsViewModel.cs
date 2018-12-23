@@ -5,6 +5,7 @@
     using System.Windows;
 
     using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
     using DataModel.Snapshot.Systems;
     using Properties;
 
@@ -71,7 +72,18 @@
                 return;
             }
 
-            Wheels wheels = dataSet?.PlayerInfo?.CarInfo?.WheelsInfo;
+            ApplyPlayerInfo(dataSet.PlayerInfo);
+        }
+
+        public void ApplyPlayerInfo(DriverInfo playerInfo)
+        {
+            Wheels wheels = playerInfo?.CarInfo?.WheelsInfo;
+
+            if (wheels == null)
+            {
+                return;
+            }
+
             LeftFrontTyre.ApplyWheelCondition(wheels.FrontLeft);
             RightFrontTyre.ApplyWheelCondition(wheels.FrontRight);
             LeftRearTyre.ApplyWheelCondition(wheels.RearLeft);

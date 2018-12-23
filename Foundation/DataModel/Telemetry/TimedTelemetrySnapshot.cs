@@ -5,6 +5,7 @@ using SecondMonitor.DataModel.Snapshot.Drivers;
 namespace SecondMonitor.DataModel.Telemetry
 {
     using System.Xml.Serialization;
+    using BasicProperties;
 
     public class TimedTelemetrySnapshot : TelemetrySnapshot
     {
@@ -13,7 +14,7 @@ namespace SecondMonitor.DataModel.Telemetry
 
         }
 
-        public TimedTelemetrySnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo) : base(playerInfo, weatherInfo)
+        public TimedTelemetrySnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo, InputInfo inputInfo) : base(playerInfo, weatherInfo, inputInfo)
         {
             LapTime = lapTime;
         }

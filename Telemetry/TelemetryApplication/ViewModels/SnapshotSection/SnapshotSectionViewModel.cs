@@ -1,12 +1,13 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.SnapshotSection
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using DataModel.BasicProperties;
     using Factory;
     using Replay;
     using SecondMonitor.ViewModels;
+    using SecondMonitor.ViewModels.CarStatus;
     using TelemetryManagement.DTO;
 
     public class SnapshotSectionViewModel : AbstractViewModel, ISnapshotSectionViewModel
@@ -15,11 +16,16 @@
         private readonly List<LapSummaryDto> _availableLaps;
 
         private LapSummaryDto _selectedLap;
+        private TemperatureUnits _temperatureUnits;
+        private PressureUnits _pressureUnits;
 
         public SnapshotSectionViewModel(IViewModelFactory viewModelFactory)
         {
             _availableLaps = new List<LapSummaryDto>();
             ReplayViewModel = viewModelFactory.Create<IReplayViewModel>();
+            PedalSectionViewModel = viewModelFactory.Create<IPedalSectionViewModel>();
+            CarWheelsViewModel = new CarWheelsViewModel();
+
         }
 
         public ReadOnlyCollection<LapSummaryDto> AvailableLaps => _availableLaps.AsReadOnly();
@@ -34,7 +40,31 @@
             }
         }
 
+        public CarWheelsViewModel CarWheelsViewModel { get; }
+
+        public TemperatureUnits TemperatureUnits
+        {
+            get => _temperatureUnits;
+            set
+            {
+                _temperatureUnits = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public PressureUnits PressureUnits
+        {
+            get => _pressureUnits;
+            set
+            {
+                _pressureUnits = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public IReplayViewModel ReplayViewModel { get; }
+
+        public IPedalSectionViewModel PedalSectionViewModel { get; }
 
         public void AddAvailableLap(LapSummaryDto lapSummaryDto)
         {

@@ -156,7 +156,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 Valid = false;
             }
 
-            LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
+            LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo);
 
             Completed = true;
         }

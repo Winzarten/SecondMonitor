@@ -1,10 +1,14 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.Replay
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
+    using WindowsControls.WPF.Commands;
     using DataModel.BasicProperties;
-    using DataModel.Telemetry;
     using Factory;
     using Settings;
     using Synchronization;
@@ -22,9 +26,13 @@
         private readonly Dictionary<string, TelemetryStoryboard> _storyboards;
         private LapSummaryDto _mainLap;
         private IReplayViewModel _replayViewModel;
+        private TelemetryFrame _displayedFrame;
+        private CancellationTokenSource _playCancellationSource;
+        private bool _propertyEventsEnabled;
 
         public ReplayController(IViewModelFactory viewModelFactory, ITelemetryViewsSynchronization telemetryViewsSynchronization, ISettingsProvider settingsProvider, TelemetryStoryBoardFactory telemetryStoryBoardFactory)
         {
+            _propertyEventsEnabled = true;
             _storyboards = new Dictionary<string, TelemetryStoryboard>();
             _viewModelFactory = viewModelFactory;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
@@ -39,6 +47,7 @@
             {
                 _mainLap = value;
                 SelectedValueChanged();
+                _replayViewModel.IsEnabled = _mainLap != null;
             }
         }
 
@@ -49,6 +58,7 @@
 
         public void StartController()
         {
+            BindCommands();
             Subscribe();
         }
 
@@ -77,18 +87,22 @@
 
         private void TelemetryViewsSynchronizationOnSyncTelemetryView(object sender, TelemetrySnapshotArgs e)
         {
-            if (e.LapSummaryDto.Id != MainLap?.Id || _replayViewModel == null)
+            if (e.LapSummaryDto.Id != MainLap?.Id || _replayViewModel == null || e.TelemetrySnapshot == _displayedFrame.TelemetrySnapshot)
             {
                 return;
             }
 
-            UpdateViewModels(e.TelemetrySnapshot);
+            _displayedFrame = _storyboards[MainLap.Id].TelemetryFrames.FirstOrDefault(x => x.TelemetrySnapshot == e.TelemetrySnapshot);
+            UpdateViewModels();
         }
 
-        private void UpdateViewModels(TimedTelemetrySnapshot telemetrySnapshot)
+        private void UpdateViewModels()
         {
-            _replayViewModel.DisplayTime = telemetrySnapshot.LapTime;
-            _replayViewModel.DisplayDistance = Distance.FromMeters(telemetrySnapshot.PlayerData.LapDistance);
+            _propertyEventsEnabled = false;
+            _replayViewModel.DisplayTime = _displayedFrame.FrameTime;
+            _replayViewModel.DisplayDistance =_displayedFrame.FrameDistance;
+            _replayViewModel.SelectedDistance = _displayedFrame.FrameDistance.GetByUnit(_replayViewModel.DistanceUnits);
+            _propertyEventsEnabled = true;
         }
 
         private void ReplayViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -101,13 +115,15 @@
 
         private void SelectedValueChanged()
         {
-            if (MainLap == null || _replayViewModel?.TrackLength == null || !_storyboards.ContainsKey(MainLap.Id))
+            if (!_propertyEventsEnabled || MainLap == null || _replayViewModel?.TrackLength == null || !_storyboards.ContainsKey(MainLap.Id))
             {
                 return;
             }
             Distance selectedDistance = Distance.CreateByUnits(_replayViewModel.SelectedDistance, _replayViewModel.DistanceUnits);
             TelemetryStoryboard storyboard = _storyboards[MainLap.Id];
             TelemetryFrame closestFrame = storyboard.FindFrameByDistance(selectedDistance);
+            _displayedFrame = closestFrame;
+            UpdateViewModels();
             _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(closestFrame.TelemetrySnapshot, storyboard.LapSummaryDto);
         }
 
@@ -153,6 +169,77 @@
             {
                 _storyboards.Remove(lapSummaryDto.Id);
             }
+        }
+
+        private void BindCommands()
+        {
+            if (_replayViewModel == null)
+            {
+                return;;
+            }
+
+            _replayViewModel.PlayCommand = new AsyncCommand(Play);
+            _replayViewModel.StopCommand = new RelayCommand(Stop);
+            _replayViewModel.NextFrameCommand = new RelayCommand(NextFrame);
+            _replayViewModel.PreviousFrameCommand = new RelayCommand(PreviousFrame);
+        }
+
+        private void PreviousFrame()
+        {
+            if (_displayedFrame == null || _playCancellationSource != null || _displayedFrame.PreviousFrame == null)
+            {
+                return;
+            }
+
+            _displayedFrame = _displayedFrame.PreviousFrame;
+            _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
+            UpdateViewModels();
+        }
+
+        private void NextFrame()
+        {
+            if (_displayedFrame == null || _playCancellationSource != null || _displayedFrame.NextFrame == null)
+            {
+                return;
+            }
+
+            _displayedFrame = _displayedFrame.NextFrame;
+            _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
+            UpdateViewModels();
+        }
+
+        private async Task Play()
+        {
+            if (_displayedFrame == null || _playCancellationSource != null)
+            {
+                return;
+            }
+
+            _playCancellationSource = new CancellationTokenSource();
+            TelemetryFrame nextFrame = _displayedFrame.NextFrame;
+            TimeSpan timeToWait = TimeSpan.Zero;
+            Stopwatch sw = new Stopwatch();
+            while (nextFrame != null && !_playCancellationSource.IsCancellationRequested)
+            {
+                timeToWait = nextFrame.FrameTime - _displayedFrame.FrameTime + (timeToWait - sw.Elapsed);
+                sw.Restart();
+                if (timeToWait > TimeSpan.Zero)
+                {
+                    await Task.Delay(timeToWait);
+                }
+
+                _displayedFrame = nextFrame;
+                UpdateViewModels();
+                _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
+                nextFrame = _displayedFrame.NextFrame;
+            }
+
+            _playCancellationSource = null;
+        }
+
+        private void Stop()
+        {
+            _playCancellationSource?.Cancel(false);
         }
     }
 }

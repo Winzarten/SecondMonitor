@@ -1,8 +1,10 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.Replay
 {
     using System;
+    using System.Windows.Input;
     using DataModel.BasicProperties;
     using SecondMonitor.ViewModels;
+    using Settings;
 
     public class ReplayViewModel : AbstractViewModel, IReplayViewModel
     {
@@ -12,9 +14,13 @@
         private bool _isEnabled;
         private Distance _displayDistance;
         private TimeSpan _displayTime;
+        private ICommand _stopCommand;
+        private ICommand _playCommand;
+        private ICommand _nextFrameCommand;
+        private ICommand _previousFrameCommand;
 
         public double TrackLengthRaw => TrackLength?.GetByUnit(DistanceUnits)?? 0;
-
+        
         public Distance TrackLength
         {
             get => _trackLength;
@@ -62,6 +68,46 @@
             set
             {
                 _selectedDistance = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand StopCommand
+        {
+            get => _stopCommand;
+            set
+            {
+                _stopCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand PlayCommand
+        {
+            get => _playCommand;
+            set
+            {
+                _playCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand NextFrameCommand
+        {
+            get => _nextFrameCommand;
+            set
+            {
+                _nextFrameCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand PreviousFrameCommand
+        {
+            get => _previousFrameCommand;
+            set
+            {
+                _previousFrameCommand = value;
                 NotifyPropertyChanged();
             }
         }

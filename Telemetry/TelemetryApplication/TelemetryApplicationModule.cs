@@ -42,6 +42,7 @@
             Bind<ILapSelectionViewModel>().To<LapSelectionViewModel>();
             Bind<ILapSummaryViewModel>().To<LapSummaryViewModel>();
             Bind<IReplayViewModel>().To<ReplayViewModel>();
+            Bind<IPedalSectionViewModel>().To<PedalSectionViewModel>();
         }
     }
 }

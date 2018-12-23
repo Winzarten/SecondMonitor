@@ -14,8 +14,7 @@
             TelemetryFrame previousFrame = null;
             foreach (TimedTelemetrySnapshot timedTelemetrySnapshot in lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.LapTimeSeconds))
             {
-                TelemetryFrame currentFrame = new TelemetryFrame(timedTelemetrySnapshot);
-                currentFrame.PreviousFrame = currentFrame;
+                TelemetryFrame currentFrame = new TelemetryFrame(timedTelemetrySnapshot) {PreviousFrame = previousFrame};
                 if (previousFrame == null)
                 {
                     telemetryStoryboard.FirstFrame = currentFrame;

@@ -5,6 +5,8 @@ using SecondMonitor.DataModel.Snapshot.Drivers;
 
 namespace SecondMonitor.DataModel.Telemetry
 {
+    using BasicProperties;
+
     public class TimedTelemetrySnapshots
     {
         private readonly TimeSpan _snapshotsIntervals;
@@ -20,7 +22,7 @@ namespace SecondMonitor.DataModel.Telemetry
 
         public IReadOnlyCollection<TimedTelemetrySnapshot> Snapshots => _snapshots.AsReadOnly();
 
-        public void AddNextSnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo)
+        public void AddNextSnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo, InputInfo inputInfo)
         {
             if ((playerInfo.InPits && playerInfo.Speed.InKph < 5) || lapTime < _nextSnapshotTime)
             {
@@ -28,7 +30,7 @@ namespace SecondMonitor.DataModel.Telemetry
             }
 
             _nextSnapshotTime = lapTime + _snapshotsIntervals;
-            _snapshots.Add(new TimedTelemetrySnapshot(lapTime, playerInfo, weatherInfo));
+            _snapshots.Add(new TimedTelemetrySnapshot(lapTime, playerInfo, weatherInfo, inputInfo));
         }
     }
 }

@@ -9,7 +9,8 @@
     public class Temperature : IQuantity
     {
         public static Temperature Zero = new Temperature();
-        private readonly bool _isZero;
+        private bool _isZero;
+        private double _inCelsius;
 
         public Temperature()
         {
@@ -23,7 +24,15 @@
         }
 
         [XmlAttribute]
-        public double InCelsius { get; set; }
+        public double InCelsius
+        {
+            get => _inCelsius;
+            set
+            {
+                _inCelsius = value;
+                _isZero = false;
+            }
+        }
 
         [JsonIgnore]
         [XmlIgnore]

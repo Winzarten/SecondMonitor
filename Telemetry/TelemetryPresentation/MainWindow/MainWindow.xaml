@@ -17,23 +17,29 @@
             </ResourceDictionary>
    </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Column="0" MaxHeight="350">
-                <lapsSummary:LapSelectionControl DataContext="{Binding LapSelectionViewModel}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Column="0" VerticalAlignment="Stretch">
+                    <lapsSummary:LapSelectionControl DataContext="{Binding LapSelectionViewModel}" VerticalAlignment="Stretch"/>
+                </Grid>
+                <Border Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}" Padding="5">
+                    <Grid>
+                        <snapshotSection:SnapshotSectionControl DataContext="{Binding SnapshotSectionViewModel }"/>
+                    </Grid>
+                </Border>
             </Grid>
-            <Border Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}" Padding="5">
-            <Grid>
-                    <snapshotSection:SnapshotSectionControl DataContext="{Binding SnapshotSectionViewModel }"/>
-            </Grid>
-            </Border>
         </Grid>
 
     </Grid>

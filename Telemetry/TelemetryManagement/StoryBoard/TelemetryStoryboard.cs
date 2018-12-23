@@ -21,13 +21,13 @@
 
         public TelemetryFrame FindFrameByTime(TimeSpan time)
         {
-            TelemetryFrame frame = TelemetryFrames.FirstOrDefault(x => x.FrameTime > time);
+            TelemetryFrame frame = TelemetryFrames.FirstOrDefault(x => x.FrameTime >= time);
             return frame ?? LastFrame;
         }
 
         public TelemetryFrame FindFrameByDistance(Distance distance)
         {
-            TelemetryFrame frame = TelemetryFrames.FirstOrDefault(x => x.FrameDistance > distance);
+            TelemetryFrame frame = TelemetryFrames.FirstOrDefault(x => x.FrameDistance.InMeters >= distance.InMeters);
             return frame ?? LastFrame;
         }
     }
