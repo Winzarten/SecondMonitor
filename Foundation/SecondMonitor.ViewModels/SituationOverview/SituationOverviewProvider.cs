@@ -276,7 +276,7 @@
             }
         }
 
-        private FullMapControl InitializeFullMap(TrackMapDto trackMapDto)
+        private FullMapControl InitializeFullMap(ITrackMap trackMapDto)
         {
             if (!Dispatcher.CheckAccess())
             {

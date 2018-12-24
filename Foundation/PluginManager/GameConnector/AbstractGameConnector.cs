@@ -151,14 +151,17 @@
             while (ShouldDisconnect == false)
             {
                 SimulatorDataSet set;
-                while (_queue.Count != 0)
+                lock (_queue)
                 {
-                    lock (_queue)
+                    while (_queue.Count != 0)
                     {
-                        set = _queue.Dequeue();
-                    }
+                        lock (_queue)
+                        {
+                            set = _queue.Dequeue();
+                        }
 
-                    RaiseDataLoadedEvent(set);
+                        RaiseDataLoadedEvent(set);
+                    }
                 }
 
                 Thread.Sleep(TickTime);

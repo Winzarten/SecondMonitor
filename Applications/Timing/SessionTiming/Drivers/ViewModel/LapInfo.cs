@@ -191,12 +191,15 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 CompletedDistance = driverInfo.LapDistance;
             }
 
-            if (CompletedDistance != double.NaN && CompletedDistance < driverInfo.LapDistance)
+            if (!double.IsNaN(CompletedDistance))
             {
-                CompletedDistance = driverInfo.LapDistance;
+                if (CompletedDistance <= driverInfo.LapDistance)
+                {
+                    CompletedDistance = driverInfo.LapDistance;
+                }
                 if (Driver.IsPlayer)
                 {
-                     LapTelemetryInfo.UpdateTelemetry(dataSet);
+                    LapTelemetryInfo.UpdateTelemetry(dataSet);
                 }
             }
 

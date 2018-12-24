@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.LapsSummary"
              xmlns:lapPicker="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.LapPicker;assembly=TelemetryApplication"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800"  d:DataContext="{d:DesignInstance Type=lapPicker:ILapSelectionViewModel}">
+             d:DesignHeight="450" d:DesignWidth="800"  d:DataContext="{d:DesignInstance Type=lapPicker:LapSelectionViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>

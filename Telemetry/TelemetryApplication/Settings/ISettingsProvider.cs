@@ -7,5 +7,7 @@
         DisplaySettingsViewModel DisplaySettingsViewModel { get; }
 
         string TelemetryRepositoryPath { get; }
+
+        string MapRepositoryPath { get; }
     }
 }

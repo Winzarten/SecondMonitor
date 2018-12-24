@@ -37,10 +37,20 @@
     <Reference Include="Ninject.Extensions.NamedScope, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Ninject.Extensions.NamedScope.3.3.0\lib\net45\Ninject.Extensions.NamedScope.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +64,9 @@
     <Compile Include="Controllers\MainWindow\LapPicker\ILapPickerController.cs" />
     <Compile Include="Controllers\MainWindow\LapPicker\LapPickerController.cs" />
     <Compile Include="Controllers\MainWindow\MainWindowController.cs" />
+    <Compile Include="Controllers\MainWindow\MapView\IMapViewController.cs" />
+    <Compile Include="Controllers\MainWindow\MapView\MapViewController.cs" />
+    <Compile Include="Controllers\MainWindow\MapView\MapViewDriverInfoFacade.cs" />
     <Compile Include="Controllers\MainWindow\Replay\IReplayController.cs" />
     <Compile Include="Controllers\MainWindow\Replay\ReplayController.cs" />
     <Compile Include="Controllers\MainWindow\Snapshot\IMainLapController.cs" />
@@ -81,6 +94,8 @@
     <Compile Include="ViewModels\AbstractSnapshotViewModel.cs" />
     <Compile Include="ViewModels\IAbstractSnapshotViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MapView\IMapViewViewModel.cs" />
+    <Compile Include="ViewModels\MapView\MapViewViewModel.cs" />
     <Compile Include="ViewModels\Replay\IReplayViewModel.cs" />
     <Compile Include="ViewModels\LapPicker\ILapSelectionViewModel.cs" />
     <Compile Include="ViewModels\LapPicker\ILapSummaryViewModel.cs" />
@@ -94,6 +109,11 @@
     <Compile Include="ViewModels\SnapshotSection\SnapshotSectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Applications\SimdataManagement\SimdataManagement.csproj">
+      <Project>{8971F71E-CF2E-40F8-B881-3F45EB8ECC9B}</Project>
+      <Name>SimdataManagement</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\Foundation\DataModel\DataModel.csproj">
       <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
       <Name>DataModel</Name>
@@ -119,5 +139,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

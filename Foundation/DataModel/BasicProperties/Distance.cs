@@ -23,7 +23,8 @@
         [XmlIgnore]
         public static Distance ZeroDistance { get; } = new Distance(0, true);
 
-        public double InMeters { get; }
+        [XmlAttribute]
+        public double InMeters { get; set; }
 
         [XmlIgnore]
         public double InKilometers => InMeters / 1000;

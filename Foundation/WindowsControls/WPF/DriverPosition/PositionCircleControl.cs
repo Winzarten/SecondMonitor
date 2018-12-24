@@ -41,7 +41,7 @@
             return 20;
         }
 
-        protected override double GetX(DriverInfo driver)
+        protected override double GetX(IDriverInfo driver)
         {
             double lapLength = LastDataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
             double degrees = (driver.LapDistance / lapLength) * 2 * Math.PI - Math.PI / 2;
@@ -49,7 +49,7 @@
             return double.IsNaN(x) ? 0 : x;
         }
 
-        protected override double GetY(DriverInfo driver)
+        protected override double GetY(IDriverInfo driver)
         {
             double lapLength = LastDataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
             double degrees = ((driver.LapDistance / lapLength) * 2 * Math.PI) - (Math.PI / 2);

@@ -14,7 +14,7 @@
             base.OnStartup(e);
             TelemetryApplicationController telemetryApplicationController = new TelemetryApplicationController(new MainWindow());
             telemetryApplicationController.StartController();
-            telemetryApplicationController.OpenFromRepository("18-12-23-03-59-Norisring-Practice");
+            telemetryApplicationController.OpenFromRepository("18-12-24-01-13-Norisring-Practice");
         }
     }
 }

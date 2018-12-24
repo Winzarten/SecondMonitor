@@ -2,6 +2,7 @@
 {
     using Controllers.MainWindow;
     using Controllers.MainWindow.LapPicker;
+    using Controllers.MainWindow.MapView;
     using Controllers.MainWindow.Replay;
     using Controllers.MainWindow.Snapshot;
     using Controllers.Synchronization;
@@ -11,9 +12,11 @@
     using Ninject.Modules;
     using Repository;
     using Settings;
+    using SimdataManagement;
     using TelemetryManagement.StoryBoard;
     using ViewModels;
     using ViewModels.LapPicker;
+    using ViewModels.MapView;
     using ViewModels.Replay;
     using ViewModels.SnapshotSection;
 
@@ -26,11 +29,13 @@
         {
             Bind<IMainWindowController>().To<MainWindowController>().DefinesNamedScope(MainWidowScopeName);
             Bind<TelemetryStoryBoardFactory>().ToSelf();
+            Bind<IMapsLoaderFactory>().To<MapsLoaderFactory>();
 
             Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InNamedScope(MainWidowScopeName);
             Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InNamedScope(MainWidowScopeName);
+            Bind<IMapViewController>().To<MapViewController>().InNamedScope(MainWidowScopeName);
             Bind<IReplayController>().To<ReplayController>();
             Bind<ISnapshotSectionController>().To<SnapshotSectionController>();
 
@@ -43,6 +48,7 @@
             Bind<ILapSummaryViewModel>().To<LapSummaryViewModel>();
             Bind<IReplayViewModel>().To<ReplayViewModel>();
             Bind<IPedalSectionViewModel>().To<PedalSectionViewModel>();
+            Bind<IMapViewViewModel>().To<MapViewViewModel>();
         }
     }
 }

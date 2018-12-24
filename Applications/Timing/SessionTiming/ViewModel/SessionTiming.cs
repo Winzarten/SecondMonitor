@@ -410,7 +410,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public bool IsDriverOnValidLap(DriverInfo driver)
+        public bool IsDriverOnValidLap(IDriverInfo driver)
         {
             if (!Drivers?.ContainsKey(driver.DriverName) ?? false)
             {
@@ -420,7 +420,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             return Drivers?[driver.DriverName].DriverTiming.CurrentLap?.Valid ?? false;
         }
 
-        public bool IsDriverLastSectorGreen(DriverInfo driver, int sectorNumber)
+        public bool IsDriverLastSectorGreen(IDriverInfo driver, int sectorNumber)
         {
             if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
             {
@@ -440,7 +440,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             return false;
         }
 
-        public bool IsDriverLastSectorPurple(DriverInfo driver, int sectorNumber)
+        public bool IsDriverLastSectorPurple(IDriverInfo driver, int sectorNumber)
         {
             if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
             {
@@ -460,7 +460,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             return false;
         }
 
-        public bool GetTryCustomOutline(DriverInfo driverInfo, out SolidColorBrush outlineBrush)
+        public bool GetTryCustomOutline(IDriverInfo driverInfo, out SolidColorBrush outlineBrush)
         {
             if (driverInfo == null || string.IsNullOrEmpty(driverInfo.DriverName) || Drivers == null || !Drivers.TryGetValue(driverInfo.DriverName, out DriverTimingViewModel driverTimingViewModel))
             {

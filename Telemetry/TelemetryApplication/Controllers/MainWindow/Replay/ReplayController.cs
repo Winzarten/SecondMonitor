@@ -124,7 +124,7 @@
             TelemetryFrame closestFrame = storyboard.FindFrameByDistance(selectedDistance);
             _displayedFrame = closestFrame;
             UpdateViewModels();
-            _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(closestFrame.TelemetrySnapshot, storyboard.LapSummaryDto);
+            FireSynchronization();
         }
 
         private void RefreshViewModelBasicInfo(SessionInfoDto sessionInfoDto)
@@ -192,7 +192,7 @@
             }
 
             _displayedFrame = _displayedFrame.PreviousFrame;
-            _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
+            FireSynchronization();
             UpdateViewModels();
         }
 
@@ -204,7 +204,7 @@
             }
 
             _displayedFrame = _displayedFrame.NextFrame;
-            _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
+            FireSynchronization();
             UpdateViewModels();
         }
 
@@ -219,7 +219,7 @@
             TelemetryFrame nextFrame = _displayedFrame.NextFrame;
             TimeSpan timeToWait = TimeSpan.Zero;
             Stopwatch sw = new Stopwatch();
-            while (nextFrame != null && !_playCancellationSource.IsCancellationRequested)
+            while (nextFrame != null && nextFrame != _displayedFrame && !_playCancellationSource.IsCancellationRequested)
             {
                 timeToWait = nextFrame.FrameTime - _displayedFrame.FrameTime + (timeToWait - sw.Elapsed);
                 sw.Restart();
@@ -227,14 +227,29 @@
                 {
                     await Task.Delay(timeToWait);
                 }
+                else
+                {
+                    await Task.Delay(10);
+                }
 
                 _displayedFrame = nextFrame;
+                FireSynchronization();
                 UpdateViewModels();
-                _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
                 nextFrame = _displayedFrame.NextFrame;
+                //nextFrame = _displayedFrame.Forward(TimeSpan.FromMilliseconds(50));
             }
 
             _playCancellationSource = null;
+        }
+
+        private void FireSynchronization()
+        {
+            _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
+            foreach (TelemetryStoryboard otherLapStoryboard in _storyboards.Values.Where(x => x.LapSummaryDto.Id != _mainLap.Id))
+            {
+                TelemetryFrame otherLapFrame = otherLapStoryboard.FindFrameByTime(_displayedFrame.FrameTime);
+                _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(otherLapFrame.TelemetrySnapshot, otherLapStoryboard.LapSummaryDto);
+            }
         }
 
         private void Stop()

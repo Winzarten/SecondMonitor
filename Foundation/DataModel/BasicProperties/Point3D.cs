@@ -17,11 +17,11 @@
             Z = z;
         }
 
-        public Distance X { get; }
+        public Distance X { get; set; }
 
-        public Distance Y { get; }
+        public Distance Y { get; set; }
 
-        public Distance Z { get; }
+        public Distance Z { get; set; }
 
         public Distance GetDistance(Point3D p2)
         {

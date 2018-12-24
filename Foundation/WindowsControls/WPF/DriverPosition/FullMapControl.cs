@@ -42,6 +42,8 @@
             InitializeMap();
         }
 
+        public bool EnableSidePanel { get; set; } = true;
+
         public SolidColorBrush PurpleSectorBrush
         {
             get => (SolidColorBrush)GetValue(PurpleSectorBrushProperty);
@@ -83,7 +85,7 @@
             set => _viewbox.Stretch = value ? Stretch.Uniform : Stretch.Fill;
         }
 
-        public override void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers)
+        public override void UpdateDrivers(SimulatorDataSet dataSet, params IDriverInfo[] drivers)
         {
             base.UpdateDrivers(dataSet, drivers);
             UpdateSectorsColor(dataSet);
@@ -91,7 +93,7 @@
 
         private void UpdateSectorsColor(SimulatorDataSet dataSet)
         {
-            if (PositionCircleInformationProvider == null || dataSet.PlayerInfo == null)
+            if (PositionCircleInformationProvider == null || dataSet?.PlayerInfo == null)
             {
                 return;
             }
@@ -212,13 +214,13 @@
 
         protected override double GetLabelSize() => DriverControllerFontSize;
 
-        protected override double GetX(DriverInfo driver)
+        protected override double GetX(IDriverInfo driver)
         {
             double xCoord = _trackMap.TrackGeometry.IsSwappedAxis ? driver.WorldPosition.Z.InMeters * _trackMap.TrackGeometry.YCoef : driver.WorldPosition.X.InMeters * _trackMap.TrackGeometry.XCoef;
             return xCoord - GetDriverControlSize() / 2;
         }
 
-        protected override double GetY(DriverInfo driver)
+        protected override double GetY(IDriverInfo driver)
         {
             double yCoord = _trackMap.TrackGeometry.IsSwappedAxis ? driver.WorldPosition.X.InMeters * _trackMap.TrackGeometry.XCoef : driver.WorldPosition.Z.InMeters * _trackMap.TrackGeometry.YCoef;
             return yCoord - GetDriverControlSize() / 2;
@@ -227,6 +229,10 @@
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
+            if (!EnableSidePanel)
+            {
+                return;
+            }
             DoubleAnimation showAnimation = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.4));
             _mapSidePanelControl.BeginAnimation(OpacityProperty, showAnimation);
         }
@@ -234,6 +240,10 @@
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
+            if (!EnableSidePanel)
+            {
+                return;
+            }
             DoubleAnimation showAnimation = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.4));
             _mapSidePanelControl.BeginAnimation(OpacityProperty, showAnimation);
         }

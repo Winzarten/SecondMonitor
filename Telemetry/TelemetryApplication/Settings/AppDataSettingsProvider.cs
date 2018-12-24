@@ -25,6 +25,8 @@
 
         public string TelemetryRepositoryPath => Path.Combine(DisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, TelemetryFolder);
 
+        public string MapRepositoryPath => Path.Combine(DisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, MapFolder);
+
         private DisplaySettingsViewModel LoadSettings()
         {
             DisplaySettingsViewModel displaySettingsViewModel = new DisplaySettingsViewModel();

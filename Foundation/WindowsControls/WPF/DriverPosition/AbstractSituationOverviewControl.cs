@@ -124,23 +124,23 @@
 
         protected SimulatorDataSet LastDataSet { get; set; }
 
-        public void AddDrivers(params DriverInfo[] drivers)
+        public void AddDrivers(params IDriverInfo[] drivers)
         {
 
         }
 
-        public void RemoveDrivers(params DriverInfo[] drivers)
+        public void RemoveDrivers(params IDriverInfo[] drivers)
         {
-            foreach (DriverInfo driver in drivers)
+            foreach (IDriverInfo driver in drivers)
             {
                 RemoveDriver(driver.DriverName);
             }
         }
 
-        public virtual void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers)
+        public virtual void UpdateDrivers(SimulatorDataSet dataSet, params IDriverInfo[] drivers)
         {
             LastDataSet = dataSet;
-            foreach (DriverInfo driver in drivers)
+            foreach (IDriverInfo driver in drivers)
             {
                 if (_drivers.ContainsKey(driver.DriverName))
                 {
@@ -165,7 +165,7 @@
 
 
 
-        private void AddDriver(DriverInfo driverInfo)
+        private void AddDriver(IDriverInfo driverInfo)
         {
             lock (_drivers)
             {
@@ -210,20 +210,15 @@
             _drivers.Remove(driverName);
         }
 
-        private void UpdateDriver(DriverInfo driverInfo, DriverPositionControl driverPositionControl)
+        private void UpdateDriver(IDriverInfo driverInfo, DriverPositionControl driverPositionControl)
         {
-            if (LastDataSet == null)
-            {
-                return;
-            }
-
             driverPositionControl.Position = driverInfo.Position;
             driverPositionControl.X = GetX(driverInfo);
             driverPositionControl.Y = GetY(driverInfo);
             UpdateColors(driverInfo, driverPositionControl);
         }
 
-        private void UpdateColors(DriverInfo driverInfo, DriverPositionControl driverPositionControl)
+        private void UpdateColors(IDriverInfo driverInfo, DriverPositionControl driverPositionControl)
         {
             if (driverInfo.IsPlayer)
             {
@@ -265,9 +260,9 @@
             driverPositionControl.TextBrush = DriverForegroundBrush;
         }
 
-        private bool IsLapped(DriverInfo driver)
+        private bool IsLapped(IDriverInfo driver)
         {
-            if (LastDataSet.SessionInfo.SessionType == SessionType.Race || PositionCircleInformationProvider == null)
+            if (LastDataSet?.SessionInfo.SessionType == SessionType.Race || PositionCircleInformationProvider == null)
             {
                 return driver.IsBeingLappedByPlayer;
             }
@@ -276,7 +271,7 @@
         }
 
         protected abstract double GetLabelSize();
-        protected abstract double GetX(DriverInfo driver);
-        protected abstract double GetY(DriverInfo driver);
+        protected abstract double GetX(IDriverInfo driver);
+        protected abstract double GetY(IDriverInfo driver);
     }
 }
