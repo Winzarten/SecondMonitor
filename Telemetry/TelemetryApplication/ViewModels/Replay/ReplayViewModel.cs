@@ -18,9 +18,10 @@
         private ICommand _playCommand;
         private ICommand _nextFrameCommand;
         private ICommand _previousFrameCommand;
+        private ICommand _syncDistancesCommand;
 
         public double TrackLengthRaw => TrackLength?.GetByUnit(DistanceUnits)?? 0;
-        
+
         public Distance TrackLength
         {
             get => _trackLength;
@@ -108,6 +109,16 @@
             set
             {
                 _previousFrameCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand SyncDistancesCommand
+        {
+            get => _syncDistancesCommand;
+            set
+            {
+                _syncDistancesCommand = value;
                 NotifyPropertyChanged();
             }
         }

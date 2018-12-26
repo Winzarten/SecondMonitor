@@ -50,6 +50,7 @@
         {
             _telemetryViewsSynchronization.NewSessionLoaded += TelemetryViewsSynchronizationOnNewSessionLoaded;
             _telemetryViewsSynchronization.LapLoaded += TelemetryViewsSynchronization_LapLoaded;
+            _telemetryViewsSynchronization.LapUnloaded += TelemetryViewsSynchronizationOnLapUnloaded;
             _telemetryViewsSynchronization.SyncTelemetryView += TelemetryViewsSynchronizationOnSyncTelemetryView;
         }
 
@@ -57,6 +58,7 @@
         {
             _telemetryViewsSynchronization.NewSessionLoaded -= TelemetryViewsSynchronizationOnNewSessionLoaded;
             _telemetryViewsSynchronization.LapLoaded -= TelemetryViewsSynchronization_LapLoaded;
+            _telemetryViewsSynchronization.LapUnloaded -= TelemetryViewsSynchronizationOnLapUnloaded;
             _telemetryViewsSynchronization.SyncTelemetryView -= TelemetryViewsSynchronizationOnSyncTelemetryView;
         }
 
@@ -65,6 +67,19 @@
             if (!_mapAvailable)
             {
                 return;
+            }
+        }
+
+        private void TelemetryViewsSynchronizationOnLapUnloaded(object sender, LapSummaryArgs e)
+        {
+            if (!_mapAvailable)
+            {
+                return;
+            }
+
+            if (_fakeDrivers.TryGetValue(e.LapSummary.Id, out MapViewDriverInfoFacade fakeDriver))
+            {
+                MapViewViewModel.RemoveDriver(fakeDriver);
             }
         }
 

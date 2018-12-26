@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using WindowsControls.WPF.Commands;
     using DataModel.BasicProperties;
+    using DataModel.Extensions;
     using Factory;
     using Settings;
     using Synchronization;
@@ -24,6 +25,8 @@
         private readonly ISettingsProvider _settingsProvider;
         private readonly TelemetryStoryBoardFactory _telemetryStoryBoardFactory;
         private readonly Dictionary<string, TelemetryStoryboard> _storyboards;
+        private readonly Dictionary<string, TimeSpan> _storyBoardsShift;
+        private TelemetryFrame _syncFrame;
         private LapSummaryDto _mainLap;
         private IReplayViewModel _replayViewModel;
         private TelemetryFrame _displayedFrame;
@@ -34,6 +37,7 @@
         {
             _propertyEventsEnabled = true;
             _storyboards = new Dictionary<string, TelemetryStoryboard>();
+            _storyBoardsShift = new Dictionary<string, TimeSpan>();
             _viewModelFactory = viewModelFactory;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _settingsProvider = settingsProvider;
@@ -123,8 +127,15 @@
             TelemetryStoryboard storyboard = _storyboards[MainLap.Id];
             TelemetryFrame closestFrame = storyboard.FindFrameByDistance(selectedDistance);
             _displayedFrame = closestFrame;
+
             UpdateViewModels();
             FireSynchronization();
+
+            if (_mainLap.Id != _syncFrame?.Storyboard.LapSummaryDto.Id && _syncFrame != null)
+            {
+                _syncFrame = _storyboards[_mainLap.Id].FindFrameByDistance(_syncFrame.FrameDistance);
+                _storyboards.Values.Where(x => x != _displayedFrame.Storyboard).ForEach(SyncStoryBoard);
+            }
         }
 
         private void RefreshViewModelBasicInfo(SessionInfoDto sessionInfoDto)
@@ -161,11 +172,17 @@
             TelemetryStoryboard storyboard = null;
             await Task.Run(() => storyboard = _telemetryStoryBoardFactory.Create(lapTelemetryDto));
             _storyboards[lapTelemetryDto.LapSummary.Id] = storyboard;
+            SyncStoryBoard(storyboard);
         }
 
         private void RemoveStoryBoardFromCache(LapSummaryDto lapSummaryDto)
         {
             if (_storyboards.ContainsKey(lapSummaryDto.Id))
+            {
+                _storyboards.Remove(lapSummaryDto.Id);
+            }
+
+            if (_storyBoardsShift.ContainsKey(lapSummaryDto.Id))
             {
                 _storyboards.Remove(lapSummaryDto.Id);
             }
@@ -182,6 +199,25 @@
             _replayViewModel.StopCommand = new RelayCommand(Stop);
             _replayViewModel.NextFrameCommand = new RelayCommand(NextFrame);
             _replayViewModel.PreviousFrameCommand = new RelayCommand(PreviousFrame);
+            _replayViewModel.SyncDistancesCommand = new RelayCommand(SyncCommand);
+        }
+
+        private void SyncStoryBoard(TelemetryStoryboard storyboard)
+        {
+            TimeSpan timeShift = _syncFrame == null ? TimeSpan.Zero : _syncFrame.FrameTime - storyboard.FindFrameByDistance(_syncFrame.FrameDistance).FrameTime;
+            _storyBoardsShift[storyboard.LapSummaryDto.Id] = timeShift;
+            FireSynchronization();
+        }
+
+        private void SyncCommand()
+        {
+            if (_mainLap == null || _displayedFrame == null)
+            {
+                return;
+            }
+
+            _syncFrame = _displayedFrame;
+            _storyboards.Values.Where(x => x != _displayedFrame.Storyboard).ForEach(SyncStoryBoard);
         }
 
         private void PreviousFrame()
@@ -244,10 +280,14 @@
 
         private void FireSynchronization()
         {
+            if (_displayedFrame == null)
+            {
+                return;
+            }
             _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(_displayedFrame.TelemetrySnapshot, _mainLap);
             foreach (TelemetryStoryboard otherLapStoryboard in _storyboards.Values.Where(x => x.LapSummaryDto.Id != _mainLap.Id))
             {
-                TelemetryFrame otherLapFrame = otherLapStoryboard.FindFrameByTime(_displayedFrame.FrameTime);
+                TelemetryFrame otherLapFrame = otherLapStoryboard.FindFrameByTime(_displayedFrame.FrameTime - _storyBoardsShift[otherLapStoryboard.LapSummaryDto.Id]);
                 _telemetryViewsSynchronization.NotifySynchronizeToSnapshot(otherLapFrame.TelemetrySnapshot, otherLapStoryboard.LapSummaryDto);
             }
         }

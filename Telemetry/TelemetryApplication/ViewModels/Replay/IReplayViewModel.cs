@@ -18,5 +18,6 @@
         ICommand PlayCommand { get; set; }
         ICommand NextFrameCommand { get; set; }
         ICommand PreviousFrameCommand { get; set; }
+        ICommand SyncDistancesCommand { get; set; }
     }
 }

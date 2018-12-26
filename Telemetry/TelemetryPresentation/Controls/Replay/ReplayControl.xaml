@@ -74,6 +74,16 @@
                             </wpf:ColorAbleIcon>
                         </Button.Content>
                     </Button>
+                    <Button Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20,0,0,0"
+                            Command="{Binding SyncDistancesCommand, Mode=OneWay}"
+                            Style="{StaticResource StandardButton}"
+                            ToolTip="Sync all selected laps, so they intersect at the current distance. Useful when analyzing individual corner performance.">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}" Margin="-5">
+                                <ContentPresenter Content="{StaticResource Sync}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
                 </StackPanel>
             </Border>
         </Grid>
