@@ -141,6 +141,7 @@
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Converters\IntegerToStringConverter.cs" />
+    <Compile Include="WPF\Converters\ScaleToPercentConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
@@ -183,6 +184,10 @@
     </Compile>
     <Compile Include="WPF\Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="WPF\WheelStatusControl\WheelStatusControl.cs" />
+    <Compile Include="WPF\ZoomAndPan\AnimationHelper.cs" />
+    <Compile Include="WPF\ZoomAndPan\MouseHandlingMode.cs" />
+    <Compile Include="WPF\ZoomAndPan\ZoomAndPanControl.cs" />
+    <Compile Include="WPF\ZoomAndPan\ZoomAndPanControl_IScrollInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -273,6 +278,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\WheelStatusControl\WheelStatucControlT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\ZoomAndPan\ZoomAndPanControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
