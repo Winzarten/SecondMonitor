@@ -46,7 +46,7 @@
                                      IdealQuantityWindow = OptimalTemperatureWindow
                                  };
 
-            TyreWear = new TyreWear(){ActualWear = 0.0, NoWearWearLimit = 0.10, LightWearLimit = 0.25, HeavyWearLimit = 0.7};
+            TyreWear = new TyreWear(){ActualWear = 0.0, NoWearWearLimit = 0.03, LightWearLimit = 0.25, HeavyWearLimit = 0.7};
             TyreType = "Prime";
         }
 

@@ -16,10 +16,10 @@
             <Canvas Width="{Binding Text, ElementName=WidthBox}" Height="{Binding Text, ElementName=HeightBox}" ClipToBounds="True">
                 <Canvas>
                     <Path Stroke="{StaticResource LightGrey02Brush}" StrokeThickness="15" Data="{Binding Path=Text, ElementName=DataTextBlock}"/>
-                    <Path Stroke="{StaticResource LightBlueBrush}" StrokeThickness="30" Data="M -279.724639892578 243.158706665039 L -336.859954833984 269.082489013672 L -395.564208984375 294.142028808594 "/>
+                    <Path Stroke="{StaticResource LightBlueBrush}" StrokeThickness="30" Data="M300,200 a5,5 0 1,0 0,-1 Z M30,200 a5,5 0 1,0 0,-1 Z"/>
                     <driverPosition:DriverPositionControl X="-520" Y="85" Width="25" Height="25" CircleBrush="Black" Position="3" TextBrush="{StaticResource LightGrey01Brush}" OutLineColor="{StaticResource PlayerOutLineColor}" />
                     <Canvas.RenderTransform>
-                        <TranslateTransform X="611.93548583984375" Y="98.6330795288086"/>
+                        <TranslateTransform X="0" Y="0"/>
                 </Canvas.RenderTransform>
                 </Canvas>
             </Canvas>
@@ -27,7 +27,7 @@
         <StackPanel Grid.Column="1">
             <TextBox Background="{StaticResource Anthracite01Brush}" x:Name="WidthBox" Foreground="{StaticResource LightGrey01Brush}" Text="600.5424861907959"></TextBox>
             <TextBox Background="{StaticResource Anthracite01Brush}" x:Name="HeightBox" Foreground="{StaticResource LightGrey01Brush}" Text="421.83043670654297"></TextBox>
-            <TextBox Background="{StaticResource Anthracite01Brush}" x:Name="DataTextBlock" Foreground="{StaticResource LightGrey01Brush}" Text="M -279.724639892578 243.158706665039 L -336.859954833984 269.082489013672 L -395.564208984375 294.142028808594 L -457.447113037109 310.984527587891 L -509.9482421875 313.197357177734 L -548.958984375 302.358093261719 L -572.754211425781 279.805419921875 L -588.153869628906 246.292129516602 L -598.523559570313 203.185165405273 L -601.935485839844 155.862533569336 L -600.65380859375 105.768508911133 L -598.610717773438 56.6362991333008 L -596.188781738281 20.1252403259277 L -584.76513671875 -5.59878826141357 L -563.261840820313 -16.0787544250488 L -541.094909667969 -10.3476619720459 L -526.600769042969 10.2731924057007 L -521.03564453125 41.2387924194336 L -522.4931640625 80.5553588867188 L -520.993408203125 124.298316955566 L -510.139923095703 167.152969360352 L -491.571105957031 195.273696899414 L -462.829223632813 207.120910644531 L -426.082550048828 206.955078125 L -386.391204833984 196.473068237305 L -342.1015625 182.494812011719 L -295.658203125 164.16389465332 L -247.498184204102 142.348526000977 L -202.497360229492 112.753852844238 L -168.62907409668 69.0632247924805 L -157.903610229492 15.866795539856 L -148.18489074707 -32.6615676879883 L -129.218063354492 -65.5249099731445 L -102.60173034668 -85.3600997924805 L -74.9099731445313 -88.6330795288086 L -47.4889106750488 -75.4305877685547 L -30.0851497650146 -50.111270904541 L -21.3929996490479 -13.4584980010986 L -26.9945659637451 29.0545234680176 L -45.5667457580566 71.4253463745117 L -75.5008087158203 113.114242553711 L -114.143898010254 150.477310180664 L -160.380676269531 182.293731689453 L -212.092025756836 210.675354003906 L -266.4423828125 236.918746948242 Z"></TextBox>
+            <TextBox Background="{StaticResource Anthracite01Brush}" x:Name="DataTextBlock" Foreground="{StaticResource LightGrey01Brush}" Text="M -279.724639892578 243.158706665039 L 300 200 L 150 50 "></TextBox>
         </StackPanel>
     </Grid>
 </UserControl>

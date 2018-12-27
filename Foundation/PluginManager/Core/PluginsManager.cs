@@ -9,16 +9,13 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-
     using NLog;
     using NLog.Fluent;
-
     using DataModel.Snapshot;
     using GameConnector;
 
     public class PluginsManager
     {
-
         public event EventHandler<DataEventArgs> DataLoaded;
 
         public event EventHandler<DataEventArgs> SessionStarted;
@@ -92,13 +89,14 @@
                     connector.DisplayMessage += ActiveConnectorOnDisplayMessage;
                     if (connector.TryConnect())
                     {
-                        Logger.Info("Connector Connected: "+ connector.GetType());
+                        Logger.Info("Connector Connected: " + connector.GetType());
                         _activeConnector = connector;
                         _activeConnector.DataLoaded += OnDataLoaded;
                         _activeConnector.SessionStarted += OnSessionStarted;
                         _activeConnector.Disconnected += Connector_Disconnected;
                         return;
                     }
+
                     connector.DisplayMessage -= ActiveConnectorOnDisplayMessage;
                 }
             }
@@ -143,25 +141,24 @@
                 assembly = Assembly.UnsafeLoadFrom(assemblyPath);
                 Logger.Info("Searching Assembly: " + assemblyPath);
 
+
+                var types = assembly.GetTypes().Where(c => !c.IsInterface && secondMonitorPluginType.IsAssignableFrom(c));
+                foreach (Type type in types)
+                {
+                    ISecondMonitorPlugin plugin = Activator.CreateInstance(type) as ISecondMonitorPlugin;
+                    plugins.Add(plugin);
+                    Logger.Info("Found plugin:" + type);
+                }
+
+                return plugins;
             }
             catch (Exception)
             {
                 return new List<ISecondMonitorPlugin>();
             }
-
-            var types = assembly.GetTypes().Where(c => !c.IsInterface && secondMonitorPluginType.IsAssignableFrom(c));
-            foreach (Type type in types)
-            {
-                ISecondMonitorPlugin plugin = Activator.CreateInstance(type) as ISecondMonitorPlugin;
-                plugins.Add(plugin);
-                Logger.Info("Found plugin:" + type);
-            }
-
-            return plugins;
-
         }
 
-        public void DeletePlugin(ISecondMonitorPlugin plugin, List<Exception>experiencedExceptions)
+        public void DeletePlugin(ISecondMonitorPlugin plugin, List<Exception> experiencedExceptions)
         {
             lock (_plugins)
             {
@@ -183,13 +180,10 @@
 
         public void DeletePlugin(ISecondMonitorPlugin plugin)
         {
-           DeletePlugin(plugin, new List<Exception>());
+            DeletePlugin(plugin, new List<Exception>());
         }
 
-        public IGameConnector[] Connectors
-        {
-            get;
-        }
+        public IGameConnector[] Connectors { get; }
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {

@@ -5,6 +5,7 @@ namespace SecondMonitor.Timing.Controllers
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using WindowsControls.Extension;
     using DataModel.Snapshot;
@@ -14,11 +15,12 @@ namespace SecondMonitor.Timing.Controllers
     using Presentation.View;
     using Presentation.ViewModel;
     using WindowsControls.WPF.Commands;
+    using SecondMonitor.Telemetry.TelemetryApplication.Controllers;
     using SecondMonitor.Telemetry.TelemetryManagement.Repository;
     using SimdataManagement;
     using SimdataManagement.DriverPresentation;
     using Telemetry;
-    using TrackMap;
+    using TelemetryPresentation.MainWindow;
     using ViewModels.Settings;
     using ViewModels.Settings.ViewModel;
 
@@ -146,6 +148,7 @@ namespace SecondMonitor.Timing.Controllers
             _timingDataViewModel.OpenSettingsCommand = new RelayCommand(OpenSettingsWindow);
             _timingDataViewModel.ScrollToPlayerCommand = new RelayCommand(ScrollToPlayer);
             _timingDataViewModel.OpenCarSettingsCommand = new RelayCommand(OpenCarSettingsWindow);
+            _timingDataViewModel.OpenCurrentTelemetrySession = new AsyncCommand(OpenCurrentTelemetrySession);
         }
 
         private void UnSelectItem()
@@ -186,6 +189,18 @@ namespace SecondMonitor.Timing.Controllers
                                       Owner = _timingGui
                                   };
             _settingsWindow.Show();
+        }
+
+        private async Task OpenCurrentTelemetrySession()
+        {
+            MainWindow mainWindow = new MainWindow();
+            TelemetryApplicationController controller = new TelemetryApplicationController(mainWindow);
+            controller.StartController();
+            mainWindow.Closed += (sender, args) =>
+            {
+                controller.StopController();
+            };
+            await controller.OpenLastSessionFromRepository();
         }
 
         private void OpenCarSettingsWindow()

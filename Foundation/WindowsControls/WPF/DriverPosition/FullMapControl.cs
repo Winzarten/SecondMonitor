@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.WindowsControls.WPF.DriverPosition
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
@@ -27,6 +28,8 @@
         private Path _sector1Path;
         private Path _sector2Path;
         private Path _sector3Path;
+        private bool _enableSidePanel;
+
 
         public static readonly DependencyProperty DriverControllerSizeProperty = DependencyProperty.Register("DriverControllerSize", typeof(double), typeof(FullMapControl));
         public static readonly DependencyProperty DriverControllerFontSizeProperty = DependencyProperty.Register("DriverControllerFontSize", typeof(double), typeof(FullMapControl));
@@ -39,10 +42,19 @@
         {
             _trackMap = trackMap;
             RefreshDriverControllerSize();
+            _enableSidePanel = true;
             InitializeMap();
         }
 
-        public bool EnableSidePanel { get; set; } = true;
+        public bool EnableSidePanel
+        {
+            get => _enableSidePanel;
+            set
+            {
+                _enableSidePanel = value;
+                _mapSidePanelControl.Visibility = _enableSidePanel ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
 
         public SolidColorBrush PurpleSectorBrush
         {
@@ -89,6 +101,16 @@
         {
             base.UpdateDrivers(dataSet, drivers);
             UpdateSectorsColor(dataSet);
+        }
+
+        public void AddCustomPath(Path path)
+        {
+            _mainCanvas.Children.Add(path);
+        }
+
+        public void RemoveCustomPath(Path path)
+        {
+            _mainCanvas.Children.Remove(path);
         }
 
         private void UpdateSectorsColor(SimulatorDataSet dataSet)
@@ -165,7 +187,7 @@
                 else
                 {
                     DoubleAnimation newDoubleAnimation = new DoubleAnimation(sectorPath.Opacity, shouldBeVisible ? 1.0 : 0.0, TimeSpan.FromSeconds(0.5));
-                    sectorPath.BeginAnimation(Shape.OpacityProperty, newDoubleAnimation);
+                    sectorPath.BeginAnimation(OpacityProperty, newDoubleAnimation);
                 }
             }
         }
@@ -178,7 +200,7 @@
 
         protected void RefreshDriverControllerSize()
         {
-            DriverControllerSize = AutoScaleDriverControls ? _trackMap.TrackGeometry.Height * 0.08 : 25;
+            DriverControllerSize = AutoScaleDriverControls ? _trackMap.TrackGeometry.Height * 0.08 : 10;
             DriverControllerFontSize = DriverControllerSize * 0.75;
         }
 
@@ -188,13 +210,13 @@
             {
                 Source = this,
             };
-            driverPositionControl.SetBinding(DriverPositionControl.WidthProperty, xBinding);
+            driverPositionControl.SetBinding(WidthProperty, xBinding);
 
             Binding yBinding = new Binding(nameof(DriverControllerSize))
             {
                 Source = this,
             };
-            driverPositionControl.SetBinding(DriverPositionControl.HeightProperty, yBinding);
+            driverPositionControl.SetBinding(HeightProperty, yBinding);
         }
 
         protected override void RemoveDriver(DriverPositionControl driverPositionControl)
@@ -288,7 +310,7 @@
             _mapSidePanelControl = new MapSidePanelControl {VerticalAlignment = VerticalAlignment.Stretch, HorizontalAlignment = HorizontalAlignment.Left};
             _mapSidePanelControl.Opacity = 0;
             Children.Add(_mapSidePanelControl);
-            this.Background = Brushes.Transparent;
+            Background = Brushes.Transparent;
         }
     }
 }

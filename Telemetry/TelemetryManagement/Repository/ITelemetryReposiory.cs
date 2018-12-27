@@ -9,6 +9,7 @@
 
         SessionInfoDto LoadSessionInformation(string sessionIdentifier);
         LapTelemetryDto LoadLapTelemetryDto(string sessionIdentifier, int lapNumber);
+        string GetLastSessionIdentifier();
 
     }
 }

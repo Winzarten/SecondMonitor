@@ -34,7 +34,6 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
@@ -79,7 +78,9 @@
     <Compile Include="CarStatus\PedalsAndGearViewModel.cs" />
     <Compile Include="CarStatus\WaterTemperatureViewModel.cs" />
     <Compile Include="CarStatus\WheelStatusViewModel.cs" />
+    <Compile Include="Colors\BasicColorPaletteProvider.cs" />
     <Compile Include="Controllers\IController.cs" />
+    <Compile Include="Colors\IColorPaletteProvider.cs" />
     <Compile Include="IDisableViewModel.cs" />
     <Compile Include="IAbstractViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />
@@ -128,9 +129,6 @@
     <Resource Include="Resources\oil.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">
       <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
       <Name>Contracts</Name>
@@ -146,6 +144,9 @@
       <Name>WindowsControls</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

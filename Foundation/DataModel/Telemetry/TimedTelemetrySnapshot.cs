@@ -7,6 +7,7 @@ namespace SecondMonitor.DataModel.Telemetry
     using System.Xml.Serialization;
     using BasicProperties;
 
+    [Serializable]
     public class TimedTelemetrySnapshot : TelemetrySnapshot
     {
         public TimedTelemetrySnapshot()

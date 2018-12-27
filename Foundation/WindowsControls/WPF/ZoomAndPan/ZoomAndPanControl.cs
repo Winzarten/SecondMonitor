@@ -6,6 +6,7 @@
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
+    using Commands;
 
     /// <summary>
     /// A class that wraps up zooming and panning of it's content.
@@ -186,10 +187,6 @@
             DependencyProperty.Register("IsMouseWheelScrollingEnabled", typeof(bool), typeof(ZoomAndPanControl),
                 new FrameworkPropertyMetadata(false));
 
-        private Rect _prevZoomRect;
-        private double _prevZoomScale;
-        private bool _prevZoomRectSet;
-
         #endregion Dependency Property Definitions
 
         /// <summary>
@@ -347,6 +344,8 @@
                     ContentOffsetY = contentRect.Y;
                 });
         }
+
+        public ICommand ResetZoomCommand => new RelayCommand(() => AnimatedZoomTo(1.0));
 
         /// <summary>
         /// Do an animated zoom to the specified rectangle (in content coordinates).
@@ -1041,11 +1040,6 @@
         private void ApplyDragZoomRect()
         {
             //
-            // Record the previous zoom level, so that we can jump back to it when the backspace key is pressed.
-            //
-            SavePrevZoomRect();
-
-            //
             // Retreive the rectangle that the user draggged out and zoom in on it.
             //
             Point origPoint = new Point(Canvas.GetLeft(DragZoomBorder), Canvas.GetTop(DragZoomBorder));
@@ -1067,13 +1061,6 @@
                 {
                     DragZoomCanvas.Visibility = Visibility.Collapsed;
                 });
-        }
-
-        private void SavePrevZoomRect()
-        {
-            _prevZoomRect = new Rect(ContentOffsetX, ContentOffsetY, ContentViewportWidth, ContentViewportHeight);
-            _prevZoomScale = ContentScale;
-            _prevZoomRectSet = true;
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)

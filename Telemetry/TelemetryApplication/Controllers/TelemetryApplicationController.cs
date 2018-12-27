@@ -32,6 +32,11 @@
             await _mainWindowController.LoadTelemetrySession(sessionIdentifier);
         }
 
+        public async Task OpenLastSessionFromRepository()
+        {
+            await _mainWindowController.LoadLastTelemetrySession();
+        }
+
         private void StartChildControllers()
         {
             _mainWindowController = TaKernel.Instance.Get<IMainWindowController>();

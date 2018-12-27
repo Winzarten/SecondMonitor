@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.MapView
 {
+    using System;
     using SecondMonitor.ViewModels.Controllers;
     using ViewModels.MapView;
 

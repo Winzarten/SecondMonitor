@@ -43,9 +43,14 @@
             await _telemetryLoadController.LoadSessionAsync(telemetryIdentifier);
         }
 
+        public async Task LoadLastTelemetrySession()
+        {
+            await _telemetryLoadController.LoadLastSessionAsync();
+        }
+
+
         public void StartController()
         {
-            MainWindow.Closed+=MainWindowOnClosed;
             MainWindow.DataContext = _mainWindowViewModel;
             ShowMainWindow();
             StartChildControllers();
@@ -68,12 +73,6 @@
             _lapPickerController.StopController();
             _snapshotSectionController.StopController();
             _mapViewController.StopController();;
-        }
-
-        private void MainWindowOnClosed(object sender, EventArgs e)
-        {
-            StopController();
-            Application.Current.Shutdown();
         }
 
         private void ShowMainWindow()

@@ -7,7 +7,6 @@
     using SessionTiming;
     using SessionTiming.ViewModel;
     using SimdataManagement;
-    using TrackMap;
 
     public class MapManagementController : IMapManagementController
     {

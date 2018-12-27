@@ -6,7 +6,6 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
-    using TrackMap;
 
     public class LapInfo
     {

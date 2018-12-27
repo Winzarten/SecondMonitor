@@ -1,9 +1,11 @@
 ﻿namespace SecondMonitor.DataModel.Telemetry
 {
+    using System;
     using BasicProperties;
     using Snapshot;
     using Snapshot.Drivers;
 
+    [Serializable]
     public class TelemetrySnapshot
     {
         public TelemetrySnapshot()

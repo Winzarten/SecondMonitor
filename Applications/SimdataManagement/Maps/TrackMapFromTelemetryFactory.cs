@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.TrackMap
+﻿namespace SecondMonitor.SimdataManagement
 {
     using System;
     using System.Collections.Generic;
@@ -14,6 +14,11 @@
         public const int ExporterVersion = 1;
         public const int TrackBounds = 30;
         private readonly int _finishLineLength;
+
+        public TrackMapFromTelemetryFactory() : this(TimeSpan.FromMilliseconds(10), 0)
+        {
+
+        }
 
         public TrackMapFromTelemetryFactory(TimeSpan mapsPointsInterval, int finishLineLength)
         {
@@ -67,9 +72,9 @@
             return GetGeometry(finishLinePoints, false);
         }
 
-        private static string GetGeometry(List<TimedTelemetrySnapshot> fullTrackPoints, bool wrapAround)
+        public static string GetGeometry(List<TimedTelemetrySnapshot> fullTrackPoints, bool wrapAround, double xCoef = 1, double yCoef = 1, bool swapXy = false)
         {
-            Point[] points = ExtractWorldPoints(fullTrackPoints);
+            Point[] points = ExtractWorldPoints(fullTrackPoints, xCoef, yCoef, swapXy);
             return GetGeometry(points, wrapAround);
         }
 
@@ -91,9 +96,10 @@
             return GetGeometry(sectorPoints, false);
         }
 
-        public static Point[] ExtractWorldPoints(List<TimedTelemetrySnapshot> fullTrackPoint)
+        public static Point[] ExtractWorldPoints(List<TimedTelemetrySnapshot> fullTrackPoint, double xCoef = 1, double yCoef = 1, bool swapXy = false)
         {
-            return fullTrackPoint.Select(x => new Point(x.PlayerData.WorldPosition.X.InMeters, x.PlayerData.WorldPosition.Z.InMeters)).ToArray();
+            return swapXy ? fullTrackPoint.Select(x => new Point(x.PlayerData.WorldPosition.Z.InMeters * yCoef, x.PlayerData.WorldPosition.X.InMeters * xCoef)).ToArray() :
+            fullTrackPoint.Select(x => new Point(x.PlayerData.WorldPosition.X.InMeters * xCoef, x.PlayerData.WorldPosition.Z.InMeters * yCoef)).ToArray();
         }
 
         private List<TimedTelemetrySnapshot> Filter(TimedTelemetrySnapshots timedTelemetrySnapshots)

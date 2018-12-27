@@ -56,6 +56,8 @@
     <Compile Include="Maps\IMapsLoaderFactory.cs" />
     <Compile Include="Maps\MapsLoader.cs" />
     <Compile Include="Maps\MapsLoaderFactory.cs" />
+    <Compile Include="Maps\TrackDtoManipulator.cs" />
+    <Compile Include="Maps\TrackMapFromTelemetryFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimSettings\SimSettingAdapter.cs" />
     <Compile Include="SimSettings\SimSettingsException.cs" />
@@ -67,9 +69,11 @@
     <Folder Include="ViewModel\Factory\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\Contracts\Contracts.csproj">
+      <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
+      <Name>Contracts</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\Foundation\DataModel\DataModel.csproj">
       <Project>{30dea773-f579-4a77-9c73-3d58c81612d0}</Project>
       <Name>DataModel</Name>
@@ -90,6 +94,9 @@
       <Name>WindowsControls</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

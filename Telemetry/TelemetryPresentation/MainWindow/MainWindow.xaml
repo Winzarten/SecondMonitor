@@ -8,6 +8,8 @@
         xmlns:lapsSummary="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.LapsSummary"
         xmlns:snapshotSection="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.SnapshotSection"
         xmlns:zoomAndPan="clr-namespace:SecondMonitor.WindowsControls.WPF.ZoomAndPan;assembly=WindowsControls"
+        xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl;assembly=WindowsControls"
+        xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
         mc:Ignorable="d"
         Title="Telemetry Viewer" Height="450" Width="800" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}" WindowState="Maximized">
     <Window.Resources>
@@ -15,6 +17,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <RoutedCommand x:Key="CommandResetZoom"></RoutedCommand>
             </ResourceDictionary>
    </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">
@@ -33,7 +36,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Column="0" VerticalAlignment="Stretch">
-                    <lapsSummary:LapSelectionControl DataContext="{Binding LapSelectionViewModel}" VerticalAlignment="Stretch"/>
+                    <lapsSummary:LapSelectionControl DataContext="{Binding LapSelectionViewModel}" VerticalAlignment="Stretch" />
                 </Grid>
                 <Border Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}" Padding="5">
                     <Grid>
@@ -48,15 +51,28 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid Row="1">
-                <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
-                    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <zoomAndPan:ZoomAndPanControl>
-                            <Grid>
-                                <ContentPresenter Margin="20,10,20,10"
+                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="3" CornerRadius="3">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <zoomAndPan:ZoomAndPanControl x:Name="ZoomAndPanControl" Grid.Row="0" >
+                            <ContentPresenter Margin="20,10,20,10"
                                               Content="{Binding MapViewViewModel.SituationOverviewControl}"/>
-                            </Grid>
                         </zoomAndPan:ZoomAndPanControl>
-                    </ScrollViewer>
+                        <Border Grid.Row="1" BorderThickness="1" BorderBrush="{StaticResource LightGrey01Brush}">
+                        <StackPanel  Orientation="Horizontal" Background="{StaticResource DarkGrey01Brush}">
+                                <Button Style="{StaticResource StandardButton}" Command="{Binding ResetZoomCommand, ElementName=ZoomAndPanControl, Mode=OneWay}" HorizontalAlignment="Left" MaxWidth="50" VerticalAlignment="Bottom" ToolTip="Resets the view">
+                                    <Button.Content>
+                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button},Mode=OneWay}" Margin="5,5,5,5">
+                                            <ContentPresenter Content="{StaticResource ResetIcon}"/>
+                                        </wpf:ColorAbleIcon>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>

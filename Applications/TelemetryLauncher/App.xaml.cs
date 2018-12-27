@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.TelemetryLauncher
 {
+    using System;
     using System.Windows;
+    using NLog;
     using Telemetry.TelemetryApplication.Controllers;
     using TelemetryPresentation.MainWindow;
 
@@ -9,12 +11,28 @@
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            TelemetryApplicationController telemetryApplicationController = new TelemetryApplicationController(new MainWindow());
-            telemetryApplicationController.StartController();
-            telemetryApplicationController.OpenFromRepository("18-12-24-01-13-Norisring-Practice");
+            try
+            {
+                MainWindow mainWindow = new MainWindow();
+                TelemetryApplicationController telemetryApplicationController = new TelemetryApplicationController(mainWindow);
+                telemetryApplicationController.StartController();
+                mainWindow.Closed += (sender, args) =>
+                {
+                    telemetryApplicationController.StopController();
+                    Current.Shutdown();
+                };
+                await telemetryApplicationController.OpenLastSessionFromRepository();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error Occured");
+                Environment.Exit(1);
+            }
         }
     }
 }

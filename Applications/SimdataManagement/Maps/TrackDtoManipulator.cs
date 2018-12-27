@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.TrackMap
+﻿namespace SecondMonitor.SimdataManagement
 {
     using System;
     using System.Linq;

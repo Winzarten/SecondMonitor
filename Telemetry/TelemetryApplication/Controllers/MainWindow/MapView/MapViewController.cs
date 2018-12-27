@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.MapView
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using DataModel.TrackMap;
     using Settings;
@@ -12,14 +13,17 @@
     public class MapViewController : IMapViewController
     {
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
+        private readonly ILapColorSynchronization _lapColorSynchronization;
         private readonly MapsLoader _mapsLoader;
+        private TrackMapDto _lastMap;
         private bool _mapAvailable;
-        private Dictionary<string, MapViewDriverInfoFacade> _fakeDrivers;
+        private readonly Dictionary<string, MapViewDriverInfoFacade> _fakeDrivers;
 
-        public MapViewController(ISettingsProvider settingsProvider, IMapsLoaderFactory mapsLoaderFactory, ITelemetryViewsSynchronization telemetryViewsSynchronization)
+        public MapViewController(ISettingsProvider settingsProvider, IMapsLoaderFactory mapsLoaderFactory, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization)
         {
             _fakeDrivers = new Dictionary<string, MapViewDriverInfoFacade>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
+            _lapColorSynchronization = lapColorSynchronization;
             _mapsLoader = mapsLoaderFactory.Create(settingsProvider.MapRepositoryPath);
         }
 
@@ -27,22 +31,24 @@
 
         public void StartController()
         {
+            MapViewViewModel.LapColorSynchronization = _lapColorSynchronization;
             Subscribe();
         }
 
         public void StopController()
         {
             UnSubscribe();
+            MapViewViewModel?.Dispose();
         }
 
         private void InitializeViewModel(SessionInfoDto sessionInfo)
         {
             _fakeDrivers.Clear();
             string formattedTrackName = FormatTrackName(sessionInfo.TrackName, sessionInfo.LayoutName);
-            _mapAvailable = _mapsLoader.TryLoadMap(sessionInfo.Simulator, formattedTrackName, out TrackMapDto trackMap);
+            _mapAvailable = _mapsLoader.TryLoadMap(sessionInfo.Simulator, formattedTrackName, out _lastMap);
             if (_mapAvailable)
             {
-                MapViewViewModel.LoadTrack(trackMap);
+                MapViewViewModel.LoadTrack(_lastMap);
             }
         }
 
@@ -68,6 +74,9 @@
             {
                 return;
             }
+
+            MapViewViewModel.AddPathsForLap(e.LapTelemetry, _lastMap);
+
         }
 
         private void TelemetryViewsSynchronizationOnLapUnloaded(object sender, LapSummaryArgs e)
@@ -76,6 +85,8 @@
             {
                 return;
             }
+
+            MapViewViewModel.RemovePathsForLap(e.LapSummary);
 
             if (_fakeDrivers.TryGetValue(e.LapSummary.Id, out MapViewDriverInfoFacade fakeDriver))
             {

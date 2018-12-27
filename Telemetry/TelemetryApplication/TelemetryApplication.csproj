@@ -31,15 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.NamedScope, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Ninject.Extensions.NamedScope.3.3.0\lib\net45\Ninject.Extensions.NamedScope.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -73,7 +72,10 @@
     <Compile Include="Controllers\MainWindow\Snapshot\ISelectedLapController.cs" />
     <Compile Include="Controllers\MainWindow\Snapshot\ISnapshotSectionController.cs" />
     <Compile Include="Controllers\MainWindow\Snapshot\SnapshotSectionController.cs" />
+    <Compile Include="Controllers\Synchronization\ILapColorSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\ITelemetryViewsSynchronization.cs" />
+    <Compile Include="Controllers\Synchronization\LapColorArgs.cs" />
+    <Compile Include="Controllers\Synchronization\LapColorSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\LapSummaryArgs.cs" />
     <Compile Include="Controllers\Synchronization\LapTelemetryArgs.cs" />
     <Compile Include="Controllers\Synchronization\TelemetrySessionArgs.cs" />
@@ -94,7 +96,9 @@
     <Compile Include="ViewModels\AbstractSnapshotViewModel.cs" />
     <Compile Include="ViewModels\IAbstractSnapshotViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MapView\ILapCustomPathsCollection.cs" />
     <Compile Include="ViewModels\MapView\IMapViewViewModel.cs" />
+    <Compile Include="ViewModels\MapView\LapCustomPaths.cs" />
     <Compile Include="ViewModels\MapView\MapViewViewModel.cs" />
     <Compile Include="ViewModels\Replay\IReplayViewModel.cs" />
     <Compile Include="ViewModels\LapPicker\ILapSelectionViewModel.cs" />

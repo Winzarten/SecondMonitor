@@ -11,6 +11,7 @@
     using Ninject.Extensions.NamedScope;
     using Ninject.Modules;
     using Repository;
+    using SecondMonitor.ViewModels.Colors;
     using Settings;
     using SimdataManagement;
     using TelemetryManagement.StoryBoard;
@@ -36,6 +37,8 @@
             Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InNamedScope(MainWidowScopeName);
             Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InNamedScope(MainWidowScopeName);
             Bind<IMapViewController>().To<MapViewController>().InNamedScope(MainWidowScopeName);
+            Bind<ILapColorSynchronization>().To<LapColorSynchronization>().InNamedScope(MainWidowScopeName);
+            Bind<IColorPaletteProvider>().To<BasicColorPaletteProvider>().InNamedScope(MainWidowScopeName);
             Bind<IReplayController>().To<ReplayController>();
             Bind<ISnapshotSectionController>().To<SnapshotSectionController>();
 
@@ -49,6 +52,8 @@
             Bind<IReplayViewModel>().To<ReplayViewModel>();
             Bind<IPedalSectionViewModel>().To<PedalSectionViewModel>();
             Bind<IMapViewViewModel>().To<MapViewViewModel>();
+
+            Bind<ILapCustomPathsCollection>().To<LapCustomPathsCollection>();
         }
     }
 }

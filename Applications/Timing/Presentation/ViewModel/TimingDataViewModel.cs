@@ -116,6 +116,8 @@
 
         public ICommand ScrollToPlayerCommand { get; set; }
 
+        public ICommand OpenCurrentTelemetrySession { get; set; }
+
         public ICommand OpenCarSettingsCommand
         {
             get => (ICommand)GetValue(OpenCarSettingsCommandProperty);

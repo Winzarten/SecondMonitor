@@ -28,6 +28,13 @@
             return sessionInfoDto;
         }
 
+        public async Task<SessionInfoDto> LoadLastSessionAsync()
+        {
+            string sessionIdent = _telemetryRepository.GetLastSessionIdentifier();
+            return await LoadSessionAsync(sessionIdent);
+        }
+
+
         public async Task<LapTelemetryDto> LoadLap(int lapNumber)
         {
             LapTelemetryDto lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));

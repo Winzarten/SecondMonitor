@@ -39,7 +39,9 @@
                 return Task.FromResult(false);
             }
 
-            return Task.Run(() => SaveLapTelemetrySync(lapInfo));
+            Task<bool> returnTask = Task.Run(() => SaveLapTelemetrySync(lapInfo));
+            returnTask.ConfigureAwait(false);
+            return returnTask;
         }
 
         private bool SaveLapTelemetrySync(LapInfo lapInfo)

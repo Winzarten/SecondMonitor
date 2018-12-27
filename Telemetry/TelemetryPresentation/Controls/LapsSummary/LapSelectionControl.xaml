@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.LapsSummary"
              xmlns:lapPicker="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.LapPicker;assembly=TelemetryApplication"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"  d:DataContext="{d:DesignInstance Type=lapPicker:LapSelectionViewModel}">
     <UserControl.Resources>
@@ -41,7 +42,7 @@
             </StackPanel>
             <StackPanel Grid.Column="1">
             <TextBlock  Style="{StaticResource StandardText}" Margin="5"  Text="Laps:"/>
-            <ListBox Foreground="{StaticResource LightGrey01Brush}" Background="{StaticResource Anthracite01Brush}" SelectionMode="Single" SelectedItem="{Binding Selected, Mode=TwoWay}" ItemsSource="{Binding LapSummaries}">
+            <ListBox Foreground="{StaticResource LightGrey01Brush}" Background="{StaticResource Anthracite01Brush}" SelectionMode="Single" SelectedItem="{Binding Selected, Mode=TwoWay}" ItemsSource="{Binding LapSummaries}" MaxHeight="300">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="5" BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" CornerRadius="3" Padding="5">
@@ -51,8 +52,16 @@
                                         <TextBlock Style="{StaticResource StandardText}" Text="{Binding LapNumber}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Style="{StaticResource StandardText}" Margin="10,0,0,0" Text="{Binding LapTime, Mode=OneWay, Converter={StaticResource TimeSpanToMinutesSecondMilisecondsConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <CheckBox IsChecked="{Binding Selected}" Margin="5"></CheckBox>
+                                        <Grid Height="20" Width="50" Grid.Column="0" Background="{Binding LapColorBrush}"/>
+                                        <xctk:ColorPicker Width="25" Height="25" Margin="2" HorizontalAlignment="Left" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                                          Background="{StaticResource Anthracite01Brush}"
+                                                          ButtonStyle="{StaticResource ComboBoxToggleButton2}"
+                                                          Foreground="{StaticResource LightGrey01Brush}"
+                                                          SelectedColor="{Binding LapColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                 </StackPanel>
+
+
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
