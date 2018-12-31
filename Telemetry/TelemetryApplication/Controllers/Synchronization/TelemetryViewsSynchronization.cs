@@ -6,6 +6,8 @@
 
     public class TelemetryViewsSynchronization : ITelemetryViewsSynchronization
     {
+        public event EventHandler<EventArgs> LapLoadingStarted;
+        public event EventHandler<EventArgs> LapLoadingFinished;
         public event EventHandler<TelemetrySessionArgs> NewSessionLoaded;
         public event EventHandler<LapTelemetryArgs> LapLoaded;
         public event EventHandler<LapSummaryArgs> LapUnloaded;
@@ -33,6 +35,16 @@
         {
             TelemetrySnapshotArgs args = new TelemetrySnapshotArgs(telemetrySnapshot, lapSummary);
             SyncTelemetryView?.Invoke(this, args);
+        }
+
+        public void NotifyLapLoadingStarted()
+        {
+            LapLoadingStarted?.Invoke(this, new EventArgs());
+        }
+
+        public void NotifyLapLoadingFinished()
+        {
+            LapLoadingFinished?.Invoke(this, new EventArgs());
         }
     }
 }

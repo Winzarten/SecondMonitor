@@ -17,6 +17,8 @@
 
         string TrackName { get; set; }
 
+        string BestLap { get; set; }
+
         DateTime SessionTime { get; set; }
 
         string SimulatorName { get; set; }

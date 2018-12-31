@@ -39,6 +39,10 @@
                     <TextBlock Style="{StaticResource StandardText}" Text="Car: " VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <TextBlock Style="{StaticResource StandardText}" Text="{Binding CarName}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBlock Style="{StaticResource StandardText}" Text="Best Lap: " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding BestLap}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1">
             <TextBlock  Style="{StaticResource StandardText}" Margin="5"  Text="Laps:"/>

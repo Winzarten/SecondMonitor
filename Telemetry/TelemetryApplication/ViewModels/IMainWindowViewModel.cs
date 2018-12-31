@@ -7,6 +7,7 @@
 
     public interface IMainWindowViewModel : IAbstractViewModel
     {
+        bool IsBusy { get; set; }
         ILapSelectionViewModel LapSelectionViewModel { get; }
         ISnapshotSectionViewModel SnapshotSectionViewModel { get; }
         IMapViewViewModel MapViewViewModel { get; }

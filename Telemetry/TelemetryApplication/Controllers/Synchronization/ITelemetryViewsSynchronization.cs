@@ -6,6 +6,8 @@
 
     public interface ITelemetryViewsSynchronization
     {
+        event EventHandler<EventArgs> LapLoadingStarted;
+        event EventHandler<EventArgs> LapLoadingFinished;
         event EventHandler<TelemetrySessionArgs> NewSessionLoaded;
         event EventHandler<LapTelemetryArgs> LapLoaded;
         event EventHandler<LapSummaryArgs> LapUnloaded;
@@ -15,5 +17,7 @@
         void NotifyLapLoaded(LapTelemetryDto lapTelemetryDto);
         void NotifyLapUnloaded(LapSummaryDto lapSummary);
         void NotifySynchronizeToSnapshot(TimedTelemetrySnapshot telemetrySnapshot, LapSummaryDto lapSummary);
+        void NotifyLapLoadingStarted();
+        void NotifyLapLoadingFinished();
     }
 }

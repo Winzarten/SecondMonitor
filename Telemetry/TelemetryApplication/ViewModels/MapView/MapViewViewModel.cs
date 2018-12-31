@@ -6,7 +6,6 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows;
-    using System.Windows.Documents;
     using System.Windows.Media;
     using System.Windows.Shapes;
     using WindowsControls.WPF;
@@ -35,6 +34,10 @@
         private FullMapControl _situationOverviewControl;
         private ILapColorSynchronization _lapColorSynchronization;
         private readonly Dictionary<string, ILapCustomPathsCollection> _lapsPaths;
+        private bool _showBrakeOverlay;
+        private bool _showThrottleOverlay;
+        private bool _showClutchOverlay;
+        private bool _showShiftPoints;
 
         public MapViewViewModel(IViewModelFactory viewModelFactory)
         {
@@ -69,6 +72,92 @@
             }
         }
 
+        public bool? ShowAllOverlays
+        {
+            get
+            {
+                if (ShowBrakeOverlay && ShowThrottleOverlay && ShowClutchOverlay && ShowShiftPoints)
+                {
+                    return true;
+                }
+
+                if (!ShowBrakeOverlay && !ShowThrottleOverlay && !ShowClutchOverlay && !ShowShiftPoints)
+                {
+                    return false;
+                }
+
+                return null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                _showBrakeOverlay = value.Value;
+                _showThrottleOverlay = value.Value;
+                _showShiftPoints = value.Value;
+                _showClutchOverlay = value.Value;
+
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ShowBrakeOverlay));
+                NotifyPropertyChanged(nameof(ShowThrottleOverlay));
+                NotifyPropertyChanged(nameof(ShowClutchOverlay));
+                NotifyPropertyChanged(nameof(ShowShiftPoints));
+                RefreshOverlays();
+            }
+        }
+
+
+        public bool ShowBrakeOverlay
+        {
+            get => _showBrakeOverlay;
+            set
+            {
+                _showBrakeOverlay = value;
+                RefreshOverlays();
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ShowAllOverlays));
+            }
+        }
+
+        public bool ShowThrottleOverlay
+        {
+            get => _showThrottleOverlay;
+            set
+            {
+                _showThrottleOverlay = value;
+                RefreshOverlays();
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ShowAllOverlays));
+            }
+        }
+
+        public bool ShowClutchOverlay
+        {
+            get => _showClutchOverlay;
+            set
+            {
+                _showClutchOverlay = value;
+                RefreshOverlays();
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ShowAllOverlays));
+            }
+        }
+
+        public bool ShowShiftPoints
+        {
+            get => _showShiftPoints;
+            set
+            {
+                _showShiftPoints = value;
+                RefreshOverlays();
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ShowAllOverlays));
+            }
+        }
+
 
         public void RemoveDriver(IDriverInfo driverInfo)
         {
@@ -93,7 +182,7 @@
             {
                 await InitializeGeometryCollection(geometryCollection, lapTelemetry, trackMapDto);
             }
-
+            RefreshOverlays();
             geometryCollection.GetAllPaths().ForEach(SituationOverviewControl.AddCustomPath);
         }
 
@@ -156,7 +245,6 @@
 
             Path shiftPointPath = new Path { Data = Geometry.Parse(shiftPointsPath), StrokeThickness = 5.0, Stroke = new SolidColorBrush(color)};
             geometryCollection.ShiftPointsPath = shiftPointPath;
-
             geometryCollection.FullyInitialized = true;
         }
 
@@ -211,6 +299,21 @@
 
             TrackMapFromTelemetryFactory.ExtractWorldPoints(shiftPoints, trackMapDto.TrackGeometry.XCoef, trackMapDto.TrackGeometry.YCoef, trackMapDto.TrackGeometry.IsSwappedAxis).ForEach(x => sb.Append($"M{x.X-1},{x.Y-1} a2,2 0 1,0 0,-1 Z "));
             return sb.ToString();
+        }
+
+        private void RefreshOverlays()
+        {
+            Visibility clutchPointVisibility = _showClutchOverlay ? Visibility.Visible : Visibility.Collapsed;
+            Visibility throttlePointVisibility = _showThrottleOverlay ? Visibility.Visible : Visibility.Collapsed;
+            Visibility brakePointVisibility = _showBrakeOverlay ? Visibility.Visible : Visibility.Collapsed;
+            Visibility shiftPointVisibility = _showShiftPoints ? Visibility.Visible : Visibility.Collapsed;
+            foreach (ILapCustomPathsCollection lapCustomPathsCollection in _lapsPaths.Values)
+            {
+                lapCustomPathsCollection.ShiftPointsPath.Visibility = shiftPointVisibility;
+                lapCustomPathsCollection.GetAllBrakingPaths().ForEach(x => x.Visibility = brakePointVisibility);
+                lapCustomPathsCollection.GetAllClutchPaths().ForEach(x => x.Visibility = clutchPointVisibility);
+                lapCustomPathsCollection.GetAllThrottlePaths().ForEach(x => x.Visibility = throttlePointVisibility);
+            }
         }
 
         public void RemovePathsForLap(LapSummaryDto lapSummaryDto)

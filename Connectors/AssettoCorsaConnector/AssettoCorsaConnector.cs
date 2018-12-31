@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using SharedMemory;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
@@ -108,12 +108,12 @@
             _lastDataSet = null;
         }
 
-        protected override void DaemonMethod()
+        protected override async Task DaemonMethod()
         {
             _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
-                Thread.Sleep(TickTime);
+                await Task.Delay(TickTime).ConfigureAwait(false);
                 AssettoCorsaShared acData = ReadAllBuffers();
 
                 if (!_stopwatch.IsRunning && acData.AcsGraphic.status == AcStatus.AC_LIVE)

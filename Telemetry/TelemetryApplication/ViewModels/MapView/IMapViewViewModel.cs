@@ -13,6 +13,11 @@
     {
         FullMapControl SituationOverviewControl { get; }
         ILapColorSynchronization LapColorSynchronization { get; set; }
+        bool? ShowAllOverlays { get; set; }
+        bool ShowBrakeOverlay { get; set; }
+        bool ShowThrottleOverlay { get; set; }
+        bool ShowClutchOverlay { get; set; }
+        bool ShowShiftPoints { get; set; }
 
         void LoadTrack(ITrackMap trackMapDto);
 

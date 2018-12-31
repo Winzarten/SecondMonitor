@@ -200,7 +200,7 @@
 
         protected void RefreshDriverControllerSize()
         {
-            DriverControllerSize = AutoScaleDriverControls ? _trackMap.TrackGeometry.Height * 0.08 : 10;
+            DriverControllerSize = AutoScaleDriverControls ? _trackMap.TrackGeometry.Height * 0.08 : 15;
             DriverControllerFontSize = DriverControllerSize * 0.75;
         }
 
@@ -276,8 +276,7 @@
             Logger.Info($"Geometry: {_trackMap.TrackGeometry.FullMapGeometry}");
             Logger.Info($"Decimal Separator: {CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}");
             ClipToBounds = true;
-            ResourceDictionary resource = new ResourceDictionary();
-            resource.Source = new Uri(@"pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml", UriKind.RelativeOrAbsolute);
+            ResourceDictionary resource = new ResourceDictionary {Source = new Uri(@"pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml", UriKind.RelativeOrAbsolute)};
             Canvas topCanvas = new Canvas {Width = _trackMap.TrackGeometry.Width, Height = _trackMap.TrackGeometry.Height};
 
             _mainCanvas = new Canvas();

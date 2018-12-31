@@ -27,7 +27,7 @@
         private readonly List<ISecondMonitorPlugin> _plugins;
 
         private IGameConnector _activeConnector;
-        private Thread _connectorDaemon;
+        private Task _connectorTask;
         private SimulatorDataSet _oldDataSet;
 
         public PluginsManager(IGameConnector[] connectors)
@@ -60,30 +60,28 @@
 
         public void Start()
         {
-            _connectorDaemon = new Thread(ConnectorDaemonMethod);
-            _connectorDaemon.IsBackground = true;
-            _connectorDaemon.Start();
+            _connectorTask = ConnectorDaemonMethod();
             Logger.Info("-----------------------Application Started------------------------------------");
         }
 
-        private void ConnectorDaemonMethod()
+        private async Task ConnectorDaemonMethod()
         {
             while (true)
             {
                 if (_activeConnector == null)
                 {
-                    ConnectLoop();
+                    await ConnectLoop();
                 }
 
-                Thread.Sleep(1000);
+                await Task.Delay(1000).ConfigureAwait(false);
             }
         }
 
-        private void ConnectLoop()
+        private async Task ConnectLoop()
         {
             while (true)
             {
-                Thread.Sleep(5000);
+                await Task.Delay(5000).ConfigureAwait(false);
                 foreach (var connector in Connectors)
                 {
                     connector.DisplayMessage += ActiveConnectorOnDisplayMessage;

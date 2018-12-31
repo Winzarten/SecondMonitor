@@ -6,7 +6,7 @@
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using PluginManager.GameConnector;
@@ -55,12 +55,12 @@
             _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
         }
 
-        protected override void DaemonMethod()
+        protected override async Task DaemonMethod()
         {
 
             while (!ShouldDisconnect)
             {
-                Thread.Sleep(TickTime);
+                await Task.Delay(TickTime).ConfigureAwait(false);
                 R3ESharedData r3RData = Load();
                 SimulatorDataSet data = DataConvertor.FromR3EData(r3RData);
                 if (CheckSessionStarted(r3RData))

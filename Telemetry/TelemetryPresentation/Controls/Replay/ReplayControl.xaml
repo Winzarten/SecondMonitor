@@ -100,8 +100,9 @@
                 <TextBlock Style="{StaticResource StandardText}" Text="Current Distance: "/>
                 <quantityText:DistanceText HorizontalAlignment="Center" FontSize="{StaticResource NormalFontSize}" Foreground="{StaticResource LightGrey01Brush}" Quantity="{Binding DisplayDistance}" DistanceUnits="{Binding DistanceUnits}" ShowUnitSymbol="True"/>
             </StackPanel>
-            <StackPanel Grid.Column="2">
-                <TextBlock Style="{StaticResource StandardText}" Text="Replay Speed: "></TextBlock>
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <TextBlock Style="{StaticResource StandardText}" Text="Sync Distance: "></TextBlock>
+                <quantityText:DistanceText HorizontalAlignment="Center" FontSize="{StaticResource NormalFontSize}" Foreground="{StaticResource LightGrey01Brush}" Quantity="{Binding SyncDistance}" DistanceUnits="{Binding DistanceUnits}" ShowUnitSymbol="True"/>
             </StackPanel>
         </Grid>
     </Grid>

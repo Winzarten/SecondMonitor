@@ -217,6 +217,7 @@
             }
 
             _syncFrame = _displayedFrame;
+            _replayViewModel.SyncDistance = _syncFrame.FrameDistance;
             _storyboards.Values.Where(x => x != _displayedFrame.Storyboard).ForEach(SyncStoryBoard);
         }
 

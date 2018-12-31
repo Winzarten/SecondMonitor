@@ -141,11 +141,11 @@
 
         public static readonly DependencyProperty MinContentScaleProperty =
             DependencyProperty.Register("MinContentScale", typeof(double), typeof(ZoomAndPanControl),
-                new FrameworkPropertyMetadata(0.01, MinOrMaxContentScale_PropertyChanged));
+                new FrameworkPropertyMetadata(0.5, MinOrMaxContentScale_PropertyChanged));
 
         public static readonly DependencyProperty MaxContentScaleProperty =
             DependencyProperty.Register("MaxContentScale", typeof(double), typeof(ZoomAndPanControl),
-                new FrameworkPropertyMetadata(10.0, MinOrMaxContentScale_PropertyChanged));
+                new FrameworkPropertyMetadata(50.0, MinOrMaxContentScale_PropertyChanged));
 
         public static readonly DependencyProperty ContentOffsetXProperty =
             DependencyProperty.Register("ContentOffsetX", typeof(double), typeof(ZoomAndPanControl),
@@ -1151,7 +1151,7 @@
         /// </summary>
         private void ZoomOut(Point contentZoomCenter)
         {
-            ZoomAboutPoint(ContentScale - 0.1, contentZoomCenter);
+            ZoomAboutPoint(ContentScale - 0.3, contentZoomCenter);
         }
 
         private void SetDragZoomRect(Point pt1, Point pt2)
@@ -1199,7 +1199,7 @@
         /// </summary>
         private void ZoomIn(Point contentZoomCenter)
         {
-            ZoomAboutPoint(ContentScale + 0.1, contentZoomCenter);
+            ZoomAboutPoint(ContentScale + 0.3, contentZoomCenter);
         }
     }
 }

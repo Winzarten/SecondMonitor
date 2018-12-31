@@ -127,12 +127,12 @@
 
         protected override string ConnectorName => "RFactor2";
 
-        protected override void DaemonMethod()
+        protected override async Task DaemonMethod()
         {
             _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
-                Thread.Sleep(TickTime);
+                await Task.Delay(TickTime).ConfigureAwait(false);
                 Rf2FullData rFactorData = Load();
                 SimulatorDataSet dataSet;
                 try

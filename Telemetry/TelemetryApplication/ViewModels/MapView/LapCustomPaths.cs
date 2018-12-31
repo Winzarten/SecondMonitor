@@ -35,10 +35,16 @@
             return _brakingPaths[intensity];
         }
 
+        public IEnumerable<Path> GetAllBrakingPaths() => _brakingPaths.Values;
+
+
         public void AddClutchPath(Path path, double intensity)
         {
             _clutchPaths[intensity] = path;
         }
+
+        public IEnumerable<Path> GetAllClutchPaths() => _clutchPaths.Values;
+
 
         public void AddThrottlePath(Path path, double intensity)
         {
@@ -49,6 +55,9 @@
         {
             return _throttlePaths[intensity];
         }
+
+        public IEnumerable<Path> GetAllThrottlePaths() => _throttlePaths.Values;
+
 
         public Path[] GetAllPaths()
         {

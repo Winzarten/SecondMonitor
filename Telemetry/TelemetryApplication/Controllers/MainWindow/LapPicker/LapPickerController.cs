@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.LapPicker
 {
     using System.Linq;
+    using DataModel.Extensions;
     using Factory;
     using SecondMonitor.ViewModels.Colors;
     using Synchronization;
@@ -70,6 +71,8 @@
             _lapSelectionViewModel.CarName = sessionInfoDto.CarName;
             _lapSelectionViewModel.SessionTime = sessionInfoDto.SessionRunDateTime;
             _lapSelectionViewModel.SimulatorName = sessionInfoDto.Simulator;
+            LapSummaryDto bestLap = sessionInfoDto.LapsSummary.OrderBy(x => x.LapTime).First();
+            _lapSelectionViewModel.BestLap = $"{bestLap.LapNumber} - {bestLap.LapTime.FormatToDefault()}";
             foreach (LapSummaryDto lapSummaryDto in sessionInfoDto.LapsSummary.OrderBy(x => x.LapNumber))
             {
                 ILapSummaryViewModel newViewModel = _viewModelFactory.Create<ILapSummaryViewModel>();

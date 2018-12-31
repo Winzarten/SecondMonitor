@@ -3,7 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataConvertor;
@@ -73,12 +73,12 @@
             _lastSessionType = SessionType.Na;
         }
 
-        protected override void DaemonMethod()
+        protected override async Task DaemonMethod()
         {
             _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
-                Thread.Sleep(TickTime);
+                await Task.Delay(TickTime).ConfigureAwait(false);
                 PCars2SharedMemory rawData = ReadAllBuffers();
 
                 if (!_stopwatch.IsRunning && ((GameState)rawData.mGameState == GameState.GameInGamePlaying || (GameState)rawData.mGameState == GameState.GameInGameInMenuTimeTicking))

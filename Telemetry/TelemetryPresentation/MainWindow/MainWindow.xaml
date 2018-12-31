@@ -10,6 +10,7 @@
         xmlns:zoomAndPan="clr-namespace:SecondMonitor.WindowsControls.WPF.ZoomAndPan;assembly=WindowsControls"
         xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl;assembly=WindowsControls"
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Telemetry Viewer" Height="450" Width="800" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}" WindowState="Maximized">
     <Window.Resources>
@@ -17,8 +18,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <RoutedCommand x:Key="CommandResetZoom"></RoutedCommand>
-            </ResourceDictionary>
+        </ResourceDictionary>
    </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">
         <Grid.ColumnDefinitions>
@@ -52,15 +52,19 @@
             </Grid.RowDefinitions>
             <Grid Row="1">
                 <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="3" CornerRadius="3">
-                    <Grid>
+                    <Grid ClipToBounds="True">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <zoomAndPan:ZoomAndPanControl x:Name="ZoomAndPanControl" Grid.Row="0" >
+                        <Grid Grid.Row="0">
+                            <xctk:BusyIndicator IsBusy="{Binding IsBusy}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="Loading Lap(s)" Grid.ZIndex="2">
+                            </xctk:BusyIndicator>
+                            <zoomAndPan:ZoomAndPanControl x:Name="ZoomAndPanControl" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" Grid.ZIndex="1" MaxContentScale="1000">
                             <ContentPresenter Margin="20,10,20,10"
-                                              Content="{Binding MapViewViewModel.SituationOverviewControl}"/>
+                                              Content="{Binding MapViewViewModel.SituationOverviewControl}" MaxHeight="450" />
                         </zoomAndPan:ZoomAndPanControl>
+                        </Grid>
                         <Border Grid.Row="1" BorderThickness="1" BorderBrush="{StaticResource LightGrey01Brush}">
                         <StackPanel  Orientation="Horizontal" Background="{StaticResource DarkGrey01Brush}">
                                 <Button Style="{StaticResource StandardButton}" Command="{Binding ResetZoomCommand, ElementName=ZoomAndPanControl, Mode=OneWay}" HorizontalAlignment="Left" MaxWidth="50" VerticalAlignment="Bottom" ToolTip="Resets the view">
@@ -70,6 +74,11 @@
                                         </wpf:ColorAbleIcon>
                                     </Button.Content>
                                 </Button>
+                                <CheckBox Content="Show All" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}"  Margin="5,5,50,5" IsChecked="{Binding MapViewViewModel.ShowAllOverlays}"/>
+                                <CheckBox Content="Throttle" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowThrottleOverlay}"/>
+                                <CheckBox Content="Brake" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowBrakeOverlay}"/>
+                                <CheckBox Content="Clutch" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowClutchOverlay}"/>
+                                <CheckBox Content="Shift Points" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowShiftPoints}"/>
                             </StackPanel>
                         </Border>
                     </Grid>

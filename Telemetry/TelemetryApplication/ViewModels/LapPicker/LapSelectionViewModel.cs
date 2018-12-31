@@ -13,6 +13,7 @@
         private string _trackName;
         private DateTime _sessionTime;
         private string _simulatorName;
+        private string _bestLap;
 
         public LapSelectionViewModel()
         {
@@ -70,6 +71,16 @@
             set
             {
                 _sessionTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string BestLap
+        {
+            get => _bestLap;
+            set
+            {
+                _bestLap = value;
                 NotifyPropertyChanged();
             }
         }

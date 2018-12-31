@@ -5,7 +5,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.Snapshot;
 
     public abstract class AbstractGameConnector : IGameConnector
@@ -28,7 +28,8 @@
 
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
 
-        private Thread _daemonThread;
+        private Task _daemonTask;
+        private Task _queueProcessorTask;
 
         protected Process Process { get; private set; }
 
@@ -110,7 +111,7 @@
 
         protected abstract void ResetConnector();
 
-        protected abstract void DaemonMethod();
+        protected abstract Task DaemonMethod();
 
         protected void AddToQueue(SimulatorDataSet set)
         {
@@ -130,7 +131,7 @@
 
         private void StartDaemon()
         {
-            if (_daemonThread != null && _daemonThread.IsAlive)
+            if (_daemonTask != null)
             {
                 throw new InvalidOperationException("Daemon is already running");
             }
@@ -138,15 +139,13 @@
             ResetConnector();
             ShouldDisconnect = false;
             _queue.Clear();
-            _daemonThread = new Thread(DaemonMethod) { IsBackground = true };
-            _daemonThread.Start();
+            _daemonTask = DaemonMethod();
 
-            Thread queueProcessorThread = new Thread(QueueProcessor) { IsBackground = true };
-            queueProcessorThread.Start();
+            _queueProcessorTask = QueueProcessor();
 
         }
 
-        private void QueueProcessor()
+        private async Task QueueProcessor()
         {
             while (ShouldDisconnect == false)
             {
@@ -164,7 +163,7 @@
                     }
                 }
 
-                Thread.Sleep(TickTime);
+                await Task.Delay(TickTime).ConfigureAwait(false);
             }
 
             lock (_queue)

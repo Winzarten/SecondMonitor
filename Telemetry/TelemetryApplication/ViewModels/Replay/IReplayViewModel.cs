@@ -13,6 +13,7 @@
         TimeSpan DisplayTime { get; set; }
         DistanceUnits DistanceUnits { get; set; }
         double SelectedDistance { get; set; }
+        Distance SyncDistance { get; set; }
 
         ICommand StopCommand { get; set; }
         ICommand PlayCommand { get; set; }

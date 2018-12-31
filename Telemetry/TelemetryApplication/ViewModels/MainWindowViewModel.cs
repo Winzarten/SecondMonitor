@@ -9,6 +9,7 @@
     public class MainWindowViewModel : AbstractViewModel, IMainWindowViewModel
     {
         private readonly IViewModelFactory _viewModelFactory;
+        private bool _isBusy;
 
         public MainWindowViewModel(IViewModelFactory viewModelFactory)
         {
@@ -18,6 +19,15 @@
             MapViewViewModel = viewModelFactory.Create<IMapViewViewModel>();
         }
 
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                _isBusy = value;
+                NotifyPropertyChanged();
+            }
+        }
         public ILapSelectionViewModel LapSelectionViewModel { get; }
         public ISnapshotSectionViewModel SnapshotSectionViewModel { get; }
         public IMapViewViewModel MapViewViewModel { get; }

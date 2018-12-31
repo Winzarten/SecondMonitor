@@ -19,7 +19,7 @@
         public SessionTelemetryController(string trackName, SessionType sessionType, ITelemetryRepository telemetryRepository)
         {
             _telemetryRepository = telemetryRepository;
-            SessionIdentifier = $"{DateTime.Now:yy-MM-dd-hh-mm}-{trackName}-{sessionType}";
+            SessionIdentifier = $"{DateTime.Now:yy-MM-dd-HH-mm}-{trackName}-{sessionType}";
         }
 
         public string SessionIdentifier { get; }
