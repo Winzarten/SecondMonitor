@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Threading;
     using System.Threading.Tasks;
     using DataModel.Snapshot;
 
@@ -75,15 +74,17 @@
             return false;
         }
 
-        public void ASyncConnect()
-        {
-            Thread asyncConnectThread = new Thread(AsyncConnector) { IsBackground = true };
-            asyncConnectThread.Start();
-        }
-
         public bool TryConnect()
         {
             return Connect();
+        }
+
+        public async Task FinnishConnectorAsync()
+        {
+            await _daemonTask;
+            await _queueProcessorTask;
+            _daemonTask = null;
+            _queueProcessorTask = null;
         }
 
         private bool Connect()
@@ -118,14 +119,6 @@
             lock (_queue)
             {
                 _queue.Enqueue(set);
-            }
-        }
-
-        private void AsyncConnector()
-        {
-            while (!TryConnect())
-            {
-                Thread.Sleep(10);
             }
         }
 

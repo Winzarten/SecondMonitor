@@ -7,7 +7,7 @@
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using PluginManager.GameConnector;
@@ -106,16 +106,14 @@
             return false;
         }
 
-        public void ASyncConnect()
-        {
-            Thread asyncConnectThread = new Thread(ASynConnector);
-            asyncConnectThread.IsBackground = true;
-            asyncConnectThread.Start();
-        }
-
         public bool TryConnect()
         {
             return Connect();
+        }
+
+        public Task FinnishConnectorAsync()
+        {
+            return Task.CompletedTask;
         }
 
         private bool Connect()

@@ -42,12 +42,14 @@
             // Logger.Info("Simulator set: {0}", DataModelSerializerHelper.ToJson(dataSet));
         }
 
-        private void Connector_Disconnected(object sender, EventArgs e)
+        private async void Connector_Disconnected(object sender, EventArgs e)
         {
             if (_activeConnector != sender)
             {
                 return;
             }
+
+            await _activeConnector.FinnishConnectorAsync();
 
             Logger.Info("Connector Disconnected: " + _activeConnector.GetType());
             _activeConnector.DataLoaded -= OnDataLoaded;

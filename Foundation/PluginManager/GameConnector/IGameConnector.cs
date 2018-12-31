@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.PluginManager.GameConnector
 {
     using System;
+    using System.Threading.Tasks;
 
     public interface IGameConnector
     {
@@ -27,7 +28,7 @@
 
         bool TryConnect();
 
-        void ASyncConnect();
+        Task FinnishConnectorAsync();
 
     }
 }

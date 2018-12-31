@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
@@ -69,6 +69,11 @@
             #endif
 
 
+        }
+
+        public Task FinnishConnectorAsync()
+        {
+            return Task.CompletedTask;
         }
 
         private void TestingThreadExecutor()
