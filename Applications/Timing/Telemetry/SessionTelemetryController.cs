@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using DataModel.BasicProperties;
+    using DataModel.Extensions;
     using NLog;
     using SecondMonitor.Telemetry.TelemetryManagement.DTO;
     using SecondMonitor.Telemetry.TelemetryManagement.Repository;
@@ -68,8 +69,9 @@
                 LapTelemetryDto lapTelemetryDto = new LapTelemetryDto()
                 {
                     LapSummary = lapSummaryDto,
-                    TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.ToArray()
+                    TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.WhereWithPrevious((prev, current) => prev.PlayerData.LapDistance < current.PlayerData.LapDistance).ToArray()
                 };
+
                 _sessionInfoDto.LapsSummary.Add(lapSummaryDto);
 
                 _telemetryRepository.SaveSessionInformation(_sessionInfoDto, SessionIdentifier);

@@ -5,15 +5,15 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <DataTemplate x:Key="DummyGraphDataTemplate" DataType="graphPanel:AbstractDoubleGraphViewModel">
+    <DataTemplate x:Key="DummyGraphDataTemplate" DataType="graphPanel:AbstractGraphViewModel">
         <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}">
         <Grid MinWidth="100" MinHeight="200">
-            <wpf:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="None" Background="{StaticResource Anthracite01Brush}" Zoom="X" DisableAnimations="True" DataTooltip="{x:Null}"  >
+            <wpf:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="None" Background="Black" Zoom="Xy" DisableAnimations="True" DataTooltip="{x:Null}">
                 <wpf:CartesianChart.AxisY>
-                    <wpf:Axis LabelFormatter="{Binding YFormatter}" MaxValue="105"/>
+                    <wpf:Axis LabelFormatter="{Binding YFormatter}"/>
                 </wpf:CartesianChart.AxisY>
                 <wpf:CartesianChart.AxisX >
-                    <wpf:Axis LabelFormatter ="{Binding XFormatter}" MinValue="0"/>
+                    <wpf:Axis LabelFormatter ="{Binding XFormatter}"/>
                 </wpf:CartesianChart.AxisX>
             </wpf:CartesianChart>
         </Grid>

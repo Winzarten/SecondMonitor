@@ -110,7 +110,6 @@
     <Compile Include="Settings\AppDataSettingsProvider.cs" />
     <Compile Include="TelemetryApplicationModule.cs" />
     <Compile Include="ViewModels\GraphPanel\AbstractGraphViewModel.cs" />
-    <Compile Include="ViewModels\GraphPanel\AbstractDoubleGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\ThrottleGraphViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\IGraphViewModel.cs" />

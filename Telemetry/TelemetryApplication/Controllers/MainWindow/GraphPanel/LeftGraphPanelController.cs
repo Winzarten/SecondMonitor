@@ -9,7 +9,8 @@
     {
         private readonly IGraphViewModelsProvider _graphViewModelsProvider;
 
-        public LeftGraphPanelController(IGraphViewModelsProvider graphViewModelsProvider, IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization) : base(mainWindowViewModel, telemetryViewsSynchronization)
+        public LeftGraphPanelController(IGraphViewModelsProvider graphViewModelsProvider, IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization)
+            : base(mainWindowViewModel, telemetryViewsSynchronization, lapColorSynchronization)
         {
             _graphViewModelsProvider = graphViewModelsProvider;
             Graphs = _graphViewModelsProvider.GetLeftSideViewModels().ToArray();
