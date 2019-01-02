@@ -11,15 +11,18 @@
         xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl;assembly=WindowsControls"
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:template="clr-namespace:SecondMonitor.TelemetryPresentation.Template"
         mc:Ignorable="d"
         Title="Telemetry Viewer" Height="450" Width="800" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}" WindowState="Maximized">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
+                <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DummyGraphDataTemplate}"/>
         </ResourceDictionary>
-   </Window.Resources>
+    </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -30,6 +33,11 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Grid Row="0">
+                <ScrollViewer CanContentScroll="True">
+                <ItemsControl ItemsSource="{Binding LeftPanelGraphs}" ItemTemplateSelector="{StaticResource GraphDataTemplateSelector}"/>
+                </ScrollViewer>
+            </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

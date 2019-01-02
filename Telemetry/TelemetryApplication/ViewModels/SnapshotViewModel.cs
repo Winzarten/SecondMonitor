@@ -3,7 +3,7 @@
     using DataModel.Telemetry;
     using SecondMonitor.ViewModels;
 
-    public abstract class AbstractSnapshotViewModel : AbstractViewModel<TimedTelemetrySnapshot>, IAbstractSnapshotViewModel
+    public abstract class SnapshotViewModel : AbstractViewModel<TimedTelemetrySnapshot>, ISnapshotViewModel
     {
         public override TimedTelemetrySnapshot SaveToNewModel()
         {

@@ -5,7 +5,7 @@
     using DataModel.BasicProperties;
     using SecondMonitor.ViewModels;
 
-    public interface IReplayViewModel : IAbstractViewModel, IDisableViewModel
+    public interface IReplayViewModel : IViewModel, IDisableViewModel
     {
         double TrackLengthRaw { get; }
         Distance TrackLength { get; set; }

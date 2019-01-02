@@ -2,7 +2,7 @@
 {
     using DataModel.BasicProperties;
 
-    public interface IPedalSectionViewModel : IAbstractSnapshotViewModel
+    public interface IPedalSectionViewModel : ISnapshotViewModel
     {
         double ThrottlePosition { get; set; }
 

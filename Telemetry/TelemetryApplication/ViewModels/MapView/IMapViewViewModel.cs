@@ -9,7 +9,7 @@
     using SecondMonitor.ViewModels;
     using TelemetryManagement.DTO;
 
-    public interface IMapViewViewModel : IAbstractViewModel, IDisposable
+    public interface IMapViewViewModel : IViewModel, IDisposable
     {
         FullMapControl SituationOverviewControl { get; }
         ILapColorSynchronization LapColorSynchronization { get; set; }

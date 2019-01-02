@@ -5,7 +5,7 @@
     using Controllers.Synchronization;
     using SecondMonitor.ViewModels;
 
-    public interface ILapSelectionViewModel : IAbstractViewModel
+    public interface ILapSelectionViewModel : IViewModel
     {
 
         event EventHandler<LapSummaryArgs> LapSelected;

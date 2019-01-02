@@ -31,6 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LiveCharts.Geared, Version=1.2.8.2, Culture=neutral, PublicKeyToken=7292f245d14ab8bf, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiveCharts.Geared.1.2.9\lib\net45\LiveCharts.Geared.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
     </Reference>
@@ -59,6 +70,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MainWindow\GraphPanel\AbstractGraphPanelController.cs" />
+    <Compile Include="Controllers\MainWindow\GraphPanel\GraphViewModelsProvider.cs" />
+    <Compile Include="Controllers\MainWindow\GraphPanel\IGraphPanelController.cs" />
+    <Compile Include="Controllers\MainWindow\GraphPanel\IGraphViewModelsProvider.cs" />
+    <Compile Include="Controllers\MainWindow\GraphPanel\LeftGraphPanelController.cs" />
     <Compile Include="Controllers\MainWindow\IMainWindowController.cs" />
     <Compile Include="Controllers\MainWindow\LapPicker\ILapPickerController.cs" />
     <Compile Include="Controllers\MainWindow\LapPicker\LapPickerController.cs" />
@@ -93,8 +109,12 @@
     <Compile Include="Settings\ISettingsProvider.cs" />
     <Compile Include="Settings\AppDataSettingsProvider.cs" />
     <Compile Include="TelemetryApplicationModule.cs" />
-    <Compile Include="ViewModels\AbstractSnapshotViewModel.cs" />
-    <Compile Include="ViewModels\IAbstractSnapshotViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\AbstractGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\AbstractDoubleGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\ThrottleGraphViewModel.cs" />
+    <Compile Include="ViewModels\SnapshotViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\IGraphViewModel.cs" />
+    <Compile Include="ViewModels\ISnapshotViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="ViewModels\MapView\ILapCustomPathsCollection.cs" />
     <Compile Include="ViewModels\MapView\IMapViewViewModel.cs" />

@@ -6,7 +6,7 @@
     using SecondMonitor.ViewModels;
     using TelemetryManagement.DTO;
 
-    public interface ILapSummaryViewModel : IAbstractViewModel<LapSummaryDto>
+    public interface ILapSummaryViewModel : IViewModel<LapSummaryDto>
     {
         ILapColorSynchronization LapColorSynchronization { get; set; }
         int LapNumber { get; }

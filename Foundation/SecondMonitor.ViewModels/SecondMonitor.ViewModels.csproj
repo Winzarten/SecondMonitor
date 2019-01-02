@@ -82,7 +82,7 @@
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Colors\IColorPaletteProvider.cs" />
     <Compile Include="IDisableViewModel.cs" />
-    <Compile Include="IAbstractViewModel.cs" />
+    <Compile Include="IViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />
     <Compile Include="IWheelStatusViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />

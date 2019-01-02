@@ -14,7 +14,7 @@
         private readonly IReplayController _replayController;
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly ISettingsProvider _settingsProvider;
-        private readonly List<IAbstractSnapshotViewModel> _abstractSnapshotViewModels;
+        private readonly List<ISnapshotViewModel> _abstractSnapshotViewModels;
         private ISnapshotSectionViewModel _snapshotSectionViewModel;
         private IMainWindowViewModel _mainWindowViewModel;
         private LapSummaryDto _mainLap;
@@ -22,7 +22,7 @@
 
         public SnapshotSectionController(IReplayController replayController, ITelemetryViewsSynchronization telemetryViewsSynchronization, ISettingsProvider settingsProvider)
         {
-            _abstractSnapshotViewModels = new List<IAbstractSnapshotViewModel>();
+            _abstractSnapshotViewModels = new List<ISnapshotViewModel>();
             _replayController = replayController;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _settingsProvider = settingsProvider;

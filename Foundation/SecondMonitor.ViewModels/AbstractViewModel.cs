@@ -6,7 +6,7 @@ namespace SecondMonitor.ViewModels
     using System.Runtime.CompilerServices;
     using Properties;
 
-    public abstract class AbstractViewModel<T> : AbstractViewModel, IAbstractViewModel<T>
+    public abstract class AbstractViewModel<T> : AbstractViewModel, IViewModel<T>
     {
 
         public T OriginalModel { get; private set; }
@@ -21,7 +21,7 @@ namespace SecondMonitor.ViewModels
         public abstract T SaveToNewModel();
     }
 
-    public abstract class AbstractViewModel : DependencyObject, IAbstractViewModel
+    public abstract class AbstractViewModel : DependencyObject, IViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

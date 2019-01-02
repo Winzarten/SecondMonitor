@@ -3,7 +3,7 @@
     using DataModel.BasicProperties;
     using DataModel.Telemetry;
 
-    public class PedalSectionViewModel : AbstractSnapshotViewModel, IPedalSectionViewModel
+    public class PedalSectionViewModel : SnapshotViewModel, IPedalSectionViewModel
     {
         private double _throttlePosition;
         private double _brakePosition;

@@ -1,9 +1,12 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
     using Factory;
+    using GraphPanel;
     using LapPicker;
     using MapView;
     using Settings;
@@ -22,9 +25,10 @@
         private readonly ISnapshotSectionController _snapshotSectionController;
         private readonly IMapViewController _mapViewController;
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
+        private readonly IGraphPanelController _leftGraphPanelController;
 
         public MainWindowController(ISettingsProvider settingsProvider, ITelemetryLoadController telemetryLoadController, ILapPickerController lapPickerController, IViewModelFactory viewModelFactory, IMainWindowViewModel mainWindowViewModel,
-            ISnapshotSectionController snapshotSectionController, IMapViewController mapViewController, ITelemetryViewsSynchronization telemetryViewsSynchronization)
+            ISnapshotSectionController snapshotSectionController, IMapViewController mapViewController, ITelemetryViewsSynchronization telemetryViewsSynchronization, IGraphPanelController[] graphPanelControllers)
         {
             _settingsProvider = settingsProvider;
             _telemetryLoadController = telemetryLoadController;
@@ -34,6 +38,8 @@
             _snapshotSectionController = snapshotSectionController;
             _mapViewController = mapViewController;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
+
+            _leftGraphPanelController = graphPanelControllers.First(x => x.IsLetPanel);
 
             _snapshotSectionController.MainWindowViewModel = _mainWindowViewModel;
             _mapViewController.MapViewViewModel = _mainWindowViewModel.MapViewViewModel;
@@ -67,6 +73,7 @@
         private void StartChildControllers()
         {
             Subscribe();
+            _leftGraphPanelController.StartController();;
             _lapPickerController.StartController();
             _snapshotSectionController.StartController();
             _mapViewController.StartController();
@@ -74,6 +81,7 @@
 
         private void StopChildControllers()
         {
+            _leftGraphPanelController.StopController();
             _lapPickerController.StopController();
             _snapshotSectionController.StopController();
             _mapViewController.StopController();;

@@ -7,7 +7,7 @@
     using SecondMonitor.ViewModels.CarStatus;
     using TelemetryManagement.DTO;
 
-    public interface ISnapshotSectionViewModel : IAbstractViewModel
+    public interface ISnapshotSectionViewModel : IViewModel
     {
         ReadOnlyCollection<LapSummaryDto> AvailableLaps { get; }
         LapSummaryDto SelectedLap { get; set; }

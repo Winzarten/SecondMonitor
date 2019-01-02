@@ -3,7 +3,7 @@
     using DataModel.Telemetry;
     using SecondMonitor.ViewModels;
 
-    public interface IAbstractSnapshotViewModel : IAbstractViewModel<TimedTelemetrySnapshot>
+    public interface ISnapshotViewModel : IViewModel<TimedTelemetrySnapshot>
     {
 
     }

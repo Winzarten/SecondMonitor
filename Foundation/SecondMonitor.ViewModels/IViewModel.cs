@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public interface IAbstractViewModel<T> : IAbstractViewModel
+    public interface IViewModel<T> : IViewModel
     {
         T OriginalModel { get; }
 
@@ -10,7 +10,7 @@
         T SaveToNewModel();
     }
 
-    public interface IAbstractViewModel : INotifyPropertyChanged
+    public interface IViewModel : INotifyPropertyChanged
     {
 
     }

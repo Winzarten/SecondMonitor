@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication
 {
     using Controllers.MainWindow;
+    using Controllers.MainWindow.GraphPanel;
     using Controllers.MainWindow.LapPicker;
     using Controllers.MainWindow.MapView;
     using Controllers.MainWindow.Replay;
@@ -16,6 +17,7 @@
     using SimdataManagement;
     using TelemetryManagement.StoryBoard;
     using ViewModels;
+    using ViewModels.GraphPanel;
     using ViewModels.LapPicker;
     using ViewModels.MapView;
     using ViewModels.Replay;
@@ -54,6 +56,58 @@
             Bind<IMapViewViewModel>().To<MapViewViewModel>();
 
             Bind<ILapCustomPathsCollection>().To<LapCustomPathsCollection>();
+            Bind<IGraphViewModelsProvider>().To<GraphViewModelsProvider>();
+            Bind<IGraphPanelController>().To<LeftGraphPanelController>();
+
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
         }
     }
 }
