@@ -123,7 +123,7 @@
     <Compile Include="SessionTiming\Drivers\ViewModel\PendingSector.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\PitStopInfo.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\SectorTiming.cs" />
-    <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingVisualiser.cs" />
+    <Compile Include="SessionTiming\Drivers\Presentation\ViewModel\DriverTimingViewModel.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapInfo.cs" />
     <Compile Include="SessionTiming\LapEventArgs.cs" />
     <Compile Include="SessionTiming\ViewModel\SessionTiming.cs" />

@@ -1,11 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
-    using System.Windows.Input;
-    using WindowsControls.WPF.Commands;
+    using Annotations;
     using DataModel.BasicProperties;
 
     using NLog;
@@ -58,28 +56,33 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             }
         }
 
+        private SolidColorBrush _outLineBrush;
         public SolidColorBrush OutlineBrush
         {
-            get;
-            private set;
+            get => _outLineBrush;
+            private set => SetProperty(ref _outLineBrush, value);
         }
 
+
+        private bool _colorLapsColumns;
         public bool ColorLapsColumns
         {
-            get;
-            private set;
+            get => _colorLapsColumns;
+            private set => SetProperty(ref _colorLapsColumns, value);
         }
 
+        private bool _isLastPLayerLapBetter;
         public bool IsLastPlayerLapBetter
         {
-            get;
-            private set;
+            get => _isLastPLayerLapBetter;
+            private set => SetProperty(ref _isLastPLayerLapBetter, value);
         }
 
+        private bool _isPlayersPaceBetter;
         public bool IsPlayersPaceBetter
         {
-            get;
-            private set;
+            get => _isPlayersPaceBetter;
+            private set => SetProperty(ref _isPlayersPaceBetter, value);
         }
 
         public DriverTiming DriverTiming
@@ -92,124 +95,145 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             }
         }
 
+        private string _position;
         public string Position
         {
-            get;
-            private set;
+            get => _position;
+            private set => SetProperty(ref _position, value);
         }
 
+        private string _positionInClass;
         public string PositionInClass
         {
-            get;
-            private set;
+            get => _positionInClass;
+            private set => SetProperty(ref _positionInClass, value);
         }
 
+        private string _carName;
         public string CarName
         {
-            get;
-            private set;
+            get => _carName;
+            private set => SetProperty(ref _carName, value);
         }
 
+        private string _name;
         public string Name
         {
-            get;
-            private set;
+            get => _name;
+            private set => SetProperty(ref _name, value);
         }
 
+        private string _completedLaps;
         public string CompletedLaps
         {
-            get;
-            private set;
+            get => _completedLaps;
+            private set => SetProperty(ref _completedLaps, value);
         }
 
+        private string _lastLapTime;
         public string LastLapTime
         {
-            get;
-            private set;
+            get => _lastLapTime;
+            private set => SetProperty(ref _lastLapTime, value);
         }
 
+        private string _currentLapProgressTime;
         public string CurrentLapProgressTime
         {
-            get;
-            private set;
+            get => _currentLapProgressTime;
+            private set => SetProperty(ref _currentLapProgressTime, value);
         }
 
+
+        private string _pace;
         public string Pace
         {
-            get;
-            private set;
+            get => _pace;
+            private set => SetProperty(ref _pace, value);
         }
 
+        private string _bestLap;
         public string BestLap
         {
-            get;
-            private set;
+            get => _bestLap;
+            private set => SetProperty(ref _bestLap, value);
         }
 
+        private string _lastPitInfo;
         public string LastPitInfo
         {
-            get;
-            private set;
+            get => _lastPitInfo;
+            private set => SetProperty(ref _lastPitInfo, value);
         }
 
+        private string _remark;
         public string Remark
         {
-            get;
-            private set;
+            get => _remark;
+            private set => SetProperty(ref _remark, value);
         }
 
+        private string _timeToPlayer;
         public string TimeToPlayer
         {
-            get;
-            private set;
+            get => _timeToPlayer;
+            private set => SetProperty(ref _timeToPlayer, value);
         }
 
+        private string _topSpeed;
         public string TopSpeed
         {
-            get;
-            private set;
+            get => _topSpeed;
+            private set => SetProperty(ref _topSpeed, value);
         }
 
+        private bool _isPlayer;
         public bool IsPlayer
         {
-            get;
-            private set;
+            get => _isPlayer;
+            private set => SetProperty(ref _isPlayer, value);
         }
 
+        private bool _isLapped;
         public bool IsLapped
         {
-            get;
-            private set;
+            get => _isLapped;
+            private set => SetProperty(ref _isLapped, value);
         }
 
+        private bool _isLapping;
         public bool IsLapping
         {
-            get;
-            private set;
+            get => _isLapping;
+            private set => SetProperty(ref _isLapping, value);
         }
 
+        private bool _inPits;
         public bool InPits
         {
-            get;
-            private set;
+            get => _inPits;
+            private set => SetProperty(ref _inPits, value);
         }
 
+        private bool _isLastLapBestLap;
         public bool IsLastLapBestLap
         {
-            get;
-            private set;
+            get => _isLastLapBestLap;
+            private set => SetProperty(ref _isLastLapBestLap, value);
         }
 
+        private bool _isLastLapBestSessionLap;
         public bool IsLastLapBestSessionLap
         {
-            get;
-            private set;
+            get => _isLastLapBestSessionLap;
+            private set => SetProperty(ref _isLastLapBestSessionLap, value);
         }
 
+        private string _carClassName;
         public string CarClassName
         {
-            get;
-            private set;
+            get => _carClassName;
+            private set => SetProperty(ref _carClassName, value);
         }
 
         public DisplaySettingsViewModel DisplaySettingsViewModel
@@ -222,58 +246,67 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             }
         }
 
+        private string _sector1;
         public string Sector1
         {
-            get;
-            private set;
+            get => _sector1;
+            private set => SetProperty(ref _sector1, value);
         }
 
+        private string _sector2;
         public string Sector2
         {
-            get;
-            private set;
+            get => _sector2;
+            private set => SetProperty(ref _sector2, value);
         }
 
+        private string _sector3;
         public string Sector3
         {
-            get;
-            private set;
+            get => _sector3;
+            private set => SetProperty(ref _sector3, value);
         }
 
+        private bool _isLastSector1PersonalBest;
         public bool IsLastSector1PersonalBest
         {
-            get;
-            private set;
+            get => _isLastSector1PersonalBest;
+            private set => SetProperty(ref _isLastSector1PersonalBest, value);
         }
 
+        private bool _isLastSector2PersonalBest;
         public bool IsLastSector2PersonalBest
         {
-            get;
-            private set;
+            get => _isLastSector2PersonalBest;
+            private set => SetProperty(ref _isLastSector2PersonalBest, value);
         }
 
+        private bool _isLastSector3PersonalBest;
         public bool IsLastSector3PersonalBest
         {
-            get;
-            private set;
+            get => _isLastSector3PersonalBest;
+            private set => SetProperty(ref _isLastSector3PersonalBest, value);
         }
 
+        private bool _isLastSector1SessionBest;
         public bool IsLastSector1SessionBest
         {
-            get;
-            private set;
+            get => _isLastSector1SessionBest;
+            private set => SetProperty(ref _isLastSector1SessionBest, value);
         }
 
+        private bool _isLastSector2SessionBest;
         public bool IsLastSector2SessionBest
         {
-            get;
-            private set;
+            get => _isLastSector2SessionBest;
+            private set => SetProperty(ref _isLastSector2SessionBest, value);
         }
 
+        private bool _isLastSector3SessionBest;
         public bool IsLastSector3SessionBest
         {
-            get;
-            private set;
+            get => _isLastSector3SessionBest;
+            private set => SetProperty(ref _isLastSector3SessionBest, value);
         }
 
         public void RefreshProperties()
@@ -317,7 +350,6 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
                 IsPlayersPaceBetter = GetIsPlayersPaceBetter();
                 _nextRefresh = DisplaySettingsViewModel != null ? DateTime.Now + TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : DateTime.Now + TimeSpan.FromSeconds(10);
-                NotifyPropertyChanged(string.Empty);
             }
             catch (Exception ex)
             {

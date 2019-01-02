@@ -30,5 +30,18 @@ namespace SecondMonitor.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        protected void SetProperty<T>(ref T backingField, T value, [CallerMemberName]  string propertyName = null)
+        {
+            if (backingField!= null && backingField.Equals(value))
+            {
+                return;
+            }
+
+            backingField = value;
+            NotifyPropertyChanged(propertyName);
+        }
     }
+
+
 }
