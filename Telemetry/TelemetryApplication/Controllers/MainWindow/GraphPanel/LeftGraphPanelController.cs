@@ -1,7 +1,9 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.GraphPanel
 {
     using System.Linq;
+    using Settings;
     using Synchronization;
+    using Synchronization.Graphs;
     using ViewModels;
     using ViewModels.GraphPanel;
 
@@ -9,8 +11,8 @@
     {
         private readonly IGraphViewModelsProvider _graphViewModelsProvider;
 
-        public LeftGraphPanelController(IGraphViewModelsProvider graphViewModelsProvider, IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization)
-            : base(mainWindowViewModel, telemetryViewsSynchronization, lapColorSynchronization)
+        public LeftGraphPanelController(IGraphViewModelsProvider graphViewModelsProvider, IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization, ISettingsProvider settingsProvider, IGraphViewSynchronization graphViewSynchronization)
+            : base(mainWindowViewModel, telemetryViewsSynchronization, lapColorSynchronization, settingsProvider, graphViewSynchronization)
         {
             _graphViewModelsProvider = graphViewModelsProvider;
             Graphs = _graphViewModelsProvider.GetLeftSideViewModels().ToArray();

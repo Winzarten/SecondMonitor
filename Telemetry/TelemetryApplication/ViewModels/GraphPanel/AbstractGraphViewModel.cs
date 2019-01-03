@@ -1,89 +1,367 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows;
+    using System.Threading.Tasks;
     using System.Windows.Media;
     using Controllers.Synchronization;
-    using DataModel.Extensions;
+    using Controllers.Synchronization.Graphs;
+    using DataModel.BasicProperties;
     using DataModel.Telemetry;
-    using LiveCharts;
-    using LiveCharts.Configurations;
-    using LiveCharts.Geared;
-    using LiveCharts.Wpf;
+    using OxyPlot;
+    using OxyPlot.Axes;
+    using OxyPlot.Series;
     using SecondMonitor.ViewModels;
     using TelemetryManagement.DTO;
 
     public abstract class AbstractGraphViewModel : AbstractViewModel, IGraphViewModel
     {
-        private SeriesCollection _seriesCollection;
-        private readonly Dictionary<string, LineSeries> _loadedSeries;
+        private readonly Dictionary<string, List<LineSeries>> _loadedSeries;
+        private LinearAxis _yAxis;
+        private LinearAxis _xAxis;
+        private PlotModel _plotModel;
+        private Distance _selectedDistance;
+        private bool _invalidatingPlot;
+        private Task _invalidationTask;
+        private double _yMaximum;
+        private bool _updating;
+        private ILapColorSynchronization _lapColorSynchronization;
+        private IGraphViewSynchronization _graphViewSynchronization;
+        private double _yMinimum;
 
         protected AbstractGraphViewModel()
         {
-            _loadedSeries = new Dictionary<string, LineSeries>();
+            _loadedSeries = new Dictionary<string, List<LineSeries>>();
+            SetInitialYMaximum();
+            InitializeViewModel();
         }
 
-        public SeriesCollection SeriesCollection
+        private void InitializeViewModel()
         {
-            get => _seriesCollection;
-            set => SetProperty(ref _seriesCollection, value);
+            _plotModel = new PlotModel()
+            {
+                Title = Title,
+                TextColor = OxyColor.Parse("#FFD6D6D6"),
+            };
+
+
         }
 
-        public ILapColorSynchronization LapColorSynchronization { get; set; }
+        public PlotModel PlotModel
+        {
+            get => _plotModel;
+            set
+            {
+                _plotModel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Distance SelectedDistance
+        {
+            get => _selectedDistance;
+            set
+            {
+                _selectedDistance = value;
+                UpdateSelectedDistanceAsync();
+            }
+        }
+        public ILapColorSynchronization LapColorSynchronization { get => _lapColorSynchronization;
+            set
+            {
+                UnsubscribeLapColorSync();
+                _lapColorSynchronization = value;
+                SubscribeLapColorSync();
+            } }
+
+        public IGraphViewSynchronization GraphViewSynchronization
+        {
+            get => _graphViewSynchronization;
+            set
+            {
+                UnsubscribeGraphViewSync();
+                _graphViewSynchronization = value;
+                SubscribeGraphViewSync();
+            }
+        }
+
+
+
+        public Distance TrackDistance { get; set; }
+
+        public DistanceUnits DistanceUnits { get; set; }
+        public VelocityUnits VelocityUnits { get; set; }
+
+        protected double YMaximum
+        {
+            get => _yMaximum;
+            set
+            {
+                if (_yMaximum == value)
+                {
+                    return;
+                }
+
+                _yMaximum = value;
+                UpdateYAxis();
+            }
+        }
+
+        protected double YMinimum
+        {
+            get => _yMinimum;
+            set
+            {
+                if (_yMinimum == value)
+                {
+                    return;
+                }
+
+                _yMinimum = value;
+                UpdateYAxis();
+            }
+        }
+
+        protected double XMaximum => TrackDistance.GetByUnit(DistanceUnits);
+
+        protected abstract string Title { get; }
+        protected abstract string YUnits { get; }
+        protected abstract double YTickInterval { get; }
+        protected abstract bool CanYZooM { get; }
+
 
         public void AddLapTelemetry(LapTelemetryDto lapTelemetryDto)
         {
+            UpdateYMaximum(lapTelemetryDto);
             if (LapColorSynchronization == null || !LapColorSynchronization.TryGetColorForLap(lapTelemetryDto.LapSummary.Id, out Color color))
             {
                 color = Colors.Red;
             }
 
-            if (_seriesCollection == null)
+            if (_yAxis == null)
             {
-                CartesianMapper<TimedTelemetrySnapshot> mapper = Mappers.Xy<TimedTelemetrySnapshot>().X(GetXValue).Y(GetYValue);
-                _seriesCollection = new SeriesCollection(mapper);
+                _yAxis = new LinearAxis
+                {
+                    Position = AxisPosition.Left,
+                    Minimum = YMinimum,
+                    Maximum = YMaximum,
+                    TickStyle = TickStyle.Inside,
+                    AxislineColor = OxyColor.Parse("#FFD6D6D6"),
+                    IsZoomEnabled = CanYZooM,
+                    IsPanEnabled = CanYZooM,
+                    Unit = YUnits,
+                };
+                if (YTickInterval > 0)
+                {
+                    _yAxis.MajorStep = YTickInterval;
+                    _yAxis.MajorGridlineStyle = LineStyle.Solid;
+                    _yAxis.MajorGridlineThickness = 1;
+                    _yAxis.MajorGridlineColor = OxyColor.Parse("#FF7F7F7F");
+
+
+                }
+                _plotModel.Axes.Add(_yAxis);
             }
 
-            TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).WhereWithPrevious(FilterFunction).ToArray();
-
-            LineSeries series = new LineSeries
+            if (_xAxis == null)
             {
-                Values = dataPoints.AsGearedValues().WithQuality(Quality.Low),
-                Fill = Brushes.Transparent,
-                StrokeThickness = 2,
-                Stroke = new SolidColorBrush(color),
-                LineSmoothness = 0,
-                PointGeometry = null //use a null geometry when you have many series,
-            };
+                _xAxis = new LinearAxis
+                {
+                    Position = AxisPosition.Bottom,
+                    Minimum = -1,
+                    Maximum = XMaximum,
+                    TickStyle = TickStyle.Inside,
+                    AxislineColor = OxyColor.Parse("#FFD6D6D6"),
+                    ExtraGridlineColor = OxyColor.Parse("#FFD6D6D6"),
+                    MajorStep = 200,
+                    MajorGridlineColor = OxyColor.Parse("#464239"),
+                    MajorGridlineStyle = LineStyle.LongDash,
+                    Unit = Distance.GetUnitsSymbol(DistanceUnits),
+                };
+
+                _plotModel.Axes.Add(_xAxis);
+                _xAxis.AxisChanged += XAxisOnAxisChanged;
+            }
+
+            TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).ToArray();
+            //TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).WhereWithPrevious(FilterFunction).ToArray();
+            List<LineSeries> series = GetLineSeries(lapTelemetryDto.LapSummary, dataPoints, OxyColor.Parse(color.ToString()));
+
+            series.ForEach(_plotModel.Series.Add);
+            _plotModel.InvalidatePlot(true);
 
             _loadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
 
-            _seriesCollection.Add(series);
-            NotifyPropertyChanged(nameof(SeriesCollection));
+            NotifyPropertyChanged(nameof(PlotModel));
+            NotifyPropertyChanged(nameof(PlotModel.Series));
+        }
+
+        private void XAxisOnAxisChanged(object sender, AxisChangedEventArgs e)
+        {
+            if (!_updating)
+            {
+                _graphViewSynchronization.NotifyPanChanged(this, _xAxis.ActualMinimum, _xAxis.ActualMaximum);
+            }
+        }
+
+
+        public void UpdateSelectedDistanceAsync()
+        {
+            _xAxis.ExtraGridlines = new[] {SelectedDistance.InMeters};
+            InvalidatePlot();
+
         }
 
         public void RemoveLapTelemetry(LapSummaryDto lapSummaryDto)
         {
-            if (_loadedSeries.TryGetValue(lapSummaryDto.Id, out LineSeries lineSeries))
+            if (_loadedSeries.TryGetValue(lapSummaryDto.Id, out List<LineSeries> lineSeries))
             {
-                _seriesCollection.Remove(lineSeries);
                 _loadedSeries.Remove(lapSummaryDto.Id);
-                NotifyPropertyChanged(nameof(SeriesCollection));
+                lineSeries.ForEach(x => _plotModel.Series.Remove(x));
+                InvalidatePlot();
             }
         }
 
-        protected virtual bool FilterFunction(TimedTelemetrySnapshot previousSnapshot, TimedTelemetrySnapshot currentSnapshot) => currentSnapshot.LapTimeSeconds - previousSnapshot.LapTimeSeconds > 1;
+        protected void InvalidatePlot()
+        {
+            _invalidationTask = InvalidatePlotAsync();
+        }
 
-        protected abstract double GetYValue(TimedTelemetrySnapshot value, int index);
+        protected async Task InvalidatePlotAsync()
+        {
+            if (_invalidatingPlot)
+            {
+                return;
+            }
 
-        public virtual Func<double, string> YFormatter => d => d.ToString("N1");
+            _invalidatingPlot = true;
+            await Task.Delay(1000).ConfigureAwait(false);
+            _plotModel.PlotView.InvalidatePlot(true);
+            _invalidatingPlot = false;
+        }
 
-        protected abstract double GetXValue(TimedTelemetrySnapshot value, int index);
+        protected virtual void UpdateYMaximum(LapTelemetryDto lapTelemetry)
+        {
 
-        public virtual Func<double, string> XFormatter => d => d.ToString("N1");
+        }
 
+        private void UpdateYAxis()
+        {
+            if (_xAxis == null)
+            {
+                return;
+            }
 
+            _yAxis.Maximum = YMaximum;
+            _yAxis.Minimum = YMinimum;
+            InvalidatePlot();
+        }
+
+        private void SubscribeGraphViewSync()
+        {
+            if (_graphViewSynchronization == null)
+            {
+                return;
+            }
+
+            _graphViewSynchronization.ScaleChanged += GraphViewSynchronizationOnScaleChanged;
+            _graphViewSynchronization.PanChanged += GraphViewSynchronizationOnPanChanged;
+        }
+
+        private void GraphViewSynchronizationOnPanChanged(object sender, PanEventArgs e)
+        {
+            if (ReferenceEquals(sender, this) || _xAxis == null)
+            {
+                return;
+            }
+            _updating = true;
+            _xAxis.Minimum = e.Minimum;
+            _xAxis.Maximum = e.Maximum;
+            _xAxis.Reset();
+            InvalidatePlot();
+            _updating = false;
+        }
+
+        private void GraphViewSynchronizationOnScaleChanged(object sender, ScaleEventArgs e)
+        {
+            if (ReferenceEquals(sender, this) || _xAxis == null)
+            {
+                return;
+            }
+
+            _updating = true;
+            _xAxis.Zoom(e.NewScale);
+            InvalidatePlot();
+            _updating = false;
+        }
+
+        private void UnsubscribeGraphViewSync()
+        {
+            if (_graphViewSynchronization == null)
+            {
+                return;
+            }
+
+            _graphViewSynchronization.ScaleChanged -= GraphViewSynchronizationOnScaleChanged;
+            _graphViewSynchronization.PanChanged -= GraphViewSynchronizationOnPanChanged;
+        }
+
+        private void UnsubscribeLapColorSync()
+        {
+            if (_lapColorSynchronization == null)
+            {
+                return;
+            }
+
+            _lapColorSynchronization.LapColorChanged -= LapColorSynchronizationOnLapColorChanged;
+        }
+
+        private void SubscribeLapColorSync()
+        {
+            if (_lapColorSynchronization == null)
+            {
+                return;
+            }
+
+            _lapColorSynchronization.LapColorChanged += LapColorSynchronizationOnLapColorChanged;
+        }
+
+        private void LapColorSynchronizationOnLapColorChanged(object sender, LapColorArgs e)
+        {
+            if (_loadedSeries.TryGetValue(e.LapId, out List<LineSeries> series))
+            {
+                OxyColor color = OxyColor.Parse(e.Color.ToString());
+                foreach (LineSeries lineSeries in series)
+                {
+                    lineSeries.Color = color;
+                    lineSeries.TextColor = color;
+                }
+            }
+            InvalidatePlot();
+        }
+
+        protected double GetXValue(TimedTelemetrySnapshot value)
+        {
+            return Distance.FromMeters(value.PlayerData.LapDistance).GetByUnit(DistanceUnits);
+        }
+
+        protected abstract List<LineSeries> GetLineSeries(LapSummaryDto lapSummary, TimedTelemetrySnapshot[] dataPoints, OxyColor color);
+
+        //protected abstract bool FilterFunction(TimedTelemetrySnapshot previousSnapshot, TimedTelemetrySnapshot currentSnapshot);
+
+        protected abstract double GetYValue(TimedTelemetrySnapshot value);
+        protected abstract void SetInitialYMaximum();
+
+        public void Dispose()
+        {
+            _invalidationTask?.Dispose();
+            UnsubscribeLapColorSync();
+            UnsubscribeGraphViewSync();
+
+            if (_xAxis != null)
+            {
+                _xAxis.AxisChanged -= XAxisOnAxisChanged;
+            }
+        }
     }
 }

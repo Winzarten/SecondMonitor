@@ -7,6 +7,7 @@
     using Controllers.MainWindow.Replay;
     using Controllers.MainWindow.Snapshot;
     using Controllers.Synchronization;
+    using Controllers.Synchronization.Graphs;
     using Controllers.TelemetryLoad;
     using Factory;
     using Ninject.Extensions.NamedScope;
@@ -37,6 +38,7 @@
             Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InNamedScope(MainWidowScopeName);
+            Bind<IGraphViewSynchronization>().To<GraphViewSynchronization>().InNamedScope(MainWidowScopeName);
             Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InNamedScope(MainWidowScopeName);
             Bind<IMapViewController>().To<MapViewController>().InNamedScope(MainWidowScopeName);
             Bind<ILapColorSynchronization>().To<LapColorSynchronization>().InNamedScope(MainWidowScopeName);
@@ -60,6 +62,15 @@
             Bind<IGraphPanelController>().To<LeftGraphPanelController>();
 
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<BrakeGraphViewModel>();
+            Bind<IGraphViewModel>().To<ClutchGraphViewModel>();
+            Bind<IGraphViewModel>().To<SpeedGraphViewModel>();
+            Bind<IGraphViewModel>().To<EngineRpmGraphViewModel>();
+            Bind<IGraphViewModel>().To<LapTimeGraphViewModel>();
+            Bind<IGraphViewModel>().To<GearGraphViewModel>();
+            Bind<IGraphViewModel>().To<LateralGGraphViewModel>();
+            Bind<IGraphViewModel>().To<HorizontalGGraphViewModel>();
+            /*Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
@@ -106,8 +117,7 @@
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
+            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();*/
         }
     }
 }
