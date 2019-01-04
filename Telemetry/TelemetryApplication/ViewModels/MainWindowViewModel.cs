@@ -13,12 +13,14 @@
     {
         private readonly IViewModelFactory _viewModelFactory;
         private bool _isBusy;
-        private List<IGraphViewModel> _leftPanelGraphs;
+        private readonly List<IGraphViewModel> _leftPanelGraphs;
+        private readonly List<IGraphViewModel> _rightPanelGraphs;
 
         public MainWindowViewModel(IViewModelFactory viewModelFactory)
         {
             _viewModelFactory = viewModelFactory;
             _leftPanelGraphs = new List<IGraphViewModel>();
+            _rightPanelGraphs = new List<IGraphViewModel>();
             LapSelectionViewModel = viewModelFactory.Create<ILapSelectionViewModel>();
             SnapshotSectionViewModel = viewModelFactory.Create<ISnapshotSectionViewModel>();
             MapViewViewModel = viewModelFactory.Create<IMapViewViewModel>();
@@ -38,6 +40,7 @@
         public IMapViewViewModel MapViewViewModel { get; }
 
         public IReadOnlyCollection<IGraphViewModel> LeftPanelGraphs => _leftPanelGraphs.AsReadOnly();
+        public IReadOnlyCollection<IGraphViewModel> RightPanelGraphs => _rightPanelGraphs.AsReadOnly();
 
         public void ClearLeftPanelGraphs()
         {
@@ -49,6 +52,18 @@
         {
             graphViewModels.ForEach(_leftPanelGraphs.Add);
             NotifyPropertyChanged(nameof(LeftPanelGraphs));
+        }
+
+        public void ClearRightPanelGraphs()
+        {
+            _rightPanelGraphs.Clear();
+            NotifyPropertyChanged(nameof(RightPanelGraphs));
+        }
+
+        public void AddToRightPanelGraphs(params IGraphViewModel[] graphViewModels)
+        {
+            graphViewModels.ForEach(_rightPanelGraphs.Add);
+            NotifyPropertyChanged(nameof(RightPanelGraphs));
         }
     }
 }

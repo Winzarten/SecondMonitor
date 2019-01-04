@@ -32,7 +32,6 @@
         protected AbstractGraphViewModel()
         {
             _loadedSeries = new Dictionary<string, List<LineSeries>>();
-            SetInitialYMaximum();
             InitializeViewModel();
         }
 
@@ -42,6 +41,7 @@
             {
                 Title = Title,
                 TextColor = OxyColor.Parse("#FFD6D6D6"),
+                LegendPlacement = LegendPlacement.Outside
             };
 
 
@@ -124,7 +124,7 @@
 
         protected double XMaximum => TrackDistance.GetByUnit(DistanceUnits);
 
-        protected abstract string Title { get; }
+        public abstract string Title { get; }
         protected abstract string YUnits { get; }
         protected abstract double YTickInterval { get; }
         protected abstract bool CanYZooM { get; }
@@ -132,12 +132,31 @@
 
         public void AddLapTelemetry(LapTelemetryDto lapTelemetryDto)
         {
-            UpdateYMaximum(lapTelemetryDto);
+
             if (LapColorSynchronization == null || !LapColorSynchronization.TryGetColorForLap(lapTelemetryDto.LapSummary.Id, out Color color))
             {
                 color = Colors.Red;
             }
 
+            UpdateYMaximum(lapTelemetryDto);
+
+            CheckAndCreateAxis();
+
+            TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).ToArray();
+            //TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).WhereWithPrevious(FilterFunction).ToArray();
+            List<LineSeries> series = GetLineSeries(lapTelemetryDto.LapSummary, dataPoints, OxyColor.Parse(color.ToString()));
+
+            series.ForEach(_plotModel.Series.Add);
+            _plotModel.InvalidatePlot(true);
+
+            _loadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
+
+            NotifyPropertyChanged(nameof(PlotModel));
+            NotifyPropertyChanged(nameof(PlotModel.Series));
+        }
+
+        private void CheckAndCreateAxis()
+        {
             if (_yAxis == null)
             {
                 _yAxis = new LinearAxis
@@ -157,9 +176,8 @@
                     _yAxis.MajorGridlineStyle = LineStyle.Solid;
                     _yAxis.MajorGridlineThickness = 1;
                     _yAxis.MajorGridlineColor = OxyColor.Parse("#FF7F7F7F");
-
-
                 }
+
                 _plotModel.Axes.Add(_yAxis);
             }
 
@@ -172,7 +190,8 @@
                     Maximum = XMaximum,
                     TickStyle = TickStyle.Inside,
                     AxislineColor = OxyColor.Parse("#FFD6D6D6"),
-                    ExtraGridlineColor = OxyColor.Parse("#FFD6D6D6"),
+                    ExtraGridlineColor = OxyColors.DarkRed, //OxyColor.Parse("#FFD6D6D6"),
+                    ExtraGridlineThickness = 2,
                     MajorStep = 200,
                     MajorGridlineColor = OxyColor.Parse("#464239"),
                     MajorGridlineStyle = LineStyle.LongDash,
@@ -182,18 +201,6 @@
                 _plotModel.Axes.Add(_xAxis);
                 _xAxis.AxisChanged += XAxisOnAxisChanged;
             }
-
-            TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).ToArray();
-            //TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).WhereWithPrevious(FilterFunction).ToArray();
-            List<LineSeries> series = GetLineSeries(lapTelemetryDto.LapSummary, dataPoints, OxyColor.Parse(color.ToString()));
-
-            series.ForEach(_plotModel.Series.Add);
-            _plotModel.InvalidatePlot(true);
-
-            _loadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
-
-            NotifyPropertyChanged(nameof(PlotModel));
-            NotifyPropertyChanged(nameof(PlotModel.Series));
         }
 
         private void XAxisOnAxisChanged(object sender, AxisChangedEventArgs e)
@@ -240,10 +247,7 @@
             _invalidatingPlot = false;
         }
 
-        protected virtual void UpdateYMaximum(LapTelemetryDto lapTelemetry)
-        {
-
-        }
+        protected abstract void UpdateYMaximum(LapTelemetryDto lapTelemetry);
 
         private void UpdateYAxis()
         {
@@ -350,7 +354,6 @@
         //protected abstract bool FilterFunction(TimedTelemetrySnapshot previousSnapshot, TimedTelemetrySnapshot currentSnapshot);
 
         protected abstract double GetYValue(TimedTelemetrySnapshot value);
-        protected abstract void SetInitialYMaximum();
 
         public void Dispose()
         {

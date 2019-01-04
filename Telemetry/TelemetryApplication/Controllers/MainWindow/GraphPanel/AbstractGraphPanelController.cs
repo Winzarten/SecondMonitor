@@ -10,7 +10,6 @@
 
     public abstract class AbstractGraphPanelController : IGraphPanelController
     {
-        private readonly IMainWindowViewModel _mainWindowViewModel;
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly ILapColorSynchronization _lapColorSynchronization;
         private readonly ISettingsProvider _settingsProvider;
@@ -18,7 +17,7 @@
 
         protected AbstractGraphPanelController(IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization, ISettingsProvider settingsProvider, IGraphViewSynchronization graphViewSynchronization)
         {
-            _mainWindowViewModel = mainWindowViewModel;
+            MainWindowViewModel = mainWindowViewModel;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _lapColorSynchronization = lapColorSynchronization;
             _settingsProvider = settingsProvider;
@@ -28,6 +27,7 @@
         public abstract bool IsLetPanel { get; }
 
         protected abstract IGraphViewModel[] Graphs { get; }
+        protected IMainWindowViewModel MainWindowViewModel { get; }
 
         public void StartController()
         {
@@ -87,10 +87,6 @@
             _telemetryViewsSynchronization.NewSessionLoaded -= TelemetryViewsSynchronizationOnNewSessionLoaded;
         }
 
-        protected void RefreshViewModels()
-        {
-            _mainWindowViewModel.ClearLeftPanelGraphs();;
-            _mainWindowViewModel.AddToLeftPanelGraphs(Graphs);
-        }
+        protected abstract void RefreshViewModels();
     }
 }

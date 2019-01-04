@@ -15,7 +15,12 @@
         IMapViewViewModel MapViewViewModel { get; }
 
         IReadOnlyCollection<IGraphViewModel> LeftPanelGraphs { get; }
+        IReadOnlyCollection<IGraphViewModel> RightPanelGraphs { get;}
+
         void ClearLeftPanelGraphs();
         void AddToLeftPanelGraphs(params IGraphViewModel[] graphViewModels);
+
+        void ClearRightPanelGraphs();
+        void AddToRightPanelGraphs(params IGraphViewModel[] graphViewModels);
     }
 }

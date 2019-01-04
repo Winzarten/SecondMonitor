@@ -1,13 +1,15 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
     using DataModel.Telemetry;
+    using TelemetryManagement.DTO;
 
     public class GearGraphViewModel : AbstractSingleSeriesGraphViewModel
     {
-        protected override string Title => "Gear";
+        public override string Title => "Gear";
         protected override string YUnits => "Gear";
         protected override double YTickInterval => 1;
         protected override bool CanYZooM => true;
+
 
         protected override double GetYValue(TimedTelemetrySnapshot value)
         {
@@ -22,7 +24,7 @@
             }
         }
 
-        protected override void SetInitialYMaximum()
+        protected override void UpdateYMaximum(LapTelemetryDto lapTelemetry)
         {
             YMaximum = 7;
         }

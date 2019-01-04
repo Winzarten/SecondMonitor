@@ -5,7 +5,7 @@
 
     public class LapTimeGraphViewModel : AbstractSingleSeriesGraphViewModel
     {
-        protected override string Title => "Lap Time";
+        public override string Title => "Lap Time";
         protected override string YUnits => "Seconds";
         protected override double YTickInterval => 20;
         protected override bool CanYZooM => true;
@@ -13,11 +13,6 @@
         protected override double GetYValue(TimedTelemetrySnapshot value)
         {
             return value.LapTimeSeconds;
-        }
-
-        protected override void SetInitialYMaximum()
-        {
-
         }
 
         protected override void UpdateYMaximum(LapTelemetryDto lapTelemetry)

@@ -20,7 +20,7 @@
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
                 <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DummyGraphDataTemplate}"/>
+            <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DefaultGraphDataTemplate}"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">
@@ -58,14 +58,19 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid Row="1">
+            <Grid Row="0">
+            <ScrollViewer CanContentScroll="True">
+                <ItemsControl ItemsSource="{Binding RightPanelGraphs}" ItemTemplateSelector="{StaticResource GraphDataTemplateSelector}"/>
+            </ScrollViewer>
+        </Grid>
+        <Grid Row="1">
                 <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="3" CornerRadius="3">
                     <Grid ClipToBounds="True">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
+                        <Grid Grid.Row="0" Background="Black">
                             <xctk:BusyIndicator IsBusy="{Binding IsBusy}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="Loading Lap(s)" Grid.ZIndex="2">
                             </xctk:BusyIndicator>
                             <zoomAndPan:ZoomAndPanControl x:Name="ZoomAndPanControl" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" Grid.ZIndex="1" MaxContentScale="1000">

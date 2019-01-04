@@ -10,6 +10,7 @@
 
     public interface IGraphViewModel : IViewModel, IDisposable
     {
+        string Title { get; }
         PlotModel PlotModel { get; }
         Distance SelectedDistance { get; set; }
         ILapColorSynchronization LapColorSynchronization { get; set; }

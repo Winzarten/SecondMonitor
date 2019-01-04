@@ -5,11 +5,13 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <DataTemplate x:Key="DummyGraphDataTemplate" DataType="graphPanel:AbstractGraphViewModel">
+    <DataTemplate x:Key="DefaultGraphDataTemplate" DataType="graphPanel:AbstractGraphViewModel">
         <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}">
-        <Grid MinWidth="100" MinHeight="200" Background="Black">
-            <oxy:PlotView Model="{Binding PlotModel}" Background="Black" Foreground="{StaticResource Anthracite01Brush}"/>
-            </Grid>
+            <Expander IsExpanded="True" Header="{Binding Title}" Foreground="{StaticResource LightGrey01Brush}">
+                <Grid MinWidth="100" MinHeight="200" Background="Black">
+                    <oxy:PlotView Model="{Binding PlotModel}" Background="Black" Foreground="{StaticResource Anthracite01Brush}"/>
+                </Grid>
+            </Expander>
         </Border>
     </DataTemplate>
 </ResourceDictionary>

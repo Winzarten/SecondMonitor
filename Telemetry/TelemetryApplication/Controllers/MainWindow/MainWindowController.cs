@@ -26,6 +26,7 @@
         private readonly IMapViewController _mapViewController;
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly IGraphPanelController _leftGraphPanelController;
+        private readonly IGraphPanelController _rightGraphPanelController;
 
         public MainWindowController(ISettingsProvider settingsProvider, ITelemetryLoadController telemetryLoadController, ILapPickerController lapPickerController, IViewModelFactory viewModelFactory, IMainWindowViewModel mainWindowViewModel,
             ISnapshotSectionController snapshotSectionController, IMapViewController mapViewController, ITelemetryViewsSynchronization telemetryViewsSynchronization, IGraphPanelController[] graphPanelControllers)
@@ -40,6 +41,7 @@
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
 
             _leftGraphPanelController = graphPanelControllers.First(x => x.IsLetPanel);
+            _rightGraphPanelController = graphPanelControllers.First(x => !x.IsLetPanel);
 
             _snapshotSectionController.MainWindowViewModel = _mainWindowViewModel;
             _mapViewController.MapViewViewModel = _mainWindowViewModel.MapViewViewModel;
@@ -74,6 +76,7 @@
         {
             Subscribe();
             _leftGraphPanelController.StartController();;
+            _rightGraphPanelController.StartController();;
             _lapPickerController.StartController();
             _snapshotSectionController.StartController();
             _mapViewController.StartController();
@@ -82,6 +85,7 @@
         private void StopChildControllers()
         {
             _leftGraphPanelController.StopController();
+            _rightGraphPanelController.StartController();
             _lapPickerController.StopController();
             _snapshotSectionController.StopController();
             _mapViewController.StopController();;

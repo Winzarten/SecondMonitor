@@ -19,6 +19,7 @@
     using TelemetryManagement.StoryBoard;
     using ViewModels;
     using ViewModels.GraphPanel;
+    using ViewModels.GraphPanel.Inputs;
     using ViewModels.LapPicker;
     using ViewModels.MapView;
     using ViewModels.Replay;
@@ -45,6 +46,7 @@
             Bind<IColorPaletteProvider>().To<BasicColorPaletteProvider>().InNamedScope(MainWidowScopeName);
             Bind<IReplayController>().To<ReplayController>();
             Bind<ISnapshotSectionController>().To<SnapshotSectionController>();
+            Bind<IGraphsSettingsProvider>().To<DefaultGraphsSettingsProvider>();
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
             Bind<ILapPickerController>().To<LapPickerController>();
@@ -60,13 +62,14 @@
             Bind<ILapCustomPathsCollection>().To<LapCustomPathsCollection>();
             Bind<IGraphViewModelsProvider>().To<GraphViewModelsProvider>();
             Bind<IGraphPanelController>().To<LeftGraphPanelController>();
+            Bind<IGraphPanelController>().To<RightGraphPanelController>();
 
+            Bind<IGraphViewModel>().To<LapTimeGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<BrakeGraphViewModel>();
             Bind<IGraphViewModel>().To<ClutchGraphViewModel>();
             Bind<IGraphViewModel>().To<SpeedGraphViewModel>();
             Bind<IGraphViewModel>().To<EngineRpmGraphViewModel>();
-            Bind<IGraphViewModel>().To<LapTimeGraphViewModel>();
             Bind<IGraphViewModel>().To<GearGraphViewModel>();
             Bind<IGraphViewModel>().To<LateralGGraphViewModel>();
             Bind<IGraphViewModel>().To<HorizontalGGraphViewModel>();

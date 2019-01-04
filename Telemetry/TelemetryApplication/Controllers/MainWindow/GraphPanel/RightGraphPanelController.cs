@@ -7,25 +7,25 @@
     using ViewModels;
     using ViewModels.GraphPanel;
 
-    public class LeftGraphPanelController : AbstractGraphPanelController
+    public class RightGraphPanelController : AbstractGraphPanelController
     {
         private readonly IGraphViewModelsProvider _graphViewModelsProvider;
 
-        public LeftGraphPanelController(IGraphViewModelsProvider graphViewModelsProvider, IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization, ISettingsProvider settingsProvider, IGraphViewSynchronization graphViewSynchronization)
+        public RightGraphPanelController(IGraphViewModelsProvider graphViewModelsProvider, IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization, ISettingsProvider settingsProvider, IGraphViewSynchronization graphViewSynchronization)
             : base(mainWindowViewModel, telemetryViewsSynchronization, lapColorSynchronization, settingsProvider, graphViewSynchronization)
         {
             _graphViewModelsProvider = graphViewModelsProvider;
-            Graphs = _graphViewModelsProvider.GetLeftSideViewModels().ToArray();
+            Graphs = _graphViewModelsProvider.GetRightSideViewModels().ToArray();
         }
 
-        public override bool IsLetPanel => true;
+        public override bool IsLetPanel => false;
 
         protected override IGraphViewModel[] Graphs { get; }
 
         protected override void RefreshViewModels()
         {
-            MainWindowViewModel.ClearLeftPanelGraphs();
-            MainWindowViewModel.AddToLeftPanelGraphs(Graphs);
+            MainWindowViewModel.ClearRightPanelGraphs();
+            MainWindowViewModel.AddToRightPanelGraphs(Graphs);
         }
     }
 }
