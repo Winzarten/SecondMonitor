@@ -8,7 +8,7 @@
         public override string Title => "Lap Time";
         protected override string YUnits => "Seconds";
         protected override double YTickInterval => 20;
-        protected override bool CanYZooM => true;
+        protected override bool CanYZoom => true;
 
         protected override double GetYValue(TimedTelemetrySnapshot value)
         {

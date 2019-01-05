@@ -46,8 +46,11 @@
         {
             graphViewModel.GraphViewSynchronization = _graphViewSynchronization;
             graphViewModel.LapColorSynchronization = _lapColorSynchronization;
+            graphViewModel.SuspensionDistanceUnits = _settingsProvider.DisplaySettingsViewModel.DistanceUnitsVerySmall;
             graphViewModel.DistanceUnits = _settingsProvider.DisplaySettingsViewModel.DistanceUnitsSmall;
             graphViewModel.VelocityUnits = _settingsProvider.DisplaySettingsViewModel.VelocityUnits;
+            graphViewModel.TemperatureUnits = _settingsProvider.DisplaySettingsViewModel.TemperatureUnits;
+            graphViewModel.PressureUnits = _settingsProvider.DisplaySettingsViewModel.PressureUnits;
         }
 
         private void Subscribe()

@@ -8,7 +8,7 @@
         public override string Title => "Gear";
         protected override string YUnits => "Gear";
         protected override double YTickInterval => 1;
-        protected override bool CanYZooM => true;
+        protected override bool CanYZoom => true;
 
 
         protected override double GetYValue(TimedTelemetrySnapshot value)

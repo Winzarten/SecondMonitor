@@ -8,7 +8,7 @@
         public override string Title => "Throttle";
         protected override string YUnits => "%";
         protected override double YTickInterval => 20;
-        protected override bool CanYZooM => false;
+        protected override bool CanYZoom => false;
 
         protected override double GetYValue(TimedTelemetrySnapshot value)
         {

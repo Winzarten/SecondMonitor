@@ -13,7 +13,7 @@
         public override string Title => "Brake";
         protected override string YUnits => "%";
         protected override double YTickInterval => 20;
-        protected override bool CanYZooM => false;
+        protected override bool CanYZoom => false;
 
         protected override void UpdateYMaximum(LapTelemetryDto lapTelemetry)
         {

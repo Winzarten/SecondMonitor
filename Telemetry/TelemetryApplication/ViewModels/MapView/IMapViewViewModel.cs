@@ -13,6 +13,7 @@
     {
         FullMapControl SituationOverviewControl { get; }
         ILapColorSynchronization LapColorSynchronization { get; set; }
+
         bool? ShowAllOverlays { get; set; }
         bool ShowBrakeOverlay { get; set; }
         bool ShowThrottleOverlay { get; set; }
@@ -25,6 +26,7 @@
         void UpdateDrivers(params IDriverInfo[] driversInfo);
         Task AddPathsForLap(LapTelemetryDto lapTelemetry, TrackMapDto trackMapDto);
         void RemovePathsForLap(LapSummaryDto lapTelemetry);
+
 
 
     }

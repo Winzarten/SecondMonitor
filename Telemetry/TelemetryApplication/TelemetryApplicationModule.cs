@@ -20,6 +20,7 @@
     using ViewModels;
     using ViewModels.GraphPanel;
     using ViewModels.GraphPanel.Inputs;
+    using ViewModels.GraphPanel.Wheels;
     using ViewModels.LapPicker;
     using ViewModels.MapView;
     using ViewModels.Replay;
@@ -65,6 +66,7 @@
             Bind<IGraphPanelController>().To<RightGraphPanelController>();
 
             Bind<IGraphViewModel>().To<LapTimeGraphViewModel>();
+            Bind<IGraphViewModel>().To<SteeringAngleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<BrakeGraphViewModel>();
             Bind<IGraphViewModel>().To<ClutchGraphViewModel>();
@@ -73,6 +75,15 @@
             Bind<IGraphViewModel>().To<GearGraphViewModel>();
             Bind<IGraphViewModel>().To<LateralGGraphViewModel>();
             Bind<IGraphViewModel>().To<HorizontalGGraphViewModel>();
+            /*Bind<IGraphViewModel>().To<BrakeTemperaturesGraphViewModel>();
+            Bind<IGraphViewModel>().To<TyrePressuresGraphViewModel>();
+            Bind<IGraphViewModel>().To<LeftFrontTyreTempsGraphViewModel>();
+            Bind<IGraphViewModel>().To<RightFrontTyreTempsGraphViewModel>();
+            Bind<IGraphViewModel>().To<LeftRearTyreTempsGraphViewModel>();
+            Bind<IGraphViewModel>().To<RightRearTyreTempsGraphViewModel>();*/
+            Bind<IGraphViewModel>().To<WheelRpsGraphViewModel>();
+            Bind<IGraphViewModel>().To<SuspensionTravelGraphViewModel>();
+            Bind<IGraphViewModel>().To<RideHeightGraphViewModel >();
             /*Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
             Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();

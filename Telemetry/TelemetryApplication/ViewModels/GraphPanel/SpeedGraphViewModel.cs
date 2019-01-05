@@ -11,7 +11,7 @@
         public override string Title => "Speed";
         protected override string YUnits  => Velocity.GetUnitSymbol(VelocityUnits);
         protected override double YTickInterval => 50;
-        protected override bool CanYZooM => true;
+        protected override bool CanYZoom => true;
 
         protected override double GetYValue(TimedTelemetrySnapshot value)
         {

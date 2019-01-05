@@ -11,16 +11,7 @@
     {
         protected override List<LineSeries> GetLineSeries(LapSummaryDto lapSummary, TimedTelemetrySnapshot[] dataPoints, OxyColor color)
         {
-            LineSeries newLineSeries = new LineSeries
-            {
-                Title = $"Lap {lapSummary.LapNumber}",
-                Color = color,
-                TextColor = color,
-                InterpolationAlgorithm = null,
-                CanTrackerInterpolatePoints = false,
-                StrokeThickness = 2
-            };
-
+            LineSeries newLineSeries = CreateLineSeries($"Lap {lapSummary.LapNumber}", color);
             List<DataPoint> plotDataPoints = dataPoints.Select(x => new DataPoint(GetXValue(x), GetYValue(x))).ToList();
 
             newLineSeries.Points.AddRange(plotDataPoints);
@@ -28,5 +19,9 @@
             List<LineSeries> series = new List<LineSeries>(1) {newLineSeries};
             return series;
         }
+
+        protected abstract double GetYValue(TimedTelemetrySnapshot value);
     }
+
+
 }
