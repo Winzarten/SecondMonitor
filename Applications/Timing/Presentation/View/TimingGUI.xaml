@@ -225,7 +225,7 @@
             </Grid>
         </Border>
         <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{StaticResource DarkGrey01Brush}"/>
-        <Grid Background="Black" Row="4">
+        <Grid Grid.Row="4" Background="Black" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -256,14 +256,19 @@
                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}" />
                                     <Grid Grid.Row="0" Visibility="{Binding CarStatusViewModel.IsFuelCalculatorShown, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
+                                        <Grid Column="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -279,7 +284,7 @@
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
-                                        <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
+                                            <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -296,7 +301,7 @@
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
 
-                                        <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
+                                            <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -312,7 +317,7 @@
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}" />
-                                        <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
+                                            <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -328,31 +333,11 @@
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}" />
-                                    </Grid>
-                                </Grid>
-                            </Border>
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <Border Grid.Column="0"
+                                        </Grid>
+                                        <Border Grid.Column="1"
                                         BorderBrush="{StaticResource Anthracite01Brush}"
                                         BorderThickness="5" CornerRadius="5">
-                                    <pedalControl:PedalGearControl BrakePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.BrakePercentage}"
-                                                                   ClutchPercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ClutchPercentage}"
-                                                                   Gear="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Gear}"
-                                                                   ThrottlePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ThrottlePercentage}"
-                                                                   WheelRotation="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.WheelRotation}"
-                                                                   VelocityUnits="{Binding Path=DisplaySettingsViewModel.VelocityUnits}"
-                                                                   Rpm="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Rpm}"
-                                                                   Speed="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Speed}"/>
-                                </Border>
-                                <Border Grid.Column="1"
-                                        BorderBrush="{StaticResource Anthracite01Brush}"
-                                        BorderThickness="5" CornerRadius="5">
-                                    <fuelControl:FuelOverviewControl Margin="5,5,5,5"
+                                            <fuelControl:FuelOverviewControl Margin="5,5,5,5"
                                                                      AvgPerLap="{Binding CarStatusViewModel.FuelOverviewViewModel.AvgPerLap}"
                                                                      AvgPerMinute="{Binding CarStatusViewModel.FuelOverviewViewModel.AvgPerMinute}"
                                                                      BlinkToColor="{StaticResource Anthracite01Color}"
@@ -375,25 +360,37 @@
                                                                      TimeDelta="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeDelta}"
                                                                      TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
                                                                      VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}" />
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0"
+                                        BorderBrush="{StaticResource Anthracite01Brush}"
+                                        BorderThickness="5" CornerRadius="5">
+                                    <pedalControl:PedalGearControl BrakePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.BrakePercentage}"
+                                                                   ClutchPercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ClutchPercentage}"
+                                                                   Gear="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Gear}"
+                                                                   ThrottlePercentage="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.ThrottlePercentage}"
+                                                                   WheelRotation="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.WheelRotation}"
+                                                                   VelocityUnits="{Binding Path=DisplaySettingsViewModel.VelocityUnits}"
+                                                                   Rpm="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Rpm}"
+                                                                   Speed="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Speed}"/>
                                 </Border>
-                            </Grid>
-                        </Grid>
-                        <Border Grid.Column="1"
-                                BorderBrush="{StaticResource DarkGrey01Brush}"
-                                BorderThickness="2" CornerRadius="5">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <temperatureControl:TemperatureControl Width="200" Height="150"
+                                <temperatureControl:TemperatureControl Width="200" Height="150" Grid.Column="1"
                                                                        Icon="{StaticResource WaterTemperatureIcon}"
                                                                        MaximalNormalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
                                                                        MaximalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
                                                                        MinimalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                                                                        Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
                                                                        TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />
-                                <temperatureControl:TemperatureControl Grid.Row="1" Width="200" Height="150"
+                                <temperatureControl:TemperatureControl Width="200" Height="150" Grid.Column="2"
                                                                        Icon="{StaticResource OilIcon}"
                                                                        MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
                                                                        MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
@@ -401,11 +398,15 @@
                                                                        Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
                                                                        TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />
                             </Grid>
+
+                        </Grid>
+                        <Border Grid.Column="1"
+                                BorderBrush="{StaticResource DarkGrey01Brush}"
+                                BorderThickness="2" CornerRadius="5">
                         </Border>
                     </Grid>
                 </Border>
             </Grid>
-
             <Grid Column="1">
                 <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
                     <ContentPresenter MaxHeight="350" Margin="20,10,20,10"
@@ -522,6 +523,7 @@
 
             </Grid>
         </Grid>
+
         <Grid Row="5">
             <Border BorderThickness="1">
                 <StatusBar Height="21" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Panel.ZIndex="5"
