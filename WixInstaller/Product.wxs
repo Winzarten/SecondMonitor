@@ -1,4 +1,4 @@
-\<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
   <?define ProductCode = "6a1108ed-9edc-4aff-b36e-53d516df0070"?>
