@@ -117,6 +117,7 @@
     <Compile Include="SessionTiming\Drivers\ViewModel\CombinedLapPortionComparatorsViewModel.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\DriverTiming.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapCompletionMethod.cs" />
+    <Compile Include="SessionTiming\Drivers\ViewModel\LapInvalidationReasonKind.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapPortionTimes.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapPortionTimesComparatorViewModel.cs" />
     <Compile Include="SessionTiming\Drivers\ViewModel\LapTelemetryInfo.cs" />

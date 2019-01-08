@@ -33,7 +33,13 @@
 
         public string GetLastRecentSessionIdentifier()
         {
-            DirectoryInfo info = new DirectoryInfo(Path.Combine(_repositoryDirectory, RecentDir));
+            string directory = Path.Combine(_repositoryDirectory, RecentDir);
+            if (!Directory.Exists(directory))
+            {
+                return string.Empty;
+            }
+            Directory.CreateDirectory(directory);
+            DirectoryInfo info = new DirectoryInfo(directory);
             DirectoryInfo[] dis = info.GetDirectories().OrderBy(x => x.CreationTime).ToArray();
             return dis.Last().Name;
         }

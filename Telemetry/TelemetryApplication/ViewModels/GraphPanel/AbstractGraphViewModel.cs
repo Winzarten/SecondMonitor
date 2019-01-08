@@ -29,9 +29,11 @@
         private ILapColorSynchronization _lapColorSynchronization;
         private IGraphViewSynchronization _graphViewSynchronization;
         private double _yMinimum;
+        private bool _syncWithOtherGraphs;
 
         protected AbstractGraphViewModel()
         {
+            SyncWithOtherGraphs = true;
             _loadedSeries = new Dictionary<string, List<LineSeries>>();
             InitializeViewModel();
         }
@@ -70,12 +72,16 @@
         public Distance SelectedDistance
         {
             get => _selectedDistance;
-            set
-            {
-                _selectedDistance = value;
-                UpdateSelectedDistanceAsync();
-            }
+            set => SetProperty(ref _selectedDistance, value);
         }
+
+        public bool SyncWithOtherGraphs
+        {
+            get => _syncWithOtherGraphs;
+            set => SetProperty(ref _syncWithOtherGraphs, value);
+        }
+
+
         public ILapColorSynchronization LapColorSynchronization { get => _lapColorSynchronization;
             set
             {
@@ -225,8 +231,6 @@
                     Maximum = XMaximum,
                     TickStyle = TickStyle.Inside,
                     AxislineColor = OxyColor.Parse("#FFD6D6D6"),
-                    ExtraGridlineColor = OxyColors.DarkRed, //OxyColor.Parse("#FFD6D6D6"),
-                    ExtraGridlineThickness = 2,
                     MajorStep = 200,
                     MajorGridlineColor = OxyColor.Parse("#464239"),
                     MajorGridlineStyle = LineStyle.LongDash,
@@ -242,19 +246,12 @@
 
         private void XAxisOnAxisChanged(object sender, AxisChangedEventArgs e)
         {
-            if (!_updating)
+            if (!_updating && _syncWithOtherGraphs)
             {
                 _graphViewSynchronization.NotifyPanChanged(this, _xAxis.ActualMinimum, _xAxis.ActualMaximum);
             }
         }
 
-
-        public void UpdateSelectedDistanceAsync()
-        {
-            _xAxis.ExtraGridlines = new[] {SelectedDistance.InMeters};
-            InvalidatePlot();
-
-        }
 
         public void RemoveLapTelemetry(LapSummaryDto lapSummaryDto)
         {
@@ -311,7 +308,7 @@
 
         private void GraphViewSynchronizationOnPanChanged(object sender, PanEventArgs e)
         {
-            if (ReferenceEquals(sender, this) || _xAxis == null)
+            if (!SyncWithOtherGraphs || ReferenceEquals(sender, this) || _xAxis == null)
             {
                 return;
             }

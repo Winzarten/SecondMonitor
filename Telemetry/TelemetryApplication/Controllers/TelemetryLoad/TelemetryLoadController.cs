@@ -36,6 +36,10 @@
         public async Task<SessionInfoDto> LoadLastSessionAsync()
         {
             string sessionIdent = _telemetryRepository.GetLastRecentSessionIdentifier();
+            if (string.IsNullOrEmpty(sessionIdent))
+            {
+                return null;
+            }
             return await LoadSessionAsync(sessionIdent);
         }
 
