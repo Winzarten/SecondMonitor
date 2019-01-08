@@ -2,6 +2,6 @@
 <item>
     <version>2.9.1.0</version>
     <url>https://github.com/Winzarten/SecondMonitor/releases/download/v2.9.1/SecondMonitor.msi</url>
-    <changelog>http://htmlpreview.github.io/?https://github.com/Winzarten/SecondMonitor/blob/master/ChangeLog.html</changelog>
+    <changelog>https://winzarten.github.io/SecondMonitor/ChangeLog.html</changelog>
     <mandatory>false</mandatory>
 </item>
