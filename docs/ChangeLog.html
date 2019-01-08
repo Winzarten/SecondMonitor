@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Version 2.9.1</h2>
+<ul>
+	<li>Change: Timing grid can now be resized, both up and down. Not all of the other controls will, for now, resize correctly, so they can get obscured by the resized timing grid.</li>	
+	<li>Change: Reorganized bottom part, so less important information (pedal inputs + engine temperatures) get obscured first</li>	
+</ul>
+<h2>Version 2.9.0 - Basic <b>multiclass</b> support</h2>
+
+<br/>
+<b>Chamges:</b>
+<ul>
+	<li> Added New "Class" column displaying the class of the car.</li>
+	<li> Position : If the race is multiclass, and the driver is not in the leading class, then the position within the class is show, with the overall position in brackets.</li>
+</ul>
+	<b>Limitations	:</b>
+	<ul>
+	<li>Best Lap/Sector times are, for now, still overall. Making them per-class will require extensive work.</li>
+	<li>Assetto Corsa: AC has no multiclass concept in telemetry. The "Class" column will not be populated, and overall position will be shown at all times.</li>	
+	<li>Automobilista: AMS way of reporting classes is weird. Reported class is in reality the manufacturer/team. Because of this the position within class has no real value. So, while this information is shown, the position will always, on purpose, display the overall position.</li>
+	<li>PCars 1: PCars 1 does not report car name, but only class name. This was previously shown in car name column. It is now moved to the correct column, but car name is not filled.</li>
+</ul>
+<h2>Version 2.8.11</h2>
+<ul>
+	<li>R3E: Porsche 934 Turbo RSR added to DB.</li>	
+</ul>
+<h2>Version 2.8.10</h2>
+<ul>
+	<li>Fix: Fixed critical bug that might cause occasional crash on session start.</li>	
+</ul>
+<h2>Version 2.8.9</h2>
+<ul>
+	<li>Improved unhandled exception logging, for better user issues investigation.</li>	
+</ul>
+<h2>Version 2.8.8</h2>
+<ul>
+	<li>Added Speed and Rpm display (next to the current gear)</li>	
+	<li>Fix: Car Wheel settings will now save properly</li>	
+	<li>Fix: Fuel monitor made more resistante to telementry "noise".</li>	
+</ul>
+<h2>Version 2.8.7</h2>
+<ul>
+	<li>RFactor 2: Possible MP Crashing Fix</li>	
+</ul>
+<h2>Version 2.8.6</h2>
+<ul>
+	<li>RFactor 2: Fix - Delta bars should now work 100% of the time. :)</li>
+	<li>Possible fix for the invisible track map.</li>
+	<li>Added <b>Open Log Directory</b> button into the settings window for quick access to application log files.</li>
+	<li>Improved loggin in the "map" area.</li>
+	<li>Removed the ability to change the export directory. This directory is now also used by track maps and other settings, co changing it makes no practical sense, as it would mean loosing all those settings.</li>
+</ul>
+<h2>Version 2.8.5</h2>
+<ul>
+	<li>Fixed issue with the app requiring admin privileges, because it wanted erroneously create a directory in the install path. This might cause loss of learned maps, because those are now correctly stored in MyDocuments\SecondMonitor</li>
+</ul>
+<h2>Version 2.8.4</h2>
+<ul>
+	<li><b>Steering Wheel Angle: </b> In addition to pedal position, the application now also show current steering wheel angle. As most sims do not provide the angle, but only a -1 to 1 steering range, it is necessary to set the correct steering range in car options for the icon to correlate with you IRL wheel. The default angle for each car is 540 degrees. Because R3E do not provide any steering information, this feature will not work in R3E.</li>	
+	<li>Session Remaining: The app will now try to properly estimate remaining player laps in timed session, and remaining time in sessions wtih given total laps.</li>
+	<li>R3E: Updated car reference file to include the newly released GT4 cars.</li>		
+	<li>Fix: Fixed an issue when the delta times bar would not display delta time to best lap.</li>		
+</ul>
+<h2>Version 2.8.3</h2>
+<ul>	
+	<li>Player Mark - The player is now marked more clearly on the timing grid and map, by a bright greenish color</li>		
+	<li><b>New Feature - Driver Marking: </b> It is now possible to mark other drivers by custom colors. Those drivers will then be marked in similar manner as the player, by the selected color. More info at the <a href="https://github.com/Winzarten/SecondMonitor/wiki/Driver-Marking">wiki</a> </li>
+</ul>
+<h2>Version 2.8.2</h2>
+<ul>	
+	<li>Fuel Overview - Extended endurance information during Races. Fuel Overview now contains delta Laps, delta Times and delta Fuel endurance information.</li>	
+	<li>Change: The timing grid will now try to keep the player in the middle. So the it is possible to always see cars both behind and ahead.</li>	
+	<li>Change: Default tyre compound renamed from Base to Prime... don't ask me where the Base came from :D</li>	
+</ul>
+		<h2>Version 2.8.1</h2>
+		<ul>				
+			<li>Track Map: Added the ability to rotate the track map.</li>	
+			<li>Track Map: Increased border around map (works only for newly created maps).</li>	
+			<li>Track Map: Sectors should now change color based on status (best personal/session sector times, yellow sectors). Yellow flags sadly do not work in assetto corsa yet, hopefully in next version it will be fixed.</li>	
+			<li>Fix: Always use circle option should now be perserved when application is closed.</li>	
+			<li>Fix Rfactor2: The application should now be better at detecting session restarts</li>	
+			<li>Fix PCars2: Snowing now correctly detected as precipitation</li>	
+			<li>Fix Assetto Cors: Previous lap time delta should now work correctly.</li>				
+		</ul>
+<h2>Version 2.8.0</h2>
+<ul>	
+	<li><b>New Feature: Track Map - </b>The application is now able to display real track map instead of the position circle. One valid timed lap is required for the app to create a map. More information can be found in the <a href="https://github.com/Winzarten/SecondMonitor/wiki/Track-Map">wiki</a> </li>	
+	<li>Fix: Fixed an issue where excel report would not be created if any of the drivers didn't had at least one lap completed.</li>	
+</ul>
+<h2>Version 2.7.7</h2>
+<ul>	
+	<li><b>Fuel Calculator is BACK: </b>Helps to calculate required fuel. More info at the <a href="https://github.com/Winzarten/SecondMonitor/wiki/Fuel-Calculator">wiki</a> </li>	
+</ul>
+<h2>Version 2.7.6</h2>
+<ul>
+	<li><b>New Feature: </b>Additional tyre wear information now available on the wheel - color code of tyre icon + absolute condition as % shown at the wheel info. </li>
+	<li><b>New Feature: </b>Car settings window reaorganized a little bit. No/Low/Heavy tyre wear limits can now specified in the car settings window. More info at the <a href="https://github.com/Winzarten/SecondMonitor/wiki/Car-Settings-Window">wiki</a> </li>
+	<li>Fix R3E: "Unvailable" tyre compound reported by R3E sim now displayed as "Prime" </li>	
+</ul>
+<h2>Version 2.7.5</h2>
+<ul>
+	<li><b>New Feature: </b>Added new "Car Settings Window" where it is possible to specify correcty brake and tyres operating temperatures and pressures. More info can be found <a href="https://github.com/Winzarten/SecondMonitor/wiki/Car-Settings-Window">here</a> </li>
+	<li>Fix: "Race Progress" sheet should not appear in qualification and practice</li>
+	<li>Fix: "Race Progress" chart should resize correctly</li>
+	<li>Fix: various other fixes :) </li>
+</ul>
+<h2>Version 2.7.0</h2>
+<ul>
+	<li>Reports: Added "Race Progress" sheet for race reports. Sheet contains a graph of drivers position for each lap.</li>	
+</ul>
+<h2>Version 2.6.1</h2>
+<ul>
+	<li>Fix: Autoupdater should now open on top of the main application</li>
+	<li>Fix: Driver position animation should now be more fluent and less cpu intensive</li>
+	<li>Fix: Lapped/Laping coloring restoring on all timing columns </li>
+	<li>Fix: Delta bar sometimes didn't detect best lap change correctly </li>
+	<li>Fix: Pace time sometimes lagging behind by one lap</li>
+</ul>
+<h2>Version 2.6.0</h2>
+<ul>
+	<li>Support For <b>Project Cars 2</b></li>	
+	<li>In Race: Lap Times and Pace Time are now color coded. Green means that the driver is slower than the player, red means he is faster.</li>
+	<li>Added the ability to disable fluent animations of drivers position and timing bar do decrease CPU usage of the app.</li>
+</ul>
+<h2>Version 2.5.1</h2>
+<ul>
+	<li>Just a dumb release to test autoupdater</li>	
+</ul>
+<h2>Version 2.5.0</h2>
+<ul>
+	<li><b>Autoupdate functionality (finally)</b></li>
+	<li>Starting position added to reports</li>	
+  <li>Application should no longer crash when connecting to shared memory failed</li>
+</ul>
+</body>
+</html>
