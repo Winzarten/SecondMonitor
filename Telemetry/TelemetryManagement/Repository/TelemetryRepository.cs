@@ -11,6 +11,7 @@
     {
         private const string SessionInfoFile = "_Session.xml";
         private const string FileSuffix = ".Lap";
+        private const string RecentDir = "Recent";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string _repositoryDirectory;
         private readonly int _maxStoredSessions;
@@ -21,35 +22,35 @@
             _maxStoredSessions = maxStoredSessions;
         }
 
-        public void SaveSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier)
+        public void SaveRecentSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier)
         {
-            string directory = Path.Combine(_repositoryDirectory, sessionIdentifier);
+            string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
             string fileName = Path.Combine(directory, SessionInfoFile);
             Logger.Info($"Saving session info to file: {fileName}");
             Directory.CreateDirectory(directory);
             Save(sessionInfoDto, fileName);
         }
 
-        public string GetLastSessionIdentifier()
+        public string GetLastRecentSessionIdentifier()
         {
-            DirectoryInfo info = new DirectoryInfo(_repositoryDirectory);
+            DirectoryInfo info = new DirectoryInfo(Path.Combine(_repositoryDirectory, RecentDir));
             DirectoryInfo[] dis = info.GetDirectories().OrderBy(x => x.CreationTime).ToArray();
             return dis.Last().Name;
         }
 
-        public void SaveSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier)
+        public void SaveRecentSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier)
         {
-            string directory = Path.Combine(_repositoryDirectory, sessionIdentifier);
+            string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
             string fileName = Path.Combine(directory, $"{lapTelemetry.LapSummary.LapNumber}{FileSuffix}");
             Logger.Info($"Saving lap info {lapTelemetry.LapSummary.LapNumber} to file: {fileName}");
             Directory.CreateDirectory(directory);
             Save(lapTelemetry, fileName);
         }
 
-        public SessionInfoDto LoadSessionInformation(string sessionIdentifier)
+        public SessionInfoDto LoadRecentSessionInformation(string sessionIdentifier)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(SessionInfoDto));
-            string directory = Path.Combine(_repositoryDirectory, sessionIdentifier);
+            string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
             string fileName = Path.Combine(directory, SessionInfoFile);
             Logger.Info($"Loading Session info: {fileName}");
 
@@ -59,9 +60,9 @@
             }
         }
 
-        public LapTelemetryDto LoadLapTelemetryDto(string sessionIdentifier, int lapNumber)
+        public LapTelemetryDto LoadRecentLapTelemetryDto(string sessionIdentifier, int lapNumber)
         {
-            string directory = Path.Combine(_repositoryDirectory, sessionIdentifier);
+            string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
             string fileName = Path.Combine(directory, $"{lapNumber}{FileSuffix}");
             Logger.Info($"Loading lap info {lapNumber} from file: {fileName}");
 
@@ -103,7 +104,7 @@
 
         private void RemoveObsoleteSessions()
         {
-            DirectoryInfo info = new DirectoryInfo(_repositoryDirectory);
+            DirectoryInfo info = new DirectoryInfo(Path.Combine(_repositoryDirectory, RecentDir));
             DirectoryInfo[] dis = info.GetDirectories().OrderBy(x => x.CreationTime).ToArray();
             if (dis.Length <= _maxStoredSessions)
             {

@@ -20,7 +20,7 @@
         public SessionTelemetryController(string trackName, SessionType sessionType, ITelemetryRepository telemetryRepository)
         {
             _telemetryRepository = telemetryRepository;
-            SessionIdentifier = $"{DateTime.Now:yy-MM-dd-HH-mm}-{trackName}-{sessionType}";
+            SessionIdentifier = $"{DateTime.Now:yy-MM-dd-HH-mm}-{trackName}-{sessionType}-{Guid.NewGuid()}";
         }
 
         public string SessionIdentifier { get; }
@@ -74,8 +74,8 @@
 
                 _sessionInfoDto.LapsSummary.Add(lapSummaryDto);
 
-                _telemetryRepository.SaveSessionInformation(_sessionInfoDto, SessionIdentifier);
-                _telemetryRepository.SaveSessionLap(lapTelemetryDto, SessionIdentifier);
+                _telemetryRepository.SaveRecentSessionInformation(_sessionInfoDto, SessionIdentifier);
+                _telemetryRepository.SaveRecentSessionLap(lapTelemetryDto, SessionIdentifier);
                 return true;
             }
             catch (Exception ex)

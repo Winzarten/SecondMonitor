@@ -27,7 +27,7 @@
         public async Task<SessionInfoDto> LoadSessionAsync(string sessionIdentifier)
         {
             _cachedTelemetries.Clear();
-            SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.LoadSessionInformation(sessionIdentifier));
+            SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.LoadRecentSessionInformation(sessionIdentifier));
             _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
             LastLoadedSessionIdentifier = sessionIdentifier;
             return sessionInfoDto;
@@ -35,7 +35,7 @@
 
         public async Task<SessionInfoDto> LoadLastSessionAsync()
         {
-            string sessionIdent = _telemetryRepository.GetLastSessionIdentifier();
+            string sessionIdent = _telemetryRepository.GetLastRecentSessionIdentifier();
             return await LoadSessionAsync(sessionIdent);
         }
 
@@ -45,7 +45,7 @@
             AddToActiveLapJob();
             if (!_cachedTelemetries.TryGetValue(lapNumber, out LapTelemetryDto lapTelemetryDto))
             {
-                lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));
+                lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadRecentLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));
                 _cachedTelemetries[lapNumber] = lapTelemetryDto;
             }
             _telemetryViewsSynchronization.NotifyLapLoaded(lapTelemetryDto);

@@ -4,12 +4,12 @@
 
     public interface ITelemetryRepository
     {
-        void SaveSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier);
-        void SaveSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier);
+        void SaveRecentSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier);
+        void SaveRecentSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier);
 
-        SessionInfoDto LoadSessionInformation(string sessionIdentifier);
-        LapTelemetryDto LoadLapTelemetryDto(string sessionIdentifier, int lapNumber);
-        string GetLastSessionIdentifier();
+        SessionInfoDto LoadRecentSessionInformation(string sessionIdentifier);
+        LapTelemetryDto LoadRecentLapTelemetryDto(string sessionIdentifier, int lapNumber);
+        string GetLastRecentSessionIdentifier();
 
     }
 }
