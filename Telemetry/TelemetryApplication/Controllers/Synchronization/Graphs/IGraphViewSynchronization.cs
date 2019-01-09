@@ -4,10 +4,11 @@
 
     public interface IGraphViewSynchronization
     {
-        event EventHandler<ScaleEventArgs> ScaleChanged;
         event EventHandler<PanEventArgs> PanChanged;
+        event EventHandler<WheelVisibilityArgs> WheelVisibilityChanged;
 
-        void NotifyScaleChanged(object sender, double newScale);
         void NotifyPanChanged(object sender, double minimum, double maximum);
+
+        void NotifyWheelVisibilityChanged(object sender, bool frontLeftVisible, bool frontRightVisible, bool rearLeftVisible, bool rearRightVisible);
     }
 }

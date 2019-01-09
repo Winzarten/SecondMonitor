@@ -20,7 +20,7 @@
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
                 <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DefaultGraphDataTemplate}"/>
+            <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DefaultGraphDataTemplate}" WheelsGraphTemplate="{StaticResource WheelsGraphDataTemplate}"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">

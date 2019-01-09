@@ -4,10 +4,12 @@ using SecondMonitor.DataModel.Snapshot.Drivers;
 
 namespace SecondMonitor.DataModel.Telemetry
 {
+    using System.Diagnostics;
     using System.Xml.Serialization;
     using BasicProperties;
 
     [Serializable]
+    [DebuggerDisplay("Lap time: {LapTime}")]
     public class TimedTelemetrySnapshot : TelemetrySnapshot
     {
         public TimedTelemetrySnapshot()

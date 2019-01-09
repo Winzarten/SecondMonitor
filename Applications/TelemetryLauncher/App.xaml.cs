@@ -18,6 +18,7 @@
             base.OnStartup(e);
             try
             {
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                 MainWindow mainWindow = new MainWindow();
                 TelemetryApplicationController telemetryApplicationController = new TelemetryApplicationController(mainWindow);
                 telemetryApplicationController.StartController();
@@ -33,6 +34,12 @@
                 Logger.Error(ex, "Error Occured");
                 Environment.Exit(1);
             }
+        }
+
+        private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            LogManager.GetCurrentClassLogger().Error("Application experienced an unhandled excpetion");
+            LogManager.GetCurrentClassLogger().Error(e.ExceptionObject);
         }
     }
 }

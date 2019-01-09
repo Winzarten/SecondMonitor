@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.TelemetryPresentation.Behavior
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
     using System.Windows;
@@ -8,6 +9,7 @@
     using System.Windows.Interactivity;
     using System.Windows.Media;
     using System.Windows.Shapes;
+    using DataModel.BasicProperties;
     using OxyPlot;
     using OxyPlot.Axes;
     using Telemetry.TelemetryApplication.ViewModels.GraphPanel;
@@ -17,12 +19,15 @@
 
     public class ShowSelectedDistanceBehavior : Behavior<PlotView>
     {
-
-        private Rectangle _rectangle;
-        private TranslateTransform _transform;
+        private Dictionary<string, (Rectangle rectangle, TranslateTransform transform)> _lapRectangles;
 
         public static readonly DependencyProperty GraphViewModelProperty = DependencyProperty.Register(
-            "GraphViewModel", typeof(AbstractGraphViewModel), typeof(ShowSelectedDistanceBehavior), new PropertyMetadata(){ PropertyChangedCallback = GraphViewModelPropertyChangedCallback});
+            "GraphViewModel", typeof(AbstractGraphViewModel), typeof(ShowSelectedDistanceBehavior), new PropertyMetadata() {PropertyChangedCallback = GraphViewModelPropertyChangedCallback});
+
+        public ShowSelectedDistanceBehavior()
+        {
+            _lapRectangles = new Dictionary<string, (Rectangle rectangle, TranslateTransform transform)>();
+        }
 
         public AbstractGraphViewModel GraphViewModel
         {
@@ -33,25 +38,38 @@
         protected override void OnAttached()
         {
             SubscribeToDataContextChange();
-            AddRectangle();
         }
 
-        private void AddRectangle()
+        private void AddRectangle(string lapId, Color color, Distance distance)
         {
-            _transform = new TranslateTransform();
-            _rectangle = new Rectangle()
+            TranslateTransform transform = new TranslateTransform();
+            Rectangle rectangle = new Rectangle()
             {
                 Margin = new Thickness(0, 0, 0, 0),
                 Height = 300,
                 Width = 1.5,
-                Fill = Brushes.Red,
+                Fill = new SolidColorBrush(color),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                RenderTransform = _transform
+                RenderTransform = transform
             };
 
             Grid grid = VisualTreeHelper.GetParent(AssociatedObject) as Grid;
-            grid?.Children.Add(_rectangle);
+            grid?.Children.Add(rectangle);
+            _lapRectangles[lapId] = (rectangle, transform);
+            UpdateRectangle(rectangle, transform, distance, color);
+        }
+
+        private void RemoveRectangle(string lapId)
+        {
+            if (!_lapRectangles.TryGetValue(lapId, out (Rectangle rectangle, TranslateTransform transform) value))
+            {
+                return;
+            }
+
+            Grid grid = VisualTreeHelper.GetParent(AssociatedObject) as Grid;
+            grid?.Children.Remove(value.rectangle);
+            _lapRectangles.Remove(lapId);
         }
 
         protected override void OnDetaching()
@@ -71,6 +89,7 @@
             {
                 return;
             }
+
             AssociatedObject.Model.Axes.CollectionChanged += AxesOnCollectionChanged;
         }
 
@@ -84,18 +103,16 @@
 
         private void AxisChange(object sender, AxisChangedEventArgs e)
         {
-            UpdateRectangle();
+            UpdateRectangles();
         }
 
         private void UnSubscribeToDataContextChange()
         {
             AssociatedObject.DataContextChanged -= AssociatedObjectOnDataContextChanged;
-
         }
 
         private void AssociatedObjectOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-
         }
 
         private static void GraphViewModelPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -104,6 +121,7 @@
             {
                 return;
             }
+
             if (e.OldValue is AbstractGraphViewModel oldGraphViewModel)
             {
                 oldGraphViewModel.PropertyChanged -= showSelectedDistance.GraphViewModelPropertyChanged;
@@ -117,16 +135,39 @@
 
         private void GraphViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != nameof(AbstractGraphViewModel.SelectedDistance))
+            if (e.PropertyName != nameof(AbstractGraphViewModel.SelectedDistances))
             {
                 return;
             }
-            UpdateRectangle();
+
+            UpdateRectangles();
         }
 
-        private void UpdateRectangle()
+
+        private void UpdateRectangles()
         {
-            PlotModel model = GetPlotModel();
+            List<string> keysToRemove = new List<string>();
+            foreach (KeyValuePair<string, (Rectangle rectangle, TranslateTransform transform)> lapRectanglesValue in _lapRectangles)
+            {
+                if (!GraphViewModel.SelectedDistances.TryGetValue(lapRectanglesValue.Key, out (Distance distance, Color color) lapDistance))
+                {
+                    keysToRemove.Add(lapRectanglesValue.Key);
+                    continue;
+                }
+                UpdateRectangle(lapRectanglesValue.Value.rectangle,lapRectanglesValue.Value.transform, lapDistance.distance, lapDistance.color);
+            }
+
+            foreach (string lapId in GraphViewModel.SelectedDistances.Keys.Where(x => !_lapRectangles.Keys.Contains(x)))
+            {
+                AddRectangle(lapId, GraphViewModel.SelectedDistances[lapId].color, GraphViewModel.SelectedDistances[lapId].distance);
+            }
+
+            keysToRemove.ForEach(RemoveRectangle);
+        }
+
+        private void UpdateRectangle(Rectangle rectangle, TranslateTransform translateTransform, Distance distance, Color color)
+        {
+          PlotModel model = GetPlotModel();
             if (model == null || model.Axes.Count != 2)
             {
                 return;
@@ -138,20 +179,25 @@
             {
                 return;
             }
-            _rectangle.Height = model.PlotArea.Height;
-            double distanceInUnits = GraphViewModel.SelectedDistance.GetByUnit(GraphViewModel.DistanceUnits);
+
+            if (((SolidColorBrush)rectangle.Fill).Color != color)
+            {
+                rectangle.Fill = new SolidColorBrush(color);
+            }
+
+            rectangle.Height = model.PlotArea.Height;
+            double distanceInUnits = distance.GetByUnit(GraphViewModel.DistanceUnits);
             if (xAxis.ActualMinimum > distanceInUnits || distanceInUnits > xAxis.ActualMaximum)
             {
-                _rectangle.Visibility = Visibility.Hidden;
+                rectangle.Visibility = Visibility.Hidden;
                 return;
             }
 
-            _rectangle.Visibility = Visibility.Visible;
+            rectangle.Visibility = Visibility.Visible;
             double plotRange = xAxis.ActualMaximum - xAxis.ActualMinimum;
             double selectedDistancePortion = (distanceInUnits - xAxis.ActualMinimum) / plotRange;
-            _transform.Y = model.PlotArea.Top;
-            _transform.X = model.PlotArea.Left + model.PlotArea.Width * selectedDistancePortion;
-
+            translateTransform.Y = model.PlotArea.Top;
+            translateTransform.X = model.PlotArea.Left + model.PlotArea.Width * selectedDistancePortion;
         }
 
         private PlotModel GetPlotModel()

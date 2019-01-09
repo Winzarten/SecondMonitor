@@ -69,7 +69,7 @@
                 LapTelemetryDto lapTelemetryDto = new LapTelemetryDto()
                 {
                     LapSummary = lapSummaryDto,
-                    TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.WhereWithPrevious((prev, current) => prev.PlayerData.LapDistance < current.PlayerData.LapDistance).ToArray()
+                    TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.WhereWithPrevious((prev, current) => prev.PlayerData.LapDistance <= current.PlayerData.LapDistance).ToArray()
                 };
 
                 _sessionInfoDto.LapsSummary.Add(lapSummaryDto);

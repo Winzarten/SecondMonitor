@@ -3,7 +3,8 @@
                     xmlns:graphPanel="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel;assembly=TelemetryApplication"
                     xmlns:oxy="http://oxyplot.org/wpf"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:behavior="clr-namespace:SecondMonitor.TelemetryPresentation.Behavior">
+                    xmlns:behavior="clr-namespace:SecondMonitor.TelemetryPresentation.Behavior"
+                    xmlns:wheels="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Wheels;assembly=TelemetryApplication">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -43,6 +44,64 @@
                                 <CheckBox Content="Sync With Other Graphs"
                                           Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
                                           IsChecked="{Binding SyncWithOtherGraphs}" />
+                            </StackPanel>
+                        </Grid>
+                        <GridSplitter Grid.Row="1" Height="5" Background="{StaticResource DarkGrey01Brush}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                    </Grid>
+                </Grid>
+            </Expander>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="WheelsGraphDataTemplate" DataType="wheels:AbstractWheelsGraphViewModel">
+        <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}">
+            <Expander IsExpanded="True" Header="{Binding Title}" Foreground="{StaticResource LightGrey01Brush}">
+                <Grid>
+                    <Grid Background="{StaticResource Anthracite01Brush}"
+                          Visibility="{Binding HasValidData, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+
+                        <TextBlock Text="No Data Available" Style="{StaticResource StandardText}"
+                                   FontSize="{StaticResource BigFontSize}"
+                                   Foreground="{StaticResource DarkRed01Brush}" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
+                    </Grid>
+                    <Grid Background="Black"
+                          Visibility="{Binding HasValidData, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="200" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <oxy:PlotView Model="{Binding PlotModel}" Background="Black"
+                                              Foreground="{StaticResource Anthracite01Brush}"
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <i:Interaction.Behaviors>
+                                        <behavior:ShowSelectedDistanceBehavior GraphViewModel="{Binding .}" />
+                                    </i:Interaction.Behaviors>
+                                </oxy:PlotView>
+                            </Grid>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-20,0,0">
+                                <CheckBox Content="Sync With Other Graphs"
+                                          Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
+                                          IsChecked="{Binding SyncWithOtherGraphs}" />
+                                <CheckBox Content="Front Left: "
+                                          Foreground="{StaticResource LightGrey01Brush}" Margin="50,0,0,0"
+                                          IsChecked="{Binding FrontLeftVisible}" />
+                                <CheckBox Content="Front Right:"
+                                          Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
+                                          IsChecked="{Binding FrontRightVisible}" />
+                                <CheckBox Content="Rear Left:"
+                                          Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
+                                          IsChecked="{Binding RearLeftVisible}" />
+                                <CheckBox Content="Rear Right:"
+                                          Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
+                                          IsChecked="{Binding RearRightVisible}" />
+
                             </StackPanel>
                         </Grid>
                         <GridSplitter Grid.Row="1" Height="5" Background="{StaticResource DarkGrey01Brush}"

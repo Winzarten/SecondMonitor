@@ -1,7 +1,9 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.TelemetryLoad
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NLog;
     using Repository;
     using Settings;
     using Synchronization;
@@ -10,6 +12,7 @@
 
     public class TelemetryLoadController : ITelemetryLoadController
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly ITelemetryRepository _telemetryRepository;
         private readonly Dictionary<int, LapTelemetryDto> _cachedTelemetries;
@@ -26,35 +29,64 @@
 
         public async Task<SessionInfoDto> LoadSessionAsync(string sessionIdentifier)
         {
-            _cachedTelemetries.Clear();
-            SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.LoadRecentSessionInformation(sessionIdentifier));
-            _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
-            LastLoadedSessionIdentifier = sessionIdentifier;
-            return sessionInfoDto;
+
+            try
+            {
+                _cachedTelemetries.Clear();
+                SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.LoadRecentSessionInformation(sessionIdentifier));
+                _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
+                LastLoadedSessionIdentifier = sessionIdentifier;
+                return sessionInfoDto;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error while loading session");
+            }
+
+            return null;
         }
 
         public async Task<SessionInfoDto> LoadLastSessionAsync()
         {
-            string sessionIdent = _telemetryRepository.GetLastRecentSessionIdentifier();
-            if (string.IsNullOrEmpty(sessionIdent))
+            try
             {
-                return null;
+                string sessionIdent = _telemetryRepository.GetLastRecentSessionIdentifier();
+                if (string.IsNullOrEmpty(sessionIdent))
+                {
+                    return null;
+                }
+
+                return await LoadSessionAsync(sessionIdent);
             }
-            return await LoadSessionAsync(sessionIdent);
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error while loading last session");
+            }
+
+            return null;
         }
 
 
         public async Task<LapTelemetryDto> LoadLap(int lapNumber)
         {
-            AddToActiveLapJob();
-            if (!_cachedTelemetries.TryGetValue(lapNumber, out LapTelemetryDto lapTelemetryDto))
+            try
             {
-                lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadRecentLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));
-                _cachedTelemetries[lapNumber] = lapTelemetryDto;
+                AddToActiveLapJob();
+                if (!_cachedTelemetries.TryGetValue(lapNumber, out LapTelemetryDto lapTelemetryDto))
+                {
+                    lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadRecentLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));
+                    _cachedTelemetries[lapNumber] = lapTelemetryDto;
+                }
+
+                _telemetryViewsSynchronization.NotifyLapLoaded(lapTelemetryDto);
+                RemoveFromActiveLapJob();
+                return lapTelemetryDto;
             }
-            _telemetryViewsSynchronization.NotifyLapLoaded(lapTelemetryDto);
-            RemoveFromActiveLapJob();
-            return lapTelemetryDto;
+            catch (Exception ex)
+            {
+                Logger.Error(ex,"Error while loading lap telemetry");
+                return null;
+            }
         }
 
         public Task UnloadLap(LapSummaryDto lapSummaryDto)

@@ -70,7 +70,7 @@
         private void TelemetryViewsSynchronizationOnSyncTelemetryView(object sender, TelemetrySnapshotArgs e)
         {
             Distance distance = Distance.FromMeters(e.TelemetrySnapshot.PlayerData.LapDistance);
-            Graphs.ForEach(x => x.SelectedDistance = distance);
+            Graphs.ForEach(x => x.UpdateLapDistance(e.LapSummaryDto.Id, distance));
         }
 
         private void TelemetryViewsSynchronizationOnLapUnloaded(object sender, LapSummaryArgs e)

@@ -14,7 +14,9 @@
             (Color) ColorConverter.ConvertFromString("#f95d6a"),
             (Color) ColorConverter.ConvertFromString("#ff7c43"),
             (Color) ColorConverter.ConvertFromString("#ffa600")*/
-
+            (Color) ColorConverter.ConvertFromString("#FFE4B5"),
+            (Color) ColorConverter.ConvertFromString("#ADD8E6"),
+            (Color) ColorConverter.ConvertFromString("#00FF7F"),
             (Color) ColorConverter.ConvertFromString("#845EC2"),
             (Color) ColorConverter.ConvertFromString("#D65DB1"),
             (Color) ColorConverter.ConvertFromString("#FF6F91"),

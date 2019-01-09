@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -16,11 +17,10 @@
 
     public abstract class AbstractGraphViewModel : AbstractViewModel, IGraphViewModel
     {
-        private readonly Dictionary<string, List<LineSeries>> _loadedSeries;
         private LinearAxis _yAxis;
         private LinearAxis _xAxis;
         private PlotModel _plotModel;
-        private Distance _selectedDistance;
+        private Dictionary<string, (Distance distance , Color color)> _selectedDistances;
         private bool _invalidatingPlot;
         private Task _invalidationTask;
         private double _yMaximum;
@@ -34,7 +34,8 @@
         protected AbstractGraphViewModel()
         {
             SyncWithOtherGraphs = true;
-            _loadedSeries = new Dictionary<string, List<LineSeries>>();
+            LoadedSeries = new Dictionary<string, List<LineSeries>>();
+            _selectedDistances = new Dictionary<string, (Distance distance, Color color)>();
             InitializeViewModel();
         }
 
@@ -53,6 +54,8 @@
             };
         }
 
+        protected Dictionary<string, List<LineSeries>> LoadedSeries { get; }
+
         public bool HasValidData
         {
             get => _hasValidData;
@@ -69,10 +72,10 @@
             }
         }
 
-        public Distance SelectedDistance
+        public Dictionary<string, (Distance distance, Color color)> SelectedDistances
         {
-            get => _selectedDistance;
-            set => SetProperty(ref _selectedDistance, value);
+            get => _selectedDistances;
+            set => SetProperty(ref _selectedDistances, value);
         }
 
         public bool SyncWithOtherGraphs
@@ -100,8 +103,6 @@
                 SubscribeGraphViewSync();
             }
         }
-
-
 
         public Distance TrackDistance { get; set; }
 
@@ -151,10 +152,14 @@
 
         public void AddLapTelemetry(LapTelemetryDto lapTelemetryDto)
         {
-
             if (LapColorSynchronization == null || !LapColorSynchronization.TryGetColorForLap(lapTelemetryDto.LapSummary.Id, out Color color))
             {
                 color = Colors.Red;
+            }
+
+            if (LoadedSeries.ContainsKey(lapTelemetryDto.LapSummary.Id))
+            {
+                RemoveLapTelemetry(lapTelemetryDto.LapSummary);
             }
 
             UpdateYMaximum(lapTelemetryDto);
@@ -165,7 +170,8 @@
             //TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).WhereWithPrevious(FilterFunction).ToArray();
             List<LineSeries> series = GetLineSeries(lapTelemetryDto.LapSummary, dataPoints, OxyColor.Parse(color.ToString()));
 
-            _loadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
+            _selectedDistances[lapTelemetryDto.LapSummary.Id] = (Distance.ZeroDistance, color);
+            LoadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
             CheckIfHasValidData();
 
             if (HasValidData)
@@ -174,13 +180,14 @@
                 _plotModel.InvalidatePlot(true);
                 NotifyPropertyChanged(nameof(PlotModel));
                 NotifyPropertyChanged(nameof(PlotModel.Series));
+                NotifyPropertyChanged(nameof(SelectedDistances));
             }
         }
 
         private void CheckIfHasValidData()
         {
             bool hasValidData = false;
-            foreach (List<LineSeries> loadedSeriesValue in _loadedSeries.Values)
+            foreach (List<LineSeries> loadedSeriesValue in LoadedSeries.Values)
             {
                 if (hasValidData)
                 {
@@ -209,7 +216,11 @@
                     IsPanEnabled = CanYZoom,
                     Unit = YUnits,
                     AxisTitleDistance = 0,
-                    AxisDistance = 0
+                    AxisDistance = 0,
+                    ExtraGridlineColor = OxyColors.Red,
+                    ExtraGridlines = new [] {0.0},
+                    ExtraGridlineThickness = 1.5
+
                 };
                 if (YTickInterval > 0)
                 {
@@ -255,12 +266,25 @@
 
         public void RemoveLapTelemetry(LapSummaryDto lapSummaryDto)
         {
-            if (_loadedSeries.TryGetValue(lapSummaryDto.Id, out List<LineSeries> lineSeries))
+            if (LoadedSeries.TryGetValue(lapSummaryDto.Id, out List<LineSeries> lineSeries))
             {
-                _loadedSeries.Remove(lapSummaryDto.Id);
+                LoadedSeries.Remove(lapSummaryDto.Id);
                 lineSeries.ForEach(x => _plotModel.Series.Remove(x));
                 InvalidatePlot();
             }
+
+            _selectedDistances.Remove(lapSummaryDto.Id);
+            NotifyPropertyChanged(nameof(SelectedDistances));
+        }
+
+        public void UpdateLapDistance(string lapId, Distance distance)
+        {
+            if(_selectedDistances.TryGetValue(lapId, out (Distance distance, Color color) value))
+            {
+                value.distance = distance;
+                _selectedDistances[lapId] = value;
+            }
+            NotifyPropertyChanged(nameof(SelectedDistances));
         }
 
         protected void InvalidatePlot()
@@ -295,14 +319,13 @@
             InvalidatePlot();
         }
 
-        private void SubscribeGraphViewSync()
+        protected virtual void SubscribeGraphViewSync()
         {
             if (_graphViewSynchronization == null)
             {
                 return;
             }
 
-            _graphViewSynchronization.ScaleChanged += GraphViewSynchronizationOnScaleChanged;
             _graphViewSynchronization.PanChanged += GraphViewSynchronizationOnPanChanged;
         }
 
@@ -333,18 +356,17 @@
             _updating = false;
         }
 
-        private void UnsubscribeGraphViewSync()
+        protected virtual void UnsubscribeGraphViewSync()
         {
             if (_graphViewSynchronization == null)
             {
                 return;
             }
 
-            _graphViewSynchronization.ScaleChanged -= GraphViewSynchronizationOnScaleChanged;
             _graphViewSynchronization.PanChanged -= GraphViewSynchronizationOnPanChanged;
         }
 
-        private void UnsubscribeLapColorSync()
+        protected virtual void UnsubscribeLapColorSync()
         {
             if (_lapColorSynchronization == null)
             {
@@ -366,7 +388,13 @@
 
         private void LapColorSynchronizationOnLapColorChanged(object sender, LapColorArgs e)
         {
-            if (_loadedSeries.TryGetValue(e.LapId, out List<LineSeries> series))
+            if (_selectedDistances.TryGetValue(e.LapId, out (Distance distance, Color color) value))
+            {
+                value.color = e.Color;
+                _selectedDistances[e.LapId] = value;
+            }
+
+            if (LoadedSeries.TryGetValue(e.LapId, out List<LineSeries> series))
             {
                 OxyColor color = OxyColor.Parse(e.Color.ToString());
                 foreach (LineSeries lineSeries in series)
@@ -375,6 +403,8 @@
                     lineSeries.TextColor = color;
                 }
             }
+
+            NotifyPropertyChanged(nameof(SelectedDistances));
             InvalidatePlot();
         }
 

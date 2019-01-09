@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
     using System;
+    using System.Collections.Generic;
+    using System.Windows.Media;
     using Controllers.Synchronization;
     using Controllers.Synchronization.Graphs;
     using DataModel.BasicProperties;
@@ -13,7 +15,7 @@
         string Title { get; }
         bool HasValidData { get; set; }
         PlotModel PlotModel { get; }
-        Distance SelectedDistance { get; set; }
+        Dictionary<string, (Distance distance, Color color)> SelectedDistances { get; set; }
         ILapColorSynchronization LapColorSynchronization { get; set; }
         IGraphViewSynchronization GraphViewSynchronization { get; set; }
         Distance TrackDistance { get; set; }
@@ -25,5 +27,6 @@
 
         void AddLapTelemetry(LapTelemetryDto lapTelemetryDto);
         void RemoveLapTelemetry(LapSummaryDto lapSummaryDto);
+        void UpdateLapDistance(string lapId, Distance distance);
     }
 }
