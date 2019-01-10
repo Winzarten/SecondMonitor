@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Threading.Tasks;
     using Replay;
     using Settings;
     using Synchronization;
@@ -43,16 +44,16 @@
             }
         }
 
-        public void StartController()
+        public async Task StartControllerAsync()
         {
             Subscribe();
-            StartChildControllers();
+            await StartChildControllers();
         }
 
-        public void StopController()
+        public async Task StopControllerAsync()
         {
             Unsubscribe();
-            StopChildControllers();
+            await StopChildControllers();
         }
 
         private void Subscribe()
@@ -110,14 +111,14 @@
 
         }
 
-        private void StartChildControllers()
+        private async Task StartChildControllers()
         {
-            _replayController.StartController();
+            await _replayController.StartControllerAsync();
         }
 
-        private void StopChildControllers()
+        private async Task StopChildControllers()
         {
-            _replayController.StopController();
+            await _replayController.StopControllerAsync();
         }
 
 

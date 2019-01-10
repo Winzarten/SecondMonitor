@@ -1,9 +1,11 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryManagement.Repository
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Xml.Serialization;
+    using DataModel.Extensions;
     using DTO;
     using NLog;
 
@@ -20,6 +22,23 @@
         {
             _repositoryDirectory = repositoryDirectory;
             _maxStoredSessions = maxStoredSessions;
+        }
+
+        public IReadOnlyCollection<SessionInfoDto> GetAllRecentSessions()
+        {
+            string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir));
+            DirectoryInfo info = new DirectoryInfo(directory);
+            DirectoryInfo[] dis = info.GetDirectories().OrderBy(x => x.CreationTime).ToArray();
+
+            if (dis.Length == 0)
+            {
+                return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
+            }
+
+            List<SessionInfoDto> sessions = new List<SessionInfoDto>();
+            dis.ForEach(x => sessions.Add(LoadRecentSessionInformation(x.Name)));
+            return sessions.AsReadOnly();
+
         }
 
         public void SaveRecentSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier)

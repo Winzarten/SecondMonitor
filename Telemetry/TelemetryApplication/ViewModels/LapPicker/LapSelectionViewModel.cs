@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using Controllers.Synchronization;
+    using OpenWindow;
     using SecondMonitor.ViewModels;
 
     public class LapSelectionViewModel : AbstractViewModel, ILapSelectionViewModel
@@ -14,6 +15,7 @@
         private DateTime _sessionTime;
         private string _simulatorName;
         private string _bestLap;
+        private IOpenWindowViewModel _openWindowViewModel;
 
         public LapSelectionViewModel()
         {
@@ -22,6 +24,12 @@
 
         public event EventHandler<LapSummaryArgs> LapSelected;
         public event EventHandler<LapSummaryArgs> LapUnselected;
+
+        public IOpenWindowViewModel OpenWindowViewModel
+        {
+            get => _openWindowViewModel;
+            set => SetProperty(ref _openWindowViewModel, value);
+        }
 
         public ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }
 

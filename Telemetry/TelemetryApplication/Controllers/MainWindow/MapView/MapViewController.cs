@@ -29,16 +29,18 @@
 
         public IMapViewViewModel MapViewViewModel { get; set; }
 
-        public void StartController()
+        public Task StartControllerAsync()
         {
             MapViewViewModel.LapColorSynchronization = _lapColorSynchronization;
             Subscribe();
+            return Task.CompletedTask;;
         }
 
-        public void StopController()
+        public Task StopControllerAsync()
         {
             UnSubscribe();
             MapViewViewModel?.Dispose();
+            return Task.CompletedTask;
         }
 
         private void InitializeViewModel(SessionInfoDto sessionInfo)

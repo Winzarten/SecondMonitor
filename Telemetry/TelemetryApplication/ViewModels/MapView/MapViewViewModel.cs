@@ -26,7 +26,7 @@
     public class MapViewViewModel : AbstractViewModel, IMapViewViewModel, IPositionCircleInformationProvider
     {
 
-        private const int PedalStep = 5;
+        private const int PedalStep = 25;
 
         private readonly IViewModelFactory _viewModelFactory;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -228,7 +228,7 @@
                 {
                     continue;
                 }
-                Path brakePath = new Path { Data = Geometry.Parse(throttleGeometry), StrokeThickness = 4.0, Stroke = (i * PedalStep) > 99 ? Brushes.Green : Brushes.LimeGreen, Opacity = (i * PedalStep) / 100.0 };
+                Path brakePath = new Path { Data = Geometry.Parse(throttleGeometry), StrokeThickness = 4.0, Stroke = (i * PedalStep) > 99 ? Brushes.LimeGreen : Brushes.Green, Opacity = (i * PedalStep) / 100.0 };
                 geometryCollection.AddThrottlePath(brakePath, brakePath.Opacity);
             }
 

@@ -1,8 +1,10 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.LapPicker
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using DataModel.Extensions;
     using Factory;
+    using OpenWindow;
     using SecondMonitor.ViewModels.Colors;
     using Synchronization;
     using TelemetryLoad;
@@ -17,10 +19,11 @@
         private readonly IViewModelFactory _viewModelFactory;
         private readonly ILapColorSynchronization _lapColorSynchronization;
         private readonly IColorPaletteProvider _colorPaletteProvider;
+        private readonly IOpenWindowController _openWindowController;
         private readonly ILapSelectionViewModel _lapSelectionViewModel;
 
         public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, ITelemetryLoadController telemetryLoadController, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory,
-            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider)
+            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController)
         {
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryLoadController = telemetryLoadController;
@@ -28,16 +31,29 @@
             _viewModelFactory = viewModelFactory;
             _lapColorSynchronization = lapColorSynchronization;
             _colorPaletteProvider = colorPaletteProvider;
+            _openWindowController = openWindowController;
         }
 
-        public void StartController()
+        public async Task StartControllerAsync()
         {
             Subscribe();
+            await StartChildControllersAsync();
         }
 
-        public void StopController()
+        public async Task StopControllerAsync()
         {
             UnSubscribe();
+            await StopChildControllersAsync();
+        }
+
+        private async Task StartChildControllersAsync()
+        {
+            await _openWindowController.StartControllerAsync();
+        }
+
+        private async Task StopChildControllersAsync()
+        {
+            await _openWindowController.StopControllerAsync();
         }
 
         private void Subscribe()

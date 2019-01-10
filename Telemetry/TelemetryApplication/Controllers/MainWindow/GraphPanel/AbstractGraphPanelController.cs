@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.GraphPanel
 {
+    using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
     using Settings;
@@ -29,17 +30,19 @@
         protected abstract IGraphViewModel[] Graphs { get; }
         protected IMainWindowViewModel MainWindowViewModel { get; }
 
-        public void StartController()
+        public Task StartControllerAsync()
         {
             Graphs.ForEach(InitializeViewModel);
             Subscribe();
             RefreshViewModels();
+            return Task.CompletedTask;
         }
 
-        public void StopController()
+        public Task StopControllerAsync()
         {
             Unsubscribe();
             Graphs.ForEach(x => x.Dispose());
+            return Task.CompletedTask;
         }
 
         private void InitializeViewModel(IGraphViewModel graphViewModel)

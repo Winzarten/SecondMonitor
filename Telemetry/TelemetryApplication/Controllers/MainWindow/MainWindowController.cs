@@ -59,36 +59,35 @@
             await _telemetryLoadController.LoadLastSessionAsync();
         }
 
-
-        public void StartController()
+        public async Task StartControllerAsync()
         {
             MainWindow.DataContext = _mainWindowViewModel;
             ShowMainWindow();
-            StartChildControllers();
+            await StartChildControllers();
         }
 
-        public void StopController()
+        public async Task StopControllerAsync()
         {
-            StopChildControllers();
+            await StopChildControllers();
         }
 
-        private void StartChildControllers()
+        private async Task StartChildControllers()
         {
             Subscribe();
-            _leftGraphPanelController.StartController();;
-            _rightGraphPanelController.StartController();;
-            _lapPickerController.StartController();
-            _snapshotSectionController.StartController();
-            _mapViewController.StartController();
+            await _leftGraphPanelController.StartControllerAsync();;
+            await _rightGraphPanelController.StartControllerAsync();;
+            await _lapPickerController.StartControllerAsync();
+            await _snapshotSectionController.StartControllerAsync();
+            await _mapViewController.StartControllerAsync();
         }
 
-        private void StopChildControllers()
+        private async Task StopChildControllers()
         {
-            _leftGraphPanelController.StopController();
-            _rightGraphPanelController.StartController();
-            _lapPickerController.StopController();
-            _snapshotSectionController.StopController();
-            _mapViewController.StopController();;
+            await _leftGraphPanelController.StopControllerAsync();
+            await _rightGraphPanelController.StartControllerAsync();
+            await _lapPickerController.StopControllerAsync();
+            await _snapshotSectionController.StopControllerAsync();
+            await _mapViewController.StopControllerAsync();;
             UnSubscribe();
         }
 

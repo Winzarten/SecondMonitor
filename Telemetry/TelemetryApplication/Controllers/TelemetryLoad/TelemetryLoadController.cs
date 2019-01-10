@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NLog;
     using Repository;
@@ -26,6 +27,20 @@
         }
 
         public string LastLoadedSessionIdentifier { get; private set; }
+
+        public async Task<IReadOnlyCollection<SessionInfoDto>> GetAllRecentSessionInfoAsync()
+        {
+            try
+            {
+                return await Task.Run(() => _telemetryRepository.GetAllRecentSessions());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error while loading recent sessions");
+            }
+
+            return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
+        }
 
         public async Task<SessionInfoDto> LoadSessionAsync(string sessionIdentifier)
         {

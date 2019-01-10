@@ -17,14 +17,14 @@
             _mainWindow = mainWindow;
         }
 
-        public void StartController()
+        public async Task StartControllerAsync()
         {
-            StartChildControllers();
+            await StartChildControllers();
         }
 
-        public void StopController()
+        public async Task StopControllerAsync()
         {
-            _mainWindowController.StopController();
+            await _mainWindowController.StopControllerAsync();
         }
 
         public async Task OpenFromRepository(string sessionIdentifier)
@@ -37,11 +37,11 @@
             await _mainWindowController.LoadLastTelemetrySession();
         }
 
-        private void StartChildControllers()
+        private async Task StartChildControllers()
         {
             _mainWindowController = TaKernel.Instance.Get<IMainWindowController>();
             _mainWindowController.MainWindow = _mainWindow;
-            _mainWindowController.StartController();
+            await _mainWindowController.StartControllerAsync();
         }
     }
 }

@@ -195,10 +195,10 @@ namespace SecondMonitor.Timing.Controllers
         {
             MainWindow mainWindow = new MainWindow();
             TelemetryApplicationController controller = new TelemetryApplicationController(mainWindow);
-            controller.StartController();
-            mainWindow.Closed += (sender, args) =>
+            await controller.StartControllerAsync();
+            mainWindow.Closed += async (sender, args) =>
             {
-                controller.StopController();
+                await controller.StopControllerAsync();
             };
             await controller.OpenLastSessionFromRepository();
         }

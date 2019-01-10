@@ -17,6 +17,7 @@
 
     public abstract class AbstractGraphViewModel : AbstractViewModel, IGraphViewModel
     {
+        private static readonly TimeSpan UpdateDelay = TimeSpan.FromMilliseconds(500);
         private LinearAxis _yAxis;
         private LinearAxis _xAxis;
         private PlotModel _plotModel;
@@ -30,10 +31,12 @@
         private IGraphViewSynchronization _graphViewSynchronization;
         private double _yMinimum;
         private bool _syncWithOtherGraphs;
+        private DateTime _lastChangeRequest;
 
         protected AbstractGraphViewModel()
         {
             SyncWithOtherGraphs = true;
+            _lastChangeRequest = DateTime.MinValue;
             LoadedSeries = new Dictionary<string, List<LineSeries>>();
             _selectedDistances = new Dictionary<string, (Distance distance, Color color)>();
             InitializeViewModel();
@@ -294,13 +297,18 @@
 
         protected async Task InvalidatePlotAsync()
         {
+            _lastChangeRequest = DateTime.Now;
             if (_invalidatingPlot && !HasValidData)
             {
                 return;
             }
 
             _invalidatingPlot = true;
-            await Task.Delay(1000).ConfigureAwait(false);
+            while (DateTime.Now - _lastChangeRequest < UpdateDelay)
+            {
+                await Task.Delay(500).ConfigureAwait(false);
+            }
+
             _plotModel.PlotView.InvalidatePlot(true);
             _invalidatingPlot = false;
         }
@@ -339,19 +347,6 @@
             _xAxis.Minimum = e.Minimum;
             _xAxis.Maximum = e.Maximum;
             _xAxis.Reset();
-            InvalidatePlot();
-            _updating = false;
-        }
-
-        private void GraphViewSynchronizationOnScaleChanged(object sender, ScaleEventArgs e)
-        {
-            if (ReferenceEquals(sender, this) || _xAxis == null)
-            {
-                return;
-            }
-
-            _updating = true;
-            _xAxis.Zoom(e.NewScale);
             InvalidatePlot();
             _updating = false;
         }

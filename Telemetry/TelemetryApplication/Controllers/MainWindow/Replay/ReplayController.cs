@@ -60,15 +60,17 @@
             set => _replayViewModel = value.ReplayViewModel;
         }
 
-        public void StartController()
+        public Task StartControllerAsync()
         {
             BindCommands();
             Subscribe();
+            return  Task.CompletedTask;
         }
 
-        public void StopController()
+        public Task StopControllerAsync()
         {
             UnSubscribe();
+            return Task.CompletedTask;
         }
 
         private void Subscribe()

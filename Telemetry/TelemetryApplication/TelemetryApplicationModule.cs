@@ -6,6 +6,7 @@
     using Controllers.MainWindow.MapView;
     using Controllers.MainWindow.Replay;
     using Controllers.MainWindow.Snapshot;
+    using Controllers.OpenWindow;
     using Controllers.Synchronization;
     using Controllers.Synchronization.Graphs;
     using Controllers.TelemetryLoad;
@@ -23,6 +24,7 @@
     using ViewModels.GraphPanel.Wheels;
     using ViewModels.LapPicker;
     using ViewModels.MapView;
+    using ViewModels.OpenWindow;
     using ViewModels.Replay;
     using ViewModels.SnapshotSection;
 
@@ -46,6 +48,7 @@
             Bind<ILapColorSynchronization>().To<LapColorSynchronization>().InNamedScope(MainWidowScopeName);
             Bind<IColorPaletteProvider>().To<BasicColorPaletteProvider>().InNamedScope(MainWidowScopeName);
             Bind<IReplayController>().To<ReplayController>();
+            Bind<IOpenWindowController>().To<OpenWindowController>();
             Bind<ISnapshotSectionController>().To<SnapshotSectionController>();
             Bind<IGraphsSettingsProvider>().To<DefaultGraphsSettingsProvider>();
 
@@ -59,6 +62,7 @@
             Bind<IReplayViewModel>().To<ReplayViewModel>();
             Bind<IPedalSectionViewModel>().To<PedalSectionViewModel>();
             Bind<IMapViewViewModel>().To<MapViewViewModel>();
+            Bind<IOpenWindowViewModel>().To<OpenWindowViewModel>();
 
             Bind<ILapCustomPathsCollection>().To<LapCustomPathsCollection>();
             Bind<IGraphViewModelsProvider>().To<GraphViewModelsProvider>();
@@ -75,12 +79,12 @@
             Bind<IGraphViewModel>().To<GearGraphViewModel>();
             Bind<IGraphViewModel>().To<LateralGGraphViewModel>();
             Bind<IGraphViewModel>().To<HorizontalGGraphViewModel>();
-            /*Bind<IGraphViewModel>().To<BrakeTemperaturesGraphViewModel>();
+            Bind<IGraphViewModel>().To<BrakeTemperaturesGraphViewModel>();
             Bind<IGraphViewModel>().To<TyrePressuresGraphViewModel>();
             Bind<IGraphViewModel>().To<LeftFrontTyreTempsGraphViewModel>();
             Bind<IGraphViewModel>().To<RightFrontTyreTempsGraphViewModel>();
             Bind<IGraphViewModel>().To<LeftRearTyreTempsGraphViewModel>();
-            Bind<IGraphViewModel>().To<RightRearTyreTempsGraphViewModel>();*/
+            Bind<IGraphViewModel>().To<RightRearTyreTempsGraphViewModel>();
             Bind<IGraphViewModel>().To<WheelRpsGraphViewModel>();
             Bind<IGraphViewModel>().To<SuspensionTravelGraphViewModel>();
             Bind<IGraphViewModel>().To<RideHeightGraphViewModel >();

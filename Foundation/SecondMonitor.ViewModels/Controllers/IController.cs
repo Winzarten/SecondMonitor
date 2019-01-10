@@ -1,9 +1,11 @@
 ﻿namespace SecondMonitor.ViewModels.Controllers
 {
+    using System.Threading.Tasks;
+
     public interface IController
     {
-        void StartController();
+        Task StartControllerAsync();
 
-        void StopController();
+        Task StopControllerAsync();
     }
 }

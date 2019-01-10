@@ -21,10 +21,10 @@
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                 MainWindow mainWindow = new MainWindow();
                 TelemetryApplicationController telemetryApplicationController = new TelemetryApplicationController(mainWindow);
-                telemetryApplicationController.StartController();
-                mainWindow.Closed += (sender, args) =>
+                await telemetryApplicationController.StartControllerAsync();
+                mainWindow.Closed += async (sender, args) =>
                 {
-                    telemetryApplicationController.StopController();
+                    await telemetryApplicationController.StopControllerAsync();
                     Current.Shutdown();
                 };
                 await telemetryApplicationController.OpenLastSessionFromRepository();
