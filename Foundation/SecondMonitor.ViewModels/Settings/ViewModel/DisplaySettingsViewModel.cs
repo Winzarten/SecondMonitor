@@ -125,7 +125,7 @@
                     case VelocityUnits.Kph:
                         return DistanceUnits.Meters;
                     case VelocityUnits.Mph:
-                        return DistanceUnits.Feet;
+                        return DistanceUnits.Yards;
                     case VelocityUnits.Ms:
                         return DistanceUnits.Meters;
                     default:

@@ -39,6 +39,9 @@
         public double InCentimeters => InMeters * 100;
 
         [XmlIgnore]
+        public double InYards => InMeters * 1.09361;
+
+        [XmlIgnore]
         public double InFeet => InMeters * 3.28084;
 
         public double GetByUnit(DistanceUnits distanceUnits)
@@ -57,6 +60,8 @@
                     return InInches;
                 case DistanceUnits.Centimeter:
                     return InCentimeters;
+                case DistanceUnits.Yards:
+                    return InYards;
                 default:
                     throw new ArgumentException($"Distance units {distanceUnits} is not known");
             }
@@ -132,6 +137,8 @@
                     return "in";
                 case DistanceUnits.Centimeter:
                     return "cm";
+                case DistanceUnits.Yards:
+                    return "yd";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
             }
@@ -149,6 +156,12 @@
                     return FromMeters(value * 1609.34);
                 case DistanceUnits.Feet:
                     return FromMeters(value * 0.3047992424196);
+                case DistanceUnits.Yards:
+                    return FromMeters(value * 0.9144);
+                case DistanceUnits.Inches:
+                    return FromMeters(value * 0.0254);
+                case DistanceUnits.Centimeter:
+                    return FromMeters(value / 100);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
             }
