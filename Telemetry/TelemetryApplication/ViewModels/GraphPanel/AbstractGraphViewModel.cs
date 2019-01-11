@@ -17,7 +17,7 @@
 
     public abstract class AbstractGraphViewModel : AbstractViewModel, IGraphViewModel
     {
-        private static readonly TimeSpan UpdateDelay = TimeSpan.FromMilliseconds(500);
+        private static readonly TimeSpan UpdateDelay = TimeSpan.FromMilliseconds(100);
         private LinearAxis _yAxis;
         private LinearAxis _xAxis;
         private PlotModel _plotModel;
@@ -32,6 +32,7 @@
         private double _yMinimum;
         private bool _syncWithOtherGraphs;
         private DateTime _lastChangeRequest;
+        private Distance _trackDistance;
 
         protected AbstractGraphViewModel()
         {
@@ -107,7 +108,18 @@
             }
         }
 
-        public Distance TrackDistance { get; set; }
+        public Distance TrackDistance
+        {
+            get => _trackDistance;
+            set
+            {
+                _trackDistance = value;
+                if (_xAxis != null)
+                {
+                    _xAxis.Maximum = XMaximum;
+                }
+            }
+        }
 
         public DistanceUnits DistanceUnits { get; set; }
         public DistanceUnits SuspensionDistanceUnits { get; set; }
@@ -145,7 +157,7 @@
             }
         }
 
-        protected double XMaximum => TrackDistance.GetByUnit(DistanceUnits);
+        protected double XMaximum =>TrackDistance.GetByUnit(DistanceUnits);
 
         public abstract string Title { get; }
         protected abstract string YUnits { get; }
@@ -306,7 +318,7 @@
             _invalidatingPlot = true;
             while (DateTime.Now - _lastChangeRequest < UpdateDelay)
             {
-                await Task.Delay(500).ConfigureAwait(false);
+                await Task.Delay(UpdateDelay).ConfigureAwait(false);
             }
 
             _plotModel.PlotView.InvalidatePlot(true);

@@ -90,13 +90,15 @@
             SessionInfoDto sessionInfoDto = new SessionInfoDto()
             {
                 CarName = lapInfo.Driver.CarName,
+                Id = SessionIdentifier,
                 TrackName = lapInfo.Driver.Session.LastSet.SessionInfo.TrackInfo.TrackName,
                 LayoutName = lapInfo.Driver.Session.LastSet.SessionInfo.TrackInfo.TrackLayoutName,
                 LayoutLength = lapInfo.Driver.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters,
                 PlayerName = lapInfo.Driver.Name,
                 Simulator = lapInfo.Driver.Session.LastSet.Source,
                 SessionRunDateTime = DateTime.Now,
-                LapsSummary = new List<LapSummaryDto>()
+                LapsSummary = new List<LapSummaryDto>(),
+                SessionType = lapInfo.Driver.Session.SessionType.ToString()
             };
             return sessionInfoDto;
         }

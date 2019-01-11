@@ -20,6 +20,9 @@
         }
 
         [XmlAttribute]
+        public string Id { get; set; }
+
+        [XmlAttribute]
         public string Simulator { get; set; }
 
         [XmlAttribute]
@@ -33,6 +36,9 @@
 
         [XmlAttribute]
         public string PlayerName { get; set; }
+
+        [XmlAttribute]
+        public string SessionType { get; set; }
 
         [XmlAttribute]
         public string CarName { get; set; }

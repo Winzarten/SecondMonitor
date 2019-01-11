@@ -384,6 +384,7 @@
             }
 
             Logger.Info("Initializing Full Map Control");
+           _lapsPaths.Clear();
 
             return new FullMapControl(trackMapDto)
             {

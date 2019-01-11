@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.GraphPanel
 {
+    using System;
     using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
@@ -72,8 +73,14 @@
 
         private void TelemetryViewsSynchronizationOnSyncTelemetryView(object sender, TelemetrySnapshotArgs e)
         {
+            if (e.LapSummaryDto == null)
+            {
+                return;
+            }
+
             Distance distance = Distance.FromMeters(e.TelemetrySnapshot.PlayerData.LapDistance);
             Graphs.ForEach(x => x.UpdateLapDistance(e.LapSummaryDto.Id, distance));
+
         }
 
         private void TelemetryViewsSynchronizationOnLapUnloaded(object sender, LapSummaryArgs e)

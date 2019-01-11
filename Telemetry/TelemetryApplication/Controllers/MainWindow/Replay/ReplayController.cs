@@ -49,6 +49,10 @@
             get => _mainLap;
             set
             {
+                if (value == null)
+                {
+                    Stop();
+                }
                 _mainLap = value;
                 SelectedValueChanged();
                 _replayViewModel.IsEnabled = _mainLap != null;
@@ -93,7 +97,7 @@
 
         private void TelemetryViewsSynchronizationOnSyncTelemetryView(object sender, TelemetrySnapshotArgs e)
         {
-            if (e.LapSummaryDto.Id != MainLap?.Id || _replayViewModel == null || e.TelemetrySnapshot == _displayedFrame.TelemetrySnapshot)
+            if(e.LapSummaryDto == null || e.LapSummaryDto.Id != MainLap?.Id || _replayViewModel == null || e.TelemetrySnapshot == _displayedFrame.TelemetrySnapshot)
             {
                 return;
             }
@@ -142,6 +146,7 @@
 
         private void RefreshViewModelBasicInfo(SessionInfoDto sessionInfoDto)
         {
+            Stop();
             _replayViewModel.DistanceUnits = _settingsProvider.DisplaySettingsViewModel.DistanceUnitsSmall;
             _replayViewModel.TrackLength = Distance.FromMeters(sessionInfoDto.LayoutLength);
         }
@@ -149,6 +154,7 @@
         private void TelemetryViewsSynchronizationOnNewSessionLoaded(object sender, TelemetrySessionArgs e)
         {
             RefreshViewModelBasicInfo(e.SessionInfoDto);
+            _replayViewModel.SelectedDistance = 0;
         }
 
         private void TelemetryViewsSynchronizationOnLapUnloaded(object sender, LapSummaryArgs e)
@@ -269,6 +275,12 @@
                 else
                 {
                     await Task.Delay(10);
+                }
+
+                if (_mainLap == null)
+                {
+                    _playCancellationSource = null;
+                    return;
                 }
 
                 _displayedFrame = nextFrame;

@@ -144,6 +144,11 @@
 
         private void RefreshInfo()
         {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(RefreshInfo);
+                return;
+            }
             LapNumber = LapInfo.LapNumber;
             Sector1 = GetSector1();
             Sector2 = GetSector2();

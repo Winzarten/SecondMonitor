@@ -42,16 +42,12 @@
             return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
         }
 
-        public async Task<SessionInfoDto> LoadSessionAsync(string sessionIdentifier)
+        public async Task<SessionInfoDto> LoadRecentSessionAsync(string sessionIdentifier)
         {
-
             try
             {
-                _cachedTelemetries.Clear();
                 SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.LoadRecentSessionInformation(sessionIdentifier));
-                _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
-                LastLoadedSessionIdentifier = sessionIdentifier;
-                return sessionInfoDto;
+                return await LoadRecentSessionAsync(sessionInfoDto);
             }
             catch (Exception ex)
             {
@@ -59,6 +55,15 @@
             }
 
             return null;
+        }
+
+        public async Task<SessionInfoDto> LoadRecentSessionAsync(SessionInfoDto sessionInfoDto)
+        {
+            await CloseCurrentSession();
+            _cachedTelemetries.Clear();
+            _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
+            LastLoadedSessionIdentifier = sessionInfoDto.Id;
+            return sessionInfoDto;
         }
 
         public async Task<SessionInfoDto> LoadLastSessionAsync()
@@ -71,7 +76,7 @@
                     return null;
                 }
 
-                return await LoadSessionAsync(sessionIdent);
+                return await LoadRecentSessionAsync(sessionIdent);
             }
             catch (Exception ex)
             {
@@ -116,6 +121,18 @@
             if (_activeLapJobs == 1)
             {
                 _telemetryViewsSynchronization.NotifyLapLoadingStarted();
+            }
+        }
+
+        private async Task CloseCurrentSession()
+        {
+            while (_activeLapJobs > 0)
+            {
+                await Task.Delay(100);
+            }
+            foreach (LapTelemetryDto value in _cachedTelemetries.Values)
+            {
+                await UnloadLap(value.LapSummary);
             }
         }
 

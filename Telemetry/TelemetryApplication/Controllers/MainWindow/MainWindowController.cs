@@ -51,7 +51,7 @@
 
         public async Task LoadTelemetrySession(string telemetryIdentifier)
         {
-            await _telemetryLoadController.LoadSessionAsync(telemetryIdentifier);
+            await _telemetryLoadController.LoadRecentSessionAsync(telemetryIdentifier);
         }
 
         public async Task LoadLastTelemetrySession()

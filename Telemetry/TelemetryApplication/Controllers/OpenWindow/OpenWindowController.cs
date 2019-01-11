@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.OpenWindow
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using WindowsControls.WPF.Commands;
     using Factory;
@@ -22,8 +23,8 @@
             _telemetryLoadController = telemetryLoadController;
             _viewModelFactory = viewModelFactory;
             _openWindowViewModel = viewModelFactory.Create<IOpenWindowViewModel>();
-            _openWindowViewModel.RefreshRecentCommand = new AsyncCommand(RefreshAvailableSession);
             _mainWindowViewModel.LapSelectionViewModel.OpenWindowViewModel = _openWindowViewModel;
+            BindCommands();
         }
 
         public Task StartControllerAsync()
@@ -39,6 +40,30 @@
         private async Task RefreshAvailableSession()
         {
             IReadOnlyCollection<SessionInfoDto> sessionInfos = await _telemetryLoadController.GetAllRecentSessionInfoAsync();
+            _openWindowViewModel.RecentSessionsInfos = sessionInfos.OrderByDescending(x => x.SessionRunDateTime).ToList().AsReadOnly();
+        }
+
+        private void CancelAndCloseOpenWindow()
+        {
+            _openWindowViewModel.IsOpenWindowVisible = false;
+        }
+
+        private async Task OpenSelectedRecentSession()
+        {
+            if (_openWindowViewModel.SelectedRecentSessionInfoDto == null)
+            {
+                return;
+            }
+            _openWindowViewModel.IsOpenWindowVisible = false;
+            await _telemetryLoadController.LoadRecentSessionAsync(_openWindowViewModel.SelectedRecentSessionInfoDto);
+        }
+
+
+        private void BindCommands()
+        {
+            _openWindowViewModel.RefreshRecentCommand = new AsyncCommand(RefreshAvailableSession);
+            _openWindowViewModel.CancelAndCloseWindowCommand = new RelayCommand(CancelAndCloseOpenWindow);
+            _openWindowViewModel.OpenSelectedRecentSessionCommand = new AsyncCommand(OpenSelectedRecentSession);
         }
     }
 }

@@ -140,7 +140,7 @@
                 case DistanceUnits.Yards:
                     return "yd";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
+                    throw new ArgumentException($"Distance units {nameof(distanceUnits)} is unknown.");
             }
         }
 
@@ -163,7 +163,7 @@
                 case DistanceUnits.Centimeter:
                     return FromMeters(value / 100);
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
+                    throw new ArgumentException($"Distance units {nameof(distanceUnits)} is unknown.");
             }
         }
 
