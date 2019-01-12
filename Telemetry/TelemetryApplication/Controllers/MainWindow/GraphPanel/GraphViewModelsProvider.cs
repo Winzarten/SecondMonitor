@@ -8,24 +8,24 @@
 
     public class GraphViewModelsProvider : IGraphViewModelsProvider
     {
-        private readonly ISettingsProvider _settingsProvider;
+        private readonly IGraphsSettingsProvider _graphsSettingsProvider;
 
         private readonly IViewModelFactory _viewModelFactory;
 
         public GraphViewModelsProvider(IViewModelFactory viewModelFactory, ISettingsProvider settingsProvider)
         {
             _viewModelFactory = viewModelFactory;
-            _settingsProvider = settingsProvider;
+            _graphsSettingsProvider = settingsProvider.GraphsSettingsProvider;
         }
 
-        public IEnumerable<IGraphViewModel> GetLeftSideViewModels()
+        public IEnumerable<(IGraphViewModel graphViewModel, int priority)> GetLeftSideViewModels()
         {
-            return _viewModelFactory.CreateAll<IGraphViewModel>().Where(_settingsProvider.GraphsSettingsProvider.IsGraphViewModelLeft);
+            return _viewModelFactory.CreateAll<IGraphViewModel>().Where(_graphsSettingsProvider.IsGraphViewModelLeft).Select(x => (x, _graphsSettingsProvider.GetGraphPriority(x)));
         }
 
-        public IEnumerable<IGraphViewModel> GetRightSideViewModels()
+        public IEnumerable<(IGraphViewModel graphViewModel, int priority)> GetRightSideViewModels()
         {
-            return _viewModelFactory.CreateAll<IGraphViewModel>().Where(_settingsProvider.GraphsSettingsProvider.IsGraphViewModelRight);
+            return _viewModelFactory.CreateAll<IGraphViewModel>().Where(_graphsSettingsProvider.IsGraphViewModelRight).Select(x => (x, _graphsSettingsProvider.GetGraphPriority(x)));
         }
     }
 }

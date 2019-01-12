@@ -5,7 +5,7 @@
 
     public interface IGraphViewModelsProvider
     {
-        IEnumerable<IGraphViewModel> GetLeftSideViewModels();
-        IEnumerable<IGraphViewModel> GetRightSideViewModels();
+        IEnumerable<(IGraphViewModel graphViewModel, int priority)> GetLeftSideViewModels();
+        IEnumerable<(IGraphViewModel graphViewModel, int priority)> GetRightSideViewModels();
     }
 }

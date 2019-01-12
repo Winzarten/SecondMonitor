@@ -15,7 +15,7 @@
             : base(mainWindowViewModel, telemetryViewsSynchronization, lapColorSynchronization, settingsProvider, graphViewSynchronization)
         {
             _graphViewModelsProvider = graphViewModelsProvider;
-            Graphs = _graphViewModelsProvider.GetRightSideViewModels().ToArray();
+            Graphs = _graphViewModelsProvider.GetRightSideViewModels().OrderBy(x => x.priority).Select(y => y.graphViewModel).ToArray();
         }
 
         public override bool IsLetPanel => false;

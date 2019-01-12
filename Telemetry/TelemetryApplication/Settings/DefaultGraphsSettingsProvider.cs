@@ -17,5 +17,7 @@
         {
             return RightGraphs.Contains(graphViewModel.Title);
         }
+
+        public int GetGraphPriority(IGraphViewModel graphViewModel) => 1;
     }
 }
