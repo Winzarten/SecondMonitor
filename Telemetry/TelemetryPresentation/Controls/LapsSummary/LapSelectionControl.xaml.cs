@@ -5,8 +5,10 @@ namespace SecondMonitor.TelemetryPresentation.Controls.LapsSummary
 {
     using System;
     using OpenWindow;
+    using SettingsWindow;
     using Telemetry.TelemetryApplication.ViewModels.LapPicker;
     using Telemetry.TelemetryApplication.ViewModels.OpenWindow;
+    using Telemetry.TelemetryApplication.ViewModels.SettingsWindow;
 
     /// <summary>
     /// Interaction logic for LapSelectionControl.xaml
@@ -14,6 +16,7 @@ namespace SecondMonitor.TelemetryPresentation.Controls.LapsSummary
     public partial class LapSelectionControl : UserControl
     {
         private OpenWindow _openWindow;
+        private SettingsWindow _settingsWindow;
 
         public LapSelectionControl()
         {
@@ -42,6 +45,30 @@ namespace SecondMonitor.TelemetryPresentation.Controls.LapsSummary
             _openWindow.DataContext = null;
             _openWindow.Closed -= OpenWindowOnClosed;
             _openWindow = null;
+        }
+
+        private void SettingsButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ISettingsWindowViewModel settingsWindowViewModel = ((ILapSelectionViewModel)DataContext).SettingsWindowViewModel;
+            settingsWindowViewModel.OpenWindowCommand.Execute(null);
+
+            if (_settingsWindow == null)
+            {
+                _settingsWindow = new SettingsWindow { WindowStartupLocation = WindowStartupLocation.CenterScreen, Owner = Window.GetWindow(this), DataContext = settingsWindowViewModel };
+                _settingsWindow.Closed += SettingsWindowOnClosed;
+                _settingsWindow.Show();
+                return;
+            }
+
+            settingsWindowViewModel.IsWindowOpened = true;
+            _settingsWindow.Focus();
+        }
+
+        private void SettingsWindowOnClosed(object sender, EventArgs e)
+        {
+            _settingsWindow.DataContext = null;
+            _settingsWindow.Closed -= OpenWindowOnClosed;
+            _settingsWindow = null;
         }
     }
 }

@@ -6,6 +6,7 @@
     using Factory;
     using OpenWindow;
     using SecondMonitor.ViewModels.Colors;
+    using SettingsWindow;
     using Synchronization;
     using TelemetryLoad;
     using TelemetryManagement.DTO;
@@ -20,10 +21,11 @@
         private readonly ILapColorSynchronization _lapColorSynchronization;
         private readonly IColorPaletteProvider _colorPaletteProvider;
         private readonly IOpenWindowController _openWindowController;
+        private readonly ISettingsWindowController _settingsWindowController;
         private readonly ILapSelectionViewModel _lapSelectionViewModel;
 
         public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, ITelemetryLoadController telemetryLoadController, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory,
-            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController)
+            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController)
         {
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryLoadController = telemetryLoadController;
@@ -32,6 +34,7 @@
             _lapColorSynchronization = lapColorSynchronization;
             _colorPaletteProvider = colorPaletteProvider;
             _openWindowController = openWindowController;
+            _settingsWindowController = settingsWindowController;
         }
 
         public async Task StartControllerAsync()
@@ -49,11 +52,13 @@
         private async Task StartChildControllersAsync()
         {
             await _openWindowController.StartControllerAsync();
+            await _settingsWindowController.StartControllerAsync();
         }
 
         private async Task StopChildControllersAsync()
         {
             await _openWindowController.StopControllerAsync();
+            await _settingsWindowController.StopControllerAsync();
         }
 
         private void Subscribe()

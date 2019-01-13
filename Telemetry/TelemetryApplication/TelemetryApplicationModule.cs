@@ -7,6 +7,7 @@
     using Controllers.MainWindow.Replay;
     using Controllers.MainWindow.Snapshot;
     using Controllers.OpenWindow;
+    using Controllers.SettingsWindow;
     using Controllers.Synchronization;
     using Controllers.Synchronization.Graphs;
     using Controllers.TelemetryLoad;
@@ -28,6 +29,7 @@
     using ViewModels.MapView;
     using ViewModels.OpenWindow;
     using ViewModels.Replay;
+    using ViewModels.SettingsWindow;
     using ViewModels.SnapshotSection;
 
     public class TelemetryApplicationModule : NinjectModule
@@ -55,6 +57,7 @@
             Bind<ISnapshotSectionController>().To<SnapshotSectionController>();
             Bind<IGraphsSettingsProvider>().To<StoredGraphsSettingsProvider>().InNamedScope(MainWidowScopeName); ;
             Bind<IGraphsSettingsProvider>().To<DefaultGraphsSettingsProvider>().WhenInjectedExactlyInto<StoredGraphsSettingsProvider>();
+            Bind<ISettingsWindowController>().To<SettingsWindowController>();
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
             Bind<ILapPickerController>().To<LapPickerController>();
@@ -67,6 +70,8 @@
             Bind<IPedalSectionViewModel>().To<PedalSectionViewModel>();
             Bind<IMapViewViewModel>().To<MapViewViewModel>();
             Bind<IOpenWindowViewModel>().To<OpenWindowViewModel>();
+            Bind<ISettingsWindowViewModel>().To<SettingsWindowViewModel>();
+            Bind<IGraphSettingsViewModel>().To<GraphSettingsViewModel>();
 
             Bind<ILapCustomPathsCollection>().To<LapCustomPathsCollection>();
             Bind<IGraphViewModelsProvider>().To<GraphViewModelsProvider>();

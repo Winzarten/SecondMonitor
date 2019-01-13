@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\gong-wpf-dragdrop.2.0.0-alpha0106\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Controls.dll</HintPath>
     </Reference>
@@ -60,6 +63,8 @@
       <HintPath>..\..\packages\OxyPlot.Wpf.2.0.0-unstable1035\lib\net452\OxyPlot.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -90,6 +95,9 @@
     <Compile Include="Controls\Replay\ReplayControl.xaml.cs">
       <DependentUpon>ReplayControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\GraphPriorityControl.xaml.cs">
+      <DependentUpon>GraphPriorityControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SnapshotSection\SnapshotSectionControl.xaml.cs">
       <DependentUpon>SnapshotSectionControl.xaml</DependentUpon>
     </Compile>
@@ -112,6 +120,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SettingsWindow\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\GraphDataTemplateSelector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,6 +144,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Settings\GraphPriorityControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SnapshotSection\SnapshotSectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OpenWindow\OpenWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsWindow\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

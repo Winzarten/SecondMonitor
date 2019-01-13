@@ -1,7 +1,5 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Settings.DTO
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using ViewModels.GraphPanel;
 
@@ -9,21 +7,14 @@
     {
         private readonly IGraphsSettingsProvider _backupProvider;
         private readonly ITelemetrySettingsRepository _telemetrySettingsRepository;
-        private Lazy<TelemetrySettingsDto> _graphSettingsLazy;
 
         public StoredGraphsSettingsProvider(IGraphsSettingsProvider backupProvider, ITelemetrySettingsRepository telemetrySettingsRepository)
         {
             _backupProvider = backupProvider;
             _telemetrySettingsRepository = telemetrySettingsRepository;
-            RefreshGraphSettings();
         }
 
-        public TelemetrySettingsDto TelemetrySettings => _graphSettingsLazy.Value;
-
-        public void ForceSettingsReload()
-        {
-            RefreshGraphSettings();
-        }
+        public TelemetrySettingsDto TelemetrySettings => _telemetrySettingsRepository.LoadOrCreateNew();
 
         public bool IsGraphViewModelLeft(IGraphViewModel graphViewModel)
         {
@@ -56,19 +47,6 @@
             }
 
             return graphSettings;
-        }
-
-        private void RefreshGraphSettings()
-        {
-            _graphSettingsLazy = new Lazy<TelemetrySettingsDto>(LoadTelemetrySettings);
-        }
-
-        private TelemetrySettingsDto LoadTelemetrySettings()
-        {
-            return _telemetrySettingsRepository.TryLoadTelemetrySettings(out TelemetrySettingsDto telemetrySettings) ? telemetrySettings : new TelemetrySettingsDto()
-            {
-                GraphSettings = new List<GraphSettingsDto>()
-            };
         }
     }
 }

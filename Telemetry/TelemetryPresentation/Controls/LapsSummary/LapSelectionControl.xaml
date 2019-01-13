@@ -55,7 +55,7 @@
                             </wpf:ColorAbleIcon>
                         </Button.Content>
                     </Button>
-                        <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Click="OpenButton_OnClick"
+                        <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Click="SettingsButton_OnClick"
                                 Style="{StaticResource StandardButton}"
                                 ToolTip="Opens another telemetry session">
                             <Button.Content>

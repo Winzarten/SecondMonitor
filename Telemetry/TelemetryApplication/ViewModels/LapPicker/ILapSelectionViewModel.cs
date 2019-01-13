@@ -5,6 +5,7 @@
     using Controllers.Synchronization;
     using OpenWindow;
     using SecondMonitor.ViewModels;
+    using SettingsWindow;
 
     public interface ILapSelectionViewModel : IViewModel
     {
@@ -13,6 +14,8 @@
         event EventHandler<LapSummaryArgs> LapUnselected;
 
         IOpenWindowViewModel OpenWindowViewModel { get; set; }
+
+        ISettingsWindowViewModel SettingsWindowViewModel { get; set; }
 
         ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }
 

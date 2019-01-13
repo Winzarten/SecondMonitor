@@ -86,6 +86,8 @@
     <Compile Include="Controllers\MainWindow\Snapshot\SnapshotSectionController.cs" />
     <Compile Include="Controllers\OpenWindow\IOpenWindowController.cs" />
     <Compile Include="Controllers\OpenWindow\OpenWindowController.cs" />
+    <Compile Include="Controllers\SettingsWindow\ISettingsWindowController.cs" />
+    <Compile Include="Controllers\SettingsWindow\SettingsWindowController.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\GraphViewSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\IGraphViewSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\PanEventArgs.cs" />
@@ -146,8 +148,12 @@
     <Compile Include="ViewModels\GraphPanel\Wheels\SuspensionTravelGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\TyrePressuresGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\WheelRpsGraphViewModel.cs" />
+    <Compile Include="ViewModels\SettingsWindow\GraphSettingsViewModel.cs" />
+    <Compile Include="ViewModels\SettingsWindow\IGraphSettingsViewModel.cs" />
+    <Compile Include="ViewModels\SettingsWindow\ISettingsWindowViewModel.cs" />
     <Compile Include="ViewModels\OpenWindow\IOpenWindowViewModel.cs" />
     <Compile Include="ViewModels\OpenWindow\OpenWindowViewModel.cs" />
+    <Compile Include="ViewModels\SettingsWindow\SettingsWindowViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\IGraphViewModel.cs" />
     <Compile Include="ViewModels\ISnapshotViewModel.cs" />
