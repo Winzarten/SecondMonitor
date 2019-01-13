@@ -20,7 +20,9 @@
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
                 <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DefaultGraphDataTemplate}" WheelsGraphTemplate="{StaticResource WheelsGraphDataTemplate}" TyreTemperaturesGraphTemplate="{StaticResource TyreTemperaturesGraphDataTemplate}"/>
+            <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DefaultGraphDataTemplate}"
+                                                WheelsGraphTemplate="{StaticResource WheelsGraphDataTemplate}" TyreTemperaturesGraphTemplate="{StaticResource TyreTemperaturesGraphDataTemplate}"
+                                                ChassisGraphTemplate="{StaticResource ChassisGraphDataTemplate}"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="{StaticResource Anthracite01Brush}">

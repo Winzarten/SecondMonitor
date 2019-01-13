@@ -10,10 +10,10 @@
     {
         private readonly bool _captureDetailedTelemetry;
 
-        public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo, bool captureDetailedTelemetry, TimeSpan snapshotInterval)
+        public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo, bool captureDetailedTelemetry, TimeSpan snapshotInterval, SimulatorSourceInfo simulatorSourceInfo)
         {
             _captureDetailedTelemetry = captureDetailedTelemetry;
-            LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo);
+            LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, simulatorSourceInfo);
             LapInfo = lapInfo;
             PortionTimes = new LapPortionTimes(10, dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters, lapInfo);
             TimedTelemetrySnapshots = new TimedTelemetrySnapshots(snapshotInterval);
@@ -26,9 +26,9 @@
         public LapPortionTimes PortionTimes { get; private set; }
         public LapInfo LapInfo { get; }
 
-        public void CreateLapEndSnapshot(DriverInfo driverInfo, WeatherInfo weather, InputInfo inputInfo)
+        public void CreateLapEndSnapshot(DriverInfo driverInfo, WeatherInfo weather, InputInfo inputInfo, SimulatorSourceInfo simulatorSourceInfo)
         {
-            LapEndSnapshot = new TelemetrySnapshot(driverInfo, weather, inputInfo);
+            LapEndSnapshot = new TelemetrySnapshot(driverInfo, weather, inputInfo, simulatorSourceInfo);
         }
 
         public void UpdateTelemetry(SimulatorDataSet dataSet)
@@ -41,7 +41,7 @@
             PortionTimes.UpdateLapPortions();
             if (_captureDetailedTelemetry)
             {
-                TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo);
+                TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, dataSet.SimulatorSourceInfo);
             }
         }
 

@@ -22,7 +22,7 @@ namespace SecondMonitor.DataModel.Telemetry
 
         public IReadOnlyCollection<TimedTelemetrySnapshot> Snapshots => _snapshots.AsReadOnly();
 
-        public void AddNextSnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo, InputInfo inputInfo)
+        public void AddNextSnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo, InputInfo inputInfo, SimulatorSourceInfo simulatorSource)
         {
             if ((playerInfo.InPits && playerInfo.Speed.InKph < 5) || lapTime < _nextSnapshotTime)
             {
@@ -30,7 +30,7 @@ namespace SecondMonitor.DataModel.Telemetry
             }
 
             _nextSnapshotTime = lapTime + _snapshotsIntervals;
-            _snapshots.Add(new TimedTelemetrySnapshot(lapTime, playerInfo, weatherInfo, inputInfo));
+            _snapshots.Add(new TimedTelemetrySnapshot(lapTime, playerInfo, weatherInfo, inputInfo, simulatorSource));
         }
     }
 }

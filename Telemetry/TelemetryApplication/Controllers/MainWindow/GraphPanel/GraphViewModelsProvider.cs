@@ -12,10 +12,10 @@
 
         private readonly IViewModelFactory _viewModelFactory;
 
-        public GraphViewModelsProvider(IViewModelFactory viewModelFactory, ISettingsProvider settingsProvider)
+        public GraphViewModelsProvider(IViewModelFactory viewModelFactory, IGraphsSettingsProvider graphsSettingsProvider)
         {
             _viewModelFactory = viewModelFactory;
-            _graphsSettingsProvider = settingsProvider.GraphsSettingsProvider;
+            _graphsSettingsProvider = graphsSettingsProvider;
         }
 
         public IEnumerable<(IGraphViewModel graphViewModel, int priority)> GetLeftSideViewModels()

@@ -24,24 +24,28 @@
             {
                 _lastSessionTime = simulatorDataSet.SessionInfo.SessionTime;
                 _stopwatch.Restart();
+                return;
             }
 
-            if (_stopwatch.Elapsed > _maxInterpolation)
+
+            simulatorDataSet.SimulatorSourceInfo.TimeInterpolated = true;
+            TimeSpan elapsed = _stopwatch.Elapsed;
+            if (elapsed >= _maxInterpolation)
             {
                 _stopwatch.Stop();
                 _lastInterpolation = _maxInterpolation;
             }
             else
             {
-                _lastInterpolation = _stopwatch.Elapsed;
+                _lastInterpolation = elapsed;
             }
 
-            simulatorDataSet.SessionInfo.SessionTime = simulatorDataSet.SessionInfo.SessionTime + _lastInterpolation;
+            //simulatorDataSet.SessionInfo.SessionTime = simulatorDataSet.SessionInfo.SessionTime + _lastInterpolation;
         }
 
         public TimeSpan ApplyInterpolation(TimeSpan timeSpan)
         {
-            return timeSpan + _lastInterpolation;
+            return timeSpan;// + _lastInterpolation;
         }
 
         public void Reset()

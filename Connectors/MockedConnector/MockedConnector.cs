@@ -76,6 +76,11 @@
             return Task.CompletedTask;
         }
 
+        public void StartConnectorLoop()
+        {
+
+        }
+
         private void TestingThreadExecutor()
         {
             RaiseConnectedEvent();

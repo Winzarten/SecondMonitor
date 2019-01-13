@@ -6,8 +6,6 @@
     {
         DisplaySettingsViewModel DisplaySettingsViewModel { get; }
 
-        IGraphsSettingsProvider GraphsSettingsProvider { get; }
-
         string TelemetryRepositoryPath { get; }
 
         string MapRepositoryPath { get; }

@@ -16,10 +16,12 @@
     using Repository;
     using SecondMonitor.ViewModels.Colors;
     using Settings;
+    using Settings.DTO;
     using SimdataManagement;
     using TelemetryManagement.StoryBoard;
     using ViewModels;
     using ViewModels.GraphPanel;
+    using ViewModels.GraphPanel.Chassis;
     using ViewModels.GraphPanel.Inputs;
     using ViewModels.GraphPanel.Wheels;
     using ViewModels.LapPicker;
@@ -47,10 +49,12 @@
             Bind<IMapViewController>().To<MapViewController>().InNamedScope(MainWidowScopeName);
             Bind<ILapColorSynchronization>().To<LapColorSynchronization>().InNamedScope(MainWidowScopeName);
             Bind<IColorPaletteProvider>().To<BasicColorPaletteProvider>().InNamedScope(MainWidowScopeName);
+            Bind<ITelemetrySettingsRepository>().To<TelemetrySettingsRepository>().InNamedScope(MainWidowScopeName);
             Bind<IReplayController>().To<ReplayController>();
             Bind<IOpenWindowController>().To<OpenWindowController>();
             Bind<ISnapshotSectionController>().To<SnapshotSectionController>();
-            Bind<IGraphsSettingsProvider>().To<DefaultGraphsSettingsProvider>();
+            Bind<IGraphsSettingsProvider>().To<StoredGraphsSettingsProvider>().InNamedScope(MainWidowScopeName); ;
+            Bind<IGraphsSettingsProvider>().To<DefaultGraphsSettingsProvider>().WhenInjectedExactlyInto<StoredGraphsSettingsProvider>();
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
             Bind<ILapPickerController>().To<LapPickerController>();
@@ -88,54 +92,8 @@
             Bind<IGraphViewModel>().To<WheelRpsGraphViewModel>();
             Bind<IGraphViewModel>().To<SuspensionTravelGraphViewModel>();
             Bind<IGraphViewModel>().To<RideHeightGraphViewModel >();
-            /*Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();
-            Bind<IGraphViewModel>().To<ThrottleGraphViewModel>();*/
+            Bind<IGraphViewModel>().To<ChassisRideHeightGraphViewModel>();
+
         }
     }
 }

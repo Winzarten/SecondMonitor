@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
+    using DataModel.Telemetry;
     using NLog;
     using SecondMonitor.Telemetry.TelemetryManagement.DTO;
     using SecondMonitor.Telemetry.TelemetryManagement.Repository;
@@ -72,6 +73,7 @@
                     TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.WhereWithPrevious((prev, current) => prev.PlayerData.LapDistance <= current.PlayerData.LapDistance).ToArray()
                 };
 
+                Interpolate(lapTelemetryDto, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation);
                 _sessionInfoDto.LapsSummary.Add(lapSummaryDto);
 
                 _telemetryRepository.SaveRecentSessionInformation(_sessionInfoDto, SessionIdentifier);
@@ -82,6 +84,54 @@
             {
                 Logger.Error(ex,"Uanble to Save Telemetry");
                 return false;
+            }
+        }
+
+        private void Interpolate(LapTelemetryDto lapTelemetryDto, bool interpolateDistance, bool interpolateLocation)
+        {
+            if (!interpolateDistance && !interpolateLocation)
+            {
+                return;
+            }
+
+            TimedTelemetrySnapshot lastNonInterpolatedSnapshot = null;
+            List<TimedTelemetrySnapshot> snapshotsToInterpolate = new List<TimedTelemetrySnapshot>();
+
+            foreach (TimedTelemetrySnapshot timedTelemetrySnapshot in lapTelemetryDto.TimedTelemetrySnapshots)
+            {
+                if (!timedTelemetrySnapshot.SimulatorSourceInfo.TimeInterpolated && lastNonInterpolatedSnapshot == null)
+                {
+                    lastNonInterpolatedSnapshot = timedTelemetrySnapshot;
+                    continue;
+                }
+
+                if (timedTelemetrySnapshot.SimulatorSourceInfo.TimeInterpolated)
+                {
+                    snapshotsToInterpolate.Add(timedTelemetrySnapshot);
+                    continue;
+                }
+
+                double tickDistance = (timedTelemetrySnapshot.PlayerData.LapDistance - lastNonInterpolatedSnapshot.PlayerData.LapDistance) / snapshotsToInterpolate.Count;
+                double tickX = (timedTelemetrySnapshot.PlayerData.WorldPosition.X.InMeters - lastNonInterpolatedSnapshot.PlayerData.WorldPosition.X.InMeters) / snapshotsToInterpolate.Count;
+                double tickY = (timedTelemetrySnapshot.PlayerData.WorldPosition.Y.InMeters - lastNonInterpolatedSnapshot.PlayerData.WorldPosition.Y.InMeters) / snapshotsToInterpolate.Count;
+                double tickZ = (timedTelemetrySnapshot.PlayerData.WorldPosition.Z.InMeters - lastNonInterpolatedSnapshot.PlayerData.WorldPosition.Z.InMeters) / snapshotsToInterpolate.Count;
+
+                for (int i = 0; i < snapshotsToInterpolate.Count; i++)
+                {
+                    if (interpolateDistance)
+                    {
+                        snapshotsToInterpolate[i].PlayerData.LapDistance = lastNonInterpolatedSnapshot.PlayerData.LapDistance + tickDistance * i;
+                    }
+
+                    if (interpolateLocation)
+                    {
+                        snapshotsToInterpolate[i].PlayerData.WorldPosition = new Point3D(
+                            Distance.FromMeters(lastNonInterpolatedSnapshot.PlayerData.WorldPosition.X.InMeters + tickX * i),
+                            Distance.FromMeters(lastNonInterpolatedSnapshot.PlayerData.WorldPosition.Y.InMeters + tickY * i),
+                            Distance.FromMeters(lastNonInterpolatedSnapshot.PlayerData.WorldPosition.Z.InMeters + tickZ * i)
+                            );
+                    }
+                }
             }
         }
 

@@ -14,6 +14,8 @@
             FuelSystemInfo = new FuelInfo();
             WaterSystemInfo = new WaterInfo();
             Acceleration = new Acceleration();
+            FrontHeight = Distance.ZeroDistance;
+            RearHeight = Distance.ZeroDistance;
         }
 
         public Wheels WheelsInfo { get; set; }
@@ -25,6 +27,10 @@
         public WaterInfo WaterSystemInfo { get; set; }
 
         public Acceleration Acceleration { get; set; }
+
+        public Distance FrontHeight { get; set; }
+
+        public Distance RearHeight { get; set; }
 
         [XmlAttribute]
         public string CurrentGear { get; set; } = string.Empty;

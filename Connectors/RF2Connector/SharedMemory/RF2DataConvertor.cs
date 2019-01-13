@@ -28,12 +28,13 @@
         {
             try
             {
-
                 SimulatorDataSet simData = new SimulatorDataSet("RFactor 2");
                 simData.SimulatorSourceInfo.HasLapTimeInformation = true;
                 simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
                 simData.SimulatorSourceInfo.InvalidateLapBySector = true;
                 simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
+/*                simData.SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation = true;
+                simData.SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation = true;*/
 
                 FillSessionInfo(rfData, simData);
                 AddDriversData(simData, rfData);
@@ -43,7 +44,6 @@
                     return simData;
 
                 }
-
 
                 rF2VehicleTelemetry playerF2VehicleTelemetry =
                     rfData.telemetry.mVehicles.First(x => x.mID == _lastPlayerId);
@@ -125,6 +125,26 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity =
                 Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mPressure);
 
+            simData.PlayerInfo.CarInfo.RearHeight = Distance.FromMeters(playerVehicleTelemetry.mRearRideHeight);
+            simData.PlayerInfo.CarInfo.FrontHeight = Distance.FromMeters(playerVehicleTelemetry.mFrontWingHeight);
+
+            //Tyre RPS
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Rps = -playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mRotation;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Rps = -playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mRotation;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Rps = -playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mRotation;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Rps = -playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mRotation;
+
+            //Ride Tyre Height
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RideHeight = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mRideHeight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RideHeight = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mRideHeight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RideHeight = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mRideHeight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RideHeight = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mRideHeight);
+
+            //Suspension Deflection
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.SuspensionTravel = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mSuspensionDeflection);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionTravel = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mSuspensionDeflection);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionTravel = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mSuspensionDeflection);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionTravel = Distance.FromMeters(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mSuspensionDeflection);
 
 
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear =

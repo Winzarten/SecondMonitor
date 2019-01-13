@@ -17,14 +17,12 @@
 
         private readonly Lazy<DisplaySettingsViewModel> _displaySettingsLazy;
 
-        public AppDataSettingsProvider(IGraphsSettingsProvider graphsSettingsProvider)
+        public AppDataSettingsProvider()
         {
-            GraphsSettingsProvider = graphsSettingsProvider;
             _displaySettingsLazy = new Lazy<DisplaySettingsViewModel>(LoadSettings, LazyThreadSafetyMode.PublicationOnly);
         }
 
         public DisplaySettingsViewModel DisplaySettingsViewModel => _displaySettingsLazy.Value;
-        public IGraphsSettingsProvider GraphsSettingsProvider { get; }
 
         public string TelemetryRepositoryPath => Path.Combine(DisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, TelemetryFolder);
 

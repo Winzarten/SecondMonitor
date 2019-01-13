@@ -94,6 +94,7 @@
                         _activeConnector.DataLoaded += OnDataLoaded;
                         _activeConnector.SessionStarted += OnSessionStarted;
                         _activeConnector.Disconnected += Connector_Disconnected;
+                        _activeConnector.StartConnectorLoop();
                         return;
                     }
 

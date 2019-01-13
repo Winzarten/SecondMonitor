@@ -98,10 +98,8 @@
 
 
 
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RideHeight =  Distance.FromMeters(acData.AcsPhysics.rideHeight[0]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RideHeight = Distance.FromMeters(acData.AcsPhysics.rideHeight[0]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RideHeight = Distance.FromMeters(acData.AcsPhysics.rideHeight[1]);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RideHeight = Distance.FromMeters(acData.AcsPhysics.rideHeight[1]);
+            simData.PlayerInfo.CarInfo.FrontHeight =  Distance.FromMeters(acData.AcsPhysics.rideHeight[0]);
+            simData.PlayerInfo.CarInfo.RearHeight = Distance.FromMeters(acData.AcsPhysics.rideHeight[1]);
 
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.SuspensionTravel = Distance.FromMeters(acData.AcsPhysics.suspensionTravel[(int) AcWheels.FL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionTravel = Distance.FromMeters(acData.AcsPhysics.suspensionTravel[(int)AcWheels.FR]);

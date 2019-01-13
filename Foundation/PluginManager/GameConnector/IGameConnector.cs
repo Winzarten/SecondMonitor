@@ -30,5 +30,7 @@
 
         Task FinnishConnectorAsync();
 
+        void StartConnectorLoop();
+
     }
 }

@@ -42,7 +42,7 @@
             : base(RFExecutables)
         {
             TickTime = 10;
-            _sessionTimeInterpolator = new SessionTimeInterpolator(TimeSpan.FromMilliseconds(200));
+            _sessionTimeInterpolator = new SessionTimeInterpolator(TimeSpan.FromMilliseconds(190));
             _dependencies = new DependencyChecker(new FileExistDependency[]{ new FileExistDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
             _rf2DataConvertor = new RF2DataConvertor(_sessionTimeInterpolator);
         }

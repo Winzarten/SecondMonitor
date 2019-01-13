@@ -8,9 +8,11 @@
     using DataModel.Extensions;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
+    using NLog;
 
     public abstract class AbstractSituationOverviewControl : Grid, ISituationOverviewControl
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly DependencyProperty PlayerForegroundBrushProperty = DependencyProperty.Register("PlayerForegroundBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl));
         private static readonly DependencyProperty PlayerBackgroundBrushProperty = DependencyProperty.Register("PlayerBackgroundBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl));
         private static readonly DependencyProperty DriverForegroundBrushProperty = DependencyProperty.Register("DriverForegroundBrush", typeof(SolidColorBrush), typeof(AbstractSituationOverviewControl));
@@ -220,6 +222,7 @@
 
         private void UpdateColors(IDriverInfo driverInfo, DriverPositionControl driverPositionControl)
         {
+
             if (driverInfo.IsPlayer)
             {
                 driverPositionControl.CircleBrush = PlayerBackgroundBrush;
@@ -229,10 +232,10 @@
                 return;
             }
 
-            if(PositionCircleInformationProvider.GetTryCustomOutline(driverInfo, out SolidColorBrush outlineBrush))
+            if(PositionCircleInformationProvider!= null && PositionCircleInformationProvider.GetTryCustomOutline(driverInfo, out SolidColorBrush outlineBrush))
             {
                 driverPositionControl.OutLineColor = outlineBrush;
-                SetZIndex(driverPositionControl, 100);
+                //SetZIndex(driverPositionControl, 100);
             }
 
             if (driverInfo.InPits)

@@ -44,19 +44,28 @@
                     <TextBlock Style="{StaticResource StandardText}" Text="Best Lap: " VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <TextBlock Style="{StaticResource StandardText}" Text="{Binding BestLap}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
-                <StackPanel Orientation=" Horizontal" VerticalAlignment="Bottom" Margin="0,50,0,0">
-                    <Border BorderThickness="1" CornerRadius="5" BorderBrush="{StaticResource DarkGrey05Brush}">
-                    <Button MaxWidth="50" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Click="OpenButton_OnClick"
+                <Border BorderThickness="1" CornerRadius="5" Margin="0,50,0,0" BorderBrush="{StaticResource DarkGrey05Brush}">
+                    <StackPanel Orientation=" Horizontal" VerticalAlignment="Bottom" >
+                        <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Click="OpenButton_OnClick"
                             Style="{StaticResource StandardButton}"
                             ToolTip="Opens another telemetry session">
                         <Button.Content>
-                            <wpf:ColorAbleIcon Margin="-5,-5,-5,-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                            <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                                 <ContentPresenter Content="{StaticResource FolderIcon}" />
                             </wpf:ColorAbleIcon>
                         </Button.Content>
                     </Button>
-                    </Border>
-                </StackPanel>
+                        <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Click="OpenButton_OnClick"
+                                Style="{StaticResource StandardButton}"
+                                ToolTip="Opens another telemetry session">
+                            <Button.Content>
+                                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                    <ContentPresenter Content="{StaticResource SettingsIcon}" />
+                                </wpf:ColorAbleIcon>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Border>
             </StackPanel>
             <StackPanel Grid.Column="1">
             <TextBlock  Style="{StaticResource StandardText}" Margin="5"  Text="Laps:"/>

@@ -130,7 +130,6 @@
                 _sharedMemoryReadBuffer = new byte[_sharedMemorySize];
                 _isSharedMemoryInitialized = true;
                 RaiseConnectedEvent();
-                StartDaemon();
                 return true;
             }
             catch (FileNotFoundException)
@@ -153,7 +152,7 @@
 
         internal Dictionary<string, DriverInfo> PreviousTickInfo { get; set; } = new Dictionary<string, DriverInfo>();
 
-        private void StartDaemon()
+        public void StartConnectorLoop()
         {
             if (_daemonThread != null && _daemonThread.IsAlive)
             {

@@ -98,7 +98,6 @@
             {
                 OnConnection();
                 RaiseConnectedEvent();
-                StartDaemon();
                 return true;
             }
             catch (FileNotFoundException)
@@ -122,7 +121,7 @@
             }
         }
 
-        private void StartDaemon()
+        public void StartConnectorLoop()
         {
             if (_daemonTask != null)
             {

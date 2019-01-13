@@ -48,7 +48,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             PitLap = false;
             PreviousLap = previousLapInfo;
             CompletedDistance = double.NaN;
-            LapTelemetryInfo = new LapTelemetryInfo(driver.DriverInfo, dataSet, this, Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled, TimeSpan.FromMilliseconds(Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.LoggingInterval));
+            LapTelemetryInfo = new LapTelemetryInfo(driver.DriverInfo, dataSet, this, Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled, TimeSpan.FromMilliseconds(Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.LoggingInterval), dataSet.SimulatorSourceInfo);
         }
 
         public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;
@@ -140,7 +140,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             TimeSpan lapDurationByTiming = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
 
             // Perform a sanity check on the sim reported lap time. The time difference between what the application counted and the sim counted cannot be more than 15 seconds.
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 15)
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation)// || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 15)
             {
                 LapEnd = _isPendingStart != TimeSpan.Zero ? _isPendingStart : dataSet.SessionInfo.SessionTime;
             }
@@ -166,7 +166,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 InvalidateLap(LapInvalidationReasonKind.NotAllSectorHaveTime);
             }
 
-            LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo);
+            LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, dataSet.SimulatorSourceInfo);
 
             Completed = true;
         }

@@ -95,8 +95,8 @@
                     Sector1 = TimeSpan.FromSeconds(sectorBase + sector1Add),
                     Sector2 = TimeSpan.FromSeconds(sectorBase + sector2Add),
                     Sector3 = TimeSpan.FromSeconds(sectorBase + sector3Add),
-                    LapEndSnapshot = new TelemetrySnapshot(new DriverInfo() { Position = _random.Next(20) }, new WeatherInfo(), new InputInfo()),
-                    LapStartSnapshot = new TelemetrySnapshot(new DriverInfo() { Position = _random.Next(20) }, new WeatherInfo(), new InputInfo()),
+                    LapEndSnapshot = new TelemetrySnapshot(new DriverInfo() { Position = _random.Next(20) }, new WeatherInfo(), new InputInfo(), new SimulatorSourceInfo()),
+                    LapStartSnapshot = new TelemetrySnapshot(new DriverInfo() { Position = _random.Next(20) }, new WeatherInfo(), new InputInfo(), new SimulatorSourceInfo()),
                     IsValid = _random.Next(4) != 3
                 });
             }

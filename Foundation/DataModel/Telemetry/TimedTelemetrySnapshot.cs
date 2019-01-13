@@ -17,7 +17,7 @@ namespace SecondMonitor.DataModel.Telemetry
 
         }
 
-        public TimedTelemetrySnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo, InputInfo inputInfo) : base(playerInfo, weatherInfo, inputInfo)
+        public TimedTelemetrySnapshot(TimeSpan lapTime, DriverInfo playerInfo, WeatherInfo weatherInfo, InputInfo inputInfo, SimulatorSourceInfo simulatorSourceInfo) : base(playerInfo, weatherInfo, inputInfo, simulatorSourceInfo)
         {
             LapTime = lapTime;
         }
