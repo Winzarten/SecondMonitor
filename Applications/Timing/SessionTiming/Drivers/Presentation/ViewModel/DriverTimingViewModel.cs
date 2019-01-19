@@ -3,6 +3,7 @@
 namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
+    using System.Diagnostics;
     using Annotations;
     using DataModel.BasicProperties;
 
@@ -19,7 +20,8 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
     {
        private DriverTiming _driverTiming;
 
-        private DateTime _nextRefresh = DateTime.Now;
+        private Stopwatch _refreshStopwatch;
+        private TimeSpan _refreshDelay;
         private DisplaySettingsViewModel _displaySettingsViewModel;
         private readonly DriverPresentationsManager _driverPresentationsManager;
         private Color _outLineColor;
@@ -27,6 +29,8 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 
         public DriverTimingViewModel(DriverTiming driverTiming, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager)
         {
+            _refreshDelay = TimeSpan.Zero;
+            _refreshStopwatch = Stopwatch.StartNew();
             _displaySettingsViewModel = displaySettingsViewModel;
             _driverPresentationsManager = driverPresentationsManager;
             DriverTiming = driverTiming;
@@ -313,7 +317,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
         {
             try
             {
-                if (DateTime.Now < _nextRefresh)
+                if (_refreshStopwatch.Elapsed < _refreshDelay)
                 {
                     return;
                 }
@@ -349,7 +353,8 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 ColorLapsColumns = GetColorLapsColumns();
                 IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
                 IsPlayersPaceBetter = GetIsPlayersPaceBetter();
-                _nextRefresh = DisplaySettingsViewModel != null ? DateTime.Now + TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : DateTime.Now + TimeSpan.FromSeconds(10);
+                _refreshStopwatch.Restart();
+               _refreshDelay = DisplaySettingsViewModel != null ?TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : TimeSpan.FromSeconds(10);
             }
             catch (Exception ex)
             {

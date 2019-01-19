@@ -13,5 +13,6 @@
         IReadOnlyCollection<SessionInfoDto> RecentSessionsInfos { get; set; }
         ICommand CancelAndCloseWindowCommand { get; set; }
         bool IsOpenWindowVisible { get; set; }
+        bool IsBusy { get; set; }
     }
 }

@@ -67,11 +67,15 @@
                     SessionIdentifier = SessionIdentifier
                 };
 
+                TimedTelemetrySnapshot fistSnapshotsByDistance = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.First(x => x.PlayerData.LapDistance < _sessionInfoDto.LayoutLength * 0.5);
+
                 LapTelemetryDto lapTelemetryDto = new LapTelemetryDto()
                 {
                     LapSummary = lapSummaryDto,
-                    TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.WhereWithPrevious((prev, current) => prev.PlayerData.LapDistance <= current.PlayerData.LapDistance).ToArray()
+                    TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.Skip(lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.ToList().IndexOf(fistSnapshotsByDistance)).ToArray()
                 };
+
+
 
                 Interpolate(lapTelemetryDto, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation);
                 _sessionInfoDto.LapsSummary.Add(lapSummaryDto);

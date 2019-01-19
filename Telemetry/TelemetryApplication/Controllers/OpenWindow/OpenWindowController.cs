@@ -39,8 +39,10 @@
 
         private async Task RefreshAvailableSession()
         {
+            _openWindowViewModel.IsBusy = true;
             IReadOnlyCollection<SessionInfoDto> sessionInfos = await _telemetryLoadController.GetAllRecentSessionInfoAsync();
             _openWindowViewModel.RecentSessionsInfos = sessionInfos.OrderByDescending(x => x.SessionRunDateTime).ToList().AsReadOnly();
+            _openWindowViewModel.IsBusy = false;
         }
 
         private void CancelAndCloseOpenWindow()

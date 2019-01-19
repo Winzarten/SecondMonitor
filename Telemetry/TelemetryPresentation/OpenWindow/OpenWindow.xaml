@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:openWindow="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.OpenWindow;assembly=TelemetryApplication"
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Open Session" WindowStyle="ToolWindow" d:DataContext="{d:DesignInstance Type=openWindow:OpenWindowViewModel}" SizeToContent="WidthAndHeight"
         DataContextChanged="OpenWindow_OnDataContextChanged" >
@@ -24,43 +25,46 @@
             <TabItem Header="Recent">
                 <Grid Background="{StaticResource Anthracite01Brush}">
                     <DockPanel>
-                        <Border BorderThickness="1.5" BorderBrush="{StaticResource DarkGrey01Brush}" CornerRadius="2" DockPanel.Dock="Top" >
+                        <xctk:BusyIndicator IsBusy="{Binding IsBusy}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="Loading"  DockPanel.Dock="Top" MinWidth="600" MinHeight="600" Background="{StaticResource Anthracite01Brush}" Foreground="{StaticResource LightGrey01Brush}">
+                            <Border BorderThickness="1.5" BorderBrush="{StaticResource DarkGrey01Brush}" CornerRadius="2"  Background="{StaticResource Anthracite01Brush}">
                             <Grid>
                                 <ListBox ItemsSource="{Binding RecentSessionsInfos}" SelectedItem="{Binding SelectedRecentSessionInfoDto}" Background="{StaticResource Anthracite01Brush}" MaxHeight="600">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border BorderThickness="0.5" BorderBrush="{StaticResource LightGrey02Brush}" Margin="1" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                <StackPanel Background="{StaticResource Anthracite01Brush}">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="Session Time: "/>
-                                                        <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionRunDateTime, Converter={StaticResource DateTimeToCurrentConverter}}"/>
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="Session Type: " Margin="10,0,0,0"/>
-                                                        <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionType}"/>
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="Simulator: " Margin="10,0,0,0"/>
-                                                        <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding Simulator}" Margin="0,0,10,0"/>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="0.5" BorderBrush="{StaticResource LightGrey02Brush}" Margin="1" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                    <StackPanel Background="{StaticResource Anthracite01Brush}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="Session Time: "/>
+                                                            <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionRunDateTime, Converter={StaticResource DateTimeToCurrentConverter}}"/>
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="Session Type: " Margin="10,0,0,0"/>
+                                                            <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionType}"/>
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="Simulator: " Margin="10,0,0,0"/>
+                                                            <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding Simulator}" Margin="0,0,10,0"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="Track: "/>
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" FontWeight="SemiBold"></TextBlock>
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="Car: " Margin="10,0,0,0"/>
+                                                            <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding CarName}"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="Lap: "/>
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="{Binding LapsSummary.Count}" FontWeight="SemiBold"></TextBlock>
+                                                            <TextBlock Style="{StaticResource StandardText}" Text="Driver: " Margin="10,0,0,0"/>
+                                                            <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding PlayerName}"/>
+                                                        </StackPanel>
+                                                        <StackPanel.InputBindings>
+                                                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenSelectedRecentSessionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
+                                                        </StackPanel.InputBindings>
                                                     </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="Track: "/>
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" FontWeight="SemiBold"></TextBlock>
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="Car: " Margin="10,0,0,0"/>
-                                                        <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding CarName}"/>
-                                                    </StackPanel>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="Lap: "/>
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="{Binding LapsSummary.Count}" FontWeight="SemiBold"></TextBlock>
-                                                        <TextBlock Style="{StaticResource StandardText}" Text="Driver: " Margin="10,0,0,0"/>
-                                                        <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding PlayerName}"/>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                    <ListBox.InputBindings>
-                                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenSelectedRecentSessionCommand}"/>
-                                    </ListBox.InputBindings>
-                                </ListBox>
+
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
                             </Grid>
                         </Border>
+                        </xctk:BusyIndicator>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                     Command="{Binding OpenSelectedRecentSessionCommand}"

@@ -40,7 +40,7 @@
             SubscribeToDataContextChange();
         }
 
-        private void AddRectangle(string lapId, Color color, Distance distance)
+        private void AddRectangle(string lapId, Color color, double xValue)
         {
             TranslateTransform transform = new TranslateTransform();
             Rectangle rectangle = new Rectangle()
@@ -57,7 +57,7 @@
             Grid grid = VisualTreeHelper.GetParent(AssociatedObject) as Grid;
             grid?.Children.Add(rectangle);
             _lapRectangles[lapId] = (rectangle, transform);
-            UpdateRectangle(rectangle, transform, distance, color);
+            UpdateRectangle(rectangle, transform, xValue, color);
         }
 
         private void RemoveRectangle(string lapId)
@@ -149,23 +149,23 @@
             List<string> keysToRemove = new List<string>();
             foreach (KeyValuePair<string, (Rectangle rectangle, TranslateTransform transform)> lapRectanglesValue in _lapRectangles)
             {
-                if (!GraphViewModel.SelectedDistances.TryGetValue(lapRectanglesValue.Key, out (Distance distance, Color color) lapDistance))
+                if (!GraphViewModel.SelectedDistances.TryGetValue(lapRectanglesValue.Key, out (double x, Color color) lapDistance))
                 {
                     keysToRemove.Add(lapRectanglesValue.Key);
                     continue;
                 }
-                UpdateRectangle(lapRectanglesValue.Value.rectangle,lapRectanglesValue.Value.transform, lapDistance.distance, lapDistance.color);
+                UpdateRectangle(lapRectanglesValue.Value.rectangle,lapRectanglesValue.Value.transform, lapDistance.x, lapDistance.color);
             }
 
             foreach (string lapId in GraphViewModel.SelectedDistances.Keys.Where(x => !_lapRectangles.Keys.Contains(x)))
             {
-                AddRectangle(lapId, GraphViewModel.SelectedDistances[lapId].color, GraphViewModel.SelectedDistances[lapId].distance);
+                AddRectangle(lapId, GraphViewModel.SelectedDistances[lapId].color, GraphViewModel.SelectedDistances[lapId].x);
             }
 
             keysToRemove.ForEach(RemoveRectangle);
         }
 
-        private void UpdateRectangle(Rectangle rectangle, TranslateTransform translateTransform, Distance distance, Color color)
+        private void UpdateRectangle(Rectangle rectangle, TranslateTransform translateTransform, double xValue, Color color)
         {
           PlotModel model = GetPlotModel();
             if (model == null || model.Axes.Count != 2)
@@ -186,8 +186,7 @@
             }
 
             rectangle.Height = model.PlotArea.Height;
-            double distanceInUnits = distance.GetByUnit(GraphViewModel.DistanceUnits);
-            if (xAxis.ActualMinimum > distanceInUnits || distanceInUnits > xAxis.ActualMaximum)
+            if (xAxis.ActualMinimum > xValue || xValue > xAxis.ActualMaximum)
             {
                 rectangle.Visibility = Visibility.Hidden;
                 return;
@@ -195,7 +194,7 @@
 
             rectangle.Visibility = Visibility.Visible;
             double plotRange = xAxis.ActualMaximum - xAxis.ActualMinimum;
-            double selectedDistancePortion = (distanceInUnits - xAxis.ActualMinimum) / plotRange;
+            double selectedDistancePortion = (xValue - xAxis.ActualMinimum) / plotRange;
             translateTransform.Y = model.PlotArea.Top;
             translateTransform.X = model.PlotArea.Left + model.PlotArea.Width * selectedDistancePortion;
         }

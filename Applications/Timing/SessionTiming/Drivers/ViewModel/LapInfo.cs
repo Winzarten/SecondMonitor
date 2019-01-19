@@ -140,7 +140,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             TimeSpan lapDurationByTiming = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
 
             // Perform a sanity check on the sim reported lap time. The time difference between what the application counted and the sim counted cannot be more than 15 seconds.
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation)// || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 15)
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || driverInfo.Timing.LastLapTime == TimeSpan.Zero)// || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 15)
             {
                 LapEnd = _isPendingStart != TimeSpan.Zero ? _isPendingStart : dataSet.SessionInfo.SessionTime;
             }
@@ -167,7 +167,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             }
 
             LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, dataSet.SimulatorSourceInfo);
-
+            LapTelemetryInfo.Complete(dataSet.SessionInfo.TrackInfo.LayoutLength);
             Completed = true;
         }
 

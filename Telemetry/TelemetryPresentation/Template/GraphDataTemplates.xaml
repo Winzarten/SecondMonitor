@@ -42,7 +42,7 @@
                                 </oxy:PlotView>
                             </Grid>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-20,0,0">
-                                <CheckBox Content="Sync With Other Graphs"
+                                <CheckBox Content="Sync With Other Charts"
                                           Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
                                           IsChecked="{Binding SyncWithOtherGraphs}" />
                             </StackPanel>
@@ -87,7 +87,7 @@
                                 </oxy:PlotView>
                             </Grid>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-20,0,0">
-                                <CheckBox Content="Sync With Other Graphs"
+                                <CheckBox Content="Sync With Other Charts"
                                           Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
                                           IsChecked="{Binding SyncWithOtherGraphs}" />
                                 <CheckBox Content="Front Left: "
@@ -145,7 +145,7 @@
                                 </oxy:PlotView>
                             </Grid>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-20,0,0">
-                                <CheckBox Content="Sync With Other Graphs"
+                                <CheckBox Content="Sync With Other Charts"
                                           Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
                                           IsChecked="{Binding SyncWithOtherGraphs}" />
                                 <CheckBox Content="Left: "
@@ -203,7 +203,7 @@
                                 </oxy:PlotView>
                             </Grid>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,-20,0,0">
-                                <CheckBox Content="Sync With Other Graphs"
+                                <CheckBox Content="Sync With Other Charts"
                                           Foreground="{StaticResource LightGrey01Brush}" Margin="5,0,0,0"
                                           IsChecked="{Binding SyncWithOtherGraphs}" />
                                 <CheckBox Content="Front: "

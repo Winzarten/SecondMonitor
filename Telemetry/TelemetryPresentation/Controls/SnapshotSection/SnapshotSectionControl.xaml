@@ -30,7 +30,7 @@
             </Grid.ColumnDefinitions>
             <Grid Column="0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Show Lap:" Style="{StaticResource StandardText}" Margin="0,0,0,0"  VerticalAlignment="Center"/>
+                    <TextBlock Text="Reference Lap:" Style="{StaticResource StandardText}" Margin="0,0,0,0"  VerticalAlignment="Center"/>
                     <ComboBox Style="{StaticResource StandardComboBoxStyle}" ItemsSource="{Binding AvailableLaps}" SelectedItem="{Binding SelectedLap}" Margin="5,0,0,0" VerticalAlignment="Center">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>

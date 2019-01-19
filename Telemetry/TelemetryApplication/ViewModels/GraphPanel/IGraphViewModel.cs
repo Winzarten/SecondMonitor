@@ -6,8 +6,10 @@
     using Controllers.Synchronization;
     using Controllers.Synchronization.Graphs;
     using DataModel.BasicProperties;
+    using DataModel.Telemetry;
     using OxyPlot;
     using SecondMonitor.ViewModels;
+    using Settings.DTO;
     using TelemetryManagement.DTO;
 
     public interface IGraphViewModel : IViewModel, IDisposable
@@ -15,10 +17,10 @@
         string Title { get; }
         bool HasValidData { get; set; }
         PlotModel PlotModel { get; }
-        Dictionary<string, (Distance distance, Color color)> SelectedDistances { get; set; }
+        XAxisKind XAxisKind { get; set; }
+        Dictionary<string, (double x, Color color)> SelectedDistances { get; set; }
         ILapColorSynchronization LapColorSynchronization { get; set; }
         IGraphViewSynchronization GraphViewSynchronization { get; set; }
-        Distance TrackDistance { get; set; }
         DistanceUnits DistanceUnits { get; set; }
         DistanceUnits SuspensionDistanceUnits { get; set; }
         VelocityUnits VelocityUnits { get; set; }
@@ -27,6 +29,6 @@
 
         void AddLapTelemetry(LapTelemetryDto lapTelemetryDto);
         void RemoveLapTelemetry(LapSummaryDto lapSummaryDto);
-        void UpdateLapDistance(string lapId, Distance distance);
+        void UpdateXSelection(string lapId, TimedTelemetrySnapshot timedTelemetrySnapshot);
     }
 }

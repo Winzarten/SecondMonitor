@@ -1,6 +1,5 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.SettingsWindow
 {
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using SecondMonitor.ViewModels;
@@ -12,6 +11,7 @@
         ObservableCollection<IGraphSettingsViewModel> LeftPanelGraphs { get; }
         ObservableCollection<IGraphSettingsViewModel> RightPanelGraphs { get; }
         ObservableCollection<IGraphSettingsViewModel> NotUsedGraphs { get;  }
+        XAxisKind XAxisKind { get; set; }
 
         ICommand OpenWindowCommand { get; set; }
         ICommand CancelCommand { get; set; }

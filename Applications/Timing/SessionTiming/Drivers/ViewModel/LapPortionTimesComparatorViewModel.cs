@@ -2,17 +2,18 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
     public class LapPortionTimesComparatorViewModel : INotifyPropertyChanged,  IDisposable
     {
         private TimeSpan _timeDifference;
 
-        private DateTime _nextUpdate;
+        private Stopwatch _refreshWatch;
 
         public LapPortionTimesComparatorViewModel()
         {
-            _nextUpdate = DateTime.Now;
+            _refreshWatch = Stopwatch.StartNew();
             TimeDifference = TimeSpan.Zero;
             SubscribeToComparedLap();
         }
@@ -61,7 +62,7 @@
         private void PortionTimes_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
-            if (DateTime.Now < _nextUpdate)
+            if(_refreshWatch.Elapsed < TimeSpan.FromMilliseconds(100))
             {
                 return;
             }
@@ -80,7 +81,7 @@
             {
                 TimeDifference = TimeSpan.Zero;
             }
-            _nextUpdate = DateTime.Now + TimeSpan.FromMilliseconds(100);
+            _refreshWatch.Restart();
         }
 
         public void Dispose()

@@ -5,6 +5,6 @@
 
     public interface IGraphSettingsViewModel : IViewModel<GraphSettingsDto>
     {
-
+        GraphLocationKind GraphLocation { get; set; }
     }
 }

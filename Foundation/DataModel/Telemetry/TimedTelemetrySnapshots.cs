@@ -32,5 +32,46 @@ namespace SecondMonitor.DataModel.Telemetry
             _nextSnapshotTime = lapTime + _snapshotsIntervals;
             _snapshots.Add(new TimedTelemetrySnapshot(lapTime, playerInfo, weatherInfo, inputInfo, simulatorSource));
         }
+
+        public void TrimInvalid(Distance lapDistance)
+        {
+            if (_snapshots.Count == 0)
+            {
+                return;
+            }
+
+            bool start = true;
+            bool end = false;
+            double distanceThresholdUp = lapDistance.InMeters * 0.75;
+            double distanceThresholdDown = lapDistance.InMeters * 0.25;
+            List<TimedTelemetrySnapshot> toRemove = new List<TimedTelemetrySnapshot>(2);
+
+            foreach (TimedTelemetrySnapshot currentSnapshot in _snapshots)
+            {
+                if (start && currentSnapshot.PlayerData.LapDistance >= distanceThresholdUp)
+                {
+                    toRemove.Add(currentSnapshot);
+                    continue;
+                }
+
+                if (start)
+                {
+                    start = false;
+                }
+
+                if (!end && currentSnapshot.PlayerData.LapDistance >= distanceThresholdUp)
+                {
+                    end = true;
+                    continue;
+                }
+
+                if(end && currentSnapshot.PlayerData.LapDistance <= distanceThresholdDown)
+                {
+                    toRemove.Add(currentSnapshot);
+                }
+            }
+
+            toRemove.ForEach(x=> _snapshots.Remove(x));
+        }
     }
 }

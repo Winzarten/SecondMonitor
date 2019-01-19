@@ -13,6 +13,7 @@
         private ICommand _cancelAndCloseWindowCommand;
         private IReadOnlyCollection<SessionInfoDto> _recentSessionsInfos;
         private bool _openWindowVisible;
+        private bool _isBusy;
 
         public ICommand RefreshRecentCommand
         {
@@ -48,6 +49,12 @@
         {
             get => _openWindowVisible;
             set => SetProperty(ref _openWindowVisible,  value);
+        }
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
         }
     }
 }

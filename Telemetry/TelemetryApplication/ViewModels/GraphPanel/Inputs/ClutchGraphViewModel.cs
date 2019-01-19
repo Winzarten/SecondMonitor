@@ -8,7 +8,7 @@
         public override string Title => "Clutch";
         protected override string YUnits => "%";
         protected override double YTickInterval => 25;
-        protected override bool CanYZoom => false;
+        protected override bool CanYZoom => true;
 
        protected override double GetYValue(TimedTelemetrySnapshot value)
         {

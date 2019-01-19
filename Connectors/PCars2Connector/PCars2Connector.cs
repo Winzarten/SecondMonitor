@@ -2,7 +2,6 @@
 {
     using System;
     using System.Diagnostics;
-    using System.Threading;
     using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
@@ -22,7 +21,7 @@
 
 
         private bool _isConnected;
-        private DateTime _connectionTime = DateTime.MinValue;
+
 
         private PCars2SessionType _lastRawPCars2SessionType;
         private SessionType _lastSessionType;
@@ -49,12 +48,7 @@
         {
             ResetConnector();
 
-            if (_connectionTime == DateTime.MinValue)
-            {
-                _connectionTime = DateTime.Now;
-            }
-
-            try
+          try
             {
                 _sharedMemory.Connect();
                 _isConnected = true;
@@ -75,7 +69,6 @@
 
         protected override async Task DaemonMethod()
         {
-            _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
                 await Task.Delay(TickTime).ConfigureAwait(false);

@@ -7,6 +7,8 @@
         xmlns:settingsWindow="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.SettingsWindow;assembly=TelemetryApplication"
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
         xmlns:settings="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.Settings"
+        xmlns:dto="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.Settings.DTO;assembly=TelemetryApplication"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         Title="Telemetry Settings" WindowStyle="ToolWindow" d:DataContext="{d:DesignInstance Type=settingsWindow:SettingsWindowViewModel}" SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
     <Window.Resources>
@@ -14,13 +16,31 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ObjectDataProvider x:Key="DataFromXAxisKindEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="dto:XAxisKind" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
         </ResourceDictionary>
     </Window.Resources>
     <Window.Visibility >
         <Binding Path="IsWindowOpened" Mode="TwoWay" Converter="{StaticResource BooleanToVisibilityConverter}"/>
     </Window.Visibility>
+    <Border Padding="3" BorderThickness="5" Background="{StaticResource Anthracite01Brush}"  BorderBrush="{StaticResource DarkGrey01Brush}" CornerRadius="5">
     <Grid Background="{StaticResource Anthracite01Brush}">
         <DockPanel>
+            <Border DockPanel.Dock="Top" Margin="2" BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}">
+            <Grid >
+                <StackPanel Margin="0,10,0,10">
+                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="X Axis quantity" Margin="5"/>
+                        <ComboBox  VerticalAlignment="Top"
+                          ItemsSource="{Binding Source={StaticResource DataFromXAxisKindEnum}}"
+                          SelectedItem="{Binding XAxisKind}"
+                          Style="{StaticResource StandardComboBoxStyle}" />
+                </StackPanel>
+            </Grid>
+            </Border>
             <settings:GraphPriorityControl DockPanel.Dock="Top" LeftPanelGraphs="{Binding LeftPanelGraphs}" RightPanelGraphs="{Binding RightPanelGraphs}"
                                            NotUsedGraphs="{Binding NotUsedGraphs}"/>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
@@ -45,4 +65,5 @@
             </StackPanel>
         </DockPanel>
     </Grid>
+    </Border>
 </Window>

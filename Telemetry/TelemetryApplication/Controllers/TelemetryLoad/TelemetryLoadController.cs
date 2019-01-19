@@ -97,7 +97,6 @@
                     lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadRecentLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));
                     _cachedTelemetries[lapNumber] = lapTelemetryDto;
                 }
-
                 _telemetryViewsSynchronization.NotifyLapLoaded(lapTelemetryDto);
                 RemoveFromActiveLapJob();
                 return lapTelemetryDto;

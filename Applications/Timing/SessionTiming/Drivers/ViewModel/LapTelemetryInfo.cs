@@ -45,6 +45,11 @@
             }
         }
 
+        public void Complete(Distance lapDistance)
+        {
+            TimedTelemetrySnapshots.TrimInvalid(lapDistance);
+        }
+
         public void Purge()
         {
             if (IsPurged)

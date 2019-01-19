@@ -1,12 +1,14 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.GraphPanel
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
-    using DataModel.BasicProperties;
     using DataModel.Extensions;
     using Settings;
+    using Settings.DTO;
     using Synchronization;
     using Synchronization.Graphs;
+    using TelemetryManagement.DTO;
     using ViewModels;
     using ViewModels.GraphPanel;
 
@@ -16,26 +18,33 @@
         private readonly ILapColorSynchronization _lapColorSynchronization;
         private readonly ISettingsProvider _settingsProvider;
         private readonly IGraphViewSynchronization _graphViewSynchronization;
+        private readonly ITelemetrySettingsRepository _telemetrySettingsRepository;
+        private readonly List<LapTelemetryDto> _loadedLaps;
+        private TelemetrySettingsDto _telemetrySettingsDto;
 
-        protected AbstractGraphPanelController(IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization, ISettingsProvider settingsProvider, IGraphViewSynchronization graphViewSynchronization)
+        protected AbstractGraphPanelController(IMainWindowViewModel mainWindowViewModel, ITelemetryViewsSynchronization telemetryViewsSynchronization, ILapColorSynchronization lapColorSynchronization, ISettingsProvider settingsProvider,
+            IGraphViewSynchronization graphViewSynchronization, ITelemetrySettingsRepository telemetrySettingsRepository)
         {
             MainWindowViewModel = mainWindowViewModel;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _lapColorSynchronization = lapColorSynchronization;
             _settingsProvider = settingsProvider;
             _graphViewSynchronization = graphViewSynchronization;
+            _telemetrySettingsRepository = telemetrySettingsRepository;
+            _loadedLaps = new List<LapTelemetryDto>();
         }
 
         public abstract bool IsLetPanel { get; }
 
-        protected abstract IGraphViewModel[] Graphs { get; }
+        protected abstract IGraphViewModel[] Graphs { get; set; }
         protected IMainWindowViewModel MainWindowViewModel { get; }
 
         public Task StartControllerAsync()
         {
-            Graphs.ForEach(InitializeViewModel);
             Subscribe();
-            RefreshViewModels();
+            _telemetrySettingsDto = _telemetrySettingsRepository.LoadOrCreateNew();
+            ReloadGraphCollection();
+            Graphs.ForEach(InitializeViewModel);
             return Task.CompletedTask;
         }
 
@@ -48,6 +57,7 @@
 
         private void InitializeViewModel(IGraphViewModel graphViewModel)
         {
+            graphViewModel.XAxisKind = _telemetrySettingsDto.XAxisKind;
             graphViewModel.GraphViewSynchronization = _graphViewSynchronization;
             graphViewModel.LapColorSynchronization = _lapColorSynchronization;
             graphViewModel.SuspensionDistanceUnits = _settingsProvider.DisplaySettingsViewModel.DistanceUnitsVerySmall;
@@ -55,20 +65,30 @@
             graphViewModel.VelocityUnits = _settingsProvider.DisplaySettingsViewModel.VelocityUnits;
             graphViewModel.TemperatureUnits = _settingsProvider.DisplaySettingsViewModel.TemperatureUnits;
             graphViewModel.PressureUnits = _settingsProvider.DisplaySettingsViewModel.PressureUnits;
+            _loadedLaps.ForEach(graphViewModel.AddLapTelemetry);
         }
 
         private void Subscribe()
         {
             _telemetryViewsSynchronization.SyncTelemetryView += TelemetryViewsSynchronizationOnSyncTelemetryView;
-            _telemetryViewsSynchronization.NewSessionLoaded += TelemetryViewsSynchronizationOnNewSessionLoaded;
             _telemetryViewsSynchronization.LapLoaded += TelemetryViewsSynchronizationOnLapLoaded;
             _telemetryViewsSynchronization.LapUnloaded += TelemetryViewsSynchronizationOnLapUnloaded;
+            _telemetrySettingsRepository.SettingsChanged += TelemetrySettingsRepositoryOnSettingsChanged;
         }
 
-        private void TelemetryViewsSynchronizationOnNewSessionLoaded(object sender, TelemetrySessionArgs e)
+        private void Unsubscribe()
         {
-            Distance trackDistance = Distance.FromMeters(e.SessionInfoDto.LayoutLength);
-            Graphs.ForEach(x => x.TrackDistance = trackDistance );
+            _telemetryViewsSynchronization.SyncTelemetryView += TelemetryViewsSynchronizationOnSyncTelemetryView;
+            _telemetryViewsSynchronization.LapLoaded -= TelemetryViewsSynchronizationOnLapLoaded;
+            _telemetryViewsSynchronization.LapUnloaded -= TelemetryViewsSynchronizationOnLapUnloaded;
+            _telemetrySettingsRepository.SettingsChanged += TelemetrySettingsRepositoryOnSettingsChanged;
+        }
+
+        private void TelemetrySettingsRepositoryOnSettingsChanged(object sender, EventArgs e)
+        {
+            _telemetrySettingsDto = _telemetrySettingsRepository.LoadOrCreateNew();
+            ReloadGraphCollection();
+            Graphs.ForEach(InitializeViewModel);
         }
 
         private void TelemetryViewsSynchronizationOnSyncTelemetryView(object sender, TelemetrySnapshotArgs e)
@@ -78,28 +98,20 @@
                 return;
             }
 
-            Distance distance = Distance.FromMeters(e.TelemetrySnapshot.PlayerData.LapDistance);
-            Graphs.ForEach(x => x.UpdateLapDistance(e.LapSummaryDto.Id, distance));
-
+            Graphs.ForEach(x => x.UpdateXSelection(e.LapSummaryDto.Id, e.TelemetrySnapshot));
         }
 
         private void TelemetryViewsSynchronizationOnLapUnloaded(object sender, LapSummaryArgs e)
         {
+            _loadedLaps.RemoveAll(x => x.LapSummary.Id == e.LapSummary.Id);
             Graphs.ForEach(x => x.RemoveLapTelemetry(e.LapSummary));
         }
         private void TelemetryViewsSynchronizationOnLapLoaded(object sender, LapTelemetryArgs e)
         {
+            _loadedLaps.Add(e.LapTelemetry);
             Graphs.ForEach(x => x.AddLapTelemetry(e.LapTelemetry));
         }
 
-        private void Unsubscribe()
-        {
-            _telemetryViewsSynchronization.SyncTelemetryView += TelemetryViewsSynchronizationOnSyncTelemetryView;
-            _telemetryViewsSynchronization.LapLoaded -= TelemetryViewsSynchronizationOnLapLoaded;
-            _telemetryViewsSynchronization.LapUnloaded -= TelemetryViewsSynchronizationOnLapUnloaded;
-            _telemetryViewsSynchronization.NewSessionLoaded -= TelemetryViewsSynchronizationOnNewSessionLoaded;
-        }
-
-        protected abstract void RefreshViewModels();
+        protected abstract void ReloadGraphCollection();
     }
 }

@@ -78,7 +78,7 @@
                     }
                     else
                     {
-                        _sessionTime = DateTime.Now - _startSessionTime;
+                        _sessionTime = DateTime.UtcNow - _startSessionTime;
                     }
                 }
 
@@ -123,7 +123,7 @@
             {
                 _lastSessionType = r3RData.SessionType;
                 _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
-                _startSessionTime = DateTime.Now;
+                _startSessionTime = DateTime.UtcNow;
                 return true;
             }
 
@@ -131,7 +131,7 @@
             {
                 _inSession = true;
                 _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
-                _startSessionTime = DateTime.Now;
+                _startSessionTime = DateTime.UtcNow;
                 return true;
             }
 

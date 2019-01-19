@@ -984,16 +984,16 @@
             _origZoomAndPanControlMouseDownPoint = mouseButtonEventArgs.GetPosition(this);
             _origContentMouseDownPoint = mouseButtonEventArgs.GetPosition(_content);
 
-            if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0 &&
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 &&
                 (mouseButtonEventArgs.ChangedButton == MouseButton.Left ||
                  mouseButtonEventArgs.ChangedButton == MouseButton.Right))
             {
                 // Shift + left- or right-down initiates zooming mode.
                 _mouseHandlingMode = MouseHandlingMode.Zooming;
             }
-            else if (_mouseButtonDown == MouseButton.Left)
+            else if (_mouseButtonDown == MouseButton.Right)
             {
-                // Just a plain old left-down initiates panning mode.
+                // Just a plain old right-down initiates panning mode.
                 _mouseHandlingMode = MouseHandlingMode.Panning;
             }
 
@@ -1110,7 +1110,7 @@
                 Point curZoomAndPanControlMousePoint = e.GetPosition(this);
                 Vector dragOffset = curZoomAndPanControlMousePoint - _origZoomAndPanControlMouseDownPoint;
                 double dragThreshold = 10;
-                if (_mouseButtonDown == MouseButton.Left &&
+                if (_mouseButtonDown == MouseButton.Right &&
                     (Math.Abs(dragOffset.X) > dragThreshold ||
                      Math.Abs(dragOffset.Y) > dragThreshold))
                 {

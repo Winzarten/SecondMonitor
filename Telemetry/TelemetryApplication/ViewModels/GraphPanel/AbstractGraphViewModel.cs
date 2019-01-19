@@ -13,6 +13,7 @@
     using OxyPlot.Axes;
     using OxyPlot.Series;
     using SecondMonitor.ViewModels;
+    using Settings.DTO;
     using TelemetryManagement.DTO;
 
     public abstract class AbstractGraphViewModel : AbstractViewModel, IGraphViewModel
@@ -21,7 +22,7 @@
         private LinearAxis _yAxis;
         private LinearAxis _xAxis;
         private PlotModel _plotModel;
-        private Dictionary<string, (Distance distance , Color color)> _selectedDistances;
+        private Dictionary<string, (double x , Color color)> _selectedXValue;
         private bool _invalidatingPlot;
         private Task _invalidationTask;
         private double _yMaximum;
@@ -32,14 +33,14 @@
         private double _yMinimum;
         private bool _syncWithOtherGraphs;
         private DateTime _lastChangeRequest;
-        private Distance _trackDistance;
+        private double _xMaximum;
 
         protected AbstractGraphViewModel()
         {
             SyncWithOtherGraphs = true;
             _lastChangeRequest = DateTime.MinValue;
             LoadedSeries = new Dictionary<string, List<LineSeries>>();
-            _selectedDistances = new Dictionary<string, (Distance distance, Color color)>();
+            _selectedXValue = new Dictionary<string, (double x, Color color)>();
             InitializeViewModel();
         }
 
@@ -66,6 +67,8 @@
             set => SetProperty(ref _hasValidData, value);
         }
 
+        public XAxisKind XAxisKind { get; set; }
+
         public PlotModel PlotModel
         {
             get => _plotModel;
@@ -76,10 +79,10 @@
             }
         }
 
-        public Dictionary<string, (Distance distance, Color color)> SelectedDistances
+        public Dictionary<string, (double x, Color color)> SelectedDistances
         {
-            get => _selectedDistances;
-            set => SetProperty(ref _selectedDistances, value);
+            get => _selectedXValue;
+            set => SetProperty(ref _selectedXValue, value);
         }
 
         public bool SyncWithOtherGraphs
@@ -105,19 +108,6 @@
                 UnsubscribeGraphViewSync();
                 _graphViewSynchronization = value;
                 SubscribeGraphViewSync();
-            }
-        }
-
-        public Distance TrackDistance
-        {
-            get => _trackDistance;
-            set
-            {
-                _trackDistance = value;
-                if (_xAxis != null)
-                {
-                    _xAxis.Maximum = XMaximum;
-                }
             }
         }
 
@@ -157,7 +147,17 @@
             }
         }
 
-        protected double XMaximum =>TrackDistance.GetByUnit(DistanceUnits);
+        protected double XMaximum
+        {
+            get => _xMaximum;
+            set
+            {
+                _xMaximum = value;
+                UpdateXAxis();
+            }
+        }
+
+
 
         public abstract string Title { get; }
         protected abstract string YUnits { get; }
@@ -184,8 +184,14 @@
             TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).ToArray();
             //TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).WhereWithPrevious(FilterFunction).ToArray();
             List<LineSeries> series = GetLineSeries(lapTelemetryDto.LapSummary, dataPoints, OxyColor.Parse(color.ToString()));
+            double maxX = 0.0;
+            series.ForEach(x => maxX = Math.Max(maxX, x.Points.Max(y => y.X)));
+            if (maxX > XMaximum)
+            {
+                XMaximum = maxX;
+            }
 
-            _selectedDistances[lapTelemetryDto.LapSummary.Id] = (Distance.ZeroDistance, color);
+            _selectedXValue[lapTelemetryDto.LapSummary.Id] = (0, color);
             LoadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
             CheckIfHasValidData();
 
@@ -234,7 +240,7 @@
                     AxisDistance = 0,
                     ExtraGridlineColor = OxyColors.Red,
                     ExtraGridlines = new [] {0.0},
-                    ExtraGridlineThickness = 1.5
+                    ExtraGridlineThickness = 1.5,
 
                 };
                 if (YTickInterval > 0)
@@ -254,13 +260,13 @@
                 {
                     Position = AxisPosition.Bottom,
                     Minimum = -1,
-                    Maximum = XMaximum,
+                    Maximum = 0,
                     TickStyle = TickStyle.Inside,
                     AxislineColor = OxyColor.Parse("#FFD6D6D6"),
-                    MajorStep = 200,
+                    MajorStep = XAxisKind == XAxisKind.LapTime ? 20 : 200,
                     MajorGridlineColor = OxyColor.Parse("#464239"),
                     MajorGridlineStyle = LineStyle.LongDash,
-                    Unit = Distance.GetUnitsSymbol(DistanceUnits),
+                    Unit = XAxisKind == XAxisKind.LapTime ? "s" : Distance.GetUnitsSymbol(DistanceUnits),
                     AxisTitleDistance = 0,
                     AxisDistance = 0,
                 };
@@ -288,18 +294,35 @@
                 InvalidatePlot();
             }
 
-            _selectedDistances.Remove(lapSummaryDto.Id);
+            _selectedXValue.Remove(lapSummaryDto.Id);
+            NotifyPropertyChanged(nameof(SelectedDistances));
+            if (LoadedSeries.Count == 0)
+            {
+                XMaximum = 0;
+            }
+        }
+
+        public void UpdateXSelection(string lapId, TimedTelemetrySnapshot timedTelemetrySnapshot)
+        {
+            if(_selectedXValue.TryGetValue(lapId, out (double x, Color color) value))
+            {
+                value.x = GetXValue(timedTelemetrySnapshot);
+                _selectedXValue[lapId] = value;
+            }
             NotifyPropertyChanged(nameof(SelectedDistances));
         }
 
-        public void UpdateLapDistance(string lapId, Distance distance)
+        protected double GetXValue(TimedTelemetrySnapshot timedTelemetrySnapshot)
         {
-            if(_selectedDistances.TryGetValue(lapId, out (Distance distance, Color color) value))
+            switch (XAxisKind)
             {
-                value.distance = distance;
-                _selectedDistances[lapId] = value;
+                case XAxisKind.LapDistance:
+                    return Distance.FromMeters(timedTelemetrySnapshot.PlayerData.LapDistance).GetByUnit(DistanceUnits);
+                case XAxisKind.LapTime:
+                    return timedTelemetrySnapshot.LapTimeSeconds;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            NotifyPropertyChanged(nameof(SelectedDistances));
         }
 
         protected void InvalidatePlot()
@@ -329,13 +352,24 @@
 
         private void UpdateYAxis()
         {
-            if (_xAxis == null)
+            if (_yAxis == null)
             {
                 return;
             }
 
             _yAxis.Maximum = YMaximum;
             _yAxis.Minimum = YMinimum;
+            InvalidatePlot();
+        }
+
+        private void UpdateXAxis()
+        {
+            if (_xAxis == null)
+            {
+                return;
+            }
+
+            _xAxis.Maximum = XMaximum;
             InvalidatePlot();
         }
 
@@ -395,10 +429,10 @@
 
         private void LapColorSynchronizationOnLapColorChanged(object sender, LapColorArgs e)
         {
-            if (_selectedDistances.TryGetValue(e.LapId, out (Distance distance, Color color) value))
+            if (_selectedXValue.TryGetValue(e.LapId, out (double x, Color color) value))
             {
                 value.color = e.Color;
-                _selectedDistances[e.LapId] = value;
+                _selectedXValue[e.LapId] = value;
             }
 
             if (LoadedSeries.TryGetValue(e.LapId, out List<LineSeries> series))
@@ -413,11 +447,6 @@
 
             NotifyPropertyChanged(nameof(SelectedDistances));
             InvalidatePlot();
-        }
-
-        protected double GetXValue(TimedTelemetrySnapshot value)
-        {
-            return Distance.FromMeters(value.PlayerData.LapDistance).GetByUnit(DistanceUnits);
         }
 
         protected abstract List<LineSeries> GetLineSeries(LapSummaryDto lapSummary, TimedTelemetrySnapshot[] dataPoints, OxyColor color);

@@ -36,7 +36,7 @@
         private Thread _daemonThread;
         private bool _disconnect;
 
-        private DateTime _lastTick = DateTime.Now;
+        private DateTime _lastTick = DateTime.UtcNow;
 
         public event EventHandler<DataEventArgs> DataLoaded;
 
@@ -188,7 +188,7 @@
                         continue;
                     }
 
-                    DateTime tickTime = DateTime.Now;
+                    DateTime tickTime = DateTime.UtcNow;
                     TimeSpan lastTickDuration = tickTime.Subtract(_lastTick);
                     SimulatorDataSet simData= _pCarsConvertor.FromPcarsData(data, lastTickDuration);
 
@@ -291,7 +291,7 @@
         {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
-            _lastTick = DateTime.Now;
+            _lastTick = DateTime.UtcNow;
             SessionTime = new TimeSpan(0, 0, 1);
             handler?.Invoke(this, args);
         }

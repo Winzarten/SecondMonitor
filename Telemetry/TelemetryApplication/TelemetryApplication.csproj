@@ -117,6 +117,7 @@
     <Compile Include="Settings\DTO\GraphSettingsDto.cs" />
     <Compile Include="Settings\DTO\StoredGraphsSettingsProvider.cs" />
     <Compile Include="Settings\DTO\TelemetrySettingsDto.cs" />
+    <Compile Include="Settings\DTO\XAxisKind.cs" />
     <Compile Include="Settings\IGraphsSettingsProvider.cs" />
     <Compile Include="Settings\ISettingsProvider.cs" />
     <Compile Include="Settings\AppDataSettingsProvider.cs" />

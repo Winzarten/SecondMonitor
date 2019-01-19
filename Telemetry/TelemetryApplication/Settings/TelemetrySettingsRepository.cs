@@ -22,6 +22,8 @@
             _xmlSerializer = new XmlSerializer(typeof(TelemetrySettingsDto));
         }
 
+        public event EventHandler<EventArgs> SettingsChanged;
+
         public TelemetrySettingsDto LoadOrCreateNew()
         {
             if (TryLoadTelemetrySettings(out TelemetrySettingsDto telemetrySettingsDto))
@@ -77,6 +79,7 @@
             }
 
             _cachedSettings = telemetrySettings;
+            SettingsChanged?.Invoke(this, new EventArgs());
         }
     }
 }

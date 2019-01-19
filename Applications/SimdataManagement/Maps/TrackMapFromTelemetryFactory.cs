@@ -55,7 +55,7 @@
         {
             List<TimedTelemetrySnapshot> finishLinePoints = new List<TimedTelemetrySnapshot>();
             TimedTelemetrySnapshot previousPoint = null;
-            List<TimedTelemetrySnapshot>.Enumerator enumerator = fullTrackPoints.GetEnumerator();
+            IEnumerator<TimedTelemetrySnapshot> enumerator = ((IEnumerable<TimedTelemetrySnapshot>) fullTrackPoints).Reverse().GetEnumerator();
             double totalLength = 0;
             while (totalLength < _finishLineLength && enumerator.MoveNext())
             {
