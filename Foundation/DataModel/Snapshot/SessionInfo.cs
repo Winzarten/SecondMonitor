@@ -5,7 +5,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class SessionInfo
+    public sealed class SessionInfo
     {
         public SessionInfo()
         {

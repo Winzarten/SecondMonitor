@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     [Serializable]
-    public class Temperature : IQuantity
+    public sealed class Temperature : IQuantity
     {
         public static Temperature Zero = new Temperature();
         private bool _isZero;

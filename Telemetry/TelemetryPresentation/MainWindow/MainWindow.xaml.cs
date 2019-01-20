@@ -31,7 +31,7 @@ namespace SecondMonitor.TelemetryPresentation.MainWindow
 
             if (hwndSource != null)
             {
-                hwndSource.CompositionTarget.RenderMode = RenderMode.SoftwareOnly;
+                //hwndSource.CompositionTarget.RenderMode = RenderMode.SoftwareOnly;
             }
 
             base.OnSourceInitialized(e);

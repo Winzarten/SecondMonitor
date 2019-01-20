@@ -4,7 +4,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class TrackInfo
+    public sealed class TrackInfo
     {
         public TrackInfo()
         {

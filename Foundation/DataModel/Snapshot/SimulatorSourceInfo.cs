@@ -4,7 +4,7 @@
     using System.Xml.Serialization;
 
     [Serializable]
-    public class SimulatorSourceInfo
+    public sealed class SimulatorSourceInfo
     {
         public SimulatorSourceInfo()
         {

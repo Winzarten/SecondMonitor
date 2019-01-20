@@ -4,10 +4,10 @@ using SecondMonitor.DataModel.BasicProperties;
 namespace SecondMonitor.DataModel.DriversPresentation
 {
     [Serializable]
-    public class DriverPresentationDTO
+    public sealed class DriverPresentationDto
     {
         public string DriverName { get; set; }
         public bool CustomOutLineEnabled { get; set; }
-        public ColorDTO OutLineColor { get; set; }
+        public ColorDto OutLineColor { get; set; }
     }
 }

@@ -5,7 +5,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class CarInfo
+    public sealed class CarInfo
     {
         public CarInfo()
         {

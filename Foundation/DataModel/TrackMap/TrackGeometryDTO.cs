@@ -3,7 +3,7 @@
 namespace SecondMonitor.DataModel.TrackMap
 {
     [Serializable]
-    public class TrackGeometryDto : ITrackGeometry
+    public sealed class TrackGeometryDto : ITrackGeometry
     {
         public int ExporterVersion { get; set; }
         public bool IsSwappedAxis { get; set; } = false;

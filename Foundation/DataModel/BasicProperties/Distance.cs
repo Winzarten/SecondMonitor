@@ -4,7 +4,7 @@
     using System.Xml.Serialization;
 
     [Serializable]
-    public class Distance : IQuantity
+    public sealed class Distance : IQuantity
     {
 
         private readonly bool _isZero;
@@ -112,7 +112,7 @@
             }
         }
 
-        protected bool Equals(Distance other)
+        private bool Equals(Distance other)
         {
             return _isZero == other._isZero && InMeters.Equals(other.InMeters);
         }

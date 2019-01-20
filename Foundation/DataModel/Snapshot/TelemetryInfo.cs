@@ -4,7 +4,7 @@
     using System.Xml.Serialization;
 
     [Serializable]
-    public class TelemetryInfo
+    public sealed class TelemetryInfo
     {
         [XmlAttribute]
         public bool RequiresDistanceInterpolation { get; set; }

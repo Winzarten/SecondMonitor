@@ -8,7 +8,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class Driver
+    public sealed class Driver
     {
         private Lap _bestPersonalLap;
 

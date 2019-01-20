@@ -5,7 +5,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class WheelInfo
+    public sealed class WheelInfo
     {
         private static readonly Temperature OptimalTemperature = Temperature.FromCelsius(85);
         private static readonly Temperature OptimalTemperatureWindow = Temperature.FromCelsius(10);

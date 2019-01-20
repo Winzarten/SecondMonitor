@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace SecondMonitor.DataModel.DriversPresentation
 {
     [Serializable]
-    public class DriverPresentationsDTO
+    public sealed class DriverPresentationsDto
     {
-        public DriverPresentationsDTO()
+        public DriverPresentationsDto()
         {
-            DriverPresentations = new List<DriverPresentationDTO>();
+            DriverPresentations = new List<DriverPresentationDto>();
         }
 
-        public List<DriverPresentationDTO> DriverPresentations { get; set; }
+        public List<DriverPresentationDto> DriverPresentations { get; set; }
     }
 }

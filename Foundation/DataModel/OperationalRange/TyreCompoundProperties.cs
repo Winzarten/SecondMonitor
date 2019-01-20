@@ -6,7 +6,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class TyreCompoundProperties
+    public sealed class TyreCompoundProperties
     {
         public TyreCompoundProperties()
         {

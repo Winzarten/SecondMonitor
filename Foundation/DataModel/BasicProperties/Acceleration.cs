@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     [Serializable]
-    public class Acceleration
+    public sealed class Acceleration
     {
 
         private static readonly double GConst = 9.8;

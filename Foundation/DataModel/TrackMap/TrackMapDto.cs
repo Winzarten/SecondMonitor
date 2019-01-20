@@ -1,6 +1,6 @@
 ﻿namespace SecondMonitor.DataModel.TrackMap
 {
-    public class TrackMapDto : ITrackMap
+    public sealed class TrackMapDto : ITrackMap
     {
         public string TrackName { get; set; }
         public string LayoutName { get; set; }

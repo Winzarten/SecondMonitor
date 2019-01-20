@@ -16,10 +16,10 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
         public DriverPresentationsLoader(string storedDirectoryPath)
         {
             _storedDirectoryPath = storedDirectoryPath;
-            _xmlSerializer = new XmlSerializer(typeof(DriverPresentationsDTO));
+            _xmlSerializer = new XmlSerializer(typeof(DriverPresentationsDto));
         }
 
-        public bool TryLoad(out DriverPresentationsDTO driverPresentationsDto)
+        public bool TryLoad(out DriverPresentationsDto driverPresentationsDto)
         {
             string fullPathName = Path.Combine(_storedDirectoryPath, FileName);
             try
@@ -27,7 +27,7 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
                 using (TextReader file = File.OpenText(fullPathName))
                 {
                     XmlReader reader = XmlReader.Create(file, new XmlReaderSettings() { CheckCharacters = false });
-                    driverPresentationsDto = (DriverPresentationsDTO)_xmlSerializer.Deserialize(reader);
+                    driverPresentationsDto = (DriverPresentationsDto)_xmlSerializer.Deserialize(reader);
                 }
                 return true;
             }
@@ -43,7 +43,7 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
             }
         }
 
-        public void Save(DriverPresentationsDTO driverPresentationsDto)
+        public void Save(DriverPresentationsDto driverPresentationsDto)
         {
             string fullPathName = Path.Combine(_storedDirectoryPath, FileName);
             Directory.CreateDirectory(_storedDirectoryPath);

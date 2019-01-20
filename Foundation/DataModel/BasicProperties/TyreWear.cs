@@ -5,7 +5,7 @@ namespace SecondMonitor.DataModel.BasicProperties
     using System.Xml.Serialization;
 
     [Serializable]
-    public class TyreWear
+    public sealed class TyreWear
     {
 
         [XmlAttribute]

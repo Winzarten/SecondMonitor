@@ -3,7 +3,7 @@
     using System;
 
     [Serializable]
-    public class Point3D
+    public sealed class Point3D
     {
         public Point3D()
         {

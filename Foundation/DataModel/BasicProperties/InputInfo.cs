@@ -4,7 +4,7 @@
     using System.Xml.Serialization;
 
     [Serializable]
-    public class InputInfo
+    public sealed class InputInfo
     {
         public InputInfo()
         {

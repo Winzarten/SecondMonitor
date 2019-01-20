@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
 
-    public class DataModelSerializerHelper
+    public sealed class DataModelSerializerHelper
     {
         public static string ToJson(SimulatorDataSet value)
         {

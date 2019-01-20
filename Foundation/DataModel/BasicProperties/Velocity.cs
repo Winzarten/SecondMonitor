@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     [Serializable]
-    public class Velocity : IQuantity
+    public sealed class Velocity : IQuantity
     {
         public static readonly Velocity Zero = FromMs(0);
 

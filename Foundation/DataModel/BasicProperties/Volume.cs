@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     [Serializable]
-    public class Volume : IQuantity
+    public sealed class Volume : IQuantity
     {
         public Volume()
         {

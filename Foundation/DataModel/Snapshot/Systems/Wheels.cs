@@ -3,7 +3,7 @@
     using System;
 
     [Serializable]
-    public class Wheels
+    public sealed class Wheels
     {
         public Wheels()
         {

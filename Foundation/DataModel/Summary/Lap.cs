@@ -4,7 +4,7 @@
     using Telemetry;
 
     [Serializable]
-    public class Lap
+    public sealed class Lap
     {
         public Lap()
         {
