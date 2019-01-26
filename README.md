@@ -11,48 +11,24 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 ![Screenshot](/_githubStuff/SecondMonitor.png)
 
 **Information provided**:
-* Session Information:
-  * Current track + layout + session type
-  * Weather information (not supported for r3r as it doens't provide those)
-  * Best Lap information - Driver, lap, time
-  * Time/laps remaining in the session
-* Live timing, for each driver:
-  * Position
-  * Driver name
-  * Car Name
-  * Completed Laps
-  * Time of last lap
-  * Current pace (average of last few laps)
-  * Best lap
-  * Current lap time
-  * Sector Times
-  * Pit information - in practice/qually it is a simple "in/out", in race it shows number of pit stops, and the last pit stop information - lap of the pitstop and total time
-  * Timing can either by sorted as absolute (first driver always first), or relative (drivers in front of player on track will be before the player, even when lapped)
-  * Times can be displayed as absolute values (whole number) or relative to the players time. So you can quickly see how is your last lap/pace to other drivers
-  * Timing hilights the player, drivers in pits, personal best and session best times, cars lap back and lap in front.
-  * Gap to player
-  * Maximum speed
+* Session Information:  
+* Live timing, for each driver
+* Pit information - in practice/qually it is a simple "in/out", in race it shows number of pit stops, and the last pit stop information  * Absolute/Relative driver ordering.
+* Absolute/relative times 
 * Live detla times between your current lap and previous + personal best
 * Timing Circle (ellipse :D ) / Track Map: Position of cars on the track. The app needs one fully timed lap for to be able to show the track map. 
-* Car Information:
-  * Wheel status (for each wheel):
-  * Left, center and right tyre temperature
-  * Brake temperature
-  * Tyre pressure
-  * Tyre condition  
-  * Water/oil temp
-* Fuel Monitor - Monitoring the current fuel levels and average consumption. Offering a quick color-coded information if the actual fuel state is enough to finish the session.
-  
+* Car Information - Brake temperatures, tyre temperatures + pressures, tyres condition, pedal and wheel postion, oil and water temperatures
+* Fuel Monitor - Monitoring the current fuel levels and average consumption. Offering a quick color-coded information if the actual fuel state is enough to finish the session, and what is the required fuel delta.
+* Fuel Calculator - Use consumption from previous/current session for required for fuel calculation.  
 * Pedal position
-
-* **Settings options:**
-  * Ability to set UOM for Volumes (liters, US Gallons), Temperature (Celzius, Fahrenheit, Kelvin), Pressure (Kilo-pascal, bar, atm, psi)
-  * Pace laps - number of laps used for pace calculation
-  * Refresh rate (ms) - refresh rate of the timing datagrid
+* Detailed lap summer for each driver available by double-clicking on the driver name
+* Session Reports - Ability to automatically export session reports in xlsx file. Files containig race summary, lap overview for each driver, race progress and detailed lap information for players laps
   
-* **Aditional Functionality**  
-  * Double click on a driver will open the drivers lap/sector times.
-  * The app is able to save xlsx file after each session, containing a brief session summary and a detailed log of each players laps + sectors. Settings are in the options
+## Telemetry Viewer:
+  ![ScreenshotTV](https://github.com/Winzarten/SecondMonitor/blob/master/_githubStuff/TelemetryViewer/TelemetryViewer.png)
+
+
+Telemetry Viewer allows to view and analyse the telemetry data that the main second monitor application captures during a session. The data are saved per completed lap and grouped into individual sessions. The basic usage of the application is explained in the topics below:
   
 ## Supported Simulators
 * R3E - Works out of the box
@@ -64,14 +40,16 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 * Project Cars - Limited functionality as split times and lap times are not provided by the sim api. Splits don't work at all, and lap timing is done by the app, so the will be slight difference between what is in the app and what is in sim. Big thanks to mr_belowski for allowing me to use his project cars pit coordinates from CrewChief :)
 
 ## Known Issues
-[Known Issues](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues)
+[Known Issues - Second Monitor](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues)
+[Known Issues - Telemetry Viewer](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues-(Telemetry-Viewer))
 
 
-## Future Plans  
- - [x] Reintroduce the fuel calculator
- - [x] Rework of the timing circle, so the app can learn track layout so proper map can be displayed.
- - [x] Improve the fuel calculator to show delta fuel. 
- - [ ] Telemetry - Allow the application to track and view advanced telemetry for individual laps.
+## Future Plans   
+ - [x] Telemetry - Allow the application to track and view advanced telemetry for individual laps.
+ - [ ] Improve Telemetry Viewer
+ - [ ] Client/Server - Ability to show second monitor on different computer than the simulator is running.
+ - [ ] F1 2018 Support
+ 
 
 ## Installation
 
