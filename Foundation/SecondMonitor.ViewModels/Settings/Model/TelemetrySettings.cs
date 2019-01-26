@@ -5,7 +5,7 @@
     [Serializable]
     public class TelemetrySettings
     {
-        public bool IsFeatureEnabled { get; set; } = false;
+        public bool IsFeatureEnabled { get; set; } = true;
         public bool IsTelemetryLoggingEnabled { get; set; } = false;
         public int LoggingInterval { get; set; } = 16;
         public int MaxSessionsKept { get; set; } = 10;

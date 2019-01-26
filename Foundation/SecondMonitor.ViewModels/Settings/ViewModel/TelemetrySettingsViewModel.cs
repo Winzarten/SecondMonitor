@@ -52,7 +52,7 @@
 
         protected override void ApplyModel(TelemetrySettings model)
         {
-            IsFeatureEnabled = model.IsFeatureEnabled;
+            IsFeatureEnabled = true;
             IsTelemetryLoggingEnabled = model.IsTelemetryLoggingEnabled;
             LoggingInterval = model.LoggingInterval;
             MaxSessionsKept = model.MaxSessionsKept;
