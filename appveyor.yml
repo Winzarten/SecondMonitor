@@ -1,4 +1,4 @@
-version: 2.9.3.{build}
+version: 3.0.0.{build}
 image: Visual Studio 2017
 configuration: Release
 assembly_info:

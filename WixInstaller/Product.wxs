@@ -3,7 +3,7 @@
   <!-->Change Product Code to increase version  -->
   <?define ProductCode = "6a1108ed-9edc-4aff-b36e-53d516df0070"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "2.9.3.0"?>
+  <?define ProductVersion = "3.0.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
@@ -36,14 +36,64 @@
     </Directory>
 
     <ComponentGroup Id="DeploymentGroup">
-      <Component Id="myapplication.exe" Directory="APPLICATIONROOTDIRECTORY" Guid="c99525a0-e8e2-4e69-abf1-62c90e00201c">
+      <Component Id="myapplication.exe" Directory="APPLICATIONROOTDIRECTORY" Guid="43f6b34c-606f-4b28-bbf6-64305d81b9cf">
         <File Id="filemyapplication.exe" KeyPath="yes" Source="..\Deployment\SecondMonitor.exe"/>
+      </Component>
+      <Component Id="telemetry.exe" Directory="APPLICATIONROOTDIRECTORY" Guid="c99525a0-e8e2-4e69-abf1-62c90e00201c">
+        <File Id="filetelemetry.exe" KeyPath="yes" Source="..\Deployment\TelemetryViewer.exe"/>
+      </Component>
+
+      <Component Id="cmpde99100c6ede24f95a5283a6739b8fa5d" Directory="APPLICATIONROOTDIRECTORY" Guid="d6f08738-df3d-4658-bf3c-0ace1f81dc72">
+        <File Id="file99100c6ede24f95a5283a6739b8fa5d" KeyPath="yes" Source="..\Deployment\TelemetryApplication.dll" />
+      </Component>
+      <Component Id="cmp48159482d9184f21bd7f1baf7075f250" Directory="APPLICATIONROOTDIRECTORY" Guid="a76fc66e-9705-4f06-8e34-31e07e835a45">
+        <File Id="fil48159482d9184f21bd7f1baf7075f250" KeyPath="yes" Source="..\Deployment\TelemetryApplication.dll.config"/>
+      </Component>
+      <Component Id="cmp4dcf83bb26c94ced918a7e2aabc3eeea" Directory="APPLICATIONROOTDIRECTORY" Guid="9a843cdc-74ff-4432-83b5-69360c346dec">
+        <File Id="fil4dcf83bb26c94ced918a7e2aabc3eeea" KeyPath="yes" Source="..\Deployment\TelemetryManagement.dll" />
+      </Component>
+      <Component Id="cmpf534e533fd2a4d93b2ec8c9e4b77cd05" Directory="APPLICATIONROOTDIRECTORY" Guid="4502c316-b8c9-4eab-8e4e-f92ccfc9f0dc">
+        <File Id="filf534e533fd2a4d93b2ec8c9e4b77cd05" KeyPath="yes" Source="..\Deployment\TelemetryPresentation.dll" />
+      </Component>
+      <Component Id="cmp1039f1e130ee424f82d73b8cf20a3929" Directory="APPLICATIONROOTDIRECTORY" Guid="dff9487e-775a-4e6e-81fb-72aada40ac57">
+        <File Id="fil1039f1e130ee424f82d73b8cf20a3929" KeyPath="yes" Source="..\Deployment\TelemetryPresentation.dll.config"/>
+      </Component>
+      <Component Id="cmpd263741c1e7924a5597d067825115ea25" Directory="APPLICATIONROOTDIRECTORY" Guid="aaab03a2-e7d2-4661-b0b3-a874bee35bf5">
+        <File Id="fild263741c1e7924a5597d067825115ea25" KeyPath="yes" Source="..\Deployment\TelemetryViewer.exe.config" />
+      </Component>
+
+      <Component Id="cmpd70d492504ff4882bf50cece32ff71e1" Directory="APPLICATIONROOTDIRECTORY" Guid="5ffab2df-2e7b-4f74-b687-bab0e1abdd4f">
+        <File Id="fil5677d5f3cd364264b015461f75f2bfc9" KeyPath="yes" Source="..\Deployment\OxyPlot.dll" />
+      </Component>
+      <Component Id="cmp938f868bbc044759a0d76f0b30fd8367" Directory="APPLICATIONROOTDIRECTORY" Guid="768b1642-c186-4fdc-b24e-7dca9689072f">
+        <File Id="fil938f868bbc044759a0d76f0b30fd8367" KeyPath="yes" Source="..\Deployment\OxyPlot.Wpf.dll"/>
+      </Component>
+      <Component Id="cmpd8653f8714a4c469d8d85902a8a9c0c33" Directory="APPLICATIONROOTDIRECTORY" Guid="eee12913-927c-4ac5-a24d-49d203278acb">
+        <File Id="fild8653f8714a4c469d8d85902a8a9c0c33" KeyPath="yes" Source="..\Deployment\OxyPlot.Wpf.xml" />
+      </Component>
+      <Component Id="cmpccf131b1862d4b79b8983eddb103d6a4" Directory="APPLICATIONROOTDIRECTORY" Guid="565178c9-56af-4672-a47c-9fc3f5d0abcf">
+        <File Id="filccf131b1862d4b79b8983eddb103d6a4" KeyPath="yes" Source="..\Deployment\Ninject.dll" />
+      </Component>
+      <Component Id="cmp418d5520865849bcb60a903b5811e170" Directory="APPLICATIONROOTDIRECTORY" Guid="05edd217-567f-4af7-ac0b-8572c52224bd">
+        <File Id="fil418d5520865849bcb60a903b5811e170" KeyPath="yes" Source="..\Deployment\Ninject.xml" />
+      </Component>
+      <Component Id="cmp463080ad0d6743a38a6470f14bddcb4f" Directory="APPLICATIONROOTDIRECTORY" Guid="dbf2db07-c28a-400f-8c60-998a52b60606">
+        <File Id="fil5463080ad0d6743a38a6470f14bddcb4f" KeyPath="yes" Source="..\Deployment\Ninject.Extensions.NamedScope.dll" />
+      </Component>
+      <Component Id="cmpd66e3e740bc04fdab0108d06a7cda02b" Directory="APPLICATIONROOTDIRECTORY" Guid="304a0673-3f90-49a8-bfab-ebefd6e36fb7">
+        <File Id="fild66e3e740bc04fdab0108d06a7cda02b" KeyPath="yes" Source="..\Deployment\Ninject.Extensions.NamedScope.xml" />
       </Component>
       <Component Id="cmpA5CBA5AEBA67AF3740096B2C71AA5E30" Directory="APPLICATIONROOTDIRECTORY" Guid="b957aee4-905f-4894-8044-abce46beade4">
         <File Id="fil82C32F720D16C0F30EB4769A24E1D5A1" KeyPath="yes" Source="..\Deployment\DataModel.dll" />
       </Component>
       <Component Id="cmp2BE70F4303347811DB70BB7ED092F617" Directory="APPLICATIONROOTDIRECTORY" Guid="d62baf83-45c5-46be-9c52-cf7d1ffd7bd6">
         <File Id="filFEF582307CF918B5B695B3D806851C75" KeyPath="yes" Source="..\Deployment\Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="cmp53bf961ea84945248b0a7eb8dc273476" Directory="APPLICATIONROOTDIRECTORY" Guid="9944e952-fb23-44ab-853c-2e65c260e3df">
+        <File Id="fil53bf961ea84945248b0a7eb8dc273476" KeyPath="yes" Source="..\Deployment\GongSolutions.WPF.DragDrop.dll" />
+      </Component>
+      <Component Id="cmp7d3c4ce7775948d2a4dea004035862d8" Directory="APPLICATIONROOTDIRECTORY" Guid="ec96eeb8-0031-48a4-8d72-a3b00b9b9345">
+        <File Id="fil7d3c4ce7775948d2a4dea004035862d8" KeyPath="yes" Source="..\Deployment\GongSolutions.WPF.DragDrop.xml" />
       </Component>
       <Component Id="cmp7FE169C34BF8CF82969406F4CDAE97CF" Directory="APPLICATIONROOTDIRECTORY" Guid="959142a8-76b2-4268-96fe-cf52f9849d6a">
         <File Id="filE4363DC3C50A4EE374B8A4CD63FC5E75" KeyPath="yes" Source="..\Deployment\Newtonsoft.Json.xml" />
@@ -203,6 +253,9 @@
       <Component Id ="ApplicationShortcut" Guid="beae9dc1-2f51-4ee9-bb5a-d2aee07c80b6">
         <Shortcut Id="SecondMonitorShortcut" Target="[!filemyapplication.exe]" Directory="ApplicationProgramsFolder" Name="Second Monitor" WorkingDirectory='APPLICATIONROOTDIRECTORY' Icon="SecondMonitor.exe" Show="normal">
           <Icon Id="SecondMonitor.exe" SourceFile="..\Deployment\SecondMonitor.exe" />
+        </Shortcut>
+        <Shortcut Id="TelemetryViewerShortCut" Target="[!filetelemetry.exe]" Directory="ApplicationProgramsFolder" Name="Telemetry Viewer" WorkingDirectory='APPLICATIONROOTDIRECTORY' Icon="TelemetryViewer.exe" Show="normal">
+          <Icon Id="TelemetryViewer.exe" SourceFile="..\Deployment\TelemetryViewer.exe" />
         </Shortcut>
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\SecondMonitor" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
