@@ -27,7 +27,7 @@ Second Monitor is Timing/Car information application for racing simulators. It d
   ![ScreenshotTV](https://github.com/Winzarten/SecondMonitor/blob/master/_githubStuff/TelemetryViewer/TelemetryViewer.png)
 
 
-Telemetry Viewer allows to view and analyse the telemetry data that the main second monitor application captures during a session. The data are saved per completed lap and grouped into individual sessions. The basic usage of the application is explained in the topics below:
+Telemetry Viewer allows to view and analyse the telemetry data that the main second monitor application captures during a session. The data are saved per completed lap and grouped into individual sessions. The basic usage of the application is explained in the topics below.
 
 [See the Wiki](https://github.com/Winzarten/SecondMonitor/wiki)
   
