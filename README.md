@@ -54,4 +54,4 @@ Telemetry Viewer allows to view and analyse the telemetry data that the main sec
 
 ## Installation
 
-Check release tab for latests version
+Check [release tab](https://github.com/Winzarten/SecondMonitor/releases) for latest version
