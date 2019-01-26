@@ -11,16 +11,15 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 ![Screenshot](/_githubStuff/SecondMonitor.png)
 
 **Information provided**:
-* Session Information:  
-* Live timing, for each driver
+* Session Information  
+* Live timing  for each driver
 * Pit information - in practice/qually it is a simple "in/out", in race it shows number of pit stops, and the last pit stop information  * Absolute/Relative driver ordering.
 * Absolute/relative times 
 * Live detla times between your current lap and previous + personal best
 * Timing Circle (ellipse :D ) / Track Map: Position of cars on the track. The app needs one fully timed lap for to be able to show the track map. 
-* Car Information - Brake temperatures, tyre temperatures + pressures, tyres condition, pedal and wheel postion, oil and water temperatures
+* Car Information - Brake temperatures, tyre temperatures + pressures, tyres condition, pedal and wheel postion, oil and water temperatures, pedals and wheel position.
 * Fuel Monitor - Monitoring the current fuel levels and average consumption. Offering a quick color-coded information if the actual fuel state is enough to finish the session, and what is the required fuel delta.
 * Fuel Calculator - Use consumption from previous/current session for required for fuel calculation.  
-* Pedal position
 * Detailed lap summer for each driver available by double-clicking on the driver name
 * Session Reports - Ability to automatically export session reports in xlsx file. Files containig race summary, lap overview for each driver, race progress and detailed lap information for players laps
   
@@ -29,6 +28,8 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 
 
 Telemetry Viewer allows to view and analyse the telemetry data that the main second monitor application captures during a session. The data are saved per completed lap and grouped into individual sessions. The basic usage of the application is explained in the topics below:
+
+[See the Wiki](https://github.com/Winzarten/SecondMonitor/wiki)
   
 ## Supported Simulators
 * R3E - Works out of the box
