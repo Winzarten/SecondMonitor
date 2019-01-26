@@ -63,24 +63,9 @@ Second Monitor is Timing/Car information application for racing simulators. It d
 * Project Cars 2 - Works out of the box. Just be sure to enable the shared memory inside Project Cars 2 [options](http://www.eksimracing.com/f-a-q/configure-project-cars-to-use-shared-memory/)
 * Project Cars - Limited functionality as split times and lap times are not provided by the sim api. Splits don't work at all, and lap timing is done by the app, so the will be slight difference between what is in the app and what is in sim. Big thanks to mr_belowski for allowing me to use his project cars pit coordinates from CrewChief :)
 
-
 ## Known Issues
+[Known Issues](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues)
 
-* **All:**
-  * Final lap completion for AI might not be timed properly. This is a precaution, because some sims (i.e. r3e, report lap completed for AI the moment the player crosses the finish line)
-  * Gap: while it is there, the implementation is very simple, just distance / speed, so it deviates a lot at higher distances. Thats why 30s +/- is the maximum it will show.
-* **Assetto Corsa**
-  * AC doesn't provide temperature information for water and oil temps, so these will be frozen.
-  * Not all cars in AC have brake temp simulated
-  * Because AC splits are little bit weird (i.e. track have 15 splits), the app is using custom splits. Each split is 1/3 of track distance.
-  * If you restart session soon after start, then the app might not re-initialize property and reset the timing after the first lap is completed.
-  
-* **Project Cars 1**
-  * Timing is done by app, so there might be slight differences between in-sim and in-app times
-  * Pit Detection - pit detection works on comparing driver position with the entry/exit points, so if you teleport back to pits it will not detect you as in pits. There is no easy way to fix this, as the sim doesn't provide any clear indication if a driver is in pits
-  * Timing will sometime reset when editing pit presets during race (should be mostly fixed)
-  * Top speed is wonky :), that's because speed isn't provided by sim and has to be computed, which is prone to some error. I will try to make it less wonky ;)
-  * Car Class instead of Car Model - Pcars doesn't provide car names for other than the player driver, so I used the class for all drivers.
 
 ## Future Plans  
  - [x] Reintroduce the fuel calculator
