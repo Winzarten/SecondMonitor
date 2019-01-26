@@ -6,7 +6,7 @@
     using Drivers;
 
     [Serializable]
-    public class SimulatorDataSet
+    public sealed class SimulatorDataSet
     {
         public SimulatorDataSet(string source)
         {

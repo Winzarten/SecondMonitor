@@ -6,7 +6,6 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows;
@@ -22,6 +21,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
     using WindowsControls.WPF;
     using NLog;
     using SimdataManagement.DriverPresentation;
+    using Telemetry;
 
     public class SessionTiming : DependencyObject, IPositionCircleInformationProvider, IEnumerable, INotifyPropertyChanged
     {
@@ -59,12 +59,13 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         private CombinedLapPortionComparatorsViewModel _combinedLapPortionComparatorsViewModel;
 
-        private SessionTiming(TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager)
+        private SessionTiming(TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryController sessionTelemetryController)
         {
             _driverPresentationsManager = driverPresentationsManager;
             PaceLaps = 4;
             DisplayBindTimeRelative = false;
             TimingDataViewModel = timingDataViewModel;
+            SessionTelemetryController = sessionTelemetryController;
         }
 
         public LapInfo BestSessionLap
@@ -95,6 +96,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         public bool DisplayGapToPlayerRelative { get; set; }
 
         public TimingDataViewModel TimingDataViewModel { get; private set; }
+        public ISessionTelemetryController SessionTelemetryController { get; }
 
         public SimulatorDataSet LastSet { get; private set; } = new SimulatorDataSet("None");
 
@@ -169,11 +171,12 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             }
         }
 
-        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager)
+        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory)
         {
+
             Dictionary<string, DriverTimingViewModel> drivers = new Dictionary<string, DriverTimingViewModel>();
             Logger.Info($"New Seesion Started :{dataSet.SessionInfo.SessionType.ToString()}");
-            SessionTiming timing = new SessionTiming(timingDataViewModel, driverPresentationsManager)
+            SessionTiming timing = new SessionTiming(timingDataViewModel, driverPresentationsManager, sessionTelemetryControllerFactory.Create(dataSet))
                                        {
                                            SessionStarTime = dataSet.SessionInfo.SessionTime,
                                            SessionType = dataSet.SessionInfo.SessionType,
@@ -218,6 +221,11 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             if (!lapEventArgs.Lap.Valid)
             {
                 return;
+            }
+
+            if (lapEventArgs.Lap.Driver.IsPlayer && TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled)
+            {
+                SessionTelemetryController.TrySaveLapTelemetry(lapEventArgs.Lap);
             }
 
             if (BestSessionLap == null || (BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero))
@@ -402,7 +410,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public bool IsDriverOnValidLap(DriverInfo driver)
+        public bool IsDriverOnValidLap(IDriverInfo driver)
         {
             if (!Drivers?.ContainsKey(driver.DriverName) ?? false)
             {
@@ -412,7 +420,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             return Drivers?[driver.DriverName].DriverTiming.CurrentLap?.Valid ?? false;
         }
 
-        public bool IsDriverLastSectorGreen(DriverInfo driver, int sectorNumber)
+        public bool IsDriverLastSectorGreen(IDriverInfo driver, int sectorNumber)
         {
             if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
             {
@@ -432,7 +440,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             return false;
         }
 
-        public bool IsDriverLastSectorPurple(DriverInfo driver, int sectorNumber)
+        public bool IsDriverLastSectorPurple(IDriverInfo driver, int sectorNumber)
         {
             if (driver == null || string.IsNullOrEmpty(driver.DriverName) || Drivers == null || !Drivers.ContainsKey(driver.DriverName))
             {
@@ -452,7 +460,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             return false;
         }
 
-        public bool GetTryCustomOutline(DriverInfo driverInfo, out SolidColorBrush outlineBrush)
+        public bool GetTryCustomOutline(IDriverInfo driverInfo, out SolidColorBrush outlineBrush)
         {
             if (driverInfo == null || string.IsNullOrEmpty(driverInfo.DriverName) || Drivers == null || !Drivers.TryGetValue(driverInfo.DriverName, out DriverTimingViewModel driverTimingViewModel))
             {

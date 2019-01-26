@@ -454,29 +454,47 @@
                             <Grid HorizontalAlignment="Right">
                                 <GroupBox BorderBrush="{StaticResource DarkGrey01Brush}"
                                           Foreground="{StaticResource LightGrey01Brush}"
-                                          Header="Reports">
-                                    <StackPanel>
-                                        <Button MaxWidth="50" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                          Header="Telemetry + Reports">
+                                    <Grid HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                                Command="{Binding OpenCurrentTelemetrySession, Mode=OneWay}"
+                                                Style="{StaticResource StandardButton}"
+                                                ToolTip="Open Current Session Telemetry">
+                                                <Button.Content>
+                                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                        <ContentPresenter Content="{StaticResource TelemetryIcon}" />
+                                                    </wpf:ColorAbleIcon>
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
                                                 Command="{Binding ReportsController.OpenLastReportCommand, Mode=OneWay}"
                                                 Style="{StaticResource StandardButton}"
                                                 ToolTip="Open Last Report">
                                             <Button.Content>
-                                                <wpf:ColorAbleIcon Margin="-5,-5,-5,-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                                                     <ContentPresenter Content="{StaticResource ReportIcon}" />
                                                 </wpf:ColorAbleIcon>
                                             </Button.Content>
                                         </Button>
-                                        <Button MaxWidth="50" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
                                                 Command="{Binding ReportsController.OpenReportsFolderCommand, Mode=OneWay}"
                                                 Style="{StaticResource StandardButton}"
                                                 ToolTip="Open Reports Folder">
                                             <Button.Content>
-                                                <wpf:ColorAbleIcon Margin="-5,-5,-5,-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                                                     <ContentPresenter Content="{StaticResource FolderIcon}" />
                                                 </wpf:ColorAbleIcon>
                                             </Button.Content>
                                         </Button>
                                     </StackPanel>
+                                    </Grid>
                                 </GroupBox>
                             </Grid>
                         </StackPanel>

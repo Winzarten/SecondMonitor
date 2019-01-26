@@ -8,7 +8,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class CarModelProperties
+    public sealed class CarModelProperties
     {
         public CarModelProperties()
         {

@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     [Serializable]
-    public class Pressure : IQuantity
+    public sealed class Pressure : IQuantity
     {
         private static readonly Pressure _zero = new Pressure();
 

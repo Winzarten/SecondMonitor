@@ -3,7 +3,7 @@
     using System;
 
     [Serializable]
-    public class DriverDebugInfo
+    public sealed class DriverDebugInfo
     {
         public DriverDebugInfo()
         {

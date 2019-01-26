@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace SecondMonitor.DataModel.BasicProperties
 {
     [Serializable]
-    public class ColorDTO
+    public sealed class ColorDto
     {
         [XmlAttribute]
         public byte Alpha;
@@ -21,9 +21,9 @@ namespace SecondMonitor.DataModel.BasicProperties
             return Color.FromArgb(Alpha, Red, Green, Blue);
         }
 
-        public static ColorDTO FromColor(Color color)
+        public static ColorDto FromColor(Color color)
         {
-            return new ColorDTO()
+            return new ColorDto()
             {
                 Alpha = color.A,
                 Red = color.R,

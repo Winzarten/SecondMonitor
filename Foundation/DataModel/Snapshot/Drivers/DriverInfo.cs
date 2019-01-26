@@ -10,7 +10,7 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
 
     [Serializable]
     [DebuggerDisplay("Driver Name: {DriverName}")]
-    public class DriverInfo
+    public sealed class DriverInfo : IDriverInfo
     {
         public DriverInfo()
         {

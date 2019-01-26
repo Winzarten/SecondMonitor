@@ -6,6 +6,8 @@ using SecondMonitor.WindowsControls.Colors;
 
 namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
 {
+    using System.Threading.Tasks;
+
     public abstract class OptimalVolumeToColorBehavior<T,TV> : Behavior<TV> where T : class, IQuantity, new() where TV : UIElement
     {
         private static readonly DependencyProperty VolumeProperty = DependencyProperty.Register("Volume", typeof(OptimalQuantity<T>), typeof(OptimalVolumeToColorBehavior<T,TV>), new PropertyMetadata(){ PropertyChangedCallback = OptimalVolumeChanged<T,TV> });
@@ -16,6 +18,8 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
         private static readonly DependencyProperty HighQuantityColorProperty = DependencyProperty.Register("HighQuantityColor", typeof(Color), typeof(OptimalVolumeToColorBehavior<T,TV>));
 
         private double _oldOptimalValue = double.NaN;
+
+        private bool _setting;
 
         private Color _oldComputedColor;
 
@@ -49,8 +53,16 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
             set => SetValue(HighQuantityColorProperty, value);
         }
 
-        protected void UpdateColor()
+        protected async Task UpdateColor()
         {
+            if (_setting)
+            {
+                return;
+            }
+
+            _setting = true;
+            await Task.Delay(1000);
+
             Color color;
             if (Volume == null || AssociatedObject == null)
             {
@@ -70,6 +82,7 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
 
             _oldComputedColor = color;
             ApplyColor(color);
+            _setting = false;
         }
 
         private Color ComputeColor(double value, double optimalValue, double window)
@@ -119,11 +132,11 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
 
         protected abstract void ApplyColor(Color color);
 
-        private static void OptimalVolumeChanged<A,B>(DependencyObject d, DependencyPropertyChangedEventArgs e) where A : class, IQuantity, new() where B : UIElement
+        private static async void OptimalVolumeChanged<A,B>(DependencyObject d, DependencyPropertyChangedEventArgs e) where A : class, IQuantity, new() where B : UIElement
         {
             if (d is OptimalVolumeToColorBehavior<A,B> optimalVolumeToColorBehavior)
             {
-                optimalVolumeToColorBehavior.UpdateColor();
+                await optimalVolumeToColorBehavior.UpdateColor();
             }
         }
     }

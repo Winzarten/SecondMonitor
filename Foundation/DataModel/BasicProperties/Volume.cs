@@ -6,7 +6,7 @@
     using Newtonsoft.Json;
 
     [Serializable]
-    public class Volume : IQuantity
+    public sealed class Volume : IQuantity
     {
         public Volume()
         {
@@ -18,7 +18,7 @@
             InLiters = valueInLiters;
         }
 
-        public double InLiters { get; }
+        public double InLiters { get; set; }
 
         [JsonIgnore]
         [XmlIgnore]

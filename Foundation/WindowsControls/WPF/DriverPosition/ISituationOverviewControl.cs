@@ -11,11 +11,11 @@ namespace SecondMonitor.WindowsControls.WPF.DriverPosition
 
         IPositionCircleInformationProvider PositionCircleInformationProvider { get; set; }
 
-        void AddDrivers(params DriverInfo[] drivers);
+        void AddDrivers(params IDriverInfo[] drivers);
 
-        void RemoveDrivers(params DriverInfo[] drivers);
+        void RemoveDrivers(params IDriverInfo[] drivers);
 
-        void UpdateDrivers(SimulatorDataSet dataSet, params DriverInfo[] drivers);
+        void UpdateDrivers(SimulatorDataSet dataSet, params IDriverInfo[] drivers);
 
         void RemoveAllDrivers();
     }

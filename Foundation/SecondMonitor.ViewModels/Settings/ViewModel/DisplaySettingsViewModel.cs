@@ -30,10 +30,21 @@
         private bool _animateDriverPosition;
         private bool _animateDeltaTimes;
         private MapDisplaySettingsViewModel _mapDisplaySettingsViewModel;
+        private TelemetrySettingsViewModel _telemetrySettingsViewModel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand OpenLogDirectoryCommand => new RelayCommand(OpenLogDirectory);
+
+        public TelemetrySettingsViewModel TelemetrySettingsViewModel
+        {
+            get => _telemetrySettingsViewModel;
+            set
+            {
+                _telemetrySettingsViewModel = value;
+                OnPropertyChanged();
+            }
+        }
 
         public TemperatureUnits TemperatureUnits
         {
@@ -101,6 +112,42 @@
                         return DistanceUnits.Meters;
                     default:
                         return DistanceUnits.Kilometers;
+                }
+            }
+        }
+
+        public DistanceUnits DistanceUnitsSmall
+        {
+            get
+            {
+                switch (VelocityUnits)
+                {
+                    case VelocityUnits.Kph:
+                        return DistanceUnits.Meters;
+                    case VelocityUnits.Mph:
+                        return DistanceUnits.Yards;
+                    case VelocityUnits.Ms:
+                        return DistanceUnits.Meters;
+                    default:
+                        return DistanceUnits.Meters;
+                }
+            }
+        }
+
+        public DistanceUnits DistanceUnitsVerySmall
+        {
+            get
+            {
+                switch (VelocityUnits)
+                {
+                    case VelocityUnits.Kph:
+                        return DistanceUnits.Centimeter;
+                    case VelocityUnits.Mph:
+                        return DistanceUnits.Inches;
+                    case VelocityUnits.Ms:
+                        return DistanceUnits.Centimeter;
+                    default:
+                        return DistanceUnits.Centimeter;
                 }
             }
         }
@@ -245,6 +292,9 @@
 
             ReportingSettingsView = new ReportingSettingsViewModel();
             ReportingSettingsView.FromModel(settings.ReportingSettings);
+
+            TelemetrySettingsViewModel = new TelemetrySettingsViewModel();
+            TelemetrySettingsViewModel.FromModel(settings.TelemetrySettings);
         }
 
         public DisplaySettings ToModel()
@@ -265,7 +315,8 @@
                 ReportingSettings = ReportingSettingsView.ToModel(),
                 AnimateDriversPosition =  AnimateDriversPosition,
                 AnimateDeltaTimes =  AnimateDeltaTimes,
-                MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel()
+                MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel(),
+                TelemetrySettings = TelemetrySettingsViewModel.SaveToNewModel()
             };
         }
 

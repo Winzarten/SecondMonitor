@@ -5,13 +5,14 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
     using System;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
+    using NLog;
     using SecondMonitor.DataModel.Snapshot.Drivers;
-    using TrackMap;
 
     public class LapInfo
     {
-       private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
+        private static readonly Distance MaxDistancePerTick = Distance.FromMeters(300);
         private static readonly TimeSpan MaxPendingTime = TimeSpan.FromSeconds(2);
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public class SectorCompletedArgs : EventArgs
         {
@@ -21,7 +22,6 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             }
 
             public SectorTiming SectorTiming { get; }
-
         }
 
         private bool _valid;
@@ -48,7 +48,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             PitLap = false;
             PreviousLap = previousLapInfo;
             CompletedDistance = double.NaN;
-            LapTelemetryInfo = new LapTelemetryInfo(driver.DriverInfo, dataSet, this);
+            LapTelemetryInfo = new LapTelemetryInfo(driver.DriverInfo, dataSet, this, Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled, TimeSpan.FromMilliseconds(Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.LoggingInterval), dataSet.SimulatorSourceInfo);
         }
 
         public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;
@@ -62,10 +62,12 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
         public double CompletedDistance { get; private set; }
 
+        public LapInvalidationReasonKind LapInvalidationReasonKind { get; private set; }
+
         public bool Valid
         {
             get => _valid;
-            set
+            private set
             {
                 if (Valid && !value)
                 {
@@ -76,9 +78,8 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 {
                     _valid = value;
                 }
-
             }
-    }
+        }
 
         public DriverTiming Driver { get; }
 
@@ -99,7 +100,6 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                     OnLapCompletedEvent(new LapEventArgs(this));
                 }
             }
-
         }
 
         public LapInfo PreviousLap { get; }
@@ -140,7 +140,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             TimeSpan lapDurationByTiming = dataSet.SessionInfo.SessionTime.Subtract(LapStart);
 
             // Perform a sanity check on the sim reported lap time. The time difference between what the application counted and the sim counted cannot be more than 15 seconds.
-            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 15)
+            if (!dataSet.SimulatorSourceInfo.HasLapTimeInformation || driverInfo.Timing.LastLapTime == TimeSpan.Zero)// || Math.Abs(lapDurationByTiming.TotalSeconds - driverInfo.Timing.LastLapTime.TotalSeconds) > 15)
             {
                 LapEnd = _isPendingStart != TimeSpan.Zero ? _isPendingStart : dataSet.SessionInfo.SessionTime;
             }
@@ -151,13 +151,23 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
             LapTime = LapEnd.Subtract(LapStart);
             SectorTiming[] sectors = {Sector1, Sector2, Sector3};
-            if (LapTime == TimeSpan.Zero || CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.8 || (sectors.Any(x => x?.Duration != TimeSpan.Zero) && sectors.Any(x=> x == null || x.Duration == TimeSpan.Zero)))
+            if (LapTime == TimeSpan.Zero)
             {
-                Valid = false;
+                InvalidateLap(LapInvalidationReasonKind.NoValidLapTime);
             }
 
-            LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
+            if (CompletedDistance < dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.8)
+            {
+                InvalidateLap(LapInvalidationReasonKind.CompletedDistanceLessThanLapThreshold);
+            }
 
+            if (sectors.Any(x => x?.Duration != TimeSpan.Zero) && sectors.Any(x => x == null || x.Duration == TimeSpan.Zero))
+            {
+                InvalidateLap(LapInvalidationReasonKind.NotAllSectorHaveTime);
+            }
+
+            LapTelemetryInfo.CreateLapEndSnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, dataSet.SimulatorSourceInfo);
+            LapTelemetryInfo.Complete(dataSet.SessionInfo.TrackInfo.LayoutLength);
             Completed = true;
         }
 
@@ -181,7 +191,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
             if (IsMaxSpeedViolated(driverInfo))
             {
-                Valid = false;
+                InvalidateLap(LapInvalidationReasonKind.SanityMaxSpeedViolated);
             }
 
             // driverInfo.TraveledDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance.
@@ -191,12 +201,16 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 CompletedDistance = driverInfo.LapDistance;
             }
 
-            if (CompletedDistance != double.NaN && CompletedDistance < driverInfo.LapDistance)
+            if (!double.IsNaN(CompletedDistance))
             {
-                CompletedDistance = driverInfo.LapDistance;
+                if (CompletedDistance <= driverInfo.LapDistance)
+                {
+                    CompletedDistance = driverInfo.LapDistance;
+                }
+
                 if (Driver.IsPlayer)
                 {
-                     LapTelemetryInfo.UpdateTelemetry(dataSet);
+                    LapTelemetryInfo.UpdateTelemetry(dataSet);
                 }
             }
 
@@ -245,7 +259,6 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
         private bool IsMaxSpeedViolated(DriverInfo currentDriverInfo)
         {
-
             if (_previousDriverInfo == null)
             {
                 return false;
@@ -267,12 +280,14 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             {
                 return;
             }
+
             if (CurrentSector == null && driverInfo.Timing.CurrentSector == 1)
             {
                 Sector1 = new SectorTiming(1, dataSet, this);
                 CurrentSector = Sector1;
                 return;
             }
+
             if (driverInfo.Timing.CurrentSector == 0)
             {
                 return;
@@ -321,8 +336,9 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             sectorTiming.Finish(driverInfo, dataSet);
             if ((sectorTiming.Duration == TimeSpan.Zero || (Driver.InPits && dataSet.SessionInfo.SessionType != SessionType.Race)) && dataSet.SimulatorSourceInfo.InvalidateLapBySector)
             {
-                Valid = false;
+                InvalidateLap(LapInvalidationReasonKind.InvalidatedBySectorTime);
             }
+
             OnSectorCompleted(new SectorCompletedArgs(sectorTiming));
         }
 
@@ -337,6 +353,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             {
                 FinishSector(PendingSector.Sector, driverInfo, dataSet);
             }
+
             PendingSector = new PendingSector(sectorTiming, dataSet.SessionInfo.SessionTime);
         }
 
@@ -418,6 +435,18 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 
             // Lap data is sane if we completed at least 90% of the track and the lap hes run for more than 10 seconds
             return CompletedDistance > dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters * 0.9 && LapProgressTimeByTiming > TimeSpan.FromSeconds(10);
+        }
+
+        public void InvalidateLap(LapInvalidationReasonKind lapInvalidationReasonKind)
+        {
+            if (!Valid)
+            {
+                return;
+            }
+
+            LapInvalidationReasonKind = lapInvalidationReasonKind;
+            Valid = false;
+            Logger.Info($"Driver : {Driver.DriverInfo.DriverName}, Invalidated lap {LapNumber}, , REASON : {lapInvalidationReasonKind.ToString()} ");
         }
 
         private SectorTiming PickSector(int sectorNumber)

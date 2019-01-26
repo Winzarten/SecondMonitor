@@ -5,7 +5,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class WheelInfo
+    public sealed class WheelInfo
     {
         private static readonly Temperature OptimalTemperature = Temperature.FromCelsius(85);
         private static readonly Temperature OptimalTemperatureWindow = Temperature.FromCelsius(10);
@@ -46,9 +46,17 @@
                                      IdealQuantityWindow = OptimalTemperatureWindow
                                  };
 
-            TyreWear = new TyreWear(){ActualWear = 0.0, NoWearWearLimit = 0.10, LightWearLimit = 0.25, HeavyWearLimit = 0.7};
+            TyreWear = new TyreWear(){ActualWear = 0.0, NoWearWearLimit = 0.03, LightWearLimit = 0.25, HeavyWearLimit = 0.7};
             TyreType = "Prime";
+            RideHeight = Distance.FromMeters(0);
+            SuspensionTravel = Distance.FromMeters(0);
         }
+
+        public double Rps { get; set; } //Currently in Radians / s
+
+        public Distance SuspensionTravel { get; set; }
+
+        public Distance RideHeight { get; set; }
 
         public OptimalQuantity<Temperature> BrakeTemperature { get; set; }
 

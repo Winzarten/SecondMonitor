@@ -6,6 +6,8 @@ using SecondMonitor.WindowsControls.Colors;
 
 namespace SecondMonitor.WindowsControls.WPF.Behaviors.TyreWear
 {
+    using System.Threading.Tasks;
+
     public abstract class ColorByLinearLimitsBehavior<T> : Behavior<T> where T : UIElement
     {
 
@@ -20,6 +22,7 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.TyreWear
         private static readonly DependencyProperty HeavyLimitProperty = DependencyProperty.Register("HeavyLimit", typeof(double), typeof(ColorByLinearLimitsBehavior<T>));
 
         private double _oldValue = double.NaN;
+        private bool _updating;
 
         public Color DefaultColor
         {
@@ -71,17 +74,18 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.TyreWear
 
         protected abstract void ApplyColor(Color color);
 
-        protected void UpdateColor()
+        protected async Task UpdateColor()
         {
-            if (!double.IsNaN(_oldValue) && Math.Abs(_oldValue - Value) < 0.1)
+            if (_updating || (!double.IsNaN(_oldValue) && Math.Abs(_oldValue - Value) < 0.1))
             {
                 return;
             }
-
-
+            _updating = true;
+            await Task.Delay(1000);
             Color color = ComputeColor();
             ApplyColor(color);
             _oldValue = Value;
+            _updating = false;
         }
 
         private Color ComputeColor()
@@ -110,17 +114,17 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.TyreWear
             }
         }
 
-        private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static async void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ColorByLinearLimitsBehavior<T> behavior)
             {
-                behavior.OnValueChanged();
+                await behavior.OnValueChanged();
             }
         }
 
-        private void OnValueChanged()
+        private async Task OnValueChanged()
         {
-            UpdateColor();
+            await UpdateColor();
         }
     }
 }

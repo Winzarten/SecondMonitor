@@ -6,7 +6,7 @@
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using PluginManager.GameConnector;
@@ -31,7 +31,7 @@
         public R3EConnector() : base(R3EExecutables)
         {
             DataConvertor = new R3EDataConvertor(this);
-            TickTime = 10;
+            TickTime = 16;
         }
 
         protected override void ResetConnector()
@@ -55,12 +55,12 @@
             _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
         }
 
-        protected override void DaemonMethod()
+        protected override async Task DaemonMethod()
         {
 
             while (!ShouldDisconnect)
             {
-                Thread.Sleep(TickTime);
+                await Task.Delay(TickTime).ConfigureAwait(false);
                 R3ESharedData r3RData = Load();
                 SimulatorDataSet data = DataConvertor.FromR3EData(r3RData);
                 if (CheckSessionStarted(r3RData))
@@ -78,7 +78,7 @@
                     }
                     else
                     {
-                        _sessionTime = DateTime.Now - _startSessionTime;
+                        _sessionTime = DateTime.UtcNow - _startSessionTime;
                     }
                 }
 
@@ -123,7 +123,7 @@
             {
                 _lastSessionType = r3RData.SessionType;
                 _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
-                _startSessionTime = DateTime.Now;
+                _startSessionTime = DateTime.UtcNow;
                 return true;
             }
 
@@ -131,7 +131,7 @@
             {
                 _inSession = true;
                 _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
-                _startSessionTime = DateTime.Now;
+                _startSessionTime = DateTime.UtcNow;
                 return true;
             }
 

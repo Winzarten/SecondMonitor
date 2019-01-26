@@ -4,7 +4,7 @@
     using System.Xml.Serialization;
 
     [Serializable]
-    public class Distance : IQuantity
+    public sealed class Distance : IQuantity
     {
 
         private readonly bool _isZero;
@@ -23,13 +23,26 @@
         [XmlIgnore]
         public static Distance ZeroDistance { get; } = new Distance(0, true);
 
-        public double InMeters { get; }
+        [XmlAttribute]
+        public double InMeters { get; set; }
 
         [XmlIgnore]
         public double InKilometers => InMeters / 1000;
 
         [XmlIgnore]
         public double InMiles => InKilometers / 1.609344;
+
+        [XmlIgnore]
+        public double InInches => InMeters * 39.3701;
+
+        [XmlIgnore]
+        public double InCentimeters => InMeters * 100;
+
+        [XmlIgnore]
+        public double InYards => InMeters * 1.09361;
+
+        [XmlIgnore]
+        public double InFeet => InMeters * 3.28084;
 
         public double GetByUnit(DistanceUnits distanceUnits)
         {
@@ -41,6 +54,14 @@
                     return InKilometers;
                 case DistanceUnits.Miles:
                     return InMiles;
+                case DistanceUnits.Feet:
+                    return InFeet;
+                case DistanceUnits.Inches:
+                    return InInches;
+                case DistanceUnits.Centimeter:
+                    return InCentimeters;
+                case DistanceUnits.Yards:
+                    return InYards;
                 default:
                     throw new ArgumentException($"Distance units {distanceUnits} is not known");
             }
@@ -91,7 +112,7 @@
             }
         }
 
-        protected bool Equals(Distance other)
+        private bool Equals(Distance other)
         {
             return _isZero == other._isZero && InMeters.Equals(other.InMeters);
         }
@@ -106,14 +127,43 @@
             {
                 case DistanceUnits.Meters:
                     return "m";
-                    
                 case DistanceUnits.Kilometers:
                     return "Km";
-                   
                 case DistanceUnits.Miles:
                     return "mi";
+                case DistanceUnits.Feet:
+                    return "ft";
+                case DistanceUnits.Inches:
+                    return "in";
+                case DistanceUnits.Centimeter:
+                    return "cm";
+                case DistanceUnits.Yards:
+                    return "yd";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(distanceUnits), distanceUnits, null);
+                    throw new ArgumentException($"Distance units {nameof(distanceUnits)} is unknown.");
+            }
+        }
+
+        public static Distance CreateByUnits(double value, DistanceUnits distanceUnits)
+        {
+            switch (distanceUnits)
+            {
+                case DistanceUnits.Meters:
+                    return FromMeters(value);
+                case DistanceUnits.Kilometers:
+                    return FromMeters(value * 1000);
+                case DistanceUnits.Miles:
+                    return FromMeters(value * 1609.34);
+                case DistanceUnits.Feet:
+                    return FromMeters(value * 0.3047992424196);
+                case DistanceUnits.Yards:
+                    return FromMeters(value * 0.9144);
+                case DistanceUnits.Inches:
+                    return FromMeters(value * 0.0254);
+                case DistanceUnits.Centimeter:
+                    return FromMeters(value / 100);
+                default:
+                    throw new ArgumentException($"Distance units {nameof(distanceUnits)} is unknown.");
             }
         }
 

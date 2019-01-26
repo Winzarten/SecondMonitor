@@ -51,7 +51,7 @@
             }
         }
 
-        public override void FromModel(MapDisplaySettings model)
+        protected override void ApplyModel(MapDisplaySettings model)
         {
             KeepMapRatio = model.KeepMapRatio;
             AutoScaleDrivers = model.AutosScaleDrivers;

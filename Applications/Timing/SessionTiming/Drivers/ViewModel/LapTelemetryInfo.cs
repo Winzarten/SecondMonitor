@@ -1,19 +1,22 @@
 ﻿namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
 {
     using System;
-
+    using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using DataModel.Telemetry;
 
     public class LapTelemetryInfo
     {
-        public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo)
+        private readonly bool _captureDetailedTelemetry;
+
+        public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo, bool captureDetailedTelemetry, TimeSpan snapshotInterval, SimulatorSourceInfo simulatorSourceInfo)
         {
-            LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo);
+            _captureDetailedTelemetry = captureDetailedTelemetry;
+            LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, simulatorSourceInfo);
             LapInfo = lapInfo;
             PortionTimes = new LapPortionTimes(10, dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters, lapInfo);
-            TimedTelemetrySnapshots = new TimedTelemetrySnapshots(TimeSpan.Zero);
+            TimedTelemetrySnapshots = new TimedTelemetrySnapshots(snapshotInterval);
         }
 
         public TelemetrySnapshot LapEndSnapshot { get; private set; }
@@ -23,9 +26,9 @@
         public LapPortionTimes PortionTimes { get; private set; }
         public LapInfo LapInfo { get; }
 
-        public void CreateLapEndSnapshot(DriverInfo driverInfo, WeatherInfo weather)
+        public void CreateLapEndSnapshot(DriverInfo driverInfo, WeatherInfo weather, InputInfo inputInfo, SimulatorSourceInfo simulatorSourceInfo)
         {
-            LapEndSnapshot = new TelemetrySnapshot(driverInfo, weather);
+            LapEndSnapshot = new TelemetrySnapshot(driverInfo, weather, inputInfo, simulatorSourceInfo);
         }
 
         public void UpdateTelemetry(SimulatorDataSet dataSet)
@@ -36,7 +39,15 @@
             }
 
             PortionTimes.UpdateLapPortions();
-            TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo);
+            if (_captureDetailedTelemetry)
+            {
+                TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, dataSet.SimulatorSourceInfo);
+            }
+        }
+
+        public void Complete(Distance lapDistance)
+        {
+            TimedTelemetrySnapshots.TrimInvalid(lapDistance);
         }
 
         public void Purge()

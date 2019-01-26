@@ -7,7 +7,7 @@
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using PluginManager.GameConnector;
@@ -36,7 +36,7 @@
         private Thread _daemonThread;
         private bool _disconnect;
 
-        private DateTime _lastTick = DateTime.Now;
+        private DateTime _lastTick = DateTime.UtcNow;
 
         public event EventHandler<DataEventArgs> DataLoaded;
 
@@ -106,16 +106,14 @@
             return false;
         }
 
-        public void ASyncConnect()
-        {
-            Thread asyncConnectThread = new Thread(ASynConnector);
-            asyncConnectThread.IsBackground = true;
-            asyncConnectThread.Start();
-        }
-
         public bool TryConnect()
         {
             return Connect();
+        }
+
+        public Task FinnishConnectorAsync()
+        {
+            return Task.CompletedTask;
         }
 
         private bool Connect()
@@ -132,7 +130,6 @@
                 _sharedMemoryReadBuffer = new byte[_sharedMemorySize];
                 _isSharedMemoryInitialized = true;
                 RaiseConnectedEvent();
-                StartDaemon();
                 return true;
             }
             catch (FileNotFoundException)
@@ -155,7 +152,7 @@
 
         internal Dictionary<string, DriverInfo> PreviousTickInfo { get; set; } = new Dictionary<string, DriverInfo>();
 
-        private void StartDaemon()
+        public void StartConnectorLoop()
         {
             if (_daemonThread != null && _daemonThread.IsAlive)
             {
@@ -191,7 +188,7 @@
                         continue;
                     }
 
-                    DateTime tickTime = DateTime.Now;
+                    DateTime tickTime = DateTime.UtcNow;
                     TimeSpan lastTickDuration = tickTime.Subtract(_lastTick);
                     SimulatorDataSet simData= _pCarsConvertor.FromPcarsData(data, lastTickDuration);
 
@@ -294,7 +291,7 @@
         {
             DataEventArgs args = new DataEventArgs(data);
             EventHandler<DataEventArgs> handler = SessionStarted;
-            _lastTick = DateTime.Now;
+            _lastTick = DateTime.UtcNow;
             SessionTime = new TimeSpan(0, 0, 1);
             handler?.Invoke(this, args);
         }

@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="SecondMonitor.TelemetryPresentation.Controls.SnapshotSection.SnapshotSectionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.SnapshotSection"
+             xmlns:snapshotSection="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.SnapshotSection;assembly=TelemetryApplication"
+             xmlns:replay="clr-namespace:SecondMonitor.TelemetryPresentation.Controls.Replay"
+             xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl;assembly=WindowsControls"
+             xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl;assembly=WindowsControls"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=snapshotSection:SnapshotSectionViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../TelemetryPresentation.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Column="0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Reference Lap:" Style="{StaticResource StandardText}" Margin="0,0,0,0"  VerticalAlignment="Center"/>
+                    <ComboBox Style="{StaticResource StandardComboBoxStyle}" ItemsSource="{Binding AvailableLaps}" SelectedItem="{Binding SelectedLap}" Margin="5,0,0,0" VerticalAlignment="Center">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding LapNumber}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+            <Border  Grid.Column="1" BorderThickness="3" BorderBrush="{StaticResource DarkGrey01Brush}" Padding="10">
+                <replay:ReplayControl DataContext="{Binding ReplayViewModel}"/>
+            </Border>
+        </Grid>
+        <Grid Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" BorderThickness="3" BorderBrush="{StaticResource DarkGrey01Brush}">
+                <pedalControl:PedalGearControl MaxWidth="200" BrakePercentage="{Binding PedalSectionViewModel.BrakePosition}" ThrottlePercentage="{Binding PedalSectionViewModel.ThrottlePosition}" ClutchPercentage="{Binding PedalSectionViewModel.ClutchPosition}"
+                                               Rpm="{Binding PedalSectionViewModel.Rpm}" Speed="{Binding PedalSectionViewModel.Speed}" WheelRotation="{Binding PedalSectionViewModel.SteerAngle}"
+                                               VelocityUnits="{Binding PedalSectionViewModel.VelocityUnits}" Gear="{Binding PedalSectionViewModel.Gear}"/>
+            </Border>
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" MaxHeight="96"
+                                                                               BrakeTemperature="{Binding CarWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
+                                                                               IsLeftWheel="{Binding CarWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
+                                                                               PressureUnits="{Binding PressureUnits, Mode=OneWay}"
+                                                                               TemperatureUnits="{Binding TemperatureUnits, Mode=OneWay}"
+                                                                               TyreCenterTemperature="{Binding CarWheelsViewModel.LeftFrontTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                               TyreCompound="{Binding CarWheelsViewModel.LeftFrontTyre.TyreCompound, Mode=OneWay}"
+                                                                               TyreCondition="{Binding CarWheelsViewModel.LeftFrontTyre.TyreCondition, Mode=OneWay}"
+                                                                               TyreCoreTemperature="{Binding CarWheelsViewModel.LeftFrontTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                               TyreHeavyWearLimit="{Binding CarWheelsViewModel.LeftFrontTyre.TyreHeavyWearLimit}"
+                                                                               TyreLeftTemperature="{Binding CarWheelsViewModel.LeftFrontTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                               TyreMildWearLimit="{Binding CarWheelsViewModel.LeftFrontTyre.TyreMildWearLimit}"
+                                                                               TyreNoWearWearLimit="{Binding CarWheelsViewModel.LeftFrontTyre.TyreNoWearWearLimit}"
+                                                                               TyrePressure="{Binding CarWheelsViewModel.LeftFrontTyre.TyrePressure, Mode=OneWay}"
+                                                                               TyreRightTemperature="{Binding CarWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                               TyreSlippingIndication="{Binding CarWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+                <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
+                                                                               BrakeTemperature="{Binding CarWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
+                                                                               IsLeftWheel="{Binding CarWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
+                                                                               PressureUnits="{Binding PressureUnits, Mode=OneWay}"
+                                                                               TemperatureUnits="{Binding TemperatureUnits, Mode=OneWay}"
+                                                                               TyreCenterTemperature="{Binding CarWheelsViewModel.RightFrontTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                               TyreCompound="{Binding CarWheelsViewModel.RightFrontTyre.TyreCompound, Mode=OneWay}"
+                                                                               TyreCondition="{Binding CarWheelsViewModel.RightFrontTyre.TyreCondition, Mode=OneWay}"
+                                                                               TyreCoreTemperature="{Binding CarWheelsViewModel.RightFrontTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                               TyreHeavyWearLimit="{Binding CarWheelsViewModel.RightFrontTyre.TyreHeavyWearLimit}"
+                                                                               TyreLeftTemperature="{Binding CarWheelsViewModel.RightFrontTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                               TyreMildWearLimit="{Binding CarWheelsViewModel.RightFrontTyre.TyreMildWearLimit}"
+                                                                               TyreNoWearWearLimit="{Binding CarWheelsViewModel.RightFrontTyre.TyreNoWearWearLimit}"
+                                                                               TyrePressure="{Binding CarWheelsViewModel.RightFrontTyre.TyrePressure, Mode=OneWay}"
+                                                                               TyreRightTemperature="{Binding CarWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                               TyreSlippingIndication="{Binding CarWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+
+                <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
+                                                                               BrakeTemperature="{Binding CarWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
+                                                                               IsLeftWheel="{Binding CarWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}"
+                                                                               PressureUnits="{Binding PressureUnits, Mode=OneWay}"
+                                                                               TemperatureUnits="{Binding TemperatureUnits, Mode=OneWay}"
+                                                                               TyreCenterTemperature="{Binding CarWheelsViewModel.LeftRearTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                               TyreCompound="{Binding CarWheelsViewModel.LeftRearTyre.TyreCompound, Mode=OneWay}"
+                                                                               TyreCondition="{Binding CarWheelsViewModel.LeftRearTyre.TyreCondition, Mode=OneWay}"
+                                                                               TyreCoreTemperature="{Binding CarWheelsViewModel.LeftRearTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                               TyreHeavyWearLimit="{Binding CarWheelsViewModel.LeftRearTyre.TyreHeavyWearLimit}"
+                                                                               TyreLeftTemperature="{Binding CarWheelsViewModel.LeftRearTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                               TyreMildWearLimit="{Binding CarWheelsViewModel.LeftRearTyre.TyreMildWearLimit}"
+                                                                               TyreNoWearWearLimit="{Binding CarWheelsViewModel.LeftRearTyre.TyreNoWearWearLimit}"
+                                                                               TyrePressure="{Binding CarWheelsViewModel.LeftRearTyre.TyrePressure, Mode=OneWay}"
+                                                                               TyreRightTemperature="{Binding CarWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                               TyreSlippingIndication="{Binding CarWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}" />
+                <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
+                                                                               BrakeTemperature="{Binding CarWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
+                                                                               IsLeftWheel="{Binding CarWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
+                                                                               PressureUnits="{Binding PressureUnits, Mode=OneWay}"
+                                                                               TemperatureUnits="{Binding TemperatureUnits, Mode=OneWay}"
+                                                                               TyreCenterTemperature="{Binding CarWheelsViewModel.RightRearTyre.TyreCenterTemperature, Mode=OneWay}"
+                                                                               TyreCompound="{Binding CarWheelsViewModel.RightRearTyre.TyreCompound, Mode=OneWay}"
+                                                                               TyreCondition="{Binding CarWheelsViewModel.RightRearTyre.TyreCondition, Mode=OneWay}"
+                                                                               TyreCoreTemperature="{Binding CarWheelsViewModel.RightRearTyre.TyreCoreTemperature, Mode=OneWay}"
+                                                                               TyreHeavyWearLimit="{Binding CarWheelsViewModel.RightRearTyre.TyreHeavyWearLimit}"
+                                                                               TyreLeftTemperature="{Binding CarWheelsViewModel.RightRearTyre.TyreLeftTemperature, Mode=OneWay}"
+                                                                               TyreMildWearLimit="{Binding CarWheelsViewModel.RightRearTyre.TyreMildWearLimit}"
+                                                                               TyreNoWearWearLimit="{Binding CarWheelsViewModel.RightRearTyre.TyreNoWearWearLimit}"
+                                                                               TyrePressure="{Binding CarWheelsViewModel.RightRearTyre.TyrePressure, Mode=OneWay}"
+                                                                               TyreRightTemperature="{Binding CarWheelsViewModel.RightRearTyre.TyreRightTemperature, Mode=OneWay}"
+                                                                               TyreSlippingIndication="{Binding CarWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

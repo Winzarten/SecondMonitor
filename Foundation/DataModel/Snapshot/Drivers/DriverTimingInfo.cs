@@ -3,7 +3,7 @@
     using System;
 
     [Serializable]
-    public class DriverTimingInfo
+    public sealed class DriverTimingInfo
     {
         public DriverTimingInfo()
         {

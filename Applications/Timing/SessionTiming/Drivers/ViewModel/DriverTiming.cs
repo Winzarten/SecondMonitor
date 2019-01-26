@@ -7,12 +7,14 @@
     using DataModel.BasicProperties;
     using DataModel.Extensions;
     using DataModel.Snapshot;
+    using NLog;
     using SecondMonitor.DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
 
     public class DriverTiming
     {
         private const int MaxLapsWithTelemetry = 5;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
 
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
@@ -200,11 +202,11 @@
             UpdateInPitsProperty(set);
             if (_lapsInfo.Count == 0)
             {
-                LapInfo firstLap =
-                    new LapInfo(set, DriverInfo.CompletedLaps + 1, this, true, null)
-                        {
-                            Valid = !InvalidateFirstLap
-                        };
+                LapInfo firstLap = new LapInfo(set, DriverInfo.CompletedLaps + 1, this, true, null);
+                if (InvalidateFirstLap)
+                {
+                    firstLap.InvalidateLap(LapInvalidationReasonKind.InvalidatedFirstLap);
+                }
                 firstLap.SectorCompletedEvent += LapSectorCompletedEvent;
                 firstLap.LapInvalidatedEvent += LapInvalidatedHandler;
                 _lapsInfo.Add(firstLap);
@@ -294,7 +296,7 @@
             // Driver is DNF/DQ -> finish timed lap, and set it to invalid
             if (DriverInfo.FinishStatus != DriverFinishStatus.Na && DriverInfo.FinishStatus != DriverFinishStatus.None)
             {
-                CurrentLap.Valid = false;
+                CurrentLap.InvalidateLap(LapInvalidationReasonKind.DriverDnf);
                 return true;
             }
 
@@ -308,20 +310,24 @@
             LapPercentage = (DriverInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters) * 100;
             if (CurrentLap.Valid && SessionType.Race != dataSet.SessionInfo.SessionType && (InPits || !DriverInfo.CurrentLapValid) && _lapsInfo.Count >= 1)
             {
-                CurrentLap.Valid = false;
+                CurrentLap.InvalidateLap(InPits ? LapInvalidationReasonKind.DriverInPits : LapInvalidationReasonKind.InvalidatedBySim);
             }
         }
 
 
         private void FinishLap(LapInfo lapToFinish, SimulatorDataSet dataSet)
         {
+            if (lapToFinish.Completed)
+            {
+                return;
+            }
             lapToFinish.FinishLap(dataSet, DriverInfo);
             lapToFinish.SectorCompletedEvent -= LapSectorCompletedEvent;
             lapToFinish.LapInvalidatedEvent -= LapInvalidatedHandler;
 
             if (lapToFinish.LapTime == TimeSpan.Zero)
             {
-                lapToFinish.Valid = false;
+                lapToFinish.InvalidateLap(LapInvalidationReasonKind.NoValidLapTime);
                 RevertSectorChanges(lapToFinish);
             }
 
@@ -337,6 +343,7 @@
             }
 
             OnLapCompleted(new LapEventArgs(lapToFinish));
+            Logger.Info($"Driver {DriverInfo.DriverName}, Lap {lapToFinish.LapNumber} finnished. REASON: {lapToFinish.LapCompletionMethod}");
 
             ComputePace();
             PurgeLapsTelemetry();

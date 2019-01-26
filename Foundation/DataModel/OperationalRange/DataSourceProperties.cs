@@ -7,7 +7,7 @@
     using Extensions;
 
     [Serializable]
-    public class DataSourceProperties
+    public sealed class DataSourceProperties
     {
         public DataSourceProperties()
         {

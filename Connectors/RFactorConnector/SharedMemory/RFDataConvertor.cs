@@ -98,6 +98,21 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.RearLeft].Wear;
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.RearRight].Wear;
 
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Rps = -data.Wheel[(int)RfWheelIndex.FrontLeft].Rotation;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Rps = - data.Wheel[(int)RfWheelIndex.FrontRight].Rotation;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Rps = - data.Wheel[(int)RfWheelIndex.RearLeft].Rotation;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Rps = - data.Wheel[(int)RfWheelIndex.RearRight].Rotation;
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.SuspensionTravel = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.FrontLeft].SuspensionDeflection);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionTravel = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.FrontRight].SuspensionDeflection);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionTravel = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.RearLeft].SuspensionDeflection);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionTravel = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.RearRight].SuspensionDeflection);
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RideHeight = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.FrontLeft].RideHeight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RideHeight = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.FrontRight].RideHeight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RideHeight = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.RearLeft].RideHeight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RideHeight = Distance.FromMeters(data.Wheel[(int)RfWheelIndex.RearRight].RideHeight);
+
             // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].Temperature[0]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp.ActualQuantity = Temperature.FromKelvin(data.Wheel[(int)RfWheelIndex.FrontLeft].Temperature[2]);

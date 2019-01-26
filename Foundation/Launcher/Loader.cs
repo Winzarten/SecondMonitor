@@ -30,6 +30,8 @@
                 //Application.EnableVisualStyles();
                 //Application.SetCompatibleTextRenderingDefault(false);
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+                /*AppDomain.CurrentDomain.AssemblyResolve +=
+                    new ResolveEventHandler(CurrentDomain_AssemblyResolve);*/
                 Application app = new Application();
                 LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConnectorsDir));
                 app.Run();
@@ -40,6 +42,20 @@
                 LogManager.GetCurrentClassLogger().Error(ex, "Application experienced an error");
             }
         }
+
+/*        static Assembly CurrentDomain_AssemblyResolve(object sender,
+            ResolveEventArgs args)
+        {
+            string folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string assemblyPath = Path.Combine(folderPath, new AssemblyName(args.Name).Name + ".dll");
+            if (!File.Exists(assemblyPath))
+            {
+                return null;
+            }
+
+            Assembly assembly = Assembly.LoadFrom(assemblyPath);
+            return assembly;
+        }*/
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {

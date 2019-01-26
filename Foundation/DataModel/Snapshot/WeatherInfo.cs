@@ -5,7 +5,7 @@
     using BasicProperties;
 
     [Serializable]
-    public class WeatherInfo
+    public sealed class WeatherInfo
     {
         public WeatherInfo()
         {

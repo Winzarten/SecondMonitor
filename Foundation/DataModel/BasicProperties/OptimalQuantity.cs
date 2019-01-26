@@ -3,7 +3,7 @@
     using System;
 
     [Serializable]
-    public class OptimalQuantity<T> where T : class, IQuantity, new()
+    public sealed class OptimalQuantity<T> where T : class, IQuantity, new()
     {
 
         public T ActualQuantity { get; set; } = (T)new T().ZeroQuantity;

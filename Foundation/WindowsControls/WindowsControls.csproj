@@ -61,7 +61,6 @@
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -128,17 +127,25 @@
     <Compile Include="WPF\CarSettingsControl\ITyreSettingsViewModel.cs" />
     <Compile Include="WPF\CarSettingsControl\TyreCompoundSettingsControl.cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
+    <Compile Include="WPF\Commands\AsyncCommand.cs" />
+    <Compile Include="WPF\Commands\AsyncCommandBase.cs" />
+    <Compile Include="WPF\Commands\IAsyncCommand.cs" />
     <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="WPF\Commands\NotifyTaskCompletion.cs" />
     <Compile Include="WPF\Commands\RelayCommand.cs" />
     <Compile Include="WPF\Commands\RelayCommandWithCondition.cs" />
     <Compile Include="WPF\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="WPF\Converters\DateTimeToCurrentConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
+    <Compile Include="WPF\Converters\InvertedBooleanConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Converters\IntegerToStringConverter.cs" />
+    <Compile Include="WPF\Converters\ScaleToPercentConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
+    <Compile Include="WPF\Converters\TimeSpanToMinutesSecondMilisecondsConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToMinutesSecondsConverter.cs" />
     <Compile Include="WPF\DriverPosition\AbstractSituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\FullMapControl.cs" />
@@ -151,6 +158,9 @@
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
     <Compile Include="WPF\FuelControl\FuelPlannerControl.cs" />
     <Compile Include="WPF\FuelControl\SessionFuelConsumptionControl.cs" />
+    <Compile Include="WPF\Graphs\GraphControl.xaml.cs">
+      <DependentUpon>GraphControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
     <Compile Include="WPF\DriverPosition\ISituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\DriverPositionControl.cs" />
@@ -177,6 +187,10 @@
     </Compile>
     <Compile Include="WPF\Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="WPF\WheelStatusControl\WheelStatusControl.cs" />
+    <Compile Include="WPF\ZoomAndPan\AnimationHelper.cs" />
+    <Compile Include="WPF\ZoomAndPan\MouseHandlingMode.cs" />
+    <Compile Include="WPF\ZoomAndPan\ZoomAndPanControl.cs" />
+    <Compile Include="WPF\ZoomAndPan\ZoomAndPanControl_IScrollInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -230,6 +244,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="WPF\Graphs\GraphControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WPF\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -270,9 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Page Include="WPF\ZoomAndPan\ZoomAndPanControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">
@@ -285,6 +304,9 @@
       <Name>DataModel</Name>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

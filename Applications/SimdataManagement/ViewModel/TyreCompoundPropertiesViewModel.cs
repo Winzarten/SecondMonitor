@@ -100,7 +100,7 @@ namespace SecondMonitor.SimdataManagement.ViewModel
             }
         }
 
-        public override void FromModel(TyreCompoundProperties model)
+        protected override void ApplyModel(TyreCompoundProperties model)
         {
             CompoundName = model.CompoundName;
             NoWearLimit = model.NoWearLimit * 100.0;

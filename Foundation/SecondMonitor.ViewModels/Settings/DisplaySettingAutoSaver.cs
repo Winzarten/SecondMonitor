@@ -38,6 +38,7 @@
             _displaySettingsView.QualificationSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.RaceSessionDisplayOptionsView.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.MapDisplaySettingsViewModel.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.TelemetrySettingsViewModel.PropertyChanged -= DisplaySettingsViewOnPropertyChanged;
             UnRegisterColumnsProperties(_displaySettingsView.PracticeSessionDisplayOptionsView.ColumnsSettingsView);
             UnRegisterColumnsProperties(_displaySettingsView.QualificationSessionDisplayOptionsView.ColumnsSettingsView);
             UnRegisterColumnsProperties(_displaySettingsView.RaceSessionDisplayOptionsView.ColumnsSettingsView);
@@ -99,6 +100,7 @@
             _displaySettingsView.QualificationSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.RaceSessionDisplayOptionsView.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             _displaySettingsView.MapDisplaySettingsViewModel.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
+            _displaySettingsView.TelemetrySettingsViewModel.PropertyChanged += DisplaySettingsViewOnPropertyChanged;
             RegisterColumnsProperties(_displaySettingsView.PracticeSessionDisplayOptionsView.ColumnsSettingsView);
             RegisterColumnsProperties(_displaySettingsView.QualificationSessionDisplayOptionsView.ColumnsSettingsView);
             RegisterColumnsProperties(_displaySettingsView.RaceSessionDisplayOptionsView.ColumnsSettingsView);

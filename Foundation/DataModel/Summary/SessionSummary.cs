@@ -9,7 +9,7 @@
     using Snapshot;
 
     [Serializable]
-    public class SessionSummary
+    public sealed class SessionSummary
     {
         private Lap _sessionBestLaps;
         private Lap _sessionBestSector1;

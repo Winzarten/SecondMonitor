@@ -11,6 +11,10 @@
     <converters:TimeSpanToMinutesSecondsConverter x:Key="TimeSpanToMinutesSecondsConverter"/>
     <converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
     <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+    <converters:TimeSpanToMinutesSecondMilisecondsConverter x:Key="TimeSpanToMinutesSecondMilisecondsConverter"/>
+    <converters:DateTimeToCurrentConverter x:Key="DateTimeToCurrentConverter"/>
+    <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
+
     <Style x:Key="StandardText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />

@@ -8,7 +8,7 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
     public class DriverPresentationsManager
     {
         private readonly DriverPresentationsLoader _driverPresentationsLoader;
-        private DriverPresentationsDTO _driverPresentationsDto;
+        private DriverPresentationsDto _driverPresentationsDto;
 
 
         public DriverPresentationsManager(DriverPresentationsLoader driverPresentationsLoader)
@@ -16,25 +16,25 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
             _driverPresentationsLoader = driverPresentationsLoader;
         }
 
-        private DriverPresentationsDTO DriverPresentationsDto => _driverPresentationsDto ?? LoadDriverPresentations();
+        private DriverPresentationsDto DriverPresentationsDto => _driverPresentationsDto ?? LoadDriverPresentations();
 
         public bool TryGetOutLineColor(string driverName, out Color color)
         {
-            DriverPresentationDTO driverPresentation = GetDriverPresentation(driverName);
+            DriverPresentationDto driverPresentation = GetDriverPresentation(driverName);
             color = driverPresentation?.OutLineColor?.ToColor() ?? Colors.Transparent;
             return driverPresentation?.OutLineColor != null;
         }
 
         public bool IsCustomOutlineEnabled(string driverName)
         {
-            DriverPresentationDTO driverPresentation = GetDriverPresentation(driverName);
+            DriverPresentationDto driverPresentation = GetDriverPresentation(driverName);
             return driverPresentation?.CustomOutLineEnabled ?? false;
         }
 
 
         public void SetOutLineColorEnabled(string driverName, bool isEnabled)
         {
-            DriverPresentationDTO driverPresentation = GetDriverOrCreatePresentation(driverName);
+            DriverPresentationDto driverPresentation = GetDriverOrCreatePresentation(driverName);
             driverPresentation.CustomOutLineEnabled = isEnabled;
             _driverPresentationsLoader.Save(DriverPresentationsDto);
 
@@ -42,22 +42,22 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
 
         public void SetOutLineColor(string driverName, Color color)
         {
-            DriverPresentationDTO driverPresentation = GetDriverOrCreatePresentation(driverName);
-            driverPresentation.OutLineColor = ColorDTO.FromColor(color);
+            DriverPresentationDto driverPresentation = GetDriverOrCreatePresentation(driverName);
+            driverPresentation.OutLineColor = ColorDto.FromColor(color);
             _driverPresentationsLoader.Save(DriverPresentationsDto);
         }
 
-        private DriverPresentationDTO GetDriverPresentation(string driverName)
+        private DriverPresentationDto GetDriverPresentation(string driverName)
         {
             return DriverPresentationsDto.DriverPresentations.FirstOrDefault(x => x.DriverName == driverName);
         }
 
-        public DriverPresentationDTO GetDriverOrCreatePresentation(string driverName)
+        public DriverPresentationDto GetDriverOrCreatePresentation(string driverName)
         {
-            DriverPresentationDTO driverPresentation = GetDriverPresentation(driverName);
+            DriverPresentationDto driverPresentation = GetDriverPresentation(driverName);
             if (driverPresentation == null)
             {
-                driverPresentation = new DriverPresentationDTO()
+                driverPresentation = new DriverPresentationDto()
                 {
                     DriverName = driverName
                 };
@@ -66,11 +66,11 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
 
             return driverPresentation;
         }
-        private DriverPresentationsDTO LoadDriverPresentations()
+        private DriverPresentationsDto LoadDriverPresentations()
         {
             if (!_driverPresentationsLoader.TryLoad(out _driverPresentationsDto))
             {
-                _driverPresentationsDto = new DriverPresentationsDTO();
+                _driverPresentationsDto = new DriverPresentationsDto();
             }
 
             return _driverPresentationsDto;

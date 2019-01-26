@@ -5,7 +5,7 @@
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
 
@@ -100,12 +100,12 @@
 
         protected override string ConnectorName => "RFactor";
 
-        protected override void DaemonMethod()
+        protected override async Task DaemonMethod()
         {
             _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
-                Thread.Sleep(TickTime);
+                await Task.Delay(TickTime);
                 RfShared rFactorData = Load();
                 SimulatorDataSet dataSet;
                 try
