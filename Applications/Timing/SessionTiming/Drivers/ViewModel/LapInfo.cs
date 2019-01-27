@@ -189,10 +189,10 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
                 TickSectors(dataSet, driverInfo);
             }
 
-            if (IsMaxSpeedViolated(driverInfo))
+/*            if (IsMaxSpeedViolated(driverInfo))
             {
                 InvalidateLap(LapInvalidationReasonKind.SanityMaxSpeedViolated);
-            }
+            }*/
 
             // driverInfo.TraveledDistance might still hold value from previous lap at this point, so wait until it is reasonably small before starting to compute complete distance.
             // Allow 90% of layout length, as some AC tracks have pit exit before the lap end.
