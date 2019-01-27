@@ -42,6 +42,7 @@ Telemetry Viewer allows to view and analyse the telemetry data that the main sec
 
 ## Known Issues
 [Known Issues - Second Monitor](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues)
+
 [Known Issues - Telemetry Viewer](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues-(Telemetry-Viewer))
 
 
