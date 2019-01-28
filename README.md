@@ -52,6 +52,9 @@ Telemetry Viewer allows to view and analyse the telemetry data that the main sec
  - [ ] Client/Server - Ability to show second monitor on different computer than the simulator is running.
  - [ ] F1 2018 Support
  
+## Support
+For Support please use the application topic on r3e forums : https://forum.sector3studios.com/index.php?threads/secondmonitor-timing-status-app.9587/
+ 
 
 ## Installation
 
