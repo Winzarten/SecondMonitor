@@ -60,7 +60,7 @@
 
         public PCarsConnector()
         {
-            TickTime = 10;
+            TickTime = 16;
             ResetConnector();
             _pCarsConvertor = new PCarsConvertor(this);
         }

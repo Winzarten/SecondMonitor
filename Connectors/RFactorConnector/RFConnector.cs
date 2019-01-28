@@ -36,7 +36,7 @@
         public RFConnector()
             : base(RFExecutables)
         {
-            TickTime = 10;
+            TickTime = 16;
             dependencies = new DependencyChecker(new FileExistDependency[] { new FileExistDependency(@"Plugins\rFactorSharedMemoryMap.dll", @"Connectors\RFactor\rFactorSharedMemoryMap.dll") }, () => true);
             _rfDataConvertor = new RFDataConvertor();
         }

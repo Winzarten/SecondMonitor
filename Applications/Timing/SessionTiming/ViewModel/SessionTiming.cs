@@ -19,6 +19,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using WindowsControls.WPF;
+    using ICSharpCode.SharpZipLib.Lzw;
     using NLog;
     using SimdataManagement.DriverPresentation;
     using Telemetry;
@@ -183,21 +184,19 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                                            RetrieveAlsoInvalidLaps = dataSet.SessionInfo.SessionType == SessionType.Race
                                        };
 
-            Array.ForEach(
-                dataSet.DriversInfo,
-                s =>
-                    {
-                        var name = s.DriverName;
+            foreach (DriverInfo s in dataSet.DriversInfo)
+            {
+                var name = s.DriverName;
                 if (drivers.Keys.Contains(name))
                 {
-                    return;
+                    continue;
                 }
 
                 DriverTiming newDriver = DriverTiming.FromModel(s, timing, invalidateFirstLap);
                 newDriver.SectorCompletedEvent += timing.OnSectorCompletedEvent;
                 newDriver.LapInvalidated += timing.LapInvalidatedHandler;
                 newDriver.LapCompleted += timing.DriverOnLapCompleted;
-                DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, timingDataViewModel.DisplaySettingsViewModel,driverPresentationsManager);
+                DriverTimingViewModel newDriverTimingViewModel = new DriverTimingViewModel(newDriver, timingDataViewModel.DisplaySettingsViewModel, driverPresentationsManager);
                 drivers.Add(name, newDriverTimingViewModel);
                 Logger.Info($"Driver Added: {name}");
                 if (newDriver.DriverInfo.IsPlayer)
@@ -205,7 +204,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                     timing.Player = newDriverTimingViewModel;
                     timing.CombinedLapPortionComparator = new CombinedLapPortionComparatorsViewModel(newDriver);
                 }
-            });
+            }
             timing.Drivers = drivers;
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
             {
@@ -267,7 +266,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         private void AddNewDriver(DriverInfo newDriverInfo)
         {
-            if (TimingDataViewModel.GuiDispatcher != null && !TimingDataViewModel.GuiDispatcher.CheckAccess())
+            if (Application.Current.Dispatcher.CheckAccess())
             {
                 TimingDataViewModel.GuiDispatcher.Invoke(() => AddNewDriver(newDriverInfo));
                 return;
@@ -281,7 +280,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                 }
                 Drivers.Remove(newDriverInfo.DriverName);
             }
-            Logger.Info($"Adding new driver: {newDriverInfo.DriverName}");
+            //Logger.Info($"Adding new driver: {newDriverInfo.DriverName}");
             DriverTiming newDriver = DriverTiming.FromModel(newDriverInfo, this, SessionType != SessionType.Race);
             newDriver.SectorCompletedEvent += OnSectorCompletedEvent;
             newDriver.LapInvalidated += LapInvalidatedHandler;
@@ -293,7 +292,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                 CombinedLapPortionComparator = new CombinedLapPortionComparatorsViewModel(newDriver);
             }
             RaiseDriverAddedEvent(newDriverTimingViewModel);
-            Logger.Info($"Added new driver");
+            //Logger.Info($"Added new driver");
         }
 
         private void LapInvalidatedHandler(object sender, LapEventArgs e)
@@ -333,26 +332,32 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         {
             try
             {
-               HashSet<string> updatedDrivers = new HashSet<string>();
-                Array.ForEach( dataSet.DriversInfo,
-                    s =>
-                        {
-                            updatedDrivers.Add(s.DriverName);
-                            if (Drivers.ContainsKey(s.DriverName) && Drivers[s.DriverName].DriverTiming.IsActive)
-                            {
-                                UpdateDriver(s, Drivers[s.DriverName], dataSet);
+                List<DriverInfo> driversToCreate = new List<DriverInfo>(40);
+                HashSet<string> updatedDrivers = new HashSet<string>();
+                foreach (DriverInfo s in dataSet.DriversInfo)
+                {
+                    updatedDrivers.Add(s.DriverName);
+                    if (Drivers[s.DriverName].DriverTiming.IsActive && Drivers.ContainsKey(s.DriverName))
+                    {
+                        UpdateDriver(s, Drivers[s.DriverName], dataSet);
 
-                                if (Drivers[s.DriverName].DriverTiming.IsPlayer)
-                                {
-                                    Player = Drivers[s.DriverName];
-                                }
-                            }
-                            else
-                            {
-                                AddNewDriver(s);
-                            }
-                        });
+                        if (Drivers[s.DriverName].DriverTiming.IsPlayer)
+                        {
+                            Player = Drivers[s.DriverName];
+                        }
+                    }
+                    else
+                    {
+                        driversToCreate.Add(s);
+                    }
+                }
+
                 List<string> driversToRemove = Drivers.Keys.Where(s => !updatedDrivers.Contains(s) && Drivers[s].DriverTiming.IsActive).ToList();
+
+                if (driversToCreate.Count > 0)
+                {
+                    Application.Current.Dispatcher.Invoke(() => driversToCreate.ForEach(AddNewDriver));
+                }
 
                 driversToRemove.ForEach(s =>
                 {

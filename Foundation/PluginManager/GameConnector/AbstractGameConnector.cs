@@ -35,7 +35,7 @@
         protected AbstractGameConnector(string[] executables)
         {
             this.executables = executables;
-            TickTime = 10;
+            TickTime = 16;
         }
 
         protected bool ShouldDisconnect

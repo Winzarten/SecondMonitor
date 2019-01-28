@@ -43,6 +43,7 @@ namespace SecondMonitor.Timing.Controllers
         private DriverPresentationsManager _driverPresentationsManager;
         private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
         private DisplaySettingAutoSaver _settingAutoSaver;
+        private bool _anySessionStarted;
 
 
         public TimingApplicationController()
@@ -93,10 +94,16 @@ namespace SecondMonitor.Timing.Controllers
         private void OnSessionStarted(object sender, DataEventArgs e)
         {
             _timingDataViewModel?.StartNewSession(e.Data);
+            _anySessionStarted = true;
         }
 
         private void OnDataLoaded(object sender, DataEventArgs e)
         {
+            if (!_anySessionStarted)
+            {
+                OnSessionStarted(sender, e);
+            }
+
             SimulatorDataSet dataSet = e.Data;
             try
             {
