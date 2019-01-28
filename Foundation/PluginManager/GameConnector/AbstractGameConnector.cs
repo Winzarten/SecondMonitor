@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Threading.Tasks;
+    using System.Threading;
+
     using DataModel.Snapshot;
 
     public abstract class AbstractGameConnector : IGameConnector
@@ -27,8 +28,7 @@
 
         private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
 
-        private Task _daemonTask;
-        private Task _queueProcessorTask;
+        private Thread _daemonThread;
 
         protected Process Process { get; private set; }
 
@@ -74,17 +74,15 @@
             return false;
         }
 
+        public void ASyncConnect()
+        {
+            Thread asyncConnectThread = new Thread(AsyncConnector) { IsBackground = true };
+            asyncConnectThread.Start();
+        }
+
         public bool TryConnect()
         {
             return Connect();
-        }
-
-        public async Task FinnishConnectorAsync()
-        {
-            await _daemonTask;
-            await _queueProcessorTask;
-            _daemonTask = null;
-            _queueProcessorTask = null;
         }
 
         private bool Connect()
@@ -98,6 +96,7 @@
             {
                 OnConnection();
                 RaiseConnectedEvent();
+                StartDaemon();
                 return true;
             }
             catch (FileNotFoundException)
@@ -111,7 +110,7 @@
 
         protected abstract void ResetConnector();
 
-        protected abstract Task DaemonMethod();
+        protected abstract void DaemonMethod();
 
         protected void AddToQueue(SimulatorDataSet set)
         {
@@ -121,9 +120,17 @@
             }
         }
 
-        public void StartConnectorLoop()
+        private void AsyncConnector()
         {
-            if (_daemonTask != null)
+            while (!TryConnect())
+            {
+                Thread.Sleep(10);
+            }
+        }
+
+        private void StartDaemon()
+        {
+            if (_daemonThread != null && _daemonThread.IsAlive)
             {
                 throw new InvalidOperationException("Daemon is already running");
             }
@@ -131,31 +138,30 @@
             ResetConnector();
             ShouldDisconnect = false;
             _queue.Clear();
-            _daemonTask = DaemonMethod();
+            _daemonThread = new Thread(DaemonMethod) { IsBackground = true };
+            _daemonThread.Start();
 
-            _queueProcessorTask = QueueProcessor();
+            Thread queueProcessorThread = new Thread(QueueProcessor) { IsBackground = true };
+            queueProcessorThread.Start();
 
         }
 
-        private async Task QueueProcessor()
+        private void QueueProcessor()
         {
             while (ShouldDisconnect == false)
             {
                 SimulatorDataSet set;
-                lock (_queue)
+                while (_queue.Count != 0)
                 {
-                    while (_queue.Count != 0)
+                    lock (_queue)
                     {
-                        lock (_queue)
-                        {
-                            set = _queue.Dequeue();
-                        }
-
-                        RaiseDataLoadedEvent(set);
+                        set = _queue.Dequeue();
                     }
+
+                    RaiseDataLoadedEvent(set);
                 }
 
-                await Task.Delay(TickTime).ConfigureAwait(false);
+                Thread.Sleep(TickTime);
             }
 
             lock (_queue)

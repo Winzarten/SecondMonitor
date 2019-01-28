@@ -2,7 +2,8 @@
 {
     using System;
     using System.Diagnostics;
-    using System.Threading.Tasks;
+    using System.Threading;
+
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataConvertor;
@@ -21,7 +22,7 @@
 
 
         private bool _isConnected;
-
+        private DateTime _connectionTime = DateTime.MinValue;
 
         private PCars2SessionType _lastRawPCars2SessionType;
         private SessionType _lastSessionType;
@@ -48,7 +49,12 @@
         {
             ResetConnector();
 
-          try
+            if (_connectionTime == DateTime.MinValue)
+            {
+                _connectionTime = DateTime.Now;
+            }
+
+            try
             {
                 _sharedMemory.Connect();
                 _isConnected = true;
@@ -67,11 +73,12 @@
             _lastSessionType = SessionType.Na;
         }
 
-        protected override async Task DaemonMethod()
+        protected override void DaemonMethod()
         {
+            _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
-                await Task.Delay(TickTime).ConfigureAwait(false);
+                Thread.Sleep(TickTime);
                 PCars2SharedMemory rawData = ReadAllBuffers();
 
                 if (!_stopwatch.IsRunning && ((GameState)rawData.mGameState == GameState.GameInGamePlaying || (GameState)rawData.mGameState == GameState.GameInGameInMenuTimeTicking))

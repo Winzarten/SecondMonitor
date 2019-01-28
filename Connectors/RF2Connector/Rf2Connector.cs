@@ -28,8 +28,7 @@
         private readonly MappedBuffer<rF2Scoring> _scoringBuffer = new MappedBuffer<rF2Scoring>(rFactor2Constants.MM_SCORING_FILE_NAME);
         private readonly MappedBuffer<rF2Rules> _rulesBuffer = new MappedBuffer<rF2Rules>(rFactor2Constants.MM_RULES_FILE_NAME);
         private readonly MappedBuffer<rF2Extended> _extendedBuffer = new MappedBuffer<rF2Extended>(rFactor2Constants.MM_EXTENDED_FILE_NAME);
-        private readonly DependencyChecker _dependencies;
-        private readonly SessionTimeInterpolator _sessionTimeInterpolator;
+        private readonly DependencyChecker dependencies;
 
         private DateTime _connectionTime = DateTime.MinValue;
         private int _rawLastSessionType = int.MinValue;
@@ -42,9 +41,9 @@
             : base(RFExecutables)
         {
             TickTime = 10;
-            _sessionTimeInterpolator = new SessionTimeInterpolator(TimeSpan.FromMilliseconds(190));
-            _dependencies = new DependencyChecker(new FileExistDependency[]{ new FileExistDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
-            _rf2DataConvertor = new RF2DataConvertor(_sessionTimeInterpolator);
+
+            dependencies = new DependencyChecker(new FileExistDependency[]{ new FileExistDependency(@"Plugins\rFactor2SharedMemoryMapPlugin64.dll", @"Connectors\RFactor2\rFactor2SharedMemoryMapPlugin64.dll") }, () => true );
+            _rf2DataConvertor = new RF2DataConvertor();
         }
 
         public override bool IsConnected => _isConnected;
@@ -83,10 +82,10 @@
 
         private void CheckDependencies()
         {
-            if(Process != null && !_dependencies.Checked)
+            if(Process != null && !dependencies.Checked)
             {
                 string directory = Path.Combine(Path.GetPathRoot(Process.MainModule.FileName), Path.GetDirectoryName(Process.MainModule.FileName));
-                Action actionToInstall = _dependencies.CheckAndReturnInstallDependenciesAction(directory);
+                Action actionToInstall = dependencies.CheckAndReturnInstallDependenciesAction(directory);
                 if (actionToInstall != null)
                 {
                     SendMessageToClients("A rFactor2 based game has been detected, but the required plugin, rFactor2SharedMemoryMapPlugin64.dll, was not found. Do you want Second Monitor to install this plugin? You will need to restart the sim, after it is done.",
@@ -127,12 +126,12 @@
 
         protected override string ConnectorName => "RFactor2";
 
-        protected override async Task DaemonMethod()
+        protected override void DaemonMethod()
         {
             _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
-                await Task.Delay(TickTime).ConfigureAwait(false);
+                Thread.Sleep(TickTime);
                 Rf2FullData rFactorData = Load();
                 SimulatorDataSet dataSet;
                 try
@@ -150,7 +149,6 @@
 
                 if (CheckSessionStarted(rFactorData, dataSet))
                 {
-                    _sessionTimeInterpolator.Reset();
                     RaiseSessionStartedEvent(dataSet);
                 }
 

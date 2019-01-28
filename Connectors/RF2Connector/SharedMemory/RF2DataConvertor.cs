@@ -19,9 +19,9 @@
         private int _lastPlayerId = -1;
         private int currentlyIgnoredPackage = 0;
 
-        public RF2DataConvertor(SessionTimeInterpolator sessionTimeInterpolator)
+        public RF2DataConvertor()
         {
-            _sessionTimeInterpolator = sessionTimeInterpolator;
+            //_sessionTimeInterpolator = sessionTimeInterpolator;
         }
 
         public SimulatorDataSet CreateSimulatorDataSet(Rf2FullData rfData)

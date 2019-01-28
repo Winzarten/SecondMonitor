@@ -354,7 +354,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
                 IsPlayersPaceBetter = GetIsPlayersPaceBetter();
                 _refreshStopwatch.Restart();
-               _refreshDelay = DisplaySettingsViewModel != null ?TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : TimeSpan.FromSeconds(10);
+               _refreshDelay = DisplaySettingsViewModel != null ?TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : TimeSpan.FromMilliseconds(300);
             }
             catch (Exception ex)
             {
