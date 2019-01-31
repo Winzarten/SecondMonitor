@@ -71,7 +71,7 @@
         private void OnLapCompleted(object sender, LapEventArgs e)
         {
 
-            if (string.IsNullOrWhiteSpace(_lastUnknownMap) || !e.Lap.Driver.IsPlayer || !e.Lap.Valid || e.Lap.LapTelemetryInfo?.TimedTelemetrySnapshots == null)
+            if (string.IsNullOrWhiteSpace(_lastUnknownMap) || !e.Lap.Driver.IsPlayer || !e.Lap.Valid || e.Lap.LapTelemetryInfo?.TimedTelemetrySnapshots == null || e.Lap.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.Count <= 0)
             {
                 return;
             }
@@ -89,6 +89,8 @@
             }
 
             TrackGeometryDto newTrackGeometryDto = TrackMapFromTelemetryFactory.BuildTrackGeometryDto(e.Lap.LapTelemetryInfo.TimedTelemetrySnapshots);
+
+
             TrackMapDto newTrack = new TrackMapDto()
             {
                 TrackName = e.Lap.Driver.Session.LastSet.SessionInfo.TrackInfo.TrackName,
@@ -96,6 +98,7 @@
                 TrackGeometry = newTrackGeometryDto,
                 SimulatorSource = e.Lap.Driver.Session.LastSet.Source,
             };
+
             Logger.Info($"Notified on Lap Completed on unknown map: {formattedTrackName}, Saving");
             SaveMap(e.Lap.Driver.Session.LastSet.Source, formattedTrackName, newTrack);
         }

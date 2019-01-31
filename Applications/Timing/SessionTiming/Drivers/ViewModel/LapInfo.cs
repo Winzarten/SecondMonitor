@@ -48,7 +48,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.ViewModel
             PitLap = false;
             PreviousLap = previousLapInfo;
             CompletedDistance = double.NaN;
-            LapTelemetryInfo = new LapTelemetryInfo(driver.DriverInfo, dataSet, this, Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled, TimeSpan.FromMilliseconds(Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.LoggingInterval), dataSet.SimulatorSourceInfo);
+            LapTelemetryInfo = new LapTelemetryInfo(driver.DriverInfo, dataSet, this, TimeSpan.FromMilliseconds(Driver.Session.TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.LoggingInterval), dataSet.SimulatorSourceInfo);
         }
 
         public event EventHandler<SectorCompletedArgs> SectorCompletedEvent;

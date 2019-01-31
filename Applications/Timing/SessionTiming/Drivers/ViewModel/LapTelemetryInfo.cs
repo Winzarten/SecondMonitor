@@ -8,11 +8,8 @@
 
     public class LapTelemetryInfo
     {
-        private readonly bool _captureDetailedTelemetry;
-
-        public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo, bool captureDetailedTelemetry, TimeSpan snapshotInterval, SimulatorSourceInfo simulatorSourceInfo)
+       public LapTelemetryInfo(DriverInfo driverInfo, SimulatorDataSet dataSet, LapInfo lapInfo, TimeSpan snapshotInterval, SimulatorSourceInfo simulatorSourceInfo)
         {
-            _captureDetailedTelemetry = captureDetailedTelemetry;
             LapStarSnapshot = new TelemetrySnapshot(driverInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, simulatorSourceInfo);
             LapInfo = lapInfo;
             PortionTimes = new LapPortionTimes(10, dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters, lapInfo);
@@ -39,10 +36,8 @@
             }
 
             PortionTimes.UpdateLapPortions();
-            if (_captureDetailedTelemetry)
-            {
-                TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, dataSet.SimulatorSourceInfo);
-            }
+            TimedTelemetrySnapshots.AddNextSnapshot(LapInfo.CurrentlyValidProgressTime, dataSet.PlayerInfo, dataSet.SessionInfo.WeatherInfo, dataSet.InputInfo, dataSet.SimulatorSourceInfo);
+
         }
 
         public void Complete(Distance lapDistance)

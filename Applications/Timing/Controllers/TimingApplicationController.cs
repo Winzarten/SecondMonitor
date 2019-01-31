@@ -126,12 +126,12 @@ namespace SecondMonitor.Timing.Controllers
             _timingGui.DataContext = _timingDataViewModel;
         }
 
-        private void OnGuiClosed(object sender, EventArgs e)
+        private async void OnGuiClosed(object sender, EventArgs e)
         {
             _timingGui = null;
             List<Exception> exceptions = new List<Exception>();
             _timingDataViewModel?.TerminatePeriodicTask(exceptions);
-            _pluginsManager.DeletePlugin(this, exceptions);
+            await _pluginsManager.DeletePlugin(this, exceptions);
         }
 
         private void GuiOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)

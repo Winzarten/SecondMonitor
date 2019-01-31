@@ -159,7 +159,7 @@
             }
         }
 
-        public void DeletePlugin(ISecondMonitorPlugin plugin, List<Exception> experiencedExceptions)
+        public async Task DeletePlugin(ISecondMonitorPlugin plugin, List<Exception> experiencedExceptions)
         {
             lock (_plugins)
             {
@@ -173,15 +173,15 @@
                 {
                     return;
                 }
-
-                Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
-                Application.Exit(new CancelEventArgs(true));
             }
-        }
 
-        public void DeletePlugin(ISecondMonitorPlugin plugin)
-        {
-            DeletePlugin(plugin, new List<Exception>());
+            if (_activeConnector != null)
+            {
+                await _activeConnector.FinnishConnectorAsync();
+            }
+
+            Logger.Info("------------------------------All plugins closed - application exiting-------------------------------\n\n\n");
+            Application.Exit(new CancelEventArgs(true));
         }
 
         public IGameConnector[] Connectors { get; }

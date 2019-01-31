@@ -55,12 +55,12 @@
             _sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
         }
 
-        protected override async Task DaemonMethod()
+        protected override async Task DaemonMethod(CancellationToken cancellationToken)
         {
 
             while (!ShouldDisconnect)
             {
-                await Task.Delay(TickTime).ConfigureAwait(false);
+                await Task.Delay(TickTime, cancellationToken).ConfigureAwait(false);
                 R3ESharedData r3RData = Load();
                 SimulatorDataSet data = DataConvertor.FromR3EData(r3RData);
                 if (CheckSessionStarted(r3RData))

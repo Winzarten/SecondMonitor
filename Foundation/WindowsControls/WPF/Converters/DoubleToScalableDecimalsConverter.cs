@@ -15,7 +15,7 @@
                 {
                     return "-";
                 }
-                return valueD < 100 ? valueD.ToString("F1") : valueD.ToString("F0");
+                return valueD == 0 ? "0" : valueD < 10 ? valueD.ToString("F2") : valueD < 100 ? valueD.ToString("F1") : valueD.ToString("F0");
             }
 
             return 0;
