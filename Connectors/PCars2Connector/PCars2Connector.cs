@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Threading;
     using System.Threading.Tasks;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
@@ -67,11 +68,11 @@
             _lastSessionType = SessionType.Na;
         }
 
-        protected override async Task DaemonMethod()
+        protected override async Task DaemonMethod(CancellationToken cancellationToken)
         {
             while (!ShouldDisconnect)
             {
-                await Task.Delay(TickTime).ConfigureAwait(false);
+                await Task.Delay(TickTime, cancellationToken).ConfigureAwait(false);
                 PCars2SharedMemory rawData = ReadAllBuffers();
 
                 if (!_stopwatch.IsRunning && ((GameState)rawData.mGameState == GameState.GameInGamePlaying || (GameState)rawData.mGameState == GameState.GameInGameInMenuTimeTicking))

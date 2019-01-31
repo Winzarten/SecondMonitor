@@ -4,11 +4,15 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
     using DataModel.Snapshot;
+    using NLog;
 
     public abstract class AbstractGameConnector : IGameConnector
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public event EventHandler<DataEventArgs> DataLoaded;
 
         public event EventHandler<EventArgs> ConnectedEvent;
@@ -29,6 +33,7 @@
 
         private Task _daemonTask;
         private Task _queueProcessorTask;
+        private CancellationTokenSource _cancellationTokenSource;
 
         protected Process Process { get; private set; }
 
@@ -81,8 +86,33 @@
 
         public async Task FinnishConnectorAsync()
         {
-            await _daemonTask;
-            await _queueProcessorTask;
+            _cancellationTokenSource.Cancel();
+            try
+            {
+                await _daemonTask;
+
+            }
+            catch (OperationCanceledException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error in connector");
+            }
+
+            try
+            {
+                await _queueProcessorTask;
+            }
+            catch (OperationCanceledException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error in connector");
+            }
             _daemonTask = null;
             _queueProcessorTask = null;
         }
@@ -111,7 +141,7 @@
 
         protected abstract void ResetConnector();
 
-        protected abstract Task DaemonMethod();
+        protected abstract Task DaemonMethod(CancellationToken cancellationToken);
 
         protected void AddToQueue(SimulatorDataSet set)
         {
@@ -128,24 +158,30 @@
                 throw new InvalidOperationException("Daemon is already running");
             }
 
+            _cancellationTokenSource = new CancellationTokenSource();
             ResetConnector();
             ShouldDisconnect = false;
             _queue.Clear();
-            _daemonTask = DaemonMethod();
+            _daemonTask = DaemonMethod(_cancellationTokenSource.Token);
 
-            _queueProcessorTask = QueueProcessor();
+            _queueProcessorTask = QueueProcessor(_cancellationTokenSource.Token);
 
         }
 
-        private async Task QueueProcessor()
+        private async Task QueueProcessor(CancellationToken cancellationToken)
         {
             while (ShouldDisconnect == false)
             {
-                SimulatorDataSet set;
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 lock (_queue)
                 {
                     while (_queue.Count != 0)
                     {
+                        SimulatorDataSet set;
                         lock (_queue)
                         {
                             set = _queue.Dequeue();
@@ -155,7 +191,7 @@
                     }
                 }
 
-                await Task.Delay(TickTime).ConfigureAwait(false);
+                await Task.Delay(TickTime, cancellationToken).ConfigureAwait(false);
             }
 
             lock (_queue)

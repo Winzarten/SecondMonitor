@@ -100,12 +100,17 @@
 
         protected override string ConnectorName => "RFactor";
 
-        protected override async Task DaemonMethod()
+        protected override async Task DaemonMethod(CancellationToken cancellationToken)
         {
             _connectionTime = DateTime.MinValue;
             while (!ShouldDisconnect)
             {
-                await Task.Delay(TickTime);
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                await Task.Delay(TickTime, cancellationToken);
                 RfShared rFactorData = Load();
                 SimulatorDataSet dataSet;
                 try
