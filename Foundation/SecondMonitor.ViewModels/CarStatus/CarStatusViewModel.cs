@@ -23,9 +23,9 @@
 
         private PedalsAndGearViewModel _pedalAndGearViewModel;
 
-        public CarStatusViewModel()
+        public CarStatusViewModel(IPaceProvider paceProvider)
         {
-            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(), new PedalsAndGearViewModel()};
+            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(paceProvider), new PedalsAndGearViewModel()};
             _fuelPlannerViewModelFactory = new FuelPlannerViewModelFactory();;
             RefreshProperties();
         }

@@ -8,7 +8,7 @@
     using DataModel.Snapshot.Systems;
     using PluginManager.Visitor;
 
-    public class SimSettingAdapter : IDataSetVisitor
+    public class SimSettingAdapter : ISimulatorDateSetVisitor
     {
         private readonly SimSettingsLoader _simSettingsLoader;
         private DataSourceProperties _dataSourceProperties;
@@ -64,6 +64,11 @@
 
             CarModelProperties carModel = GetCarModelProperties(simulatorDataSet);
             ApplyCarMode(simulatorDataSet, carModel);
+        }
+
+        public void Reset()
+        {
+
         }
 
         public void ReplaceCarModelProperties(CarModelProperties carModelProperties)

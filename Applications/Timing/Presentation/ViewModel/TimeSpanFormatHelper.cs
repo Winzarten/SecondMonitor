@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class TimeSpanFormatHelper
+    public static class TimeSpanFormatHelper
     {
         public static string FormatTimeSpan(TimeSpan timeSpan)
         {
@@ -19,6 +19,27 @@
                 return "-";
             }
             string returnString = $"{(int)Math.Abs(timeSpan.TotalSeconds)}.{Math.Abs(timeSpan.Milliseconds):D3}";
+            if (!includeSign)
+            {
+                return returnString;
+            }
+            if (timeSpan < TimeSpan.Zero)
+            {
+                return "-" + returnString;
+            }
+            else
+            {
+                return "+" + returnString;
+            }
+        }
+
+        public static string FormatTimeSpanOnlySecondNoMiliseconds(this TimeSpan timeSpan, bool includeSign)
+        {
+            if (timeSpan == TimeSpan.Zero)
+            {
+                return "-";
+            }
+            string returnString = $"{Math.Abs(timeSpan.TotalSeconds):F1}";
             if (!includeSign)
             {
                 return returnString;

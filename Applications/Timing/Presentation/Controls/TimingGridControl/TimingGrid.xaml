@@ -15,9 +15,13 @@
             <DataTrigger Binding="{Binding IsLastLapBestSessionLap}" Value="True">
                 <Setter Property="Background" Value="{StaticResource PurpleTimingBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsLapped}" Value="True" />
+                    <Condition Binding="{Binding InPits}" Value="False" />
+                </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{StaticResource LightBlueBrush}" />
-            </DataTrigger>
+            </MultiDataTrigger>
             <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource DarkRed01Brush}" />
             </DataTrigger>
@@ -125,10 +129,20 @@
             <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource DarkRed01Brush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding InPits, Mode=OneWay}" Value="True">
-                <Setter Property="Background" Value="Olive" />
-                <Setter Property="Foreground" Value="Black" />
-            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding InPitsMoving}" Value="False" />
+                    <Condition Binding="{Binding InPits}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource InPitsBrush}" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding InPitsMoving}" Value="True" />
+                    <Condition Binding="{Binding InPits}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource InPitsMovingBrush}" />
+            </MultiDataTrigger>
         </Style.Triggers>
         <Style.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />

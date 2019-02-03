@@ -30,9 +30,11 @@
         private Volume _fuelDelta;
 
         private readonly FuelConsumptionMonitor _fuelConsumptionMonitor;
+        private readonly SessionRemainingCalculator _sessionRemainingCalculator;
 
-        public FuelOverviewViewModel()
+        public FuelOverviewViewModel(IPaceProvider paceProvider)
         {
+            _sessionRemainingCalculator = new SessionRemainingCalculator(paceProvider);
             _fuelConsumptionMonitor = new FuelConsumptionMonitor();
             _resetCommand = new RelayCommand(Reset);
         }
@@ -224,7 +226,7 @@
                     FuelState = FuelLevelStatus.Unknown;
                     break;
                 case SessionType.Race:
-                    UpdateFuelStateBySessionLeft(dataSet);
+                    UpdateFuelStateByLapsSessionLength(dataSet);
                     break;
                 default:
                     UpdateFuelStateByLapsLeft();
@@ -284,7 +286,11 @@
                 return;
             }
 
-            double lapsToGo = (dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1) - dataSet.LeaderInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+            double lapsToGo = _sessionRemainingCalculator.GetLapsRemaining(dataSet);
+            if (double.IsNaN(lapsToGo) || double.IsInfinity(lapsToGo))
+            {
+                return;
+            }
             LapsDelta = LapsLeft - lapsToGo;
             FuelDelta = Volume.FromLiters(CurrentPerLap.InLiters * LapsDelta);
             TimeDelta = TimeSpan.FromMinutes(FuelDelta.InLiters / AvgPerMinute.InLiters);

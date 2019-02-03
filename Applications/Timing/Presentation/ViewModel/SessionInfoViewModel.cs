@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using Annotations;
     using DataModel.BasicProperties;
@@ -10,9 +11,11 @@
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using ViewModels;
+    using ViewModels.CarStatus;
 
-    public class SessionInfoViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
+    public class SessionInfoViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged, IPaceProvider
     {
+        private static readonly TimeSpan SessionRemainingFrequency = TimeSpan.FromSeconds(1);
 
         private string _bestSector1;
         private string _bestSector2;
@@ -20,24 +23,27 @@
         private bool _anySectorFilled;
         private string _bestLap;
         private string _sessionRemaining;
+        private readonly Stopwatch _refreshWatch;
 
         private SessionTiming _timing;
+        private readonly SessionRemainingCalculator _sessionRemainingCalculator;
 
         public SessionInfoViewModel()
         {
             _timing = null;
+            _refreshWatch = Stopwatch.StartNew();
             BestSector1 = "S1:N/A";
             BestSector2 = "S2:N/A";
             BestSector3 = "S2:N/A";
             BestLap = "Best Lap: N/A";
             SessionRemaining = "L1/14";
             AnySectorFilled = true;
+            _sessionRemainingCalculator = new SessionRemainingCalculator(this);
         }
 
-        public SessionInfoViewModel(SessionTiming timing)
-        {
-            _timing = timing;
-        }
+        public TimeSpan? PlayersPace => _timing?.Player?.DriverTiming.Pace;
+
+        public TimeSpan? LeadersPace => _timing?.Leader?.DriverTiming.Pace;
 
         public string BestSector1
         {
@@ -188,10 +194,10 @@
 
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
             {
-                string timeRemaining = "Time Remaining: " + GetTimeRemaining(dataSet).FormatToMinutesSeconds();
+                string timeRemaining = "Time Remaining: " + _sessionRemainingCalculator.GetTimeRemaining(dataSet).FormatToMinutesSeconds();
                 if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
                 {
-                    timeRemaining += "\nEst. Laps:" + (Math.Floor(GetLapsRemaining(dataSet) * 10) / 10.0).ToString("N1");
+                    timeRemaining += "\nEst. Laps:" + (Math.Floor(_sessionRemainingCalculator.GetLapsRemaining(dataSet) * 10) / 10.0).ToString("N1");
                 }
 
                 return timeRemaining;
@@ -213,7 +219,7 @@
                                            : "Infinite";
                 if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
                 {
-                    lapsToDisplay += "\nEst. Time: " + GetTimeRemaining(dataSet).FormatToMinutesSeconds();
+                    lapsToDisplay += "\nEst. Time: " + _sessionRemainingCalculator.GetTimeRemaining(dataSet).FormatToMinutesSeconds();
                 }
                 return "Leader laps to go: " + lapsToDisplay;
             }
@@ -223,61 +229,18 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
+            if (_refreshWatch.Elapsed < SessionRemainingFrequency)
+            {
+                return;
+            }
+
             SessionRemaining = GetSessionRemaining(dataSet);
+           _refreshWatch.Restart();
         }
 
         public void Reset()
         {
-
-        }
-
-        private TimeSpan GetTimeRemaining(SimulatorDataSet dataSet)
-        {
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
-            {
-                return TimeSpan.FromSeconds(dataSet.SessionInfo.SessionTimeRemaining);
-            }
-            else
-            {
-                return SessionTiming?.Leader?.DriverTiming?.Pace != null
-                    ? TimeSpan.FromSeconds(GetLeaderLapsToGo(dataSet) * SessionTiming.Leader.DriverTiming.Pace.TotalSeconds)
-                    : TimeSpan.Zero;
-            }
-        }
-
-        private double GetLapsRemaining(SimulatorDataSet dataSet)
-        {
-
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Laps)
-            {
-                return GetLeaderLapsToGo(dataSet);
-            }
-            else
-            {
-                double secondsTillSessionEnds = dataSet.LeaderInfo.IsPlayer ? dataSet.SessionInfo.SessionTimeRemaining : GetSecondsTillLeaderFinished(dataSet);
-                double distanceToGo = (secondsTillSessionEnds / _timing.Player.DriverTiming.Pace.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
-                double distanceWithLapDistance = distanceToGo + dataSet.PlayerInfo.LapDistance;
-                double distanceToFinishLap = dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - ((int)distanceWithLapDistance % (int)dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
-                double totalDistanceToGo = distanceToGo + distanceToFinishLap;
-                return totalDistanceToGo / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
-            }
-        }
-
-        private double GetSecondsTillLeaderFinished(SimulatorDataSet dataSet)
-        {
-            double distanceToGo = (dataSet.SessionInfo.SessionTimeRemaining /
-                                   _timing.Leader.DriverTiming.Pace.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
-            double distanceWithLapDistance = distanceToGo + dataSet.LeaderInfo.LapDistance;
-            double distanceToFinishLap = dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - ((int)distanceWithLapDistance % (int)dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
-            double totalDistanceToGo = distanceToGo + distanceToFinishLap;
-            double totalLapsToGo = totalDistanceToGo / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
-            return totalLapsToGo * _timing.Leader.DriverTiming.Pace.TotalSeconds;
-        }
-
-        private double GetLeaderLapsToGo(SimulatorDataSet dataSet)
-        {
-            double fullLapsToGo = dataSet.SessionInfo.TotalNumberOfLaps - dataSet.SessionInfo.LeaderCurrentLap + 1;
-            return fullLapsToGo - (dataSet.LeaderInfo.LapDistance / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
+            _refreshWatch.Restart();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

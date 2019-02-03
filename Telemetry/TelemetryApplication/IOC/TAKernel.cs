@@ -1,7 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.IOC
 {
     using System;
-    using System.Collections.Generic;
     using Ninject;
 
     public sealed class TaKernel
@@ -20,11 +19,6 @@
         public T Get<T>()
         {
             return _kernel.Get<T>();
-        }
-
-        public IEnumerable<T> GetAll<T>()
-        {
-            return _kernel.GetAll<T>();
         }
     }
 }

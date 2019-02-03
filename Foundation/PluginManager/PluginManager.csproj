@@ -70,7 +70,6 @@
     <Compile Include="GameConnector\SharedMemory\MappedBuffer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameConnector\IGameConnector.cs" />
-    <Compile Include="Visitor\IDataSetVisitor.cs" />
     <Compile Include="Visitor\SessionTimeInterpolator.cs" />
   </ItemGroup>
   <ItemGroup>

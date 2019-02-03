@@ -38,7 +38,7 @@
     using ViewModels.Settings.Model;
     using ViewModels.Settings.ViewModel;
 
-    public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged
+    public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged, IPaceProvider
     {
         private static readonly DependencyProperty CurrentSessionOptionsViewProperty = DependencyProperty.Register("CurrentSessionOptionsView", typeof(SessionOptionsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
         private static readonly DependencyProperty SelectedDriverTimingViewModelProperty = DependencyProperty.Register("SelectedDriverTimingViewModel", typeof(DriverTimingViewModel), typeof(TimingDataViewModel));
@@ -78,6 +78,9 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public TimeSpan? PlayersPace => SessionTiming?.Player?.DriverTiming.Pace;
+        public TimeSpan? LeadersPace => SessionTiming?.Leader?.DriverTiming.Pace;
 
         public DisplaySettingsViewModel DisplaySettingsViewModel
         {
@@ -292,7 +295,7 @@
 
         public void Reset()
         {
-            CarStatusViewModel = new CarStatusViewModel();
+            CarStatusViewModel = new CarStatusViewModel(this);
             ConnectedSource = "Not Connected";
 
             if (GuiDispatcher != null && GuiDispatcher.CheckAccess())
@@ -493,7 +496,7 @@
                 return;
             }
 
-            var invalidateLap = _shouldReset == TimingDataViewModelResetModeEnum.Manual ||
+            bool invalidateLap = _shouldReset == TimingDataViewModelResetModeEnum.Manual ||
                                 data.SessionInfo.SessionType != SessionType.Race;
             _lastDataSet = data;
             if (_timing != null && ReportsController != null)

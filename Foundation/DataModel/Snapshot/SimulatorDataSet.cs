@@ -31,5 +31,10 @@
         public DriverInfo LeaderInfo { get; set; }
 
         public SimulatorSourceInfo SimulatorSourceInfo { get; } = new SimulatorSourceInfo();
+
+        public void Accept(ISimulatorDateSetVisitor simulatorDateSetVisitor)
+        {
+            simulatorDateSetVisitor.Visit(this);
+        }
     }
 }

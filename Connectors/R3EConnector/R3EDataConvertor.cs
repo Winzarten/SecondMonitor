@@ -284,6 +284,9 @@
 
         internal void FillTimingInfo(DriverInfo driverInfo, DriverData r3EDriverData, R3ESharedData r3RData)
         {
+            driverInfo.Timing.GapAhead = TimeSpan.FromSeconds(r3EDriverData.TimeDeltaFront);
+            driverInfo.Timing.GapBehind = TimeSpan.FromSeconds(r3EDriverData.TimeDeltaBehind);
+
             if (driverInfo.IsPlayer)
             {
                 driverInfo.Timing.LastLapTime = r3RData.LapTimePreviousSelf != -1 ? TimeSpan.FromSeconds(r3RData.LapTimePreviousSelf) : TimeSpan.Zero;
@@ -318,6 +321,7 @@
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
             simData.SimulatorSourceInfo.AIInstantFinish = true;
+            simData.SimulatorSourceInfo.GapInformationProvided = GapInformationKind.TimeToSurroundingDrivers;
 
             // SimulatorDataSet simData = new SimulatorDataSet("R3R");
             FillSessionInfo(data, simData);

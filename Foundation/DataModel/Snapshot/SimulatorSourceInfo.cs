@@ -2,6 +2,7 @@
 {
     using System;
     using System.Xml.Serialization;
+    using Drivers;
 
     [Serializable]
     public sealed class SimulatorSourceInfo
@@ -48,6 +49,9 @@
         [XmlAttribute]
         //Indicates if the time is interpolated - i.e RF2 only refresh time every 200ms, between those 200ms the connector will interpolate the time
         public bool TimeInterpolated { get; set; }
+
+        [XmlAttribute]
+        public GapInformationKind GapInformationProvided { get; set; }
 
         public TelemetryInfo TelemetryInfo { get; set; }
     }

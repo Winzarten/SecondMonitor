@@ -2,18 +2,27 @@
 {
     using System.Collections.Generic;
     using IOC;
+    using Ninject;
+    using Ninject.Syntax;
     using SecondMonitor.ViewModels;
 
     public class ViewModelFactory : IViewModelFactory
     {
+        private readonly IResolutionRoot _resolutionRoot;
+
+        public ViewModelFactory(IResolutionRoot resolutionRoot)
+        {
+            _resolutionRoot = resolutionRoot;
+        }
+
         public T Create<T>() where T : IViewModel
         {
-            return TaKernel.Instance.Get<T>();
+            return _resolutionRoot.Get<T>();
         }
 
         public IEnumerable<T> CreateAll<T>() where T : IViewModel
         {
-            return TaKernel.Instance.GetAll<T>();
+            return _resolutionRoot.GetAll<T>();
         }
     }
 }

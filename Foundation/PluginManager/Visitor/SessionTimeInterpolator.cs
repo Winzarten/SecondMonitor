@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using DataModel.Snapshot;
 
-    public class SessionTimeInterpolator : IDataSetVisitor
+    public class SessionTimeInterpolator : ISimulatorDateSetVisitor
     {
         private readonly TimeSpan _maxInterpolation;
         private readonly Stopwatch _stopwatch;
