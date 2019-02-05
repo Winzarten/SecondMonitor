@@ -13,6 +13,9 @@
         private int _lapNumber;
         private bool _display;
         private Color _lapColor;
+        private TimeSpan _sector1Time;
+        private TimeSpan _sector2Time;
+        private TimeSpan _sector3Time;
 
         public ILapColorSynchronization LapColorSynchronization { get; set; }
 
@@ -24,6 +27,24 @@
                 _lapTime = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        public TimeSpan Sector1Time
+        {
+            get => _sector1Time;
+            set => SetProperty(ref _sector1Time, value);
+        }
+
+        public TimeSpan Sector2Time
+        {
+            get => _sector2Time;
+            set => SetProperty(ref _sector2Time, value);
+        }
+
+        public TimeSpan Sector3Time
+        {
+            get => _sector3Time;
+            set => SetProperty(ref _sector3Time, value);
         }
 
         public bool Selected
@@ -64,6 +85,9 @@
         {
             LapTime = model.LapTime;
             LapNumber = model.LapNumber;
+            Sector1Time = model.Sector1Time;
+            Sector2Time = model.Sector2Time;
+            Sector3Time = model.Sector3Time;
         }
 
         public override LapSummaryDto SaveToNewModel()
@@ -71,7 +95,10 @@
             return new LapSummaryDto()
             {
                 LapNumber = LapNumber,
-                LapTime = LapTime
+                LapTime = LapTime,
+                Sector1Time = Sector1Time,
+                Sector2Time = Sector2Time,
+                Sector3Time = Sector3Time
             };
         }
     }

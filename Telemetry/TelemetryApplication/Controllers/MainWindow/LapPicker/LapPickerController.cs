@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.LapPicker
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using DataModel.Extensions;
@@ -94,6 +95,16 @@
             _lapSelectionViewModel.SimulatorName = sessionInfoDto.Simulator;
             LapSummaryDto bestLap = sessionInfoDto.LapsSummary.OrderBy(x => x.LapTime).First();
             _lapSelectionViewModel.BestLap = $"{bestLap.LapNumber} - {bestLap.LapTime.FormatToDefault()}";
+
+            LapSummaryDto bestSector1Lap = sessionInfoDto.LapsSummary.OrderBy(x => x.Sector1Time).First();
+            _lapSelectionViewModel.BestSector1 = bestSector1Lap.Sector1Time > TimeSpan.Zero ? $"{bestSector1Lap.LapNumber} - {bestSector1Lap.Sector1Time.FormatToDefault()}" : string.Empty;
+
+            LapSummaryDto bestSector2Lap = sessionInfoDto.LapsSummary.OrderBy(x => x.Sector1Time).First();
+            _lapSelectionViewModel.BestSector2 = bestSector2Lap.Sector2Time > TimeSpan.Zero ? $"{bestSector2Lap.LapNumber} - {bestSector2Lap.Sector2Time.FormatToDefault()}" : string.Empty;
+
+            LapSummaryDto bestSector3Lap = sessionInfoDto.LapsSummary.OrderBy(x => x.Sector1Time).First();
+            _lapSelectionViewModel.BestSector3 = bestSector3Lap.Sector3Time > TimeSpan.Zero ? $"{bestSector3Lap.LapNumber} - {bestSector3Lap.Sector3Time.FormatToDefault()}" : string.Empty;
+
             foreach (LapSummaryDto lapSummaryDto in sessionInfoDto.LapsSummary.OrderBy(x => x.LapNumber))
             {
                 ILapSummaryViewModel newViewModel = _viewModelFactory.Create<ILapSummaryViewModel>();

@@ -44,7 +44,19 @@
                     <TextBlock Style="{StaticResource StandardText}" Text="Best Lap: " VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <TextBlock Style="{StaticResource StandardText}" Text="{Binding BestLap}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
-                <Border BorderThickness="1" CornerRadius="5" Margin="0,50,0,0" BorderBrush="{StaticResource DarkGrey05Brush}">
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBlock Style="{StaticResource StandardText}" Text="Best S1: " VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallFontSize}"/>
+                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding BestSector1}" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="{StaticResource SmallFontSize}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBlock Style="{StaticResource StandardText}" Text="Best S2: " VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallFontSize}"/>
+                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding BestSector2}" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="{StaticResource SmallFontSize}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBlock Style="{StaticResource StandardText}" Text="Best S3: " VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallFontSize}"/>
+                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding BestSector3}" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="{StaticResource SmallFontSize}"/>
+                </StackPanel>
+                <Border BorderThickness="1" CornerRadius="5" Margin="0,10,0,0" BorderBrush="{StaticResource DarkGrey05Brush}">
                     <StackPanel Orientation=" Horizontal" VerticalAlignment="Bottom" >
                         <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Click="OpenButton_OnClick"
                             Style="{StaticResource StandardButton}"
@@ -85,6 +97,14 @@
                                                           ButtonStyle="{StaticResource ComboBoxToggleButton2}"
                                                           Foreground="{StaticResource LightGrey01Brush}"
                                                           SelectedColor="{Binding LapColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource StandardText}" Margin="0,0,0,0" Text="S1: " VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallFontSize}"/>
+                                        <TextBlock Style="{StaticResource StandardText}" Margin="0,0,0,0" Text="{Binding Sector1Time, Mode=OneWay, Converter={StaticResource TimeSpanToSecondsNoSignConverter}, ConverterParameter=3}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallFontSize}"/>
+                                        <TextBlock Style="{StaticResource StandardText}" Margin="5,0,0,0" Text="S2: " VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="{StaticResource SmallFontSize}"/>
+                                        <TextBlock Style="{StaticResource StandardText}" Margin="0,0,5,0" Text="{Binding Sector2Time, Mode=OneWay, Converter={StaticResource TimeSpanToSecondsNoSignConverter}, ConverterParameter=3}" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="{StaticResource SmallFontSize}"/>
+                                        <TextBlock Style="{StaticResource StandardText}" Margin="0,0,0,0" Text="S3: " VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource SmallFontSize}"/>
+                                        <TextBlock Style="{StaticResource StandardText}" Margin="0,0,0,0" Text="{Binding Sector3Time, Mode=OneWay, Converter={StaticResource TimeSpanToSecondsNoSignConverter}, ConverterParameter=3}" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="{StaticResource SmallFontSize}"/>
                                     </StackPanel>
                                 </StackPanel>
 

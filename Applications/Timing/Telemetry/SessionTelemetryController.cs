@@ -64,6 +64,9 @@
                 {
                     LapNumber = lapInfo.LapNumber,
                     LapTimeSeconds = lapInfo.LapTime.TotalSeconds,
+                    Sector1Time = lapInfo.Sector1?.Duration ?? TimeSpan.Zero,
+                    Sector2Time = lapInfo.Sector2?.Duration ?? TimeSpan.Zero,
+                    Sector3Time = lapInfo.Sector3?.Duration ?? TimeSpan.Zero,
                     SessionIdentifier = SessionIdentifier
                 };
 

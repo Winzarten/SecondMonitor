@@ -17,6 +17,9 @@
             <DataTemplate x:Key="GraphSettingsTemplate" DataType="settingsWindow:GraphSettingsViewModel">
                 <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" CornerRadius="2" HorizontalAlignment="Center">
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="GraphNameGroup"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Vertical" Margin="5">
                             <TextBlock Style="{StaticResource StandardText}" Text="{Binding Title}" TextWrapping="WrapWithOverflow"></TextBlock>
                         </StackPanel>
@@ -40,7 +43,7 @@
                     <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="Left Panel:" Margin="5"></TextBlock>
                     <ListBox x:Name="LeftGraphsList" ItemsSource="{Binding LeftPanelGraphs, RelativeSource={RelativeSource AncestorType=local:GraphPriorityControl}}" ItemTemplate="{StaticResource GraphSettingsTemplate}" Background="{StaticResource Anthracite01Brush}"
                              dd:DragDrop.IsDragSource="True"
-                             dd:DragDrop.IsDropTarget="True" />
+                             dd:DragDrop.IsDropTarget="True" Grid.IsSharedSizeScope="True" />
                     <!--<StackPanel Orientation="Horizontal">
                         <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                 Click="LeftPanelUpArrowClick"
@@ -68,7 +71,7 @@
                 <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="Right Panel:" Margin="5"></TextBlock>
                 <ListBox  ItemsSource="{Binding RightPanelGraphs, RelativeSource={RelativeSource AncestorType=local:GraphPriorityControl}}" ItemTemplate="{StaticResource GraphSettingsTemplate}" Background="{StaticResource Anthracite01Brush}"
                           dd:DragDrop.IsDragSource="True"
-                          dd:DragDrop.IsDropTarget="True"/>
+                          dd:DragDrop.IsDropTarget="True" Grid.IsSharedSizeScope="True" />
                 </StackPanel>
             </Grid>
         </Grid>
@@ -79,7 +82,7 @@
                     </TextBlock>
                     <ListBox  AllowDrop="True" MinHeight="40" x:Name="NotUsedGraphsList" ItemsSource="{Binding NotUsedGraphs, RelativeSource={RelativeSource AncestorType=local:GraphPriorityControl}}" ItemTemplate="{StaticResource GraphSettingsTemplate}" Background="{StaticResource Anthracite01Brush}"
                               dd:DragDrop.IsDragSource="True"
-                              dd:DragDrop.IsDropTarget="True">
+                              dd:DragDrop.IsDropTarget="True" Grid.IsSharedSizeScope="True" >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel MaxWidth="600" IsItemsHost="True" />

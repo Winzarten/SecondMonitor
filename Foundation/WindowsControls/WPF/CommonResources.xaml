@@ -9,6 +9,8 @@
     <converters:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter"/>
     <converters:DoubleToStringNoDecimalConverter x:Key="DoubleToStringNoDecimalConverter"/>
     <converters:TimeSpanToMinutesSecondsConverter x:Key="TimeSpanToMinutesSecondsConverter"/>
+    <converters:TimeSpanToSecondsConverter x:Key="TimeSpanToSecondsConverter" />
+    <converters:TimeSpanToSecondsNoSignConverter x:Key="TimeSpanToSecondsNoSignConverter" />
     <converters:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
     <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     <converters:TimeSpanToMinutesSecondMilisecondsConverter x:Key="TimeSpanToMinutesSecondMilisecondsConverter"/>

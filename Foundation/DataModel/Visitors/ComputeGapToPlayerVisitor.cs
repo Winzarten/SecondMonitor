@@ -62,6 +62,10 @@
 
         private void ComputeGapToPlayer(SimulatorDataSet simulatorDataSet)
         {
+            if (simulatorDataSet.DriversInfo.Length < 2)
+            {
+                return;
+            }
             DriverInfo[] drivers = simulatorDataSet.DriversInfo.OrderBy(x => x.Position).ToArray();
             if (simulatorDataSet.PlayerInfo == null)
             {

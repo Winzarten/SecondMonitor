@@ -34,6 +34,10 @@
 
     <Color x:Shared="False" x:Key="Anthracite01Color">#2B292E</Color>
 
+    <Color x:Shared="False" x:Key="Sector1Color">#666699</Color>
+    <Color x:Shared="False" x:Key="Sector2Color">#669999</Color>
+    <Color x:Shared="False" x:Key="Sector3Color">#999966</Color>
+
 
 
     <SolidColorBrush x:Shared="False" x:Key="LightGrey01Brush" Color="{StaticResource LightGrey01Color}" />
@@ -75,6 +79,10 @@
 
     <SolidColorBrush x:Shared="False" x:Key="InPitsBrush" Color="{StaticResource InPitsColor}"></SolidColorBrush>
     <SolidColorBrush x:Shared="False" x:Key="InPitsMovingBrush" Color="{StaticResource InPitsMovingColor}"></SolidColorBrush>
+
+    <SolidColorBrush x:Shared="False" x:Key="Sector1Brush" Color="{StaticResource Sector1Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="Sector2Brush" Color="{StaticResource Sector2Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="Sector3Brush" Color="{StaticResource Sector3Color}"/>
 
     <Color x:Shared="False" x:Key="LowQuantityColor">#668cff</Color>
     <Color x:Shared="False" x:Key="HighQuantityColor" >#e60000</Color>

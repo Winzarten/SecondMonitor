@@ -11,6 +11,9 @@
         ILapColorSynchronization LapColorSynchronization { get; set; }
         int LapNumber { get; }
         TimeSpan LapTime { get; }
+        TimeSpan Sector1Time { get; }
+        TimeSpan Sector2Time { get; }
+        TimeSpan Sector3Time { get; }
         bool Selected { get; set; }
         Color LapColor { get; set; }
         SolidColorBrush LapColorBrush { get; }

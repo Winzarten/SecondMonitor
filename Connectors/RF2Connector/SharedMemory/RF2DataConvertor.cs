@@ -29,6 +29,7 @@
             try
             {
                 SimulatorDataSet simData = new SimulatorDataSet("RFactor 2");
+                simData.SimulatorSourceInfo.GapInformationProvided = GapInformationKind.TimeToSurroundingDrivers;
                 simData.SimulatorSourceInfo.HasLapTimeInformation = true;
                 simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
                 simData.SimulatorSourceInfo.InvalidateLapBySector = true;
@@ -306,6 +307,19 @@
             {
                 data.PlayerInfo = playersInfo;
             }
+
+            FillGapInformation(data.DriversInfo);
+        }
+
+        private void FillGapInformation(DriverInfo[] drivers)
+        {
+            DriverInfo[] orderedDrivers = drivers.OrderBy(x => x.Position).ToArray();
+
+            for (int i = 1; i < orderedDrivers.Length; i++)
+            {
+                orderedDrivers[i - 1].Timing.GapBehind = orderedDrivers[i].Timing.GapAhead;
+            }
+
         }
 
         private void CheckValidityByPlayer(DriverInfo driver)
@@ -329,6 +343,7 @@
 
         internal void FillTimingInfo(DriverInfo driverInfo, rF2VehicleScoring rfVehicleInfo, Rf2FullData Rf2FullData)
         {
+            driverInfo.Timing.GapAhead = TimeSpan.FromSeconds(rfVehicleInfo.mTimeBehindNext);
             driverInfo.Timing.LastSector1Time = CreateTimeSpan(rfVehicleInfo.mCurSector1);
             driverInfo.Timing.LastSector2Time = CreateTimeSpan(rfVehicleInfo.mCurSector2 - rfVehicleInfo.mCurSector1);
             driverInfo.Timing.LastSector3Time = CreateTimeSpan(rfVehicleInfo.mLastLapTime - rfVehicleInfo.mLastSector2);
