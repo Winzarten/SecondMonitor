@@ -32,7 +32,7 @@
             TimeSpan? playerPace = _paceProvider.PlayersPace;
             TimeSpan? leaderPace = _paceProvider.LeadersPace;
 
-            if (playerPace == null || leaderPace == null)
+            if (playerPace == null || leaderPace == null || playerPace.Value == TimeSpan.Zero || leaderPace.Value == TimeSpan.Zero)
             {
                 return double.NaN;
             }
