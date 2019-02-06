@@ -93,6 +93,8 @@
         private string GetSectorGeometry(List<TimedTelemetrySnapshot> fullTrackPoints, Func<TimedTelemetrySnapshot, bool> sectorPredicate)
         {
             List<TimedTelemetrySnapshot> sectorPoints = fullTrackPoints.Where(sectorPredicate).ToList();
+            int nextPointIndex = (fullTrackPoints.IndexOf(sectorPoints.Last()) + 1) % fullTrackPoints.Count;
+            sectorPoints.Add(fullTrackPoints[nextPointIndex]);
             return GetGeometry(sectorPoints, false);
         }
 
