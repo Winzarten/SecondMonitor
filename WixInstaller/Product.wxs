@@ -3,7 +3,7 @@
   <!-->Change Product Code to increase version  -->
   <?define ProductCode = "6a1108ed-9edc-4aff-b36e-53d516df0070"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "3.0.2.0"?>
+  <?define ProductVersion = "3.0.3.0"?>
   <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
