@@ -38,9 +38,11 @@
         private bool _showThrottleOverlay;
         private bool _showClutchOverlay;
         private bool _showShiftPoints;
+        private bool _showColoredSectors;
 
         public MapViewViewModel(IViewModelFactory viewModelFactory)
         {
+            _showColoredSectors = true;
             _viewModelFactory = viewModelFactory;
             _lapsPaths = new Dictionary<string, ILapCustomPathsCollection>();
             _commonResources = new ResourceDictionary
@@ -106,6 +108,19 @@
                 NotifyPropertyChanged(nameof(ShowClutchOverlay));
                 NotifyPropertyChanged(nameof(ShowShiftPoints));
                 RefreshOverlays();
+            }
+        }
+
+        public bool ShowColoredSectors
+        {
+            get => _showColoredSectors;
+            set
+            {
+                SetProperty(ref _showColoredSectors, value);
+                if (_situationOverviewControl != null)
+                {
+                    _situationOverviewControl.SectorsAlwaysVisible = value;
+                }
             }
         }
 
@@ -409,13 +424,18 @@
                 PurpleSectorBrush = (SolidColorBrush)_commonResources["PurpleTimingBrush"],
                 YellowSectorBrush = (SolidColorBrush)_commonResources["YellowSectorBrush"],
 
+                Sector1Brush = (SolidColorBrush)_commonResources["Sector1Brush"],
+                Sector2Brush = (SolidColorBrush)_commonResources["Sector2Brush"],
+                Sector3Brush = (SolidColorBrush)_commonResources["Sector3Brush"],
+
                 PlayerOutLineBrush = (SolidColorBrush)_commonResources["PlayerOutLineColor"],
 
                 AnimateDriversPos = false,
                 DataContext = this,
                 AutoScaleDriverControls = false,
                 KeepMapRatio = true,
-                EnableSidePanel = false
+                EnableSidePanel = false,
+                SectorsAlwaysVisible = ShowColoredSectors
             };
         }
 

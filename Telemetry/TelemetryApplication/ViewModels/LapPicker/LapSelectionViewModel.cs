@@ -18,6 +18,9 @@
         private string _bestLap;
         private IOpenWindowViewModel _openWindowViewModel;
         private ISettingsWindowViewModel _settingsWindowViewModel;
+        private string _bestSector1;
+        private string _bestSector2;
+        private string _bestSector3;
 
         public LapSelectionViewModel()
         {
@@ -99,6 +102,24 @@
                 _bestLap = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        public string BestSector1
+        {
+            get => _bestSector1;
+            set => SetProperty(ref _bestSector1, value);
+        }
+
+        public string BestSector2
+        {
+            get => _bestSector2;
+            set => SetProperty(ref _bestSector2, value);
+        }
+
+        public string BestSector3
+        {
+            get => _bestSector3;
+            set => SetProperty(ref _bestSector3, value);
         }
 
         public void AddLapSummaryViewModel(ILapSummaryViewModel lapSummaryViewModel)

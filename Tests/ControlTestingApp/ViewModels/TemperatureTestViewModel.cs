@@ -12,7 +12,7 @@
     using SecondMonitor.ViewModels.CarStatus;
     using SecondMonitor.WindowsControls.WPF.Commands;
 
-    public class TemperatureTestViewModel : DependencyObject, INotifyPropertyChanged
+    public class TemperatureTestViewModel : DependencyObject, INotifyPropertyChanged, IPaceProvider
     {
         private int _valueInNumber = 0;
         private Temperature _valueInTemperature;
@@ -23,8 +23,12 @@
 
         public TemperatureTestViewModel()
         {
-            CarStatusViewModel cvm = new CarStatusViewModel();
+            CarStatusViewModel cvm = new CarStatusViewModel(this);
         }
+
+        public TimeSpan? PlayersPace => TimeSpan.Zero;
+
+        public TimeSpan? LeadersPace => TimeSpan.Zero;
 
         public int ValueInNumber
         {

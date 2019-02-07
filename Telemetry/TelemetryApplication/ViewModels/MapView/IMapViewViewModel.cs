@@ -19,6 +19,7 @@
         bool ShowThrottleOverlay { get; set; }
         bool ShowClutchOverlay { get; set; }
         bool ShowShiftPoints { get; set; }
+        bool ShowColoredSectors { get; set; }
 
         void LoadTrack(ITrackMap trackMapDto);
 

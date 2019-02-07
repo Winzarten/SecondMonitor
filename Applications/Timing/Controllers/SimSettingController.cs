@@ -35,7 +35,7 @@ namespace SecondMonitor.Timing.Controllers
 
         public void ApplySimSettings(SimulatorDataSet data)
         {
-            _simSettingAdapter.Visit(data);
+            data.Accept(_simSettingAdapter);
         }
 
         public void OpenCarSettingsControl(Window parentWindow)
@@ -116,5 +116,7 @@ namespace SecondMonitor.Timing.Controllers
             UpdateSimSettingsFromViewModels();
             CloseSettingsWindow();
         }
+
+
     }
 }

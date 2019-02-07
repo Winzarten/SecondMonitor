@@ -34,6 +34,8 @@
         private bool _syncWithOtherGraphs;
         private DateTime _lastChangeRequest;
         private double _xMaximum;
+        private double? _lapDistanceSector1;
+        private double? _lapDistanceSector2;
 
         protected AbstractGraphViewModel()
         {
@@ -194,7 +196,8 @@
             _selectedXValue[lapTelemetryDto.LapSummary.Id] = (0, color);
             LoadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
             CheckIfHasValidData();
-
+            InitializeSectorDistance(dataPoints);
+            AddSectorGridLines();
             if (HasValidData)
             {
                 series.ForEach(_plotModel.Series.Add);
@@ -203,6 +206,28 @@
                 NotifyPropertyChanged(nameof(PlotModel.Series));
                 NotifyPropertyChanged(nameof(SelectedDistances));
             }
+        }
+
+        private void InitializeSectorDistance(TimedTelemetrySnapshot[] dataPoints)
+        {
+            _lapDistanceSector1 = dataPoints.LastOrDefault(x => x.PlayerData.Timing.CurrentSector == 1)?.PlayerData.LapDistance;
+            _lapDistanceSector2 = dataPoints.LastOrDefault(x => x.PlayerData.Timing.CurrentSector == 2)?.PlayerData.LapDistance;
+        }
+
+        private void AddSectorGridLines()
+        {
+            if (XAxisKind == XAxisKind.LapTime)
+            {
+                _xAxis.ExtraGridlines = new double[0];
+            }
+
+            if (!_lapDistanceSector1.HasValue || !_lapDistanceSector2.HasValue)
+            {
+                return;
+            }
+
+            double[] xValues = new [] {Distance.FromMeters(_lapDistanceSector1.Value).GetByUnit(DistanceUnits), Distance.FromMeters(_lapDistanceSector2.Value).GetByUnit(DistanceUnits)};
+            _xAxis.ExtraGridlines = xValues;
         }
 
         private void CheckIfHasValidData()
@@ -269,6 +294,8 @@
                     Unit = XAxisKind == XAxisKind.LapTime ? "s" : Distance.GetUnitsSymbol(DistanceUnits),
                     AxisTitleDistance = 0,
                     AxisDistance = 0,
+                    ExtraGridlineColor = OxyColors.Red,
+                    ExtraGridlineThickness = 1,
                 };
 
                 _plotModel.Axes.Add(_xAxis);

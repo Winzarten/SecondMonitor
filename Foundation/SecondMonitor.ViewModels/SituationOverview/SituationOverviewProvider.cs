@@ -175,7 +175,8 @@
                 DriverBackgroundBrush = (SolidColorBrush)_commonResources["DriverBackgroundColor"],
                 DriverForegroundBrush = (SolidColorBrush)_commonResources["DriverForegroundColor"],
 
-                DriverPitsBackgroundBrush = (SolidColorBrush)_commonResources["DriverPitsBackgroundColor"],
+                DriverPitsBackgroundBrush = (SolidColorBrush)_commonResources["InPitsBrush"],
+                DriverPitsMovingBackground = (SolidColorBrush)_commonResources["InPitsMovingBrush"],
                 DriverPitsForegroundBrush = (SolidColorBrush)_commonResources["DriverPitsForegroundColor"],
 
                 PlayerBackgroundBrush = (SolidColorBrush)_commonResources["PlayerBackgroundColor"],
@@ -292,7 +293,8 @@
                 DriverBackgroundBrush = (SolidColorBrush) _commonResources["DriverBackgroundColor"],
                 DriverForegroundBrush = (SolidColorBrush) _commonResources["DriverForegroundColor"],
 
-                DriverPitsBackgroundBrush = (SolidColorBrush) _commonResources["DriverPitsBackgroundColor"],
+                DriverPitsBackgroundBrush = (SolidColorBrush) _commonResources["InPitsBrush"],
+                DriverPitsMovingBackground = (SolidColorBrush)_commonResources["InPitsMovingBrush"],
                 DriverPitsForegroundBrush = (SolidColorBrush) _commonResources["DriverPitsForegroundColor"],
 
                 PlayerBackgroundBrush = (SolidColorBrush) _commonResources["PlayerBackgroundColor"],

@@ -4,7 +4,6 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 {
     using System;
     using System.Diagnostics;
-    using Annotations;
     using DataModel.BasicProperties;
 
     using NLog;
@@ -20,7 +19,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
     {
        private DriverTiming _driverTiming;
 
-        private Stopwatch _refreshStopwatch;
+        private readonly Stopwatch _refreshStopwatch;
         private TimeSpan _refreshDelay;
         private DisplaySettingsViewModel _displaySettingsViewModel;
         private readonly DriverPresentationsManager _driverPresentationsManager;
@@ -219,6 +218,13 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             private set => SetProperty(ref _inPits, value);
         }
 
+        private bool _inPitsMoving;
+        public bool InPitsMoving
+        {
+            get => _inPitsMoving;
+            private set => SetProperty(ref _inPitsMoving, value);
+        }
+
         private bool _isLastLapBestLap;
         public bool IsLastLapBestLap
         {
@@ -337,6 +343,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 IsLapped = DriverTiming.IsLapped;
                 IsLapping = DriverTiming.IsLapping;
                 InPits = DriverTiming.InPits;
+                InPitsMoving = InPits && DriverTiming.DriverInfo.Speed.InKph > 10;
                 IsLastLapBestSessionLap = DriverTiming.IsLastLapBestSessionLap;
                 IsLastLapBestLap = DriverTiming.IsLastLapBestLap;
 
@@ -354,7 +361,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
                 IsPlayersPaceBetter = GetIsPlayersPaceBetter();
                 _refreshStopwatch.Restart();
-               _refreshDelay = DisplaySettingsViewModel != null ?TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : TimeSpan.FromSeconds(10);
+               _refreshDelay = DisplaySettingsViewModel != null ?TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : TimeSpan.FromMilliseconds(300);
             }
             catch (Exception ex)
             {
@@ -662,9 +669,18 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             }
             else
             {
-                return "L" + DriverTiming.BestLap.LapNumber + "/" + TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.BestLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.BestLap.LapTime), true);
+                return "L" + DriverTiming.BestLap.LapNumber + "/" + GetRelativeBestTime();
+            }
+        }
+
+        private string GetRelativeBestTime()
+        {
+            if (DriverTiming?.BestLap == null || DriverTiming.Session?.Player?.DriverTiming?.BestLap == null)
+            {
+                return string.Empty;
             }
 
+            return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(DriverTiming.BestLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.BestLap.LapTime), true);
         }
 
         private Velocity GetTopSpeed()
@@ -692,22 +708,19 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 
             if (DriverTiming.Session.LastSet.SessionInfo.SessionType != SessionType.Race)
             {
-                return string.Empty;
+                return GetRelativeBestTime();
             }
 
-            double distanceToUse;
-            if (DriverTiming.Session.DisplayGapToPlayerRelative)
-            {
-                distanceToUse = DriverTiming.DriverInfo.DistanceToPlayer;
-            }
-            else
-            {
-                distanceToUse = DriverTiming.Session.Player.DriverTiming.TotalDistanceTraveled - DriverTiming.TotalDistanceTraveled;
-            }
+            double distanceToUse = DriverTiming.Session.Player.DriverTiming.TotalDistanceTraveled - DriverTiming.TotalDistanceTraveled;
 
             if (Math.Abs(distanceToUse) > DriverTiming.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters)
             {
                 return ((int)distanceToUse / (int)DriverTiming.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters) + "LAP";
+            }
+
+            if (DriverTiming.DriverInfo.Timing.GapToPlayer != TimeSpan.Zero)
+            {
+                return DriverTiming.DriverInfo.Timing.GapToPlayer.FormatTimeSpanOnlySecondNoMiliseconds(true);
             }
 
             if (distanceToUse > 0)
@@ -715,7 +728,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 double requiredTime = distanceToUse / DriverTiming.DriverInfo.Speed.InMs;
                 if (requiredTime < 30)
                 {
-                    return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime), true);
+                    return TimeSpan.FromSeconds(requiredTime).FormatTimeSpanOnlySecondNoMiliseconds(true);
                 }
                 else
                 {
@@ -727,14 +740,13 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 double requiredTime = distanceToUse / DriverTiming.Session.Player.DriverTiming.DriverInfo.Speed.InMs;
                 if (requiredTime > -30)
                 {
-                    return TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(TimeSpan.FromSeconds(requiredTime), true);
+                    return TimeSpan.FromSeconds(requiredTime).FormatTimeSpanOnlySecondNoMiliseconds(true);
                 }
                 else
                 {
                     return "-30.000+";
                 }
             }
-
         }
     }
 

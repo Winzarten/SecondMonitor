@@ -38,6 +38,35 @@
         public static readonly DependencyProperty GreenSectorBrushProperty = DependencyProperty.Register("GreenSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
         public static readonly DependencyProperty PurpleSectorBrushProperty = DependencyProperty.Register("PurpleSectorBrush", typeof(SolidColorBrush), typeof(FullMapControl));
 
+        public static readonly DependencyProperty Sector1BrushProperty = DependencyProperty.Register("Sector1Brush", typeof(SolidColorBrush), typeof(FullMapControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+        public static readonly DependencyProperty Sector3BrushProperty = DependencyProperty.Register("Sector3Brush", typeof(SolidColorBrush), typeof(FullMapControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+        public static readonly DependencyProperty Sector2BrushProperty = DependencyProperty.Register("Sector2Brush", typeof(SolidColorBrush), typeof(FullMapControl), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+        public static readonly DependencyProperty SectorsAlwaysVisibleProperty = DependencyProperty.Register("SectorsAlwaysVisible", typeof(bool), typeof(FullMapControl), new PropertyMetadata(){ PropertyChangedCallback = SectorsAlwaysVisiblePropertyChangedCallback});
+
+        public bool SectorsAlwaysVisible
+        {
+            get => (bool) GetValue(SectorsAlwaysVisibleProperty);
+            set => SetValue(SectorsAlwaysVisibleProperty, value);
+        }
+
+        public SolidColorBrush Sector1Brush
+        {
+            get => (SolidColorBrush) GetValue(Sector1BrushProperty);
+            set => SetValue(Sector1BrushProperty, value);
+        }
+
+        public SolidColorBrush Sector2Brush
+        {
+            get => (SolidColorBrush) GetValue(Sector2BrushProperty);
+            set => SetValue(Sector2BrushProperty, value);
+        }
+
+        public SolidColorBrush Sector3Brush
+        {
+            get => (SolidColorBrush) GetValue(Sector3BrushProperty);
+            set => SetValue(Sector3BrushProperty, value);
+        }
+
         public FullMapControl(ITrackMap trackMap)
         {
             _trackMap = trackMap;
@@ -120,9 +149,9 @@
                 return;
             }
 
-            bool showSector1 = false;
-            bool showSector2 = false;
-            bool showSector3 = false;
+            bool showSector1 = SectorsAlwaysVisible;
+            bool showSector2 = SectorsAlwaysVisible;
+            bool showSector3 = SectorsAlwaysVisible;
 
             foreach (FlagKind flag in dataSet.SessionInfo.ActiveFlags)
             {
@@ -148,15 +177,15 @@
                 }
             }
 
-            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 1), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 1), showSector1, _sector1Path);
-            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 2), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 2), showSector2, _sector2Path);
-            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 3), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 3), showSector3, _sector3Path);
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 1), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 1), showSector1, _sector1Path, Sector1Brush);
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 2), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 2), showSector2, _sector2Path, Sector2Brush);
+            UpdateSectorColor(PositionCircleInformationProvider.IsDriverLastSectorGreen(dataSet.PlayerInfo, 3), PositionCircleInformationProvider.IsDriverLastSectorPurple(dataSet.PlayerInfo, 3), showSector3, _sector3Path, Sector3Brush);
         }
 
-        private void UpdateSectorColor(bool isSectorGreen, bool isSectorPurple, bool isSectorYellow, Shape sectorPath)
+        private void UpdateSectorColor(bool isSectorGreen, bool isSectorPurple, bool isSectorYellow, Shape sectorPath, SolidColorBrush defaultBrush)
         {
             bool shouldBeVisible = isSectorGreen || isSectorPurple || isSectorYellow;
-            SolidColorBrush brushToUse = null;
+            SolidColorBrush brushToUse = defaultBrush;
 
             if (shouldBeVisible && isSectorGreen)
             {
@@ -282,9 +311,9 @@
             _mainCanvas = new Canvas();
 
             Path mainPath = new Path {Stroke = (Brush) resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.FullMapGeometry)};
-            _sector1Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector1Geometry), Opacity = 0 };
-            _sector2Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector2Geometry), Opacity = 0 };
-            _sector3Path = new Path { Stroke = (Brush)resource["DarkGrey01Brush"], StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector3Geometry), Opacity = 0 };
+            _sector1Path = new Path { Stroke = Sector1Brush, StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector1Geometry), Opacity = SectorsAlwaysVisible ? 1 : 0 };
+            _sector2Path = new Path { Stroke = Sector2Brush, StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector2Geometry), Opacity = SectorsAlwaysVisible ? 1 : 0 };
+            _sector3Path = new Path { Stroke = Sector3Brush, StrokeThickness = 15, Data = Geometry.Parse(_trackMap.TrackGeometry.Sector3Geometry), Opacity = SectorsAlwaysVisible ? 1 : 0 };
             Path finishLinePath = new Path { Stroke = (Brush)resource["LightBlueBrush"], StrokeThickness = 30, Data = Geometry.Parse(_trackMap.TrackGeometry.StartLineGeometry)};
 
             _mainCanvas.Children.Add(mainPath);
@@ -310,6 +339,23 @@
             _mapSidePanelControl.Opacity = 0;
             Children.Add(_mapSidePanelControl);
             Background = Brushes.Transparent;
+        }
+
+        private static void SectorsAlwaysVisiblePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(d is FullMapControl fullMapControl))
+            {
+                return;
+            }
+
+            fullMapControl._sector1Path.Stroke = fullMapControl.Sector1Brush;
+            fullMapControl._sector2Path.Stroke = fullMapControl.Sector2Brush;
+            fullMapControl._sector3Path.Stroke = fullMapControl.Sector3Brush;
+
+            fullMapControl._sector1Path.Opacity = fullMapControl.SectorsAlwaysVisible ? 1 : 0;
+            fullMapControl._sector2Path.Opacity = fullMapControl.SectorsAlwaysVisible ? 1 : 0;
+            fullMapControl._sector3Path.Opacity = fullMapControl.SectorsAlwaysVisible ? 1 : 0;
+
         }
     }
 }

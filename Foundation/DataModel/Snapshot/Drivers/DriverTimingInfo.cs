@@ -7,8 +7,23 @@
     {
         public DriverTimingInfo()
         {
-
+            
         }
+
+        /// <summary>
+        ///How far ahead the car in front of this driver is
+        /// </summary>
+        public TimeSpan GapAhead { get; set; }
+
+        /// <summary>
+        ///  How far behind the car behind of this driver is
+        /// </summary>
+        public TimeSpan GapBehind { get; set; }
+
+        /// <summary>
+        /// Gap to Player
+        /// </summary>
+        public TimeSpan GapToPlayer { get; set; }
 
         public TimeSpan LastLapTime { get; set; } = TimeSpan.Zero;
 

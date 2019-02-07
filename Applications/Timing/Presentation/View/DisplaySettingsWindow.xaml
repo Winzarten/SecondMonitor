@@ -223,7 +223,13 @@
                     <Label DockPanel.Dock="Top" Content="Race:" HorizontalAlignment="Left" Margin="0,8,0,0"
                            VerticalAlignment="Top" Foreground="White" />
                     <ContentPresenter DockPanel.Dock="Top" Content="{Binding RaceSessionDisplayOptionsView}" />
-
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource StandardText}" Foreground="White" Text="User Files Path:"/>
+                        <TextBox TextWrapping="Wrap" Margin="0,0,0,0" VerticalAlignment="Top" Style="{StaticResource StandardTextBox}" Background="Black" IsReadOnly="True"  FontSize="{StaticResource SmallFontSize}" Foreground="White" MaxWidth="600"
+                                 Text="This includes stored maps, telemetry, car settings info and reports. Changing this will not move the existing files to a new locations. Application restart after changing this settings is advisable."/>
+                        <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" IsReadOnly="True" Text="{Binding ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <Button Content="..." VerticalContentAlignment="Center" Margin="5" Height="21" HorizontalAlignment="Right" VerticalAlignment="Top"  Width="19" Command="{Binding Path=ReportingSettingsView.SelectExportDirCommand}"/>
+                    </StackPanel>
                 </StackPanel>
             </GroupBox>
         </DockPanel>
@@ -300,7 +306,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="BtnReset" Grid.Column="0" Height="55"
+                <Button Grid.Column="0" Height="55"
                         Command="{Binding OpenLogDirectoryCommand}"
                         Style="{StaticResource StandardButton}"
                         ToolTip="Opens the log directory">

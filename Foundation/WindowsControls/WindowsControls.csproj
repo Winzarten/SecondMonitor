@@ -147,6 +147,7 @@
     <Compile Include="WPF\Converters\TimeSpanToColorConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToMinutesSecondMilisecondsConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToMinutesSecondsConverter.cs" />
+    <Compile Include="WPF\Converters\TimeSpanToSecondsNoSignConverter.cs" />
     <Compile Include="WPF\DriverPosition\AbstractSituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\FullMapControl.cs" />
     <Compile Include="WPF\DriverPosition\IMapSidePanelViewModel.cs" />

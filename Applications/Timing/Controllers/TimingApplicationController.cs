@@ -15,6 +15,7 @@ namespace SecondMonitor.Timing.Controllers
     using Presentation.View;
     using Presentation.ViewModel;
     using WindowsControls.WPF.Commands;
+    using DataModel.Visitors;
     using SecondMonitor.Telemetry.TelemetryApplication.Controllers;
     using SecondMonitor.Telemetry.TelemetryManagement.Repository;
     using SimdataManagement;
@@ -42,11 +43,13 @@ namespace SecondMonitor.Timing.Controllers
         private MapManagementController _mapManagementController;
         private DriverPresentationsManager _driverPresentationsManager;
         private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
+        private ComputeGapToPlayerVisitor _computeGapToPlayerVisitor;
         private DisplaySettingAutoSaver _settingAutoSaver;
 
 
         public TimingApplicationController()
         {
+            _computeGapToPlayerVisitor = new ComputeGapToPlayerVisitor(TimeSpan.FromMilliseconds(300));
         }
 
         public PluginsManager PluginManager
@@ -92,6 +95,7 @@ namespace SecondMonitor.Timing.Controllers
 
         private void OnSessionStarted(object sender, DataEventArgs e)
         {
+            _computeGapToPlayerVisitor.Reset();
             _timingDataViewModel?.StartNewSession(e.Data);
         }
 
@@ -101,6 +105,7 @@ namespace SecondMonitor.Timing.Controllers
             try
             {
                 _simSettingController?.ApplySimSettings(dataSet);
+                dataSet.Accept(_computeGapToPlayerVisitor);
 
             }
             catch (SimSettingsException ex)

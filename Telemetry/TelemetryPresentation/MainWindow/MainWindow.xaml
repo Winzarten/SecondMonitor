@@ -89,6 +89,7 @@
                                         </wpf:ColorAbleIcon>
                                     </Button.Content>
                                 </Button>
+                            <CheckBox Content="Color Sectors" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}"  Margin="5,5,50,5" IsChecked="{Binding MapViewViewModel.ShowColoredSectors}"/>
                                 <CheckBox Content="Show All" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}"  Margin="5,5,50,5" IsChecked="{Binding MapViewViewModel.ShowAllOverlays}"/>
                                 <CheckBox Content="Throttle" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowThrottleOverlay}"/>
                                 <CheckBox Content="Brake" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowBrakeOverlay}"/>

@@ -15,6 +15,15 @@
         [XmlIgnore]
         public TimeSpan LapTime { get; set; }
 
+        [XmlIgnore]
+        public TimeSpan Sector1Time { get; set; }
+
+        [XmlIgnore]
+        public TimeSpan Sector2Time { get; set; }
+
+        [XmlIgnore]
+        public TimeSpan Sector3Time { get; set; }
+
         [XmlAttribute]
         public string SessionIdentifier { get; set; }
 
@@ -23,6 +32,27 @@
         {
             get => LapTime.TotalSeconds;
             set => LapTime = TimeSpan.FromSeconds(value);
+        }
+
+        [XmlAttribute]
+        public double Sector1TimeSeconds
+        {
+            get => Sector1Time.TotalSeconds;
+            set => Sector1Time = TimeSpan.FromSeconds(value);
+        }
+
+        [XmlAttribute]
+        public double Sector2TimeSeconds
+        {
+            get => Sector2Time.TotalSeconds;
+            set => Sector2Time = TimeSpan.FromSeconds(value);
+        }
+
+        [XmlAttribute]
+        public double Sector3TimeSeconds
+        {
+            get => Sector3Time.TotalSeconds;
+            set => Sector3Time = TimeSpan.FromSeconds(value);
         }
 
         public static bool operator ==(LapSummaryDto lap1, LapSummaryDto lap2)

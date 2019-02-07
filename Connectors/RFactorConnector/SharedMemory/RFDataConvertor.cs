@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.RFactorConnector.SharedMemory
 {
     using System;
-
+    using System.Linq;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
@@ -18,6 +18,7 @@
         public SimulatorDataSet CreateSimulatorDataSet(RfShared rfData)
         {
             SimulatorDataSet simData = new SimulatorDataSet("RFactor");
+            simData.SimulatorSourceInfo.GapInformationProvided = GapInformationKind.TimeToSurroundingDrivers;
             simData.SimulatorSourceInfo.HasLapTimeInformation = true;
             simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
             simData.SimulatorSourceInfo.OutLapIsValid = true;
@@ -232,6 +233,8 @@
             {
                 data.PlayerInfo = playersInfo;
             }
+
+            FillGapInformation(data.DriversInfo);
         }
 
         private void CheckValidityByPlayer(DriverInfo driver)
@@ -263,6 +266,7 @@
 
         internal void FillTimingInfo(DriverInfo driverInfo, RfVehicleInfo rfVehicleInfo, RfShared rfShared)
         {
+            driverInfo.Timing.GapAhead = TimeSpan.FromSeconds(rfVehicleInfo.TimeBehindNext);
             driverInfo.Timing.LastSector1Time = CreateTimeSpan(rfVehicleInfo.CurSector1);
             driverInfo.Timing.LastSector2Time = CreateTimeSpan(rfVehicleInfo.CurSector2 - rfVehicleInfo.CurSector1);
             driverInfo.Timing.LastSector3Time = CreateTimeSpan(rfVehicleInfo.LastLapTime - rfVehicleInfo.LastSector2);
@@ -281,6 +285,18 @@
                     driverInfo.Timing.CurrentLapTime = CreateTimeSpan(rfVehicleInfo.LastLapTime);
                     break;
             }
+        }
+
+
+        private void FillGapInformation(DriverInfo[] drivers)
+        {
+            DriverInfo[] orderedDrivers = drivers.OrderBy(x => x.Position).ToArray();
+
+            for (int i = 1; i < orderedDrivers.Length; i++)
+            {
+                orderedDrivers[i - 1].Timing.GapBehind = orderedDrivers[i].Timing.GapAhead;
+            }
+
         }
 
         private TimeSpan CreateTimeSpan(double seconds)

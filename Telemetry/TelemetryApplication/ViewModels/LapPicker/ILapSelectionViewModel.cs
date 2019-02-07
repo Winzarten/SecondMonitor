@@ -25,6 +25,12 @@
 
         string BestLap { get; set; }
 
+        string BestSector1 { get; set; }
+
+        string BestSector2 { get; set; }
+
+        string BestSector3 { get; set; }
+
         DateTime SessionTime { get; set; }
 
         string SimulatorName { get; set; }

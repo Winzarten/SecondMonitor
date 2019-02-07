@@ -77,7 +77,9 @@
     <Compile Include="OperationalRange\DataSourceProperties.cs" />
     <Compile Include="OperationalRange\TyreCompoundProperties.cs" />
     <Compile Include="Snapshot\Drivers\DriverFinishStatus.cs" />
+    <Compile Include="Snapshot\Drivers\GapInformationKind.cs" />
     <Compile Include="Snapshot\Drivers\IDriverInfo.cs" />
+    <Compile Include="Snapshot\ISimulatorDateSetVisitor.cs" />
     <Compile Include="Snapshot\SessionPhase.cs" />
     <Compile Include="BasicProperties\SessionType.cs" />
     <Compile Include="Snapshot\Systems\CarInfo.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="TrackMap\ITrackMap.cs" />
     <Compile Include="TrackMap\TrackGeometryDTO.cs" />
     <Compile Include="TrackMap\TrackMapDto.cs" />
+    <Compile Include="Visitors\ComputeGapToPlayerVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -6,7 +6,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using NLog;
@@ -134,12 +133,11 @@
 
         public ICollection<ISecondMonitorPlugin> GetPluginsFromAssembly(string assemblyPath)
         {
-            var secondMonitorPluginType = typeof(ISecondMonitorPlugin);
-            var plugins = new List<ISecondMonitorPlugin>();
-            Assembly assembly;
+            Type secondMonitorPluginType = typeof(ISecondMonitorPlugin);
+            List<ISecondMonitorPlugin> plugins = new List<ISecondMonitorPlugin>();
             try
             {
-                assembly = Assembly.UnsafeLoadFrom(assemblyPath);
+                Assembly assembly = Assembly.UnsafeLoadFrom(assemblyPath);
                 Logger.Info("Searching Assembly: " + assemblyPath);
 
 
