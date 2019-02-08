@@ -1,7 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Factory
 {
     using System.Collections.Generic;
-    using IOC;
     using Ninject;
     using Ninject.Syntax;
     using SecondMonitor.ViewModels;

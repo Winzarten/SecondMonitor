@@ -10,6 +10,7 @@
     using System.Windows.Shapes;
     using WindowsControls.WPF;
     using WindowsControls.WPF.DriverPosition;
+    using Contracts.NInject;
     using Controllers.Synchronization;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
@@ -17,7 +18,6 @@
     using DataModel.Telemetry;
     using DataModel.TrackMap;
     using Factory;
-    using IOC;
     using NLog;
     using SecondMonitor.ViewModels;
     using SimdataManagement;
@@ -349,7 +349,7 @@
                 return lapCustomPathsCollection;
             }
 
-            ILapCustomPathsCollection newLapCustomPathsCollection = TaKernel.Instance.Get<ILapCustomPathsCollection>();
+            ILapCustomPathsCollection newLapCustomPathsCollection = KernelWrapper.Instance.Get<ILapCustomPathsCollection>();
             _lapsPaths[id] = newLapCustomPathsCollection;
             return newLapCustomPathsCollection;
 

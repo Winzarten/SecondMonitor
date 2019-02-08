@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{55275247-8D2E-421F-AB35-4BA77449B05A}</ProjectGuid>
+    <ProjectGuid>{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SecondMonitor.Contracts</RootNamespace>
-    <AssemblyName>Contracts</AssemblyName>
+    <RootNamespace>SecondMonitor.PluginsConfiguration</RootNamespace>
+    <AssemblyName>PluginsConfiguration</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,30 +45,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FuelInformation\IFuelCalculatorViewModel.cs" />
-    <Compile Include="FuelInformation\IFuelConsumptionInfo.cs" />
-    <Compile Include="FuelInformation\IFuelPlannerViewModel.cs" />
-    <Compile Include="FuelInformation\ISessionFuelConsumptionViewModel.cs" />
-    <Compile Include="NInject\BootstrapHelper.cs" />
-    <Compile Include="NInject\INinjectModuleBootstrapper.cs" />
-    <Compile Include="NInject\KernelWrapper.cs" />
+    <Compile Include="Controller\IPluginSettingsProvider.cs" />
+    <Compile Include="Controller\PluginsSettingsProvider.cs" />
+    <Compile Include="DataModel\PluginConfiguration.cs" />
+    <Compile Include="DataModel\PluginsConfiguration.cs" />
+    <Compile Include="DataModel\RemoteConfiguration.cs" />
+    <Compile Include="PluginsConfigurationModule.cs" />
+    <Compile Include="PluginsConfigurationModuleBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrackMap\IMapManagementController.cs" />
-    <Compile Include="TrackMap\ITrackDtoManipulator.cs" />
-    <Compile Include="TrackMap\MapEventArgs.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SessionTiming\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DataModel\DataModel.csproj">
-      <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
-      <Name>DataModel</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <Compile Include="Repository\AppDatePluginConfigurationRepository.cs" />
+    <Compile Include="Repository\IPluginConfigurationRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{55275247-8d2e-421f-ab35-4ba77449b05a}</Project>
+      <Name>Contracts</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -43,7 +43,7 @@ namespace SecondMonitor.Timing.Controllers
         private MapManagementController _mapManagementController;
         private DriverPresentationsManager _driverPresentationsManager;
         private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
-        private ComputeGapToPlayerVisitor _computeGapToPlayerVisitor;
+        private readonly ComputeGapToPlayerVisitor _computeGapToPlayerVisitor;
         private DisplaySettingAutoSaver _settingAutoSaver;
 
 
@@ -65,6 +65,11 @@ namespace SecondMonitor.Timing.Controllers
         }
 
         public bool IsDaemon => false;
+
+        public string PluginName => "Timing UI";
+
+        public bool IsEnabledByDefault => true;
+
 
         public void RunPlugin()
         {

@@ -81,9 +81,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PluginManager\PluginManager.csproj">
       <Project>{e61dbd85-bc10-4abd-9c0b-22770399de70}</Project>
       <Name>PluginManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginsConfiguration\PluginsConfiguration.csproj">
+      <Project>{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}</Project>
+      <Name>PluginsConfiguration</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

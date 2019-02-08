@@ -5,11 +5,12 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using Contracts.NInject;
     using NLog;
 
     using PluginManager.Core;
     using PluginManager.GameConnector;
-
+    using PluginsConfiguration.Controller;
     using Application = System.Windows.Application;
     using MessageBox = System.Windows.MessageBox;
 
@@ -30,8 +31,6 @@
                 //Application.EnableVisualStyles();
                 //Application.SetCompatibleTextRenderingDefault(false);
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-                /*AppDomain.CurrentDomain.AssemblyResolve +=
-                    new ResolveEventHandler(CurrentDomain_AssemblyResolve);*/
                 Application app = new Application();
                 LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConnectorsDir));
                 app.Run();
@@ -42,20 +41,6 @@
                 LogManager.GetCurrentClassLogger().Error(ex, "Application experienced an error");
             }
         }
-
-/*        static Assembly CurrentDomain_AssemblyResolve(object sender,
-            ResolveEventArgs args)
-        {
-            string folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string assemblyPath = Path.Combine(folderPath, new AssemblyName(args.Name).Name + ".dll");
-            if (!File.Exists(assemblyPath))
-            {
-                return null;
-            }
-
-            Assembly assembly = Assembly.LoadFrom(assemblyPath);
-            return assembly;
-        }*/
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -103,7 +88,9 @@
 
         private static void ConnectAndLoadPlugins(IGameConnector[] connectors)
         {
-            PluginsManager pluginManager = new PluginsManager(connectors);
+            IPluginSettingsProvider pluginSettingsProvider = KernelWrapper.Instance.Get<IPluginSettingsProvider>();
+
+            PluginsManager pluginManager = new PluginsManager(pluginSettingsProvider, connectors);
             pluginManager.InitializePlugins();
             pluginManager.Start();
         }

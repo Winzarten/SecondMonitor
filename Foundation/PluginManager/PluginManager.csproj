@@ -73,9 +73,19 @@
     <Compile Include="Visitor\SessionTimeInterpolator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{55275247-8d2e-421f-ab35-4ba77449b05a}</Project>
+      <Name>Contracts</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\DataModel.csproj">
       <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
       <Name>DataModel</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginsConfiguration\PluginsConfiguration.csproj">
+      <Project>{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}</Project>
+      <Name>PluginsConfiguration</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

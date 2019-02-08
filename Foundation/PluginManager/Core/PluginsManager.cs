@@ -9,12 +9,13 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using NLog;
-    using NLog.Fluent;
     using DataModel.Snapshot;
     using GameConnector;
+    using PluginsConfiguration.Controller;
 
     public class PluginsManager
     {
+        private readonly IPluginSettingsProvider _pluginSettingsProvider;
         public event EventHandler<DataEventArgs> DataLoaded;
 
         public event EventHandler<DataEventArgs> SessionStarted;
@@ -29,9 +30,9 @@
         private Task _connectorTask;
         private SimulatorDataSet _oldDataSet;
 
-        public PluginsManager(IGameConnector[] connectors)
+        public PluginsManager(IPluginSettingsProvider pluginSettingsProvider, IGameConnector[] connectors)
         {
-            Logger.Info().TimeStamp(DateTime.Now).Message("Fooo");
+            _pluginSettingsProvider = pluginSettingsProvider;
             _plugins = new List<ISecondMonitorPlugin>();
             Connectors = connectors;
         }
@@ -111,7 +112,7 @@
         {
             string pluginsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
             IEnumerable<string> files = Directory.EnumerateFiles(pluginsDirectory, "*.dll", SearchOption.AllDirectories);
-            foreach (var file in files)
+            foreach (string file in files)
             {
                 string assemblyPath = Path.Combine(pluginsDirectory, file);
                 _plugins.AddRange(GetPluginsFromAssembly(assemblyPath));
@@ -119,7 +120,7 @@
 
             if (_plugins.Count == 0)
             {
-                MessageBox.Show("No plugins loaded. Please place plugins .dll into " + pluginsDirectory, "No plugins", MessageBoxButtons.OK);
+                MessageBox.Show("No enabled plugins loaded. Please enabled some of existing plugins, or place plugins .dll into " + pluginsDirectory, "No plugins", MessageBoxButtons.OK);
                 Environment.Exit(1);
             }
 
@@ -145,6 +146,10 @@
                 foreach (Type type in types)
                 {
                     ISecondMonitorPlugin plugin = Activator.CreateInstance(type) as ISecondMonitorPlugin;
+                    if (!IsPluginEnabled(plugin))
+                    {
+                        continue;
+                    }
                     plugins.Add(plugin);
                     Logger.Info("Found plugin:" + type);
                 }
@@ -187,6 +192,18 @@
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
             RaiseDataLoadedEvent(args.Data);
+        }
+
+        private bool IsPluginEnabled(ISecondMonitorPlugin plugin)
+        {
+            if (_pluginSettingsProvider.TryIsPluginEnabled(plugin.PluginName, out bool isEnabled))
+            {
+                Logger.Info($"Plugin {plugin.PluginName} is Enabled: {isEnabled}");
+                return isEnabled;
+            }
+            _pluginSettingsProvider.SetPluginEnabled(plugin.PluginName, plugin.IsEnabledByDefault);
+            Logger.Info($"Plugin {plugin.PluginName} is Enabled: {plugin.IsEnabledByDefault}");
+            return plugin.IsEnabledByDefault;
         }
 
         private void OnSessionStarted(object sender, DataEventArgs args)

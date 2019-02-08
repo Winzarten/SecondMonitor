@@ -8,6 +8,9 @@
             set;
         }
 
+        string PluginName { get; }
+        bool IsEnabledByDefault { get; }
+
         void RunPlugin();
 
         bool IsDaemon
