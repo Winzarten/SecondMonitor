@@ -3,9 +3,8 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
-
+    using SecondMonitor.Contracts.Commands;
     using SecondMonitor.DataModel.BasicProperties;
-    using SecondMonitor.WindowsControls.WPF.Commands;
 
     public class WheelStatusTestVm : INotifyPropertyChanged
     {

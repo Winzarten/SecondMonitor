@@ -6,9 +6,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
-    using WindowsControls.WPF.Commands;
     using Common.Controller;
     using Common.Repository;
+    using Contracts.Commands;
     using PluginManager.Core;
     using SecondMonitor.ViewModels.Factory;
     using SecondMonitor.ViewModels.PluginsSettings;

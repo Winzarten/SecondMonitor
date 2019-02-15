@@ -2,7 +2,6 @@
 {
     using System;
     using DataModel.TrackMap;
-    using Timing.Controllers;
 
     public interface IMapManagementController
     {

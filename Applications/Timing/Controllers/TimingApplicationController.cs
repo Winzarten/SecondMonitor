@@ -8,13 +8,13 @@ namespace SecondMonitor.Timing.Controllers
     using System.Threading.Tasks;
     using System.Windows.Input;
     using WindowsControls.Extension;
+    using Contracts.Commands;
     using DataModel.Snapshot;
     using PluginManager.Core;
     using PluginManager.GameConnector;
     using LapTimings.ViewModel;
     using Presentation.View;
     using Presentation.ViewModel;
-    using WindowsControls.WPF.Commands;
     using DataModel.Visitors;
     using SecondMonitor.Telemetry.TelemetryApplication.Controllers;
     using SecondMonitor.Telemetry.TelemetryManagement.Repository;

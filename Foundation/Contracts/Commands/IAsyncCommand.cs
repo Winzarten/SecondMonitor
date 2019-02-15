@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.WindowsControls.WPF.Commands
+﻿namespace SecondMonitor.Contracts.Commands
 {
     using System.Threading.Tasks;
     using System.Windows.Input;

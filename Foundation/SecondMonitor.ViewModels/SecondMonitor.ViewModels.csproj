@@ -127,7 +127,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SituationOverview\SituationOverviewProvider.cs" />
     <Compile Include="TrackInfo\TrackInfoViewModel.cs" />
     <Compile Include="ViewModelsModule.cs" />
     <Compile Include="ViewModelsModuleBootstrapper.cs" />
@@ -160,14 +159,12 @@
       <Name>PluginsConfiguration.Common</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
-      <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
-      <Name>WindowsControls</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SituationOverview\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

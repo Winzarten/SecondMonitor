@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.ViewModels.SituationOverview
+﻿namespace SecondMonitor.WindowsControls.SituationOverview
 {
     using System;
     using System.ComponentModel;
@@ -6,18 +6,16 @@
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
-
+    using Contracts.Commands;
+    using Contracts.TrackMap;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
-    using WindowsControls.WPF;
-    using WindowsControls.WPF.Commands;
-    using WindowsControls.WPF.DriverPosition;
-    using Contracts.TrackMap;
     using DataModel.TrackMap;
     using NLog;
-    using Properties;
-    using Settings.ViewModel;
-    using Timing.Controllers;
+    using ViewModels;
+    using ViewModels.Settings.ViewModel;
+    using WPF;
+    using WPF.DriverPosition;
 
     public class SituationOverviewProvider : DependencyObject, ISimulatorDataSetViewModel, INotifyPropertyChanged, IMapSidePanelViewModel
     {
@@ -196,7 +194,6 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

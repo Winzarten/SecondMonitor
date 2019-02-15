@@ -6,10 +6,9 @@
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
-
+    using SecondMonitor.Contracts.Commands;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.WindowsControls.WPF.CarSettingsControl;
-    using SecondMonitor.WindowsControls.WPF.Commands;
 
     public class CarStatusTestVM : INotifyPropertyChanged
     {

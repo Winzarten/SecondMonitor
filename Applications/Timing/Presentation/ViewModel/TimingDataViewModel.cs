@@ -13,7 +13,7 @@
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Threading;
-
+    using WindowsControls.SituationOverview;
     using Commands;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
@@ -29,7 +29,6 @@
     using SecondMonitor.Timing.SessionTiming.ViewModel;
     using ViewModels;
     using ViewModels.CarStatus;
-    using ViewModels.SituationOverview;
     using ViewModels.TrackInfo;
 
     using SessionTiming.Drivers;

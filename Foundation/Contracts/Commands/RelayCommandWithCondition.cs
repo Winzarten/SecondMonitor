@@ -1,7 +1,8 @@
-﻿namespace SecondMonitor.WindowsControls.WPF.Commands
+﻿namespace SecondMonitor.Contracts.Commands
 {
     using System;
     using System.Windows.Input;
+
     public class RelayCommandWithCondition : ICommand
     {
         private readonly Action _action;

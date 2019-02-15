@@ -112,6 +112,7 @@
     <Compile Include="Colors\MediaColorExtension.cs" />
     <Compile Include="Extension\ItemsControlExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SituationOverview\SituationOverviewProvider.cs" />
     <Compile Include="WPF\Behaviors\TyreWear\ColorAbleIconByLimits.cs" />
     <Compile Include="WPF\Behaviors\TyreWear\ColorByLinearLimitsBehavior.cs" />
     <Compile Include="WPF\Behaviors\VolumeBehavior\BackgroundByOptimalVolumeBehavior.cs" />
@@ -127,17 +128,11 @@
     <Compile Include="WPF\CarSettingsControl\ITyreSettingsViewModel.cs" />
     <Compile Include="WPF\CarSettingsControl\TyreCompoundSettingsControl.cs" />
     <Compile Include="WPF\ColorableIcon.cs" />
-    <Compile Include="WPF\Commands\AsyncCommand.cs" />
-    <Compile Include="WPF\Commands\AsyncCommandBase.cs" />
-    <Compile Include="WPF\Commands\IAsyncCommand.cs" />
-    <Compile Include="WPF\Commands\InverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="WPF\Commands\NotifyTaskCompletion.cs" />
-    <Compile Include="WPF\Commands\RelayCommand.cs" />
-    <Compile Include="WPF\Commands\RelayCommandWithCondition.cs" />
     <Compile Include="WPF\Converters\ColorToBrushConverter.cs" />
     <Compile Include="WPF\Converters\DateTimeToCurrentConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToStringNoDecimalConverter.cs" />
+    <Compile Include="WPF\Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Converters\IntegerToStringConverter.cs" />
@@ -159,13 +154,13 @@
     <Compile Include="WPF\FuelControl\FuelOverviewControl.cs" />
     <Compile Include="WPF\FuelControl\FuelPlannerControl.cs" />
     <Compile Include="WPF\FuelControl\SessionFuelConsumptionControl.cs" />
-    <Compile Include="WPF\Graphs\GraphControl.xaml.cs">
-      <DependentUpon>GraphControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WPF\PedalControl\PedalGearControl.cs" />
     <Compile Include="WPF\DriverPosition\ISituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\DriverPositionControl.cs" />
     <Compile Include="WPF\DriverPosition\PositionCircleControl.cs" />
+    <Compile Include="WPF\PluginsConfig\RemoteSettingsControl.xaml.cs">
+      <DependentUpon>RemoteSettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\QuantityText\DistanceText.cs" />
     <Compile Include="WPF\QuantityText\FuelPerDistanceText.cs" />
     <Compile Include="WPF\QuantityText\PressureText.cs" />
@@ -245,10 +240,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WPF\Graphs\GraphControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="WPF\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -268,6 +259,10 @@
     <Page Include="WPF\DriverPosition\DriverPositionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\PluginsConfig\RemoteSettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\TrackInfoControl\TrackInfoControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -304,6 +299,11 @@
       <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
       <Name>DataModel</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj">
+      <Project>{b43064b9-d120-4dd9-9902-e2b8f6006985}</Project>
+      <Name>SecondMonitor.ViewModels</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

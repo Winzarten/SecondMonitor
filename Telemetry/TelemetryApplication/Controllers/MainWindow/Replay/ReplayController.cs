@@ -7,7 +7,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using WindowsControls.WPF.Commands;
+    using Contracts.Commands;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
     using SecondMonitor.ViewModels.Factory;

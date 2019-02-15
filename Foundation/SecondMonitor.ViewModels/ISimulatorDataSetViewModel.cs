@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.ViewModels
 {
-    using WindowsControls.Properties;
     using DataModel.Snapshot;
+    using Properties;
 
     public interface ISimulatorDataSetViewModel
     {

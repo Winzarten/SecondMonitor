@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Controllers
+﻿namespace SecondMonitor.Contracts.TrackMap
 {
     using System;
     using DataModel.TrackMap;

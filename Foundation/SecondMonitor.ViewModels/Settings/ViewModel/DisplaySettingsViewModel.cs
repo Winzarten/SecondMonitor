@@ -7,7 +7,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Input;
-    using WindowsControls.WPF.Commands;
+    using Contracts.Commands;
     using DataModel.BasicProperties;
     using DataModel.BasicProperties.FuelConsumption;
     using Model;
