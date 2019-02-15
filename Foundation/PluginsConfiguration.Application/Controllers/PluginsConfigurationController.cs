@@ -49,7 +49,8 @@
             _pluginsSettingsWindowViewModel = _viewModelFactory.Create<IPluginsSettingsWindowViewModel>();
             IPluginsConfigurationViewModel pluginsConfigurationViewModel = _viewModelFactory.Create<IPluginsConfigurationViewModel>();
             pluginsConfigurationViewModel.FromModel(_pluginConfigurationRepository.LoadOrCreateDefault());
-            _pluginsSettingsWindowViewModel.SaveCommand = new RelayCommand(Save);
+            _pluginsSettingsWindowViewModel.SaveCommand = new RelayCommand(SaveAndClose);
+            _pluginsSettingsWindowViewModel.CloseCommand = new RelayCommand(Close);
             _pluginsSettingsWindowViewModel.PluginsConfigurationViewModel = pluginsConfigurationViewModel;
         }
 
@@ -58,9 +59,15 @@
             return Task.CompletedTask;
         }
 
-        private void Save()
+        private void SaveAndClose()
         {
             _pluginConfigurationRepository.Save(_pluginsSettingsWindowViewModel.PluginsConfigurationViewModel.SaveToNewModel());
+            Close();
+        }
+
+        private void Close()
+        {
+            _mainWindow.Close();
         }
 
         private void InitializePluginsList()

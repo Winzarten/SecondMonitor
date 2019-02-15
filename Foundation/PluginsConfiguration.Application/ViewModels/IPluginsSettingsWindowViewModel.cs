@@ -8,5 +8,6 @@
     {
         IPluginsConfigurationViewModel PluginsConfigurationViewModel { get; set; }
         ICommand SaveCommand { get; set; }
+        ICommand CloseCommand { get; set; }
     }
 }

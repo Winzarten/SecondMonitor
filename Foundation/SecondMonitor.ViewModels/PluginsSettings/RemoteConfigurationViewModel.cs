@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.ViewModels.PluginsSettings
 {
+    using System.Net;
+    using System.Net.Sockets;
     using PluginsConfiguration.Common.DataModel;
 
     public class RemoteConfigurationViewModel : AbstractViewModel<RemoteConfiguration>, IRemoteConfigurationViewModel
@@ -11,13 +13,20 @@
         public string IpAddress
         {
             get => _ipAddress;
-            set => SetProperty(ref _ipAddress, value);
+            set
+            {
+                if (IsValidIpAddress(value))
+                {
+                    SetProperty(ref _ipAddress, value);
+                }
+            }
         }
 
         public bool IsBroadcastEnabled
         {
             get => _isBroadcastEnabled;
             set => SetProperty(ref _isBroadcastEnabled, value);
+
         }
 
         public int Port
@@ -41,6 +50,16 @@
                 IsBroadcastEnabled = IsBroadcastEnabled,
                 Port = Port
             };
+        }
+
+        private static bool IsValidIpAddress(string value)
+        {
+            if (IPAddress.TryParse(value, out IPAddress ipAddress))
+            {
+                return ipAddress.AddressFamily == AddressFamily.InterNetwork;
+            }
+
+            return false;
         }
     }
 }

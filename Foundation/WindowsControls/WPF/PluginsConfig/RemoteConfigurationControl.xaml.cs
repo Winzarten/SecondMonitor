@@ -18,9 +18,9 @@ namespace SecondMonitor.WindowsControls.WPF.PluginsConfig
     /// <summary>
     /// Interaction logic for RemoteSettingsControl.xaml
     /// </summary>
-    public partial class RemoteSettingsControl : UserControl
+    public partial class RemoteConfigurationControl : UserControl
     {
-        public RemoteSettingsControl()
+        public RemoteConfigurationControl()
         {
             InitializeComponent();
         }

@@ -158,8 +158,8 @@
     <Compile Include="WPF\DriverPosition\ISituationOverviewControl.cs" />
     <Compile Include="WPF\DriverPosition\DriverPositionControl.cs" />
     <Compile Include="WPF\DriverPosition\PositionCircleControl.cs" />
-    <Compile Include="WPF\PluginsConfig\RemoteSettingsControl.xaml.cs">
-      <DependentUpon>RemoteSettingsControl.xaml</DependentUpon>
+    <Compile Include="WPF\PluginsConfig\RemoteConfigurationControl.xaml.cs">
+      <DependentUpon>RemoteConfigurationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\QuantityText\DistanceText.cs" />
     <Compile Include="WPF\QuantityText\FuelPerDistanceText.cs" />
@@ -260,7 +260,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="WPF\PluginsConfig\RemoteSettingsControl.xaml">
+    <Page Include="WPF\PluginsConfig\RemoteConfigurationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

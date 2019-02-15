@@ -4,9 +4,74 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SecondMonitor.PluginsConfiguration.Application.View"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-
+             xmlns:pluginsSettings="clr-namespace:SecondMonitor.ViewModels.PluginsSettings;assembly=SecondMonitor.ViewModels"
+             xmlns:pluginsConfig="clr-namespace:SecondMonitor.WindowsControls.WPF.PluginsConfig;assembly=WindowsControls"
+             xmlns:viewModels="clr-namespace:SecondMonitor.PluginsConfiguration.Application.ViewModels"
+             xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:PluginsSettingsWindowViewModel}"
+             Title="Plugins Manager"
+             SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="PluginsConfiguration.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="{StaticResource Anthracite01Brush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Column="0">
+            <StackPanel Background="{StaticResource Anthracite01Brush}">
+                <TextBlock Style="{StaticResource StandardText}" Text="Plugins:" VerticalAlignment="Center"/>
+                <ListBox ItemsSource="{Binding PluginsConfigurationViewModel.PluginConfigurations}" Grid.IsSharedSizeScope="True" MinWidth="150"
+                     Background="{StaticResource Anthracite01Brush}" MaxHeight="300">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PluginsListSharedWidth" MinWidth="50"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="3">
+                                <CheckBox IsChecked="{Binding IsEnabled}" Margin="5,0,10,0" VerticalAlignment="Center"></CheckBox>
+                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding PluginName}" VerticalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            </StackPanel>
+        </Grid>
+        <Grid Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <pluginsConfig:RemoteConfigurationControl Grid.Row="0"  DataContext="{Binding PluginsConfigurationViewModel.RemoteConfigurationViewModel}"/>
+            <Grid Grid.Row="1">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                            Command="{Binding SaveCommand}"
+                            Style="{StaticResource StandardButton}">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                <ContentPresenter Content="{StaticResource OkIcon}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                    <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                            Command="{Binding CloseCommand}"
+                            Style="{StaticResource StandardButton}">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                <ContentPresenter Content="{StaticResource CancelIcon}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
