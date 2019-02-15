@@ -1,9 +1,9 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Factory
+﻿namespace SecondMonitor.ViewModels.Factory
 {
     using System.Collections.Generic;
     using Ninject;
     using Ninject.Syntax;
-    using SecondMonitor.ViewModels;
+    using ViewModels;
 
     public class ViewModelFactory : IViewModelFactory
     {

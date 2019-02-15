@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.PluginsConfiguration
+﻿namespace SecondMonitor.PluginsConfiguration.Common
 {
     using Controller;
     using Ninject.Modules;

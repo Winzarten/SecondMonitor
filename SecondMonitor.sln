@@ -76,7 +76,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemetryLauncher", "Applic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemetryPresentation", "Telemetry\TelemetryPresentation\TelemetryPresentation.csproj", "{8312B7DA-965B-4272-A9BB-90CA46DB2CB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginsConfiguration", "Foundation\PluginsConfiguration\PluginsConfiguration.csproj", "{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginsConfiguration.Common", "Foundation\PluginsConfiguration\PluginsConfiguration.Common.csproj", "{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginsConfiguration.Application", "Foundation\PluginsConfiguration.Application\PluginsConfiguration.Application.csproj", "{1B12E8DB-734E-4D03-B318-99C34F595306}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagePlugins", "Applications\ManagePlugins\ManagePlugins.csproj", "{AFFF6B30-B092-4B22-A591-51F740379B21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -384,6 +388,30 @@ Global
 		{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}.Release|x64.Build.0 = Release|Any CPU
 		{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}.Release|x86.ActiveCfg = Release|Any CPU
 		{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}.Release|x86.Build.0 = Release|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Debug|x64.Build.0 = Debug|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Debug|x86.Build.0 = Debug|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Release|x64.ActiveCfg = Release|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Release|x64.Build.0 = Release|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Release|x86.ActiveCfg = Release|Any CPU
+		{1B12E8DB-734E-4D03-B318-99C34F595306}.Release|x86.Build.0 = Release|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Debug|x64.Build.0 = Debug|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Debug|x86.Build.0 = Debug|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Release|x64.ActiveCfg = Release|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Release|x64.Build.0 = Release|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Release|x86.ActiveCfg = Release|Any CPU
+		{AFFF6B30-B092-4B22-A591-51F740379B21}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -413,6 +441,8 @@ Global
 		{14D5ABC3-7413-4851-81ED-C69E10FB0041} = {F8D0D3D2-9722-44E1-B842-1F8894C7085D}
 		{8312B7DA-965B-4272-A9BB-90CA46DB2CB3} = {73E0450D-AEFB-47A0-B615-B8B2ED2A7BBA}
 		{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF} = {62D39DD9-2150-4F24-9DA7-3647446EBF69}
+		{1B12E8DB-734E-4D03-B318-99C34F595306} = {62D39DD9-2150-4F24-9DA7-3647446EBF69}
+		{AFFF6B30-B092-4B22-A591-51F740379B21} = {F8D0D3D2-9722-44E1-B842-1F8894C7085D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {726FBC8E-A19B-4E10-8189-10D84C2AA8DE}

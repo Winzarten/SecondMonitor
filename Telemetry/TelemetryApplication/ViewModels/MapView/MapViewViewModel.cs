@@ -17,9 +17,9 @@
     using DataModel.Snapshot.Drivers;
     using DataModel.Telemetry;
     using DataModel.TrackMap;
-    using Factory;
     using NLog;
     using SecondMonitor.ViewModels;
+    using SecondMonitor.ViewModels.Factory;
     using SimdataManagement;
     using TelemetryManagement.DTO;
 

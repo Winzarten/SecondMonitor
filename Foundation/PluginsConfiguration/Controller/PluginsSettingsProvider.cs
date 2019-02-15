@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.PluginsConfiguration.Controller
+﻿namespace SecondMonitor.PluginsConfiguration.Common.Controller
 {
     using System;
     using System.Linq;

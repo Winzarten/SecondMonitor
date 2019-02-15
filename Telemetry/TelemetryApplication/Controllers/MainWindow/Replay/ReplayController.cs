@@ -10,7 +10,7 @@
     using WindowsControls.WPF.Commands;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
-    using Factory;
+    using SecondMonitor.ViewModels.Factory;
     using Settings;
     using Synchronization;
     using TelemetryManagement.DTO;

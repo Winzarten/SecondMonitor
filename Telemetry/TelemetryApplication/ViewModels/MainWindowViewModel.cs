@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
     using DataModel.Extensions;
-    using Factory;
     using GraphPanel;
     using LapPicker;
     using MapView;
     using SecondMonitor.ViewModels;
+    using SecondMonitor.ViewModels.Factory;
     using SnapshotSection;
 
     public class MainWindowViewModel : AbstractViewModel, IMainWindowViewModel

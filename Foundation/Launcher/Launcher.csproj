@@ -56,6 +56,10 @@
     <ApplicationIcon>chronometer.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -89,9 +93,9 @@
       <Project>{e61dbd85-bc10-4abd-9c0b-22770399de70}</Project>
       <Name>PluginManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PluginsConfiguration\PluginsConfiguration.csproj">
+    <ProjectReference Include="..\PluginsConfiguration\PluginsConfiguration.Common.csproj">
       <Project>{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}</Project>
-      <Name>PluginsConfiguration</Name>
+      <Name>PluginsConfiguration.Common</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

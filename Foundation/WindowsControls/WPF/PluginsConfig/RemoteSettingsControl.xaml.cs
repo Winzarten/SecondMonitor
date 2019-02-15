@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SecondMonitor.WindowsControls.WPF.Graphs
+namespace SecondMonitor.WindowsControls.WPF.PluginsConfig
 {
     /// <summary>
-    /// Interaction logic for GraphControl.xaml
+    /// Interaction logic for RemoteSettingsControl.xaml
     /// </summary>
-    public partial class GraphControl : UserControl
+    public partial class RemoteSettingsControl : UserControl
     {
-        public GraphControl()
+        public RemoteSettingsControl()
         {
             InitializeComponent();
         }

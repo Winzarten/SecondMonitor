@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using WindowsControls.WPF.Commands;
-    using Factory;
+    using SecondMonitor.ViewModels.Factory;
     using Settings;
     using Settings.DTO;
     using ViewModels;

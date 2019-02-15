@@ -106,8 +106,6 @@
     <Compile Include="Controllers\TelemetryApplicationController.cs" />
     <Compile Include="Controllers\TelemetryLoad\ITelemetryLoadController.cs" />
     <Compile Include="Controllers\TelemetryLoad\TelemetryLoadController.cs" />
-    <Compile Include="Factory\IViewModelFactory.cs" />
-    <Compile Include="Factory\ViewModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ITelemetryRepositoryFactory.cs" />
     <Compile Include="Repository\TelemetryRepositoryFactory.cs" />

@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using WindowsControls.WPF.Commands;
-    using Factory;
+    using SecondMonitor.ViewModels.Factory;
     using TelemetryLoad;
     using TelemetryManagement.DTO;
     using ViewModels;

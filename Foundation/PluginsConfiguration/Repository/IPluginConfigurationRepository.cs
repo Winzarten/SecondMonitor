@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.PluginsConfiguration.Repository
+﻿namespace SecondMonitor.PluginsConfiguration.Common.Repository
 {
     using DataModel;
 

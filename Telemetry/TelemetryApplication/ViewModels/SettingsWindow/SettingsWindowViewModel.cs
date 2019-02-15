@@ -6,8 +6,8 @@
     using System.Linq;
     using System.Windows.Input;
     using DataModel.Extensions;
-    using Factory;
     using SecondMonitor.ViewModels;
+    using SecondMonitor.ViewModels.Factory;
     using Settings.DTO;
 
     public class SettingsWindowViewModel : AbstractViewModel<TelemetrySettingsDto>, ISettingsWindowViewModel

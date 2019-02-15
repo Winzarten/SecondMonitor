@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.PluginsConfiguration.DataModel
+﻿namespace SecondMonitor.PluginsConfiguration.Common.DataModel
 {
     using System.Collections.Generic;
 

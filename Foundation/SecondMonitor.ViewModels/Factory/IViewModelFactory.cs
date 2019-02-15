@@ -1,7 +1,7 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Factory
+﻿namespace SecondMonitor.ViewModels.Factory
 {
     using System.Collections.Generic;
-    using SecondMonitor.ViewModels;
+    using ViewModels;
 
     public interface IViewModelFactory
     {

@@ -10,7 +10,7 @@
 
     using PluginManager.Core;
     using PluginManager.GameConnector;
-    using PluginsConfiguration.Controller;
+    using PluginsConfiguration.Common.Controller;
     using Application = System.Windows.Application;
     using MessageBox = System.Windows.MessageBox;
 

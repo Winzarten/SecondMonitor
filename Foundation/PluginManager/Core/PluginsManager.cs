@@ -11,7 +11,7 @@
     using NLog;
     using DataModel.Snapshot;
     using GameConnector;
-    using PluginsConfiguration.Controller;
+    using PluginsConfiguration.Common.Controller;
 
     public class PluginsManager
     {
@@ -35,6 +35,10 @@
             _pluginSettingsProvider = pluginSettingsProvider;
             _plugins = new List<ISecondMonitorPlugin>();
             Connectors = connectors;
+        }
+
+        public PluginsManager(IPluginSettingsProvider pluginSettingsProvider) : this(pluginSettingsProvider, Enumerable.Empty<IGameConnector>().ToArray())
+        {
         }
 
         private static void LogSimulatorDataSet(SimulatorDataSet dataSet)
@@ -108,15 +112,23 @@
             DisplayMessage?.Invoke(this, messageArgs);
         }
 
+        public ICollection<ISecondMonitorPlugin> GetPluginsFromPath(string mainDirectory, bool includeDisabled)
+        {
+            List<ISecondMonitorPlugin> plugins = new List<ISecondMonitorPlugin>();
+            IEnumerable<string> files = Directory.EnumerateFiles(mainDirectory, "*.dll", SearchOption.AllDirectories);
+            foreach (string file in files)
+            {
+                string assemblyPath = Path.Combine(mainDirectory, file);
+                plugins.AddRange(GetPluginsFromAssembly(assemblyPath, includeDisabled));
+            }
+
+            return plugins;
+        }
+
         public void InitializePlugins()
         {
             string pluginsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "plugins");
-            IEnumerable<string> files = Directory.EnumerateFiles(pluginsDirectory, "*.dll", SearchOption.AllDirectories);
-            foreach (string file in files)
-            {
-                string assemblyPath = Path.Combine(pluginsDirectory, file);
-                _plugins.AddRange(GetPluginsFromAssembly(assemblyPath));
-            }
+            _plugins.AddRange(GetPluginsFromPath(pluginsDirectory, false));
 
             if (_plugins.Count == 0)
             {
@@ -132,7 +144,7 @@
             }
         }
 
-        public ICollection<ISecondMonitorPlugin> GetPluginsFromAssembly(string assemblyPath)
+        public ICollection<ISecondMonitorPlugin> GetPluginsFromAssembly(string assemblyPath, bool includeDisabled)
         {
             Type secondMonitorPluginType = typeof(ISecondMonitorPlugin);
             List<ISecondMonitorPlugin> plugins = new List<ISecondMonitorPlugin>();
@@ -146,7 +158,7 @@
                 foreach (Type type in types)
                 {
                     ISecondMonitorPlugin plugin = Activator.CreateInstance(type) as ISecondMonitorPlugin;
-                    if (!IsPluginEnabled(plugin))
+                    if (!includeDisabled && !IsPluginEnabled(plugin))
                     {
                         continue;
                     }

@@ -11,11 +11,11 @@
     using Controllers.Synchronization;
     using Controllers.Synchronization.Graphs;
     using Controllers.TelemetryLoad;
-    using Factory;
     using Ninject.Extensions.NamedScope;
     using Ninject.Modules;
     using Repository;
     using SecondMonitor.ViewModels.Colors;
+    using SecondMonitor.ViewModels.Factory;
     using Settings;
     using Settings.DTO;
     using SimdataManagement;
@@ -61,7 +61,6 @@
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
             Bind<ILapPickerController>().To<LapPickerController>();
-            Bind<IViewModelFactory>().To<ViewModelFactory>();
             Bind<ISnapshotSectionViewModel>().To<SnapshotSectionViewModel>();
 
             Bind<ILapSelectionViewModel>().To<LapSelectionViewModel>();
