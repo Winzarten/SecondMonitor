@@ -49,7 +49,10 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <pluginsConfig:RemoteConfigurationControl Grid.Row="0"  DataContext="{Binding PluginsConfigurationViewModel.RemoteConfigurationViewModel}"/>
+            <StackPanel Grid.Row="0" >
+                <TextBlock Style="{StaticResource StandardText}" Text="Remote Settings:" VerticalAlignment="Center"></TextBlock>
+                <pluginsConfig:RemoteConfigurationControl  DataContext="{Binding PluginsConfigurationViewModel.RemoteConfigurationViewModel}"/>
+            </StackPanel>
             <Grid Grid.Row="1">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"

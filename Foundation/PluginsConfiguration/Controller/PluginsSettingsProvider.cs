@@ -9,6 +9,7 @@
     {
         private readonly IPluginConfigurationRepository _pluginConfigurationRepository;
         private readonly Lazy<PluginsConfiguration> _pluginsConfiguration;
+        private RemoteConfiguration _remoteConfiguration;
 
         public PluginsSettingsProvider(IPluginConfigurationRepository pluginConfigurationRepository)
         {
@@ -44,6 +45,8 @@
             pluginConfiguration.IsEnabled = isPluginEnabled;
             _pluginConfigurationRepository.Save(_pluginsConfiguration.Value);
         }
+
+        public RemoteConfiguration RemoteConfiguration => _pluginsConfiguration.Value.RemoteConfiguration;
 
         private PluginsConfiguration LoadPluginsConfiguration()
         {
