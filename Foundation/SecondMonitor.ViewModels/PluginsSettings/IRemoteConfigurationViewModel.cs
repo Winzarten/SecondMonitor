@@ -6,7 +6,7 @@
     {
         string IpAddress { get; set; }
 
-        bool IsBroadcastEnabled { get; set; }
+        bool IsFindInLanEnabled { get; set; }
 
         int Port { get; set; }
     }

@@ -1,10 +1,13 @@
 ﻿namespace SecondMonitor.Remote.Common.Model
 {
     using System;
+    using DataModel.Snapshot;
 
     [Serializable]
     public class DatagramPayload
     {
-        public string Payload { get; set; }
+        public const string Version = "SecondMonitor_RemoteVersion_1";
+
+        public SimulatorDataSet Payload { get; set; }
     }
 }

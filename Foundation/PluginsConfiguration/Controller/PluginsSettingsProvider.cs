@@ -9,7 +9,6 @@
     {
         private readonly IPluginConfigurationRepository _pluginConfigurationRepository;
         private readonly Lazy<PluginsConfiguration> _pluginsConfiguration;
-        private RemoteConfiguration _remoteConfiguration;
 
         public PluginsSettingsProvider(IPluginConfigurationRepository pluginConfigurationRepository)
         {

@@ -20,12 +20,6 @@
             get;
         }
 
-        int TickTime
-        {
-            get;
-            set;
-        }
-
         bool TryConnect();
 
         Task FinnishConnectorAsync();

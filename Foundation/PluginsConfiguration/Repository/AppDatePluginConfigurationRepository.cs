@@ -47,8 +47,9 @@
                 RemoteConfiguration = new RemoteConfiguration()
                 {
                     IpAddress = string.Empty,
-                    IsBroadcastEnabled = true,
+                    IsFindInLanEnabled = true,
                     Port = 52642,
+                    IsRemoteConnectorEnabled = false
                 }
             };
         }

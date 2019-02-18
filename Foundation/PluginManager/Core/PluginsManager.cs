@@ -168,8 +168,9 @@
 
                 return plugins;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error(ex, "Error getting plugins from assembly");
                 return new List<ISecondMonitorPlugin>();
             }
         }

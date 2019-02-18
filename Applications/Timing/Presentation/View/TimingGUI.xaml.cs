@@ -23,7 +23,6 @@ namespace SecondMonitor.Timing.Presentation.View
         protected override void OnSourceInitialized(EventArgs e)
         {
             var hwndSource = PresentationSource.FromVisual(this) as HwndSource;
-
             if (hwndSource != null && !_useAcceleration)
             {
                 hwndSource.CompositionTarget.RenderMode = RenderMode.SoftwareOnly;

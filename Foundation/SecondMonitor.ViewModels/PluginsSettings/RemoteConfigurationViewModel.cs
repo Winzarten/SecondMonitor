@@ -7,8 +7,9 @@
     public class RemoteConfigurationViewModel : AbstractViewModel<RemoteConfiguration>, IRemoteConfigurationViewModel
     {
         private string _ipAddress;
-        private bool _isBroadcastEnabled;
+        private bool _isFindInLanEnabled;
         private int _port;
+        private bool _isRemoteConnectorEnabled;
 
         public string IpAddress
         {
@@ -22,10 +23,17 @@
             }
         }
 
-        public bool IsBroadcastEnabled
+        public bool IsFindInLanEnabled
         {
-            get => _isBroadcastEnabled;
-            set => SetProperty(ref _isBroadcastEnabled, value);
+            get => _isFindInLanEnabled;
+            set => SetProperty(ref _isFindInLanEnabled, value);
+
+        }
+
+        public bool IsRemoteConnectorEnabled
+        {
+            get => _isRemoteConnectorEnabled;
+            set => SetProperty(ref _isRemoteConnectorEnabled, value);
 
         }
 
@@ -38,8 +46,9 @@
         protected override void ApplyModel(RemoteConfiguration model)
         {
             IpAddress = model.IpAddress;
-            IsBroadcastEnabled = model.IsBroadcastEnabled;
+            IsFindInLanEnabled = model.IsFindInLanEnabled;
             Port = model.Port;
+            IsRemoteConnectorEnabled = model.IsRemoteConnectorEnabled;
         }
 
         public override RemoteConfiguration SaveToNewModel()
@@ -47,8 +56,9 @@
             return new RemoteConfiguration()
             {
                 IpAddress = IpAddress,
-                IsBroadcastEnabled = IsBroadcastEnabled,
-                Port = Port
+                IsFindInLanEnabled = IsFindInLanEnabled,
+                Port = Port,
+                IsRemoteConnectorEnabled = IsRemoteConnectorEnabled
             };
         }
 

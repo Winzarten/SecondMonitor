@@ -22,7 +22,7 @@
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                 PluginsSettingsWindow pluginsSettingsWindow = new PluginsSettingsWindow();
-                IPluginConfigurationController pluginConfigurationController = KernelWrapper.Instance.Get<IPluginConfigurationController>(new ConstructorArgument("mainWindow", pluginsSettingsWindow));
+                IPluginConfigurationController pluginConfigurationController = new KernelWrapper().Get<IPluginConfigurationController>(new ConstructorArgument("mainWindow", pluginsSettingsWindow));
                 pluginsSettingsWindow.Closed += async (sender, args) =>
                 {
                     await pluginConfigurationController.StopControllerAsync();

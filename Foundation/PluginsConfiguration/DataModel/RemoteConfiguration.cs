@@ -8,9 +8,12 @@
         public string IpAddress { get; set; }
 
         [XmlAttribute]
-        public bool IsBroadcastEnabled { get; set; }
+        public bool IsFindInLanEnabled { get; set; }
 
         [XmlAttribute]
         public int Port { get; set; }
+
+        [XmlAttribute]
+        public bool IsRemoteConnectorEnabled { get; set; }
     }
 }

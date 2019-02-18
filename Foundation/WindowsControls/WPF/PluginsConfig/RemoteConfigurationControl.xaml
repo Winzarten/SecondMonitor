@@ -17,13 +17,14 @@
     <StackPanel Background="{StaticResource Anthracite01Brush}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="IP Address:" Style="{StaticResource StandardText}" VerticalAlignment="Center"/>
-            <TextBox  Margin="5,0,0,0" Text="{Binding IpAddress}" MinWidth="150" IsEnabled="{Binding IsBroadcastEnabled}" Style="{StaticResource StandardTextBox}"/>
-            <CheckBox Margin="15,0,0,0" Content="Broadcast to whole LAN" IsChecked="{Binding IsBroadcastEnabled}" Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}" VerticalContentAlignment="Center" VerticalAlignment="Center"></CheckBox>
+            <TextBox  Margin="5,0,0,0" Text="{Binding IpAddress}" MinWidth="150" IsEnabled="{Binding IsFindInLanEnabled, Converter={StaticResource InvertedBooleanConverter}}" Style="{StaticResource StandardTextBox}"/>
+            <CheckBox Margin="15,0,0,0" Content="Find Servers Automatically in LAN" IsChecked="{Binding IsFindInLanEnabled}" Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}" VerticalContentAlignment="Center" VerticalAlignment="Center"></CheckBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Port:" Style="{StaticResource StandardText}" VerticalAlignment="Center"/>
             <TextBox Margin="5,0,0,0" Text="{Binding Port, Converter={StaticResource IntegerToStringConverter}}" Style="{StaticResource StandardTextBox}" VerticalContentAlignment="Center" VerticalAlignment="Center" MinWidth="50" />
-        </StackPanel>
+            <CheckBox Margin="15,0,0,0" Content="Enable Remote Connector" IsChecked="{Binding IsRemoteConnectorEnabled}" Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}" VerticalContentAlignment="Center" VerticalAlignment="Center"></CheckBox>
+            </StackPanel>
     </StackPanel>
     </Border>
 </UserControl>

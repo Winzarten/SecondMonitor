@@ -88,7 +88,8 @@
 
         private static void ConnectAndLoadPlugins(IGameConnector[] connectors)
         {
-            IPluginSettingsProvider pluginSettingsProvider = KernelWrapper.Instance.Get<IPluginSettingsProvider>();
+            KernelWrapper kernelWrapper = new KernelWrapper();
+            IPluginSettingsProvider pluginSettingsProvider = kernelWrapper.Get<IPluginSettingsProvider>();
 
             PluginsManager pluginManager = new PluginsManager(pluginSettingsProvider, connectors);
             pluginManager.InitializePlugins();

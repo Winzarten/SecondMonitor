@@ -44,5 +44,12 @@
     <Compile Include="Model\DatagramPayload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\DataModel\DataModel.csproj">
+      <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
+      <Name>DataModel</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -39,7 +39,7 @@
 
         private async Task StartChildControllers()
         {
-            _mainWindowController = KernelWrapper.Instance.Get<IMainWindowController>();
+            _mainWindowController = new KernelWrapper().Get<IMainWindowController>();
             _mainWindowController.MainWindow = _mainWindow;
             await _mainWindowController.StartControllerAsync();
         }

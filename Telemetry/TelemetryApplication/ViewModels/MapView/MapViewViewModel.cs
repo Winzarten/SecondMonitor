@@ -17,6 +17,8 @@
     using DataModel.Snapshot.Drivers;
     using DataModel.Telemetry;
     using DataModel.TrackMap;
+    using Ninject;
+    using Ninject.Syntax;
     using NLog;
     using SecondMonitor.ViewModels;
     using SecondMonitor.ViewModels.Factory;
@@ -29,6 +31,7 @@
         private const int PedalStep = 25;
 
         private readonly IViewModelFactory _viewModelFactory;
+        private readonly IResolutionRoot _resolutionRoot;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ResourceDictionary _commonResources;
         private FullMapControl _situationOverviewControl;
@@ -40,10 +43,11 @@
         private bool _showShiftPoints;
         private bool _showColoredSectors;
 
-        public MapViewViewModel(IViewModelFactory viewModelFactory)
+        public MapViewViewModel(IViewModelFactory viewModelFactory, IResolutionRoot resolutionRoot)
         {
             _showColoredSectors = true;
             _viewModelFactory = viewModelFactory;
+            _resolutionRoot = resolutionRoot;
             _lapsPaths = new Dictionary<string, ILapCustomPathsCollection>();
             _commonResources = new ResourceDictionary
             {
@@ -349,7 +353,7 @@
                 return lapCustomPathsCollection;
             }
 
-            ILapCustomPathsCollection newLapCustomPathsCollection = KernelWrapper.Instance.Get<ILapCustomPathsCollection>();
+            ILapCustomPathsCollection newLapCustomPathsCollection = _resolutionRoot.Get<ILapCustomPathsCollection>();
             _lapsPaths[id] = newLapCustomPathsCollection;
             return newLapCustomPathsCollection;
 
