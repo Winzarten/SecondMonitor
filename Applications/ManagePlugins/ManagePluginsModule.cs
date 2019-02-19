@@ -9,7 +9,7 @@
         public override void Load()
         {
             Bind<IPluginSettingsProvider>().To<PluginsSettingsProvider>();
-            Bind<IPluginConfigurationRepository>().To<AppDatePluginConfigurationRepository>();
+            Bind<IPluginConfigurationRepository>().To<AppDataPluginConfigurationRepository>();
         }
     }
 }

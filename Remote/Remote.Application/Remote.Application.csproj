@@ -66,6 +66,7 @@
     <Compile Include="Controllers\BroadCastServerController.cs" />
     <Compile Include="Controllers\DataBroadcasterPluginController.cs" />
     <Compile Include="Controllers\IBroadCastServerController.cs" />
+    <Compile Include="Extension\NetPeerExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteApplicationModule.cs" />
     <Compile Include="RemoteApplicationModuleBootstrapper.cs" />

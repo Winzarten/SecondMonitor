@@ -5,7 +5,7 @@
     using System.Xml.Serialization;
     using DataModel;
 
-    public class AppDatePluginConfigurationRepository : IPluginConfigurationRepository
+    public class AppDataPluginConfigurationRepository : IPluginConfigurationRepository
     {
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -13,7 +13,7 @@
 
         private readonly XmlSerializer _xmlSerializer;
 
-        public AppDatePluginConfigurationRepository()
+        public AppDataPluginConfigurationRepository()
         {
             _xmlSerializer = new XmlSerializer(typeof(PluginsConfiguration));
         }

@@ -25,6 +25,7 @@
         {
             _kernel = new KernelWrapper();
             _serverOverviewViewModel = _kernel.Get <IServerOverviewViewModel>();
+            _pluginSettingsProvider = _kernel.Get <IPluginSettingsProvider>();;
         }
 
         public PluginsManager PluginManager { get; set; }
@@ -54,9 +55,10 @@
 
         private void InitializeAvailableIpList()
         {
+            int portNumber = _pluginSettingsProvider.RemoteConfiguration.Port;
             string strHostName = Dns.GetHostName();
             IPHostEntry ipHostEntry = Dns.GetHostEntry(strHostName);
-            _serverOverviewViewModel.AvailableIps = ipHostEntry.AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(y => y.ToString()).ToList();
+            _serverOverviewViewModel.AvailableIps = ipHostEntry.AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(y => $"{y.ToString()}:{portNumber}").ToList();
         }
 
         private async void ServerOverviewWindowOnClosed(object sender, EventArgs e)

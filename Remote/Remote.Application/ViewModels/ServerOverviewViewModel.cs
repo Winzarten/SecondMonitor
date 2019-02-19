@@ -1,7 +1,7 @@
-﻿namespace SecondMonitor.Remote.Application.ViewModels
+﻿using SecondMonitor.Remote.Application.Extension;
+
+namespace SecondMonitor.Remote.Application.ViewModels
 {
-    using System;
-    using System.Threading.Tasks;
     using System.Windows;
 
     using System.Collections.Generic;
@@ -82,7 +82,7 @@
             IClientViewModel newViewModel = _viewModelFactory.Create<IClientViewModel>();
             newViewModel.FromModel(netPeer);
             _connectedClients.Add(newViewModel);
-            _ipClientDictionary[netPeer.EndPoint.Host] = newViewModel;
+            _ipClientDictionary[netPeer.GetIdentifier()] = newViewModel;
         }
 
         public void RemoveClient(NetPeer netPeer)
@@ -93,12 +93,12 @@
                 return;
             }
 
-            if (!_ipClientDictionary.ContainsKey(netPeer.EndPoint.Host))
+            if (!_ipClientDictionary.ContainsKey(netPeer.GetIdentifier()))
             {
                 return;
             }
 
-            IClientViewModel removedViewModel = _ipClientDictionary[netPeer.EndPoint.Host];
+            IClientViewModel removedViewModel = _ipClientDictionary[netPeer.GetIdentifier()];
             _ipClientDictionary.Remove(netPeer.EndPoint.Host);
             _connectedClients.Remove(removedViewModel);
         }

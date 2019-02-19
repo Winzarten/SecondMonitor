@@ -32,9 +32,11 @@
                         <ItemsControl ItemsSource="{Binding ConnectedClients}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource StandardText}" Text="{Binding IpAddress}"></TextBlock>
-                                    </Grid>
+                                        <TextBlock Style="{StaticResource StandardText}" Text=":"></TextBlock>
+                                        <TextBlock Style="{StaticResource StandardText}" Text="{Binding Port}"></TextBlock>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
