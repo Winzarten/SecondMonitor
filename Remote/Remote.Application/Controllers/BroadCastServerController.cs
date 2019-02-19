@@ -1,7 +1,6 @@
 ﻿namespace SecondMonitor.Remote.Application.Controllers
 {
     using System;
-    using System.Data;
     using System.Diagnostics;
     using System.IO;
     using System.Runtime.Serialization;
@@ -27,6 +26,7 @@
         private CancellationTokenSource _serverCheckLoopSource;
         private Stopwatch _lastPackedStopWatch;
         private readonly IFormatter _formatter;
+        private DatagramPayload _lastDatagramPayload;
 
         public BroadCastServerController(IPluginSettingsProvider pluginSettingsProvider, IServerOverviewViewModel serverOverviewViewModel)
         {
@@ -81,7 +81,6 @@
             }
             catch (TaskCanceledException)
             {
-
             }
         }
 
@@ -92,7 +91,7 @@
                 return;
             }
 
-            _eventBasedNetListener.PeerConnectedEvent+= EventBasedNetListenerOnPeerConnectedEvent;
+            _eventBasedNetListener.PeerConnectedEvent += EventBasedNetListenerOnPeerConnectedEvent;
             _eventBasedNetListener.PeerDisconnectedEvent += EventBasedNetListenerOnPeerDisconnectedEvent;
             _eventBasedNetListener.NetworkReceiveEvent += EventBasedNetListenerOnNetworkReceiveEvent;
             _eventBasedNetListener.NetworkReceiveUnconnectedEvent += EventBasedNetListenerOnNetworkReceiveUnconnectedEvent;
@@ -138,7 +137,6 @@
             NetDataWriter response = new NetDataWriter();
             response.Put(DatagramPayload.Version);
             _server.SendDiscoveryResponse(response, remoteEndPoint);
-
         }
 
         private void EventBasedNetListenerOnNetworkReceiveEvent(NetPeer peer, NetDataReader reader)
@@ -156,6 +154,13 @@
         {
             Logger.Info($"New Client Connected: {peer.EndPoint.Host}:{peer.EndPoint.Port}");
             _serverOverviewViewModel.AddClient(peer);
+            DatagramPayload lastPayload = _lastDatagramPayload;
+
+            if (lastPayload != null && lastPayload.PayloadKind != DatagramPayloadKind.HearthBeat)
+            {
+                DatagramPayload initialPayload = new DatagramPayload() {Payload = lastPayload.Payload, PayloadKind = DatagramPayloadKind.SessionStart};
+                SendPackage(initialPayload, peer);
+            }
         }
 
         private async Task ServerLoop(CancellationToken token)
@@ -174,17 +179,30 @@
 
         private void SendPackage(DatagramPayload payload)
         {
+            _lastDatagramPayload = payload;
             UpdateViewModelInputs(payload.Payload);
             NetDataWriter package = new NetDataWriter();
+            package.Put(SerializeDatagramPayload(payload));
+            _server.SendToAll(package, SendOptions.ReliableOrdered);
+        }
+
+        private void SendPackage(DatagramPayload payload, NetPeer peer)
+        {
+            NetDataWriter package = new NetDataWriter();
+            package.Put(SerializeDatagramPayload(payload));
+            peer.Send(package, SendOptions.ReliableOrdered);
+        }
+
+        private byte[] SerializeDatagramPayload(DatagramPayload payload)
+        {
             byte[] payloadBytes;
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 _formatter.Serialize(memoryStream, payload);
                 payloadBytes = memoryStream.ToArray();
-
             }
-            package.Put(payloadBytes);
-            _server.SendToAll(package, SendOptions.ReliableOrdered);
+
+            return payloadBytes;
         }
 
         private void UpdateViewModelInputs(SimulatorDataSet simulatorDataSet)
@@ -199,7 +217,21 @@
         {
             Random random = new Random();
             SimulatorDataSet dataSet = new SimulatorDataSet("Remote") {InputInfo = {BrakePedalPosition = random.NextDouble(), ThrottlePedalPosition = random.NextDouble(), ClutchPedalPosition = random.NextDouble()}};
-            DatagramPayload payload = new DatagramPayload {Payload = dataSet};
+            DatagramPayload payload = new DatagramPayload {Payload = dataSet, PayloadKind = DatagramPayloadKind.HearthBeat};
+            SendPackage(payload);
+        }
+
+        public void SendSessionStartedPackage(SimulatorDataSet simulatorDataSet)
+        {
+            _lastPackedStopWatch.Restart();
+            DatagramPayload payload = new DatagramPayload() {Payload = simulatorDataSet, PayloadKind = DatagramPayloadKind.SessionStart};
+            SendPackage(payload);
+        }
+
+        public void SendRegularDataPackage(SimulatorDataSet simulatorDataSet)
+        {
+            _lastPackedStopWatch.Restart();
+            DatagramPayload payload = new DatagramPayload() {Payload = simulatorDataSet, PayloadKind = DatagramPayloadKind.Normal};
             SendPackage(payload);
         }
     }

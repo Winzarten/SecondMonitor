@@ -16,7 +16,7 @@ namespace SecondMonitor.Remote.Application.View
             InitializeComponent();
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
+        /*protected override void OnSourceInitialized(EventArgs e)
         {
             System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
             ImageSource imageSource = this.Icon;
@@ -46,6 +46,6 @@ namespace SecondMonitor.Remote.Application.View
             }
 
             base.OnStateChanged(e);
-        }
+        }*/
     }
 }

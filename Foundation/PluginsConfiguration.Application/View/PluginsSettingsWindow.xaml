@@ -23,7 +23,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid Column="0">
+        <Grid Column="0" Margin="5">
             <StackPanel Background="{StaticResource Anthracite01Brush}">
                 <TextBlock Style="{StaticResource StandardText}" Text="Plugins:" VerticalAlignment="Center"/>
                 <ListBox ItemsSource="{Binding PluginsConfigurationViewModel.PluginConfigurations}" Grid.IsSharedSizeScope="True" MinWidth="150"
@@ -44,7 +44,7 @@
             </ListBox>
             </StackPanel>
         </Grid>
-        <Grid Column="1">
+        <Grid Column="1" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"/>

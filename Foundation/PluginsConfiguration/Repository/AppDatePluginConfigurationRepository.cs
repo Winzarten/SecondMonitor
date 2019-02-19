@@ -47,7 +47,7 @@
                 RemoteConfiguration = new RemoteConfiguration()
                 {
                     IpAddress = string.Empty,
-                    IsFindInLanEnabled = true,
+                    IsFindInLanEnabled = false,
                     Port = 52642,
                     IsRemoteConnectorEnabled = false
                 }

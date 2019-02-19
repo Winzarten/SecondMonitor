@@ -86,10 +86,21 @@
         </Grid>
         <Grid Row="1">
             <Border BorderBrush="{StaticResource LightGrey01Brush}" BorderThickness="2" CornerRadius="3" Padding="5">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource StandardText}" Text="Connected Simulator:"></TextBlock>
-                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding ConnectedSimulator}" Margin="10,0,0,0"></TextBlock>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <TextBlock Style="{StaticResource StandardText}" Text="Connected Simulator:"></TextBlock>
+                        <TextBlock Style="{StaticResource StandardText}" Text="{Binding ConnectedSimulator}" Margin="10,0,0,0"></TextBlock>
+                    </StackPanel>
+                    <Grid Column="1" Width="100" Background="{StaticResource Green01Brush}" Visibility="{Binding IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    </Grid>
+                    <Grid Column="1" Width="100" Background="{StaticResource DarkRed01Brush}" Visibility="{Binding IsRunning, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                    </Grid>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

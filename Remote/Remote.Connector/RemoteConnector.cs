@@ -178,7 +178,11 @@
                 payload =  (DatagramPayload) _formatter.Deserialize(memoryStream);
             }
 
-            if (payload != null)
+            if (payload.PayloadKind == DatagramPayloadKind.SessionStart)
+            {
+                SessionStarted?.Invoke(this, new DataEventArgs(payload.Payload));
+            }
+            else
             {
                 DataLoaded?.Invoke(this, new DataEventArgs(payload.Payload));
             }

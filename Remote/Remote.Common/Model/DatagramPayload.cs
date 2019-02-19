@@ -8,6 +8,8 @@
     {
         public const string Version = "SecondMonitor_RemoteVersion_1";
 
+        public DatagramPayloadKind PayloadKind { get; set; }
+
         public SimulatorDataSet Payload { get; set; }
     }
 }

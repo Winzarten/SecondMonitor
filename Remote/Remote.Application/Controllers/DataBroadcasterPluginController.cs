@@ -10,6 +10,7 @@
     using PluginManager.Core;
     using PluginManager.GameConnector;
     using PluginsConfiguration.Common.Controller;
+    using Timing.Controllers;
     using View;
     using ViewModels;
 
@@ -38,6 +39,7 @@
 
         public async void RunPlugin()
         {
+            new AutoUpdateController().CheckForUpdate();
             InitializeInjectedProperties();
             InitializeUi();
             await StartChildControllers();
@@ -91,12 +93,12 @@
 
         private void PluginManagerOnSessionStarted(object sender, DataEventArgs e)
         {
-
+            _broadCastServerController.SendSessionStartedPackage(e.Data);
         }
 
         private void PluginManagerOnDataLoaded(object sender, DataEventArgs e)
         {
-
+            _broadCastServerController.SendRegularDataPackage(e.Data);
         }
     }
 }
