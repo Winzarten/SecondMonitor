@@ -81,7 +81,6 @@
       <DependentUpon>CarSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CarSettings\CarSettingsWindowViewModel.cs" />
-    <Compile Include="Controllers\AutoUpdateController.cs" />
     <Compile Include="Controllers\MapManagementController.cs" />
     <Compile Include="Controllers\SimSettingController.cs" />
     <Compile Include="Controllers\TimingApplicationController.cs" />

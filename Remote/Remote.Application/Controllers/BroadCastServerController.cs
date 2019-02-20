@@ -4,8 +4,10 @@ using SecondMonitor.Remote.Common.Adapter;
 namespace SecondMonitor.Remote.Application.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
@@ -20,23 +22,25 @@ namespace SecondMonitor.Remote.Application.Controllers
 
     public class BroadCastServerController : IBroadCastServerController
     {
+        private object _queueLock = new object();
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPluginSettingsProvider _pluginSettingsProvider;
         private readonly IServerOverviewViewModel _serverOverviewViewModel;
-        private readonly IDatagramPayloadAdapter _datagramPayloadAdapter;
+        private readonly IDatagramPayloadPacker _datagramPayloadPacker;
         private EventBasedNetListener _eventBasedNetListener;
         private NetManager _server;
         private Task _checkLoop;
         private CancellationTokenSource _serverCheckLoopSource;
         private Stopwatch _lastPackedStopWatch;
         private readonly IFormatter _formatter;
-        private DatagramPayload _lastDatagramPayload;
+        private readonly Queue<NetPeer> _newPeers;
 
-        public BroadCastServerController(IPluginSettingsProvider pluginSettingsProvider, IServerOverviewViewModel serverOverviewViewModel, IDatagramPayloadAdapter datagramPayloadAdapter)
+        public BroadCastServerController(IPluginSettingsProvider pluginSettingsProvider, IServerOverviewViewModel serverOverviewViewModel, IDatagramPayloadPacker datagramPayloadPacker)
         {
+            _newPeers = new Queue<NetPeer>();
             _pluginSettingsProvider = pluginSettingsProvider;
             _serverOverviewViewModel = serverOverviewViewModel;
-            _datagramPayloadAdapter = datagramPayloadAdapter;
+            _datagramPayloadPacker = datagramPayloadPacker;
             _formatter = new BinaryFormatter();
         }
 
@@ -159,13 +163,13 @@ namespace SecondMonitor.Remote.Application.Controllers
         {
             Logger.Info($"New Client Connected: {peer.EndPoint.Host}:{peer.EndPoint.Port}");
             _serverOverviewViewModel.AddClient(peer);
-            DatagramPayload lastPayload = _lastDatagramPayload;
-
-            if (lastPayload != null && lastPayload.PayloadKind != DatagramPayloadKind.HearthBeat)
+            lock (_queueLock)
             {
-                DatagramPayload initialPayload = new DatagramPayload() {Payload = lastPayload.Payload, PayloadKind = DatagramPayloadKind.SessionStart};
-                SendPackage(initialPayload, peer);
+                _newPeers.Enqueue(peer);
             }
+
+
+
         }
 
         private async Task ServerLoop(CancellationToken token)
@@ -184,8 +188,7 @@ namespace SecondMonitor.Remote.Application.Controllers
 
         private void SendPackage(DatagramPayload payload)
         {
-            _lastDatagramPayload = payload;
-            UpdateViewModelInputs(payload.InputInfo);
+            UpdateViewModelInputs(payload.InputInfo, payload.Source);
             NetDataWriter package = new NetDataWriter();
             package.Put(SerializeDatagramPayload(payload));
             _server.SendToAll(package, SendOptions.ReliableOrdered);
@@ -212,6 +215,10 @@ namespace SecondMonitor.Remote.Application.Controllers
 
         private void UpdateViewModelInputs(InputInfo inputInfo, string source)
         {
+            if (inputInfo == null)
+            {
+                return;
+            }
             _serverOverviewViewModel.ThrottleInput = inputInfo.ThrottlePedalPosition * 100;
             _serverOverviewViewModel.ClutchInput = inputInfo.ClutchPedalPosition * 100;
             _serverOverviewViewModel.BrakeInput = inputInfo.BrakePedalPosition * 100;
@@ -220,23 +227,38 @@ namespace SecondMonitor.Remote.Application.Controllers
 
         private void SendKeepAlivePacket()
         {
-            Random random = new Random();
-            SimulatorDataSet dataSet = new SimulatorDataSet("Remote") {InputInfo = {BrakePedalPosition = random.NextDouble(), ThrottlePedalPosition = random.NextDouble(), ClutchPedalPosition = random.NextDouble()}};
-            DatagramPayload payload = new DatagramPayload {Payload = dataSet, PayloadKind = DatagramPayloadKind.HearthBeat};
+            DatagramPayload payload = _datagramPayloadPacker.CreateHearthBeatDatagramPayload();
             SendPackage(payload);
         }
 
         public void SendSessionStartedPackage(SimulatorDataSet simulatorDataSet)
         {
             _lastPackedStopWatch.Restart();
-            DatagramPayload payload = new DatagramPayload() {Payload = simulatorDataSet, PayloadKind = DatagramPayloadKind.SessionStart};
+            DatagramPayload payload = _datagramPayloadPacker.CreateSessionStartedPayload(simulatorDataSet);
             SendPackage(payload);
         }
 
         public void SendRegularDataPackage(SimulatorDataSet simulatorDataSet)
         {
+            if (!_datagramPayloadPacker.IsMinimalPackageDelayPassed())
+            {
+                return;
+            }
+
+            lock (_queueLock)
+            {
+                if (_newPeers.Any())
+                {
+                    DatagramPayload initialPayload = _datagramPayloadPacker.CreateHandshakeDatagramPayload();
+                    while (_newPeers.Count > 0)
+                    {
+                        SendPackage(initialPayload, _newPeers.Dequeue());
+                    }
+                }
+            }
+
             _lastPackedStopWatch.Restart();
-            DatagramPayload payload = new DatagramPayload() {Payload = simulatorDataSet, PayloadKind = DatagramPayloadKind.Normal};
+            DatagramPayload payload = _datagramPayloadPacker.CreateRegularDatagramPayload(simulatorDataSet);
             SendPackage(payload);
         }
     }

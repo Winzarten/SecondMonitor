@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Timing.Controllers
+﻿namespace SecondMonitor.ViewModels.Controllers
 {
     using AutoUpdaterDotNET;
 

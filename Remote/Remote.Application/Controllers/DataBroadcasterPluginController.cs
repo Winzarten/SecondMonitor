@@ -10,7 +10,7 @@
     using PluginManager.Core;
     using PluginManager.GameConnector;
     using PluginsConfiguration.Common.Controller;
-    using Timing.Controllers;
+    using SecondMonitor.ViewModels.Controllers;
     using View;
     using ViewModels;
 

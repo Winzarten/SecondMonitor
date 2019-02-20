@@ -34,6 +34,7 @@
     using SessionTiming.Drivers;
     using SimdataManagement.DriverPresentation;
     using Telemetry;
+    using ViewModels.Controllers;
     using ViewModels.Settings.Model;
     using ViewModels.Settings.ViewModel;
 

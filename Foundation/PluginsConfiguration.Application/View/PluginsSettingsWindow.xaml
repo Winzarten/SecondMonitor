@@ -22,6 +22,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid Column="0" Margin="5">
             <StackPanel Background="{StaticResource Anthracite01Brush}">
@@ -45,13 +46,18 @@
             </StackPanel>
         </Grid>
         <Grid Column="1" Margin="5">
+            <StackPanel Grid.Row="0" >
+                <TextBlock Style="{StaticResource StandardText}" Text="Remote Settings:" VerticalAlignment="Center"></TextBlock>
+                <pluginsConfig:RemoteConfigurationControl  DataContext="{Binding PluginsConfigurationViewModel.RemoteConfigurationViewModel}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Column="2" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" >
-                <TextBlock Style="{StaticResource StandardText}" Text="Remote Settings:" VerticalAlignment="Center"></TextBlock>
-                <pluginsConfig:RemoteConfigurationControl  DataContext="{Binding PluginsConfigurationViewModel.RemoteConfigurationViewModel}"/>
+            <StackPanel Grid.Row="0">
+                <pluginsConfig:BroadcastLimitSettingsControl  DataContext="{Binding PluginsConfigurationViewModel.RemoteConfigurationViewModel.BroadcastLimitSettingsViewModel}"/>
             </StackPanel>
             <Grid Grid.Row="1">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -75,6 +81,7 @@
                     </Button>
                 </StackPanel>
             </Grid>
+
         </Grid>
     </Grid>
 </Window>

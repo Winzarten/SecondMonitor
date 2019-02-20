@@ -79,11 +79,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Applications\Timing\Timing.Application.csproj">
-      <Project>{0997A624-2B5E-455F-98BF-8A1A5BAFA00E}</Project>
-      <Name>Timing.Application</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\Foundation\Contracts\Contracts.csproj">
       <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
       <Name>Contracts</Name>

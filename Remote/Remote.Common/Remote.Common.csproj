@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,17 +45,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapter\IDatagramPayloadAdapter.cs" />
+    <Compile Include="Adapter\DatagramPayloadPacker.cs" />
+    <Compile Include="Adapter\DatagramPayloadUnPacker.cs" />
+    <Compile Include="Adapter\IDatagramPayloadUnpacker.cs" />
+    <Compile Include="Adapter\IDatagramPayloadPacker.cs" />
     <Compile Include="Model\DatagramPayload.cs" />
     <Compile Include="Model\DatagramPayloadKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteCommonModule.cs" />
+    <Compile Include="RemoteCommonModuleBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\Contracts\Contracts.csproj">
+      <Project>{55275247-8D2E-421F-AB35-4BA77449B05A}</Project>
+      <Name>Contracts</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\Foundation\DataModel\DataModel.csproj">
       <Project>{30DEA773-F579-4A77-9C73-3D58C81612D0}</Project>
       <Name>DataModel</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\Foundation\PluginsConfiguration\PluginsConfiguration.Common.csproj">
+      <Project>{A321D875-DB5E-4FF2-8ABD-5086E08D8EFF}</Project>
+      <Name>PluginsConfiguration.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

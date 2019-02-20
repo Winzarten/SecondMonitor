@@ -31,6 +31,6 @@ namespace SecondMonitor.Remote.Common.Model
 
         public DriverInfo LeaderInfo { get; set; }
 
-        public SimulatorSourceInfo SimulatorSourceInfo { get; } = new SimulatorSourceInfo();
+        public SimulatorSourceInfo SimulatorSourceInfo { get; set; } = new SimulatorSourceInfo();
     }
 }

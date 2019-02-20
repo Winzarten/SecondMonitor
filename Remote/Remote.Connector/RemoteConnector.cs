@@ -6,8 +6,10 @@
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common.Adapter;
     using Common.Model;
     using Contracts.NInject;
+    using DataModel.Snapshot;
     using LiteNetLib;
     using LiteNetLib.Utils;
     using NLog;
@@ -32,6 +34,8 @@
         private NetEndPoint _serverEndPoint;
         private NetPeer _serverPeer;
         private readonly IFormatter _formatter;
+        private readonly IDatagramPayloadUnPacker _datagramPayloadUnPacker;
+        private bool _firstPackage;
 
         public RemoteConnector()
         {
@@ -40,6 +44,8 @@
             _client = new NetManager(_listener, DatagramPayload.Version) { DiscoveryEnabled = true }; ;
             KernelWrapper kernelWrapper = new KernelWrapper();
             _remoteConfiguration = new Lazy<RemoteConfiguration>(() => kernelWrapper.Get<IPluginSettingsProvider>().RemoteConfiguration);
+            _datagramPayloadUnPacker = kernelWrapper.Get<IDatagramPayloadUnPacker>();
+            _firstPackage = true;
         }
 
         private RemoteConfiguration RemoteConfiguration => _remoteConfiguration.Value;
@@ -120,6 +126,7 @@
         public void StartConnectorLoop()
         {
             IsConnected = true;
+            ConnectedEvent?.Invoke(this, new EventArgs());
         }
 
         private void StartConnector()
@@ -178,13 +185,16 @@
                 payload =  (DatagramPayload) _formatter.Deserialize(memoryStream);
             }
 
-            if (payload.PayloadKind == DatagramPayloadKind.SessionStart)
+            SimulatorDataSet simulatorDataSet = _datagramPayloadUnPacker.UnpackDatagramPayload(payload);
+
+            if (payload.PayloadKind == DatagramPayloadKind.SessionStart || _firstPackage)
             {
-                SessionStarted?.Invoke(this, new DataEventArgs(payload.Payload));
+                _firstPackage = false;
+                SessionStarted?.Invoke(this, new DataEventArgs(simulatorDataSet));
             }
             else
             {
-                DataLoaded?.Invoke(this, new DataEventArgs(payload.Payload));
+                DataLoaded?.Invoke(this, new DataEventArgs(simulatorDataSet));
             }
         }
 
