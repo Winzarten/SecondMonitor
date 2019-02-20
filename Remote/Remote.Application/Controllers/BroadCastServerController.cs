@@ -1,4 +1,7 @@
-﻿namespace SecondMonitor.Remote.Application.Controllers
+﻿using SecondMonitor.DataModel.BasicProperties;
+using SecondMonitor.Remote.Common.Adapter;
+
+namespace SecondMonitor.Remote.Application.Controllers
 {
     using System;
     using System.Diagnostics;
@@ -20,6 +23,7 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPluginSettingsProvider _pluginSettingsProvider;
         private readonly IServerOverviewViewModel _serverOverviewViewModel;
+        private readonly IDatagramPayloadAdapter _datagramPayloadAdapter;
         private EventBasedNetListener _eventBasedNetListener;
         private NetManager _server;
         private Task _checkLoop;
@@ -28,10 +32,11 @@
         private readonly IFormatter _formatter;
         private DatagramPayload _lastDatagramPayload;
 
-        public BroadCastServerController(IPluginSettingsProvider pluginSettingsProvider, IServerOverviewViewModel serverOverviewViewModel)
+        public BroadCastServerController(IPluginSettingsProvider pluginSettingsProvider, IServerOverviewViewModel serverOverviewViewModel, IDatagramPayloadAdapter datagramPayloadAdapter)
         {
             _pluginSettingsProvider = pluginSettingsProvider;
             _serverOverviewViewModel = serverOverviewViewModel;
+            _datagramPayloadAdapter = datagramPayloadAdapter;
             _formatter = new BinaryFormatter();
         }
 
@@ -180,7 +185,7 @@
         private void SendPackage(DatagramPayload payload)
         {
             _lastDatagramPayload = payload;
-            UpdateViewModelInputs(payload.Payload);
+            UpdateViewModelInputs(payload.InputInfo);
             NetDataWriter package = new NetDataWriter();
             package.Put(SerializeDatagramPayload(payload));
             _server.SendToAll(package, SendOptions.ReliableOrdered);
@@ -205,12 +210,12 @@
             return payloadBytes;
         }
 
-        private void UpdateViewModelInputs(SimulatorDataSet simulatorDataSet)
+        private void UpdateViewModelInputs(InputInfo inputInfo, string source)
         {
-            _serverOverviewViewModel.ThrottleInput = simulatorDataSet.InputInfo.ThrottlePedalPosition * 100;
-            _serverOverviewViewModel.ClutchInput = simulatorDataSet.InputInfo.ClutchPedalPosition * 100;
-            _serverOverviewViewModel.BrakeInput = simulatorDataSet.InputInfo.BrakePedalPosition * 100;
-            _serverOverviewViewModel.ConnectedSimulator = simulatorDataSet.Source == "Remote" ? "None" : simulatorDataSet.Source;
+            _serverOverviewViewModel.ThrottleInput = inputInfo.ThrottlePedalPosition * 100;
+            _serverOverviewViewModel.ClutchInput = inputInfo.ClutchPedalPosition * 100;
+            _serverOverviewViewModel.BrakeInput = inputInfo.BrakePedalPosition * 100;
+            _serverOverviewViewModel.ConnectedSimulator = source == "Remote" ? "None" : source;
         }
 
         private void SendKeepAlivePacket()

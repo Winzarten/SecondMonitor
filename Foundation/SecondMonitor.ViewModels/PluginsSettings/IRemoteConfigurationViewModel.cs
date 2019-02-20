@@ -9,5 +9,7 @@
         bool IsFindInLanEnabled { get; set; }
 
         int Port { get; set; }
+
+        IBroadcastLimitSettingsViewModel BroadcastLimitSettingsViewModel { get; }
     }
 }

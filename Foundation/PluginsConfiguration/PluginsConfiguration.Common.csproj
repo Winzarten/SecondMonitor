@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Controller\IPluginSettingsProvider.cs" />
     <Compile Include="Controller\PluginsSettingsProvider.cs" />
+    <Compile Include="DataModel\BroadcastLimitSettings.cs" />
     <Compile Include="DataModel\PluginConfiguration.cs" />
     <Compile Include="DataModel\PluginsConfiguration.cs" />
     <Compile Include="DataModel\RemoteConfiguration.cs" />

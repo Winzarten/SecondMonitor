@@ -93,6 +93,8 @@
     <Compile Include="IViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />
     <Compile Include="IWheelStatusViewModel.cs" />
+    <Compile Include="PluginsSettings\BroadcastLimitSettingsViewModel.cs" />
+    <Compile Include="PluginsSettings\IBroadcastLimitSettingsViewModel.cs" />
     <Compile Include="PluginsSettings\IPluginConfigurationViewModel.cs" />
     <Compile Include="PluginsSettings\IPluginsConfigurationViewModel.cs" />
     <Compile Include="PluginsSettings\IRemoteConfigurationViewModel.cs" />
