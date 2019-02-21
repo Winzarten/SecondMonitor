@@ -32,7 +32,7 @@
                     <TextBox Style="{StaticResource StandardTextBox}" MinWidth="50" Text="{Binding PlayerTimingPackageInterval, Converter={StaticResource IntegerToStringConverter}}"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                    <TextBlock Style="{StaticResource StandardText}" Text="Non-Player info ratio (ms): " VerticalAlignment="Top"></TextBlock>
+                    <TextBlock Style="{StaticResource StandardText}" Text="Non-Player Info Rate (ms): " VerticalAlignment="Top"></TextBlock>
                     <TextBox Style="{StaticResource StandardTextBox}" MinWidth="50" Text="{Binding OtherDriversTimingPackageInterval, Converter={StaticResource IntegerToStringConverter}}"></TextBox>
                 </StackPanel>
             </StackPanel>
