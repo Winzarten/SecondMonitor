@@ -79,6 +79,10 @@
         <File Id="filE077C6560D55FB7CE6BE7B79A2B8D25C" KeyPath="yes" Source="..\Deployment\ManagePlugins.exe.config" />
       </Component>
 
+      <Component Id="cmpeb4eb708fe424a11b9bb66f9b0a4573a" Directory="APPLICATIONROOTDIRECTORY" Guid="05e02a53-e796-4eae-baf2-c9e4117d82ae">
+        <File Id="fileb4eb708fe424a11b9bb66f9b0a4573a" KeyPath="yes" Source="..\Deployment\AutoUpdater.NET.dll" />
+      </Component>
+
       <Component Id="cmpd70d492504ff4882bf50cece32ff71e1" Directory="APPLICATIONROOTDIRECTORY" Guid="5ffab2df-2e7b-4f74-b687-bab0e1abdd4f">
         <File Id="fil5677d5f3cd364264b015461f75f2bfc9" KeyPath="yes" Source="..\Deployment\OxyPlot.dll" />
       </Component>
@@ -202,9 +206,6 @@
       </Component>
       <Component Id="cmp71da85606d444721a9cb25c24ca27a34" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="71da8560-6d44-4721-a9cb-25c24ca27a34">
         <File Id="fil71da85606d444721a9cb25c24ca27a34" KeyPath="yes" Source="..\Deployment\plugins\EPPlus.xml" />
-      </Component>
-      <Component Id="cmpeb4eb708fe424a11b9bb66f9b0a4573a" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="05e02a53-e796-4eae-baf2-c9e4117d82ae">
-        <File Id="fileb4eb708fe424a11b9bb66f9b0a4573a" KeyPath="yes" Source="..\Deployment\plugins\AutoUpdater.NET.dll" />
       </Component>
       <Component Id="cmpad1bc2985c384aceb265ebec29d36042" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="ad1bc298-5c38-4ace-b265-ebec29d36042">
         <File Id="filad1bc2985c384aceb265ebec29d36042" KeyPath="yes" Source="..\Deployment\plugins\ICSharpCode.SharpZipLib.dll" />
