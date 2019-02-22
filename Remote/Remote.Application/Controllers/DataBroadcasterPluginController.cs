@@ -8,6 +8,7 @@ namespace SecondMonitor.Remote.Application.Controllers
     using System.Net;
     using System.Net.Sockets;
     using System.Threading.Tasks;
+    using System.Windows;
     using Contracts.NInject;
     using PluginManager.Core;
     using PluginManager.GameConnector;
@@ -69,6 +70,7 @@ namespace SecondMonitor.Remote.Application.Controllers
 
         private async void ServerOverviewWindowOnClosed(object sender, EventArgs e)
         {
+            Unsubscribe();
             await StopChildControllers();
             await PluginManager.DeletePlugin(this, new List<Exception>());
         }
@@ -93,6 +95,33 @@ namespace SecondMonitor.Remote.Application.Controllers
         {
             PluginManager.DataLoaded += PluginManagerOnDataLoaded;
             PluginManager.SessionStarted += PluginManagerOnSessionStarted;
+            PluginManager.DisplayMessage += PluginManagerOnDisplayMessage;
+        }
+
+        private void PluginManagerOnDisplayMessage(object sender, MessageArgs e)
+        {
+            if (e.IsDecision)
+            {
+                if (MessageBox.Show(
+                        e.Message,
+                        "Message from connector.",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Information) == MessageBoxResult.Yes)
+                {
+                    e.Action();
+                }
+            }
+            else
+            {
+                MessageBox.Show(e.Message, "Message from connector.", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void Unsubscribe()
+        {
+            PluginManager.DataLoaded -= PluginManagerOnDataLoaded;
+            PluginManager.SessionStarted -= PluginManagerOnSessionStarted;
+            PluginManager.DisplayMessage -= PluginManagerOnDisplayMessage;
         }
 
         private void PluginManagerOnSessionStarted(object sender, DataEventArgs e)
