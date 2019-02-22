@@ -340,10 +340,17 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            ShowDeltaInfo = dataSet.SessionInfo.SessionType == SessionType.Race;
-            ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
-            _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
-            UpdateActualData(dataSet);
+            try
+            {
+                ShowDeltaInfo = dataSet.SessionInfo.SessionType == SessionType.Race;
+                ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
+                _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
+                UpdateActualData(dataSet);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void Reset()

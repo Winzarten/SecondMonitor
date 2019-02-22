@@ -90,7 +90,6 @@ namespace SecondMonitor.Remote.Common.Adapter
         {
             _lastDataSet = simulatorData;
             DatagramPayload datagramPayload = CreatePayload(simulatorData, DatagramPayloadKind.SessionStart);
-            RemoveUnnecessaryData(datagramPayload);
             return datagramPayload;
         }
 
@@ -108,6 +107,7 @@ namespace SecondMonitor.Remote.Common.Adapter
                 PlayerInfo = simulatorDataSet.PlayerInfo,
                 SessionInfo = simulatorDataSet.SessionInfo,
                 Source = simulatorDataSet.Source,
+                SimulatorSourceInfo = simulatorDataSet.SimulatorSourceInfo
             };
         }
 
@@ -131,7 +131,6 @@ namespace SecondMonitor.Remote.Common.Adapter
             {
                 datagramPayload.PlayerInfo = null;
                 datagramPayload.ContainsPlayersTiming = false;
-                datagramPayload.PlayerInfo = null;
             }
 
             if (_driversInfoDelayTimer.Elapsed > _driversInfoDelay)

@@ -18,6 +18,7 @@
             _lastDriversInfo = new DriverInfo[0];
             _lastPlayerInfo = new DriverInfo();
             _lastLeaderInfo = new DriverInfo();
+            _lastSimulatorSourceInfo = new SimulatorSourceInfo();
         }
 
         public SimulatorDataSet UnpackDatagramPayload(DatagramPayload datagramPayload)
@@ -70,7 +71,7 @@
             {
                 _lastDriversInfo = datagramPayload.DriversInfo;
                 _lastLeaderInfo = datagramPayload.LeaderInfo;
-                _lastPlayerInfo = datagramPayload.DriversInfo.FirstOrDefault(x => x.IsPlayer);
+                _lastPlayerInfo = datagramPayload.DriversInfo.Any(x => x.IsPlayer) ? datagramPayload.DriversInfo.FirstOrDefault(x => x.IsPlayer) : _lastPlayerInfo;
             }
 
             if (datagramPayload.ContainsPlayersTiming)
