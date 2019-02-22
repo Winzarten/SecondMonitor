@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Remote.Application.Controllers
+﻿using NLog;
+
+namespace SecondMonitor.Remote.Application.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -16,6 +18,7 @@
 
     public class DataBroadcasterPluginController : ISecondMonitorPlugin
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private IPluginSettingsProvider _pluginSettingsProvider;
         private IBroadCastServerController _broadCastServerController;
         private readonly IServerOverviewViewModel _serverOverviewViewModel;
@@ -61,6 +64,7 @@
             string strHostName = Dns.GetHostName();
             IPHostEntry ipHostEntry = Dns.GetHostEntry(strHostName);
             _serverOverviewViewModel.AvailableIps = ipHostEntry.AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(y => $"{y.ToString()}:{portNumber}").ToList();
+            _serverOverviewViewModel.AvailableIps.ForEach(x => Logger.Info($"Available IP for Server: :{x}"));
         }
 
         private async void ServerOverviewWindowOnClosed(object sender, EventArgs e)

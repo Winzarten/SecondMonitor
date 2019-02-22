@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.Remote.Common.Adapter
+﻿using NLog;
+
+namespace SecondMonitor.Remote.Common.Adapter
 {
     using System;
     using System.Diagnostics;
@@ -10,6 +12,7 @@
 
     public class DatagramPayloadPacker : IDatagramPayloadPacker
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly Random _random;
 
         private string _lastSimulatorSourceName;
@@ -32,10 +35,18 @@
             _playerInfoDelay = TimeSpan.FromMilliseconds(broadcastLimitSettings.PlayerTimingPackageInterval);
             _driversInfoDelay = TimeSpan.FromMilliseconds(broadcastLimitSettings.OtherDriversTimingPackageInterval);
 
+
+
             if (!_isNetworkConservationEnabled)
             {
+                Logger.Info("Network conservation is disabled");
                 return;
             }
+
+            Logger.Info("Network conservation is enabled");
+            Logger.Info($"Package Delay {_packedDelay.TotalMilliseconds}");
+            Logger.Info($"Player info Delay {_playerInfoDelay.TotalMilliseconds}");
+            Logger.Info($"Other drivers info Delay {_driversInfoDelay.TotalMilliseconds}");
 
             _packageTimer = Stopwatch.StartNew();
             _playerInfoDelayTimer = Stopwatch.StartNew();
