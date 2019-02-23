@@ -239,9 +239,6 @@
       <Component Id="cmpEB26E633F9CC905530555F13A03F7D26" Directory="dir77863955766C658BE4B8389A0ECFC377" Guid="70bddfb6-351e-49dd-996a-56bef2028bfc">
         <File Id="fil3F3715D7810F6834327810A12F68CA67" KeyPath="yes" Source="..\Deployment\Connectors\Remote\LiteNetLib.dll" />
       </Component>
-      <Component Id="cmp878D452E0C8C6152B155D628D67108AC" Directory="dir77863955766C658BE4B8389A0ECFC377" Guid="3be50f22-7c3c-4f2f-b86e-4afa89aa688c">
-        <File Id="fil87CD093EDC51C1E0DF61941ED829F4E6" KeyPath="yes" Source="..\Deployment\Connectors\Remote\LiteNetLib.pdb" />
-      </Component>
       <Component Id="cmpA7C7422321F91B11FC27FE75CE2F88F9" Directory="dir77863955766C658BE4B8389A0ECFC377" Guid="f8fb1b71-d1d3-4b0f-b600-0dfebdf8a782">
         <File Id="filA6027CFF6CB122CF9A621CCC617DD8FC" KeyPath="yes" Source="..\Deployment\Connectors\Remote\LiteNetLib.xml" />
       </Component>
