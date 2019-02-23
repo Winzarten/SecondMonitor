@@ -57,6 +57,8 @@
     <Compile Include="Adapter\DatagramPayloadUnPacker.cs" />
     <Compile Include="Adapter\IDatagramPayloadUnpacker.cs" />
     <Compile Include="Adapter\IDatagramPayloadPacker.cs" />
+    <Compile Include="Comparators\ISimulatorSourceInfoComparator.cs" />
+    <Compile Include="Comparators\SimulatorSourceInfoComparator.cs" />
     <Compile Include="Model\DatagramPayload.cs" />
     <Compile Include="Model\DatagramPayloadKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

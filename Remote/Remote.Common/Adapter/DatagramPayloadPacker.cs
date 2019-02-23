@@ -4,6 +4,7 @@ namespace SecondMonitor.Remote.Common.Adapter
 {
     using System;
     using System.Diagnostics;
+    using Comparators;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using Model;
@@ -12,10 +13,12 @@ namespace SecondMonitor.Remote.Common.Adapter
 
     public class DatagramPayloadPacker : IDatagramPayloadPacker
     {
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly Random _random;
 
         private string _lastSimulatorSourceName;
+        private SimulatorSourceInfo _lastSimulatorSourceInfo;
         private readonly bool _isNetworkConservationEnabled;
         private readonly TimeSpan _packedDelay;
         private readonly TimeSpan _playerInfoDelay;
@@ -25,9 +28,11 @@ namespace SecondMonitor.Remote.Common.Adapter
         private readonly Stopwatch _playerInfoDelayTimer;
         private readonly Stopwatch _driversInfoDelayTimer;
         private SimulatorDataSet _lastDataSet;
+        private readonly ISimulatorSourceInfoComparator _simulatorSourceInfoComparator;
 
-        public DatagramPayloadPacker(IPluginSettingsProvider pluginSettingsProvider)
+        public DatagramPayloadPacker(IPluginSettingsProvider pluginSettingsProvider, ISimulatorSourceInfoComparator simulatorSourceInfoComparator)
         {
+            _simulatorSourceInfoComparator = simulatorSourceInfoComparator;
             BroadcastLimitSettings broadcastLimitSettings = pluginSettingsProvider.RemoteConfiguration.BroadcastLimitSettings;
             _random = new Random();
             _isNetworkConservationEnabled = broadcastLimitSettings.IsEnabled;
@@ -144,9 +149,10 @@ namespace SecondMonitor.Remote.Common.Adapter
                 datagramPayload.LeaderInfo = null;
             }
 
-            if (_lastSimulatorSourceName != datagramPayload.Source)
+            if (_lastSimulatorSourceName != datagramPayload.Source || !_simulatorSourceInfoComparator.AreEqual(datagramPayload.SimulatorSourceInfo, _lastSimulatorSourceInfo))
             {
                 _lastSimulatorSourceName = datagramPayload.Source;
+                _lastSimulatorSourceInfo = datagramPayload.SimulatorSourceInfo;
             }
             else
             {
