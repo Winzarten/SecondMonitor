@@ -4,11 +4,10 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
-
+    using Contracts.Commands;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Systems;
-    using WindowsControls.WPF.Commands;
     using Properties;
 
     public class FuelOverviewViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
@@ -341,10 +340,17 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            ShowDeltaInfo = dataSet.SessionInfo.SessionType == SessionType.Race;
-            ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
-            _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
-            UpdateActualData(dataSet);
+            try
+            {
+                ShowDeltaInfo = dataSet.SessionInfo.SessionType == SessionType.Race;
+                ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
+                _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
+                UpdateActualData(dataSet);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void Reset()

@@ -7,7 +7,7 @@
     using System.Windows;
     using System.Windows.Forms;
     using System.Windows.Input;
-    using WindowsControls.WPF.Commands;
+    using Contracts.Commands;
     using Model;
     using Properties;
 

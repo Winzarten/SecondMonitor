@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Factory;
+    using SecondMonitor.ViewModels.Factory;
     using Settings;
     using ViewModels.GraphPanel;
 

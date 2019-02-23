@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using System.Windows;
-    using IOC;
+    using Contracts.NInject;
     using MainWindow;
     using SecondMonitor.ViewModels.Controllers;
 
@@ -39,7 +39,7 @@
 
         private async Task StartChildControllers()
         {
-            _mainWindowController = TaKernel.Instance.Get<IMainWindowController>();
+            _mainWindowController = new KernelWrapper().Get<IMainWindowController>();
             _mainWindowController.MainWindow = _mainWindow;
             await _mainWindowController.StartControllerAsync();
         }

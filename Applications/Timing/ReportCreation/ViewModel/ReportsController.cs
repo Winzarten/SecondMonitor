@@ -6,14 +6,13 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using Contracts.Commands;
     using DataModel.BasicProperties;
     using DataModel.Summary;
 
     using NLog;
 
     using SecondMonitor.Timing.SessionTiming.ViewModel;
-    using WindowsControls.WPF.Commands;
     using ViewModels.Settings.ViewModel;
     using XslxExport;
 

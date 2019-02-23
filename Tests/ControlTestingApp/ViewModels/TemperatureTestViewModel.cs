@@ -7,10 +7,9 @@
     using System.Windows.Input;
 
     using Annotations;
-
+    using SecondMonitor.Contracts.Commands;
     using SecondMonitor.DataModel.BasicProperties;
     using SecondMonitor.ViewModels.CarStatus;
-    using SecondMonitor.WindowsControls.WPF.Commands;
 
     public class TemperatureTestViewModel : DependencyObject, INotifyPropertyChanged, IPaceProvider
     {

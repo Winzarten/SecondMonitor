@@ -3,7 +3,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
-    using WindowsControls.WPF.Commands;
+    using Contracts.Commands;
     using DataModel.Snapshot;
     using FuelStatus;
     using Properties;

@@ -22,6 +22,7 @@
         private Dictionary<string, DriverInfo> _lastTickInformation;
 
         private TimeSpan _sessionTime;
+        private TimeSpan _lastSessionTime = TimeSpan.Zero;
 
         private DateTime _startSessionTime;
         private double _sessionStartR3RTime;
@@ -41,6 +42,7 @@
             _lastSessionType = -2;
             _sessionTime = TimeSpan.Zero;
             _sessionStartR3RTime = 0;
+            _lastSessionTime = TimeSpan.Zero;
         }
 
         public override bool IsConnected => _sharedMemory != null;
@@ -63,7 +65,7 @@
                 await Task.Delay(TickTime, cancellationToken).ConfigureAwait(false);
                 R3ESharedData r3RData = Load();
                 SimulatorDataSet data = DataConvertor.FromR3EData(r3RData);
-                if (CheckSessionStarted(r3RData))
+                if (CheckSessionStarted(r3RData, data))
                 {
                     _lastTickInformation.Clear();
                     _sessionTime = new TimeSpan(0, 0, 1);
@@ -82,6 +84,7 @@
                     }
                 }
 
+                _lastSessionTime = data.SessionInfo.SessionTime;
                 AddToQueue(data);
 
                 if (r3RData.ControlType == -1 && !IsProcessRunning())
@@ -117,7 +120,7 @@
         }
 
 
-        private bool CheckSessionStarted(R3ESharedData r3RData)
+        private bool CheckSessionStarted(R3ESharedData r3RData, SimulatorDataSet data)
         {
             if (r3RData.SessionType != _lastSessionType)
             {
@@ -137,12 +140,23 @@
 
             if (_inSession && r3RData.SessionPhase == -1)
             {
+                _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
+                _startSessionTime = DateTime.UtcNow;
                 _inSession = false;
             }
 
             if (_lastSessionPhase >= 5 && r3RData.SessionPhase < 5 )
             {
+                _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
+                _startSessionTime = DateTime.UtcNow;
                 _lastSessionPhase = r3RData.SessionPhase;
+                return true;
+            }
+
+            if (data.SessionInfo.SessionTime < _lastSessionTime)
+            {
+                _sessionStartR3RTime = r3RData.Player.GameSimulationTime;
+                _startSessionTime = DateTime.UtcNow;
                 return true;
             }
 

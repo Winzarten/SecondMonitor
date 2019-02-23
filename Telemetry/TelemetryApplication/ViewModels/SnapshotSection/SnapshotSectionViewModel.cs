@@ -4,10 +4,10 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using DataModel.BasicProperties;
-    using Factory;
     using Replay;
     using SecondMonitor.ViewModels;
     using SecondMonitor.ViewModels.CarStatus;
+    using SecondMonitor.ViewModels.Factory;
     using TelemetryManagement.DTO;
 
     public class SnapshotSectionViewModel : AbstractViewModel, ISnapshotSectionViewModel

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <!-->Change Product Code to increase version  -->
-  <?define ProductCode = "6a1108ed-9edc-4aff-b36e-53d516df0070"?>
+  <?define ProductCode = "c8aafe70-628e-47e3-890a-df2b7f587535"?>
   <?define UpgradeCode = "f5614cd8-aa70-4bc4-948b-208b34e16a6d"?>
-  <?define ProductVersion = "3.0.3.0"?>
+  <?define ProductVersion = "4.0.0.0"?>
   <?define FirstVersion="0.0.0.1"?>
   <Product Id="$(var.ProductCode)" Name="Second Monitor" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Matus Celko" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated"  />
@@ -43,6 +43,10 @@
         <File Id="filetelemetry.exe" KeyPath="yes" Source="..\Deployment\TelemetryViewer.exe"/>
       </Component>
 
+      <Component Id="ManagePlugins.exe" Directory="APPLICATIONROOTDIRECTORY" Guid="63834967-0b2f-4b81-8e6b-8058810e3b83">
+        <File Id="filemanageplugins.exe" KeyPath="yes" Source="..\Deployment\ManagePlugins.exe" />
+      </Component>
+
       <Component Id="cmpde99100c6ede24f95a5283a6739b8fa5d" Directory="APPLICATIONROOTDIRECTORY" Guid="d6f08738-df3d-4658-bf3c-0ace1f81dc72">
         <File Id="file99100c6ede24f95a5283a6739b8fa5d" KeyPath="yes" Source="..\Deployment\TelemetryApplication.dll" />
       </Component>
@@ -60,6 +64,23 @@
       </Component>
       <Component Id="cmpd263741c1e7924a5597d067825115ea25" Directory="APPLICATIONROOTDIRECTORY" Guid="aaab03a2-e7d2-4661-b0b3-a874bee35bf5">
         <File Id="fild263741c1e7924a5597d067825115ea25" KeyPath="yes" Source="..\Deployment\TelemetryViewer.exe.config" />
+      </Component>
+
+      <Component Id="cmpCCAAE88E799770EF8AE745BFDB5EF53A" Directory="APPLICATIONROOTDIRECTORY" Guid="628a61a3-403a-4209-86f6-95e0a96ad607">
+        <File Id="filF5F7C7F4EE3D85C679BF6D913B0DD645" KeyPath="yes" Source="..\Deployment\PluginsConfiguration.Application.dll" />
+      </Component>
+      <Component Id="cmp901ABE9FA2964096078944E0AD929FEC" Directory="APPLICATIONROOTDIRECTORY" Guid="a47eb8bf-8322-4597-aae2-9a7dfdff7142">
+        <File Id="filB5D3F8D9DD54871A220F168F81EC8364" KeyPath="yes" Source="..\Deployment\PluginsConfiguration.Common.dll" />
+      </Component>
+      <Component Id="cmpABC8AF0FABA3464B8D250C2E833844BE" Directory="APPLICATIONROOTDIRECTORY" Guid="385aa472-ea84-43ec-98d0-514402f69163">
+        <File Id="fil4E7659DB656D309BFE01F34491FFC7AC" KeyPath="yes" Source="..\Deployment\Remote.Common.dll" />
+      </Component>
+      <Component Id="cmp8AE216B3A94A464A5F568AF356BF902C" Directory="APPLICATIONROOTDIRECTORY" Guid="675e0c11-47d8-414d-aec2-6daea35cb076">
+        <File Id="filE077C6560D55FB7CE6BE7B79A2B8D25C" KeyPath="yes" Source="..\Deployment\ManagePlugins.exe.config" />
+      </Component>
+
+      <Component Id="cmpeb4eb708fe424a11b9bb66f9b0a4573a" Directory="APPLICATIONROOTDIRECTORY" Guid="05e02a53-e796-4eae-baf2-c9e4117d82ae">
+        <File Id="fileb4eb708fe424a11b9bb66f9b0a4573a" KeyPath="yes" Source="..\Deployment\AutoUpdater.NET.dll" />
       </Component>
 
       <Component Id="cmpd70d492504ff4882bf50cece32ff71e1" Directory="APPLICATIONROOTDIRECTORY" Guid="5ffab2df-2e7b-4f74-b687-bab0e1abdd4f">
@@ -164,6 +185,16 @@
       <Component Id="cmp0D63D3874720241B51B7BBF3A4190E62" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="65aee27f-cd89-4c3b-8ce1-b9e49e8871da">
         <File Id="filC5739C76B912710700AA88AC8C075019" KeyPath="yes" Source="..\Deployment\plugins\Timing.Application.dll" />
       </Component>
+      <Component Id="cmp2F067665D606D44C0110C848F1A4C5E3" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="3d86c444-93a0-4512-98cb-253787cd2048">
+        <File Id="fil0D82207ADFB2905835CDB48585F0CB5A" KeyPath="yes" Source="..\Deployment\plugins\LiteNetLib.dll" />
+      </Component>
+      <Component Id="cmp3C85F299837B17217AA2C26EFA5CBDD8" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="525da765-807a-44db-b076-7e757a4332a2">
+        <File Id="filB861039B1D00C672AD42F33B82D79A2F" KeyPath="yes" Source="..\Deployment\plugins\LiteNetLib.xml" />
+      </Component>
+      <Component Id="cmpEE11F1BABBB66738F0BA8D9F67178FEF" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="bab6055b-a0c6-4348-a307-8ca1636bf52a">
+        <File Id="fil05D0C118B45A21424917CEA803146000" KeyPath="yes" Source="..\Deployment\plugins\Remote.Application.dll" />
+      </Component>
+
       <Component Id="cmp2e7a7ec67268446686ff3c3bd786ea48" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="4434e81f-f61f-4feb-a87d-e4db3b5c196b">
         <File Id="fil6ec4cdff09084e3f8c0d7edd99f3882f" KeyPath="yes" Source="..\Deployment\plugins\XslxExport.dll" />
       </Component>
@@ -175,9 +206,6 @@
       </Component>
       <Component Id="cmp71da85606d444721a9cb25c24ca27a34" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="71da8560-6d44-4721-a9cb-25c24ca27a34">
         <File Id="fil71da85606d444721a9cb25c24ca27a34" KeyPath="yes" Source="..\Deployment\plugins\EPPlus.xml" />
-      </Component>
-      <Component Id="cmpeb4eb708fe424a11b9bb66f9b0a4573a" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="05e02a53-e796-4eae-baf2-c9e4117d82ae">
-        <File Id="fileb4eb708fe424a11b9bb66f9b0a4573a" KeyPath="yes" Source="..\Deployment\plugins\AutoUpdater.NET.dll" />
       </Component>
       <Component Id="cmpad1bc2985c384aceb265ebec29d36042" Directory="dir23D60FD22D95374E6F8B798C0D1A009B" Guid="ad1bc298-5c38-4ace-b265-ebec29d36042">
         <File Id="filad1bc2985c384aceb265ebec29d36042" KeyPath="yes" Source="..\Deployment\plugins\ICSharpCode.SharpZipLib.dll" />
@@ -208,6 +236,15 @@
       </Component>
 
 
+      <Component Id="cmpEB26E633F9CC905530555F13A03F7D26" Directory="dir77863955766C658BE4B8389A0ECFC377" Guid="70bddfb6-351e-49dd-996a-56bef2028bfc">
+        <File Id="fil3F3715D7810F6834327810A12F68CA67" KeyPath="yes" Source="..\Deployment\Connectors\Remote\LiteNetLib.dll" />
+      </Component>
+      <Component Id="cmpA7C7422321F91B11FC27FE75CE2F88F9" Directory="dir77863955766C658BE4B8389A0ECFC377" Guid="f8fb1b71-d1d3-4b0f-b600-0dfebdf8a782">
+        <File Id="filA6027CFF6CB122CF9A621CCC617DD8FC" KeyPath="yes" Source="..\Deployment\Connectors\Remote\LiteNetLib.xml" />
+      </Component>
+      <Component Id="cmp22EB3340F9263A09AA9DF8903EEE18CD" Directory="dir77863955766C658BE4B8389A0ECFC377" Guid="79572cb6-727b-4667-ab2e-2d39a2a00e0e">
+        <File Id="fil007088D4365D571597ED82F99B5AE423" KeyPath="yes" Source="..\Deployment\Connectors\Remote\Remote.Connector.dll" />
+      </Component>
     </ComponentGroup>
 
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
@@ -247,6 +284,10 @@
       <Directory Id="dir700ab31efeba489c8f7985492bbbf109" Name="PCars2" />
     </DirectoryRef>
 
+    <DirectoryRef Id="dir10609BC54973A60FEA796FF193DD15AB">
+      <Directory Id="dir77863955766C658BE4B8389A0ECFC377" Name="Remote" />
+    </DirectoryRef>
+
 
 
     <DirectoryRef Id="ApplicationProgramsFolder">
@@ -256,6 +297,9 @@
         </Shortcut>
         <Shortcut Id="TelemetryViewerShortCut" Target="[!filetelemetry.exe]" Directory="ApplicationProgramsFolder" Name="Telemetry Viewer" WorkingDirectory='APPLICATIONROOTDIRECTORY' Icon="TelemetryViewer.exe" Show="normal">
           <Icon Id="TelemetryViewer.exe" SourceFile="..\Deployment\TelemetryViewer.exe" />
+        </Shortcut>
+        <Shortcut Id="ManagePluginsShortCut" Target="[!filemanageplugins.exe]" Directory="ApplicationProgramsFolder" Name="Manage Plugins" WorkingDirectory='APPLICATIONROOTDIRECTORY' Icon="ManagePlugins.exe" Show="normal">
+          <Icon Id="ManagePlugins.exe" SourceFile="..\Deployment\ManagePlugins.exe" />
         </Shortcut>
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\SecondMonitor" Name="installed" Type="integer" Value="1" KeyPath="yes"/>

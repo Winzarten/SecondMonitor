@@ -6,7 +6,7 @@
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using System.Windows.Media;
-    using Commands;
+    using Contracts.Commands;
 
     /// <summary>
     /// A class that wraps up zooming and panning of it's content.

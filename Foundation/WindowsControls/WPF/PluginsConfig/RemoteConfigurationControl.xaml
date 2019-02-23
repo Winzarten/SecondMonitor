@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="SecondMonitor.WindowsControls.WPF.PluginsConfig.RemoteConfigurationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.PluginsConfig"
+             xmlns:pluginsSettings="clr-namespace:SecondMonitor.ViewModels.PluginsSettings;assembly=SecondMonitor.ViewModels"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance pluginsSettings:RemoteConfigurationViewModel}" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../CommonResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey01Brush}" Padding="5" Background="{StaticResource Anthracite01Brush}">
+    <StackPanel Background="{StaticResource Anthracite01Brush}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="IP Address:" Style="{StaticResource StandardText}" VerticalAlignment="Center"/>
+            <TextBox  Margin="5,0,0,0" Text="{Binding IpAddress}" MinWidth="150" IsEnabled="{Binding IsFindInLanEnabled, Converter={StaticResource InvertedBooleanConverter}}" Style="{StaticResource StandardTextBox}"/>
+            <!--<CheckBox Margin="15,0,0,0" Content="Find Servers Automatically in LAN" IsChecked="{Binding IsFindInLanEnabled}" Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}" VerticalContentAlignment="Center" VerticalAlignment="Center"></CheckBox>-->
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+            <TextBlock Text="Port:" Style="{StaticResource StandardText}" VerticalAlignment="Center"/>
+            <TextBox Margin="5,0,0,0" Text="{Binding Port, Converter={StaticResource IntegerToStringConverter}}" Style="{StaticResource StandardTextBox}" VerticalContentAlignment="Center" VerticalAlignment="Center" MinWidth="50" />
+            <CheckBox Margin="15,0,0,0" Content="Enable Remote Connector" IsChecked="{Binding IsRemoteConnectorEnabled}" Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource NormalFontSize}" VerticalContentAlignment="Center" VerticalAlignment="Center"></CheckBox>
+            </StackPanel>
+    </StackPanel>
+    </Border>
+</UserControl>

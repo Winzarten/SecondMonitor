@@ -5,10 +5,10 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
-    using Factory;
     using GraphPanel;
     using LapPicker;
     using MapView;
+    using SecondMonitor.ViewModels.Factory;
     using Settings;
     using Snapshot;
     using Synchronization;

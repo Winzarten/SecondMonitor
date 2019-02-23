@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using WindowsControls.WPF.Commands;
-    using Factory;
+    using Contracts.Commands;
+    using SecondMonitor.ViewModels.Factory;
     using TelemetryLoad;
     using TelemetryManagement.DTO;
     using ViewModels;

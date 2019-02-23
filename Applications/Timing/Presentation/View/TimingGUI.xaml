@@ -133,12 +133,12 @@
                                             Binding="{Binding CarName, Mode=OneTime}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Car"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CarClassName, Mode=OneTime}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Class"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CompletedLaps, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"

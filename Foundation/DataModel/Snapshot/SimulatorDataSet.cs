@@ -30,7 +30,7 @@
 
         public DriverInfo LeaderInfo { get; set; }
 
-        public SimulatorSourceInfo SimulatorSourceInfo { get; } = new SimulatorSourceInfo();
+        public SimulatorSourceInfo SimulatorSourceInfo { get; set; } = new SimulatorSourceInfo();
 
         public void Accept(ISimulatorDateSetVisitor simulatorDateSetVisitor)
         {

@@ -4,9 +4,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using DataModel.Extensions;
-    using Factory;
     using OpenWindow;
     using SecondMonitor.ViewModels.Colors;
+    using SecondMonitor.ViewModels.Factory;
     using SettingsWindow;
     using Synchronization;
     using TelemetryLoad;

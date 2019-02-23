@@ -8,13 +8,13 @@ namespace SecondMonitor.Timing.Controllers
     using System.Threading.Tasks;
     using System.Windows.Input;
     using WindowsControls.Extension;
+    using Contracts.Commands;
     using DataModel.Snapshot;
     using PluginManager.Core;
     using PluginManager.GameConnector;
     using LapTimings.ViewModel;
     using Presentation.View;
     using Presentation.ViewModel;
-    using WindowsControls.WPF.Commands;
     using DataModel.Visitors;
     using SecondMonitor.Telemetry.TelemetryApplication.Controllers;
     using SecondMonitor.Telemetry.TelemetryManagement.Repository;
@@ -43,7 +43,7 @@ namespace SecondMonitor.Timing.Controllers
         private MapManagementController _mapManagementController;
         private DriverPresentationsManager _driverPresentationsManager;
         private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
-        private ComputeGapToPlayerVisitor _computeGapToPlayerVisitor;
+        private readonly ComputeGapToPlayerVisitor _computeGapToPlayerVisitor;
         private DisplaySettingAutoSaver _settingAutoSaver;
 
 
@@ -65,6 +65,11 @@ namespace SecondMonitor.Timing.Controllers
         }
 
         public bool IsDaemon => false;
+
+        public string PluginName => "Timing UI";
+
+        public bool IsEnabledByDefault => true;
+
 
         public void RunPlugin()
         {

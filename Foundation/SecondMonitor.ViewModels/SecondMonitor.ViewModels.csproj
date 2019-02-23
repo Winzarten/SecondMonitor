@@ -32,8 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoUpdater.NET, Version=1.4.11.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autoupdater.NET.Official.1.4.11\lib\net40\AutoUpdater.NET.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
@@ -81,12 +88,23 @@
     <Compile Include="CarStatus\WaterTemperatureViewModel.cs" />
     <Compile Include="CarStatus\WheelStatusViewModel.cs" />
     <Compile Include="Colors\BasicColorPaletteProvider.cs" />
+    <Compile Include="Controllers\AutoUpdateController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Colors\IColorPaletteProvider.cs" />
+    <Compile Include="Factory\IViewModelFactory.cs" />
+    <Compile Include="Factory\ViewModelFactory.cs" />
     <Compile Include="IDisableViewModel.cs" />
     <Compile Include="IViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />
     <Compile Include="IWheelStatusViewModel.cs" />
+    <Compile Include="PluginsSettings\BroadcastLimitSettingsViewModel.cs" />
+    <Compile Include="PluginsSettings\IBroadcastLimitSettingsViewModel.cs" />
+    <Compile Include="PluginsSettings\IPluginConfigurationViewModel.cs" />
+    <Compile Include="PluginsSettings\IPluginsConfigurationViewModel.cs" />
+    <Compile Include="PluginsSettings\IRemoteConfigurationViewModel.cs" />
+    <Compile Include="PluginsSettings\PluginConfigurationViewModel.cs" />
+    <Compile Include="PluginsSettings\PluginsConfigurationViewModel.cs" />
+    <Compile Include="PluginsSettings\RemoteConfigurationViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings\DisplaySettingAutoSaver.cs" />
     <Compile Include="Settings\Model\ColumnSettings.cs" />
@@ -115,8 +133,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SituationOverview\SituationOverviewProvider.cs" />
     <Compile Include="TrackInfo\TrackInfoViewModel.cs" />
+    <Compile Include="ViewModelsModule.cs" />
+    <Compile Include="ViewModelsModuleBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -141,14 +160,17 @@
       <Name>DataModel</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\WindowsControls\WindowsControls.csproj">
-      <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
-      <Name>WindowsControls</Name>
+    <ProjectReference Include="..\PluginsConfiguration\PluginsConfiguration.Common.csproj">
+      <Project>{a321d875-db5e-4ff2-8abd-5086e08d8eff}</Project>
+      <Name>PluginsConfiguration.Common</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SituationOverview\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
