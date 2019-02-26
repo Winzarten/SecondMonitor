@@ -276,6 +276,7 @@
             driverInfo.TotalDistance = r3RDriverData.CompletedLaps * r3RData.LayoutLength + r3RDriverData.LapDistance;
             driverInfo.CarName = _database.GetCarName(r3RDriverData.DriverInfo.ModelId);
             driverInfo.CarClassName = _database.GetClassName(r3RDriverData.DriverInfo.ClassId);
+            driverInfo.CarClassId = r3RDriverData.DriverInfo.ClassPerformanceIndex.ToString();
             driverInfo.FinishStatus = FromR3RStatus(r3RDriverData.FinishStatus);
             driverInfo.WorldPosition = new Point3D(Distance.FromMeters(r3RDriverData.Position.X * -1), Distance.FromMeters(r3RDriverData.Position.Y), Distance.FromMeters(r3RDriverData.Position.Z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3RData);

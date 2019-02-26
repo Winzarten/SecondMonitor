@@ -71,6 +71,7 @@
                         CompletedLaps = (int)pcarsDriverData.MLapsCompleted,
                         CarName = "N/A",
                         CarClassName = pcarsData.MCarClassName,
+                        CarClassId = pcarsData.MCarClassName,
                         InPits = false,
                         IsPlayer = i == pcarsData.MViewedParticipantIndex,
                         Position = (int)pcarsDriverData.MRacePosition,

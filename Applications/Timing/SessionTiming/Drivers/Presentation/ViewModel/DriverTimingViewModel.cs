@@ -329,7 +329,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 }
 
                 Position = DriverTiming.Position.ToString();
-                PositionInClass = DriverTiming.PositionInClass > 0 && DriverTiming.PositionInClass != DriverTiming.Position ? $"{DriverTiming.PositionInClass.ToString()} ({Position})" : Position;
+                PositionInClass = FormatPositionInClass();
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();
                 LastLapTime = GetLastLapTime();
                 CurrentLapProgressTime = GetCurrentLapProgressTime();
@@ -366,6 +366,28 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Error(ex);
+            }
+        }
+
+        private string FormatPositionInClass()
+        {
+            if (DriverTiming.PositionInClass <= 0)
+            {
+                return Position;
+            }
+
+            switch (DriverTiming.Session.TimingDataViewModel.DisplaySettingsViewModel.MultiClassDisplayKind)
+            {
+                case MultiClassDisplayKind.OnlyOverall:
+                    return Position;
+                case MultiClassDisplayKind.OnlyClass:
+                    return DriverTiming.PositionInClass.ToString();
+                case MultiClassDisplayKind.ClassFirst:
+                    return $"{DriverTiming.PositionInClass.ToString()} ({Position})";
+                case MultiClassDisplayKind.OverallFirst:
+                    return $"{Position} ({DriverTiming.PositionInClass.ToString()})";
+                default:
+                    return Position;
             }
         }
 

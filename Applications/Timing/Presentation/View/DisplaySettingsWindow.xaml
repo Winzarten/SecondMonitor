@@ -74,6 +74,12 @@
                     <x:Type TypeName="model:DisplayModeEnum" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataFromMultiClassDisplayKindEnum" MethodName="GetValues"
+                            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="dmBasicProperties:MultiClassDisplayKind" />
+            </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
             <DataTemplate DataType="{x:Type viewModel:SessionOptionsViewModel}">
                 <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
                     <Grid>
@@ -152,6 +158,11 @@
                     <CheckBox Content="Animate Delta Bar" Foreground="White" VerticalAlignment="Top"
                               HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDeltaTimes}"
                               ToolTip="Enables and Disables the fluid animation of delta times bars. Disable to lower CPU usage of application." />
+                    <Label Content="MultiClass Display Mode:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,0" Foreground="White" />
+                    <ComboBox HorizontalAlignment="Left"
+                              VerticalAlignment="Top" Width="94"
+                              ItemsSource="{Binding Source={StaticResource DataFromMultiClassDisplayKindEnum}}"
+                              SelectedItem="{Binding MultiClassDisplayKind}" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="Map Options" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

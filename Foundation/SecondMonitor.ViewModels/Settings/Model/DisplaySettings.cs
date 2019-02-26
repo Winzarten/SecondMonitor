@@ -21,6 +21,8 @@
 
         public VelocityUnits VelocityUnits { get; set; } = VelocityUnits.Kph;
 
+        public MultiClassDisplayKind MultiClassDisplayKind { get; set; } = MultiClassDisplayKind.ClassFirst;
+
         public FuelCalculationScope FuelCalculationScope { get; set; } = FuelCalculationScope.Lap;
 
         public int PaceLaps { get; set; } = 3;

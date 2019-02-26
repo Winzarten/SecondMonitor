@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using DataModel.Extensions;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
 
@@ -40,7 +39,7 @@
 
         protected static void PopulateClassPositions(SimulatorDataSet dataSet)
         {
-            IEnumerable<IGrouping<string, DriverInfo>> classPotions = dataSet.DriversInfo.GroupBy(x => x.CarClassName);
+            IEnumerable<IGrouping<string, DriverInfo>> classPotions = dataSet.DriversInfo.GroupBy(x => x.CarClassId);
 
             foreach (IGrouping<string, DriverInfo> classPotion in classPotions)
             {

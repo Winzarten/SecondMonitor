@@ -391,7 +391,7 @@
                                             CarClassName = StringExtensions.FromArray(rfVehicleInfo.mVehicleClass),
                                             InPits = rfVehicleInfo.mInPits == 1
                                         };
-
+            driverInfo.CarClassId = driverInfo.CarClassName;
             driverInfo.IsPlayer = rfVehicleInfo.mIsPlayer == 1;
             driverInfo.Position = rfVehicleInfo.mPlace;
             driverInfo.Speed = Velocity.FromMs(Math.Sqrt((rfVehicleInfo.mLocalVel.x * rfVehicleInfo.mLocalVel.x)

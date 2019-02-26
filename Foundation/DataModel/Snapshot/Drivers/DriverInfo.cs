@@ -23,6 +23,8 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
 
         public string CarClassName { get; set; }
 
+        public string CarClassId { get; set; }
+
         public int CompletedLaps { get; set; }
 
         public bool InPits { get; set; }
