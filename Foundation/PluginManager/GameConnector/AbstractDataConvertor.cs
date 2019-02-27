@@ -39,7 +39,9 @@
 
         protected static void PopulateClassPositions(SimulatorDataSet dataSet)
         {
-            IEnumerable<IGrouping<string, DriverInfo>> classPotions = dataSet.DriversInfo.GroupBy(x => x.CarClassId);
+            List<IGrouping<string, DriverInfo>> classPotions = dataSet.DriversInfo.GroupBy(x => x.CarClassId).ToList();
+
+            dataSet.SessionInfo.IsMultiClass = classPotions.Count > 1;
 
             foreach (IGrouping<string, DriverInfo> classPotion in classPotions)
             {

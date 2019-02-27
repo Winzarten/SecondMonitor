@@ -371,7 +371,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 
         private string FormatPositionInClass()
         {
-            if (DriverTiming.PositionInClass <= 0)
+            if (DriverTiming.Session.LastSet?.SessionInfo?.IsMultiClass == false || DriverTiming.PositionInClass <= 0)
             {
                 return Position;
             }
