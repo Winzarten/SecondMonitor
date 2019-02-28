@@ -34,5 +34,7 @@
         public WeatherInfo WeatherInfo { get; set; } = new WeatherInfo();
 
         public List<FlagKind> ActiveFlags = new List<FlagKind>();
+
+        public bool IsMultiClass { get; set; }
     }
 }

@@ -21,6 +21,8 @@
 
         public string CarClassName => ParentInfo.CarClassName;
 
+        public string CarClassId => ParentInfo.CarClassId;
+
         public int CompletedLaps => ParentInfo.CompletedLaps;
 
         public bool InPits => ParentInfo.InPits;

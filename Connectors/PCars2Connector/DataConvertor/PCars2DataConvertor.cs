@@ -282,6 +282,7 @@
                 InPits = pcarsData.mPitModes[vehicleIndex] != 0
             };
 
+            driverInfo.CarClassId = driverInfo.CarClassName;
             driverInfo.IsPlayer = vehicleIndex == pcarsData.mViewedParticipantIndex;
             driverInfo.Position = (int)pcVehicleInfo.mRacePosition;
             driverInfo.Speed = Velocity.FromMs(pcarsData.mSpeeds[vehicleIndex]);

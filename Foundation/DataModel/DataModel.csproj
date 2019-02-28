@@ -58,6 +58,7 @@
     <Compile Include="BasicProperties\FuelConsumption\FuelPerDistanceUnits.cs" />
     <Compile Include="BasicProperties\FuelLevelStatus.cs" />
     <Compile Include="BasicProperties\IQuantity.cs" />
+    <Compile Include="BasicProperties\MultiClassDisplayKind.cs" />
     <Compile Include="BasicProperties\OptimalQuantity.cs" />
     <Compile Include="BasicProperties\InputInfo.cs" />
     <Compile Include="BasicProperties\Point3D.cs" />

@@ -31,6 +31,7 @@
         private bool _animateDeltaTimes;
         private MapDisplaySettingsViewModel _mapDisplaySettingsViewModel;
         private TelemetrySettingsViewModel _telemetrySettingsViewModel;
+        private MultiClassDisplayKind _multiClassDisplayKind;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -52,6 +53,16 @@
             set
             {
                 _temperatureUnits = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public MultiClassDisplayKind MultiClassDisplayKind
+        {
+            get => _multiClassDisplayKind;
+            set
+            {
+                _multiClassDisplayKind = value;
                 OnPropertyChanged();
             }
         }
@@ -282,6 +293,7 @@
             ScrollToPlayer = settings.ScrollToPlayer;
             AnimateDeltaTimes = settings.AnimateDeltaTimes;
             AnimateDriversPosition = settings.AnimateDriversPosition;
+            MultiClassDisplayKind = settings.MultiClassDisplayKind;
 
             MapDisplaySettingsViewModel = new MapDisplaySettingsViewModel();
             MapDisplaySettingsViewModel.FromModel(settings.MapDisplaySettings);
@@ -316,7 +328,8 @@
                 AnimateDriversPosition =  AnimateDriversPosition,
                 AnimateDeltaTimes =  AnimateDeltaTimes,
                 MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel(),
-                TelemetrySettings = TelemetrySettingsViewModel.SaveToNewModel()
+                TelemetrySettings = TelemetrySettingsViewModel.SaveToNewModel(),
+                MultiClassDisplayKind = MultiClassDisplayKind,
             };
         }
 

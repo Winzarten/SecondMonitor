@@ -326,7 +326,7 @@
                                             CarClassName = StringExtensions.FromArray(rfVehicleInfo.VehicleClass),
                                             InPits = rfVehicleInfo.InPits == 1
                                         };
-
+            driverInfo.CarClassId = driverInfo.CarClassName;
             driverInfo.IsPlayer = rfVehicleInfo.IsPlayer == 1;
             driverInfo.Position = rfVehicleInfo.Place;
             driverInfo.Speed = Velocity.FromMs(rfVehicleInfo.Speed);

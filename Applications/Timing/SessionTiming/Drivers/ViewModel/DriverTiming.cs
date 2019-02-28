@@ -77,6 +77,8 @@
 
         public string CarClassName => DriverInfo.CarClassName;
 
+        public string CarClassId => DriverInfo.CarClassId;
+
         public int PaceLaps => Session.PaceLaps;
 
         public bool IsLastLapBestLap => BestLap != null && BestLap == LastLap;

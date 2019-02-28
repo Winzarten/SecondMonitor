@@ -11,6 +11,8 @@
 
         string CarClassName { get;  }
 
+        string CarClassId { get; }
+
         int CompletedLaps { get;  }
 
         bool InPits { get;  }
