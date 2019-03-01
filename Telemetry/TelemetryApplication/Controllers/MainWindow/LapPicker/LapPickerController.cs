@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.LapPicker
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using DataModel.Extensions;
@@ -24,10 +25,12 @@
         private readonly IOpenWindowController _openWindowController;
         private readonly ISettingsWindowController _settingsWindowController;
         private readonly ILapSelectionViewModel _lapSelectionViewModel;
+        private readonly List<LapSummaryDto> _loadedLaps;
 
         public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, ITelemetryLoadController telemetryLoadController, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory,
             ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController)
         {
+            _loadedLaps = new List<LapSummaryDto>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryLoadController = telemetryLoadController;
             _lapSelectionViewModel = mainWindowViewModel.LapSelectionViewModel;
@@ -83,28 +86,11 @@
 
         private void LapSelectionViewModelOnLapSelected(object sender, LapSummaryArgs e)
         {
-            _telemetryLoadController.LoadLap(e.LapSummary.LapNumber);
+            _telemetryLoadController.LoadLap(e.LapSummary);
         }
 
-        private void ReinitializeViewMode(SessionInfoDto sessionInfoDto)
+        private void AddLapsFromSession(SessionInfoDto sessionInfoDto)
         {
-            _lapSelectionViewModel.Clear();
-            _lapSelectionViewModel.TrackName = string.IsNullOrEmpty(sessionInfoDto.LayoutName) ? sessionInfoDto.TrackName : $"{sessionInfoDto.TrackName} - {sessionInfoDto.LayoutName}";
-            _lapSelectionViewModel.CarName = sessionInfoDto.CarName;
-            _lapSelectionViewModel.SessionTime = sessionInfoDto.SessionRunDateTime;
-            _lapSelectionViewModel.SimulatorName = sessionInfoDto.Simulator;
-            LapSummaryDto bestLap = sessionInfoDto.LapsSummary.OrderBy(x => x.LapTime).First();
-            _lapSelectionViewModel.BestLap = $"{bestLap.LapNumber} - {bestLap.LapTime.FormatToDefault()}";
-
-            LapSummaryDto bestSector1Lap = sessionInfoDto.LapsSummary.OrderBy(x => x.Sector1Time).First();
-            _lapSelectionViewModel.BestSector1 = bestSector1Lap.Sector1Time > TimeSpan.Zero ? $"{bestSector1Lap.LapNumber} - {bestSector1Lap.Sector1Time.FormatToDefault()}" : string.Empty;
-
-            LapSummaryDto bestSector2Lap = sessionInfoDto.LapsSummary.OrderBy(x => x.Sector1Time).First();
-            _lapSelectionViewModel.BestSector2 = bestSector2Lap.Sector2Time > TimeSpan.Zero ? $"{bestSector2Lap.LapNumber} - {bestSector2Lap.Sector2Time.FormatToDefault()}" : string.Empty;
-
-            LapSummaryDto bestSector3Lap = sessionInfoDto.LapsSummary.OrderBy(x => x.Sector1Time).First();
-            _lapSelectionViewModel.BestSector3 = bestSector3Lap.Sector3Time > TimeSpan.Zero ? $"{bestSector3Lap.LapNumber} - {bestSector3Lap.Sector3Time.FormatToDefault()}" : string.Empty;
-
             foreach (LapSummaryDto lapSummaryDto in sessionInfoDto.LapsSummary.OrderBy(x => x.LapNumber))
             {
                 ILapSummaryViewModel newViewModel = _viewModelFactory.Create<ILapSummaryViewModel>();
@@ -112,8 +98,33 @@
                 newViewModel.FromModel(lapSummaryDto);
                 newViewModel.LapColor = _colorPaletteProvider.GetNext();
                 _lapSelectionViewModel.AddLapSummaryViewModel(newViewModel);
+                _loadedLaps.Add(lapSummaryDto);
             }
+
+            LapSummaryDto bestLap = _loadedLaps.OrderBy(x => x.LapTime).First();
+            _lapSelectionViewModel.BestLap = $"{bestLap.CustomDisplayName} - {bestLap.LapTime.FormatToDefault()}";
+
+            LapSummaryDto bestSector1Lap = _loadedLaps.OrderBy(x => x.Sector1Time).First();
+            _lapSelectionViewModel.BestSector1 = bestSector1Lap.Sector1Time > TimeSpan.Zero ? $"{bestSector1Lap.CustomDisplayName} - {bestSector1Lap.Sector1Time.FormatToDefault()}" : string.Empty;
+
+            LapSummaryDto bestSector2Lap = _loadedLaps.OrderBy(x => x.Sector1Time).First();
+            _lapSelectionViewModel.BestSector2 = bestSector2Lap.Sector2Time > TimeSpan.Zero ? $"{bestSector2Lap.CustomDisplayName} - {bestSector2Lap.Sector2Time.FormatToDefault()}" : string.Empty;
+
+            LapSummaryDto bestSector3Lap = _loadedLaps.OrderBy(x => x.Sector1Time).First();
+            _lapSelectionViewModel.BestSector3 = bestSector3Lap.Sector3Time > TimeSpan.Zero ? $"{bestSector3Lap.CustomDisplayName} - {bestSector3Lap.Sector3Time.FormatToDefault()}" : string.Empty;
         }
+
+        private void ReinitializeViewMode(SessionInfoDto sessionInfoDto)
+        {
+            _lapSelectionViewModel.Clear();
+            _loadedLaps.Clear();
+            _lapSelectionViewModel.TrackName = string.IsNullOrEmpty(sessionInfoDto.LayoutName) ? sessionInfoDto.TrackName : $"{sessionInfoDto.TrackName} - {sessionInfoDto.LayoutName}";
+            _lapSelectionViewModel.CarName = sessionInfoDto.CarName;
+            _lapSelectionViewModel.SessionTime = sessionInfoDto.SessionRunDateTime;
+            _lapSelectionViewModel.SimulatorName = sessionInfoDto.Simulator;
+            AddLapsFromSession(sessionInfoDto);
+        }
+
 
         private void OnSessionStarted(object sender, TelemetrySessionArgs e)
         {

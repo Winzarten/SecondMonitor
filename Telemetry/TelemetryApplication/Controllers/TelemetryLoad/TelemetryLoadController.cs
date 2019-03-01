@@ -16,17 +16,17 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly ITelemetryRepository _telemetryRepository;
-        private readonly Dictionary<int, LapTelemetryDto> _cachedTelemetries;
+        private readonly Dictionary<string, LapTelemetryDto> _cachedTelemetries;
         private int _activeLapJobs;
+        private readonly List<string> _loadedSessions;
 
         public TelemetryLoadController(ITelemetryRepositoryFactory telemetryRepositoryFactory, ISettingsProvider settingsProvider, ITelemetryViewsSynchronization telemetryViewsSynchronization )
         {
-            _cachedTelemetries = new Dictionary<int, LapTelemetryDto>();
+            _cachedTelemetries = new Dictionary<string, LapTelemetryDto>();
+            _loadedSessions = new List<string>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryRepository = telemetryRepositoryFactory.Create(settingsProvider);
         }
-
-        public string LastLoadedSessionIdentifier { get; private set; }
 
         public async Task<IReadOnlyCollection<SessionInfoDto>> GetAllRecentSessionInfoAsync()
         {
@@ -46,7 +46,7 @@
         {
             try
             {
-                SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.LoadRecentSessionInformation(sessionIdentifier));
+                SessionInfoDto sessionInfoDto = await Task.Run(() => _telemetryRepository.OpenRecentSession(sessionIdentifier));
                 return await LoadRecentSessionAsync(sessionInfoDto);
             }
             catch (Exception ex)
@@ -59,10 +59,11 @@
 
         public async Task<SessionInfoDto> LoadRecentSessionAsync(SessionInfoDto sessionInfoDto)
         {
-            await CloseCurrentSession();
+            await CloseAllOpenedSessions();
             _cachedTelemetries.Clear();
+            _loadedSessions.Add(sessionInfoDto.Id);
+            sessionInfoDto.LapsSummary.ForEach(FillCustomDisplayName);
             _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
-            LastLoadedSessionIdentifier = sessionInfoDto.Id;
             return sessionInfoDto;
         }
 
@@ -87,15 +88,16 @@
         }
 
 
-        public async Task<LapTelemetryDto> LoadLap(int lapNumber)
+        public async Task<LapTelemetryDto> LoadLap(LapSummaryDto lapSummaryDto)
         {
             try
             {
                 AddToActiveLapJob();
-                if (!_cachedTelemetries.TryGetValue(lapNumber, out LapTelemetryDto lapTelemetryDto))
+                if (!_cachedTelemetries.TryGetValue(lapSummaryDto.Id, out LapTelemetryDto lapTelemetryDto))
                 {
-                    lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadRecentLapTelemetryDto(LastLoadedSessionIdentifier, lapNumber));
-                    _cachedTelemetries[lapNumber] = lapTelemetryDto;
+                    lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadLapTelemetryDtoFromAnySession(lapSummaryDto));
+                    FillCustomDisplayName(lapTelemetryDto.LapSummary);
+                    _cachedTelemetries[lapTelemetryDto.LapSummary.Id] = lapTelemetryDto;
                 }
                 _telemetryViewsSynchronization.NotifyLapLoaded(lapTelemetryDto);
                 RemoveFromActiveLapJob();
@@ -123,7 +125,7 @@
             }
         }
 
-        private async Task CloseCurrentSession()
+        private async Task CloseAllOpenedSessions()
         {
             while (_activeLapJobs > 0)
             {
@@ -133,6 +135,8 @@
             {
                 await UnloadLap(value.LapSummary);
             }
+            _loadedSessions.ForEach( x => _telemetryRepository.CloseRecentSession(x));
+            _loadedSessions.Clear();
         }
 
         private void RemoveFromActiveLapJob()
@@ -142,6 +146,12 @@
             {
                 _telemetryViewsSynchronization.NotifyLapLoadingFinished();
             }
+        }
+
+        private void FillCustomDisplayName(LapSummaryDto lapSummaryDto)
+        {
+            int sessionIndex = _loadedSessions.IndexOf(lapSummaryDto.SessionIdentifier);
+            lapSummaryDto.CustomDisplayName = sessionIndex > 0 ? $"{sessionIndex}/{lapSummaryDto.LapNumber}" : lapSummaryDto.LapNumber.ToString();
         }
     }
 }

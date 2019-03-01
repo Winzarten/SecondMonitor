@@ -43,6 +43,9 @@
         [XmlAttribute]
         public string CarName { get; set; }
 
+        [XmlAttribute]
+        public string Remarks { get; set; }
+
         public List<LapSummaryDto> LapsSummary { get; set; }
 
     }

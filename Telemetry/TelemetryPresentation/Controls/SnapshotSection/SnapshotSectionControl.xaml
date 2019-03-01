@@ -35,7 +35,7 @@
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding LapNumber}" />
+                                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding CustomDisplayName }" />
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>

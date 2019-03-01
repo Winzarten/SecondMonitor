@@ -62,7 +62,7 @@
         protected override List<LineSeries> GetLineSeries(LapSummaryDto lapSummary, TimedTelemetrySnapshot[] dataPoints, OxyColor color)
         {
             LineSeries[] lineSeries = new LineSeries[2];
-            string baseTitle = $"Lap {lapSummary.LapNumber}";
+            string baseTitle = $"Lap {lapSummary.CustomDisplayName}";
 
             List<DataPoint> plotDataPoints = dataPoints.Select(x => new DataPoint(GetXValue(x), FrontFunc(x.PlayerData.CarInfo))).ToList();
             double newMax = plotDataPoints.Max(x => x.Y);

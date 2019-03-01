@@ -55,6 +55,13 @@
             set => Sector3Time = TimeSpan.FromSeconds(value);
         }
 
+        [XmlIgnore]
+        public string CustomDisplayName
+        {
+            get;
+            set;
+        }
+
         public static bool operator ==(LapSummaryDto lap1, LapSummaryDto lap2)
         {
             if (lap1 is null && lap2 is null)

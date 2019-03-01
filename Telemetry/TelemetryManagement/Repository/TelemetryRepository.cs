@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryManagement.Repository
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -17,11 +18,13 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string _repositoryDirectory;
         private readonly int _maxStoredSessions;
+        private readonly Dictionary<string, string> _sessionIdToDirectoryDictionary;
 
         public TelemetryRepository(string repositoryDirectory, int maxStoredSessions)
         {
             _repositoryDirectory = repositoryDirectory;
             _maxStoredSessions = maxStoredSessions;
+            _sessionIdToDirectoryDictionary = new Dictionary<string, string>();
         }
 
         public IReadOnlyCollection<SessionInfoDto> GetAllRecentSessions()
@@ -36,7 +39,7 @@
             }
 
             List<SessionInfoDto> sessions = new List<SessionInfoDto>();
-            dis.ForEach(x => sessions.Add(LoadRecentSessionInformation(x.Name)));
+            dis.ForEach(x => sessions.Add(OpenRecentSession(x.Name)));
             return sessions.AsReadOnly();
 
         }
@@ -72,31 +75,54 @@
             Save(lapTelemetry, fileName);
         }
 
-        public SessionInfoDto LoadRecentSessionInformation(string sessionIdentifier)
+        public SessionInfoDto OpenRecentSession(string sessionIdentifier)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SessionInfoDto));
             string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
-            string fileName = Path.Combine(directory, SessionInfoFile);
-            Logger.Info($"Loading Session info: {fileName}");
-
-            using (FileStream file = File.Open(fileName, FileMode.Open))
-            {
-                 return xmlSerializer.Deserialize(file) as SessionInfoDto;
-            }
+            return OpenSession(directory);
         }
 
-        public LapTelemetryDto LoadRecentLapTelemetryDto(string sessionIdentifier, int lapNumber)
+        public void CloseRecentSession(string sessionIdentifier)
         {
-            string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
-            string fileName = Path.Combine(directory, $"{lapNumber}{FileSuffix}");
-            Logger.Info($"Loading lap info {lapNumber} from file: {fileName}");
+            _sessionIdToDirectoryDictionary.Remove(sessionIdentifier);
+        }
+
+        public LapTelemetryDto LoadLapTelemetryDtoFromAnySession(LapSummaryDto lapSummaryDto)
+        {
+            if (!_sessionIdToDirectoryDictionary.TryGetValue(lapSummaryDto.SessionIdentifier, out string directory))
+            {
+                throw new InvalidOperationException($"Session {lapSummaryDto.SessionIdentifier} is not opened. Unable to load lap {lapSummaryDto.Id}");
+            }
+
+            string fileName = Path.Combine(directory, $"{lapSummaryDto.LapNumber}{FileSuffix}");
+            return LoadLapTelemetryDto(fileName);
+        }
+
+        private LapTelemetryDto LoadLapTelemetryDto(string fileName)
+        {
+            Logger.Info($"Loading from file: {fileName}");
 
             using (FileStream file = File.Open(fileName, FileMode.Open))
             {
                 //return xmlSerializer.Deserialize(file) as LapTelemetryDto;
                 BinaryFormatter bf = new BinaryFormatter();
-                return (LapTelemetryDto) bf.Deserialize(file);
+                return (LapTelemetryDto)bf.Deserialize(file);
             }
+        }
+
+        private SessionInfoDto OpenSession(string sessionDirectory)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SessionInfoDto));
+            string fileName = Path.Combine(sessionDirectory, SessionInfoFile);
+            Logger.Info($"Loading Session info: {fileName}");
+            SessionInfoDto sessionInfoDto;
+
+            using (FileStream file = File.Open(fileName, FileMode.Open))
+            {
+               sessionInfoDto = (SessionInfoDto)xmlSerializer.Deserialize(file);
+            }
+
+            _sessionIdToDirectoryDictionary[sessionInfoDto.Id] = sessionDirectory;
+            return sessionInfoDto;
         }
 
         private void Save(SessionInfoDto sessionInfoDto, string path)

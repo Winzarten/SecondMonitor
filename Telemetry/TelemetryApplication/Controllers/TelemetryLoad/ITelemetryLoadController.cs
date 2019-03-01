@@ -11,7 +11,7 @@
         Task<SessionInfoDto> LoadRecentSessionAsync(SessionInfoDto sessionInfoDto);
         Task<SessionInfoDto> LoadLastSessionAsync();
 
-        Task<LapTelemetryDto> LoadLap(int lapNumber);
+        Task<LapTelemetryDto> LoadLap(LapSummaryDto lapSummaryDto);
 
         Task UnloadLap(LapSummaryDto lapSummaryDto);
 
