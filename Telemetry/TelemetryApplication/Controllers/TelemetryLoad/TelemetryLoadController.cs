@@ -67,6 +67,14 @@
             return sessionInfoDto;
         }
 
+        public Task<SessionInfoDto> AddRecentSessionAsync(SessionInfoDto sessionInfoDto)
+        {
+            _loadedSessions.Add(sessionInfoDto.Id);
+            sessionInfoDto.LapsSummary.ForEach(FillCustomDisplayName);
+            _telemetryViewsSynchronization.NotifySessionAdded(sessionInfoDto);
+            return Task.FromResult(sessionInfoDto);
+        }
+
         public async Task<SessionInfoDto> LoadLastSessionAsync()
         {
             try

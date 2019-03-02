@@ -29,10 +29,10 @@ namespace SecondMonitor.TelemetryPresentation.OpenWindow
 
         private void OpenWindow_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is IOpenWindowViewModel openWindowViewModel)
+            /*if (e.NewValue is IOpenWindowViewModel openWindowViewModel)
             {
                 openWindowViewModel.RefreshRecentCommand.Execute(null);
-            }
+            }*/
         }
     }
 }

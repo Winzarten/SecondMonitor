@@ -21,6 +21,7 @@
         private string _bestSector1;
         private string _bestSector2;
         private string _bestSector3;
+        private IOpenWindowViewModel _addWindowViewModel;
 
         public LapSelectionViewModel()
         {
@@ -34,6 +35,12 @@
         {
             get => _openWindowViewModel;
             set => SetProperty(ref _openWindowViewModel, value);
+        }
+
+        public IOpenWindowViewModel AddWindowViewModel
+        {
+            get => _addWindowViewModel;
+            set => SetProperty(ref _addWindowViewModel, value);
         }
 
         public ISettingsWindowViewModel SettingsWindowViewModel

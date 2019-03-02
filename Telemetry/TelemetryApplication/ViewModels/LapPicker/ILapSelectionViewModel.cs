@@ -15,6 +15,8 @@
 
         IOpenWindowViewModel OpenWindowViewModel { get; set; }
 
+        IOpenWindowViewModel AddWindowViewModel { get; set; }
+
         ISettingsWindowViewModel SettingsWindowViewModel { get; set; }
 
         ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }

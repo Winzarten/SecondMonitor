@@ -68,6 +68,7 @@
         private void Subscribe()
         {
             _telemetryViewsSynchronization.NewSessionLoaded += OnSessionStarted;
+            _telemetryViewsSynchronization.SessionAdded += OnSessionAdded;
             _lapSelectionViewModel.LapSelected += LapSelectionViewModelOnLapSelected;
             _lapSelectionViewModel.LapUnselected += LapSelectionViewModelOnLapUnselected;
         }
@@ -75,9 +76,12 @@
         private void UnSubscribe()
         {
             _telemetryViewsSynchronization.NewSessionLoaded -= OnSessionStarted;
+            _telemetryViewsSynchronization.SessionAdded -= OnSessionAdded;
             _lapSelectionViewModel.LapSelected -= LapSelectionViewModelOnLapSelected;
             _lapSelectionViewModel.LapUnselected -= LapSelectionViewModelOnLapUnselected;
         }
+
+
 
         private void LapSelectionViewModelOnLapUnselected(object sender, LapSummaryArgs e)
         {
@@ -123,6 +127,11 @@
             _lapSelectionViewModel.SessionTime = sessionInfoDto.SessionRunDateTime;
             _lapSelectionViewModel.SimulatorName = sessionInfoDto.Simulator;
             AddLapsFromSession(sessionInfoDto);
+        }
+
+        private void OnSessionAdded(object sender, TelemetrySessionArgs e)
+        {
+            AddLapsFromSession(e.SessionInfoDto);
         }
 
 
