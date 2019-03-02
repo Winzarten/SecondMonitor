@@ -15,6 +15,7 @@
         Task<LapTelemetryDto> LoadLap(LapSummaryDto lapSummaryDto);
 
         Task UnloadLap(LapSummaryDto lapSummaryDto);
+        Task ArchiveSession(SessionInfoDto sessionInfoDto);
 
     }
 }

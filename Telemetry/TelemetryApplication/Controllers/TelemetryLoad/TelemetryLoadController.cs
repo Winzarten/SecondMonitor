@@ -124,6 +124,11 @@
             return Task.CompletedTask;
         }
 
+        public async Task ArchiveSession(SessionInfoDto sessionInfoDto)
+        {
+            await _telemetryRepository.ArchiveSessions(sessionInfoDto);
+        }
+
         private void AddToActiveLapJob()
         {
             _activeLapJobs++;

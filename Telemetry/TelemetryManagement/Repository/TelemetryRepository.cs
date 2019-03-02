@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Threading.Tasks;
     using System.Xml.Serialization;
     using DataModel.Extensions;
     using DTO;
@@ -15,16 +16,17 @@
         private const string SessionInfoFile = "_Session.xml";
         private const string FileSuffix = ".Lap";
         private const string RecentDir = "Recent";
+        private const string ArchiveDir = "Archive";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string _repositoryDirectory;
         private readonly int _maxStoredSessions;
-        private readonly Dictionary<string, string> _sessionIdToDirectoryDictionary;
+        private readonly Dictionary<string, (string directory, bool isRecent)> _sessionIdToDirectoryDictionary;
 
         public TelemetryRepository(string repositoryDirectory, int maxStoredSessions)
         {
             _repositoryDirectory = repositoryDirectory;
             _maxStoredSessions = maxStoredSessions;
-            _sessionIdToDirectoryDictionary = new Dictionary<string, string>();
+            _sessionIdToDirectoryDictionary = new Dictionary<string, (string directory, bool isRecent)>();
         }
 
         public IReadOnlyCollection<SessionInfoDto> GetAllRecentSessions()
@@ -66,6 +68,42 @@
             return dis.Last().Name;
         }
 
+        public async Task ArchiveSessions(SessionInfoDto sessionInfoDto)
+        {
+            if (!_sessionIdToDirectoryDictionary.TryGetValue(sessionInfoDto.Id, out (string directory, bool isRecent) entry))
+            {
+                throw new InvalidOperationException($"Session {sessionInfoDto.Id} is not opened. Cannot archive");
+            }
+
+            if (!entry.isRecent)
+            {
+                throw new InvalidOperationException($"Session {sessionInfoDto.Id} is not a recent session, cannot archive");
+            }
+
+            string archiveDir = Path.Combine(Path.Combine(_repositoryDirectory, ArchiveDir), sessionInfoDto.Id);
+
+            if (Directory.Exists(archiveDir))
+            {
+                Directory.Delete(archiveDir, true);
+            }
+
+            Directory.CreateDirectory(archiveDir);
+
+            DirectoryInfo startDirectory = new DirectoryInfo(entry.directory);
+
+            //Creates all of the directories and sub-directories
+            foreach (FileInfo file in startDirectory.EnumerateFiles())
+            {
+                using (FileStream sourceStream = file.OpenRead())
+                {
+                    using (FileStream destinationStream = File.Create(Path.Combine(archiveDir, file.Name)))
+                    {
+                        await sourceStream.CopyToAsync(destinationStream);
+                    }
+                }
+            }
+        }
+
         public void SaveRecentSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier)
         {
             string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
@@ -78,7 +116,7 @@
         public SessionInfoDto OpenRecentSession(string sessionIdentifier)
         {
             string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
-            return OpenSession(directory);
+            return OpenSession(directory, true);
         }
 
         public void CloseRecentSession(string sessionIdentifier)
@@ -88,12 +126,12 @@
 
         public LapTelemetryDto LoadLapTelemetryDtoFromAnySession(LapSummaryDto lapSummaryDto)
         {
-            if (!_sessionIdToDirectoryDictionary.TryGetValue(lapSummaryDto.SessionIdentifier, out string directory))
+            if (!_sessionIdToDirectoryDictionary.TryGetValue(lapSummaryDto.SessionIdentifier, out (string directory, bool isRecent) entry))
             {
                 throw new InvalidOperationException($"Session {lapSummaryDto.SessionIdentifier} is not opened. Unable to load lap {lapSummaryDto.Id}");
             }
 
-            string fileName = Path.Combine(directory, $"{lapSummaryDto.LapNumber}{FileSuffix}");
+            string fileName = Path.Combine(entry.directory, $"{lapSummaryDto.LapNumber}{FileSuffix}");
             return LoadLapTelemetryDto(fileName);
         }
 
@@ -109,7 +147,7 @@
             }
         }
 
-        private SessionInfoDto OpenSession(string sessionDirectory)
+        private SessionInfoDto OpenSession(string sessionDirectory, bool isRecent)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(SessionInfoDto));
             string fileName = Path.Combine(sessionDirectory, SessionInfoFile);
@@ -121,7 +159,7 @@
                sessionInfoDto = (SessionInfoDto)xmlSerializer.Deserialize(file);
             }
 
-            _sessionIdToDirectoryDictionary[sessionInfoDto.Id] = sessionDirectory;
+            _sessionIdToDirectoryDictionary[sessionInfoDto.Id] = (sessionDirectory, isRecent);
             return sessionInfoDto;
         }
 

@@ -3,15 +3,14 @@
     using System.Collections.Generic;
     using System.Windows.Input;
     using SecondMonitor.ViewModels;
-    using TelemetryManagement.DTO;
 
     public class OpenWindowViewModel : AbstractViewModel, IOpenWindowViewModel
     {
         private ICommand _refreshCommand;
         private ICommand _openSelectedRecentSessionCommand;
-        private SessionInfoDto _selectedSessionInfoDto;
+        private IOpenWindowSessionInformationViewModel _selectedSessionInfoDto;
         private ICommand _cancelAndCloseWindowCommand;
-        private IReadOnlyCollection<SessionInfoDto> _recentSessionsInfos;
+        private IReadOnlyCollection<IOpenWindowSessionInformationViewModel> _recentSessionsInfos;
         private bool _openWindowVisible;
         private bool _isBusy;
 
@@ -27,13 +26,13 @@
             set => SetProperty(ref _openSelectedRecentSessionCommand, value);
         }
 
-        public SessionInfoDto SelectedRecentSessionInfoDto
+        public IOpenWindowSessionInformationViewModel SelectedRecentSessionInfoDto
         {
             get => _selectedSessionInfoDto;
             set => SetProperty(ref _selectedSessionInfoDto, value);
         }
 
-        public IReadOnlyCollection<SessionInfoDto> RecentSessionsInfos
+        public IReadOnlyCollection<IOpenWindowSessionInformationViewModel> RecentSessionsInfos
         {
             get => _recentSessionsInfos;
             set => SetProperty(ref _recentSessionsInfos, value);

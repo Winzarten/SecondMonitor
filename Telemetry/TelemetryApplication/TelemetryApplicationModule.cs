@@ -69,6 +69,7 @@
             Bind<IPedalSectionViewModel>().To<PedalSectionViewModel>();
             Bind<IMapViewViewModel>().To<MapViewViewModel>();
             Bind<IOpenWindowViewModel>().To<OpenWindowViewModel>();
+            Bind<IOpenWindowSessionInformationViewModel>().To<OpenWindowSessionInformationViewModel>();
             Bind<ISettingsWindowViewModel>().To<SettingsWindowViewModel>();
             Bind<IGraphSettingsViewModel>().To<GraphSettingsViewModel>();
 
@@ -97,7 +98,6 @@
             Bind<IGraphViewModel>().To<SuspensionTravelGraphViewModel>();
             Bind<IGraphViewModel>().To<RideHeightGraphViewModel >();
             Bind<IGraphViewModel>().To<ChassisRideHeightGraphViewModel>();
-
         }
     }
 }

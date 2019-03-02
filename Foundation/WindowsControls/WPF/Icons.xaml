@@ -1496,7 +1496,7 @@
         </Canvas>
     </Viewbox>
 
-    <Viewbox x:Key="FolderPlusIcon" Stretch="Uniform">
+    <Viewbox x:Key="FolderPlusIcon" Stretch="Uniform" x:Shared="False">
         <Canvas Width="64" Height="47.768631">
             <Canvas.Resources/>
             <Canvas>
@@ -1841,5 +1841,18 @@
         </Canvas>
     </Viewbox>
 
+    <Viewbox x:Key="ArchiveIcon" Stretch="Uniform" x:Shared="False">
+        <Canvas Width="34.062" Height="33.950001">
+            <Rectangle Canvas.Left="15.417" Canvas.Top="3.039" Width="8.2629995" Height="1.1390001" Name="rect2" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            <Rectangle Canvas.Left="10.383" Canvas.Top="7.3869996" Width="13.297" Height="1.141" Name="rect4" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            <Rectangle Canvas.Left="10.383" Canvas.Top="11.735001" Width="13.297" Height="1.141" Name="rect6" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            <Rectangle Canvas.Left="10.383" Canvas.Top="16.082001" Width="13.297" Height="1.141" Name="rect8" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                <Path.Data>
+                    <PathGeometry Figures="m 33.999 20.305 c -0.001 -0.002 0 -0.006 -0.001 -0.008 L 29.794 10.838 C 29.675 10.57 29.411 10.4 29.12 10.4 H 27.478 V 2.09 C 27.478 0.938 26.541 0 25.389 0 H 12.622 L 6.584 5.836 V 10.4 H 4.942 c -0.291 0 -0.555 0.17 -0.674 0.438 L 0.064 20.297 C 0.063 20.299 0.063 20.303 0.063 20.305 0.024 20.395 0 20.493 0 20.598 v 9.25 c 0 2.262 1.84 4.102 4.102 4.102 h 25.859 c 2.261 0 4.101 -1.84 4.101 -4.102 v -9.25 C 34.061 20.493 34.038 20.395 33.999 20.305 Z M 11.333 6.649 c 1.152 0 2.09 -0.938 2.09 -2.09 V 1.139 H 25.39 c 0.523 0 0.949 0.426 0.949 0.951 v 17.77 h -4.057 c 0.057 0.172 0.094 0.354 0.094 0.543 0 0.979 -0.793 1.771 -1.771 1.771 h -7.146 c -0.979 0 -1.771 -0.793 -1.771 -1.771 0 -0.189 0.038 -0.371 0.094 -0.543 H 7.725 V 6.649 Z M 1.872 19.86 5.422 11.874 h 1.162 v 7.986 z m 25.606 0 v -7.986 h 1.163 l 3.549 7.986 z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Viewbox>
 
 </ResourceDictionary>
