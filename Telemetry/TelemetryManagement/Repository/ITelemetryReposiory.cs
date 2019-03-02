@@ -7,6 +7,8 @@
     public interface ITelemetryRepository
     {
         IReadOnlyCollection<SessionInfoDto> GetAllRecentSessions();
+        IReadOnlyCollection<SessionInfoDto> GetAllArchivedSessions();
+
         void SaveRecentSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier);
         void SaveRecentSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier);
 

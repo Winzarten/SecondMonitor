@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryManagement.Repository
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -20,30 +21,26 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string _repositoryDirectory;
         private readonly int _maxStoredSessions;
-        private readonly Dictionary<string, (string directory, bool isRecent)> _sessionIdToDirectoryDictionary;
+        private readonly ConcurrentDictionary<string, (string directory, bool isRecent)> _sessionIdToDirectoryDictionary;
 
         public TelemetryRepository(string repositoryDirectory, int maxStoredSessions)
         {
             _repositoryDirectory = repositoryDirectory;
             _maxStoredSessions = maxStoredSessions;
-            _sessionIdToDirectoryDictionary = new Dictionary<string, (string directory, bool isRecent)>();
+            _sessionIdToDirectoryDictionary = new ConcurrentDictionary<string, (string directory, bool isRecent)>();
         }
 
         public IReadOnlyCollection<SessionInfoDto> GetAllRecentSessions()
         {
             string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir));
-            DirectoryInfo info = new DirectoryInfo(directory);
-            DirectoryInfo[] dis = info.GetDirectories().OrderBy(x => x.CreationTime).ToArray();
+            return GetAllSessionsFromDirectory(new DirectoryInfo(directory), true);
 
-            if (dis.Length == 0)
-            {
-                return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
-            }
+        }
 
-            List<SessionInfoDto> sessions = new List<SessionInfoDto>();
-            dis.ForEach(x => sessions.Add(OpenRecentSession(x.Name)));
-            return sessions.AsReadOnly();
-
+        public IReadOnlyCollection<SessionInfoDto> GetAllArchivedSessions()
+        {
+            string directory = Path.Combine(Path.Combine(_repositoryDirectory, ArchiveDir));
+            return GetAllSessionsFromDirectory(new DirectoryInfo(directory), false);
         }
 
         public void SaveRecentSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier)
@@ -121,7 +118,7 @@
 
         public void CloseRecentSession(string sessionIdentifier)
         {
-            _sessionIdToDirectoryDictionary.Remove(sessionIdentifier);
+            _sessionIdToDirectoryDictionary.TryRemove(sessionIdentifier, out (string directory, bool isRecent) entry);
         }
 
         public LapTelemetryDto LoadLapTelemetryDtoFromAnySession(LapSummaryDto lapSummaryDto)
@@ -159,7 +156,7 @@
                sessionInfoDto = (SessionInfoDto)xmlSerializer.Deserialize(file);
             }
 
-            _sessionIdToDirectoryDictionary[sessionInfoDto.Id] = (sessionDirectory, isRecent);
+            _sessionIdToDirectoryDictionary.TryAdd(sessionInfoDto.Id, (sessionDirectory, isRecent));
             return sessionInfoDto;
         }
 
@@ -207,5 +204,18 @@
             }
         }
 
+        private IReadOnlyCollection<SessionInfoDto> GetAllSessionsFromDirectory(DirectoryInfo directory, bool recent)
+        {
+            DirectoryInfo[] dis = directory.GetDirectories().OrderBy(x => x.CreationTime).ToArray();
+
+            if (dis.Length == 0)
+            {
+                return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
+            }
+
+            List<SessionInfoDto> sessions = new List<SessionInfoDto>();
+            dis.ForEach(x => sessions.Add(OpenSession(x.FullName, recent)));
+            return sessions.AsReadOnly();
+        }
     }
 }

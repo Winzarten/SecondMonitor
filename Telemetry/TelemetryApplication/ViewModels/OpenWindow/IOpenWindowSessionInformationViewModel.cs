@@ -17,5 +17,6 @@
 
         bool ShowArchiveIcon { get; set; }
         ICommand ArchiveCommand { get; set; }
+        ICommand SelectThisSessionCommand { get; set; }
     }
 }

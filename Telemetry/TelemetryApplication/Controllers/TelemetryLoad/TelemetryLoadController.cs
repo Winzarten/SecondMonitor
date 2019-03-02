@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.TelemetryLoad
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -16,13 +17,13 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly ITelemetryRepository _telemetryRepository;
-        private readonly Dictionary<string, LapTelemetryDto> _cachedTelemetries;
+        private readonly ConcurrentDictionary<string, LapTelemetryDto> _cachedTelemetries;
         private int _activeLapJobs;
         private readonly List<string> _loadedSessions;
 
         public TelemetryLoadController(ITelemetryRepositoryFactory telemetryRepositoryFactory, ISettingsProvider settingsProvider, ITelemetryViewsSynchronization telemetryViewsSynchronization )
         {
-            _cachedTelemetries = new Dictionary<string, LapTelemetryDto>();
+            _cachedTelemetries = new ConcurrentDictionary<string, LapTelemetryDto>();
             _loadedSessions = new List<string>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryRepository = telemetryRepositoryFactory.Create(settingsProvider);
@@ -37,6 +38,20 @@
             catch (Exception ex)
             {
                 Logger.Error(ex, "Error while loading recent sessions");
+            }
+
+            return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
+        }
+
+        public async Task<IReadOnlyCollection<SessionInfoDto>> GetAllArchivedSessionInfoAsync()
+        {
+            try
+            {
+                return await Task.Run(() => _telemetryRepository.GetAllArchivedSessions());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error while loading archived sessions");
             }
 
             return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
@@ -61,7 +76,11 @@
         {
             await CloseAllOpenedSessions();
             _cachedTelemetries.Clear();
-            _loadedSessions.Add(sessionInfoDto.Id);
+            if (!_loadedSessions.Contains(sessionInfoDto.Id))
+            {
+                _loadedSessions.Add(sessionInfoDto.Id);
+            }
+
             sessionInfoDto.LapsSummary.ForEach(FillCustomDisplayName);
             _telemetryViewsSynchronization.NotifyNewSessionLoaded(sessionInfoDto);
             return sessionInfoDto;
@@ -69,7 +88,10 @@
 
         public Task<SessionInfoDto> AddRecentSessionAsync(SessionInfoDto sessionInfoDto)
         {
-            _loadedSessions.Add(sessionInfoDto.Id);
+            if (!_loadedSessions.Contains(sessionInfoDto.Id))
+            {
+                _loadedSessions.Add(sessionInfoDto.Id);
+            }
             sessionInfoDto.LapsSummary.ForEach(FillCustomDisplayName);
             _telemetryViewsSynchronization.NotifySessionAdded(sessionInfoDto);
             return Task.FromResult(sessionInfoDto);

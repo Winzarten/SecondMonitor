@@ -14,95 +14,107 @@
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
                 <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="SessionInfoDataTemplate" DataType="openWindow:OpenWindowSessionInformationViewModel">
+                <Border BorderThickness="0.5" BorderBrush="{StaticResource LightGrey02Brush}" Background="{StaticResource DarkGrey01Brush}" Margin="1" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="SessionItemGroup"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Background="{StaticResource Anthracite01Brush}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" Text="Session Time: "/>
+                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionRunDateTime, Converter={StaticResource DateTimeToCurrentConverter}}"/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="Session Type: " Margin="10,0,0,0"/>
+                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionType}"/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="Simulator: " Margin="10,0,0,0"/>
+                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding Simulator}" Margin="0,0,10,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" Text="Track: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" FontWeight="SemiBold"></TextBlock>
+                                <TextBlock Style="{StaticResource StandardText}" Text="Car: " Margin="10,0,0,0"/>
+                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding CarName}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" Text="Lap: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding NumberOfLaps}" FontWeight="SemiBold"></TextBlock>
+                                <TextBlock Style="{StaticResource StandardText}" Text="Driver: " Margin="10,0,0,0"/>
+                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding PlayerName}"/>
+                            </StackPanel>
+                            <StackPanel.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SelectThisSessionCommand}"/>
+                            </StackPanel.InputBindings>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Background="{StaticResource Anthracite01Brush}">
+                            <Button Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                                                    Command="{Binding ArchiveCommand}"
+                                                                    Style="{StaticResource StandardButton}" ToolTip="Archive the session. Archived session will not be removed by the app after the stored sessions quota is reached.">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource ArchiveIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <Window.Visibility >
         <Binding Path="IsOpenWindowVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibilityConverter}"/>
     </Window.Visibility>
-    <Grid Background="{StaticResource Anthracite01Brush}" >
-        <TabControl>
+    <DockPanel Background="{StaticResource Anthracite01Brush}" >
+        <TabControl DockPanel.Dock="Top" SelectedIndex="{Binding SelectedTabIndex, Mode=OneWayToSource}">
             <TabItem Header="Recent">
                 <Grid Background="{StaticResource Anthracite01Brush}">
                     <DockPanel>
                         <xctk:BusyIndicator IsBusy="{Binding IsBusy}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="Loading"  DockPanel.Dock="Top" MinWidth="600" MinHeight="600" Background="{StaticResource Anthracite01Brush}" Foreground="{StaticResource LightGrey01Brush}">
                             <Border BorderThickness="1.5" BorderBrush="{StaticResource DarkGrey01Brush}" CornerRadius="2"  Background="{StaticResource Anthracite01Brush}">
-                            <Grid>
-                                <ListBox Grid.IsSharedSizeScope="True" ItemsSource="{Binding RecentSessionsInfos}" SelectedItem="{Binding SelectedRecentSessionInfoDto}" Background="{StaticResource Anthracite01Brush}" MaxHeight="600">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="0.5" BorderBrush="{StaticResource LightGrey02Brush}" Background="{StaticResource DarkGrey01Brush}" Margin="1" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions >
-                                                            <ColumnDefinition Width="Auto" SharedSizeGroup="SessionItemGroup"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <StackPanel Background="{StaticResource Anthracite01Brush}">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="Session Time: "/>
-                                                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionRunDateTime, Converter={StaticResource DateTimeToCurrentConverter}}"/>
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="Session Type: " Margin="10,0,0,0"/>
-                                                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionType}"/>
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="Simulator: " Margin="10,0,0,0"/>
-                                                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding Simulator}" Margin="0,0,10,0"/>
-                                                            </StackPanel>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="Track: "/>
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" FontWeight="SemiBold"></TextBlock>
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="Car: " Margin="10,0,0,0"/>
-                                                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding CarName}"/>
-                                                            </StackPanel>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="Lap: "/>
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding NumberOfLaps}" FontWeight="SemiBold"></TextBlock>
-                                                                <TextBlock Style="{StaticResource StandardText}" Text="Driver: " Margin="10,0,0,0"/>
-                                                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding PlayerName}"/>
-                                                            </StackPanel>
-                                                            <StackPanel.InputBindings>
-                                                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenSelectedRecentSessionCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
-                                                            </StackPanel.InputBindings>
-                                                        </StackPanel>
-                                                        <StackPanel Grid.Column="1" Background="{StaticResource Anthracite01Brush}">
-                                                            <Button Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                                                                    Command="{Binding ArchiveCommand}"
-                                                                    Style="{StaticResource StandardButton}" ToolTip="Archive the session. Archived session will not be removed by the app after the stored sessions quota is reached.">
-                                                                <Button.Content>
-                                                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                                                        <ContentPresenter Content="{StaticResource ArchiveIcon}" />
-                                                                    </wpf:ColorAbleIcon>
-                                                                </Button.Content>
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </Grid>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                            </Grid>
-                        </Border>
+                                <Grid>
+                                    <ListBox Grid.IsSharedSizeScope="True" ItemsSource="{Binding RecentSessionsInfos}" SelectedItem="{Binding SelectedRecentSessionInfoDto}" Background="{StaticResource Anthracite01Brush}" MaxHeight="600"
+                                             ItemTemplate="{StaticResource SessionInfoDataTemplate}"/>
+                                </Grid>
+                            </Border>
                         </xctk:BusyIndicator>
-                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
-                            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                                    Command="{Binding OpenSelectedRecentSessionCommand}"
-                                    Style="{StaticResource StandardButton}">
-                                <Button.Content>
-                                    <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                        <ContentPresenter Content="{StaticResource OkIcon}" />
-                                    </wpf:ColorAbleIcon>
-                                </Button.Content>
-                            </Button>
-                            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                                    Command="{Binding CancelAndCloseWindowCommand}"
-                                    Style="{StaticResource StandardButton}">
-                                <Button.Content>
-                                    <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                        <ContentPresenter Content="{StaticResource CancelIcon}" />
-                                    </wpf:ColorAbleIcon>
-                                </Button.Content>
-                            </Button>
-                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Archived">
+                <Grid Background="{StaticResource Anthracite01Brush}">
+                    <DockPanel>
+                        <xctk:BusyIndicator IsBusy="{Binding IsBusy}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="Loading"  DockPanel.Dock="Top" MinWidth="600" MinHeight="600" Background="{StaticResource Anthracite01Brush}" Foreground="{StaticResource LightGrey01Brush}">
+                            <Border BorderThickness="1.5" BorderBrush="{StaticResource DarkGrey01Brush}" CornerRadius="2"  Background="{StaticResource Anthracite01Brush}">
+                                <Grid>
+                                    <ListBox Grid.IsSharedSizeScope="True" ItemsSource="{Binding ArchiveSessionsInfos}" SelectedItem="{Binding SelectedArchiveSessionInfoDto}" Background="{StaticResource Anthracite01Brush}" MaxHeight="600"
+                                             ItemTemplate="{StaticResource SessionInfoDataTemplate}"/>
+                                </Grid>
+                            </Border>
+                        </xctk:BusyIndicator>
                     </DockPanel>
                 </Grid>
             </TabItem>
         </TabControl>
-    </Grid>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Command="{Binding OpenSelectedSessionCommand}"
+                    Style="{StaticResource StandardButton}">
+                <Button.Content>
+                    <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                        <ContentPresenter Content="{StaticResource OkIcon}" />
+                    </wpf:ColorAbleIcon>
+                </Button.Content>
+            </Button>
+            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Command="{Binding CancelAndCloseWindowCommand}"
+                    Style="{StaticResource StandardButton}">
+                <Button.Content>
+                    <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                        <ContentPresenter Content="{StaticResource CancelIcon}" />
+                    </wpf:ColorAbleIcon>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </DockPanel>
 </Window>

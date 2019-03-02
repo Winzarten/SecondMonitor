@@ -7,6 +7,8 @@
     public interface ITelemetryLoadController
     {
         Task<IReadOnlyCollection<SessionInfoDto>> GetAllRecentSessionInfoAsync();
+        Task<IReadOnlyCollection<SessionInfoDto>> GetAllArchivedSessionInfoAsync();
+
         Task<SessionInfoDto> LoadRecentSessionAsync(string sessionIdentifier);
         Task<SessionInfoDto> LoadRecentSessionAsync(SessionInfoDto sessionInfoDto);
         Task<SessionInfoDto> AddRecentSessionAsync(SessionInfoDto sessionInfoDto);

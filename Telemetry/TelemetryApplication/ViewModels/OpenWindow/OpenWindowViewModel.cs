@@ -13,6 +13,9 @@
         private IReadOnlyCollection<IOpenWindowSessionInformationViewModel> _recentSessionsInfos;
         private bool _openWindowVisible;
         private bool _isBusy;
+        private IOpenWindowSessionInformationViewModel _selectedArchiveSessionInfoDto;
+        private IReadOnlyCollection<IOpenWindowSessionInformationViewModel> _archiveSessionsInfos;
+        private int _selectedTabIndex;
 
         public ICommand RefreshRecentCommand
         {
@@ -20,10 +23,16 @@
             set => SetProperty(ref _refreshCommand, value);
         }
 
-        public ICommand OpenSelectedRecentSessionCommand
+        public ICommand OpenSelectedSessionCommand
         {
             get => _openSelectedRecentSessionCommand;
             set => SetProperty(ref _openSelectedRecentSessionCommand, value);
+        }
+
+        public int SelectedTabIndex
+        {
+            get => _selectedTabIndex;
+            set => SetProperty(ref _selectedTabIndex, value);
         }
 
         public IOpenWindowSessionInformationViewModel SelectedRecentSessionInfoDto
@@ -36,6 +45,18 @@
         {
             get => _recentSessionsInfos;
             set => SetProperty(ref _recentSessionsInfos, value);
+        }
+
+        public IOpenWindowSessionInformationViewModel SelectedArchiveSessionInfoDto
+        {
+            get => _selectedArchiveSessionInfoDto;
+            set => SetProperty(ref _selectedArchiveSessionInfoDto, value);
+        }
+
+        public IReadOnlyCollection<IOpenWindowSessionInformationViewModel> ArchiveSessionsInfos
+        {
+            get => _archiveSessionsInfos;
+            set => SetProperty(ref _archiveSessionsInfos, value);
         }
 
         public ICommand CancelAndCloseWindowCommand

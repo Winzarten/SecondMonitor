@@ -1,10 +1,12 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.OpenWindow
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
     using Contracts.Commands;
+    using NLog;
     using SecondMonitor.ViewModels.Factory;
     using Synchronization;
     using TelemetryLoad;
@@ -14,6 +16,7 @@
 
     public class OpenWindowController : IOpenWindowController
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IMainWindowViewModel _mainWindowViewModel;
         private readonly ITelemetryLoadController _telemetryLoadController;
         private readonly IViewModelFactory _viewModelFactory;
@@ -54,19 +57,33 @@
         private async Task RefreshAllAvailableSession(IOpenWindowViewModel openWindowViewModel)
         {
             openWindowViewModel.IsBusy = true;
-            IReadOnlyCollection<SessionInfoDto> sessionInfos = await _telemetryLoadController.GetAllRecentSessionInfoAsync();
-            SetAvailableSessions(openWindowViewModel, sessionInfos);
+            Task<IReadOnlyCollection<SessionInfoDto>> recentSessionsTask = _telemetryLoadController.GetAllRecentSessionInfoAsync();
+            Task<IReadOnlyCollection<SessionInfoDto>> archiveSessionsTask = _telemetryLoadController.GetAllArchivedSessionInfoAsync();
+
+            await Task.WhenAll(recentSessionsTask, archiveSessionsTask);
+
+            SetAvailableSessions(openWindowViewModel, recentSessionsTask.Result, archiveSessionsTask.Result, OpenSession);
             openWindowViewModel.IsBusy = false;
         }
 
-        private void SetAvailableSessions(IOpenWindowViewModel openWindowViewModel, IReadOnlyCollection<SessionInfoDto> sessionInfoDtos)
+        private void SetAvailableSessions(IOpenWindowViewModel openWindowViewModel, IReadOnlyCollection<SessionInfoDto> recentSessionInfos, IReadOnlyCollection<SessionInfoDto> archivedSessionInfoDtos, Func<SessionInfoDto, Task> openByDoubleClickCommand)
         {
-            openWindowViewModel.RecentSessionsInfos = sessionInfoDtos.OrderByDescending(x => x.SessionRunDateTime).Select(x =>
+            openWindowViewModel.RecentSessionsInfos = recentSessionInfos.OrderByDescending(x => x.SessionRunDateTime).Select(x =>
             {
                 IOpenWindowSessionInformationViewModel newViewModel = _viewModelFactory.Create<IOpenWindowSessionInformationViewModel>();
                 newViewModel.FromModel(x);
-                newViewModel.ArchiveCommand = new AsyncCommand(() => ArchiveSession(x));
+                newViewModel.ArchiveCommand = new AsyncCommand(() => ArchiveSession(openWindowViewModel, x));
+                newViewModel.SelectThisSessionCommand = new AsyncCommand(() => openByDoubleClickCommand(x));
                 newViewModel.ShowArchiveIcon = true;
+                return newViewModel;
+            }).ToList();
+
+            openWindowViewModel.ArchiveSessionsInfos = archivedSessionInfoDtos.OrderByDescending(x => x.SessionRunDateTime).Select(x =>
+            {
+                IOpenWindowSessionInformationViewModel newViewModel = _viewModelFactory.Create<IOpenWindowSessionInformationViewModel>();
+                newViewModel.FromModel(x);
+                newViewModel.ShowArchiveIcon = false;
+                newViewModel.SelectThisSessionCommand = new AsyncCommand(() => openByDoubleClickCommand(x));
                 return newViewModel;
             }).ToList();
         }
@@ -74,12 +91,19 @@
         private async Task RefreshAvailableSessionThatMatchTrack(IOpenWindowViewModel openWindowViewModel)
         {
             openWindowViewModel.IsBusy = true;
-            IReadOnlyCollection<SessionInfoDto> sessionInfos = await _telemetryLoadController.GetAllRecentSessionInfoAsync();
+            Task<IReadOnlyCollection<SessionInfoDto>> recentSessionsTask = _telemetryLoadController.GetAllRecentSessionInfoAsync();
+            Task<IReadOnlyCollection<SessionInfoDto>> archiveSessionsTask = _telemetryLoadController.GetAllArchivedSessionInfoAsync();
+
+            await Task.WhenAll(recentSessionsTask, archiveSessionsTask);
+
+            IReadOnlyCollection<SessionInfoDto> recentSessionInfos = recentSessionsTask.Result;
+            IReadOnlyCollection<SessionInfoDto> archivedSessionsInfo = archiveSessionsTask.Result;
             if (_lastOpenedSession != null)
             {
-                sessionInfos = sessionInfos.Where(x => x.TrackName == _lastOpenedSession.TrackName && x.LayoutName == _lastOpenedSession.LayoutName && x.Simulator == _lastOpenedSession.Simulator && _loadedSessions.FirstOrDefault(y => y.Id == x.Id) == null).ToList();
+                recentSessionInfos = recentSessionInfos.Where(x => x.TrackName == _lastOpenedSession.TrackName && x.LayoutName == _lastOpenedSession.LayoutName && x.Simulator == _lastOpenedSession.Simulator && _loadedSessions.FirstOrDefault(y => y.Id == x.Id) == null).ToList();
+                archivedSessionsInfo = archivedSessionsInfo.Where(x => x.TrackName == _lastOpenedSession.TrackName && x.LayoutName == _lastOpenedSession.LayoutName && x.Simulator == _lastOpenedSession.Simulator && _loadedSessions.FirstOrDefault(y => y.Id == x.Id) == null).ToList();
             }
-            SetAvailableSessions(openWindowViewModel, sessionInfos);
+            SetAvailableSessions(openWindowViewModel, recentSessionInfos, archivedSessionsInfo, AddSession);
             openWindowViewModel.IsBusy = false;
         }
 
@@ -95,22 +119,36 @@
 
         private async Task OpenSelectedRecentSession()
         {
-            if (_openWindowViewModel.SelectedRecentSessionInfoDto == null)
+            IOpenWindowSessionInformationViewModel selectedViewModel = _openWindowViewModel.SelectedTabIndex == 0 ? _openWindowViewModel.SelectedRecentSessionInfoDto : _openWindowViewModel.SelectedArchiveSessionInfoDto;
+            if (selectedViewModel == null)
             {
                 return;
             }
-            _openWindowViewModel.IsOpenWindowVisible = false;
-            await _telemetryLoadController.LoadRecentSessionAsync(_openWindowViewModel.SelectedRecentSessionInfoDto.OriginalModel);
+
+            await OpenSession(selectedViewModel.OriginalModel);
         }
 
         private async Task AddSelectedRecentSession()
         {
-            if (_addWindowViewModel.SelectedRecentSessionInfoDto == null)
+            IOpenWindowSessionInformationViewModel selectedViewModel = _addWindowViewModel.SelectedTabIndex == 0 ? _addWindowViewModel.SelectedRecentSessionInfoDto : _addWindowViewModel.SelectedArchiveSessionInfoDto;
+            if (selectedViewModel == null)
             {
                 return;
             }
+
+            await AddSession(selectedViewModel.OriginalModel);
+        }
+
+        private async Task OpenSession(SessionInfoDto sessionInfoDto)
+        {
+            _openWindowViewModel.IsOpenWindowVisible = false;
+            await _telemetryLoadController.LoadRecentSessionAsync(sessionInfoDto);
+        }
+
+        private async Task AddSession(SessionInfoDto sessionInfoDto)
+        {
             _addWindowViewModel.IsOpenWindowVisible = false;
-            await _telemetryLoadController.AddRecentSessionAsync(_addWindowViewModel.SelectedRecentSessionInfoDto.OriginalModel);
+            await _telemetryLoadController.AddRecentSessionAsync(sessionInfoDto);
         }
 
         private void TelemetryViewsSynchronizationOnNewSessionLoaded(object sender, TelemetrySessionArgs e)
@@ -120,10 +158,24 @@
             _lastOpenedSession = e.SessionInfoDto;
         }
 
-        private async Task ArchiveSession(SessionInfoDto sessionInfoDto)
+        private async Task ArchiveSession(IOpenWindowViewModel openWindowViewModel, SessionInfoDto sessionInfoDto)
         {
-            await _telemetryLoadController.ArchiveSession(sessionInfoDto);
-            MessageBox.Show("Session Archived", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                openWindowViewModel.IsBusy = true;
+                await _telemetryLoadController.ArchiveSession(sessionInfoDto);
+                openWindowViewModel.RefreshRecentCommand.Execute(null);
+                MessageBox.Show("Session Archived", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error while archiving session");
+                MessageBox.Show("Session Archivation failed", "Failure", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally
+            {
+                openWindowViewModel.IsBusy = false;
+            }
         }
 
 
@@ -131,11 +183,11 @@
         {
             _openWindowViewModel.RefreshRecentCommand = new AsyncCommand(() => RefreshAllAvailableSession(_openWindowViewModel));
             _openWindowViewModel.CancelAndCloseWindowCommand = new RelayCommand(() => CancelAndCloseOpenWindow(_openWindowViewModel));
-            _openWindowViewModel.OpenSelectedRecentSessionCommand = new AsyncCommand(OpenSelectedRecentSession);
+            _openWindowViewModel.OpenSelectedSessionCommand = new AsyncCommand(OpenSelectedRecentSession);
 
             _addWindowViewModel.RefreshRecentCommand = new AsyncCommand(() => RefreshAvailableSessionThatMatchTrack(_addWindowViewModel));
             _addWindowViewModel.CancelAndCloseWindowCommand = new RelayCommand(() => CancelAndCloseOpenWindow(_addWindowViewModel));
-            _addWindowViewModel.OpenSelectedRecentSessionCommand = new AsyncCommand(AddSelectedRecentSession);
+            _addWindowViewModel.OpenSelectedSessionCommand = new AsyncCommand(AddSelectedRecentSession);
         }
     }
 }

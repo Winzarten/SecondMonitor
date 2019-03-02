@@ -25,6 +25,8 @@
 
         public ICommand ArchiveCommand { get; set; }
 
+        public ICommand SelectThisSessionCommand { get; set; }
+
         protected override void ApplyModel(SessionInfoDto model)
         {
             SessionRunDateTime = model.SessionRunDateTime;
