@@ -13,10 +13,13 @@
         void SaveRecentSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier);
 
         SessionInfoDto OpenRecentSession(string sessionIdentifier);
-        void CloseRecentSession(string sessionIdentifier);
+        void CloseSession(string sessionIdentifier);
         LapTelemetryDto LoadLapTelemetryDtoFromAnySession(LapSummaryDto lapSummaryDto);
         string GetLastRecentSessionIdentifier();
 
         Task ArchiveSessions(SessionInfoDto sessionInfoDto);
+
+        Task OpenSessionFolder(SessionInfoDto sessionInfoDto);
+        void DeleteSession(SessionInfoDto sessionInfoDto);
     }
 }

@@ -18,6 +18,7 @@
 
         Task UnloadLap(LapSummaryDto lapSummaryDto);
         Task ArchiveSession(SessionInfoDto sessionInfoDto);
-
+        Task OpenSessionFolder(SessionInfoDto sessionInfoDto);
+        void DeleteSession(SessionInfoDto sessionInfoDto);
     }
 }

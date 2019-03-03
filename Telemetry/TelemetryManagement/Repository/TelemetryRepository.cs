@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -101,6 +102,26 @@
             }
         }
 
+        public async Task OpenSessionFolder(SessionInfoDto sessionInfoDto)
+        {
+            if (!_sessionIdToDirectoryDictionary.TryGetValue(sessionInfoDto.Id, out (string directory, bool isRecent) entry))
+            {
+                throw new InvalidOperationException($"Session {sessionInfoDto.Id} is not opened. Cannot open folder");
+            }
+
+            await Task.Run(() => { Process.Start(entry.directory); });
+        }
+
+        public void DeleteSession(SessionInfoDto sessionInfoDto)
+        {
+            if (!_sessionIdToDirectoryDictionary.TryGetValue(sessionInfoDto.Id, out (string directory, bool isRecent) entry))
+            {
+                throw new InvalidOperationException($"Session {sessionInfoDto.Id} is not opened.");
+            }
+            CloseSession(sessionInfoDto.Id);
+            Directory.Delete(entry.directory, true);
+        }
+
         public void SaveRecentSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier)
         {
             string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
@@ -116,7 +137,7 @@
             return OpenSession(directory, true);
         }
 
-        public void CloseRecentSession(string sessionIdentifier)
+        public void CloseSession(string sessionIdentifier)
         {
             _sessionIdToDirectoryDictionary.TryRemove(sessionIdentifier, out (string directory, bool isRecent) entry);
         }

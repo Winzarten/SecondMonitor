@@ -68,22 +68,26 @@
 
         private void SetAvailableSessions(IOpenWindowViewModel openWindowViewModel, IReadOnlyCollection<SessionInfoDto> recentSessionInfos, IReadOnlyCollection<SessionInfoDto> archivedSessionInfoDtos, Func<SessionInfoDto, Task> openByDoubleClickCommand)
         {
+            openWindowViewModel.ArchiveSessionsInfos = archivedSessionInfoDtos.OrderByDescending(x => x.SessionRunDateTime).Select(x =>
+            {
+                IOpenWindowSessionInformationViewModel newViewModel = _viewModelFactory.Create<IOpenWindowSessionInformationViewModel>();
+                newViewModel.FromModel(x);
+                newViewModel.IsArchiveIconVisible = false;
+                newViewModel.SelectThisSessionCommand = new AsyncCommand(() => openByDoubleClickCommand(x));
+                newViewModel.OpenSessionFolderCommand = new AsyncCommand(() => OpenSessionFolder(x));
+                newViewModel.DeleteSessionCommand = new RelayCommand(() => DeleteSession(x, openWindowViewModel));
+                return newViewModel;
+            }).ToList();
+
             openWindowViewModel.RecentSessionsInfos = recentSessionInfos.OrderByDescending(x => x.SessionRunDateTime).Select(x =>
             {
                 IOpenWindowSessionInformationViewModel newViewModel = _viewModelFactory.Create<IOpenWindowSessionInformationViewModel>();
                 newViewModel.FromModel(x);
                 newViewModel.ArchiveCommand = new AsyncCommand(() => ArchiveSession(openWindowViewModel, x));
                 newViewModel.SelectThisSessionCommand = new AsyncCommand(() => openByDoubleClickCommand(x));
-                newViewModel.ShowArchiveIcon = true;
-                return newViewModel;
-            }).ToList();
-
-            openWindowViewModel.ArchiveSessionsInfos = archivedSessionInfoDtos.OrderByDescending(x => x.SessionRunDateTime).Select(x =>
-            {
-                IOpenWindowSessionInformationViewModel newViewModel = _viewModelFactory.Create<IOpenWindowSessionInformationViewModel>();
-                newViewModel.FromModel(x);
-                newViewModel.ShowArchiveIcon = false;
-                newViewModel.SelectThisSessionCommand = new AsyncCommand(() => openByDoubleClickCommand(x));
+                newViewModel.OpenSessionFolderCommand = new AsyncCommand(() => OpenSessionFolder(x));
+                newViewModel.DeleteSessionCommand = new RelayCommand(() => DeleteSession(x, openWindowViewModel));
+                newViewModel.IsArchiveIconVisible = archivedSessionInfoDtos.FirstOrDefault(y => x.Id ==  y.Id) == null;
                 return newViewModel;
             }).ToList();
         }
@@ -107,6 +111,11 @@
             openWindowViewModel.IsBusy = false;
         }
 
+        private async Task OpenSessionFolder(SessionInfoDto sessionInfoDto)
+        {
+            await _telemetryLoadController.OpenSessionFolder(sessionInfoDto);
+        }
+
         private void CancelAndCloseOpenWindow(IOpenWindowViewModel openWindowViewModel)
         {
             openWindowViewModel.IsOpenWindowVisible = false;
@@ -115,6 +124,18 @@
         private void TelemetryViewsSynchronizationOnSessionAdded(object sender, TelemetrySessionArgs e)
         {
             _loadedSessions.Add(e.SessionInfoDto);
+        }
+
+        private void DeleteSession(SessionInfoDto sessionInfoDto, IOpenWindowViewModel openWindowViewModel)
+        {
+            if (_loadedSessions.FirstOrDefault(x => x.Id == sessionInfoDto.Id) != null)
+            {
+                MessageBox.Show("Sessions is currently opened. Unable to delete opened session.", "Session Opened", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            _telemetryLoadController.DeleteSession(sessionInfoDto);
+            openWindowViewModel.RefreshRecentCommand.Execute(null);
         }
 
         private async Task OpenSelectedRecentSession()

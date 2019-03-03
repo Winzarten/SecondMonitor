@@ -151,6 +151,16 @@
             await _telemetryRepository.ArchiveSessions(sessionInfoDto);
         }
 
+        public async Task OpenSessionFolder(SessionInfoDto sessionInfoDto)
+        {
+            await _telemetryRepository.OpenSessionFolder(sessionInfoDto);
+        }
+
+        public void DeleteSession(SessionInfoDto sessionInfoDto)
+        {
+            _telemetryRepository.DeleteSession(sessionInfoDto);
+        }
+
         private void AddToActiveLapJob()
         {
             _activeLapJobs++;
@@ -170,7 +180,7 @@
             {
                 await UnloadLap(value.LapSummary);
             }
-            _loadedSessions.ForEach( x => _telemetryRepository.CloseRecentSession(x));
+            _loadedSessions.ForEach( x => _telemetryRepository.CloseSession(x));
             _loadedSessions.Clear();
         }
 

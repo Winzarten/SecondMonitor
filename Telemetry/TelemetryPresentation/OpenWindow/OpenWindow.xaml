@@ -16,47 +16,70 @@
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="SessionInfoDataTemplate" DataType="openWindow:OpenWindowSessionInformationViewModel">
                 <Border BorderThickness="0.5" BorderBrush="{StaticResource LightGrey02Brush}" Background="{StaticResource DarkGrey01Brush}" Margin="1" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <Grid>
+                    <Grid Background="{StaticResource Anthracite01Brush}">
                         <Grid.ColumnDefinitions >
                             <ColumnDefinition Width="Auto" SharedSizeGroup="SessionItemGroup"/>
-                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Background="{StaticResource Anthracite01Brush}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource StandardText}" Text="Session Time: "/>
-                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionRunDateTime, Converter={StaticResource DateTimeToCurrentConverter}}"/>
-                                <TextBlock Style="{StaticResource StandardText}" Text="Session Type: " Margin="10,0,0,0"/>
-                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionType}"/>
-                                <TextBlock Style="{StaticResource StandardText}" Text="Simulator: " Margin="10,0,0,0"/>
-                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding Simulator}" Margin="0,0,10,0"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Background="{StaticResource Anthracite01Brush}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Session Time: "/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionRunDateTime, Converter={StaticResource DateTimeToCurrentConverter}}"/>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Session Type: " Margin="10,0,0,0"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding SessionType}"/>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Simulator: " Margin="10,0,0,0"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding Simulator}" Margin="0,0,10,0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Track: "/>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" FontWeight="SemiBold"></TextBlock>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Car: " Margin="10,0,0,0"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding CarName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Lap: "/>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding NumberOfLaps}" FontWeight="SemiBold"></TextBlock>
+                                    <TextBlock Style="{StaticResource StandardText}" Text="Driver: " Margin="10,0,0,0"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding PlayerName}"/>
+                                </StackPanel>
+                                <StackPanel.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SelectThisSessionCommand}"/>
+                                </StackPanel.InputBindings>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource StandardText}" Text="Track: "/>
-                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding TrackName}" FontWeight="SemiBold"></TextBlock>
-                                <TextBlock Style="{StaticResource StandardText}" Text="Car: " Margin="10,0,0,0"/>
-                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding CarName}"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource StandardText}" Text="Lap: "/>
-                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding NumberOfLaps}" FontWeight="SemiBold"></TextBlock>
-                                <TextBlock Style="{StaticResource StandardText}" Text="Driver: " Margin="10,0,0,0"/>
-                                <TextBlock Style="{StaticResource StandardText}" FontWeight="SemiBold" Text="{Binding PlayerName}"/>
-                            </StackPanel>
-                            <StackPanel.InputBindings>
-                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SelectThisSessionCommand}"/>
-                            </StackPanel.InputBindings>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Background="{StaticResource Anthracite01Brush}">
-                            <Button Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                            <StackPanel Grid.Column="1" Background="{StaticResource Anthracite01Brush}" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Visibility="{Binding IsArchiveIconVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                                     Command="{Binding ArchiveCommand}"
                                                                     Style="{StaticResource StandardButton}" ToolTip="Archive the session. Archived session will not be removed by the app after the stored sessions quota is reached.">
-                                <Button.Content>
-                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                        <ContentPresenter Content="{StaticResource ArchiveIcon}" />
-                                    </wpf:ColorAbleIcon>
-                                </Button.Content>
-                            </Button>
-                        </StackPanel>
+                                    <Button.Content>
+                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                            <ContentPresenter Content="{StaticResource ArchiveIcon}" />
+                                        </wpf:ColorAbleIcon>
+                                    </Button.Content>
+                                </Button>
+                                <Button Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0"
+                                    Command="{Binding OpenSessionFolderCommand}"
+                                    Style="{StaticResource StandardButton}" ToolTip="Opens folder on disk where the session is stored.">
+                                    <Button.Content>
+                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                            <ContentPresenter Content="{StaticResource FolderIcon}" />
+                                        </wpf:ColorAbleIcon>
+                                    </Button.Content>
+                                </Button>
+                                <Button Height="48" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0"
+                                        Command="{Binding DeleteSessionCommand}"
+                                        Style="{StaticResource StandardButton}" ToolTip="Deletes the session.">
+                                    <Button.Content>
+                                        <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                            <ContentPresenter Content="{StaticResource CancelIcon}" />
+                                        </wpf:ColorAbleIcon>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </Border>
             </DataTemplate>
@@ -97,7 +120,7 @@
             </TabItem>
         </TabControl>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}"
                     Command="{Binding OpenSelectedSessionCommand}"
                     Style="{StaticResource StandardButton}">
                 <Button.Content>

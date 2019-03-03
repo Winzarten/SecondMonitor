@@ -15,8 +15,10 @@
         int NumberOfLaps { get; }
         string PlayerName { get; }
 
-        bool ShowArchiveIcon { get; set; }
+        bool IsArchiveIconVisible { get; set; }
         ICommand ArchiveCommand { get; set; }
         ICommand SelectThisSessionCommand { get; set; }
+        ICommand OpenSessionFolderCommand { get; set; }
+        ICommand DeleteSessionCommand { get; set; }
     }
 }

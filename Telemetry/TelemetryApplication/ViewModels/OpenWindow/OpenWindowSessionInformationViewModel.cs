@@ -21,11 +21,15 @@
 
         public string PlayerName { get; set; }
 
-        public bool ShowArchiveIcon { get; set; }
+        public bool IsArchiveIconVisible { get; set; }
 
         public ICommand ArchiveCommand { get; set; }
 
         public ICommand SelectThisSessionCommand { get; set; }
+
+        public ICommand OpenSessionFolderCommand { get; set; }
+
+        public ICommand DeleteSessionCommand { get; set; }
 
         protected override void ApplyModel(SessionInfoDto model)
         {
