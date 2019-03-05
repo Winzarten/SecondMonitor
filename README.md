@@ -51,8 +51,8 @@ Telemetry Viewer allows to view and analyse the telemetry data that the main sec
 
 ## Future Plans   
  - [x] Telemetry - Allow the application to track and view advanced telemetry for individual laps.
- - [ ] Improve Telemetry Viewer
- - [ ] Client/Server - Ability to show second monitor on different computer than the simulator is running.
+ - [x] Client/Server - Ability to show second monitor on different computer than the simulator is running.
+ - [ ] Improve Telemetry Viewer 
  - [ ] F1 2018 Support
  
 ## Support
