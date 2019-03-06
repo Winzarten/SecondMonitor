@@ -170,6 +170,11 @@
     <Compile Include="WPF\QuantityText\VelocityText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
     <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />
+    <Compile Include="WPF\UserInput\DialogUserInputProvider.cs" />
+    <Compile Include="WPF\UserInput\UserInputViewModel.cs" />
+    <Compile Include="WPF\UserInput\UserInputWindow.xaml.cs">
+      <DependentUpon>UserInputWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\VisualHelper.cs" />
     <Compile Include="WPF\IPositionCircleInformationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -286,6 +291,10 @@
     <Page Include="WPF\TimeSpanBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\UserInput\UserInputWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\WheelStatusControl\WheelStatucControlT.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Windows.Input;
     using Controllers.Synchronization;
     using OpenWindow;
     using SecondMonitor.ViewModels;
@@ -20,6 +21,8 @@
         ISettingsWindowViewModel SettingsWindowViewModel { get; set; }
 
         ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }
+
+        ICommand AddCustomLapCommand { get; set; }
 
         string CarName { get; set; }
 

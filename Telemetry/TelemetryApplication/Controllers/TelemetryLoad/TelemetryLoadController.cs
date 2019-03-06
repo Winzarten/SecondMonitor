@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using NLog;
@@ -136,6 +137,28 @@
             catch (Exception ex)
             {
                 Logger.Error(ex,"Error while loading lap telemetry");
+                return null;
+            }
+        }
+
+        public async Task<LapTelemetryDto> LoadLap(FileInfo file, string customDisplayName)
+        {
+            try
+            {
+                AddToActiveLapJob();
+                if (!_cachedTelemetries.TryGetValue(file.FullName, out LapTelemetryDto lapTelemetryDto))
+                {
+                    lapTelemetryDto = await Task.Run(() => _telemetryRepository.LoadLapTelemetryDto(file));
+                    lapTelemetryDto.LapSummary.CustomDisplayName = customDisplayName;
+                    _cachedTelemetries[lapTelemetryDto.LapSummary.Id] = lapTelemetryDto;
+                }
+                _telemetryViewsSynchronization.NotifyLappAddedToSession(lapTelemetryDto.LapSummary);
+                RemoveFromActiveLapJob();
+                return lapTelemetryDto;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error while loading lap telemetry");
                 return null;
             }
         }

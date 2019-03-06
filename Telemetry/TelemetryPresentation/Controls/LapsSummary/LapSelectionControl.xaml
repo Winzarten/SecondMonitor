@@ -88,12 +88,12 @@
                 </Border>
             </StackPanel>
             <StackPanel Grid.Column="1">
-            <TextBlock  Style="{StaticResource StandardText}" Margin="5"  Text="Laps:"/>
-            <ListBox Foreground="{StaticResource LightGrey01Brush}" Background="{StaticResource Anthracite01Brush}" SelectionMode="Single" SelectedItem="{Binding Selected, Mode=TwoWay}" ItemsSource="{Binding LapSummaries}" MaxHeight="300">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="5" BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" CornerRadius="3" Padding="5">
-                        <StackPanel>
+                <TextBlock  Style="{StaticResource StandardText}" Margin="5"  Text="Laps:"/>
+                <ListBox Foreground="{StaticResource LightGrey01Brush}" Background="{StaticResource Anthracite01Brush}" SelectionMode="Single" SelectedItem="{Binding Selected, Mode=TwoWay}" ItemsSource="{Binding LapSummaries}" MaxHeight="300">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="5" BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="1" CornerRadius="3" Padding="5">
+                                <StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Style="{StaticResource StandardText}" Text="Lap: " VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         <TextBlock Style="{StaticResource StandardText}" Text="{Binding LapNumber}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -116,12 +116,19 @@
                                     </StackPanel>
                                 </StackPanel>
 
-
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        </StackPanel>
-    </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Width="36" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" Command="{Binding AddCustomLapCommand}"
+                        Style="{StaticResource StandardButton}" ToolTip="Add a custom lap from disk.">
+                    <Button.Content>
+                        <wpf:ColorAbleIcon Margin="-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                            <ContentPresenter Content="{StaticResource PlusIcon}" />
+                        </wpf:ColorAbleIcon>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Border>
 </UserControl>

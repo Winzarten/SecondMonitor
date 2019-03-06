@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryManagement.Repository
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading.Tasks;
     using DTO;
 
@@ -15,6 +16,7 @@
         SessionInfoDto OpenRecentSession(string sessionIdentifier);
         void CloseSession(string sessionIdentifier);
         LapTelemetryDto LoadLapTelemetryDtoFromAnySession(LapSummaryDto lapSummaryDto);
+        LapTelemetryDto LoadLapTelemetryDto(FileInfo file);
         string GetLastRecentSessionIdentifier();
 
         Task ArchiveSessions(SessionInfoDto sessionInfoDto);

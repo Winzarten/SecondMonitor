@@ -1855,4 +1855,30 @@
         </Canvas>
     </Viewbox>
 
+    <Viewbox x:Key="PlusIcon" x:Shared="False" Stretch="Uniform">
+        <Canvas Width="64" Height="63.999001">
+            <Canvas Name="g4" Visibility="Collapsed">
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="-18" Y="-18"/>
+                </Canvas.RenderTransform>
+                <Rectangle Canvas.Left="-301.258" Canvas.Top="-373.241" Width="1566.157" Height="1272.127"  Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="-18" Y="-18"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                    <Path.Data>
+                        <PathGeometry Figures="m 50 81.999 c 17.672 0 32 -14.328 32 -32 C 82 32.328 67.672 18 50 18 32.326 18 18 32.328 18 49.999 c 0 17.672 14.327 32 32 32 z M 50 26 C 63.235 26 74 36.766 74 50 74 63.234 63.235 74 50 74 36.765 74 26 63.234 26 50 26 36.766 36.766 26 50 26 Z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                    <Path.Data>
+                        <PathGeometry Figures="m 37.067 53.733 h 9.2 v 9.201 c 0 2.058 1.675 3.733 3.733 3.733 2.059 0 3.733 -1.675 3.733 -3.733 v -9.201 h 9.2 c 2.059 0 3.733 -1.675 3.733 -3.733 0 -2.058 -1.675 -3.733 -3.733 -3.733 h -9.2 v -9.201 c 0 -2.058 -1.675 -3.733 -3.733 -3.733 -2.059 0 -3.733 1.675 -3.733 3.733 v 9.201 h -9.2 c -2.058 0 -3.733 1.675 -3.733 3.733 0 2.059 1.675 3.733 3.733 3.733 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
 </ResourceDictionary>

@@ -150,18 +150,18 @@
             }
 
             string fileName = Path.Combine(entry.directory, $"{lapSummaryDto.LapNumber}{FileSuffix}");
-            return LoadLapTelemetryDto(fileName);
+            return LoadLapTelemetryDto(new FileInfo(fileName));
         }
 
-        private LapTelemetryDto LoadLapTelemetryDto(string fileName)
+        public LapTelemetryDto LoadLapTelemetryDto(FileInfo file)
         {
-            Logger.Info($"Loading from file: {fileName}");
+            Logger.Info($"Loading from file: {file.Name}");
 
-            using (FileStream file = File.Open(fileName, FileMode.Open))
+            using (FileStream fileStream = File.Open(file.FullName, FileMode.Open))
             {
                 //return xmlSerializer.Deserialize(file) as LapTelemetryDto;
                 BinaryFormatter bf = new BinaryFormatter();
-                return (LapTelemetryDto)bf.Deserialize(file);
+                return (LapTelemetryDto)bf.Deserialize(fileStream);
             }
         }
 

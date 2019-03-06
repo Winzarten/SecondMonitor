@@ -2,8 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using Contracts.Commands;
+    using Contracts.UserInput;
     using DataModel.Extensions;
     using OpenWindow;
     using SecondMonitor.ViewModels.Colors;
@@ -24,11 +27,12 @@
         private readonly IColorPaletteProvider _colorPaletteProvider;
         private readonly IOpenWindowController _openWindowController;
         private readonly ISettingsWindowController _settingsWindowController;
+        private readonly IUserInputProvider _userInputProvider;
         private readonly ILapSelectionViewModel _lapSelectionViewModel;
         private readonly List<LapSummaryDto> _loadedLaps;
 
         public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, ITelemetryLoadController telemetryLoadController, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory,
-            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController)
+            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController, IUserInputProvider userInputProvider)
         {
             _loadedLaps = new List<LapSummaryDto>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
@@ -39,11 +43,13 @@
             _colorPaletteProvider = colorPaletteProvider;
             _openWindowController = openWindowController;
             _settingsWindowController = settingsWindowController;
+            _userInputProvider = userInputProvider;
         }
 
         public async Task StartControllerAsync()
         {
             Subscribe();
+            _lapSelectionViewModel.AddCustomLapCommand = new AsyncCommand(AddCustomLap);
             await StartChildControllersAsync();
         }
 
@@ -69,6 +75,7 @@
         {
             _telemetryViewsSynchronization.NewSessionLoaded += OnSessionStarted;
             _telemetryViewsSynchronization.SessionAdded += OnSessionAdded;
+            _telemetryViewsSynchronization.LapAddedToSession += OnLapAddedToSession;
             _lapSelectionViewModel.LapSelected += LapSelectionViewModelOnLapSelected;
             _lapSelectionViewModel.LapUnselected += LapSelectionViewModelOnLapUnselected;
         }
@@ -77,6 +84,7 @@
         {
             _telemetryViewsSynchronization.NewSessionLoaded -= OnSessionStarted;
             _telemetryViewsSynchronization.SessionAdded -= OnSessionAdded;
+            _telemetryViewsSynchronization.LapAddedToSession -= OnLapAddedToSession;
             _lapSelectionViewModel.LapSelected -= LapSelectionViewModelOnLapSelected;
             _lapSelectionViewModel.LapUnselected -= LapSelectionViewModelOnLapUnselected;
         }
@@ -93,9 +101,14 @@
             _telemetryLoadController.LoadLap(e.LapSummary);
         }
 
-        private void AddLapsFromSession(SessionInfoDto sessionInfoDto)
+        private void OnLapAddedToSession(object sender, LapSummaryArgs e)
         {
-            foreach (LapSummaryDto lapSummaryDto in sessionInfoDto.LapsSummary.OrderBy(x => x.LapNumber))
+            AddLaps(new List<LapSummaryDto>(){ e.LapSummary});
+        }
+
+        private void AddLaps(IReadOnlyCollection<LapSummaryDto> lapsSummary)
+        {
+            foreach (LapSummaryDto lapSummaryDto in lapsSummary)
             {
                 ILapSummaryViewModel newViewModel = _viewModelFactory.Create<ILapSummaryViewModel>();
                 newViewModel.LapColorSynchronization = _lapColorSynchronization;
@@ -118,6 +131,11 @@
             _lapSelectionViewModel.BestSector3 = bestSector3Lap.Sector3Time > TimeSpan.Zero ? $"{bestSector3Lap.CustomDisplayName} - {bestSector3Lap.Sector3Time.FormatToDefault()}" : string.Empty;
         }
 
+        private void AddLapsFromSession(SessionInfoDto sessionInfoDto)
+        {
+            AddLaps(sessionInfoDto.LapsSummary);
+        }
+
         private void ReinitializeViewMode(SessionInfoDto sessionInfoDto)
         {
             _lapSelectionViewModel.Clear();
@@ -132,6 +150,35 @@
         private void OnSessionAdded(object sender, TelemetrySessionArgs e)
         {
             AddLapsFromSession(e.SessionInfoDto);
+        }
+
+        private async Task AddCustomLap()
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".lap";
+            dlg.Filter = "Lap Files (*.lap)|*.lap";
+
+
+            // Display OpenFileDialog by calling ShowDialog method
+            bool? result = dlg.ShowDialog();
+
+
+            // Get the selected file name and display in a TextBox
+            if (result == false)
+            {
+                return;
+                // Open document
+
+            }
+
+            string filename = dlg.FileName;
+            string fileCustomName = await _userInputProvider.GetUserInput("Enter Lap Name:", $"Ex-{Path.GetFileNameWithoutExtension(filename)}");
+            await _telemetryLoadController.LoadLap(new FileInfo(filename), fileCustomName);
         }
 
 

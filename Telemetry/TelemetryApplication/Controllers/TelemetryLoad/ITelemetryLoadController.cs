@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.TelemetryLoad
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading.Tasks;
     using TelemetryManagement.DTO;
 
@@ -15,6 +16,7 @@
         Task<SessionInfoDto> LoadLastSessionAsync();
 
         Task<LapTelemetryDto> LoadLap(LapSummaryDto lapSummaryDto);
+        Task<LapTelemetryDto> LoadLap(FileInfo file, string customDisplayName);
 
         Task UnloadLap(LapSummaryDto lapSummaryDto);
         Task ArchiveSession(SessionInfoDto sessionInfoDto);

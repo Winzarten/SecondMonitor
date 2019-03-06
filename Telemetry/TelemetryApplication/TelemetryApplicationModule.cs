@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication
 {
+    using WindowsControls.WPF.UserInput;
+    using Contracts.UserInput;
     using Controllers.MainWindow;
     using Controllers.MainWindow.GraphPanel;
     using Controllers.MainWindow.LapPicker;
@@ -77,6 +79,7 @@
             Bind<IGraphViewModelsProvider>().To<GraphViewModelsProvider>();
             Bind<IGraphPanelController>().To<LeftGraphPanelController>();
             Bind<IGraphPanelController>().To<RightGraphPanelController>();
+            Bind<IUserInputProvider>().To<DialogUserInputProvider>();
 
             Bind<IGraphViewModel>().To<LapTimeGraphViewModel>();
             Bind<IGraphViewModel>().To<SteeringAngleGraphViewModel>();
