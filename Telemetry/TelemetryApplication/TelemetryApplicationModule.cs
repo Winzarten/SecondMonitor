@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication
 {
+    using WindowsControls.WPF.UserInput;
+    using Contracts.UserInput;
     using Controllers.MainWindow;
     using Controllers.MainWindow.GraphPanel;
     using Controllers.MainWindow.LapPicker;
@@ -69,6 +71,7 @@
             Bind<IPedalSectionViewModel>().To<PedalSectionViewModel>();
             Bind<IMapViewViewModel>().To<MapViewViewModel>();
             Bind<IOpenWindowViewModel>().To<OpenWindowViewModel>();
+            Bind<IOpenWindowSessionInformationViewModel>().To<OpenWindowSessionInformationViewModel>();
             Bind<ISettingsWindowViewModel>().To<SettingsWindowViewModel>();
             Bind<IGraphSettingsViewModel>().To<GraphSettingsViewModel>();
 
@@ -76,6 +79,7 @@
             Bind<IGraphViewModelsProvider>().To<GraphViewModelsProvider>();
             Bind<IGraphPanelController>().To<LeftGraphPanelController>();
             Bind<IGraphPanelController>().To<RightGraphPanelController>();
+            Bind<IUserInputProvider>().To<DialogUserInputProvider>();
 
             Bind<IGraphViewModel>().To<LapTimeGraphViewModel>();
             Bind<IGraphViewModel>().To<SteeringAngleGraphViewModel>();
@@ -97,7 +101,6 @@
             Bind<IGraphViewModel>().To<SuspensionTravelGraphViewModel>();
             Bind<IGraphViewModel>().To<RideHeightGraphViewModel >();
             Bind<IGraphViewModel>().To<ChassisRideHeightGraphViewModel>();
-
         }
     }
 }

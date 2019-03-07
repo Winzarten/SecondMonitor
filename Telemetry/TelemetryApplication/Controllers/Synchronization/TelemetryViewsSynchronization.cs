@@ -9,6 +9,8 @@
         public event EventHandler<EventArgs> LapLoadingStarted;
         public event EventHandler<EventArgs> LapLoadingFinished;
         public event EventHandler<TelemetrySessionArgs> NewSessionLoaded;
+        public event EventHandler<TelemetrySessionArgs> SessionAdded;
+        public event EventHandler<LapSummaryArgs> LapAddedToSession;
         public event EventHandler<LapTelemetryArgs> LapLoaded;
         public event EventHandler<LapSummaryArgs> LapUnloaded;
         public event EventHandler<TelemetrySnapshotArgs> SyncTelemetryView;
@@ -17,6 +19,18 @@
         {
             TelemetrySessionArgs args = new TelemetrySessionArgs(sessionInfoDto);
             NewSessionLoaded?.Invoke(this, args);
+        }
+
+        public void NotifySessionAdded(SessionInfoDto sessionInfoDto)
+        {
+            TelemetrySessionArgs args = new TelemetrySessionArgs(sessionInfoDto);
+            SessionAdded?.Invoke(this, args);
+        }
+
+        public void NotifyLappAddedToSession(LapSummaryDto lapSummaryDto)
+        {
+            LapSummaryArgs args = new LapSummaryArgs(lapSummaryDto);
+            LapAddedToSession?.Invoke(this, args);
         }
 
         public void NotifyLapLoaded(LapTelemetryDto lapTelemetryDto)

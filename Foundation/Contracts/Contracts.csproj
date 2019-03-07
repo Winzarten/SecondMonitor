@@ -64,6 +64,7 @@
     <Compile Include="TrackMap\IMapManagementController.cs" />
     <Compile Include="TrackMap\ITrackDtoManipulator.cs" />
     <Compile Include="TrackMap\MapEventArgs.cs" />
+    <Compile Include="UserInput\IUserInputProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SessionTiming\" />

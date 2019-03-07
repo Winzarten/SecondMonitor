@@ -328,6 +328,10 @@
             Visibility shiftPointVisibility = _showShiftPoints ? Visibility.Visible : Visibility.Collapsed;
             foreach (ILapCustomPathsCollection lapCustomPathsCollection in _lapsPaths.Values)
             {
+                if (!lapCustomPathsCollection.FullyInitialized)
+                {
+                    continue;
+                }
                 lapCustomPathsCollection.ShiftPointsPath.Visibility = shiftPointVisibility;
                 lapCustomPathsCollection.GetAllBrakingPaths().ForEach(x => x.Visibility = brakePointVisibility);
                 lapCustomPathsCollection.GetAllClutchPaths().ForEach(x => x.Visibility = clutchPointVisibility);

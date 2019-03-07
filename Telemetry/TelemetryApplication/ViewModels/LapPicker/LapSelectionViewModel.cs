@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Windows.Input;
     using Controllers.Synchronization;
     using OpenWindow;
     using SecondMonitor.ViewModels;
@@ -21,6 +22,8 @@
         private string _bestSector1;
         private string _bestSector2;
         private string _bestSector3;
+        private IOpenWindowViewModel _addWindowViewModel;
+        private ICommand _addCustomLapCommand;
 
         public LapSelectionViewModel()
         {
@@ -36,6 +39,12 @@
             set => SetProperty(ref _openWindowViewModel, value);
         }
 
+        public IOpenWindowViewModel AddWindowViewModel
+        {
+            get => _addWindowViewModel;
+            set => SetProperty(ref _addWindowViewModel, value);
+        }
+
         public ISettingsWindowViewModel SettingsWindowViewModel
         {
             get => _settingsWindowViewModel;
@@ -43,6 +52,12 @@
         }
 
         public ObservableCollection<ILapSummaryViewModel> LapSummaries { get; }
+
+        public ICommand AddCustomLapCommand
+        {
+            get => _addCustomLapCommand;
+            set => SetProperty(ref _addCustomLapCommand, value);
+        }
 
         public ILapSummaryViewModel Selected
         {

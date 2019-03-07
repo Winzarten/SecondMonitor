@@ -16,6 +16,7 @@ namespace SecondMonitor.TelemetryPresentation.Controls.LapsSummary
     public partial class LapSelectionControl : UserControl
     {
         private OpenWindow _openWindow;
+        private OpenWindow _addWindow;
         private SettingsWindow _settingsWindow;
 
         public LapSelectionControl()
@@ -32,10 +33,29 @@ namespace SecondMonitor.TelemetryPresentation.Controls.LapsSummary
                 openWindowViewModel.IsOpenWindowVisible = true;
                 _openWindow = new OpenWindow {WindowStartupLocation = WindowStartupLocation.CenterScreen, Owner = Window.GetWindow(this), DataContext = openWindowViewModel };
                 _openWindow.Closed+= OpenWindowOnClosed;
+                openWindowViewModel.RefreshRecentCommand.Execute(null);
                 _openWindow.Show();
                 return;
             }
+            openWindowViewModel.RefreshRecentCommand.Execute(null);
+            openWindowViewModel.IsOpenWindowVisible = true;
+            _openWindow.Focus();
+        }
 
+        private void AddButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            IOpenWindowViewModel openWindowViewModel = ((ILapSelectionViewModel)DataContext).AddWindowViewModel;
+
+            if (_addWindow == null)
+            {
+                openWindowViewModel.IsOpenWindowVisible = true;
+                _addWindow = new OpenWindow { WindowStartupLocation = WindowStartupLocation.CenterScreen, Owner = Window.GetWindow(this), DataContext = openWindowViewModel };
+                _addWindow.Closed += AddWindowOnClosed;
+                openWindowViewModel.RefreshRecentCommand.Execute(null);
+                _addWindow.Show();
+                return;
+            }
+            openWindowViewModel.RefreshRecentCommand.Execute(null);
             openWindowViewModel.IsOpenWindowVisible = true;
             _openWindow.Focus();
         }
@@ -45,6 +65,13 @@ namespace SecondMonitor.TelemetryPresentation.Controls.LapsSummary
             _openWindow.DataContext = null;
             _openWindow.Closed -= OpenWindowOnClosed;
             _openWindow = null;
+        }
+
+        private void AddWindowOnClosed(object sender, EventArgs e)
+        {
+            _addWindow.DataContext = null;
+            _addWindow.Closed -= OpenWindowOnClosed;
+            _addWindow = null;
         }
 
         private void SettingsButton_OnClick(object sender, RoutedEventArgs e)

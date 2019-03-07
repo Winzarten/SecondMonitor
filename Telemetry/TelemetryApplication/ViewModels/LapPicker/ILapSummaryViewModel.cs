@@ -9,7 +9,7 @@
     public interface ILapSummaryViewModel : IViewModel<LapSummaryDto>
     {
         ILapColorSynchronization LapColorSynchronization { get; set; }
-        int LapNumber { get; }
+        string LapNumber { get; }
         TimeSpan LapTime { get; }
         TimeSpan Sector1Time { get; }
         TimeSpan Sector2Time { get; }

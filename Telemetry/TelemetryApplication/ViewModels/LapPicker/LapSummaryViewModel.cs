@@ -10,7 +10,7 @@
     {
 
         private TimeSpan _lapTime;
-        private int _lapNumber;
+        private string _lapNumber;
         private bool _display;
         private Color _lapColor;
         private TimeSpan _sector1Time;
@@ -71,7 +71,7 @@
 
         public SolidColorBrush LapColorBrush => new SolidColorBrush(LapColor);
 
-        public int LapNumber
+        public string LapNumber
         {
             get => _lapNumber;
             set
@@ -84,7 +84,7 @@
         protected override void ApplyModel(LapSummaryDto model)
         {
             LapTime = model.LapTime;
-            LapNumber = model.LapNumber;
+            LapNumber = model.CustomDisplayName;
             Sector1Time = model.Sector1Time;
             Sector2Time = model.Sector2Time;
             Sector3Time = model.Sector3Time;
@@ -92,14 +92,7 @@
 
         public override LapSummaryDto SaveToNewModel()
         {
-            return new LapSummaryDto()
-            {
-                LapNumber = LapNumber,
-                LapTime = LapTime,
-                Sector1Time = Sector1Time,
-                Sector2Time = Sector2Time,
-                Sector3Time = Sector3Time
-            };
+           throw new NotImplementedException();
         }
     }
 }

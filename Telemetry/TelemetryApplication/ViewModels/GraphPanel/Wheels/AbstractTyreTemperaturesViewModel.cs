@@ -118,7 +118,7 @@
         {
             LineSeries[] lineSeries = new LineSeries[4];
 
-            string baseTitle = $"Lap {lapSummary.LapNumber}";
+            string baseTitle = $"Lap {lapSummary.CustomDisplayName}";
             lineSeries[0] = CreateLineSeries(baseTitle + " " + LeftTemperatureName, color, LeftSideLineStyle);
             lineSeries[0].IsVisible = LeftTemperatureVisible;
 
