@@ -154,26 +154,11 @@
 
         private async Task AddCustomLap()
         {
-            // Create OpenFileDialog
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-
-
-            // Set filter for file extension and default file extension
-            dlg.DefaultExt = ".lap";
-            dlg.Filter = "Lap Files (*.lap)|*.lap";
-
-
-            // Display OpenFileDialog by calling ShowDialog method
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lap", Filter = "Lap Files (*.lap)|*.lap"};
             bool? result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox
             if (result == false)
             {
                 return;
-                // Open document
-
             }
 
             string filename = dlg.FileName;
