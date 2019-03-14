@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
+    using System.Collections.Generic;
     using System.Linq;
+    using DataExtractor;
     using DataModel.BasicProperties;
     using DataModel.Telemetry;
     using Settings.DTO;
@@ -8,6 +10,10 @@
 
     public class LapTimeGraphViewModel : AbstractSingleSeriesGraphViewModel
     {
+        public LapTimeGraphViewModel(IEnumerable<ISingleSeriesDataExtractor> dataExtractors) : base(dataExtractors)
+        {
+        }
+
         public override string Title => "Lap Time";
         protected override string YUnits => XAxisKind == XAxisKind.LapTime ? Distance.GetUnitsSymbol(DistanceUnits) : "Seconds";
         protected override double YTickInterval => XAxisKind == XAxisKind.LapTime ? 200 : 20;

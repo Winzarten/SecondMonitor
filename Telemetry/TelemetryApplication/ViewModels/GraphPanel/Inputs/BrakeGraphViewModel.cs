@@ -1,10 +1,16 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Inputs
 {
+    using System.Collections.Generic;
+    using DataExtractor;
     using DataModel.Telemetry;
     using TelemetryManagement.DTO;
 
     public class BrakeGraphViewModel : AbstractSingleSeriesGraphViewModel
     {
+        public BrakeGraphViewModel(IEnumerable<ISingleSeriesDataExtractor> dataExtractors) : base(dataExtractors)
+        {
+        }
+
         protected override double GetYValue(TimedTelemetrySnapshot value)
         {
             return value.InputInfo.BrakePedalPosition * 100;

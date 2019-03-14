@@ -347,7 +347,7 @@
                 _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);
                 UpdateActualData(dataSet);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

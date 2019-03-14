@@ -167,7 +167,7 @@
 
         private void UpdateSeriesVisibility()
         {
-            foreach (List<LineSeries> lineSeries in LoadedSeries.Values)
+            foreach (List<LineSeries> lineSeries in LoadedSeries.Values.Select(x => x.lineSeries))
             {
                 foreach (LineSeries series in lineSeries)
                 {

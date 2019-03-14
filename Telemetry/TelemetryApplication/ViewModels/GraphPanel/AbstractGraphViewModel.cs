@@ -41,7 +41,7 @@
         {
             SyncWithOtherGraphs = true;
             _lastChangeRequest = DateTime.MinValue;
-            LoadedSeries = new Dictionary<string, List<LineSeries>>();
+            LoadedSeries = new Dictionary<string,(LapTelemetryDto telemetry, List<LineSeries> lineSeries)>();
             _selectedXValue = new Dictionary<string, (double x, Color color)>();
             InitializeViewModel();
         }
@@ -61,7 +61,7 @@
             };
         }
 
-        protected Dictionary<string, List<LineSeries>> LoadedSeries { get; }
+        protected Dictionary<string, (LapTelemetryDto telemetry, List<LineSeries> lineSeries)> LoadedSeries { get; }
 
         public bool HasValidData
         {
@@ -169,10 +169,7 @@
 
         public void AddLapTelemetry(LapTelemetryDto lapTelemetryDto)
         {
-            if (LapColorSynchronization == null || !LapColorSynchronization.TryGetColorForLap(lapTelemetryDto.LapSummary.Id, out Color color))
-            {
-                color = Colors.Red;
-            }
+            Color color = GetLapColor(lapTelemetryDto.LapSummary);
 
             if (LoadedSeries.ContainsKey(lapTelemetryDto.LapSummary.Id))
             {
@@ -186,6 +183,13 @@
             TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).ToArray();
             //TimedTelemetrySnapshot[] dataPoints = lapTelemetryDto.TimedTelemetrySnapshots.OrderBy(x => x.PlayerData.LapDistance).WhereWithPrevious(FilterFunction).ToArray();
             List<LineSeries> series = GetLineSeries(lapTelemetryDto.LapSummary, dataPoints, OxyColor.Parse(color.ToString()));
+
+            if (series.Count == 0)
+            {
+                LoadedSeries.Add(lapTelemetryDto.LapSummary.Id, (lapTelemetryDto, series));
+                return;
+            }
+
             double maxX = 0.0;
             series.ForEach(x => maxX = Math.Max(maxX, x.Points.Max(y => y.X)));
             if (maxX > XMaximum)
@@ -194,7 +198,7 @@
             }
 
             _selectedXValue[lapTelemetryDto.LapSummary.Id] = (0, color);
-            LoadedSeries.Add(lapTelemetryDto.LapSummary.Id, series);
+            LoadedSeries.Add(lapTelemetryDto.LapSummary.Id, (lapTelemetryDto,series));
             CheckIfHasValidData();
             InitializeSectorDistance(dataPoints);
             AddSectorGridLines();
@@ -206,6 +210,18 @@
                 NotifyPropertyChanged(nameof(PlotModel.Series));
                 NotifyPropertyChanged(nameof(SelectedDistances));
             }
+        }
+
+        protected void RecreateAllLineSeries()
+        {
+            YMaximum = 0;
+            YMinimum = 0;
+            _yAxis?.Reset();
+            InvalidatePlot();
+
+            List<LapTelemetryDto> loadedLaps = LoadedSeries.Values.Select(x => x.telemetry).ToList();
+            loadedLaps.ForEach(x => RemoveLapTelemetry(x.LapSummary));
+            loadedLaps.ForEach(AddLapTelemetry);
         }
 
         private void InitializeSectorDistance(TimedTelemetrySnapshot[] dataPoints)
@@ -233,11 +249,11 @@
         private void CheckIfHasValidData()
         {
             bool hasValidData = false;
-            foreach (List<LineSeries> loadedSeriesValue in LoadedSeries.Values)
+            foreach (List<LineSeries> loadedSeriesValue in LoadedSeries.Values.Select(x => x.lineSeries))
             {
                 if (hasValidData)
                 {
-                    HasValidData = hasValidData;
+                    HasValidData = true;
                     return;
                 }
 
@@ -251,56 +267,65 @@
         {
             if (_yAxis == null)
             {
-                _yAxis = new LinearAxis
-                {
-                    Position = AxisPosition.Left,
-                    Minimum = YMinimum,
-                    Maximum = YMaximum,
-                    TickStyle = TickStyle.Inside,
-                    AxislineColor = OxyColor.Parse("#FFD6D6D6"),
-                    IsZoomEnabled = CanYZoom,
-                    IsPanEnabled = CanYZoom,
-                    Unit = YUnits,
-                    AxisTitleDistance = 0,
-                    AxisDistance = 0,
-                    ExtraGridlineColor = OxyColors.Red,
-                    ExtraGridlines = new [] {0.0},
-                    ExtraGridlineThickness = 1.5,
-
-                };
-                if (YTickInterval > 0)
-                {
-                    _yAxis.MajorStep = YTickInterval;
-                    _yAxis.MajorGridlineStyle = LineStyle.Solid;
-                    _yAxis.MajorGridlineThickness = 1;
-                    _yAxis.MajorGridlineColor = OxyColor.Parse("#FF7F7F7F");
-                }
-
-                _plotModel.Axes.Add(_yAxis);
+                CreateYAxis();
             }
 
             if (_xAxis == null)
             {
-                _xAxis = new LinearAxis
-                {
-                    Position = AxisPosition.Bottom,
-                    Minimum = -1,
-                    Maximum = 0,
-                    TickStyle = TickStyle.Inside,
-                    AxislineColor = OxyColor.Parse("#FFD6D6D6"),
-                    MajorStep = XAxisKind == XAxisKind.LapTime ? 20 : 200,
-                    MajorGridlineColor = OxyColor.Parse("#464239"),
-                    MajorGridlineStyle = LineStyle.LongDash,
-                    Unit = XAxisKind == XAxisKind.LapTime ? "s" : Distance.GetUnitsSymbol(DistanceUnits),
-                    AxisTitleDistance = 0,
-                    AxisDistance = 0,
-                    ExtraGridlineColor = OxyColors.Red,
-                    ExtraGridlineThickness = 1,
-                };
-
-                _plotModel.Axes.Add(_xAxis);
-                _xAxis.AxisChanged += XAxisOnAxisChanged;
+                CreateXAxis();
             }
+        }
+
+        private void CreateYAxis()
+        {
+            _yAxis = new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Minimum = YMinimum,
+                Maximum = YMaximum,
+                TickStyle = TickStyle.Inside,
+                AxislineColor = OxyColor.Parse("#FFD6D6D6"),
+                IsZoomEnabled = CanYZoom,
+                IsPanEnabled = CanYZoom,
+                Unit = YUnits,
+                AxisTitleDistance = 0,
+                AxisDistance = 0,
+                ExtraGridlineColor = OxyColors.Red,
+                ExtraGridlines = new[] { 0.0 },
+                ExtraGridlineThickness = 1.5,
+
+            };
+            if (YTickInterval > 0)
+            {
+                _yAxis.MajorStep = YTickInterval;
+                _yAxis.MajorGridlineStyle = LineStyle.Solid;
+                _yAxis.MajorGridlineThickness = 1;
+                _yAxis.MajorGridlineColor = OxyColor.Parse("#FF7F7F7F");
+            }
+            _plotModel.Axes.Add(_yAxis);
+        }
+
+        private void CreateXAxis()
+        {
+            _xAxis = new LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                Minimum = -1,
+                Maximum = 0,
+                TickStyle = TickStyle.Inside,
+                AxislineColor = OxyColor.Parse("#FFD6D6D6"),
+                MajorStep = XAxisKind == XAxisKind.LapTime ? 20 : 200,
+                MajorGridlineColor = OxyColor.Parse("#464239"),
+                MajorGridlineStyle = LineStyle.LongDash,
+                Unit = XAxisKind == XAxisKind.LapTime ? "s" : Distance.GetUnitsSymbol(DistanceUnits),
+                AxisTitleDistance = 0,
+                AxisDistance = 0,
+                ExtraGridlineColor = OxyColors.Red,
+                ExtraGridlineThickness = 1,
+            };
+
+            _plotModel.Axes.Add(_xAxis);
+            _xAxis.AxisChanged += XAxisOnAxisChanged;
         }
 
         private void XAxisOnAxisChanged(object sender, AxisChangedEventArgs e)
@@ -314,10 +339,10 @@
 
         public void RemoveLapTelemetry(LapSummaryDto lapSummaryDto)
         {
-            if (LoadedSeries.TryGetValue(lapSummaryDto.Id, out List<LineSeries> lineSeries))
+            if (LoadedSeries.TryGetValue(lapSummaryDto.Id, out(LapTelemetryDto telemetry, List<LineSeries> lineSeries) value))
             {
                 LoadedSeries.Remove(lapSummaryDto.Id);
-                lineSeries.ForEach(x => _plotModel.Series.Remove(x));
+                value.lineSeries.ForEach(x => _plotModel.Series.Remove(x));
                 InvalidatePlot();
             }
 
@@ -462,10 +487,10 @@
                 _selectedXValue[e.LapId] = value;
             }
 
-            if (LoadedSeries.TryGetValue(e.LapId, out List<LineSeries> series))
+            if (LoadedSeries.TryGetValue(e.LapId, out (LapTelemetryDto telemetry, List<LineSeries> lineSeries) series))
             {
                 OxyColor color = OxyColor.Parse(e.Color.ToString());
-                foreach (LineSeries lineSeries in series)
+                foreach (LineSeries lineSeries in series.lineSeries)
                 {
                     lineSeries.Color = color;
                     lineSeries.TextColor = color;
@@ -474,6 +499,16 @@
 
             NotifyPropertyChanged(nameof(SelectedDistances));
             InvalidatePlot();
+        }
+
+        private Color GetLapColor(LapSummaryDto lapSummaryDto)
+        {
+            if (LapColorSynchronization == null || !LapColorSynchronization.TryGetColorForLap(lapSummaryDto.Id, out Color color))
+            {
+                color = Colors.Red;
+            }
+
+            return color;
         }
 
         protected abstract List<LineSeries> GetLineSeries(LapSummaryDto lapSummary, TimedTelemetrySnapshot[] dataPoints, OxyColor color);

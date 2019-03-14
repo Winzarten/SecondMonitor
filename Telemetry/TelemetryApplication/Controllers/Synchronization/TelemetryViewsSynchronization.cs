@@ -14,6 +14,7 @@
         public event EventHandler<LapTelemetryArgs> LapLoaded;
         public event EventHandler<LapSummaryArgs> LapUnloaded;
         public event EventHandler<TelemetrySnapshotArgs> SyncTelemetryView;
+        public event EventHandler<LapSummaryArgs> ReferenceLapSelected;
 
         public void NotifyNewSessionLoaded(SessionInfoDto sessionInfoDto)
         {
@@ -49,6 +50,12 @@
         {
             TelemetrySnapshotArgs args = new TelemetrySnapshotArgs(telemetrySnapshot, lapSummary);
             SyncTelemetryView?.Invoke(this, args);
+        }
+
+        public void NotifyReferenceLapSelected(LapSummaryDto referenceLap)
+        {
+            LapSummaryArgs args = new LapSummaryArgs(referenceLap);
+            ReferenceLapSelected?.Invoke(this, args);
         }
 
         public void NotifyLapLoadingStarted()

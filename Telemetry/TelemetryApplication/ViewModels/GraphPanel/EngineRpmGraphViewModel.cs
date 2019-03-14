@@ -1,11 +1,17 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
+    using System.Collections.Generic;
     using System.Linq;
+    using DataExtractor;
     using DataModel.Telemetry;
     using TelemetryManagement.DTO;
 
     public class EngineRpmGraphViewModel : AbstractSingleSeriesGraphViewModel
     {
+        public EngineRpmGraphViewModel(IEnumerable<ISingleSeriesDataExtractor> dataExtractors) : base(dataExtractors)
+        {
+        }
+
         public override string Title => "Engine RPM";
         protected override string YUnits => "RPM";
         protected override double YTickInterval => 1000;

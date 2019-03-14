@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
+    using System.Collections.Generic;
     using System.Linq;
+    using DataExtractor;
     using DataModel.BasicProperties;
     using DataModel.Telemetry;
     using TelemetryManagement.DTO;
@@ -8,6 +10,10 @@
     public class SpeedGraphViewModel : AbstractSingleSeriesGraphViewModel
 
     {
+        public SpeedGraphViewModel(IEnumerable<ISingleSeriesDataExtractor> dataExtractors) : base(dataExtractors)
+        {
+        }
+
         public override string Title => "Speed";
         protected override string YUnits  => Velocity.GetUnitSymbol(VelocityUnits);
         protected override double YTickInterval => 50;
