@@ -29,6 +29,7 @@
     using ViewModels.GraphPanel.Inputs;
     using ViewModels.GraphPanel.Wheels;
     using ViewModels.LapPicker;
+    using ViewModels.LoadedLapCache;
     using ViewModels.MapView;
     using ViewModels.OpenWindow;
     using ViewModels.Replay;
@@ -45,6 +46,7 @@
             Bind<IMainWindowController>().To<MainWindowController>().DefinesNamedScope(MainWidowScopeName);
             Bind<TelemetryStoryBoardFactory>().ToSelf();
             Bind<IMapsLoaderFactory>().To<MapsLoaderFactory>();
+            Bind<ILoadedLapsCache>().To<LoadedLapsCache>().InSingletonScope();
 
             Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);

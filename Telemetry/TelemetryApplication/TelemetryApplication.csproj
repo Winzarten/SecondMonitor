@@ -155,6 +155,8 @@
     <Compile Include="ViewModels\GraphPanel\Wheels\SuspensionTravelGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\TyrePressuresGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\WheelRpsGraphViewModel.cs" />
+    <Compile Include="ViewModels\LoadedLapCache\ILoadedLapsCache.cs" />
+    <Compile Include="ViewModels\LoadedLapCache\LoadedLapsCache.cs" />
     <Compile Include="ViewModels\OpenWindow\IOpenWindowSessionInformationViewModel.cs" />
     <Compile Include="ViewModels\OpenWindow\OpenWindowSessionInformationViewModel.cs" />
     <Compile Include="ViewModels\SettingsWindow\GraphSettingsViewModel.cs" />

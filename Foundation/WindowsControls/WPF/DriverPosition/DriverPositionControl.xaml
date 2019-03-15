@@ -4,7 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../CommonResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <Style TargetType="driverPosition:DriverPositionControl">
+    <Style TargetType="driverPosition:DriverPositionControl" x:Shared="False">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="driverPosition:DriverPositionControl">

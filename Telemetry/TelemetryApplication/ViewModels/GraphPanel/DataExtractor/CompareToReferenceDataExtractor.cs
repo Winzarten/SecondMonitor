@@ -2,9 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using WindowsControls.Properties;
     using Controllers.Synchronization;
     using DataModel.BasicProperties;
+    using DataModel.Extensions;
     using DataModel.Telemetry;
+    using LoadedLapCache;
     using Settings.DTO;
     using TelemetryManagement.DTO;
     using TelemetryManagement.StoryBoard;
@@ -13,17 +16,26 @@
     {
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly TelemetryStoryBoardFactory _telemetryStoryBoardFactory;
+        private readonly ILoadedLapsCache _loadedLapsCache;
         public event EventHandler<EventArgs> DataRefreshRequested;
 
         private readonly Dictionary<string, TelemetryStoryboard> _loadedTelemetries;
         private TelemetryStoryboard _referenceLap;
 
-        public CompareToReferenceDataExtractor(ITelemetryViewsSynchronization telemetryViewsSynchronization, TelemetryStoryBoardFactory telemetryStoryBoardFactory)
+        public CompareToReferenceDataExtractor(ITelemetryViewsSynchronization telemetryViewsSynchronization, TelemetryStoryBoardFactory telemetryStoryBoardFactory, ILoadedLapsCache loadedLapsCache)
         {
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryStoryBoardFactory = telemetryStoryBoardFactory;
+            _loadedLapsCache = loadedLapsCache;
             _loadedTelemetries = new Dictionary<string, TelemetryStoryboard>();
             Subscribe();
+            InitializeAlreadyLoadedLaps();
+        }
+
+        private void InitializeAlreadyLoadedLaps()
+        {
+            _loadedLapsCache.LoadedLaps.ForEach(AddLapLoadedLap);
+            ChangeReferenceLap(_loadedLapsCache.ReferenceLap);
         }
 
         private void Subscribe()
@@ -35,7 +47,12 @@
 
         private void TelemetryViewsSynchronizationOnReferenceLapSelected(object sender, LapSummaryArgs e)
         {
-            _referenceLap = e.LapSummary != null ? _loadedTelemetries[e.LapSummary.Id] : null;
+            ChangeReferenceLap(e.LapSummary);
+        }
+
+        private void ChangeReferenceLap([CanBeNull] LapSummaryDto lapSummaryDto)
+        {
+            _referenceLap = lapSummaryDto != null ? _loadedTelemetries[lapSummaryDto.Id] : null;
             DataRefreshRequested?.Invoke(this, new EventArgs());
         }
 
@@ -46,7 +63,12 @@
 
         private void TelemetryViewsSynchronizationOnLapLoaded(object sender, LapTelemetryArgs e)
         {
-            _loadedTelemetries.Add(e.LapTelemetry.LapSummary.Id, _telemetryStoryBoardFactory.Create(e.LapTelemetry));
+            AddLapLoadedLap(e.LapTelemetry);
+        }
+
+        private void AddLapLoadedLap(LapTelemetryDto lapTelemetryDto)
+        {
+            _loadedTelemetries.Add(lapTelemetryDto.LapSummary.Id, _telemetryStoryBoardFactory.Create(lapTelemetryDto));
         }
 
 

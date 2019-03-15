@@ -676,7 +676,7 @@
             </Canvas>
         </Canvas>
     </Viewbox>
-    <Viewbox x:Key="ResetIcon" Stretch="Uniform">
+    <Viewbox x:Key="ResetIcon" Stretch="Uniform" x:Shared="False">
         <Canvas  Canvas.Left="0" Canvas.Top="0" Width="80.626801"
                 Height="79.447502">
             <Canvas.RenderTransform>
@@ -1878,6 +1878,21 @@
                     </Path.Data>
                 </Path>
             </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <Viewbox x:Key="PopupIcon" x:Shared="False" Stretch="Uniform">
+        <Canvas Width="34" Height="34">
+            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                <Path.Data>
+                    <PathGeometry Figures="M 32 0 H 12 a 2 2 0 0 0 -2 2 v 8 H 2 a 2 2 0 0 0 -2 2 v 20 a 2 2 0 0 0 2 2 h 20 a 2 2 0 0 0 2 -2 v -8 h 8 a 2 2 0 0 0 2 -2 V 2 A 2 2 0 0 0 32 0 Z M 20 30 H 4 V 14 h 6 v 8 a 2 2 0 0 0 2 2 h 8 z M 30 20 H 14 V 4 h 16 z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Label}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                <Path.Data>
+                    <PathGeometry Figures="m 20 10 h 4 v 4 a 2 2 0 0 0 4 0 V 8 A 2 2 0 0 0 26 6 h -6 a 2 2 0 0 0 0 4 z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
         </Canvas>
     </Viewbox>
 
