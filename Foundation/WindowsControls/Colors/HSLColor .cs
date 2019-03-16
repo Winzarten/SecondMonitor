@@ -52,8 +52,8 @@
 
         public HSLColor(double hue, double saturation, double luminosity)
         {
-            Debug.Assert(0.0 <= saturation && saturation <= 1.0, "Invalid saturation");
-            Debug.Assert(luminosity >= 0.0 && luminosity <= 1.0, "Invalid luminosity");
+            /*Debug.Assert(0.0 <= saturation && saturation <= 1.0, "Invalid saturation");
+            Debug.Assert(luminosity >= 0.0 && luminosity <= 1.0, "Invalid luminosity");*/
 
             _hue = NormalizeHue(hue);
             _saturation = ForceBounds(saturation, 0.0, 1.0);
@@ -70,7 +70,7 @@
         /// <returns>HSLColor as RBG Color</returns>
         public Color ToColor()
         {
-            Debug.Assert(!double.IsNaN(_hue), "_hue isn't a number");
+            /*Debug.Assert(!double.IsNaN(_hue), "_hue isn't a number");*/
 
             double chroma = (255.0 - Math.Abs(2.0 * _luminosity * 255.0 - 255.0)) * _saturation;
 
@@ -104,7 +104,7 @@
             }
             else
             {
-                throw new Exception("hPrime wasn't within [0, 6)??? hPrime = " + hPrime);
+                return Color.White;
             }
 
             double m = _luminosity * 255.0 - 0.5 * chroma;

@@ -50,7 +50,7 @@
             AddWaterSystemInfo(simData);
 
             // OilSystemInfo
-            AddOilSystemInfo(simData);
+            AddOilSystemInfo(simData, acData);
 
             // Brakes Info
             AddBrakesInfo(acData, simData);
@@ -160,8 +160,9 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(acData.AcsPhysics.brakeTemp[(int)AcWheels.RR]);
         }
 
-        private static void AddOilSystemInfo(SimulatorDataSet simData)
+        private static void AddOilSystemInfo(SimulatorDataSet simData, AssettoCorsaShared acData)
         {
+            simData.PlayerInfo.CarInfo.TurboPressure = Pressure.FromAtm(acData.AcsPhysics.turboBoost);
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(100);
         }
 

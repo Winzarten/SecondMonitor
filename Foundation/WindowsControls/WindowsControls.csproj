@@ -113,6 +113,7 @@
     <Compile Include="Extension\ItemsControlExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SituationOverview\SituationOverviewProvider.cs" />
+    <Compile Include="WPF\Behaviors\RefreshBindingOnVisibilityChangeBehavior.cs" />
     <Compile Include="WPF\Behaviors\TyreWear\ColorAbleIconByLimits.cs" />
     <Compile Include="WPF\Behaviors\TyreWear\ColorByLinearLimitsBehavior.cs" />
     <Compile Include="WPF\Behaviors\VolumeBehavior\BackgroundByOptimalVolumeBehavior.cs" />
@@ -127,6 +128,9 @@
     <Compile Include="WPF\CarSettingsControl\CarSettingsControl.cs" />
     <Compile Include="WPF\CarSettingsControl\ITyreSettingsViewModel.cs" />
     <Compile Include="WPF\CarSettingsControl\TyreCompoundSettingsControl.cs" />
+    <Compile Include="WPF\CarSystems\CarSystemsControl.xaml.cs">
+      <DependentUpon>CarSystemsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\ColorableIcon.cs" />
     <Compile Include="WPF\Converters\ColorToBrushConverter.cs" />
     <Compile Include="WPF\Converters\DateTimeToCurrentConverter.cs" />
@@ -221,6 +225,10 @@
     <Page Include="WPF\CarSettingsControl\TyreCompoundSettingsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\CarSystems\CarSystemsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\ComboboxStyles.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,14 +1,11 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
     using System.Windows.Input;
     using Contracts.Commands;
     using DataModel.Snapshot;
     using FuelStatus;
-    using Properties;
 
-    public class CarStatusViewModel : ISimulatorDataSetViewModel, INotifyPropertyChanged
+    public class CarStatusViewModel : AbstractViewModel, ISimulatorDataSetViewModel
     {
 
         private readonly SimulatorDSViewModels _viewModels;
@@ -19,13 +16,14 @@
         private CarWheelsViewModel _playersWheelsViewModel;
         private FuelOverviewViewModel _fuelOverviewViewModel;
         private FuelPlannerViewModel _fuelPlannerViewModel;
+        private CarSystemsViewModel _carSystemsViewModel;
         private bool _isFuelCalculatorShown;
 
         private PedalsAndGearViewModel _pedalAndGearViewModel;
 
         public CarStatusViewModel(IPaceProvider paceProvider)
         {
-            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(paceProvider), new PedalsAndGearViewModel()};
+            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(paceProvider), new PedalsAndGearViewModel(), new CarSystemsViewModel()};
             _fuelPlannerViewModelFactory = new FuelPlannerViewModelFactory();;
             RefreshProperties();
         }
@@ -33,71 +31,49 @@
         public OilTemperatureViewModel OilTemperatureViewModel
         {
             get => _oilTemperatureViewModel;
-            private set
-            {
-                _oilTemperatureViewModel = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _oilTemperatureViewModel, value);
         }
 
         public bool IsFuelCalculatorShown
         {
             get => _isFuelCalculatorShown;
-            private set
-            {
-                _isFuelCalculatorShown = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _isFuelCalculatorShown, value);
         }
 
         public FuelPlannerViewModel FuelPlannerViewModel
         {
             get => _fuelPlannerViewModel;
-            set
-            {
-                _fuelPlannerViewModel = value;
-                NotifyPropertyChanged();
-            }
+            set => SetProperty(ref _fuelPlannerViewModel, value);
         }
 
         public PedalsAndGearViewModel PedalsAndGearViewModel
         {
             get => _pedalAndGearViewModel;
-            set
-            {
-                _pedalAndGearViewModel = value;
-                NotifyPropertyChanged();
-            }
+            set => SetProperty(ref _pedalAndGearViewModel, value);
         }
 
         public WaterTemperatureViewModel WaterTemperatureViewModel
         {
             get => _waterTemperatureViewModel;
-            private set
-            {
-                _waterTemperatureViewModel = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _waterTemperatureViewModel, value);
         }
 
         public CarWheelsViewModel PlayersWheelsViewModel
         {
             get => _playersWheelsViewModel;
-            private set
-            {
-                _playersWheelsViewModel = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _playersWheelsViewModel, value);
         }
 
         public FuelOverviewViewModel FuelOverviewViewModel
         {
             get => _fuelOverviewViewModel;
-            private set
-            {
-                _fuelOverviewViewModel = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _fuelOverviewViewModel, value);
+        }
+
+        public CarSystemsViewModel CarSystemsViewModel
+        {
+            get => _carSystemsViewModel;
+            private set => SetProperty(ref _carSystemsViewModel, value);
         }
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
@@ -137,14 +113,8 @@
             PlayersWheelsViewModel = _viewModels.GetFirst<CarWheelsViewModel>();
             FuelOverviewViewModel = _viewModels.GetFirst<FuelOverviewViewModel>();
             PedalsAndGearViewModel = _viewModels.GetFirst<PedalsAndGearViewModel>();
-        }
+            CarSystemsViewModel = _viewModels.GetFirst<CarSystemsViewModel>();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

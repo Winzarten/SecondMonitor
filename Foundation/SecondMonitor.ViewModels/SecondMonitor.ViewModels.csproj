@@ -70,6 +70,7 @@
     <Compile Include="Base\AbstractTemperatureViewModel.cs" />
     <Compile Include="Base\IViewModelWithIcon.cs" />
     <Compile Include="CarStatus\CarStatusViewModel.cs" />
+    <Compile Include="CarStatus\CarSystemsViewModel.cs" />
     <Compile Include="CarStatus\CarWheelsViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelCalculatorViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionMonitor.cs" />

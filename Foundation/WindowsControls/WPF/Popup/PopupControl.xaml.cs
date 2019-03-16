@@ -11,15 +11,9 @@ namespace SecondMonitor.WindowsControls.WPF.Popup
     public partial class PopupControl : UserControl
     {
         public static readonly DependencyProperty ElementToHideProperty = DependencyProperty.Register("ElementToHide", typeof(FrameworkElement), typeof(PopupControl), new PropertyMetadata(default(FrameworkElement)));
-
-        public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register(
-            "PopupContent", typeof(object), typeof(PopupControl), new PropertyMetadata(default(object)));
-
-        public static readonly DependencyProperty PopupWindowTitleProperty = DependencyProperty.Register(
-            "PopupWindowTitle", typeof(string), typeof(PopupControl), new PropertyMetadata(default(string)));
-
-        public static readonly DependencyProperty PopupWindowTemplateProperty = DependencyProperty.Register(
-            "PopupWindowTemplate", typeof(DataTemplate), typeof(PopupControl), new PropertyMetadata(default(DataTemplate)));
+        public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register("PopupContent", typeof(object), typeof(PopupControl), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty PopupWindowTitleProperty = DependencyProperty.Register("PopupWindowTitle", typeof(string), typeof(PopupControl), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty PopupWindowTemplateProperty = DependencyProperty.Register("PopupWindowTemplate", typeof(DataTemplate), typeof(PopupControl), new PropertyMetadata(default(DataTemplate)));
 
         public DataTemplate PopupWindowTemplate
         {
@@ -59,12 +53,12 @@ namespace SecondMonitor.WindowsControls.WPF.Popup
                 return;
             }
 
-            _popUpWindow = new PopUpWindow() {SizeToContent = SizeToContent.WidthAndHeight, Title = PopupWindowTitle};
-            _popUpWindow.Show();
+            _popUpWindow = new PopUpWindow {Title = PopupWindowTitle, Width = ElementToHide.ActualWidth, Height = ElementToHide.ActualHeight};
             _popUpWindow.Closed += PopUpWindowOnClosed;
             _popUpWindow.Content = PopupContent;
             _popUpWindow.DataContext = PopupContent;
             _popUpWindow.ContentTemplate = PopupWindowTemplate;
+            _popUpWindow.Show();
 
             ElementToHide.Visibility = Visibility.Collapsed;
             ElementToHide.IsEnabled = false;
@@ -72,13 +66,13 @@ namespace SecondMonitor.WindowsControls.WPF.Popup
 
         private void PopUpWindowOnClosed(object sender, EventArgs e)
         {
-            ElementToHide.Visibility = Visibility.Visible;
-            ElementToHide.IsEnabled = true;
-
             _popUpWindow.Closed -= PopUpWindowOnClosed;
             _popUpWindow.Content = null;
             _popUpWindow.DataContext = null;
             _popUpWindow = null;
+
+            ElementToHide.Visibility = Visibility.Visible;
+            ElementToHide.IsEnabled = true;
         }
     }
 }

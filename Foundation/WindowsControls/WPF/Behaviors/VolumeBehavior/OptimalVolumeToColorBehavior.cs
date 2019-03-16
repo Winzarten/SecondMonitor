@@ -87,6 +87,11 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
 
         private Color ComputeColor(double value, double optimalValue, double window)
         {
+            if (double.IsNaN(value) || double.IsInfinity(value))
+            {
+                return _oldComputedColor;
+            }
+
             if (optimalValue == _oldOptimalValue)
             {
                 return _oldComputedColor;

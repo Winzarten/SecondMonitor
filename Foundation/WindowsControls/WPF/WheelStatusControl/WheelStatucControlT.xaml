@@ -179,7 +179,7 @@
                                     </Grid.ColumnDefinitions>
                                     <ContentPresenter Grid.Column="0" Margin="5,0,10,0"
                                                       Content="{StaticResource BrakeIcon}" />
-                                    <quantityText:TemperatureText Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                    <quantityText:TemperatureText Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,20,0"
                                                                   FontSize="{StaticResource BrakeTemperatureFontSize}"
                                                                   FontWeight="Bold"
                                                                   Foreground="{StaticResource LightGrey01Brush}"

@@ -223,6 +223,7 @@
         private static void AddOilSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(playerVehicleTelemetry.mEngineOilTemp);
+            simData.PlayerInfo.CarInfo.TurboPressure = Pressure.FromKiloPascals(playerVehicleTelemetry.mTurboBoostPressure / 1000);
         }
 
         private static void AddWaterSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)

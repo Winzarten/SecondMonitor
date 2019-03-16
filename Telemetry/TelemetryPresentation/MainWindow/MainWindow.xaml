@@ -13,6 +13,8 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:template="clr-namespace:SecondMonitor.TelemetryPresentation.Template"
         xmlns:popup="clr-namespace:SecondMonitor.WindowsControls.WPF.Popup;assembly=WindowsControls"
+        xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors;assembly=WindowsControls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="Telemetry Viewer" Height="450" Width="800" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}" WindowState="Maximized">
     <Window.Resources>
@@ -81,7 +83,11 @@
                             </xctk:BusyIndicator>
                             <zoomAndPan:ZoomAndPanControl x:Name="ZoomAndPanControl" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" Grid.ZIndex="1" MaxContentScale="1000">
                                 <ContentPresenter Margin="20,10,20,10"
-                                              Content="{Binding MapViewViewModel.SituationOverviewControl}" MaxHeight="450" />
+                                              Content="{Binding MapViewViewModel.SituationOverviewControl}" MaxHeight="450" >
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:RefreshBindingOnVisibilityChangeBehavior/>
+                                    </i:Interaction.Behaviors>
+                                </ContentPresenter>
                             </zoomAndPan:ZoomAndPanControl>
                         </Grid>
                         <Border Grid.Row="1" BorderThickness="1" BorderBrush="{StaticResource LightGrey01Brush}">
