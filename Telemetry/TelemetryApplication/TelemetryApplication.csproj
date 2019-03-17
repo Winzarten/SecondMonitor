@@ -131,6 +131,9 @@
     <Compile Include="ViewModels\GraphPanel\AbstractSingleSeriesGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Chassis\AbstractChasisGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Chassis\ChassisRideHeightGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\DataExtractor\CompareToReferenceDataExtractor.cs" />
+    <Compile Include="ViewModels\GraphPanel\DataExtractor\ISingleSeriesDataExtractor.cs" />
+    <Compile Include="ViewModels\GraphPanel\DataExtractor\SimpleSingleSeriesDataExtractor.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\BrakeGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\ClutchGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\EngineRpmGraphViewModel.cs" />
@@ -152,6 +155,8 @@
     <Compile Include="ViewModels\GraphPanel\Wheels\SuspensionTravelGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\TyrePressuresGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\WheelRpsGraphViewModel.cs" />
+    <Compile Include="ViewModels\LoadedLapCache\ILoadedLapsCache.cs" />
+    <Compile Include="ViewModels\LoadedLapCache\LoadedLapsCache.cs" />
     <Compile Include="ViewModels\OpenWindow\IOpenWindowSessionInformationViewModel.cs" />
     <Compile Include="ViewModels\OpenWindow\OpenWindowSessionInformationViewModel.cs" />
     <Compile Include="ViewModels\SettingsWindow\GraphSettingsViewModel.cs" />

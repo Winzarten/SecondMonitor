@@ -1,10 +1,16 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Inputs
 {
+    using System.Collections.Generic;
+    using DataExtractor;
     using DataModel.Telemetry;
     using TelemetryManagement.DTO;
 
     public class ThrottleGraphViewModel : AbstractSingleSeriesGraphViewModel
     {
+        public ThrottleGraphViewModel(IEnumerable<ISingleSeriesDataExtractor> dataExtractors) : base(dataExtractors)
+        {
+        }
+
         public override string Title => "Throttle";
         protected override string YUnits => "%";
         protected override double YTickInterval => 20;

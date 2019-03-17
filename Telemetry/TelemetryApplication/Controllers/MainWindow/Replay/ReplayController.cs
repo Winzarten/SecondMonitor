@@ -55,6 +55,7 @@
                 }
                 _mainLap = value;
                 SelectedValueChanged();
+                _telemetryViewsSynchronization.NotifyReferenceLapSelected(_mainLap);
                 _replayViewModel.IsEnabled = _mainLap != null;
             }
         }

@@ -2,7 +2,9 @@
         xmlns:dmBasicProperties="clr-namespace:SecondMonitor.DataModel.BasicProperties;assembly=DataModel" xmlns:fuelControl="clr-namespace:SecondMonitor.WindowsControls.WPF.FuelControl;assembly=WindowsControls" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
         xmlns:pedalControl="clr-namespace:SecondMonitor.WindowsControls.WPF.PedalControl;assembly=WindowsControls" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:temperatureControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TemperatureControl;assembly=WindowsControls" xmlns:timingGridControl="clr-namespace:SecondMonitor.Timing.Presentation.Controls.TimingGridControl"
         xmlns:trackInfoControl="clr-namespace:SecondMonitor.WindowsControls.WPF.TrackInfoControl;assembly=WindowsControls" xmlns:view="clr-namespace:SecondMonitor.Timing.Presentation.View" xmlns:viewModel="clr-namespace:SecondMonitor.Timing.Presentation.ViewModel" xmlns:viewModel1="clr-namespace:SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel"
-        xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl;assembly=WindowsControls" xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Name="MainWindow"
+        xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl;assembly=WindowsControls" xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:carSystems="clr-namespace:SecondMonitor.WindowsControls.WPF.CarSystems;assembly=WindowsControls"
+        x:Name="MainWindow"
         Title="{Binding Title}"
         Width="1600" Height="800"
         d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
@@ -384,7 +386,9 @@
                                                                    Rpm="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Rpm}"
                                                                    Speed="{Binding Path=CarStatusViewModel.PedalsAndGearViewModel.Speed}"/>
                                 </Border>
-                                <temperatureControl:TemperatureControl Width="200" Height="150" Grid.Column="1"
+                                <carSystems:CarSystemsControl Grid.Column="1" TemperatureUnits="{Binding DataContext.DisplaySettingsViewModel.TemperatureUnits, RelativeSource={RelativeSource AncestorType=view:TimingGui }}" PressureUnits="{Binding DataContext.DisplaySettingsViewModel.PressureUnits, RelativeSource={RelativeSource AncestorType=view:TimingGui }}"
+                                                              DataContext="{Binding CarStatusViewModel.CarSystemsViewModel}"/>
+                                <!--<temperatureControl:TemperatureControl Width="200" Height="150" Grid.Column="1"
                                                                        Icon="{StaticResource WaterTemperatureIcon}"
                                                                        MaximalNormalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
                                                                        MaximalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
@@ -392,12 +396,12 @@
                                                                        Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
                                                                        TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />
                                 <temperatureControl:TemperatureControl Width="200" Height="150" Grid.Column="2"
-                                                                       Icon="{StaticResource OilIcon}"
+                                                                       Icon="{StaticResource OilTemperatureIcon}"
                                                                        MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
                                                                        MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
                                                                        MinimalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
                                                                        Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />
+                                                                       TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />-->
                             </Grid>
 
                         </Grid>

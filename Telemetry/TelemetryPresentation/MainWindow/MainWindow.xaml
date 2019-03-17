@@ -12,6 +12,9 @@
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:template="clr-namespace:SecondMonitor.TelemetryPresentation.Template"
+        xmlns:popup="clr-namespace:SecondMonitor.WindowsControls.WPF.Popup;assembly=WindowsControls"
+        xmlns:behaviors="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors;assembly=WindowsControls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="Telemetry Viewer" Height="450" Width="800" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}" WindowState="Maximized">
     <Window.Resources>
@@ -19,6 +22,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../TelemetryPresentation.xaml" />
                 <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />
+                <ResourceDictionary Source="../PopupWindows/PopUpTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <template:GraphDataTemplateSelector x:Key="GraphDataTemplateSelector" DefaultTemplate="{StaticResource DefaultGraphDataTemplate}"
                                                 WheelsGraphTemplate="{StaticResource WheelsGraphDataTemplate}" TyreTemperaturesGraphTemplate="{StaticResource TyreTemperaturesGraphDataTemplate}"
@@ -40,7 +44,7 @@
                 <ItemsControl ItemsSource="{Binding LeftPanelGraphs}" ItemTemplateSelector="{StaticResource GraphDataTemplateSelector}"/>
                 </ScrollViewer>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Visibility="Visible" x:Name="LapSelectorGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -51,6 +55,7 @@
                 <Border Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}" Padding="5">
                     <Grid>
                         <snapshotSection:SnapshotSectionControl DataContext="{Binding SnapshotSectionViewModel }"/>
+                        <popup:PopupControl PopupWindowTemplate="{StaticResource TelemetryControlPopUp}" PopupWindowTitle="Telemetry Control" PopupContent="{Binding}" ElementToHide="{Binding ElementName=LapSelectorGrid}" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5"/>
                     </Grid>
                 </Border>
             </Grid>
@@ -65,7 +70,7 @@
                 <ItemsControl ItemsSource="{Binding RightPanelGraphs}" ItemTemplateSelector="{StaticResource GraphDataTemplateSelector}"/>
             </ScrollViewer>
         </Grid>
-        <Grid Row="1">
+        <Grid Row="1" x:Name="MapGrid">
                 <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="3" CornerRadius="3">
                     <Grid ClipToBounds="True">
                         <Grid.RowDefinitions>
@@ -73,12 +78,17 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Background="Black">
+                            <popup:PopupControl PopupWindowTemplate="{StaticResource MapControlPopUp}" PopupWindowTitle="Map View" PopupContent="{Binding}" ElementToHide="{Binding ElementName=MapGrid}" Width="16" Height="16" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5" Grid.ZIndex="3"/>
                             <xctk:BusyIndicator IsBusy="{Binding IsBusy}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="Loading Lap(s)" Grid.ZIndex="2">
                             </xctk:BusyIndicator>
                             <zoomAndPan:ZoomAndPanControl x:Name="ZoomAndPanControl" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" Grid.ZIndex="1" MaxContentScale="1000">
-                            <ContentPresenter Margin="20,10,20,10"
-                                              Content="{Binding MapViewViewModel.SituationOverviewControl}" MaxHeight="450" />
-                        </zoomAndPan:ZoomAndPanControl>
+                                <ContentPresenter Margin="20,10,20,10"
+                                              Content="{Binding MapViewViewModel.SituationOverviewControl}" MaxHeight="450" >
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:RefreshBindingOnVisibilityChangeBehavior/>
+                                    </i:Interaction.Behaviors>
+                                </ContentPresenter>
+                            </zoomAndPan:ZoomAndPanControl>
                         </Grid>
                         <Border Grid.Row="1" BorderThickness="1" BorderBrush="{StaticResource LightGrey01Brush}">
                         <StackPanel  Orientation="Horizontal" Background="{StaticResource DarkGrey01Brush}">
@@ -95,6 +105,7 @@
                                 <CheckBox Content="Brake" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowBrakeOverlay}"/>
                                 <CheckBox Content="Clutch" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowClutchOverlay}"/>
                                 <CheckBox Content="Shift Points" VerticalAlignment="Center" FontSize="{StaticResource BigFontSize}" VerticalContentAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" Margin="5" IsChecked="{Binding MapViewViewModel.ShowShiftPoints}"/>
+
                             </StackPanel>
                         </Border>
                     </Grid>

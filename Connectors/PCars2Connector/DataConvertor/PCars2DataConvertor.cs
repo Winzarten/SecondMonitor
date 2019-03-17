@@ -175,11 +175,13 @@
         private static void AddOilSystemInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.mOilTempCelsius);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.mOilPressureKPa);
         }
 
         private static void AddWaterSystemInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.mWaterTempCelsius);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterPressure = Pressure.FromKiloPascals(data.mWaterPressureKPa);
         }
 
         private static void AddPedalInfo(PCars2SharedMemory data, SimulatorDataSet simData)

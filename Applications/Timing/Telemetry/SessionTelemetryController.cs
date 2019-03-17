@@ -60,15 +60,7 @@
         {
             try
             {
-                LapSummaryDto lapSummaryDto = new LapSummaryDto()
-                {
-                    LapNumber = lapInfo.LapNumber,
-                    LapTimeSeconds = lapInfo.LapTime.TotalSeconds,
-                    Sector1Time = lapInfo.Sector1?.Duration ?? TimeSpan.Zero,
-                    Sector2Time = lapInfo.Sector2?.Duration ?? TimeSpan.Zero,
-                    Sector3Time = lapInfo.Sector3?.Duration ?? TimeSpan.Zero,
-                    SessionIdentifier = SessionIdentifier
-                };
+                LapSummaryDto lapSummaryDto = CreateLapSummary(lapInfo);
 
                 TimedTelemetrySnapshot fistSnapshotsByDistance = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.First(x => x.PlayerData.LapDistance < _sessionInfoDto.LayoutLength * 0.5);
 
@@ -77,7 +69,6 @@
                     LapSummary = lapSummaryDto,
                     TimedTelemetrySnapshots = lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.Skip(lapInfo.LapTelemetryInfo.TimedTelemetrySnapshots.Snapshots.ToList().IndexOf(fistSnapshotsByDistance)).ToArray()
                 };
-
 
 
                 Interpolate(lapTelemetryDto, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation);
@@ -92,6 +83,23 @@
                 Logger.Error(ex,"Uanble to Save Telemetry");
                 return false;
             }
+        }
+
+        private LapSummaryDto CreateLapSummary(LapInfo lapInfo)
+        {
+            LapSummaryDto lapSummaryDto = new LapSummaryDto()
+            {
+                LapNumber = lapInfo.LapNumber,
+                LapTimeSeconds = lapInfo.LapTime.TotalSeconds,
+                Sector1Time = lapInfo.Sector1?.Duration ?? TimeSpan.Zero,
+                Sector2Time = lapInfo.Sector2?.Duration ?? TimeSpan.Zero,
+                Sector3Time = lapInfo.Sector3?.Duration ?? TimeSpan.Zero,
+                SessionIdentifier = SessionIdentifier,
+                Simulator = _sessionInfoDto.Simulator,
+                TrackName = _sessionInfoDto.TrackName,
+                LayoutName = _sessionInfoDto.LayoutName,
+            };
+            return lapSummaryDto;
         }
 
         private void Interpolate(LapTelemetryDto lapTelemetryDto, bool interpolateDistance, bool interpolateLocation)

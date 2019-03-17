@@ -1,10 +1,16 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel
 {
+    using System.Collections.Generic;
+    using DataExtractor;
     using DataModel.Telemetry;
     using TelemetryManagement.DTO;
 
     public class GearGraphViewModel : AbstractSingleSeriesGraphViewModel
     {
+        public GearGraphViewModel(IEnumerable<ISingleSeriesDataExtractor> dataExtractors) : base(dataExtractors)
+        {
+        }
+
         public override string Title => "Gear";
         protected override string YUnits => "Gear";
         protected override double YTickInterval => 1;

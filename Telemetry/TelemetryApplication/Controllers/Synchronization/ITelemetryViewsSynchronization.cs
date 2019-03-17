@@ -14,6 +14,7 @@
         event EventHandler<LapTelemetryArgs> LapLoaded;
         event EventHandler<LapSummaryArgs> LapUnloaded;
         event EventHandler<TelemetrySnapshotArgs> SyncTelemetryView;
+        event EventHandler<LapSummaryArgs> ReferenceLapSelected;
 
         void NotifyNewSessionLoaded(SessionInfoDto sessionInfoDto);
         void NotifySessionAdded(SessionInfoDto sessionInfoDto);
@@ -21,6 +22,7 @@
         void NotifyLapLoaded(LapTelemetryDto lapTelemetryDto);
         void NotifyLapUnloaded(LapSummaryDto lapSummary);
         void NotifySynchronizeToSnapshot(TimedTelemetrySnapshot telemetrySnapshot, LapSummaryDto lapSummary);
+        void NotifyReferenceLapSelected(LapSummaryDto referenceLap);
         void NotifyLapLoadingStarted();
         void NotifyLapLoadingFinished();
     }

@@ -32,9 +32,9 @@
                         </Grid>
                         <Grid Grid.Row="1" Visibility="{Binding WeatherInfoAvailable, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="AutO"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="0" BorderBrush="{StaticResource DarkGrey05Brush}" CornerRadius="2" BorderThickness="2">
                                     <StackPanel Orientation="Horizontal">

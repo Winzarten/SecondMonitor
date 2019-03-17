@@ -517,12 +517,27 @@
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZoomAndPanControl), new FrameworkPropertyMetadata(typeof(ZoomAndPanControl)));
         }
 
+        public ZoomAndPanControl()
+        {
+            this.IsVisibleChanged += OnIsVisibleChanged;
+        }
+
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            OnApplyTemplate();
+        }
+
         /// <summary>
         /// Called when a template has been applied to the control.
         /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            if (Template == null)
+            {
+                return;
+            }
 
             _content = Template.FindName("PART_Content", this) as FrameworkElement;
             if (_content != null)
@@ -549,6 +564,7 @@
                 _content.RenderTransform = transformGroup;
             }
         }
+
 
         /// <summary>
         /// Zoom to the specified scale and move the specified focus point to the center of the viewport.

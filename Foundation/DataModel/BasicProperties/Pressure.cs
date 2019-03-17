@@ -12,7 +12,7 @@
 
         public Pressure()
         {
-            InKpa = -1;
+            InKpa = 0;
         }
 
         private Pressure(double valueInKpa)
@@ -107,6 +107,11 @@
         public static Pressure FromPsi(double pressureInPsi)
         {
             return new Pressure(pressureInPsi / 0.145038);
+        }
+
+        public static Pressure FromAtm(double pressure)
+        {
+            return new Pressure(pressure * 101.3);
         }
 
         public double GetValueInUnits(PressureUnits units)

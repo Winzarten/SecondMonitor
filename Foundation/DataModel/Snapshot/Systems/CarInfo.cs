@@ -16,6 +16,7 @@
             Acceleration = new Acceleration();
             FrontHeight = Distance.ZeroDistance;
             RearHeight = Distance.ZeroDistance;
+            TurboPressure = Pressure.Zero;
         }
 
         public Wheels WheelsInfo { get; set; }
@@ -31,6 +32,8 @@
         public Distance FrontHeight { get; set; }
 
         public Distance RearHeight { get; set; }
+
+        public Pressure TurboPressure { get; set; }
 
         [XmlAttribute]
         public string CurrentGear { get; set; } = string.Empty;

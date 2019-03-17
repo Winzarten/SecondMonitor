@@ -12,6 +12,15 @@
         [XmlAttribute]
         public int LapNumber { get; set; }
 
+        [XmlAttribute]
+        public string Simulator { get; set; }
+
+        [XmlAttribute]
+        public string TrackName { get; set; }
+
+        [XmlAttribute]
+        public string LayoutName { get; set; }
+
         [XmlIgnore]
         public TimeSpan LapTime { get; set; }
 
