@@ -17,7 +17,10 @@
             FrontHeight = Distance.ZeroDistance;
             RearHeight = Distance.ZeroDistance;
             TurboPressure = Pressure.Zero;
+            CarDamageInformation = new CarDamageInformation();
         }
+
+        public CarDamageInformation CarDamageInformation { get; set; }
 
         public Wheels WheelsInfo { get; set; }
 

@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="ControlTestingApp.Controls.StatusIconTC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ControlTestingApp.Controls"
+             xmlns:statusIcon="clr-namespace:SecondMonitor.WindowsControls.WPF.StatusIcon;assembly=WindowsControls"
+             xmlns:viewModels="clr-namespace:ControlTestingApp.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModels:StatusIconTcVm/>
+    </UserControl.DataContext>
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <statusIcon:StatusIconControl DataContext="{Binding StatusIconViewModel}" StatusIcon="{StaticResource OilIcon}" Width="64" Height="64" />
+        <Grid Grid.Column="2">
+            <Slider Minimum="0" Maximum="4" Value="{Binding IconStatusInt}" Width="100"></Slider>
+        </Grid>
+    </Grid>
+</UserControl>

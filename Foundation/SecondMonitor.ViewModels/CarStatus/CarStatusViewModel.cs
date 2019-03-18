@@ -17,13 +17,14 @@
         private FuelOverviewViewModel _fuelOverviewViewModel;
         private FuelPlannerViewModel _fuelPlannerViewModel;
         private CarSystemsViewModel _carSystemsViewModel;
+        private DashboardViewModel _dashboardViewModel;
         private bool _isFuelCalculatorShown;
 
         private PedalsAndGearViewModel _pedalAndGearViewModel;
 
         public CarStatusViewModel(IPaceProvider paceProvider)
         {
-            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(paceProvider), new PedalsAndGearViewModel(), new CarSystemsViewModel()};
+            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(paceProvider), new PedalsAndGearViewModel(), new CarSystemsViewModel(), new DashboardViewModel()};
             _fuelPlannerViewModelFactory = new FuelPlannerViewModelFactory();;
             RefreshProperties();
         }
@@ -76,6 +77,12 @@
             private set => SetProperty(ref _carSystemsViewModel, value);
         }
 
+        public DashboardViewModel DashboardViewModel
+        {
+            get => _dashboardViewModel;
+            set => SetProperty(ref _dashboardViewModel, value);
+        }
+
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
            _viewModels.ApplyDateSet(dataSet);
@@ -114,7 +121,7 @@
             FuelOverviewViewModel = _viewModels.GetFirst<FuelOverviewViewModel>();
             PedalsAndGearViewModel = _viewModels.GetFirst<PedalsAndGearViewModel>();
             CarSystemsViewModel = _viewModels.GetFirst<CarSystemsViewModel>();
-
+            DashboardViewModel = _viewModels.GetFirst<DashboardViewModel>();
         }
     }
 }

@@ -131,6 +131,9 @@
     <Compile Include="WPF\CarSystems\CarSystemsControl.xaml.cs">
       <DependentUpon>CarSystemsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WPF\CarSystems\DashboardControl.xaml.cs">
+      <DependentUpon>DashboardControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\ColorableIcon.cs" />
     <Compile Include="WPF\Converters\ColorToBrushConverter.cs" />
     <Compile Include="WPF\Converters\DateTimeToCurrentConverter.cs" />
@@ -179,6 +182,9 @@
     <Compile Include="WPF\QuantityText\PressureText.cs" />
     <Compile Include="WPF\QuantityText\VelocityText.cs" />
     <Compile Include="WPF\QuantityText\VolumeQuantityText.cs" />
+    <Compile Include="WPF\StatusIcon\StatusIconControl.xaml.cs">
+      <DependentUpon>StatusIconControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\TrackInfoControl\TrackInfoControl.cs" />
     <Compile Include="WPF\UserInput\DialogUserInputProvider.cs" />
     <Compile Include="WPF\UserInput\UserInputViewModel.cs" />
@@ -227,6 +233,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="WPF\CarSystems\CarSystemsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\CarSystems\DashboardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,6 +305,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPF\Popup\PopUpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPF\StatusIcon\StatusIconControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

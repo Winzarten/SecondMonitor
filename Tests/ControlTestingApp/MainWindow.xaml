@@ -17,7 +17,10 @@
     </Window.DataContext>
     <Grid Background="Black">
         <TabControl>
-            <TabItem Header="Geometry Test">
+            <TabItem Header="Status Icons">
+                <controls:StatusIconTC/>
+            </TabItem>
+            <!--<TabItem Header="Geometry Test">
                 <controls:GeometryTestControl/>
             </TabItem>
             <TabItem Header="Fuel Calculator">
@@ -64,7 +67,7 @@
             </TabItem>
             <TabItem Header="Track Info">
                 <controls:TrackInfoTestControl></controls:TrackInfoTestControl>
-            </TabItem>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </Window>

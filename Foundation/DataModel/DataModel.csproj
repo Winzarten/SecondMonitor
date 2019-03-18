@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BasicProperties\Acceleration.cs" />
     <Compile Include="BasicProperties\ColorDTO.cs" />
+    <Compile Include="BasicProperties\DamageInformation.cs" />
     <Compile Include="BasicProperties\Distance.cs" />
     <Compile Include="BasicProperties\DistanceUnits.cs" />
     <Compile Include="BasicProperties\FlagKind.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Snapshot\ISimulatorDateSetVisitor.cs" />
     <Compile Include="Snapshot\SessionPhase.cs" />
     <Compile Include="BasicProperties\SessionType.cs" />
+    <Compile Include="Snapshot\Systems\CarDamageInformation.cs" />
     <Compile Include="Snapshot\Systems\CarInfo.cs" />
     <Compile Include="Snapshot\DataInputSupport.cs" />
     <Compile Include="Snapshot\DatamodelSerializerHelper.cs" />

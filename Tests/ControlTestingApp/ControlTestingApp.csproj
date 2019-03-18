@@ -77,6 +77,9 @@
     <Compile Include="Controls\PositionCircleTestControl.xaml.cs">
       <DependentUpon>PositionCircleTestControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\StatusIconTC.xaml.cs">
+      <DependentUpon>StatusIconTC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TrackInfoTestControl.xaml.cs">
       <DependentUpon>TrackInfoTestControl.xaml</DependentUpon>
     </Compile>
@@ -90,6 +93,7 @@
     <Compile Include="ViewModels\CarStatusTestVM.cs" />
     <Compile Include="ViewModels\FuelCalculatorTestViewModel.cs" />
     <Compile Include="ViewModels\FuelOverviewTestViewModel.cs" />
+    <Compile Include="ViewModels\StatusIconTcVm.cs" />
     <Compile Include="ViewModels\TemperatureTestViewModel.cs" />
     <Compile Include="ViewModels\WheelStatusTestVM.cs" />
     <Page Include="Controls\CarSettingsTestControl.xaml">
@@ -113,6 +117,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\PositionCircleTestControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\StatusIconTC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
