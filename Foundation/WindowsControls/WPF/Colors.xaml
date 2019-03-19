@@ -94,6 +94,7 @@
     <SolidColorBrush x:Shared="False" x:Key="IconOkBrush" Color="{StaticResource Green05Color}"/>
     <SolidColorBrush x:Shared="False" x:Key="IconWarningBrush" Color="{StaticResource Orange01Color}"/>
     <SolidColorBrush x:Shared="False" x:Key="IconErrorBrush" Color="{StaticResource LightRed02Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="IconInformationBrush" Color="{StaticResource LightBlue01Color}"/>
 
 
 </ResourceDictionary>

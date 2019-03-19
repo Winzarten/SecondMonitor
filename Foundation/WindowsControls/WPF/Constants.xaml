@@ -10,4 +10,7 @@
     <system:Double x:Key="NormalFontSize">15</system:Double>
     <system:Double x:Key="TimingGridFontSize">18</system:Double>
     <system:Double x:Key="SmallFontSize">12</system:Double>
+
+    <system:Double x:Key="BigIconWidth">45</system:Double>
+    <system:Double x:Key="SmallIconWidth">32</system:Double>
 </ResourceDictionary>

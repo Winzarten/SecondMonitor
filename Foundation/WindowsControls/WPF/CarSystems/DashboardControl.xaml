@@ -16,15 +16,45 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <statusIcon:StatusIconControl Grid.Column="0" DataContext="{Binding EngineStatus}" StatusIcon="{StaticResource EngineIcon}"/>
-        <statusIcon:StatusIconControl Grid.Column="1" DataContext="{Binding TransmissionStatus}" StatusIcon="{StaticResource TransmissionIcon}"/>
-        <statusIcon:StatusIconControl Grid.Column="2" DataContext="{Binding SuspensionStatus}" StatusIcon="{StaticResource SuspensionIcon}"/>
-        <statusIcon:StatusIconControl Grid.Column="3" DataContext="{Binding BodyworkStatus}" StatusIcon="{StaticResource BodyWorkIcon}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Row="0">
+            <StackPanel Orientation="Horizontal">
+                <statusIcon:StatusIconControl DataContext="{Binding EngineStatus}"
+                                            StatusIcon="{StaticResource EngineIcon}"
+                                            IconMaxWidth="{StaticResource SmallIconWidth}"/>
+                <statusIcon:StatusIconControl DataContext="{Binding TransmissionStatus}"
+                                            StatusIcon="{StaticResource TransmissionIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Transmission Damage" />
+                <statusIcon:StatusIconControl DataContext="{Binding SuspensionStatus}"
+                                            StatusIcon="{StaticResource SuspensionIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Suspension Damage" />
+                <statusIcon:StatusIconControl DataContext="{Binding BodyworkStatus}"
+                                            StatusIcon="{StaticResource BodyWorkIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Bodywork/Aero Damage" IconMargin="2" />
+                <statusIcon:StatusIconControl DataContext="{Binding TyreDirtStatus}"
+                                              StatusIcon="{StaticResource TyreDirtIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Dirt on Tyres" IconMargin="2" />
+            </StackPanel>
+        </Grid>
+        <Grid Row="1">
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <statusIcon:StatusIconControl DataContext="{Binding PitLimiterStatus}"
+                                            StatusIcon="{StaticResource CruiseControlIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Pit Limiter Status" IconMargin="2"/>
+                <statusIcon:StatusIconControl DataContext="{Binding DrsStatusIndication}"
+                                            StatusIcon="{StaticResource DrsIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Drs Status" IconMargin="2" />
+                <statusIcon:StatusIconControl DataContext="{Binding BoostIndication}"
+                                              StatusIcon="{StaticResource BoostIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Push to Pass / Boost" IconMargin="2" />
+                <statusIcon:StatusIconControl DataContext="{Binding AlternatorStatus}"
+                                            StatusIcon="{StaticResource BatteryIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Alternator" IconMargin="2" />
+             </StackPanel>
+
+        </Grid>
     </Grid>
 </UserControl>

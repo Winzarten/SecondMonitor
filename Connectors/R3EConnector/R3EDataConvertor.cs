@@ -5,6 +5,7 @@
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Systems;
     using PluginManager.GameConnector;
 
     internal class R3EDataConvertor : AbstractDataConvertor
@@ -102,8 +103,6 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(data.TirePressure.RearLeft);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(data.TirePressure.RearRight);
 
-
-
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear = 1 - data.TireWear.FrontLeft;
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear = 1 - data.TireWear.FrontRight;
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear = 1 - data.TireWear.RearLeft;
@@ -114,6 +113,10 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Rps = -data.TireRps.RearLeft;
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Rps = -data.TireRps.RearRight;
 
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.DirtLevel = data.TireDirt.FrontLeft;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.DirtLevel = data.TireDirt.FrontRight;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.DirtLevel = data.TireDirt.RearLeft;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.DirtLevel = data.TireDirt.RearRight;
             // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft_Left);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft_Right);
@@ -348,12 +351,78 @@
             // Acceleration
             AddAcceleration(data, simData);
 
+            //Add Additional Player Car Info
+            AddPlayerCarInfo(data, simData);
+
             //Add Flags Info
             AddFlags(data, simData);
 
             PopulateClassPositions(simData);
 
             return simData;
+        }
+
+        private void AddPlayerCarInfo(R3ESharedData data, SimulatorDataSet simData)
+        {
+            CarInfo playerCar = simData.PlayerInfo.CarInfo;
+
+            playerCar.CarDamageInformation.Bodywork.Damage = 1 - data.CarDamage.Aerodynamics;
+            playerCar.CarDamageInformation.Engine.Damage = 1 - data.CarDamage.Engine;
+            playerCar.CarDamageInformation.Transmission.Damage = 1 -data.CarDamage.Transmission;
+
+            playerCar.SpeedLimiterEngaged = data.PitLimiter == 1;
+
+            FillDrsData(data, playerCar);
+            FillBoostData(data.PushToPass, playerCar);
+        }
+
+        private static void FillDrsData(R3ESharedData data, CarInfo playerCar)
+        {
+            DrsSystem drsSystem = playerCar.DrsSystem;
+
+            drsSystem.DrsActivationLeft = data.Drs.NumActivationsLeft < 100 ? data.Drs.NumActivationsLeft : -1;
+            if (data.Drs.Equipped == 0)
+            {
+                drsSystem.DrsStatus = DrsStatus.NotEquipped;
+                return;
+            }
+
+            if (data.Drs.Engaged == 1)
+            {
+                drsSystem.DrsStatus = DrsStatus.InUse;
+                return;
+            }
+
+            if (data.Drs.Available == 1)
+            {
+                drsSystem.DrsStatus = DrsStatus.Available;
+                return;
+            }
+
+            drsSystem.DrsStatus = DrsStatus.Equipped;
+        }
+
+        private static void FillBoostData(PushToPass pushToPass, CarInfo playerCar)
+        {
+            BoostSystem boostSystem = playerCar.BoostSystem;
+
+            if (pushToPass.Available != 1)
+            {
+                boostSystem.BoostStatus = BoostStatus.UnAvailable;
+                return;
+            }
+
+            boostSystem.ActivationsRemaining = pushToPass.AmountLeft;
+            boostSystem.CooldownTimer = TimeSpan.FromSeconds(pushToPass.WaitTimeLeft);
+            boostSystem.TimeRemaining = TimeSpan.FromSeconds(pushToPass.EngagedTimeLeft);
+
+            if (pushToPass.Engaged == 1)
+            {
+                boostSystem.BoostStatus = BoostStatus.InUse;
+                return;
+            }
+
+            boostSystem.BoostStatus = boostSystem.CooldownTimer == TimeSpan.Zero ? BoostStatus.Available : BoostStatus.Cooldown;
         }
 
         private void AddFlags(R3ESharedData data, SimulatorDataSet simData)

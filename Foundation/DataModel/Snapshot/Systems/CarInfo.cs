@@ -18,6 +18,8 @@
             RearHeight = Distance.ZeroDistance;
             TurboPressure = Pressure.Zero;
             CarDamageInformation = new CarDamageInformation();
+            DrsSystem = new DrsSystem();
+            BoostSystem = new BoostSystem();
         }
 
         public CarDamageInformation CarDamageInformation { get; set; }
@@ -37,6 +39,12 @@
         public Distance RearHeight { get; set; }
 
         public Pressure TurboPressure { get; set; }
+
+        public bool SpeedLimiterEngaged { get; set; }
+
+        public DrsSystem DrsSystem { get; set; }
+
+        public BoostSystem BoostSystem { get; set; }
 
         [XmlAttribute]
         public string CurrentGear { get; set; } = string.Empty;

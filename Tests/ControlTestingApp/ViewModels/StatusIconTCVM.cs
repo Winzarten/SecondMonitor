@@ -35,6 +35,9 @@
                     case 3:
                         StatusIconViewModel.IconState = StatusIconState.Error;
                         break;
+                    case 4:
+                        StatusIconViewModel.IconState = StatusIconState.Information;
+                        break;
                     default:
                         StatusIconViewModel.IconState = StatusIconState.Unlit;
                         break;

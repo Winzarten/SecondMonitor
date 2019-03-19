@@ -5,6 +5,12 @@
         private StatusIconState _iconState;
         private string _additionalText;
 
+        public StatusIconViewModel()
+        {
+            IconState = StatusIconState.Unlit;
+            AdditionalText = string.Empty;
+        }
+
         public StatusIconState IconState
         {
             get => _iconState;

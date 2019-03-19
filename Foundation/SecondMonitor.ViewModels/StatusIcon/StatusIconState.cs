@@ -2,6 +2,6 @@
 {
     public enum StatusIconState
     {
-        Unlit, Ok, Warning, Error
+        Unlit, Ok, Warning, Error, Information
     }
 }
