@@ -60,6 +60,11 @@
             UpdateDrsStatus(dataSet.PlayerInfo.CarInfo);
             UpdateBoostStatus(dataSet.PlayerInfo.CarInfo.BoostSystem);
 
+            if (dataSet.PlayerInfo.CarInfo.WheelsInfo.AllWheels.Any(x => x.Detached))
+            {
+                SuspensionStatus.IconState = StatusIconState.Error;
+            }
+
             _refreshStopwatch.Restart();
         }
 

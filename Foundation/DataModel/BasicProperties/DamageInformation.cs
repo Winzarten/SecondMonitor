@@ -5,8 +5,8 @@
         public DamageInformation()
         {
             Damage = 0;
-            MediumDamageThreshold = 0.25;
-            HeavyDamageThreshold = 0.50;
+            MediumDamageThreshold = 0.05;
+            HeavyDamageThreshold = 0.25;
         }
 
         public double Damage { get; set; }

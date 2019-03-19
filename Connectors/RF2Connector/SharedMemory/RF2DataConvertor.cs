@@ -6,6 +6,7 @@
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Systems;
     using PluginManager.Extensions;
     using PluginManager.GameConnector;
     using PluginManager.Visitor;
@@ -69,6 +70,9 @@
                 // Acceleration
                 AddAcceleration(simData, playerF2VehicleTelemetry);
 
+                //Add Additional Player Car Info
+                AddPlayerCarInfo(playerF2VehicleTelemetry, simData);
+
                 AddFlags(rfData, simData);
 
                 currentlyIgnoredPackage = 0;
@@ -82,6 +86,32 @@
                 _lastPlayer = new DriverInfo();
                 throw new RF2InvalidPackageException(ex);
             }
+        }
+
+        private void AddPlayerCarInfo(rF2VehicleTelemetry data, SimulatorDataSet simData)
+        {
+            CarInfo playerCar = simData.PlayerInfo.CarInfo;
+
+            int totalDent = data.mDentSeverity.Aggregate((x, y) => (byte)(x + y));
+            int maxDent = data.mDentSeverity.Max();
+            playerCar.CarDamageInformation.Bodywork.Damage = totalDent / 16.0;
+            if (maxDent == 1)
+            {
+                playerCar.CarDamageInformation.Bodywork.MediumDamageThreshold = playerCar.CarDamageInformation.Bodywork.Damage;
+            }
+            else if (maxDent == 2)
+            {
+                playerCar.CarDamageInformation.Bodywork.MediumDamageThreshold = 0;
+                playerCar.CarDamageInformation.Bodywork.HeavyDamageThreshold = playerCar.CarDamageInformation.Bodywork.Damage;
+            }
+
+            if (data.mOverheating == 1)
+            {
+                playerCar.CarDamageInformation.Engine.Damage = 1;
+            }
+
+            playerCar.SpeedLimiterEngaged = data.mSpeedLimiter == 1;
+
         }
 
         private void AddFlags(Rf2FullData rfData, SimulatorDataSet simData)
@@ -125,6 +155,11 @@
                 Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mPressure);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity =
                 Pressure.FromKiloPascals(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mPressure);
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Detached = playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mDetached == 1 || playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mFlat == 1;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Detached = playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mDetached == 1 || playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mFlat == 1;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Detached = playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mDetached == 1 || playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mFlat == 1;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Detached = playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mDetached == 1 || playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mFlat == 1;
 
             simData.PlayerInfo.CarInfo.RearHeight = Distance.FromMeters(playerVehicleTelemetry.mRearRideHeight);
             simData.PlayerInfo.CarInfo.FrontHeight = Distance.FromMeters(playerVehicleTelemetry.mFrontWingHeight);

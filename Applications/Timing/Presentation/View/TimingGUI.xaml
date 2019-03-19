@@ -88,7 +88,7 @@
             </Border>
             <Border Grid.Column="1"
                     BorderBrush="{StaticResource DarkGrey01Brush}"
-                    BorderThickness="3" CornerRadius="5">
+                    BorderThickness="1" CornerRadius="5">
                 <StackPanel>
                     <wpf:TimeSpanBarControl Title="Δ to Personal Best"
                                             AnimateBar="{Binding DisplaySettingsViewModel.AnimateDeltaTimes, Mode=OneWay}"

@@ -23,12 +23,10 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0" Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding SessionType, RelativeSource={RelativeSource TemplatedParent}}" Margin="5,5,5,5" VerticalAlignment="Center"></TextBlock>
-                            <Grid Grid.Column="2">
-                                <StackPanel VerticalAlignment="Center">
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
                                 <TextBlock  Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding TrackName, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="10,5,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Right"></TextBlock>
-                                    <quantityText:DistanceText HorizontalAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource SmallFontSize}" Quantity="{Binding LayoutLength ,RelativeSource={RelativeSource TemplatedParent}}" DistanceUnits="{Binding DistanceUnits ,RelativeSource={RelativeSource TemplatedParent}}" ShowUnitSymbol="True"/>
-                                </StackPanel>
-                            </Grid>
+                                <quantityText:DistanceText HorizontalAlignment="Center" Foreground="{StaticResource LightGrey01Brush}" FontSize="{StaticResource SmallFontSize}" Quantity="{Binding LayoutLength ,RelativeSource={RelativeSource TemplatedParent}}" DistanceUnits="{Binding DistanceUnits ,RelativeSource={RelativeSource TemplatedParent}}" ShowUnitSymbol="True"/>
+                            </StackPanel>
                         </Grid>
                         <Grid Grid.Row="1" Visibility="{Binding WeatherInfoAvailable, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
@@ -37,22 +35,22 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="0" BorderBrush="{StaticResource DarkGrey05Brush}" CornerRadius="2" BorderThickness="2">
-                                    <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter Content="{StaticResource AirIcon}" MaxWidth="25" Margin="5,5,0,0" VerticalAlignment="Center"/>
-                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding AirTemperatureInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center"></TextBlock>
-                                    </StackPanel>
+                                    <DockPanel>
+                                        <ContentPresenter Content="{StaticResource AirIcon}" MaxWidth="25" Margin="5,5,0,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding AirTemperatureInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                    </DockPanel>
                                 </Border>
                             <Border Grid.Column="1" BorderBrush="{StaticResource DarkGrey05Brush}" CornerRadius="2" BorderThickness="2">
-                                    <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter Content="{StaticResource RoadIcon}" MaxWidth="25"  Margin="5,5,0,0" VerticalAlignment="Center"/>
-                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding TrackTemperatureInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center"></TextBlock>
-                                    </StackPanel>
+                                    <DockPanel>
+                                    <ContentPresenter Content="{StaticResource RoadIcon}" MaxWidth="25"  Margin="5,5,0,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding TrackTemperatureInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                    </DockPanel>
                                 </Border>
                             <Border Grid.Column="2" BorderBrush="{StaticResource DarkGrey05Brush}" CornerRadius="2" BorderThickness="2">
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter Content="{StaticResource RainIcon}" MaxWidth="25"  Margin="5,5,0,0"  VerticalAlignment="Center"/>
-                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding RainIntensityInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center"></TextBlock>
-                                </StackPanel>
+                                <DockPanel >
+                                    <ContentPresenter Content="{StaticResource RainIcon}" MaxWidth="25"  Margin="5,5,0,0"  VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                    <TextBlock Style="{StaticResource StandardText}" FontWeight="Bold" Text="{Binding RainIntensityInfo, RelativeSource={RelativeSource TemplatedParent}}" FontSize="{StaticResource BigFontSize}" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Left"></TextBlock>
+                                </DockPanel>
                             </Border>
                         </Grid>
                     </Grid>

@@ -117,6 +117,9 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.DirtLevel = data.TireDirt.FrontRight;
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.DirtLevel = data.TireDirt.RearLeft;
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.DirtLevel = data.TireDirt.RearRight;
+
+
+
             // Front Left Tyre Temps
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft_Left);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft_Right);
@@ -366,6 +369,9 @@
         {
             CarInfo playerCar = simData.PlayerInfo.CarInfo;
 
+            playerCar.CarDamageInformation.Bodywork.MediumDamageThreshold = 0.01;
+            playerCar.CarDamageInformation.Engine.MediumDamageThreshold = 0.01;
+            playerCar.CarDamageInformation.Transmission.MediumDamageThreshold = 0.01;
             playerCar.CarDamageInformation.Bodywork.Damage = 1 - data.CarDamage.Aerodynamics;
             playerCar.CarDamageInformation.Engine.Damage = 1 - data.CarDamage.Engine;
             playerCar.CarDamageInformation.Transmission.Damage = 1 -data.CarDamage.Transmission;
