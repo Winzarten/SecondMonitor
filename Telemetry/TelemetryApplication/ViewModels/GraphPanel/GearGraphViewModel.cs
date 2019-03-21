@@ -23,6 +23,7 @@
             {
                 case "R":
                     return -1;
+                case "":
                 case "N":
                     return 0;
                 default:

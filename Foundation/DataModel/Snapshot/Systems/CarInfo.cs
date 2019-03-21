@@ -22,8 +22,6 @@
             BoostSystem = new BoostSystem();
         }
 
-        public CarDamageInformation CarDamageInformation { get; set; }
-
         public Wheels WheelsInfo { get; set; }
 
         public OilInfo OilSystemInfo { get; set; }
@@ -38,19 +36,21 @@
 
         public Distance RearHeight { get; set; }
 
-        public Pressure TurboPressure { get; set; }
-
-        public bool SpeedLimiterEngaged { get; set; }
-
-        public DrsSystem DrsSystem { get; set; }
-
-        public BoostSystem BoostSystem { get; set; }
-
         [XmlAttribute]
         public string CurrentGear { get; set; } = string.Empty;
 
         [XmlAttribute]
         public int EngineRpm { get; set; } = 0;
+
+        public Pressure TurboPressure { get; set; }
+
+        public bool SpeedLimiterEngaged { get; set; }
+
+        public CarDamageInformation CarDamageInformation { get; set; }
+
+        public DrsSystem DrsSystem { get; set; }
+
+        public BoostSystem BoostSystem { get; set; }
 
     }
 }
