@@ -2,10 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Linq;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Systems;
     using PluginManager.Extensions;
 
     public class AcDataConverter
@@ -61,9 +62,52 @@
             // Acceleration
             AddAcceleration(simData, acData);
 
+            //Add Additional Player Car Info
+            AddPlayerCarInfo(acData, simData);
+
 
             _startObserver.Observe(simData);
             return simData;
+        }
+
+        private void AddPlayerCarInfo(AssettoCorsaShared data, SimulatorDataSet simData)
+        {
+            CarInfo playerCar = simData.PlayerInfo.CarInfo;
+            playerCar.CarDamageInformation.Bodywork.MediumDamageThreshold = 0.02;
+            playerCar.CarDamageInformation.Bodywork.HeavyDamageThreshold = 0.2;
+            playerCar.CarDamageInformation.Bodywork.Damage = data.AcsPhysics.carDamage.Max() / 100.0;
+
+            playerCar.SpeedLimiterEngaged = simData.PlayerInfo.InPits;
+
+            FillDrsData(data, playerCar);
+            FillBoostData(data, playerCar);
+        }
+
+        private void FillBoostData(AssettoCorsaShared data, CarInfo playerCar)
+        {
+            BoostSystem boostSystem = playerCar.BoostSystem;
+            if (data.AcsPhysics.kersCharge <= 0)
+            {
+                return;
+            }
+
+            boostSystem.ActivationsRemaining = (int)(data.AcsPhysics.kersCharge * 100);
+            boostSystem.BoostStatus = data.AcsPhysics.ersIsCharging == 1 ? BoostStatus.Available : BoostStatus.InUse;
+        }
+
+        private void FillDrsData(AssettoCorsaShared data, CarInfo playerCar)
+        {
+            DrsSystem drsSystem = playerCar.DrsSystem;
+            if (data.AcsPhysics.drsEnabled == 1)
+            {
+                drsSystem.DrsStatus = DrsStatus.InUse;
+                return;
+            }
+
+            if (data.AcsPhysics.drsAvailable == 1)
+            {
+                drsSystem.DrsStatus = DrsStatus.Available;
+            }
         }
 
         private void FillPlayerCarInfo(AssettoCorsaShared acData, SimulatorDataSet simData)
@@ -95,6 +139,11 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Rps = acData.AcsPhysics.wheelAngularSpeed[(int)AcWheels.FR];
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Rps = acData.AcsPhysics.wheelAngularSpeed[(int)AcWheels.RL];
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Rps = acData.AcsPhysics.wheelAngularSpeed[(int)AcWheels.FR];
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.DirtLevel = acData.AcsPhysics.tyreDirtyLevel[(int)AcWheels.FL];
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.DirtLevel = acData.AcsPhysics.tyreDirtyLevel[(int)AcWheels.FR];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.DirtLevel = acData.AcsPhysics.tyreDirtyLevel[(int)AcWheels.RL];
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.DirtLevel = acData.AcsPhysics.tyreDirtyLevel[(int)AcWheels.FR];
 
 
 

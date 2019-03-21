@@ -124,7 +124,8 @@
 
         public void ApplyWheelCondition(WheelInfo wheelInfo)
         {
-            TyreCondition = 100 * (1 -wheelInfo.TyreWear.ActualWear);
+
+            TyreCondition = wheelInfo.Detached ? 0.1 : 100 * (1 -wheelInfo.TyreWear.ActualWear);
             TyreNoWearWearLimit = 100 * (1 - wheelInfo.TyreWear.NoWearWearLimit);
             TyreMildWearLimit = 100 * (1 - wheelInfo.TyreWear.LightWearLimit);
             TyreHeavyWearLimit = 100 * (1 - wheelInfo.TyreWear.HeavyWearLimit);
@@ -157,6 +158,7 @@
 
             TyrePressure = wheelInfo.TyrePressure;
             TyreCompound = wheelInfo.TyreType;
+            TyreSlippingIndication = wheelInfo.Detached;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

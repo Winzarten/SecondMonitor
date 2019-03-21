@@ -49,9 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicProperties\Acceleration.cs" />
+    <Compile Include="BasicProperties\BoostStatus.cs" />
     <Compile Include="BasicProperties\ColorDTO.cs" />
+    <Compile Include="BasicProperties\DamageInformation.cs" />
     <Compile Include="BasicProperties\Distance.cs" />
     <Compile Include="BasicProperties\DistanceUnits.cs" />
+    <Compile Include="BasicProperties\DrsStatus.cs" />
     <Compile Include="BasicProperties\FlagKind.cs" />
     <Compile Include="BasicProperties\FuelCalculationScope.cs" />
     <Compile Include="BasicProperties\FuelConsumption\FuelPerDistance.cs" />
@@ -83,6 +86,8 @@
     <Compile Include="Snapshot\ISimulatorDateSetVisitor.cs" />
     <Compile Include="Snapshot\SessionPhase.cs" />
     <Compile Include="BasicProperties\SessionType.cs" />
+    <Compile Include="Snapshot\Systems\BoostSystem.cs" />
+    <Compile Include="Snapshot\Systems\CarDamageInformation.cs" />
     <Compile Include="Snapshot\Systems\CarInfo.cs" />
     <Compile Include="Snapshot\DataInputSupport.cs" />
     <Compile Include="Snapshot\DatamodelSerializerHelper.cs" />
@@ -91,6 +96,7 @@
     <Compile Include="Snapshot\Drivers\DriverTimingInfo.cs" />
     <Compile Include="Snapshot\SessionInfo.cs" />
     <Compile Include="Snapshot\SimulatorDataSet.cs" />
+    <Compile Include="Snapshot\Systems\DrsSystem.cs" />
     <Compile Include="Snapshot\Systems\FuelInfo.cs" />
     <Compile Include="Snapshot\Systems\OilInfo.cs" />
     <Compile Include="BasicProperties\Pressure.cs" />

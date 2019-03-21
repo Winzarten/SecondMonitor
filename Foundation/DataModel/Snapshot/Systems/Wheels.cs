@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
     using System;
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
 
     [Serializable]
     public sealed class Wheels
@@ -12,6 +14,9 @@
             RearRight = new WheelInfo();
             RearLeft = new WheelInfo();
         }
+
+        [XmlIgnore]
+        public WheelInfo[] AllWheels => new WheelInfo[] { FrontLeft, FrontRight, RearLeft, RearRight };
 
         public WheelInfo FrontLeft { get; set; }
 

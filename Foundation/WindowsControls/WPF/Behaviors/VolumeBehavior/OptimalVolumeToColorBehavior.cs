@@ -141,6 +141,10 @@ namespace SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior
         {
             if (d is OptimalVolumeToColorBehavior<A,B> optimalVolumeToColorBehavior)
             {
+                if (optimalVolumeToColorBehavior.Volume.IdealQuantityWindow.RawValue <= 0)
+                {
+                    return;
+                }
                 await optimalVolumeToColorBehavior.UpdateColor();
             }
         }

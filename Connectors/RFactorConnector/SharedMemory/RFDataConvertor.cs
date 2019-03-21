@@ -5,6 +5,7 @@
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Systems;
     using PluginManager.Extensions;
 
     internal class RFDataConvertor
@@ -48,10 +49,38 @@
             // Acceleration
             AddAcceleration(rfData, simData);
 
+            //Add Additional Player Car Info
+            AddPlayerCarInfo(rfData, simData);
+
             AddFlags(rfData, simData);
 
             currentlyIgnoredPackage = 0;
             return simData;
+        }
+
+        private void AddPlayerCarInfo(RfShared data, SimulatorDataSet simData)
+        {
+            CarInfo playerCar = simData.PlayerInfo.CarInfo;
+
+            int totalDent = data.DentSeverity.Aggregate((x, y) => (byte)(x + y));
+            int maxDent = data.DentSeverity.Max();
+            playerCar.CarDamageInformation.Bodywork.Damage = totalDent / 16.0;
+            if (maxDent == 1)
+            {
+                playerCar.CarDamageInformation.Bodywork.MediumDamageThreshold = playerCar.CarDamageInformation.Bodywork.Damage;
+            }else if (maxDent == 2)
+            {
+                playerCar.CarDamageInformation.Bodywork.MediumDamageThreshold = 0;
+                playerCar.CarDamageInformation.Bodywork.HeavyDamageThreshold = playerCar.CarDamageInformation.Bodywork.Damage;
+            }
+
+            if (data.Overheating == 1)
+            {
+                playerCar.CarDamageInformation.Engine.Damage = 1;
+            }
+
+            playerCar.SpeedLimiterEngaged = false;
+
         }
 
         private void AddFlags(RfShared rfData, SimulatorDataSet simData)
@@ -92,7 +121,10 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(data.Wheel[(int)RfWheelIndex.RearLeft].Pressure);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyrePressure.ActualQuantity = Pressure.FromKiloPascals(data.Wheel[(int)RfWheelIndex.RearRight].Pressure);
 
-
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Detached = data.Wheel[(int) RfWheelIndex.FrontLeft].Detached == 1 || data.Wheel[(int)RfWheelIndex.FrontLeft].Flat == 1;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Detached = data.Wheel[(int)RfWheelIndex.FrontRight].Detached == 1 || data.Wheel[(int)RfWheelIndex.FrontRight].Flat == 1;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Detached = data.Wheel[(int)RfWheelIndex.RearLeft].Detached == 1 || data.Wheel[(int)RfWheelIndex.RearLeft].Flat == 1;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Detached = data.Wheel[(int)RfWheelIndex.RearRight].Detached == 1 || data.Wheel[(int)RfWheelIndex.RearRight].Flat == 1;
 
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.FrontLeft].Wear;
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.TyreWear.ActualWear = 1 - data.Wheel[(int)RfWheelIndex.FrontRight].Wear;

@@ -68,6 +68,10 @@
 
         public TyreWear TyreWear { get; set; }
 
+        public bool Detached { get; set; }
+
+        public double DirtLevel { get; set; } = 0;
+
         public OptimalQuantity<Temperature> LeftTyreTemp { get; set; }
 
         public OptimalQuantity<Temperature> RightTyreTemp{ get; set; }

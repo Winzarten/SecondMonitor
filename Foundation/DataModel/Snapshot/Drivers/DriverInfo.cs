@@ -12,6 +12,8 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
     [DebuggerDisplay("Driver Name: {DriverName}")]
     public sealed class DriverInfo : IDriverInfo
     {
+        private CarInfo _carInfo;
+
         public DriverInfo()
         {
 
@@ -49,7 +51,11 @@ namespace SecondMonitor.DataModel.Snapshot.Drivers
 
         public DriverFinishStatus FinishStatus { get; set; } = DriverFinishStatus.Na;
 
-        public CarInfo CarInfo { get; set; } = new CarInfo();
+        public CarInfo CarInfo
+        {
+            get => _carInfo ?? (_carInfo = new CarInfo());
+            set => _carInfo = value;
+        }
 
         public DriverTimingInfo Timing { get; set; } = new DriverTimingInfo();
 

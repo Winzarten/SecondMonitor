@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="SecondMonitor.WindowsControls.WPF.CarSystems.DashboardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SecondMonitor.WindowsControls.WPF.CarSystems"
+             xmlns:carStatus="clr-namespace:SecondMonitor.ViewModels.CarStatus;assembly=SecondMonitor.ViewModels"
+             xmlns:statusIcon="clr-namespace:SecondMonitor.WindowsControls.WPF.StatusIcon"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance carStatus:DashboardViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../CommonResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Row="0">
+            <StackPanel Orientation="Horizontal">
+                <statusIcon:StatusIconControl DataContext="{Binding EngineStatus}"
+                                            StatusIcon="{StaticResource EngineIcon}"
+                                            IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Engine Damage"/>
+                <statusIcon:StatusIconControl DataContext="{Binding TransmissionStatus}"
+                                            StatusIcon="{StaticResource TransmissionIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Transmission Damage" />
+                <statusIcon:StatusIconControl DataContext="{Binding SuspensionStatus}"
+                                            StatusIcon="{StaticResource SuspensionIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Suspension Damage" />
+                <statusIcon:StatusIconControl DataContext="{Binding BodyworkStatus}"
+                                            StatusIcon="{StaticResource BodyWorkIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Bodywork/ Aero Damage" IconMargin="2" />
+                <statusIcon:StatusIconControl DataContext="{Binding TyreDirtStatus}"
+                                              StatusIcon="{StaticResource TyreDirtIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Dirt on Tyres" IconMargin="2" />
+                <statusIcon:StatusIconControl DataContext="{Binding PitLimiterStatus}"
+                                              StatusIcon="{StaticResource CruiseControlIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Pit Limiter Status" IconMargin="2"/>
+                <statusIcon:StatusIconControl DataContext="{Binding DrsStatusIndication}"
+                                              StatusIcon="{StaticResource DrsIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Drs Status" IconMargin="2" />
+                <statusIcon:StatusIconControl DataContext="{Binding BoostIndication}"
+                                              StatusIcon="{StaticResource BoostIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Push to Pass / Boost" IconMargin="2" />
+                <!--<statusIcon:StatusIconControl DataContext="{Binding AlternatorStatus}"
+                                              StatusIcon="{StaticResource BatteryIcon}"
+                                              IconMaxWidth="{StaticResource SmallIconWidth}" ToolTip="Alternator" IconMargin="2" />-->
+            </StackPanel>
+        </Grid>
+        <Grid Row="1">
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+
+             </StackPanel>
+
+        </Grid>
+    </Grid>
+</UserControl>

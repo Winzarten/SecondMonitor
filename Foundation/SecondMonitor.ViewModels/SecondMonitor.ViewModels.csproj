@@ -72,6 +72,7 @@
     <Compile Include="CarStatus\CarStatusViewModel.cs" />
     <Compile Include="CarStatus\CarSystemsViewModel.cs" />
     <Compile Include="CarStatus\CarWheelsViewModel.cs" />
+    <Compile Include="CarStatus\DashboardViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelCalculatorViewModel.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionMonitor.cs" />
     <Compile Include="CarStatus\FuelStatus\FuelConsumptionInfo.cs" />
@@ -134,6 +135,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="StatusIcon\StatusIconState.cs" />
+    <Compile Include="StatusIcon\StatusIconViewModel.cs" />
     <Compile Include="TrackInfo\TrackInfoViewModel.cs" />
     <Compile Include="ViewModelsModule.cs" />
     <Compile Include="ViewModelsModuleBootstrapper.cs" />

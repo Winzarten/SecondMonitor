@@ -9,32 +9,43 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Border BorderThickness="4">
-        <Grid>
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                    <converters:TimeSpanToBrushConverter x:Key="TimeSpanToBrushConverter" />
-                <converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
-                <converters:TimeSpanToSecondsConverter x:Key="TimeSpanToSecondsConverter" />
-                </ResourceDictionary>
-            </Grid.Resources>
-            <StackPanel Background="Black">
-                <Label
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WindowsControls;component/WPF/CommonResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:TimeSpanToBrushConverter x:Key="TimeSpanToBrushConverter" />
+            <converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
+            <converters:TimeSpanToSecondsConverter x:Key="TimeSpanToSecondsConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel Background="Black">
+            <Label
                     HorizontalAlignment="Center"
                     Content="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Title}"
                     FontSize="12"
                     FontWeight="Bold"
                     Foreground="{StaticResource LightGrey01Brush}" />
-                <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey05Brush}">
+            <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey05Brush}">
                 <Grid Background="{StaticResource Anthracite01Brush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" />
-                        <ColumnDefinition Width="5*" />
-                    </Grid.ColumnDefinitions>
-                    <Rectangle
+                    <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ZIndex="2" Background="{StaticResource Anthracite01Brush}">
+                        <TextBlock Style="{StaticResource StandardText}" Margin="3,3,3,3"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Background="{StaticResource Anthracite01Brush}"
+                                   Text="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToSecondsConverter}}"
+                                   FontWeight="Bold"
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToBrushConverter}}" />
+                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Rectangle
                         x:Name="DeltaRectangle"
                         Grid.Column="1"
                         Width="50"
@@ -44,19 +55,11 @@
                         Fill="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToBrushConverter}}"
                         RadiusX="00"
                         RadiusY="00">
-                    </Rectangle>
+                        </Rectangle>
+                    </Grid>
                 </Grid>
-                </Border>
-                <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Style="{StaticResource StandardText}" Margin="3,3,3,3"
-                           VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Background="{StaticResource Anthracite01Brush}"
-                    Text="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToSecondsConverter}}"
-                    FontWeight="Bold"
-                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:TimeSpanBarControl}, Path=Value, Converter={StaticResource TimeSpanToBrushConverter}}" />
-                </Border>
-            </StackPanel>
-        </Grid>
-    </Border>
+            </Border>
+
+        </StackPanel>
+    </Grid>
 </UserControl>

@@ -1,10 +1,11 @@
 ﻿namespace SecondMonitor.PCars2Connector.DataConvertor
 {
     using System;
-
+    using System.Linq;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
+    using DataModel.Snapshot.Systems;
     using SharedMemory;
     using PluginManager.Extensions;
     using PluginManager.GameConnector;
@@ -41,6 +42,9 @@
             // Tyre Pressure Info
             AddTyresAndFuelInfo(pcarsData, simData);
 
+            //Add Additional Player Car Info
+            AddPlayerCarInfo(pcarsData, simData);
+
             // Acceleration
             AddAcceleration(pcarsData, simData);
 
@@ -53,6 +57,33 @@
             AddActiveFlags(pcarsData, simData);
 
             return simData;
+        }
+
+        private void AddPlayerCarInfo(PCars2SharedMemory data, SimulatorDataSet simData)
+        {
+            CarInfo playerCar = simData.PlayerInfo.CarInfo;
+
+            playerCar.CarDamageInformation.Bodywork.Damage = data.mAeroDamage;
+            playerCar.CarDamageInformation.Engine.Damage = data.mEngineDamage;
+            playerCar.CarDamageInformation.Suspension.Damage = data.mSuspensionDamage.Max();
+
+            /*playerCar.SpeedLimiterEngaged = (data.mCarFlags & (int)CarFlags.CarSpeedLimiter) == (int)CarFlags.CarSpeedLimiter;*/
+
+            FillBoostData(data, playerCar);
+        }
+
+        private void FillBoostData(PCars2SharedMemory data, CarInfo playerCar)
+        {
+            BoostSystem boostSystem = playerCar.BoostSystem;
+
+            if (data.mBoostAmount <= 0)
+            {
+                boostSystem.BoostStatus = BoostStatus.UnAvailable;
+                return;
+            }
+
+            boostSystem.ActivationsRemaining = (int) data.mBoostAmount;
+            boostSystem.BoostStatus = data.mBoostActive ? BoostStatus.InUse : BoostStatus.Available;
         }
 
         public void AddActiveFlags(PCars2SharedMemory pcarsData, SimulatorDataSet simData)
@@ -122,6 +153,13 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreFrontRight]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreRearLeft]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreRearRight]);
+
+            int direDeflatedFlag = (int) TyreFlags.TyreAttached | (int) TyreFlags.TyreInflated;
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Detached = (data.mTyreFlags[(int)WheelIndex.TyreFrontLeft] & direDeflatedFlag) != direDeflatedFlag;
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Detached = (data.mTyreFlags[(int)WheelIndex.TyreFrontRight] & direDeflatedFlag) != direDeflatedFlag;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Detached = (data.mTyreFlags[(int)WheelIndex.TyreRearLeft] & direDeflatedFlag) != direDeflatedFlag;
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Detached = (data.mTyreFlags[(int)WheelIndex.TyreRearRight] & direDeflatedFlag) != direDeflatedFlag;
 
             /*simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RideHeight = Distance.FromMeters(data.mTyreHeightAboveGround[(int)WheelIndex.TyreFrontLeft]);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RideHeight = Distance.FromMeters(data.mTyreHeightAboveGround[(int)WheelIndex.TyreFrontRight]);
