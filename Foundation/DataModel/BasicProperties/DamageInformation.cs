@@ -1,5 +1,8 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
+    using System;
+
+    [Serializable]
     public class DamageInformation
     {
         public DamageInformation()

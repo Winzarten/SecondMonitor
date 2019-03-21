@@ -1,7 +1,8 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot.Systems
 {
+    using System;
     using BasicProperties;
-
+    [Serializable]
     public class CarDamageInformation
     {
         public CarDamageInformation()

@@ -108,14 +108,18 @@
             <Grid x:Name="SessionTiming" VerticalAlignment="Top" Background="Black">
 
                 <timingGridControl:TimingGrid x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
-                                              ItemsSource="{Binding TimingInfo}"
+                                              ItemsSource="{Binding TimingInfo}" ScrollViewer.CanContentScroll="True"
                                               SelectedItem="{Binding SelectedDriverTimingViewModel}">
                     <timingGridControl:TimingGrid.InputBindings>
                         <MouseBinding Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="RightClick" />
                         <MouseBinding Command="{Binding DataContext.DoubleLeftClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="LeftDoubleClick" />
                     </timingGridControl:TimingGrid.InputBindings>
-
-                    <timingGridControl:TimingGrid.Resources>
+                    <timingGridControl:TimingGrid.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </timingGridControl:TimingGrid.ItemsPanel>
+                        <timingGridControl:TimingGrid.Resources>
                         <view:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                         <view:DoubleToDataGridLengthValueConverter x:Key="lengthConverter" />
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />

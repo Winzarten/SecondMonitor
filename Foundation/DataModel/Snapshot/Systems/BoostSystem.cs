@@ -3,6 +3,7 @@
     using System;
     using BasicProperties;
 
+    [Serializable]
     public class BoostSystem
     {
         public BoostStatus BoostStatus { get; set; } = BoostStatus.UnAvailable;
