@@ -35,8 +35,9 @@
                 simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
                 simData.SimulatorSourceInfo.InvalidateLapBySector = true;
                 simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
-/*                simData.SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation = true;
-                simData.SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation = true;*/
+                simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
+                /*                simData.SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation = true;
+                                simData.SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation = true;*/
 
                 FillSessionInfo(rfData, simData);
                 AddDriversData(simData, rfData);
@@ -257,13 +258,13 @@
 
         private static void AddOilSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(playerVehicleTelemetry.mEngineOilTemp);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(playerVehicleTelemetry.mEngineOilTemp);
             simData.PlayerInfo.CarInfo.TurboPressure = Pressure.FromKiloPascals(playerVehicleTelemetry.mTurboBoostPressure / 1000);
         }
 
         private static void AddWaterSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(playerVehicleTelemetry.mEngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(playerVehicleTelemetry.mEngineWaterTemp);
         }
 
         private static void AddPedalInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)

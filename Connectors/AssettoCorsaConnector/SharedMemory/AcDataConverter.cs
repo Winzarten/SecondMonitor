@@ -38,6 +38,7 @@
             simData.SimulatorSourceInfo.ForceLapOverTime = true;
             simData.SimulatorSourceInfo.GlobalTyreCompounds = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.SpOnly;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
 
             FillSessionInfo(acData, simData);
             AddDriversData(simData, acData);
@@ -212,12 +213,12 @@
         private static void AddOilSystemInfo(SimulatorDataSet simData, AssettoCorsaShared acData)
         {
             simData.PlayerInfo.CarInfo.TurboPressure = Pressure.FromAtm(acData.AcsPhysics.turboBoost);
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(100);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(100);
         }
 
         private static void AddWaterSystemInfo(SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(100);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(100);
         }
 
         private static void AddPedalInfo(AssettoCorsaShared acData, SimulatorDataSet simData)

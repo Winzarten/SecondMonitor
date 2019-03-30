@@ -10,10 +10,15 @@
         public OilInfo()
         {
             OilPressure = new Pressure();
-            OilTemperature = Temperature.Zero;
+            OptimalOilTemperature = new OptimalQuantity<Temperature>()
+            {
+                ActualQuantity = Temperature.Zero,
+                IdealQuantity = Temperature.FromCelsius(100),
+                IdealQuantityWindow = Temperature.FromCelsius(15),
+            };
         }
 
-        public Temperature OilTemperature { get; set; }
+        public OptimalQuantity<Temperature> OptimalOilTemperature { get; set; }
 
         public Pressure OilPressure { get; set; }
     }

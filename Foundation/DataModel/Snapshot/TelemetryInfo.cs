@@ -11,5 +11,9 @@
 
         [XmlAttribute]
         public bool RequiresPositionInterpolation { get; set; }
+
+        public bool ContainsSuspensionVelocity { get; set; }
+
+        public bool ContainsSuspensionTravel { get; set; }
     }
 }

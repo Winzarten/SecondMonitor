@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Contracts.NInject
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using Ninject;
     using Ninject.Parameters;
@@ -23,6 +24,11 @@
         public T Get<T>(params IParameter[] parameters)
         {
             return _kernel.Get<T>(parameters);
+        }
+
+        public IEnumerable<T> GetAll<T>()
+        {
+            return _kernel.GetAll<T>();
         }
     }
 }

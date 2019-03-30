@@ -71,6 +71,8 @@
     <Compile Include="GameConnector\DataEventArgs.cs" />
     <Compile Include="GameConnector\MessageArgs.cs" />
     <Compile Include="GameConnector\SharedMemory\MappedBuffer.cs" />
+    <Compile Include="PluginsManagerModule.cs" />
+    <Compile Include="PluginsManagerModuleBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameConnector\IGameConnector.cs" />
     <Compile Include="Visitor\SessionTimeInterpolator.cs" />

@@ -13,6 +13,7 @@
     using Controllers.Synchronization;
     using Controllers.Synchronization.Graphs;
     using Controllers.TelemetryLoad;
+    using LapAutoSelector;
     using Ninject.Extensions.NamedScope;
     using Ninject.Modules;
     using Repository;
@@ -104,9 +105,12 @@
             Bind<IGraphViewModel>().To<SuspensionTravelGraphViewModel>();
             Bind<IGraphViewModel>().To<RideHeightGraphViewModel >();
             Bind<IGraphViewModel>().To<ChassisRideHeightGraphViewModel>();
+            Bind<IGraphViewModel>().To<SuspensionVelocityGraphViewModel>();
 
             Bind<ISingleSeriesDataExtractor>().To<SimpleSingleSeriesDataExtractor>();
             Bind<ISingleSeriesDataExtractor>().To<CompareToReferenceDataExtractor>();
+
+            Bind<ILapAutoSelector>().To<EmptyLapAutoSelector>();
         }
     }
 }

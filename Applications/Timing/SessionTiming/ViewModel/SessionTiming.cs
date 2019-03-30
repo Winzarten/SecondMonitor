@@ -162,7 +162,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                                   / LastSet.SessionInfo.TotalNumberOfLaps) * 1000);
                 }
 
-                if (LastSet != null && LastSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
+                if (LastSet != null && (LastSet.SessionInfo.SessionLengthType == SessionLengthType.Time || LastSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap))
                 {
                     return (int)(1000 - (LastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength) * 1000);
                 }
@@ -207,7 +207,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                 }
             });
             timing.Drivers = drivers;
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap)
             {
                 timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
             }

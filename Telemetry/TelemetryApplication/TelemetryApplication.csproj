@@ -111,6 +111,8 @@
     <Compile Include="Controllers\TelemetryApplicationController.cs" />
     <Compile Include="Controllers\TelemetryLoad\ITelemetryLoadController.cs" />
     <Compile Include="Controllers\TelemetryLoad\TelemetryLoadController.cs" />
+    <Compile Include="LapAutoSelector\EmptyLapAutoSelector.cs" />
+    <Compile Include="LapAutoSelector\ILapAutoSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ITelemetryRepositoryFactory.cs" />
     <Compile Include="Repository\TelemetryRepositoryFactory.cs" />
@@ -153,6 +155,7 @@
     <Compile Include="ViewModels\GraphPanel\Wheels\RightFrontTyreTempsGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\RightRearTyreTempsGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\SuspensionTravelGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\Wheels\SuspensionVelocityGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\TyrePressuresGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\WheelRpsGraphViewModel.cs" />
     <Compile Include="ViewModels\LoadedLapCache\ILoadedLapsCache.cs" />

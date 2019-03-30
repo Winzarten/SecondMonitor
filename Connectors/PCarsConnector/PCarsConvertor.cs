@@ -191,12 +191,12 @@
             FillPlayerCarInfo(data, simData);
 
             // WaterSystemInfo
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature =
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity =
                 Temperature.FromCelsius(data.MWaterTempCelsius);
 
             // OilSystemInfo
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.MOilPressureKPa);
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.MOilTempCelsius);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(data.MOilTempCelsius);
 
             // Brakes Info
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity =

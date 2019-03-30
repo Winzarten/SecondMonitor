@@ -356,6 +356,7 @@
         public void Reset()
         {
             _fuelConsumptionMonitor.Reset();
+            _sessionRemainingCalculator.Reset();
             CurrentPerLap = _fuelConsumptionMonitor.ActPerLap;
             CurrentPerMinute = _fuelConsumptionMonitor.ActPerMinute;
             AvgPerLap = _fuelConsumptionMonitor.TotalPerLap;

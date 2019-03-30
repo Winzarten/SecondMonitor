@@ -47,6 +47,18 @@
         [XmlIgnore]
         public double RawValue => InMs;
 
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InFps => InMs * 3.28084;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InInPerSecond => InMs * 39.3701;
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InCentimeterPerSecond => InMs * 100;
+
         public static Velocity FromMs(double inMs)
         {
             return new Velocity(inMs);
@@ -67,6 +79,14 @@
                     return "Mph";
                 case VelocityUnits.Ms:
                     return "Ms";
+                case VelocityUnits.Fps:
+                    return "fps";
+                case VelocityUnits.CmPerSecond:
+                    return "cm/s";
+                case VelocityUnits.InPerSecond:
+                    return "In/s";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(units), units, null);
             }
             throw new ArgumentException("Unable to return symbol for" + units.ToString());
         }
@@ -106,24 +126,20 @@
                     return InMph;
                 case VelocityUnits.Ms:
                     return InMs;
+                case VelocityUnits.Fps:
+                    return InFps;
+                case VelocityUnits.CmPerSecond:
+                    return InCentimeterPerSecond;
+                case VelocityUnits.InPerSecond:
+                    return InInPerSecond;
                 default:
-                    throw new ArgumentException("Unable to return value in" + units.ToString());
+                    throw new ArgumentException("Unable to return value in" + units);
             }
         }
 
         public string GetValueInUnits(VelocityUnits units, int decimalPlaces)
         {
-            switch (units)
-            {
-                case VelocityUnits.Kph:
-                    return InKph.ToString($"F{decimalPlaces}");
-                case VelocityUnits.Mph:
-                    return InMph.ToString($"F{decimalPlaces}");
-                case VelocityUnits.Ms:
-                    return InMs.ToString($"F{decimalPlaces}");
-                default:
-                    throw new ArgumentException("Unable to return value in" + units.ToString());
-            }
+            return GetValueInUnits(units).ToString($"F{decimalPlaces}");
         }
     }
 }

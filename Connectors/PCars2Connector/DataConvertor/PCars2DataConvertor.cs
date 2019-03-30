@@ -21,6 +21,7 @@
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.InvalidateLapBySector = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
 
             FillSessionInfo(pcarsData, simData, sessionTime);
             AddDriversData(simData, pcarsData);
@@ -212,13 +213,13 @@
 
         private static void AddOilSystemInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.mOilTempCelsius);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(data.mOilTempCelsius);
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.mOilPressureKPa);
         }
 
         private static void AddWaterSystemInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.mWaterTempCelsius);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(data.mWaterTempCelsius);
             simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterPressure = Pressure.FromKiloPascals(data.mWaterPressureKPa);
         }
 

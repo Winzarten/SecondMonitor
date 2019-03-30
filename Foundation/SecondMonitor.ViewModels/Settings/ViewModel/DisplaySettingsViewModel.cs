@@ -163,6 +163,30 @@
             }
         }
 
+        public VelocityUnits VelocityUnitsVerySmall
+        {
+            get
+            {
+                switch (VelocityUnits)
+                {
+                    case VelocityUnits.Kph:
+                        return VelocityUnits.CmPerSecond;
+                    case VelocityUnits.Mph:
+                        return VelocityUnits.InPerSecond;
+                    case VelocityUnits.Ms:
+                        return VelocityUnits.CmPerSecond;
+                    case VelocityUnits.Fps:
+                        return VelocityUnits.InPerSecond;
+                    case VelocityUnits.CmPerSecond:
+                        return VelocityUnits.CmPerSecond;
+                    case VelocityUnits.InPerSecond:
+                        return VelocityUnits.InPerSecond;
+                    default:
+                        return VelocityUnits.CmPerSecond;
+                }
+            }
+        }
+
         public FuelPerDistanceUnits FuelPerDistanceUnits
         {
             get

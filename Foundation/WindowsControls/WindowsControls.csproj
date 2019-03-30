@@ -125,6 +125,8 @@
     <Compile Include="WPF\Behaviors\VolumeBehavior\OptimalVolumeToColorBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesHeightBehavior.cs" />
     <Compile Include="WPF\Behaviors\PercentagesWidthBehavior.cs" />
+    <Compile Include="WPF\Behaviors\VolumeBehavior\StrokeBrushByOptimalTemperatureBehavior.cs" />
+    <Compile Include="WPF\Behaviors\VolumeBehavior\StrokeBrushByOptimalVolumeBehavior.cs" />
     <Compile Include="WPF\CarSettingsControl\CarSettingsControl.cs" />
     <Compile Include="WPF\CarSettingsControl\ITyreSettingsViewModel.cs" />
     <Compile Include="WPF\CarSettingsControl\TyreCompoundSettingsControl.cs" />

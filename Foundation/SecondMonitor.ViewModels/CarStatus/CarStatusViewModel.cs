@@ -11,8 +11,6 @@
         private readonly SimulatorDSViewModels _viewModels;
         private readonly FuelPlannerViewModelFactory _fuelPlannerViewModelFactory;
 
-        private WaterTemperatureViewModel _waterTemperatureViewModel;
-        private OilTemperatureViewModel _oilTemperatureViewModel;
         private CarWheelsViewModel _playersWheelsViewModel;
         private FuelOverviewViewModel _fuelOverviewViewModel;
         private FuelPlannerViewModel _fuelPlannerViewModel;
@@ -24,15 +22,9 @@
 
         public CarStatusViewModel(IPaceProvider paceProvider)
         {
-            _viewModels = new SimulatorDSViewModels { new OilTemperatureViewModel(), new WaterTemperatureViewModel(), new CarWheelsViewModel(), new FuelOverviewViewModel(paceProvider), new PedalsAndGearViewModel(), new CarSystemsViewModel(), new DashboardViewModel()};
+            _viewModels = new SimulatorDSViewModels {new CarWheelsViewModel(), new FuelOverviewViewModel(paceProvider), new PedalsAndGearViewModel(), new CarSystemsViewModel(), new DashboardViewModel()};
             _fuelPlannerViewModelFactory = new FuelPlannerViewModelFactory();;
             RefreshProperties();
-        }
-
-        public OilTemperatureViewModel OilTemperatureViewModel
-        {
-            get => _oilTemperatureViewModel;
-            private set => SetProperty(ref _oilTemperatureViewModel, value);
         }
 
         public bool IsFuelCalculatorShown
@@ -51,12 +43,6 @@
         {
             get => _pedalAndGearViewModel;
             set => SetProperty(ref _pedalAndGearViewModel, value);
-        }
-
-        public WaterTemperatureViewModel WaterTemperatureViewModel
-        {
-            get => _waterTemperatureViewModel;
-            private set => SetProperty(ref _waterTemperatureViewModel, value);
         }
 
         public CarWheelsViewModel PlayersWheelsViewModel
@@ -115,8 +101,6 @@
 
         private void RefreshProperties()
         {
-            OilTemperatureViewModel = _viewModels.GetFirst<OilTemperatureViewModel>();
-            WaterTemperatureViewModel = _viewModels.GetFirst<WaterTemperatureViewModel>();
             PlayersWheelsViewModel = _viewModels.GetFirst<CarWheelsViewModel>();
             FuelOverviewViewModel = _viewModels.GetFirst<FuelOverviewViewModel>();
             PedalsAndGearViewModel = _viewModels.GetFirst<PedalsAndGearViewModel>();

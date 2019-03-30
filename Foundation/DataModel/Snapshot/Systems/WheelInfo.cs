@@ -80,6 +80,8 @@
 
         public OptimalQuantity<Temperature> TyreCoreTemperature { get; set; }
 
+        public Velocity SuspensionVelocity { get; set; }
+
     }
 
 }

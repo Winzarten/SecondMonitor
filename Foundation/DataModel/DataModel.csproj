@@ -120,6 +120,7 @@
     <Compile Include="TrackMap\TrackGeometryDTO.cs" />
     <Compile Include="TrackMap\TrackMapDto.cs" />
     <Compile Include="Visitors\ComputeGapToPlayerVisitor.cs" />
+    <Compile Include="Visitors\ComputeSuspensionVelocityVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

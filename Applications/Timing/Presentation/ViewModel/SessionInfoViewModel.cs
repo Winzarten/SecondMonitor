@@ -192,9 +192,10 @@
                 return "NA";
             }
 
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap)
             {
-                string timeRemaining = "Time Remaining: " + _sessionRemainingCalculator.GetTimeRemaining(dataSet).FormatToMinutesSeconds();
+                string prefix = dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time ? "Time: " : "Time (+1 Lap): ";
+                string timeRemaining =  prefix + _sessionRemainingCalculator.GetTimeRemaining(dataSet).FormatToMinutesSeconds();
                 if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
                 {
                     timeRemaining += "\nEst. Laps:" + (Math.Floor(_sessionRemainingCalculator.GetLapsRemaining(dataSet) * 10) / 10.0).ToString("N1");
@@ -241,6 +242,7 @@
         public void Reset()
         {
             _refreshWatch.Restart();
+            _sessionRemainingCalculator.Reset();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

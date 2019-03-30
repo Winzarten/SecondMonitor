@@ -44,6 +44,12 @@
             return GetAllSessionsFromDirectory(new DirectoryInfo(directory), false);
         }
 
+        public IReadOnlyCollection<SessionInfoDto> LoadPreviouslyLoadedSessions(List<string> sessionIds)
+        {
+            List<(string directory, bool isRecent)> sessions = _sessionIdToDirectoryDictionary.Where(x => sessionIds.Contains(x.Key)).Select(y => y.Value).ToList();
+            return sessions.Select(x => OpenSession(x.directory, x.isRecent)).ToList().AsReadOnly();
+        }
+
         public void SaveRecentSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier)
         {
             string directory = Path.Combine(Path.Combine(_repositoryDirectory, RecentDir), sessionIdentifier);
@@ -177,6 +183,12 @@
                sessionInfoDto = (SessionInfoDto)xmlSerializer.Deserialize(file);
             }
 
+            if (_sessionIdToDirectoryDictionary.TryAdd(sessionInfoDto.Id, (sessionDirectory, isRecent)))
+            {
+                return sessionInfoDto;
+            }
+
+            _sessionIdToDirectoryDictionary.TryRemove(sessionInfoDto.Id, out (string, bool) outValue);
             _sessionIdToDirectoryDictionary.TryAdd(sessionInfoDto.Id, (sessionDirectory, isRecent));
             return sessionInfoDto;
         }

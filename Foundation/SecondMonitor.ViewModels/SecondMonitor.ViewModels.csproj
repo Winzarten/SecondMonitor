@@ -84,10 +84,8 @@
     <Compile Include="CarStatus\FuelStatus\RequiredFuelCalculator.cs" />
     <Compile Include="CarStatus\FuelStatus\SessionFuelConsumptionInfo.cs" />
     <Compile Include="CarStatus\IPaceProvider.cs" />
-    <Compile Include="CarStatus\OilTemperatureViewModel.cs" />
     <Compile Include="CarStatus\PedalsAndGearViewModel.cs" />
     <Compile Include="CarStatus\SessionRemainingCalculator.cs" />
-    <Compile Include="CarStatus\WaterTemperatureViewModel.cs" />
     <Compile Include="CarStatus\WheelStatusViewModel.cs" />
     <Compile Include="Colors\BasicColorPaletteProvider.cs" />
     <Compile Include="Controllers\AutoUpdateController.cs" />

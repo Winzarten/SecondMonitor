@@ -163,12 +163,12 @@
         private static void AddOilSystemInfo(R3ESharedData data, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.EngineOilPressure);
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.EngineOilTemp);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(data.EngineOilTemp);
         }
 
         private static void AddWaterSystemInfo(R3ESharedData data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(data.EngineWaterTemp);
         }
 
         private static void AddPedalInfo(R3ESharedData data, SimulatorDataSet simData)
@@ -522,15 +522,24 @@
             simData.SessionInfo.TrackInfo.TrackLayoutName = FromByteArray(data.LayoutName);
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (data.SessionTimeRemaining != -1)
+            switch ((Constant.SessionLengthFormat)data.SessionLengthFormat)
             {
-                simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
-                simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
-            }
-            else if (data.NumberOfLaps != -1)
-            {
-                simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
-                simData.SessionInfo.TotalNumberOfLaps = data.NumberOfLaps;
+                case Constant.SessionLengthFormat.TimeBased:
+                    simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
+                    break;
+                case Constant.SessionLengthFormat.LapBased:
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
+                    simData.SessionInfo.TotalNumberOfLaps = data.NumberOfLaps;
+                    break;
+                case Constant.SessionLengthFormat.TimeAndLapBased:
+                    simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.TimeWitchExtraLap;
+                    break;
+                case Constant.SessionLengthFormat.Unavailable:
+                default:
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.Na;
+                    break;
             }
         }
     }
