@@ -1,7 +1,6 @@
 ﻿namespace SecondMonitor.R3EConnector
 {
     using System;
-    using Data;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;

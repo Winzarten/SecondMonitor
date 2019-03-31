@@ -7,7 +7,6 @@
     using System.Runtime.InteropServices;
     using System.Threading;
     using System.Threading.Tasks;
-    using Data;
     using DataModel.Snapshot;
     using PluginManager.GameConnector;
     using DriverInfo = DataModel.Snapshot.Drivers.DriverInfo;
