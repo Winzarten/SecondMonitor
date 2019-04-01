@@ -129,6 +129,8 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RideHeight = Distance.FromMeters(data.Player.RideHeight.RearRight);
 
             // Front Left Tyre Temps
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.IdealQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft.OptimalTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.IdealQuantityWindow = Temperature.FromCelsius((data.TireTemp.FrontLeft.HotTemp - data.TireTemp.FrontLeft.OptimalTemp) * 0.5);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft.CurrentTemp.Left);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft.CurrentTemp.Right);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft.CurrentTemp.Center);
@@ -136,6 +138,8 @@
 
 
             // Front Right Tyre Temps
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp.IdealQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft.OptimalTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp.IdealQuantityWindow = Temperature.FromCelsius((data.TireTemp.FrontLeft.HotTemp - data.TireTemp.FrontLeft.OptimalTemp) * 0.5);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontRight.CurrentTemp.Left);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontRight.CurrentTemp.Right);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.FrontRight.CurrentTemp.Center);
@@ -143,12 +147,16 @@
 
 
             // Rear Left Tyre Temps
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp.IdealQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft.OptimalTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp.IdealQuantityWindow = Temperature.FromCelsius((data.TireTemp.FrontLeft.HotTemp - data.TireTemp.FrontLeft.OptimalTemp) * 0.5);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.RearLeft.CurrentTemp.Left);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.RearLeft.CurrentTemp.Right);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.RearLeft.CurrentTemp.Center);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreCoreTemperature.ActualQuantity = Temperature.FromCelsius((data.TireTemp.RearLeft.CurrentTemp.Left + data.TireTemp.RearLeft.CurrentTemp.Center + data.TireTemp.RearLeft.CurrentTemp.Right) / 3);
 
             // Rear Right Tyre Temps
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp.IdealQuantity = Temperature.FromCelsius(data.TireTemp.FrontLeft.OptimalTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp.IdealQuantityWindow = Temperature.FromCelsius((data.TireTemp.FrontLeft.HotTemp - data.TireTemp.FrontLeft.OptimalTemp) * 0.5);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.LeftTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.RearRight.CurrentTemp.Left);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.RightTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.RearRight.CurrentTemp.Right);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.CenterTyreTemp.ActualQuantity = Temperature.FromCelsius(data.TireTemp.RearRight.CurrentTemp.Center);
@@ -184,6 +192,8 @@
             simData.InputInfo.ThrottlePedalPosition = data.ThrottleRaw;
             simData.InputInfo.BrakePedalPosition = data.BrakeRaw;
             simData.InputInfo.ClutchPedalPosition = data.ClutchRaw;
+            simData.InputInfo.SteeringInput = data.SteerInputRaw;
+            simData.InputInfo.WheelAngle = data.SteerWheelRangeDegrees * data.SteerInputRaw;
         }
 
         internal void AddDriversData(SimulatorDataSet data, R3ESharedData r3RData)
@@ -318,15 +328,15 @@
             }
 
             if (r3EDriverData.SectorTimeCurrentSelf.Sector1 != -1 || r3EDriverData.SectorTimeCurrentSelf.Sector2 != -1
-                || r3EDriverData.SectorTimeCurrentSelf.Sector3 != -1)
+                || r3EDriverData.SectorTimePreviousSelf.Sector3 != -1)
             {
                 driverInfo.Timing.LastSector1Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimeCurrentSelf.Sector1);
                 driverInfo.Timing.LastSector2Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimeCurrentSelf.Sector2 - r3EDriverData.SectorTimeCurrentSelf.Sector1);
-                driverInfo.Timing.LastSector3Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimeCurrentSelf.Sector3 - r3EDriverData.SectorTimeCurrentSelf.Sector2);
+                driverInfo.Timing.LastSector3Time = TimeSpan.FromSeconds(r3EDriverData.SectorTimePreviousSelf.Sector3 - r3EDriverData.SectorTimePreviousSelf.Sector2);
             }
 
             driverInfo.Timing.CurrentLapTime = TimeSpan.FromSeconds(r3EDriverData.LapTimeCurrentSelf);
-            driverInfo.Timing.LastLapTime = r3EDriverData.SectorTimeCurrentSelf.Sector3 != -1 ? TimeSpan.FromSeconds(r3EDriverData.SectorTimeCurrentSelf.Sector3) : TimeSpan.Zero;
+            driverInfo.Timing.LastLapTime = r3EDriverData.SectorTimePreviousSelf.Sector3 != -1 ? TimeSpan.FromSeconds(r3EDriverData.SectorTimePreviousSelf.Sector3) : TimeSpan.Zero;
             driverInfo.Timing.CurrentSector = r3EDriverData.TrackSector;
         }
 
@@ -384,6 +394,7 @@
             playerCar.CarDamageInformation.Bodywork.Damage = 1 - data.CarDamage.Aerodynamics;
             playerCar.CarDamageInformation.Engine.Damage = 1 - data.CarDamage.Engine;
             playerCar.CarDamageInformation.Transmission.Damage = 1 -data.CarDamage.Transmission;
+            playerCar.TurboPressure = Math.Abs(data.TurboPressure) < 0.1 ? Pressure.Zero : Pressure.FromBar(data.TurboPressure);
 
             playerCar.SpeedLimiterEngaged = data.PitLimiter == 1;
 
