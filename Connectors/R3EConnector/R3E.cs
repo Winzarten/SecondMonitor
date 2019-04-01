@@ -2,32 +2,32 @@
 {
     using System.Runtime.InteropServices;
 
-    public class Constant
+    internal class Constant
     {
         public const string SharedMemoryName = "$R3E";
 
-        public enum VersionMajor
+        internal enum VersionMajor
         {
             // Major version number to test against
-            R3EVersionMajor = 1
-        }
+            R3EVersionMajor = 2
+        };
 
-        public enum VersionMinor
+        internal enum VersionMinor
         {
             // Minor version number to test against
-            R3EVersionMinor = 7
-        }
+            R3EVersionMinor = 4
+        };
 
-        public enum Session
+        internal enum Session
         {
             Unavailable = -1,
             Practice = 0,
             Qualify = 1,
             Race = 2,
             Warmup = 3,
-        }
+        };
 
-        public enum SessionPhase
+        internal enum SessionPhase
         {
             Unavailable = -1,
 
@@ -48,9 +48,9 @@
 
             // End of session
             Checkered = 6,
-        }
+        };
 
-        public enum Control
+        internal enum Control
         {
             Unavailable = -1,
 
@@ -65,9 +65,9 @@
 
             // Controlled by a replay or ghost
             Replay = 3,
-        }
+        };
 
-        public enum PitWindow
+        internal enum PitWindow
         {
             Unavailable = -1,
 
@@ -85,9 +85,9 @@
 
             // After the current mandatory pitstop have been completed
             Completed = 4,
-        }
+        };
 
-        public enum PitStopStatus
+        enum PitStopStatus
         {
             // No mandatory pitstops
             Unavailable = -1,
@@ -97,9 +97,9 @@
 
             // Mandatory pitstop served
             Served = 1,
-        }
+        };
 
-        public enum FinishStatus
+        internal enum FinishStatus
         {
             // N/A
             Unavailable = -1,
@@ -121,9 +121,9 @@
 
             // Disqualified
             Dq = 5,
-        }
+        };
 
-        public enum SessionLengthFormat
+        internal enum SessionLengthFormat
         {
             // N/A
             Unavailable = -1,
@@ -134,16 +134,42 @@
 
             // Time and lap based session means there will be an extra lap after the time has run out
             TimeAndLapBased = 2
-        }
+        };
 
-        public enum TireType
+        internal enum PitMenuSelection
+        {
+            // Pit menu unavailable
+            Unavailable = -1,
+
+            // Pit menu preset
+            Preset = 0,
+
+            // Pit menu actions
+            Penalty = 1,
+            Driverchange = 2,
+            Fuel = 3,
+            Fronttires = 4,
+            Reartires = 5,
+            Frontwing = 6,
+            Rearwing = 7,
+            Suspension = 8,
+
+            // Pit menu buttons
+            ButtonTop = 9,
+            ButtonBottom = 10,
+
+            // Pit menu nothing selected
+            Max = 11
+        };
+
+        internal enum TireType
         {
             Unavailable = -1,
             Option = 0,
             Prime = 1,
-        }
+        };
 
-        public enum TireSubtype
+        internal enum TireSubtype
         {
             Unavailable = -1,
             Primary = 0,
@@ -151,12 +177,27 @@
             Soft = 2,
             Medium = 3,
             Hard = 4
-        }
+        };
+
+        internal enum EngineType
+        {
+            Combustion = 0,
+            Electric = 1,
+            Hybrid = 2,
+        };
     }
 
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct Vector3<T>
+    internal struct RaceDuration<T>
+    {
+        public T Race1;
+        public T Race2;
+        public T Race3;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct Vector3<T>
     {
         public T X;
         public T Y;
@@ -164,7 +205,7 @@
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct Orientation<T>
+    internal struct Orientation<T>
     {
         public T Pitch;
         public T Yaw;
@@ -172,27 +213,15 @@
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct TireTemperature
+    internal struct SectorStarts<T>
     {
-        public float FrontLeft_Left;
-        public float FrontLeft_Center;
-        public float FrontLeft_Right;
-
-        public float FrontRight_Left;
-        public float FrontRight_Center;
-        public float FrontRight_Right;
-
-        public float RearLeft_Left;
-        public float RearLeft_Center;
-        public float RearLeft_Right;
-
-        public float RearRight_Left;
-        public float RearRight_Center;
-        public float RearRight_Right;
+        public T Sector1;
+        public T Sector2;
+        public T Sector3;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct PlayerData
+    internal struct PlayerData
     {
         // Virtual physics time
         // Unit: Ticks (1 tick = 1/400th of a second)
@@ -238,85 +267,119 @@
         // Car local-space angular velocity
         // Unit: Radians per second
         public Vector3<double> LocalAngularVelocity;
+
+        // Driver g-force local to car
+        public Vector3<double> LocalGforce;
+
+        // Total steering force coming through steering bars
+        public double SteeringForce;
+        public double SteeringForcePercentage;
+
+        // Current engine torque
+        public double EngineTorque;
+
+        // Current downforce
+        // Unit: Newtons (N)
+        public double CurrentDownforce;
+
+        // Currently unused
+        public double Voltage;
+        public double ErsLevel;
+        public double PowerMguH;
+        public double PowerMguK;
+        public double TorqueMguK;
+
+        // Car setup (radians, meters, meters per second)
+        public TireData<double> SuspensionDeflection;
+        public TireData<double> SuspensionVelocity;
+        public TireData<double> Camber;
+        public TireData<double> RideHeight;
+        public double FrontWingHeight;
+        public double FrontRollAngle;
+        public double RearRollAngle;
+
+        // Reserved data
+        public double Unused1;
+        public double Unused2;
+        public Vector3<double> Unused3;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct Flags
+    internal struct Flags
     {
         // Whether yellow flag is currently active
         // -1 = no data
-        // 0 = not active
-        // 1 = active
+        //  0 = not active
+        //  1 = active
         public int Yellow;
-
-        // Whether blue flag is currently active
-        // -1 = no data
-        // 0 = not active
-        // 1 = active
-        public int Blue;
-
-        // Whether black flag is currently active
-        // -1 = no data
-        // 0 = not active
-        // 1 = active
-        public int Black;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct ExtendedFlags
-    {
-        // Whether green flag is currently active
-        // -1 = no data
-        // 0 = not active
-        // 1 = active
-        public int Green;
-
-        // Whether checkered flag is currently active
-        // -1 = no data
-        // 0 = not active
-        // 1 = active
-        public int Checkered;
-
-        // Whether black and white flag is currently active and reason
-        // -1 = no data
-        // 0 = not active
-        // 1 = blue flag 1st warnings
-        // 2 = blue flag 2nd warnings
-        // 3 = wrong way
-        // 4 = cutting track
-        public int BlackAndWhite;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct ExtendedFlags2
-    {
-        // Whether white flag is currently active
-        // -1 = no data
-        // 0 = not active
-        // 1 = active
-        public int White;
 
         // Whether yellow flag was caused by current slot
         // -1 = no data
-        // 0 = didn't cause it
-        // 1 = caused it
+        //  0 = didn't cause it
+        //  1 = caused it
         public int YellowCausedIt;
 
         // Whether overtake of car in front by current slot is allowed under yellow flag
         // -1 = no data
-        // 0 = not allowed
-        // 1 = allowed
+        //  0 = not allowed
+        //  1 = allowed
         public int YellowOvertake;
 
         // Whether you have gained positions illegaly under yellow flag to give back
         // -1 = no data
-        // 0 = no positions gained
-        // n = number of positions gained
+        //  0 = no positions gained
+        //  n = number of positions gained
         public int YellowPositionsGained;
+
+        // Yellow flag for each sector; -1 = no data, 0 = not active, 1 = active
+        public Sectors<int> SectorYellow;
+
+        // Distance into track for closest yellow, -1.0 if no yellow flag exists
+        // Unit: Meters (m)
+        public float ClosestYellowDistanceIntoTrack;
+
+        // Whether blue flag is currently active
+        // -1 = no data
+        //  0 = not active
+        //  1 = active
+        public int Blue;
+
+        // Whether black flag is currently active
+        // -1 = no data
+        //  0 = not active
+        //  1 = active
+        public int Black;
+
+        // Whether green flag is currently active
+        // -1 = no data
+        //  0 = not active
+        //  1 = active
+        public int Green;
+
+        // Whether checkered flag is currently active
+        // -1 = no data
+        //  0 = not active
+        //  1 = active
+        public int Checkered;
+
+        // Whether white flag is currently active
+        // -1 = no data
+        //  0 = not active
+        //  1 = active
+        public int White;
+
+        // Whether black and white flag is currently active and reason
+        // -1 = no data
+        //  0 = not active
+        //  1 = blue flag 1st warnings
+        //  2 = blue flag 2nd warnings
+        //  3 = wrong way
+        //  4 = cutting track
+        public int BlackAndWhite;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct CarDamage
+    internal struct CarDamage
     {
         // Range: 0.0 - 1.0
         // Note: -1.0 = N/A
@@ -330,19 +393,48 @@
         // Note: A bit arbitrary at the moment. 0.0 doesn't necessarily mean completely destroyed.
         // Note: -1.0 = N/A
         public float Aerodynamics;
+
+        // Range: 0.0 - 1.0
+        // Note: -1.0 = N/A
+        public float Suspension;
+
+        // Reserved data
+        public float Unused1;
+        public float Unused2;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct TireData
+    internal struct TireData<T>
     {
-        public float FrontLeft;
-        public float FrontRight;
-        public float RearLeft;
-        public float RearRight;
+        public T FrontLeft;
+        public T FrontRight;
+        public T RearLeft;
+        public T RearRight;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct CutTrackPenalties
+    internal struct PitMenuState
+    {
+        // Pit menu preset
+        public int Preset;
+
+        // Pit menu actions
+        public int Penalty;
+        public int Driverchange;
+        public int Fuel;
+        public int FrontTires;
+        public int RearTires;
+        public int FrontWing;
+        public int RearWing;
+        public int Suspension;
+
+        // Pit menu buttons
+        public int ButtonTop;
+        public int ButtonBottom;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct CutTrackPenalties
     {
         public int DriveThrough;
         public int StopAndGo;
@@ -352,7 +444,7 @@
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct Drs
+    internal struct Drs
     {
         // If DRS is equipped and allowed
         // 0 = No, 1 = Yes, -1 = N/A
@@ -373,7 +465,7 @@
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct PushToPass
+    internal struct PushToPass
     {
         public int Available;
         public int Engaged;
@@ -383,7 +475,43 @@
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct Sectors<T>
+    internal struct TireTempInformation
+    {
+        public TireTemperature<float> CurrentTemp;
+        public float OptimalTemp;
+        public float ColdTemp;
+        public float HotTemp;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct TireTemperature<T>
+    {
+        public T Left;
+        public T Center;
+        public T Right;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct AidSettings
+    {
+        // ABS; -1 = N/A, 0 = off, 1 = on, 5 = currently active
+        public int Abs;
+
+        // TC; -1 = N/A, 0 = off, 1 = on, 5 = currently active
+        public int Tc;
+
+        // ESP; -1 = N/A, 0 = off, 1 = on low, 2 = on medium, 3 = on high, 5 = currently active
+        public int Esp;
+
+        // Countersteer; -1 = N/A, 0 = off, 1 = on, 5 = currently active
+        public int Countersteer;
+
+        // Cornering; -1 = N/A, 0 = off, 1 = on, 5 = currently active
+        public int Cornering;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct Sectors<T>
     {
         public T Sector1;
         public T Sector2;
@@ -391,55 +519,52 @@
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct R3EDriverInfo
+    internal struct R3EDriverInfo
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
         public byte[] Name; // UTF-8
+
         public int CarNumber;
         public int ClassId;
         public int ModelId;
         public int TeamId;
         public int LiveryId;
         public int ManufacturerId;
+        public int UserId;
         public int SlotId;
+
         public int ClassPerformanceIndex;
+
+        // Note: See the EngineType enum
+        public int EngineType;
+
+        public int Unused1;
+        public int Unused2;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct DriverData
+    internal struct DriverData
     {
         public R3EDriverInfo DriverInfo;
 
         // Note: See the R3E.Constant.FinishStatus enum
         public int FinishStatus;
-
         public int Place;
-
         public float LapDistance;
-
         public Vector3<float> Position;
-
         public int TrackSector;
-
         public int CompletedLaps;
-
         public int CurrentLapValid;
-
         public float LapTimeCurrentSelf;
-
-        public Sectors<float> SectorTimesCurrentSelf;
-
-        public Sectors<float> SectorTimesPreviousSelf;
-
-        public Sectors<float> SectorTimesBestSelf;
-
+        public Sectors<float> SectorTimeCurrentSelf;
+        public Sectors<float> SectorTimePreviousSelf;
+        public Sectors<float> SectorTimeBestSelf;
         public float TimeDeltaFront;
 
         public float TimeDeltaBehind;
 
         // Note: See the R3E.Constant.PitStopStatus enum
         public int PitStopStatus;
-
         public int InPitlane;
 
         public int NumPitstops;
@@ -455,30 +580,98 @@
 
         // Note: See the R3E.Constant.TireSubtype enum
         public int TireSubtypeFront;
-
         public int TireSubtypeRear;
+
+        public float BasePenaltyWeight;
+        public float AidPenaltyWeight;
+
+        // -1 unavailable, 0 = not engaged, 1 = engaged
+        public int DrsState;
+        public int PtpState;
+
+        // -1 unavailable, DriveThrough = 0, StopAndGo = 1, Pitstop = 2, Time = 3, Slowdown = 4, Disqualify = 5,
+        public int PenaltyType;
+
+        // Based on the PenaltyType you can assume the reason is:
+
+        // DriveThroughPenaltyInvalid = 0,
+        // DriveThroughPenaltyCutTrack = 1,
+        // DriveThroughPenaltyPitSpeeding = 2,
+        // DriveThroughPenaltyFalseStart = 3,
+        // DriveThroughPenaltyIgnoredBlue = 4,
+        // DriveThroughPenaltyDrivingTooSlow = 5,
+        // DriveThroughPenaltyIllegallyPassedBeforeGreen = 6,
+        // DriveThroughPenaltyIllegallyPassedBeforeFinish = 7,
+        // DriveThroughPenaltyIllegallyPassedBeforePitEntrance = 8,
+        // DriveThroughPenaltyIgnoredSlowDown = 9,
+        // DriveThroughPenaltyMax = 10
+
+        // StopAndGoPenaltyInvalid = 0,
+        // StopAndGoPenaltyCutTrack1st = 1,
+        // StopAndGoPenaltyCutTrackMult = 2,
+        // StopAndGoPenaltyYellowFlagOvertake = 3,
+        // StopAndGoPenaltyMax = 4
+
+        // PitstopPenaltyInvalid = 0,
+        // PitstopPenaltyIgnoredPitstopWindow = 1,
+        // PitstopPenaltyMax = 2
+
+        // ServableTimePenaltyInvalid = 0,
+        // ServableTimePenaltyServedMandatoryPitstopLate = 1,
+        // ServableTimePenaltyIgnoredMinimumPitstopDuration = 2,
+        // ServableTimePenaltyMax = 3
+
+        // SlowDownPenaltyInvalid = 0,
+        // SlowDownPenaltyCutTrack1st = 1,
+        // SlowDownPenaltyCutTrackMult = 2,
+        // SlowDownPenaltyMax = 3
+
+        // DisqualifyPenaltyInvalid = -1,
+        // DisqualifyPenaltyFalseStart = 0,
+        // DisqualifyPenaltyPitlaneSpeeding = 1,
+        // DisqualifyPenaltyWrongWay = 2,
+        // DisqualifyPenaltyEnteringPitsUnderRed = 3,
+        // DisqualifyPenaltyExitingPitsUnderRed = 4,
+        // DisqualifyPenaltyFailedDriverChange = 5,
+        // DisqualifyPenaltyThreeDriveThroughsInLap = 6,
+        // DisqualifyPenaltyLappedFieldMultipleTimes = 7,
+        // DisqualifyPenaltyIgnoredDriveThroughPenalty = 8,
+        // DisqualifyPenaltyIgnoredStopAndGoPenalty = 9,
+        // DisqualifyPenaltyIgnoredPitStopPenalty = 10,
+        // DisqualifyPenaltyIgnoredTimePenalty = 11,
+        // DisqualifyPenaltyExcessiveCutting = 12,
+        // DisqualifyPenaltyIgnoredBlueFlag = 13,
+        // DisqualifyPenaltyMax = 14
+        public int PenaltyReason;
+
+        // Reserved data
+        public int Unused1;
+        public int Unused2;
+        public float Unused3;
+        public float Unused4;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct R3ESharedData
+    internal struct R3ESharedData
     {
         //////////////////////////////////////////////////////////////////////////
         // Version
         //////////////////////////////////////////////////////////////////////////
         public int VersionMajor;
-
         public int VersionMinor;
-
         public int AllDriversOffset; // Offset to NumCars variable
-
         public int DriverDataSize; // Size of DriverData
 
         //////////////////////////////////////////////////////////////////////////
         // Game State
         //////////////////////////////////////////////////////////////////////////
-        public int GamePaused;
 
+        public int GamePaused;
         public int GameInMenus;
+        public int GameInReplay;
+        public int GameUsingVr;
+
+        public int GameUnused1;
 
         //////////////////////////////////////////////////////////////////////////
         // High Detail
@@ -490,6 +683,7 @@
         //////////////////////////////////////////////////////////////////////////
         // Event And Session
         //////////////////////////////////////////////////////////////////////////
+
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
         public byte[] TrackName; // UTF-8
 
@@ -497,11 +691,18 @@
         public byte[] LayoutName; // UTF-8
 
         public int TrackId;
-
         public int LayoutId;
 
         // Layout length in meters
         public float LayoutLength;
+        public SectorStarts<float> SectorStartFactors;
+
+        // Race session durations
+        // Note: Index 0-2 = race 1-3
+        // Note: Value -1 = N/A
+        // Note: If both laps and minutes are more than 0, race session starts with minutes then adds laps
+        public RaceDuration<int> RaceSessionLaps;
+        public RaceDuration<int> RaceSessionMinutes;
 
         // The current race event index, for championships with multiple events
         // Note: 0-indexed, -1 = N/A
@@ -515,27 +716,48 @@
         // Note: 0-indexed, -1 = N/A
         public int SessionIteration;
 
+        // If the session is time based, lap based or time based with an extra lap at the end
+        public int SessionLengthFormat;
+
+        // Unit: Meter per second (m/s)
+        public float SessionPitSpeedLimit;
+
         // Which phase the current session is in (gridwalk, countdown, green flag, etc.)
         // Note: See the R3E.Constant.SessionPhase enum
         public int SessionPhase;
 
+        // Which phase start lights are in; -1 = unavailable, 0 = off, 1-5 = redlight on and counting down, 6 = greenlight on
+        // Note: See the r3e_session_phase enum
+        public int StartLights;
+
         // -1 = no data available
-        // 0 = not active
-        // 1 = active
+        //  0 = not active
+        //  1 = active
+        //  2 = 2x
+        //  3 = 3x
+        //  4 = 4x
         public int TireWearActive;
 
         // -1 = no data
-        // 0 = not active
-        // 1 = active
+        //  0 = not active
+        //  1 = active
+        //  2 = 2x
+        //  3 = 3x
+        //  4 = 4x
         public int FuelUseActive;
 
         // Total number of laps in the race, or -1 if player is not in race mode (practice, test mode, etc.)
         public int NumberOfLaps;
 
-        // Amount of time remaining for the current session
+        // Amount of time and time remaining for the current session
         // Note: Only available in time-based sessions, -1.0 = N/A
         // Units: Seconds
+        public float SessionTimeDuration;
         public float SessionTimeRemaining;
+
+        // Reserved data
+        public int EventUnused1;
+        public float EventUnused2;
 
         //////////////////////////////////////////////////////////////////////////
         // Pit
@@ -556,8 +778,26 @@
         // If current vehicle is in pitline (-1 = N/A)
         public int InPitlane;
 
+        // What is currently selected in pit menu, and array of states (preset/buttons: -1 = not selectable, 1 = selectable) (actions: -1 = N/A, 0 = unmarked for fix, 1 = marked for fix)
+        public int PitMenuSelection;
+        public PitMenuState PitMenuState;
+
+        // Current vehicle pit state (-1 = N/A, 0 = None, 1 = Requested stop, 2 = Entered pitlane heading for pitspot, 3 = Stopped at pitspot, 4 = Exiting pitspot heading for pit exit)
+        public int PitState;
+
+        // Current vehicle pitstop actions duration
+        public float PitTotalDuration;
+        public float PitElapsedTime;
+
+        // Current vehicle pit action (-1 = N/A, 0 = None, 1 = Preparing, (combination of 2 = Penalty serve, 4 = Driver change, 8 = Refueling, 16 = Front tires, 32 = Rear tires, 64 = Front wing, 128 = Rear wing, 256 = Suspension))
+        public int PitAction;
+
         // Number of pitstops the current vehicle has performed (-1 = N/A)
         public int NumPitstopsPerformed;
+
+        // Reserved data
+        public int PitUnused1;
+        public float PitUnused2;
 
         //////////////////////////////////////////////////////////////////////////
         // Scoring & Timings
@@ -584,9 +824,7 @@
 
         // How many laps the player has completed. If this value is 6, the player is on his 7th lap. -1 = n/a
         public int CompletedLaps;
-
         public int CurrentLapValid;
-
         public int TrackSector;
 
         public float LapDistance;
@@ -633,9 +871,26 @@
         // Units: Seconds
         public float TimeDeltaBehind;
 
+        // Time delta between this car's current laptime and this car's best laptime
+        // Unit: Seconds (-1000.0 = N/A)
+        public float TimeDeltaBestSelf;
+
+        // Best time for each individual sector no matter lap
+        // Unit: Seconds (-1.0 = N/A)
+        public Sectors<float> BestIndividualSectorTimeSelf;
+        public Sectors<float> BestIndividualSectorTimeLeader;
+        public Sectors<float> BestIndividualSectorTimeLeaderClass;
+
+        // Reserved data
+        public int ScoreUnused1;
+        public int ScoreUnused2;
+        public float ScoreUnused3;
+        public float ScoreUnused4;
+
         //////////////////////////////////////////////////////////////////////////
         // Vehicle information
         //////////////////////////////////////////////////////////////////////////
+
         public R3EDriverInfo VehicleInfo;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
@@ -654,8 +909,8 @@
 
         // Unit: Radians per second (rad/s)
         public float EngineRps;
-
         public float MaxEngineRps;
+        public float UpshiftRps;
 
         // -2 = N/A, -1 = reverse, 0 = neutral, 1 = first gear, ...
         public int Gear;
@@ -675,11 +930,17 @@
         // Unit: Meter per second squared (m/s^2)
         public Vector3<float> LocalAcceleration;
 
-        // Unit: Liters (l)
-        // Note: Not valid for AI or remote players
-        public float FuelLeft;
+        // Unit: Kilograms (kg)
+        // Note: Car + penalty weight + fuel
+        public float TotalMass;
 
+        // Unit: Liters (l)
+        // Note: Fuel per lap show estimation when not enough data, then max recorded fuel per lap
+        // Note: Not valid for remote players
+        public float FuelLeft;
         public float FuelCapacity;
+
+        public float FuelPerLap;
 
         // Unit: Celsius (C)
         // Note: Not valid for AI or remote players
@@ -695,20 +956,46 @@
         // Note: Not valid for AI or remote players
         public float EngineOilPressure;
 
+        // Unit: (Bar)
+        // Note: Not valid for AI or remote players (-1.0 = N/A)
+        public float TurboPressure;
+
         // How pressed the throttle pedal is
         // Range: 0.0 - 1.0 (-1.0 = N/A)
         // Note: Not valid for AI or remote players
-        public float ThrottlePedal;
+        public float Throttle;
+
+        public float ThrottleRaw;
 
         // How pressed the brake pedal is
         // Range: 0.0 - 1.0 (-1.0 = N/A)
         // Note: Not valid for AI or remote players
-        public float BrakePedal;
+        public float Brake;
+
+        public float BrakeRaw;
 
         // How pressed the clutch pedal is
         // Range: 0.0 - 1.0 (-1.0 = N/A)
         // Note: Not valid for AI or remote players
-        public float ClutchPedal;
+        public float Clutch;
+
+        public float ClutchRaw;
+
+        // How much the steering wheel is turned
+        // Range: -1.0 - 1.0
+        // Note: Not valid for AI or remote players
+        public float SteerInputRaw;
+
+        // How many degrees in steer lock (center to full lock)
+        // Note: Not valid for AI or remote players
+        public int SteerLockDegrees;
+
+        // How many degrees in wheel range (degrees full left to rull right)
+        // Note: Not valid for AI or remote players
+        public int SteerWheelRangeDegrees;
+
+        // Aid settings
+        public AidSettings AidSettings;
 
         // DRS data
         public Drs Drs;
@@ -723,6 +1010,13 @@
         // Note: Not valid for AI or remote players
         public float BrakeBias;
 
+        // Reserved data
+        public int VehicleUnused1;
+        public int VehicleUnused2;
+        public float VehicleUnused3;
+        public float VehicleUnused4;
+        Orientation<float> VehicleUnused5;
+
         //////////////////////////////////////////////////////////////////////////
         // Tires
         //////////////////////////////////////////////////////////////////////////
@@ -733,31 +1027,36 @@
 
         // Rotation speed
         // Uint: Radians per second
-        public TireData TireRps;
+        public TireData<float> TireRps;
+
+        // Wheel speed
+        // Uint: Meters per second
+        public TireData<float> TireSpeed;
 
         // Range: 0.0 - 1.0 (-1.0 = N/A)
-        public TireData TireGrip;
+        public TireData<float> TireGrip;
 
         // Range: 0.0 - 1.0 (-1.0 = N/A)
-        public TireData TireWear;
+        public TireData<float> TireWear;
+
+        // (-1 = N/A, 0 = false, 1 = true)
+        public TireData<int> TireFlatspot;
 
         // Unit: Kilopascals (KPa) (-1.0 = N/A)
         // Note: Not valid for AI or remote players
-        public TireData TirePressure;
+        public TireData<float> TirePressure;
 
         // Percentage of dirt on tire (-1.0 = N/A)
         // Range: 0.0 - 1.0
-        public TireData TireDirt;
+        public TireData<float> TireDirt;
 
-        // Brake temperature (-1.0 = N/A)
+        // Current temperature of three points across the tread of the tire (-1.0 = N/A)
+        // Optimum temperature
+        // Cold temperature
+        // Hot temperature
         // Unit: Celsius (C)
         // Note: Not valid for AI or remote players
-        public TireData BrakeTemp;
-
-        // Temperature of three points across the tread of the tire (-1.0 = N/A)
-        // Unit: Celsius (C)
-        // Note: Not valid for AI or remote players
-        public TireTemperature TireTemp;
+        public TireData<TireTempInformation> TireTemp;
 
         // Which type of tires the car has (option, prime, etc.)
         // Note: See the R3E.Constant.TireType enum
@@ -768,8 +1067,25 @@
         // Which subtype of tires the car has
         // Note: See the R3E.Constant.TireSubtype enum
         public int TireSubtypeFront;
-
         public int TireSubtypeRear;
+
+        // Brake temperature (-1.0 = N/A)
+        // Unit: Celsius (C)
+        // Note: Not valid for AI or remote players
+        public TireData<float> BrakeTemp;
+
+        // Brake pressure (-1.0 = N/A)
+        // Unit: Kilo Newtons (kN)
+        // Note: Not valid for AI or remote players
+        public TireData<float> BrakePressure;
+
+        // Reserved data
+        public int TireUnused1;
+        public int TireUnused2;
+        public float TireUnused3;
+        public float TireUnused4;
+        public TireData<float> TireUnused5;
+        public TireData<float> TireUnused6;
 
         //////////////////////////////////////////////////////////////////////////
         // Damage
@@ -778,30 +1094,6 @@
         // The current state of various parts of the car
         // Note: Not valid for AI or remote players
         public CarDamage CarDamage;
-
-        //////////////////////////////////////////////////////////////////////////
-        // Additional Info
-        //////////////////////////////////////////////////////////////////////////
-
-        // The current state of each type of extended flag
-        public ExtendedFlags ExtendedFlags;
-
-        // Yellow flag for each sector
-        // -1 = no data
-        // 0 = not active
-        // 1 = active
-        public Sectors<int> SectorYellow;
-
-        // Distance into track for closest yellow, -1.0 if no yellow flag exists
-        // Unit: Meters (m)
-        public float ClosestYellowDistanceIntoTrack;
-
-        // Additional flag info
-        public ExtendedFlags2 ExtendedFlags2;
-
-        // If the session is time based, lap based or time based with an extra lap at the end
-        // Note: See the R3E.Constant.SessionLengthFormat enum
-        public int SessionLengthFormat;
 
         //////////////////////////////////////////////////////////////////////////
         // Driver Info

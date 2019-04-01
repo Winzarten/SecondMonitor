@@ -56,7 +56,7 @@
             <DockPanel>
                 <ContentPresenter Content="{StaticResource TurboIcon}" MaxHeight="32" DockPanel.Dock="Left" />
                 <quantityText:PressureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
-                                           Margin="5,0,0,0" MinWidth="60"
+                                           Margin="5,0,0,0" MinWidth="120"
                                            FontSize="{StaticResource ExtraBigFontSize}"
                                            Foreground="{StaticResource LightGrey01Brush}"
                                            Quantity="{Binding TurboPressure}"

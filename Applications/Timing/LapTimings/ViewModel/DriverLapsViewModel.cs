@@ -75,6 +75,11 @@
 
         private void DriverTimingOnNewLapStarted(object sender, LapEventArgs e)
         {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() => DriverTimingOnNewLapStarted(sender, e));
+                return;
+            }
             var newLapModel = new LapViewModel(e.Lap);
             if (Laps.Any() && Laps.Last().LapNumber == newLapModel.LapNumber)
             {
