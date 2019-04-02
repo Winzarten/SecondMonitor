@@ -8,7 +8,7 @@
         Title="{Binding Title}"
         Width="1600" Height="800"
         d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
-        d:DesignHeight="300" d:DesignWidth="300" WindowState="Maximized" WindowStyle="ThreeDBorderWindow"
+        d:DesignHeight="300" d:DesignWidth="300" WindowState="Maximized" WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
 
     <Window.Resources>
@@ -484,6 +484,16 @@
                                                 <Button.Content>
                                                     <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                                                         <ContentPresenter Content="{StaticResource TelemetryIcon}" />
+                                                    </wpf:ColorAbleIcon>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                                    Style="{StaticResource StandardButton}"
+                                                    Click="ButtonBase_OnClick"
+                                                    ToolTip="Toggle Fullscreen">
+                                                <Button.Content>
+                                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                        <ContentPresenter Content="{StaticResource FullscreenIcon}" />
                                                     </wpf:ColorAbleIcon>
                                                 </Button.Content>
                                             </Button>

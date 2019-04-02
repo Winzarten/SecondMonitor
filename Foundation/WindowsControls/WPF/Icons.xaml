@@ -3210,8 +3210,27 @@
         </Canvas>
     </Viewbox>
 
-
-
+    <Viewbox x:Key="FullscreenIcon" x:Shared="False" Stretch="Uniform">
+        <Canvas Width="63.999999" Height="63.999435">
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="37.094046 0 0 37.094046 0 0.0118352"/>
+                </Canvas.RenderTransform>
+                <Canvas>
+                    <Rectangle Canvas.Left="0" Canvas.Top="0" Width="1.294" Height="1.294" Name="rect6">
+                        <Rectangle.RenderTransform>
+                            <MatrixTransform Matrix="0 -1.33333 1.33333 0 1.52327e-5 1.72501"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                        <Path.Data>
+                            <PathGeometry Figures="M 0.184 0.108 0.685 0.609 0.609 0.685 0.108 0.184 V 0.647 H 0 V 0 H 0.647 V 0.108 Z M 1.078 1.617 H 1.541 L 1.04 1.116 1.116 1.04 1.617 1.541 V 1.078 H 1.725 V 1.725 H 1.078 Z M 0.647 1.725 H 0 V 1.078 H 0.108 V 1.541 L 0.609 1.04 0.685 1.116 0.184 1.617 H 0.647 Z M 1.078 0 H 1.725 V 0.647 H 1.617 V 0.184 L 1.116 0.685 1.04 0.609 1.541 0.108 H 1.078 Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
 
 
 </ResourceDictionary>
