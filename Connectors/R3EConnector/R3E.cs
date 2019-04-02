@@ -15,7 +15,7 @@
         internal enum VersionMinor
         {
             // Minor version number to test against
-            R3EVersionMinor = 4
+            R3EVersionMinor = 5
         };
 
         internal enum Session
@@ -87,7 +87,7 @@
             Completed = 4,
         };
 
-        enum PitStopStatus
+        internal enum PitStopStatus
         {
             // No mandatory pitstops
             Unavailable = -1,
@@ -549,7 +549,11 @@
 
         // Note: See the R3E.Constant.FinishStatus enum
         public int FinishStatus;
+
         public int Place;
+
+        // Based on performance index
+        public int PlaceClass;
         public float LapDistance;
         public Vector3<float> Position;
         public int TrackSector;
@@ -808,6 +812,9 @@
 
         // Current position (1 = first place)
         public int Position;
+
+        // Based on performance index
+        public int PositionClass;
 
         // Note: See the R3E.Constant.FinishStatus enum
         public int FinishStatus;

@@ -295,6 +295,7 @@
 
             driverInfo.IsPlayer = driverInfo.DriverName == playerName;
             driverInfo.Position = r3RDriverData.Place;
+            driverInfo.PositionInClass = r3RDriverData.PlaceClass;
             driverInfo.Speed = Velocity.FromMs(r3RDriverData.CarSpeed);
             driverInfo.LapDistance = r3RDriverData.LapDistance;
             driverInfo.TotalDistance = r3RDriverData.CompletedLaps * r3RData.LayoutLength + r3RDriverData.LapDistance;
@@ -377,8 +378,6 @@
 
             //Add Flags Info
             AddFlags(data, simData);
-
-            PopulateClassPositions(simData);
 
             return simData;
         }
