@@ -170,10 +170,10 @@
 
         private static void AddBrakesInfo(R3ESharedData data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontLeft);
-            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontRight);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.RearLeft);
-            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.RearRight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontLeft.CurrentTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontRight.CurrentTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.RearLeft.CurrentTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.RearRight.CurrentTemp);
         }
 
         private static void AddOilSystemInfo(R3ESharedData data, SimulatorDataSet simData)
@@ -287,7 +287,7 @@
         {
             DriverInfo driverInfo = new DriverInfo
                                         {
-                                            DriverName = FromByteArray(r3RDriverData.DriverInfo.Name),
+                                            DriverName = FromByteArray(r3RDriverData.R3EDriverInfo.Name),
                                             CompletedLaps = r3RDriverData.CompletedLaps,
                                             CarName = string.Empty,
                                             InPits = r3RDriverData.InPitlane == 1
@@ -299,9 +299,9 @@
             driverInfo.Speed = Velocity.FromMs(r3RDriverData.CarSpeed);
             driverInfo.LapDistance = r3RDriverData.LapDistance;
             driverInfo.TotalDistance = r3RDriverData.CompletedLaps * r3RData.LayoutLength + r3RDriverData.LapDistance;
-            driverInfo.CarName = _database.GetCarName(r3RDriverData.DriverInfo.ModelId);
-            driverInfo.CarClassName = _database.GetClassName(r3RDriverData.DriverInfo.ClassId);
-            driverInfo.CarClassId = r3RDriverData.DriverInfo.ClassPerformanceIndex.ToString();
+            driverInfo.CarName = _database.GetCarName(r3RDriverData.R3EDriverInfo.ModelId);
+            driverInfo.CarClassName = _database.GetClassName(r3RDriverData.R3EDriverInfo.ClassId);
+            driverInfo.CarClassId = r3RDriverData.R3EDriverInfo.ClassPerformanceIndex.ToString();
             driverInfo.FinishStatus = FromR3RStatus(r3RDriverData.FinishStatus);
             driverInfo.WorldPosition = new Point3D(Distance.FromMeters(r3RDriverData.Position.X * -1), Distance.FromMeters(r3RDriverData.Position.Y), Distance.FromMeters(r3RDriverData.Position.Z));
             ComputeDistanceToPlayer(_lastPlayer, driverInfo, r3RData);
