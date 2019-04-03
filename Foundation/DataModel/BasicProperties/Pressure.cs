@@ -114,6 +114,11 @@
             return new Pressure(pressure * 101.3);
         }
 
+        public static Pressure FromBar(double pressure)
+        {
+            return new Pressure(pressure / 0.01);
+        }
+
         public double GetValueInUnits(PressureUnits units)
         {
             switch (units)
