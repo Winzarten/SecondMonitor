@@ -193,7 +193,7 @@
 
         private static void AddWaterSystemInfo(RfShared data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.IdealQuantity = Temperature.FromCelsius(data.EngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(data.EngineWaterTemp);
         }
 
         private static void AddPedalInfo(RfShared data, SimulatorDataSet simData)
