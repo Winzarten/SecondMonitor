@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicProperties\Acceleration.cs" />
+    <Compile Include="BasicProperties\Angle.cs" />
+    <Compile Include="BasicProperties\AngleUnits.cs" />
     <Compile Include="BasicProperties\BoostStatus.cs" />
     <Compile Include="BasicProperties\ColorDTO.cs" />
     <Compile Include="BasicProperties\DamageInformation.cs" />

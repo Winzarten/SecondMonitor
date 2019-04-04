@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
-    public enum ForceUnits
+    public enum AngleUnits
     {
-        Newtons,PoundForce
+        Degrees, Radians, MilliRadians
     }
 }

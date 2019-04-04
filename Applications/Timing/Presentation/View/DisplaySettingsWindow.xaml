@@ -10,7 +10,6 @@
         xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
         xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters;assembly=WindowsControls"
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
-        xmlns:units="clr-namespace:SecondMonitor.DataModel.BasicProperties.Units;assembly=DataModel"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
         Title="SettingsView"
@@ -42,13 +41,13 @@
             <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
                                 ObjectType="{x:Type system:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="units:TemperatureUnits" />
+                    <x:Type TypeName="dmBasicProperties:TemperatureUnits" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
             <ObjectDataProvider x:Key="DataFromPressureEnum" MethodName="GetValues"
                                 ObjectType="{x:Type system:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="units:PressureUnits" />
+                    <x:Type TypeName="dmBasicProperties:PressureUnits" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
             <ObjectDataProvider x:Key="DataFromVolumeEnum" MethodName="GetValues"
@@ -84,7 +83,13 @@
             <ObjectDataProvider x:Key="DataForForceUnitsEnum" MethodName="GetValues"
                                 ObjectType="{x:Type system:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="units:ForceUnits" />
+                    <x:Type TypeName="dmBasicProperties:ForceUnits" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataForAngleUnitsEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="dmBasicProperties:AngleUnits" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
 
@@ -230,6 +235,11 @@
                     <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
                               ItemsSource="{Binding Source={StaticResource DataForForceUnitsEnum}}"
                               SelectedItem="{Binding ForceUnits}" />
+                    <Label Content="Angle" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Foreground="White" />
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                              ItemsSource="{Binding Source={StaticResource DataForAngleUnitsEnum}}"
+                              SelectedItem="{Binding AngleUnits}" />
                 </StackPanel>
             </GroupBox>
         </DockPanel>

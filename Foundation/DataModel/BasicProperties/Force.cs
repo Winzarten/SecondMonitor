@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using SecondMonitor.DataModel.BasicProperties.Units;
 
 namespace SecondMonitor.DataModel.BasicProperties
 {

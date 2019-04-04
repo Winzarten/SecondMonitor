@@ -1,6 +1,4 @@
-﻿using SecondMonitor.DataModel.BasicProperties.Units;
-
-namespace SecondMonitor.ViewModels.Settings.ViewModel
+﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System;
     using System.ComponentModel;
@@ -35,6 +33,7 @@ namespace SecondMonitor.ViewModels.Settings.ViewModel
         private TelemetrySettingsViewModel _telemetrySettingsViewModel;
         private MultiClassDisplayKind _multiClassDisplayKind;
         private ForceUnits _forceUnits;
+        private AngleUnits _angleUnits;
 
         public ICommand OpenLogDirectoryCommand => new RelayCommand(OpenLogDirectory);
 
@@ -104,6 +103,12 @@ namespace SecondMonitor.ViewModels.Settings.ViewModel
         {
             get => _forceUnits;
             set => SetProperty(ref _forceUnits, value);
+        }
+
+        public AngleUnits AngleUnits
+        {
+            get => _angleUnits;
+            set => SetProperty(ref _angleUnits, value);
         }
 
         public FuelCalculationScope FuelCalculationScope
@@ -327,6 +332,7 @@ namespace SecondMonitor.ViewModels.Settings.ViewModel
             AnimateDriversPosition = settings.AnimateDriversPosition;
             MultiClassDisplayKind = settings.MultiClassDisplayKind;
             ForceUnits = settings.ForceUnits;
+            AngleUnits = settings.AngleUnits;
 
             MapDisplaySettingsViewModel = new MapDisplaySettingsViewModel();
             MapDisplaySettingsViewModel.FromModel(settings.MapDisplaySettings);
@@ -364,6 +370,7 @@ namespace SecondMonitor.ViewModels.Settings.ViewModel
                 TelemetrySettings = TelemetrySettingsViewModel.SaveToNewModel(),
                 MultiClassDisplayKind = MultiClassDisplayKind,
                 ForceUnits = ForceUnits,
+                AngleUnits = AngleUnits,
             };
         }
 

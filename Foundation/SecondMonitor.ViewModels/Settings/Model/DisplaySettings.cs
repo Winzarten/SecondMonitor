@@ -1,6 +1,4 @@
-﻿using SecondMonitor.DataModel.BasicProperties.Units;
-
-namespace SecondMonitor.ViewModels.Settings.Model
+﻿namespace SecondMonitor.ViewModels.Settings.Model
 {
     using System;
     using DataModel.BasicProperties;
@@ -24,6 +22,8 @@ namespace SecondMonitor.ViewModels.Settings.Model
         public VelocityUnits VelocityUnits { get; set; } = VelocityUnits.Kph;
 
         public ForceUnits ForceUnits { get; set; } = ForceUnits.Newtons;
+
+        public AngleUnits AngleUnits { get; set; } = AngleUnits.Degrees;
 
         public MultiClassDisplayKind MultiClassDisplayKind { get; set; } = MultiClassDisplayKind.ClassFirst;
 
