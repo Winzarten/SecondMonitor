@@ -106,7 +106,6 @@
     <Compile Include="PluginsSettings\PluginsConfigurationViewModel.cs" />
     <Compile Include="PluginsSettings\RemoteConfigurationViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Settings\DisplaySettingAutoSaver.cs" />
     <Compile Include="Settings\Model\ColumnSettings.cs" />
     <Compile Include="Settings\Model\ColumnsSettings.cs" />
     <Compile Include="Settings\Model\DisplayModeEnum.cs" />
@@ -172,6 +171,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Settings\Repostiory\" />
     <Folder Include="SituationOverview\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

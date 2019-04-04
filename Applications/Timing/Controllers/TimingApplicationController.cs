@@ -43,8 +43,12 @@ namespace SecondMonitor.Timing.Controllers
         private MapManagementController _mapManagementController;
         private DriverPresentationsManager _driverPresentationsManager;
         private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
-        private DisplaySettingAutoSaver _settingAutoSaver;
+        private readonly DisplaySettingsLoader _displaySettingsLoader;
 
+        public TimingApplicationController()
+        {
+            _displaySettingsLoader = new DisplaySettingsLoader();
+        }
 
         public PluginsManager PluginManager
         {
@@ -68,7 +72,6 @@ namespace SecondMonitor.Timing.Controllers
         public void RunPlugin()
         {
             CreateDisplaySettingsViewModel();
-            CreateAutoSaver();
             CreateSimSettingsController();
             CreateMapManagementController();
             CreateDriverPresentationManager();
@@ -133,6 +136,7 @@ namespace SecondMonitor.Timing.Controllers
             _timingGui = null;
             List<Exception> exceptions = new List<Exception>();
             _timingDataViewModel?.TerminatePeriodicTask(exceptions);
+            _displaySettingsLoader.TrySaveDisplaySettings(_displaySettingsViewModel.ToModel(), SettingsPath);
             await _pluginsManager.DeletePlugin(this, exceptions);
         }
 
@@ -161,8 +165,7 @@ namespace SecondMonitor.Timing.Controllers
         private void CreateDisplaySettingsViewModel()
         {
            _displaySettingsViewModel = new DisplaySettingsViewModel();
-           _displaySettingsViewModel.FromModel(
-                new DisplaySettingsLoader().LoadDisplaySettingsFromFileSafe(SettingsPath));
+           _displaySettingsViewModel.FromModel(_displaySettingsLoader.LoadDisplaySettingsFromFileSafe(SettingsPath));
         }
 
         private void CreateMapManagementController()
@@ -208,11 +211,6 @@ namespace SecondMonitor.Timing.Controllers
         private void OpenCarSettingsWindow()
         {
             _simSettingController.OpenCarSettingsControl(_timingGui);
-        }
-
-        private void CreateAutoSaver()
-        {
-            _settingAutoSaver = new DisplaySettingAutoSaver(SettingsPath) { DisplaySettingsViewModel = _displaySettingsViewModel };
         }
 
         private void ScrollToPlayer()
