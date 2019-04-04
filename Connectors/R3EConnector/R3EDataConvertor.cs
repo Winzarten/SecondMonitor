@@ -123,6 +123,16 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionTravel = Distance.FromMeters(data.Player.SuspensionDeflection.RearLeft);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionTravel = Distance.FromMeters(data.Player.SuspensionDeflection.RearRight);
 
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.FrontLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.FrontRight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.RearLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.RearRight);
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Camber = Angle.GetFromDegrees(data.Player.Camber.FrontLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Camber = Angle.GetFromDegrees(data.Player.Camber.FrontRight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Camber = Angle.GetFromDegrees(data.Player.Camber.RearLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Camber = Angle.GetFromDegrees(data.Player.Camber.RearRight);
+
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RideHeight = Distance.FromMeters(data.Player.RideHeight.FrontLeft);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RideHeight = Distance.FromMeters(data.Player.RideHeight.FrontRight);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RideHeight = Distance.FromMeters(data.Player.RideHeight.RearLeft);

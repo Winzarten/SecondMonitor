@@ -82,6 +82,8 @@
 
         public Velocity SuspensionVelocity { get; set; }
 
+        public Angle Camber { get; set; }
+
     }
 
 }
