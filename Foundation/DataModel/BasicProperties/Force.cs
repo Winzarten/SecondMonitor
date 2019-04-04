@@ -1,7 +1,10 @@
 ﻿using System;
+using Newtonsoft.Json;
+using SecondMonitor.DataModel.BasicProperties.Units;
 
 namespace SecondMonitor.DataModel.BasicProperties
 {
+    [Serializable]
     public class Force : IQuantity
     {
         public Force()
@@ -16,7 +19,10 @@ namespace SecondMonitor.DataModel.BasicProperties
             InNewtons = inNewtons;
         }
 
-        public double InNewtons { get; }
+        public double InNewtons { get; set; }
+
+        [JsonIgnore]
+        public double InPoundForce => 0.224809 * InNewtons;
 
         public Force Zero => new Force();
         public IQuantity ZeroQuantity => Zero;
@@ -35,6 +41,8 @@ namespace SecondMonitor.DataModel.BasicProperties
             {
                 case ForceUnits.Newtons:
                     return InNewtons;
+                case ForceUnits.PoundForce:
+                    return InPoundForce;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(units), units, null);
             }
@@ -46,6 +54,8 @@ namespace SecondMonitor.DataModel.BasicProperties
             {
                 case ForceUnits.Newtons:
                     return "N";
+                case ForceUnits.PoundForce:
+                    return "lbf";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(units), units, null);
             }

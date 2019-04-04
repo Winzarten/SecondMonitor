@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
+﻿using SecondMonitor.DataModel.BasicProperties.Units;
+
+namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System;
     using System.ComponentModel;
@@ -13,7 +15,7 @@
     using Model;
     using Properties;
 
-    public class DisplaySettingsViewModel : INotifyPropertyChanged
+    public class DisplaySettingsViewModel : AbstractViewModel<DisplaySettings>
     {
         private VelocityUnits _velocityUnits;
         private TemperatureUnits _temperatureUnits;
@@ -32,8 +34,7 @@
         private MapDisplaySettingsViewModel _mapDisplaySettingsViewModel;
         private TelemetrySettingsViewModel _telemetrySettingsViewModel;
         private MultiClassDisplayKind _multiClassDisplayKind;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        private ForceUnits _forceUnits;
 
         public ICommand OpenLogDirectoryCommand => new RelayCommand(OpenLogDirectory);
 
@@ -43,7 +44,7 @@
             set
             {
                 _telemetrySettingsViewModel = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -53,7 +54,7 @@
             set
             {
                 _temperatureUnits = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -63,7 +64,7 @@
             set
             {
                 _multiClassDisplayKind = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -73,7 +74,7 @@
             set
             {
                 _pressureUnits = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -83,7 +84,7 @@
             set
             {
                 _volumeUnits = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -93,10 +94,16 @@
             set
             {
                 _velocityUnits = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(DistanceUnits));
-                OnPropertyChanged(nameof(FuelPerDistanceUnits));
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(DistanceUnits));
+                NotifyPropertyChanged(nameof(FuelPerDistanceUnits));
             }
+        }
+
+        public ForceUnits ForceUnits
+        {
+            get => _forceUnits;
+            set => SetProperty(ref _forceUnits, value);
         }
 
         public FuelCalculationScope FuelCalculationScope
@@ -105,7 +112,7 @@
             set
             {
                 _fuelCalculationScope = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -211,7 +218,7 @@
             set
             {
                 _paceLaps = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -221,7 +228,7 @@
             set
             {
                 _refreshRate = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -231,7 +238,7 @@
             set
             {
                 _scrollToPlayer = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -241,7 +248,7 @@
             set
             {
                 _animateDriverPosition = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -251,7 +258,7 @@
             set
             {
                 _animateDeltaTimes = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -261,7 +268,7 @@
             set
             {
                 _practiceSessionDisplayOptionsView = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -271,7 +278,7 @@
             set
             {
                 _qualificationSessionDisplayOptionsView = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -281,7 +288,7 @@
             set
             {
                 _raceSessionDisplayOptionsView = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -291,7 +298,7 @@
             set
             {
                 _reportingSettingsView = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
@@ -301,12 +308,13 @@
             set
             {
                 _mapDisplaySettingsViewModel = value;
-                OnPropertyChanged();
+                NotifyPropertyChanged();
             }
         }
 
-        public void FromModel(DisplaySettings settings)
+        protected override void ApplyModel(DisplaySettings settings)
         {
+       
             TemperatureUnits = settings.TemperatureUnits;
             PressureUnits = settings.PressureUnits;
             VolumeUnits = settings.VolumeUnits;
@@ -318,6 +326,7 @@
             AnimateDeltaTimes = settings.AnimateDeltaTimes;
             AnimateDriversPosition = settings.AnimateDriversPosition;
             MultiClassDisplayKind = settings.MultiClassDisplayKind;
+            ForceUnits = settings.ForceUnits;
 
             MapDisplaySettingsViewModel = new MapDisplaySettingsViewModel();
             MapDisplaySettingsViewModel.FromModel(settings.MapDisplaySettings);
@@ -333,7 +342,7 @@
             TelemetrySettingsViewModel.FromModel(settings.TelemetrySettings);
         }
 
-        public DisplaySettings ToModel()
+        public override DisplaySettings SaveToNewModel()
         {
             return new DisplaySettings()
             {
@@ -354,6 +363,7 @@
                 MapDisplaySettings = MapDisplaySettingsViewModel.SaveToNewModel(),
                 TelemetrySettings = TelemetrySettingsViewModel.SaveToNewModel(),
                 MultiClassDisplayKind = MultiClassDisplayKind,
+                ForceUnits = ForceUnits,
             };
         }
 
@@ -366,12 +376,6 @@
                 {
                     Process.Start(reportDirectory);
                 });
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

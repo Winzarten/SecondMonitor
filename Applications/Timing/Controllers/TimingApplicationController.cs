@@ -136,7 +136,7 @@ namespace SecondMonitor.Timing.Controllers
             _timingGui = null;
             List<Exception> exceptions = new List<Exception>();
             _timingDataViewModel?.TerminatePeriodicTask(exceptions);
-            _displaySettingsLoader.TrySaveDisplaySettings(_displaySettingsViewModel.ToModel(), SettingsPath);
+            _displaySettingsLoader.TrySaveDisplaySettings(_displaySettingsViewModel.SaveToNewModel(), SettingsPath);
             await _pluginsManager.DeletePlugin(this, exceptions);
         }
 

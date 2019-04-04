@@ -10,6 +10,7 @@
         xmlns:model="clr-namespace:SecondMonitor.ViewModels.Settings.Model;assembly=SecondMonitor.ViewModels"
         xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters;assembly=WindowsControls"
         xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
+        xmlns:units="clr-namespace:SecondMonitor.DataModel.BasicProperties.Units;assembly=DataModel"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModel:DisplaySettingsViewModel, IsDesignTimeCreatable=True}"
         Title="SettingsView"
@@ -41,13 +42,13 @@
             <ObjectDataProvider x:Key="DataFromTemperatureEnum" MethodName="GetValues"
                                 ObjectType="{x:Type system:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="dmBasicProperties:TemperatureUnits" />
+                    <x:Type TypeName="units:TemperatureUnits" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
             <ObjectDataProvider x:Key="DataFromPressureEnum" MethodName="GetValues"
                                 ObjectType="{x:Type system:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="dmBasicProperties:PressureUnits" />
+                    <x:Type TypeName="units:PressureUnits" />
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
             <ObjectDataProvider x:Key="DataFromVolumeEnum" MethodName="GetValues"
@@ -80,6 +81,13 @@
                 <x:Type TypeName="dmBasicProperties:MultiClassDisplayKind" />
             </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
+            <ObjectDataProvider x:Key="DataForForceUnitsEnum" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="units:ForceUnits" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
             <DataTemplate DataType="{x:Type viewModel:SessionOptionsViewModel}">
                 <Border BorderBrush="White" BorderThickness="1" Padding="0,0,0,5">
                     <Grid>
@@ -194,30 +202,35 @@
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Width="150" DockPanel.Dock="Top">
-                <Grid VerticalAlignment="Top" Margin="0,0,0,5">
-                    <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left" Margin="10,82,0,0"
+                <StackPanel VerticalAlignment="Top" Margin="0,0,0,5">
+                    <Label Content="Temperature" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Foreground="White" />
+                    <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Width="94"
                               ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}"
                               SelectedItem="{Binding TemperatureUnits}" />
-                    <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left" Margin="10,128,0,0"
+                    <Label Content="Pressure" HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Foreground="White" />
+                    <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left"
                               VerticalAlignment="Top" Width="94"
                               ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}"
                               SelectedItem="{Binding PressureUnits}" />
-                    <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top"
+                    <Label Content="Volume" HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Foreground="White" />
+                        <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" VerticalAlignment="Top"
                               Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}"
                               SelectedItem="{Binding VolumeUnits}" />
-                    <ComboBox HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" Width="94"
+                    <Label Content="Velocity" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Foreground="White" />
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
                               ItemsSource="{Binding Source={StaticResource DataFromVelocityEnum}}"
                               SelectedItem="{Binding VelocityUnits}" />
-                    <Label Content="Volume" HorizontalAlignment="Left" Margin="6,8,0,0" VerticalAlignment="Top"
+                    <Label Content="Force" HorizontalAlignment="Left" VerticalAlignment="Top"
                            Foreground="White" />
-                    <Label Content="Temperature" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top"
-                           Foreground="White" />
-                    <Label Content="Pressure" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top"
-                           Foreground="White" />
-                    <Label Content="Velocity" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top"
-                           Foreground="White" />
-                </Grid>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                              ItemsSource="{Binding Source={StaticResource DataForForceUnitsEnum}}"
+                              SelectedItem="{Binding ForceUnits}" />
+                </StackPanel>
             </GroupBox>
         </DockPanel>
         <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Stretch">

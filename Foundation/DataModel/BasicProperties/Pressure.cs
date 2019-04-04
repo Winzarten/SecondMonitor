@@ -1,4 +1,6 @@
-﻿namespace SecondMonitor.DataModel.BasicProperties
+﻿using SecondMonitor.DataModel.BasicProperties.Units;
+
+namespace SecondMonitor.DataModel.BasicProperties
 {
     using System;
     using System.Xml.Serialization;
