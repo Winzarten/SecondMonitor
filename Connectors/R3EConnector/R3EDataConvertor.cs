@@ -358,6 +358,7 @@
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
             simData.SimulatorSourceInfo.AIInstantFinish = true;
             simData.SimulatorSourceInfo.GapInformationProvided = GapInformationKind.TimeToSurroundingDrivers;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionVelocity = true;
 
             // SimulatorDataSet simData = new SimulatorDataSet("R3R");
             FillSessionInfo(data, simData);
