@@ -119,6 +119,8 @@
         public VelocityUnits VelocityUnitsSmall { get; set; }
         public TemperatureUnits TemperatureUnits { get; set; }
         public PressureUnits PressureUnits { get; set; }
+        public AngleUnits AngleUnits { get; set; }
+        public ForceUnits ForceUnits { get; set; }
 
         protected double YMaximum
         {

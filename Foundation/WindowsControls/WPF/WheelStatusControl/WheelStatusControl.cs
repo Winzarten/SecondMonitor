@@ -29,6 +29,13 @@
         private static readonly DependencyProperty TyrePressureProperty = DependencyProperty.Register("TyrePressure", typeof(OptimalQuantity<Pressure>), typeof(WheelStatusControl));
         private static readonly DependencyProperty IsLeftWheelProperty = DependencyProperty.Register("IsLeftWheel", typeof(bool), typeof(WheelStatusControl));
 
+        public static readonly DependencyProperty WheelCamberProperty = DependencyProperty.Register("WheelCamber", typeof(double), typeof(WheelStatusControl), new PropertyMetadata(default(double)));
+
+        public double WheelCamber
+        {
+            get => (double) GetValue(WheelCamberProperty);
+            set => SetValue(WheelCamberProperty, value);
+        }
 
         public WheelStatusControl()
         {

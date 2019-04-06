@@ -8,6 +8,7 @@
         <ResourceDictionary Source="../QuantityText/QuantityText.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:InvertedDoubleConverter x:Key="InvertedDoubleConverter"/>
     <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     <Storyboard x:Key="FlashRed" RepeatBehavior="Forever">
         <ColorAnimation Storyboard.TargetName="StatusBorder" Storyboard.TargetProperty="BorderBrush.Color"
@@ -112,7 +113,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0" Margin="5,0,5,0"
                                           Visibility="{Binding IsLeftWheel, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <wpf:ColorAbleIcon StrokeBrush="{StaticResource Green01Brush}">
+                                        <wpf:ColorAbleIcon StrokeBrush="{StaticResource Green01Brush}" RenderTransformOrigin="0.5, 0.5">
                                             <ContentPresenter Content="{StaticResource TyreIcon}" />
                                             <i:Interaction.Behaviors>
                                                 <tyreWear:ColorAbleIconByLimits IdealLimitColor="{StaticResource Green01Color}" MildLimitColor="{StaticResource Yellow01Color}" HeavyLimitColor="{StaticResource LightRed01Color}"
@@ -120,6 +121,9 @@
                                                                                 MildLimit="{Binding TyreMildWearLimit , RelativeSource={RelativeSource TemplatedParent}}" HeavyLimit="{Binding TyreHeavyWearLimit, RelativeSource={RelativeSource TemplatedParent}}"/>
 
                                             </i:Interaction.Behaviors>
+                                            <wpf:ColorAbleIcon.RenderTransform>
+                                                <RotateTransform Angle="{Binding WheelCamber, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InvertedDoubleConverter}}"/>
+                                            </wpf:ColorAbleIcon.RenderTransform>
                                         </wpf:ColorAbleIcon>
                                     </Grid>
                                     <Border x:Name="StatusBorder" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Stretch"
@@ -158,14 +162,18 @@
                                     </Border>
                                     <Grid Grid.Column="2" Margin="5,0,5,0"
                                           Visibility="{Binding IsLeftWheel, RelativeSource={RelativeSource AncestorType=wheelStatusControl:WheelStatusControl}, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-                                        <wpf:ColorAbleIcon StrokeBrush="{StaticResource Green01Brush}">
-                                            <ContentPresenter Content="{StaticResource TyreIcon}" />
+                                        <wpf:ColorAbleIcon StrokeBrush="{StaticResource Green01Brush}" RenderTransformOrigin="0.5, 0.5">
+                                            <ContentPresenter Content="{StaticResource TyreIcon}"  />
+
                                             <i:Interaction.Behaviors>
                                                 <tyreWear:ColorAbleIconByLimits IdealLimitColor="{StaticResource Green01Color}" MildLimitColor="{StaticResource Yellow01Color}" HeavyLimitColor="{StaticResource LightRed01Color}"
                                                                                 Value="{Binding TyreCondition , RelativeSource={RelativeSource TemplatedParent}}" IdealLimit="{Binding TyreNoWearWearLimit, RelativeSource={RelativeSource TemplatedParent}}"
                                                                                 MildLimit="{Binding TyreMildWearLimit , RelativeSource={RelativeSource TemplatedParent}}" HeavyLimit="{Binding TyreHeavyWearLimit, RelativeSource={RelativeSource TemplatedParent}}"/>
 
                                             </i:Interaction.Behaviors>
+                                            <wpf:ColorAbleIcon.RenderTransform>
+                                                <RotateTransform Angle="{Binding WheelCamber, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            </wpf:ColorAbleIcon.RenderTransform>
                                         </wpf:ColorAbleIcon>
                                     </Grid>
                                 </Grid>

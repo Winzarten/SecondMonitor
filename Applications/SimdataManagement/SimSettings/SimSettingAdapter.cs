@@ -168,7 +168,7 @@
 
             CarModelProperties carModelProperties = _dataSourceProperties.GetCarModel(carName);
 
-            if (carModelProperties == null)
+            if (carModelProperties == null || carModelProperties.OriginalContainsOptimalTemperature != simulatorDataSet.SimulatorSourceInfo.TelemetryInfo.ContainsOptimalTemperatures)
             {
                 carModelProperties = CreateNewCarModelProperties(carName, simulatorDataSet);
             }
@@ -179,9 +179,7 @@
 
         private CarModelProperties CreateNewCarModelProperties(string carName, SimulatorDataSet simulatorDataSet)
         {
-            CarModelProperties newCarModelProperties = new CarModelProperties() { Name = carName };
-            newCarModelProperties.OptimalBrakeTemperature = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantity;
-            newCarModelProperties.OptimalBrakeTemperatureWindow = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantityWindow;
+            CarModelProperties newCarModelProperties = new CarModelProperties {Name = carName, OriginalContainsOptimalTemperature = simulatorDataSet.SimulatorSourceInfo.TelemetryInfo.ContainsOptimalTemperatures, OptimalBrakeTemperature = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantity, OptimalBrakeTemperatureWindow = simulatorDataSet.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantityWindow};
             _dataSourceProperties.AddCarModel(newCarModelProperties);
             _simSettingsLoader.SaveDataSourceProperties(_dataSourceProperties);
             return newCarModelProperties;

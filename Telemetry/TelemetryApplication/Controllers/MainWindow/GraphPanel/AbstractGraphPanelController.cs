@@ -66,6 +66,8 @@
             graphViewModel.VelocityUnitsSmall = _settingsProvider.DisplaySettingsViewModel.VelocityUnitsVerySmall;
             graphViewModel.TemperatureUnits = _settingsProvider.DisplaySettingsViewModel.TemperatureUnits;
             graphViewModel.PressureUnits = _settingsProvider.DisplaySettingsViewModel.PressureUnits;
+            graphViewModel.AngleUnits = _settingsProvider.DisplaySettingsViewModel.AngleUnits;
+            graphViewModel.ForceUnits = _settingsProvider.DisplaySettingsViewModel.ForceUnits;
             _loadedLaps.ForEach(graphViewModel.AddLapTelemetry);
         }
 

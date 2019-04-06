@@ -50,6 +50,8 @@
             TyreType = "Prime";
             RideHeight = Distance.FromMeters(0);
             SuspensionTravel = Distance.FromMeters(0);
+            SuspensionVelocity = Velocity.Zero;
+            Camber = new Angle();
         }
 
         public double Rps { get; set; } //Currently in Radians / s

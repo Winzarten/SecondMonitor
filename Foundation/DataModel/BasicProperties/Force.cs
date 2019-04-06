@@ -60,6 +60,11 @@ namespace SecondMonitor.DataModel.BasicProperties
             }
         }
 
+        public static Force GetFromNewtons(double force)
+        {
+            return new Force(force);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj))

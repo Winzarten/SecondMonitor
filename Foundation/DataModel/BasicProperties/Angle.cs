@@ -67,7 +67,7 @@ namespace SecondMonitor.DataModel.BasicProperties
 
         public static Angle GetFromRadians(double angle)
         {
-            return new Angle(angle * 0.0174533);
+            return new Angle(angle / 0.0174533);
         }
 
         public override bool Equals(object obj)

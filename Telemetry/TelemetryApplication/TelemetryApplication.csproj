@@ -133,6 +133,7 @@
     <Compile Include="ViewModels\GraphPanel\AbstractSingleSeriesGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Chassis\AbstractChasisGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Chassis\ChassisRideHeightGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\Chassis\FrontRearDownforceGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\DataExtractor\CompareToReferenceDataExtractor.cs" />
     <Compile Include="ViewModels\GraphPanel\DataExtractor\ISingleSeriesDataExtractor.cs" />
     <Compile Include="ViewModels\GraphPanel\DataExtractor\SimpleSingleSeriesDataExtractor.cs" />
@@ -144,11 +145,14 @@
     <Compile Include="ViewModels\GraphPanel\Inputs\SteeringAngleGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\LapTimeGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\LateralGGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\OverallDownForceGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\SpeedGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\ThrottleGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\TurboBoostGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\AbstractTyreTemperaturesViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\AbstractWheelsGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\BrakeTemperaturesGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\Wheels\CamberGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\LeftFrontTyreTempsGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\LeftRearTyreTempsGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\RideHeightGraphViewModel.cs" />

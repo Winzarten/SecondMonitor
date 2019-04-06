@@ -20,6 +20,9 @@
         public string Name { get; set; }
 
         [XmlAttribute]
+        public bool OriginalContainsOptimalTemperature { get; set; }
+
+        [XmlAttribute]
         public int WheelRotation { get; set; }
 
         public Temperature OptimalBrakeTemperature { get; set; }

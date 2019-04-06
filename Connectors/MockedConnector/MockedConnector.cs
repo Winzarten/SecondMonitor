@@ -58,7 +58,7 @@
         public bool TryConnect()
         {
 
-            #if DEBUG
+            #if !DEBUG
             IsConnected = true;
             Thread executionThread = new Thread(new ThreadStart(TestingThreadExecutor));
             executionThread.IsBackground = true;

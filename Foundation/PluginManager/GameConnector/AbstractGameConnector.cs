@@ -34,6 +34,7 @@
         private Task _daemonTask;
         private Task _queueProcessorTask;
         private CancellationTokenSource _cancellationTokenSource;
+        private Stopwatch _lastCheck;
 
         protected Process Process { get; private set; }
 
@@ -55,12 +56,19 @@
         {
             if (Process != null)
             {
+                if (_lastCheck.ElapsedMilliseconds < 2000)
+                {
+                    return true;
+                }
+
+                _lastCheck.Restart();
                 if (!Process.HasExited)
                 {
                     return true;
                 }
 
                 Process = null;
+                _lastCheck.Stop();
                 return false;
             }
 
@@ -73,6 +81,7 @@
                 }
 
                 Process = processes[0];
+                _lastCheck = Stopwatch.StartNew();
                 return true;
             }
 

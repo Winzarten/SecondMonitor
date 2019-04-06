@@ -106,6 +106,10 @@
             Bind<IGraphViewModel>().To<RideHeightGraphViewModel >();
             Bind<IGraphViewModel>().To<ChassisRideHeightGraphViewModel>();
             Bind<IGraphViewModel>().To<SuspensionVelocityGraphViewModel>();
+            Bind<IGraphViewModel>().To<OverallDownForceGraphViewModel>();
+            Bind<IGraphViewModel>().To<TurboBoostGraphViewModel>();
+            Bind<IGraphViewModel>().To<FrontRearDownForceGraphViewModel>();
+            Bind<IGraphViewModel>().To<CamberGraphViewModel>();
 
             Bind<ISingleSeriesDataExtractor>().To<SimpleSingleSeriesDataExtractor>();
             Bind<ISingleSeriesDataExtractor>().To<CompareToReferenceDataExtractor>();

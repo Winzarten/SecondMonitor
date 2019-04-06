@@ -22,6 +22,7 @@
             simData.SimulatorSourceInfo.InvalidateLapBySector = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
             simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionVelocity = true;
 
             FillSessionInfo(pcarsData, simData, sessionTime);
             AddDriversData(simData, pcarsData);
@@ -154,6 +155,11 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreFrontRight]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreRearLeft]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreRearRight]);
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreFrontLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreFrontRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreRearLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreRearRight]);
 
             int direDeflatedFlag = (int) TyreFlags.TyreAttached | (int) TyreFlags.TyreInflated;
 

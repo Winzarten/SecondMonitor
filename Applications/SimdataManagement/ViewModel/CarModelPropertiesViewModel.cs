@@ -85,7 +85,8 @@
                            OptimalBrakeTemperature = Temperature.FromCelsius((MinimalOptimalBrakeTemperature.InCelsius + MaximumOptimalBrakeTemperature.InCelsius) * 0.5),
                            OptimalBrakeTemperatureWindow = Temperature.FromCelsius((MaximumOptimalBrakeTemperature.InCelsius - MinimalOptimalBrakeTemperature.InCelsius) * 0.5),
                            TyreCompoundsProperties = TyreCompoundsProperties.Select(x => x.SaveToNewModel()).ToList(),
-                           WheelRotation = WheelRotation
+                           WheelRotation = WheelRotation,
+                           OriginalContainsOptimalTemperature = OriginalModel.OriginalContainsOptimalTemperature
                            };
             }
         }

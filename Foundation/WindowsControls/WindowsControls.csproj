@@ -145,6 +145,7 @@
     <Compile Include="WPF\Converters\InvertedBooleanConverter.cs" />
     <Compile Include="WPF\Converters\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="WPF\Converters\IntegerToStringConverter.cs" />
+    <Compile Include="WPF\Converters\InvertedDoubleConverter.cs" />
     <Compile Include="WPF\Converters\ScaleToPercentConverter.cs" />
     <Compile Include="WPF\Converters\TemperatureToDoubleConverter.cs" />
     <Compile Include="WPF\Converters\TimeSpanToBrushConverter.cs" />

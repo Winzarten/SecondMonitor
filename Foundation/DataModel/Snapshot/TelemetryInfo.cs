@@ -12,8 +12,13 @@
         [XmlAttribute]
         public bool RequiresPositionInterpolation { get; set; }
 
+        [XmlAttribute]
         public bool ContainsSuspensionVelocity { get; set; }
 
+        [XmlAttribute]
         public bool ContainsSuspensionTravel { get; set; }
+
+        [XmlAttribute]
+        public bool ContainsOptimalTemperatures { get; set; }
     }
 }

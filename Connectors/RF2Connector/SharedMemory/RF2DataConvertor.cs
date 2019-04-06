@@ -112,6 +112,8 @@
             }
 
             playerCar.SpeedLimiterEngaged = data.mSpeedLimiter == 1;
+            playerCar.FrontDownForce = Force.GetFromNewtons(data.mFrontDownforce);
+            playerCar.RearDownForce = Force.GetFromNewtons(data.mRearDownforce);
 
         }
 
@@ -164,6 +166,11 @@
 
             simData.PlayerInfo.CarInfo.RearHeight = Distance.FromMeters(playerVehicleTelemetry.mRearRideHeight);
             simData.PlayerInfo.CarInfo.FrontHeight = Distance.FromMeters(playerVehicleTelemetry.mFrontWingHeight);
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mCamber);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mCamber);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mCamber);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mCamber);
 
             //Tyre RPS
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Rps = -playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mRotation;
