@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.R3EConnector
 {
+    using System;
     using System.Runtime.InteropServices;
 
     internal class Constant
@@ -15,7 +16,7 @@
         internal enum VersionMinor
         {
             // Minor version number to test against
-            R3EVersionMinor = 5
+            R3EVersionMinor = 6
         };
 
         internal enum Session
@@ -484,6 +485,15 @@
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct BrakeTemp
+    {
+        public float CurrentTemp;
+        public float OptimalTemp;
+        public float ColdTemp;
+        public float HotTemp;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     internal struct TireTemperature<T>
     {
         public T Left;
@@ -545,7 +555,7 @@
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     internal struct DriverData
     {
-        public R3EDriverInfo DriverInfo;
+        public R3EDriverInfo R3EDriverInfo;
 
         // Note: See the R3E.Constant.FinishStatus enum
         public int FinishStatus;
@@ -717,7 +727,7 @@
         public int SessionType;
 
         // The current iteration of the current type of session (second qualifying session, etc.)
-        // Note: 0-indexed, -1 = N/A
+        // Note: 1 = first, 2 = second etc, -1 = N/A
         public int SessionIteration;
 
         // If the session is time based, lap based or time based with an extra lap at the end
@@ -1076,10 +1086,13 @@
         public int TireSubtypeFront;
         public int TireSubtypeRear;
 
-        // Brake temperature (-1.0 = N/A)
+        // Current brake temperature (-1.0 = N/A)
+        // Optimum temperature
+        // Cold temperature
+        // Hot temperature
         // Unit: Celsius (C)
         // Note: Not valid for AI or remote players
-        public TireData<float> BrakeTemp;
+        public TireData<BrakeTemp> BrakeTemp;
 
         // Brake pressure (-1.0 = N/A)
         // Unit: Kilo Newtons (kN)
