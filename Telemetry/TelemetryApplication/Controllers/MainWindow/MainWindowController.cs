@@ -74,6 +74,7 @@
         private async Task StartChildControllers()
         {
             Subscribe();
+            await _telemetryLoadController.StartControllerAsync();
             await _leftGraphPanelController.StartControllerAsync();;
             await _rightGraphPanelController.StartControllerAsync();;
             await _lapPickerController.StartControllerAsync();
@@ -83,6 +84,7 @@
 
         private async Task StopChildControllers()
         {
+            await _telemetryLoadController.StopControllerAsync();
             await _leftGraphPanelController.StopControllerAsync();
             await _rightGraphPanelController.StartControllerAsync();
             await _lapPickerController.StopControllerAsync();

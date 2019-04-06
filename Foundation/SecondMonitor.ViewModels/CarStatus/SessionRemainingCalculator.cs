@@ -3,19 +3,22 @@
     using System;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
+    using DataModel.Snapshot.Drivers;
 
     public class SessionRemainingCalculator
     {
         private readonly IPaceProvider _paceProvider;
+        private int _leaderTimeoutLap;
 
         public SessionRemainingCalculator(IPaceProvider paceProvider)
         {
             _paceProvider = paceProvider;
+            _leaderTimeoutLap = -1;
         }
 
         public TimeSpan GetTimeRemaining(SimulatorDataSet dataSet)
         {
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap)
             {
                 return TimeSpan.FromSeconds(dataSet.SessionInfo.SessionTimeRemaining);
             }
@@ -25,6 +28,11 @@
                     ? TimeSpan.FromSeconds(GetLeaderLapsToGo(dataSet) * _paceProvider.LeadersPace.Value.TotalSeconds)
                     : TimeSpan.Zero;
             }
+        }
+
+        public void Reset()
+        {
+            _leaderTimeoutLap = -1;
         }
 
         public double GetLapsRemaining(SimulatorDataSet dataSet)
@@ -43,11 +51,26 @@
             }
             else
             {
+                if (_leaderTimeoutLap == -1 && dataSet.SessionInfo.SessionTimeRemaining <= 0)
+                {
+                    _leaderTimeoutLap = dataSet.LeaderInfo.CompletedLaps;
+                }
                 double secondsTillSessionEnds = dataSet.LeaderInfo.IsPlayer ? dataSet.SessionInfo.SessionTimeRemaining : GetSecondsTillLeaderFinished(dataSet, leaderPace.Value);
                 double distanceToGo = (secondsTillSessionEnds / playerPace.Value.TotalSeconds) * dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
                 double distanceWithLapDistance = distanceToGo + dataSet.PlayerInfo.LapDistance;
                 double distanceToFinishLap = dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters - ((int)distanceWithLapDistance % (int)dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters);
                 double totalDistanceToGo = distanceToGo + distanceToFinishLap;
+
+                if (dataSet.LeaderInfo.FinishStatus == DriverFinishStatus.Finished)
+                {
+                    totalDistanceToGo -= dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+                }
+
+                if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap && (_leaderTimeoutLap == -1 || _leaderTimeoutLap == dataSet.LeaderInfo.CompletedLaps))
+                {
+                    totalDistanceToGo += dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
+                }
+
                 return totalDistanceToGo / dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
             }
         }

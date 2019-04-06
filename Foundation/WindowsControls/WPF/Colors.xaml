@@ -24,6 +24,7 @@
     <Color x:Shared="False" x:Key="Green03Color">#FF00FF1D</Color>
     <Color x:Shared="False" x:Key="Green04Color">#FF77FFD7</Color>
     <Color x:Shared="False" x:Key="Green05Color">#33cc33</Color>
+    <Color x:Shared="False" x:Key="Green06Color">#80ffcc</Color>
 
     <Color x:Shared="False" x:Key="LightGrey01Color">#F1E9DB</Color>
     <Color x:Shared="False" x:Key="LightGrey02Color">#BFACB5</Color>
@@ -89,6 +90,7 @@
     <Color x:Shared="False" x:Key="LowQuantityColor">#668cff</Color>
     <Color x:Shared="False" x:Key="HighQuantityColor" >#e60000</Color>
     <Color x:Shared="False" x:Key="OptimalQuantityColor">#0c8d37</Color>
+    <Color x:Shared="False" x:Key="LowButOkQuantityColor">#00b386</Color>
 
     <SolidColorBrush x:Shared="False" x:Key="IconUnlitBrush" Color="{StaticResource DarkGrey01Color}"/>
     <SolidColorBrush x:Shared="False" x:Key="IconOkBrush" Color="{StaticResource Green05Color}"/>

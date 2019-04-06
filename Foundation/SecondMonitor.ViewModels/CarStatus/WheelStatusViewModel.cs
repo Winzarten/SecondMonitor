@@ -26,6 +26,13 @@
         private static readonly DependencyProperty TyreNoWearWearLimitProperty = DependencyProperty.Register("TyreNoWearWearLimit", typeof(double), typeof(WheelStatusViewModel));
         private static readonly DependencyProperty TyreMildWearLimitProperty = DependencyProperty.Register("TyreMildWearLimit", typeof(double), typeof(WheelStatusViewModel));
         private static readonly DependencyProperty TyreHeavyWearLimitProperty = DependencyProperty.Register("TyreHeavyWearLimit", typeof(double), typeof(WheelStatusViewModel));
+        public static readonly DependencyProperty WheelCamberProperty = DependencyProperty.Register("WheelCamber", typeof(double), typeof(WheelStatusViewModel), new PropertyMetadata(default(double)));
+
+        public double WheelCamber
+        {
+            get => (double) GetValue(WheelCamberProperty);
+            set => SetValue(WheelCamberProperty, value);
+        }
 
         public WheelStatusViewModel(bool isLeft)
         {
@@ -159,6 +166,7 @@
             TyrePressure = wheelInfo.TyrePressure;
             TyreCompound = wheelInfo.TyreType;
             TyreSlippingIndication = wheelInfo.Detached;
+            WheelCamber = wheelInfo.Camber.GetValueInUnits(AngleUnits.Degrees);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

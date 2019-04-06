@@ -21,6 +21,8 @@
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.InvalidateLapBySector = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionVelocity = true;
 
             FillSessionInfo(pcarsData, simData, sessionTime);
             AddDriversData(simData, pcarsData);
@@ -154,6 +156,11 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreRearLeft]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionTravel = Distance.FromMeters(data.mSuspensionTravel[(int)WheelIndex.TyreRearRight]);
 
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreFrontLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreFrontRight]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreRearLeft]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionVelocity = Velocity.FromMs(data.mSuspensionVelocity[(int)WheelIndex.TyreRearRight]);
+
             int direDeflatedFlag = (int) TyreFlags.TyreAttached | (int) TyreFlags.TyreInflated;
 
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Detached = (data.mTyreFlags[(int)WheelIndex.TyreFrontLeft] & direDeflatedFlag) != direDeflatedFlag;
@@ -212,13 +219,13 @@
 
         private static void AddOilSystemInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.mOilTempCelsius);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(data.mOilTempCelsius);
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.mOilPressureKPa);
         }
 
         private static void AddWaterSystemInfo(PCars2SharedMemory data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.mWaterTempCelsius);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(data.mWaterTempCelsius);
             simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterPressure = Pressure.FromKiloPascals(data.mWaterPressureKPa);
         }
 

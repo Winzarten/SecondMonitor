@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
+    using SecondMonitor.ViewModels.Controllers;
     using TelemetryManagement.DTO;
 
-    public interface ITelemetryLoadController
+    public interface ITelemetryLoadController : IController
     {
         Task<IReadOnlyCollection<SessionInfoDto>> GetAllRecentSessionInfoAsync();
         Task<IReadOnlyCollection<SessionInfoDto>> GetAllArchivedSessionInfoAsync();
+        Task RefreshLoadedSessions();
 
         Task<SessionInfoDto> LoadRecentSessionAsync(string sessionIdentifier);
         Task<SessionInfoDto> LoadRecentSessionAsync(SessionInfoDto sessionInfoDto);

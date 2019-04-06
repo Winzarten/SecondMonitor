@@ -58,7 +58,7 @@
         public bool TryConnect()
         {
 
-            #if! DEBUG
+            #if !DEBUG
             IsConnected = true;
             Thread executionThread = new Thread(new ThreadStart(TestingThreadExecutor));
             executionThread.IsBackground = true;
@@ -221,8 +221,8 @@
 
             driver.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
             driver.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
-            driver.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
-            driver.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(_oilTemp);
+            driver.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(_engineWaterTemp);
+            driver.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(_oilTemp);
             return;
         }
 
@@ -244,8 +244,18 @@
 
             driverInfo.CarInfo.FuelSystemInfo.FuelCapacity = Volume.FromLiters(_totalFuel);
             driverInfo.CarInfo.FuelSystemInfo.FuelRemaining = Volume.FromLiters(_fuel);
-            driverInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(_engineWaterTemp);
-            driverInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(_oilTemp);
+            driverInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature = new OptimalQuantity<Temperature>()
+            {
+                IdealQuantity = driverInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.IdealQuantity,
+                IdealQuantityWindow = driverInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.IdealQuantityWindow,
+                ActualQuantity = Temperature.FromCelsius(_engineWaterTemp),
+            };
+            driverInfo.CarInfo.OilSystemInfo.OptimalOilTemperature = new OptimalQuantity<Temperature>()
+            {
+                ActualQuantity = Temperature.FromCelsius(_oilTemp),
+                IdealQuantity = driverInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.IdealQuantity,
+                IdealQuantityWindow = driverInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.IdealQuantityWindow,
+            };
         }
 
         private void UpdateWheelInfo(WheelInfo info)

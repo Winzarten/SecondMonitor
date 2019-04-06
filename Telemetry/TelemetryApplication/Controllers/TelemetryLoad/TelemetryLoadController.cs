@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using NLog;
     using Repository;
@@ -21,11 +22,15 @@
         private readonly ConcurrentDictionary<string, LapTelemetryDto> _cachedTelemetries;
         private int _activeLapJobs;
         private readonly List<string> _loadedSessions;
+        private readonly List<string> _knownLaps;
+        private Task _loopTask;
+        private CancellationTokenSource _loopTaskSource;
 
         public TelemetryLoadController(ITelemetryRepositoryFactory telemetryRepositoryFactory, ISettingsProvider settingsProvider, ITelemetryViewsSynchronization telemetryViewsSynchronization )
         {
             _cachedTelemetries = new ConcurrentDictionary<string, LapTelemetryDto>();
             _loadedSessions = new List<string>();
+            _knownLaps = new List<string>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryRepository = telemetryRepositoryFactory.Create(settingsProvider);
         }
@@ -58,6 +63,25 @@
             return Enumerable.Empty<SessionInfoDto>().ToList().AsReadOnly();
         }
 
+        public async Task RefreshLoadedSessions()
+        {
+            IReadOnlyCollection<SessionInfoDto> sessions = null;
+            await Task.Run(() => sessions = _telemetryRepository.LoadPreviouslyLoadedSessions(_loadedSessions));
+
+            if (sessions == null)
+            {
+                return;
+            }
+
+            List<LapSummaryDto> allLaps = sessions.SelectMany(x => x.LapsSummary).Where(y => !_knownLaps.Contains(y.Id)).ToList();
+            foreach (LapSummaryDto lapSummaryDto in allLaps)
+            {
+                FillCustomDisplayName(lapSummaryDto);
+                _knownLaps.Add(lapSummaryDto.Id);
+                _telemetryViewsSynchronization.NotifyLappAddedToSession(lapSummaryDto);
+            }
+        }
+
         public async Task<SessionInfoDto> LoadRecentSessionAsync(string sessionIdentifier)
         {
             try
@@ -80,6 +104,7 @@
             if (!_loadedSessions.Contains(sessionInfoDto.Id))
             {
                 _loadedSessions.Add(sessionInfoDto.Id);
+                sessionInfoDto.LapsSummary.ForEach(x => _knownLaps.Add(x.Id));
             }
 
             sessionInfoDto.LapsSummary.ForEach(FillCustomDisplayName);
@@ -92,6 +117,7 @@
             if (!_loadedSessions.Contains(sessionInfoDto.Id))
             {
                 _loadedSessions.Add(sessionInfoDto.Id);
+                sessionInfoDto.LapsSummary.ForEach(x => _knownLaps.Add(x.Id));
             }
             sessionInfoDto.LapsSummary.ForEach(FillCustomDisplayName);
             _telemetryViewsSynchronization.NotifySessionAdded(sessionInfoDto);
@@ -205,6 +231,7 @@
             }
             _loadedSessions.ForEach( x => _telemetryRepository.CloseSession(x));
             _loadedSessions.Clear();
+            _knownLaps.Clear();
         }
 
         private void RemoveFromActiveLapJob()
@@ -220,6 +247,45 @@
         {
             int sessionIndex = _loadedSessions.IndexOf(lapSummaryDto.SessionIdentifier);
             lapSummaryDto.CustomDisplayName = sessionIndex > 0 ? $"{sessionIndex}/{lapSummaryDto.LapNumber}" : lapSummaryDto.LapNumber.ToString();
+        }
+
+        private async Task RefreshLoop(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await RefreshLoadedSessions();
+                await Task.Delay(5000, cancellationToken);
+            }
+        }
+
+        public Task StartControllerAsync()
+        {
+            if (_loopTask != null)
+            {
+                return Task.CompletedTask;
+            }
+
+            _loopTaskSource = new CancellationTokenSource();
+            _loopTask = RefreshLoop(_loopTaskSource.Token);
+            return Task.CompletedTask;
+        }
+
+        public async Task StopControllerAsync()
+        {
+            if (_loopTask == null)
+            {
+                return;
+            }
+
+            try
+            {
+                _loopTaskSource.Cancel();
+                await _loopTask;
+            }
+            catch (TaskCanceledException)
+            {
+
+            }
         }
     }
 }

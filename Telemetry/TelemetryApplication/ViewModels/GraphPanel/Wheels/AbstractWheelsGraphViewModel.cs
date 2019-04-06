@@ -24,6 +24,7 @@
 
         protected AbstractWheelsGraphViewModel()
         {
+            YMaximum = 0;
             _frontLeftVisible = true;
             _frontRightVisible = true;
             _rearRightVisible = true;
@@ -120,10 +121,10 @@
                 YMaximum = newMax;
             }
 
-            /*if (newMin < YMinimum || YMinimum == 0)
+            if (newMin < YMinimum || YMinimum == 0)
             {
                 YMinimum = newMin;
-            }*/
+            }
 
             return lineSeries.ToList();
         }

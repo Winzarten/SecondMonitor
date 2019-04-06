@@ -24,8 +24,11 @@
         DistanceUnits DistanceUnits { get; set; }
         DistanceUnits SuspensionDistanceUnits { get; set; }
         VelocityUnits VelocityUnits { get; set; }
+        VelocityUnits VelocityUnitsSmall { get; set; }
         TemperatureUnits TemperatureUnits { get; set; }
         PressureUnits PressureUnits { get; set; }
+        AngleUnits AngleUnits { get; set; }
+        ForceUnits ForceUnits { get; set; }
 
         void AddLapTelemetry(LapTelemetryDto lapTelemetryDto);
         void RemoveLapTelemetry(LapSummaryDto lapSummaryDto);

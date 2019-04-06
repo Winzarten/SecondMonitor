@@ -321,13 +321,13 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 
         public void RefreshProperties()
         {
+            if (_refreshStopwatch.Elapsed < _refreshDelay)
+            {
+                return;
+            }
+
             try
             {
-                if (_refreshStopwatch.Elapsed < _refreshDelay)
-                {
-                    return;
-                }
-
                 Position = DriverTiming.Position.ToString();
                 PositionInClass = FormatPositionInClass();
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();
@@ -361,7 +361,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
                 IsLastPlayerLapBetter = GetIsLastPlayerLapBetter();
                 IsPlayersPaceBetter = GetIsPlayersPaceBetter();
                 _refreshStopwatch.Restart();
-               _refreshDelay = DisplaySettingsViewModel != null ?TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : TimeSpan.FromMilliseconds(300);
+                _refreshDelay = DisplaySettingsViewModel != null ? TimeSpan.FromMilliseconds(DisplaySettingsViewModel.RefreshRate) : TimeSpan.FromMilliseconds(300);
             }
             catch (Exception ex)
             {
@@ -595,34 +595,32 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
         {
             DriverInfo driverInfo = DriverTiming.DriverInfo;
             LapInfo lastCompletedLap = DriverTiming.LastCompletedLap;
-            if (lastCompletedLap != null)
+            if (lastCompletedLap == null)
             {
-                string toDisplay;
-                if (!lastCompletedLap.Valid && DriverTiming.Session.SessionType != SessionType.Race)
-                {
-                    return "Lap Invalid";
-                }
-
-                if (lastCompletedLap.PitLap && DriverTiming.Session.SessionType != SessionType.Race)
-                {
-                    return "Out Lap";
-                }
-
-                if (driverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player?.DriverTiming.LastCompletedLap == null)
-                {
-                    toDisplay = TimeSpanFormatHelper.FormatTimeSpan(lastCompletedLap.LapTime);
-                }
-                else
-                {
-                    toDisplay = TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime), true);
-                }
-
-                return lastCompletedLap.Valid || DriverTiming.Session.SessionType != SessionType.Race ? toDisplay : "(I) " + toDisplay;
-
+                return "N/A";
             }
 
-            return "N/A";
+            string toDisplay;
+            if (!lastCompletedLap.Valid && DriverTiming.Session.SessionType != SessionType.Race)
+            {
+                return "Lap Invalid";
+            }
 
+            if (lastCompletedLap.PitLap && DriverTiming.Session.SessionType != SessionType.Race)
+            {
+                return "Out Lap";
+            }
+
+            if (driverInfo.IsPlayer || !DriverTiming.Session.DisplayBindTimeRelative || DriverTiming.Session.Player?.DriverTiming.LastCompletedLap == null)
+            {
+                toDisplay = TimeSpanFormatHelper.FormatTimeSpan(lastCompletedLap.LapTime);
+            }
+            else
+            {
+                toDisplay = TimeSpanFormatHelper.FormatTimeSpanOnlySeconds(lastCompletedLap.LapTime.Subtract(DriverTiming.Session.Player.DriverTiming.LastCompletedLap.LapTime), true);
+            }
+
+            return lastCompletedLap.Valid || DriverTiming.Session.SessionType != SessionType.Race ? toDisplay : "(I) " + toDisplay;
         }
 
         private string GetCurrentLapProgressTime()
@@ -735,40 +733,30 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
 
             double distanceToUse = DriverTiming.Session.Player.DriverTiming.TotalDistanceTraveled - DriverTiming.TotalDistanceTraveled;
 
-            if (Math.Abs(distanceToUse) > DriverTiming.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters)
+            if (!DriverTiming.Session.DisplayGapToPlayerRelative && Math.Abs(distanceToUse) > DriverTiming.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters)
             {
                 return ((int)distanceToUse / (int)DriverTiming.Session.LastSet.SessionInfo.TrackInfo.LayoutLength.InMeters) + "LAP";
             }
 
-            if (DriverTiming.DriverInfo.Timing.GapToPlayer != TimeSpan.Zero)
+            if (DriverTiming.DriverInfo.Timing.GapToPlayer != TimeSpan.Zero && !DriverTiming.IsLapped && !DriverTiming.IsLapping)
             {
                 return DriverTiming.DriverInfo.Timing.GapToPlayer.FormatTimeSpanOnlySecondNoMiliseconds(true);
             }
 
-            if (distanceToUse > 0)
+           return GetGapToPlayerComputed(DriverTiming.DistanceToPlayer);
+        }
+
+        private string GetGapToPlayerComputed(double distanceToPlayer)
+        {
+
+            double requiredTime = distanceToPlayer > 0 ? distanceToPlayer / DriverTiming.DriverInfo.Speed.InMs : distanceToPlayer / DriverTiming.Session.Player.DriverTiming.DriverInfo.Speed.InMs;
+
+            if (Math.Abs(requiredTime) > 30)
             {
-                double requiredTime = distanceToUse / DriverTiming.DriverInfo.Speed.InMs;
-                if (requiredTime < 30)
-                {
-                    return TimeSpan.FromSeconds(requiredTime).FormatTimeSpanOnlySecondNoMiliseconds(true);
-                }
-                else
-                {
-                    return "+30.000+";
-                }
+                return distanceToPlayer < 0 ? "+30.000+" : "-30.000+";
             }
-            else
-            {
-                double requiredTime = distanceToUse / DriverTiming.Session.Player.DriverTiming.DriverInfo.Speed.InMs;
-                if (requiredTime > -30)
-                {
-                    return TimeSpan.FromSeconds(requiredTime).FormatTimeSpanOnlySecondNoMiliseconds(true);
-                }
-                else
-                {
-                    return "-30.000+";
-                }
-            }
+
+            return TimeSpan.FromSeconds(requiredTime).FormatTimeSpanOnlySecondNoMiliseconds(true);
         }
     }
 

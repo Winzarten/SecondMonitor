@@ -9,8 +9,8 @@
 
         private readonly Stopwatch _refreshStopwatch;
 
-        private Temperature _waterTemperature;
-        private Temperature _oilTemperature;
+        private OptimalQuantity<Temperature> _waterTemperature;
+        private OptimalQuantity<Temperature> _oilTemperature;
         private Pressure _turboPressure;
         private Pressure _oilPressure;
         private Pressure _waterPressure;
@@ -19,8 +19,6 @@
         public CarSystemsViewModel()
         {
             _refreshStopwatch = Stopwatch.StartNew();
-            WaterTemperature = Temperature.Zero;
-            OilTemperature = Temperature.Zero;
             TurboPressure = Pressure.Zero;
         }
 
@@ -48,13 +46,13 @@
             set => SetProperty(ref _turboPressure, value);
         }
 
-        public Temperature WaterTemperature
+        public OptimalQuantity<Temperature> WaterTemperature
         {
             get => _waterTemperature;
             set => SetProperty(ref _waterTemperature, value);
         }
 
-        public Temperature OilTemperature
+        public OptimalQuantity<Temperature> OilTemperature
         {
             get => _oilTemperature;
             set => SetProperty(ref _oilTemperature, value);
@@ -67,9 +65,9 @@
                 return;
             }
 
-            WaterTemperature = dataSet.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature;
+            WaterTemperature = dataSet.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature;
             WaterPressure = dataSet.PlayerInfo.CarInfo.WaterSystemInfo.WaterPressure;
-            OilTemperature = dataSet.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature;
+            OilTemperature = dataSet.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature;
             OilPressure = dataSet.PlayerInfo.CarInfo.OilSystemInfo.OilPressure;
             TurboPressure = dataSet.PlayerInfo.CarInfo.TurboPressure;
             FuelPressure = dataSet.PlayerInfo.CarInfo.FuelSystemInfo.FuelPressure;

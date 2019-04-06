@@ -9,6 +9,7 @@
     {
         IReadOnlyCollection<SessionInfoDto> GetAllRecentSessions();
         IReadOnlyCollection<SessionInfoDto> GetAllArchivedSessions();
+        IReadOnlyCollection<SessionInfoDto> LoadPreviouslyLoadedSessions(List<string> sessionIds);
 
         void SaveRecentSessionInformation(SessionInfoDto sessionInfoDto, string sessionIdentifier);
         void SaveRecentSessionLap(LapTelemetryDto lapTelemetry, string sessionIdentifier);

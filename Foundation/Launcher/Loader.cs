@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Reflection;
     using Contracts.NInject;
+    using DataModel.Snapshot;
     using NLog;
 
     using PluginManager.Core;
@@ -90,8 +91,8 @@
         {
             KernelWrapper kernelWrapper = new KernelWrapper();
             IPluginSettingsProvider pluginSettingsProvider = kernelWrapper.Get<IPluginSettingsProvider>();
-
-            PluginsManager pluginManager = new PluginsManager(pluginSettingsProvider, connectors);
+            IEnumerable<ISimulatorDateSetVisitor> dataVisitors = kernelWrapper.GetAll<ISimulatorDateSetVisitor>();
+            PluginsManager pluginManager = new PluginsManager(pluginSettingsProvider, connectors, dataVisitors);
             pluginManager.InitializePlugins();
             pluginManager.Start();
         }

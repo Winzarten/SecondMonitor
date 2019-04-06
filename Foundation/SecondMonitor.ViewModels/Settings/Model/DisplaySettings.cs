@@ -21,6 +21,10 @@
 
         public VelocityUnits VelocityUnits { get; set; } = VelocityUnits.Kph;
 
+        public ForceUnits ForceUnits { get; set; } = ForceUnits.Newtons;
+
+        public AngleUnits AngleUnits { get; set; } = AngleUnits.Degrees;
+
         public MultiClassDisplayKind MultiClassDisplayKind { get; set; } = MultiClassDisplayKind.ClassFirst;
 
         public FuelCalculationScope FuelCalculationScope { get; set; } = FuelCalculationScope.Lap;

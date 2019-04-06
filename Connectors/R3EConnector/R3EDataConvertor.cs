@@ -123,6 +123,16 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionTravel = Distance.FromMeters(data.Player.SuspensionDeflection.RearLeft);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionTravel = Distance.FromMeters(data.Player.SuspensionDeflection.RearRight);
 
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.FrontLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.FrontRight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.RearLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.SuspensionVelocity = Velocity.FromMs(data.Player.SuspensionVelocity.RearRight);
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Camber = Angle.GetFromRadians(data.Player.Camber.FrontLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Camber = Angle.GetFromRadians(data.Player.Camber.FrontRight);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Camber = Angle.GetFromRadians(data.Player.Camber.RearLeft);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Camber = Angle.GetFromRadians(data.Player.Camber.RearRight);
+
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.RideHeight = Distance.FromMeters(data.Player.RideHeight.FrontLeft);
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.RideHeight = Distance.FromMeters(data.Player.RideHeight.FrontRight);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.RideHeight = Distance.FromMeters(data.Player.RideHeight.RearLeft);
@@ -170,21 +180,33 @@
 
         private static void AddBrakesInfo(R3ESharedData data, SimulatorDataSet simData)
         {
+
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontLeft.CurrentTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantityWindow = Temperature.FromCelsius((data.BrakeTemp.FrontLeft.HotTemp - data.BrakeTemp.FrontLeft.OptimalTemp) / 2);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.BrakeTemperature.IdealQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontLeft.OptimalTemp);
+
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontRight.CurrentTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.IdealQuantityWindow = Temperature.FromCelsius((data.BrakeTemp.FrontRight.HotTemp - data.BrakeTemp.FrontRight.OptimalTemp) / 2);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.BrakeTemperature.IdealQuantity = Temperature.FromCelsius(data.BrakeTemp.FrontRight.OptimalTemp);
+
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.RearLeft.CurrentTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.IdealQuantityWindow = Temperature.FromCelsius((data.BrakeTemp.RearLeft.HotTemp - data.BrakeTemp.RearLeft.OptimalTemp) / 2);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.BrakeTemperature.IdealQuantity = Temperature.FromCelsius(data.BrakeTemp.RearLeft.OptimalTemp);
+
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.ActualQuantity = Temperature.FromCelsius(data.BrakeTemp.RearRight.CurrentTemp);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.IdealQuantityWindow = Temperature.FromCelsius((data.BrakeTemp.RearRight.HotTemp - data.BrakeTemp.RearRight.OptimalTemp) / 2);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.BrakeTemperature.IdealQuantity = Temperature.FromCelsius(data.BrakeTemp.RearRight.OptimalTemp);
         }
 
         private static void AddOilSystemInfo(R3ESharedData data, SimulatorDataSet simData)
         {
             simData.PlayerInfo.CarInfo.OilSystemInfo.OilPressure = Pressure.FromKiloPascals(data.EngineOilPressure);
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.EngineOilTemp);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(data.EngineOilTemp);
         }
 
         private static void AddWaterSystemInfo(R3ESharedData data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(data.EngineWaterTemp);
         }
 
         private static void AddPedalInfo(R3ESharedData data, SimulatorDataSet simData)
@@ -348,6 +370,8 @@
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
             simData.SimulatorSourceInfo.AIInstantFinish = true;
             simData.SimulatorSourceInfo.GapInformationProvided = GapInformationKind.TimeToSurroundingDrivers;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionVelocity = true;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsOptimalTemperatures = true;
 
             // SimulatorDataSet simData = new SimulatorDataSet("R3R");
             FillSessionInfo(data, simData);
@@ -394,6 +418,7 @@
             playerCar.CarDamageInformation.Engine.Damage = 1 - data.CarDamage.Engine;
             playerCar.CarDamageInformation.Transmission.Damage = 1 -data.CarDamage.Transmission;
             playerCar.TurboPressure = Math.Abs(data.TurboPressure) < 0.1 ? Pressure.Zero : Pressure.FromBar(data.TurboPressure);
+            playerCar.OverallDownForce = Force.GetFromNewtons(data.Player.CurrentDownforce);
 
             playerCar.SpeedLimiterEngaged = data.PitLimiter == 1;
 
@@ -541,15 +566,24 @@
             simData.SessionInfo.TrackInfo.TrackLayoutName = FromByteArray(data.LayoutName);
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (data.SessionTimeRemaining != -1)
+            switch ((Constant.SessionLengthFormat)data.SessionLengthFormat)
             {
-                simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
-                simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
-            }
-            else if (data.NumberOfLaps != -1)
-            {
-                simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
-                simData.SessionInfo.TotalNumberOfLaps = data.NumberOfLaps;
+                case Constant.SessionLengthFormat.TimeBased:
+                    simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
+                    break;
+                case Constant.SessionLengthFormat.LapBased:
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.Laps;
+                    simData.SessionInfo.TotalNumberOfLaps = data.NumberOfLaps;
+                    break;
+                case Constant.SessionLengthFormat.TimeAndLapBased:
+                    simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.TimeWitchExtraLap;
+                    break;
+                case Constant.SessionLengthFormat.Unavailable:
+                default:
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.Na;
+                    break;
             }
         }
     }

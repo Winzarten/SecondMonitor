@@ -20,6 +20,9 @@
             CarDamageInformation = new CarDamageInformation();
             DrsSystem = new DrsSystem();
             BoostSystem = new BoostSystem();
+            OverallDownForce = new Force();
+            FrontDownForce = new Force();
+            RearDownForce = new Force();
         }
 
         public Wheels WheelsInfo { get; set; }
@@ -51,6 +54,12 @@
         public DrsSystem DrsSystem { get; set; }
 
         public BoostSystem BoostSystem { get; set; }
+
+        public Force OverallDownForce { get; set; }
+
+        public Force FrontDownForce { get; set; }
+
+        public Force RearDownForce { get; set; }
 
     }
 }

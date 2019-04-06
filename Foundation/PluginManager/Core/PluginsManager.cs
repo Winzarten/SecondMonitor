@@ -29,16 +29,14 @@
         private IGameConnector _activeConnector;
         private Task _connectorTask;
         private SimulatorDataSet _oldDataSet;
+        private readonly List<ISimulatorDateSetVisitor> _visitors;
 
-        public PluginsManager(IPluginSettingsProvider pluginSettingsProvider, IGameConnector[] connectors)
+        public PluginsManager(IPluginSettingsProvider pluginSettingsProvider, IGameConnector[] connectors, IEnumerable<ISimulatorDateSetVisitor> dataVisitors)
         {
             _pluginSettingsProvider = pluginSettingsProvider;
             _plugins = new List<ISecondMonitorPlugin>();
             Connectors = connectors;
-        }
-
-        public PluginsManager(IPluginSettingsProvider pluginSettingsProvider) : this(pluginSettingsProvider, Enumerable.Empty<IGameConnector>().ToArray())
-        {
+            _visitors = dataVisitors.ToList();
         }
 
         private static void LogSimulatorDataSet(SimulatorDataSet dataSet)
@@ -204,6 +202,7 @@
 
         private void OnDataLoaded(object sender, DataEventArgs args)
         {
+            _visitors.ForEach(x =>  args.Data.Accept(x));
             RaiseDataLoadedEvent(args.Data);
         }
 
@@ -221,6 +220,7 @@
 
         private void OnSessionStarted(object sender, DataEventArgs args)
         {
+            _visitors.ForEach(x => x.Reset());
             RaiseSessionStartedEvent(args.Data);
         }
 

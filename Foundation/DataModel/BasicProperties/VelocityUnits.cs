@@ -1,4 +1,4 @@
 ﻿namespace SecondMonitor.DataModel.BasicProperties
 {
-    public enum VelocityUnits { Kph, Mph, Ms}
+    public enum VelocityUnits { Kph, Mph, Ms, Fps, CmPerSecond, InPerSecond}
 }

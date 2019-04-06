@@ -8,7 +8,7 @@
         Title="{Binding Title}"
         Width="1600" Height="800"
         d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
-        d:DesignHeight="300" d:DesignWidth="300" WindowState="Maximized" WindowStyle="ThreeDBorderWindow"
+        d:DesignHeight="300" d:DesignWidth="300" WindowState="Maximized" WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
 
     <Window.Resources>
@@ -288,7 +288,8 @@
                                                                                TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreNoWearWearLimit}"
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                               WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.WheelCamber, Mode=OneWay}"/>
                                     <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
@@ -304,7 +305,8 @@
                                                                                TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreNoWearWearLimit}"
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                           WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.WheelCamber, Mode=OneWay}"/>
 
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
@@ -321,7 +323,8 @@
                                                                                TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreNoWearWearLimit}"
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                           WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.WheelCamber, Mode=OneWay}"/>
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
@@ -337,7 +340,8 @@
                                                                                TyreNoWearWearLimit="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreNoWearWearLimit}"
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreRightTemperature, Mode=OneWay}"
-                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}" />
+                                                                               TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.TyreSlippingIndication, Mode=OneWay}"
+                                                                               WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.WheelCamber, Mode=OneWay}"/>
                                 </Grid>
                                 <Border Grid.Column="1"
                                         BorderBrush="{StaticResource Anthracite01Brush}"
@@ -484,6 +488,16 @@
                                                 <Button.Content>
                                                     <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                                                         <ContentPresenter Content="{StaticResource TelemetryIcon}" />
+                                                    </wpf:ColorAbleIcon>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                                    Style="{StaticResource StandardButton}"
+                                                    Click="ButtonBase_OnClick"
+                                                    ToolTip="Toggle Fullscreen">
+                                                <Button.Content>
+                                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                                        <ContentPresenter Content="{StaticResource FullscreenIcon}" />
                                                     </wpf:ColorAbleIcon>
                                                 </Button.Content>
                                             </Button>

@@ -25,6 +25,7 @@
             simData.SimulatorSourceInfo.OutLapIsValid = true;
             simData.SimulatorSourceInfo.InvalidateLapBySector = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
 
             FillSessionInfo(rfData, simData);
             AddDriversData(simData, rfData);
@@ -187,12 +188,12 @@
 
         private static void AddOilSystemInfo(RfShared data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(data.EngineOilTemp);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(data.EngineOilTemp);
         }
 
         private static void AddWaterSystemInfo(RfShared data, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(data.EngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(data.EngineWaterTemp);
         }
 
         private static void AddPedalInfo(RfShared data, SimulatorDataSet simData)
@@ -476,7 +477,7 @@
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (data.EndET > 0)
             {
-                simData.SessionInfo.SessionLengthType = SessionLengthType.Time;
+                simData.SessionInfo.SessionLengthType = simData.SessionInfo.SessionType != SessionType.Race ? SessionLengthType.Time : SessionLengthType.TimeWitchExtraLap;
                 simData.SessionInfo.SessionTimeRemaining =
                     data.EndET - data.CurrentET > 0 ? data.EndET - data.CurrentET : 0;
             }

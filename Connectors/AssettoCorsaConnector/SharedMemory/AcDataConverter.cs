@@ -38,6 +38,7 @@
             simData.SimulatorSourceInfo.ForceLapOverTime = true;
             simData.SimulatorSourceInfo.GlobalTyreCompounds = true;
             simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.SpOnly;
+            simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
 
             FillSessionInfo(acData, simData);
             AddDriversData(simData, acData);
@@ -135,6 +136,11 @@
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.TyreWear.ActualWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.RL]);
             simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.TyreWear.ActualWear = GetACTyreWear(acData.AcsPhysics.tyreWear[(int)AcWheels.FR]);
 
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Camber = Angle.GetFromRadians(acData.AcsPhysics.camberRAD[(int)AcWheels.FL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Camber = Angle.GetFromRadians(acData.AcsPhysics.camberRAD[(int)AcWheels.FR]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Camber = Angle.GetFromRadians(acData.AcsPhysics.camberRAD[(int)AcWheels.RL]);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Camber = Angle.GetFromRadians(acData.AcsPhysics.camberRAD[(int)AcWheels.FR]); simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Camber = Angle.GetFromRadians(acData.AcsPhysics.camberRAD[(int)AcWheels.FL]);
+
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Rps = acData.AcsPhysics.wheelAngularSpeed[(int)AcWheels.FL];
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Rps = acData.AcsPhysics.wheelAngularSpeed[(int)AcWheels.FR];
             simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Rps = acData.AcsPhysics.wheelAngularSpeed[(int)AcWheels.RL];
@@ -212,12 +218,12 @@
         private static void AddOilSystemInfo(SimulatorDataSet simData, AssettoCorsaShared acData)
         {
             simData.PlayerInfo.CarInfo.TurboPressure = Pressure.FromAtm(acData.AcsPhysics.turboBoost);
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(100);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(100);
         }
 
         private static void AddWaterSystemInfo(SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(100);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(100);
         }
 
         private static void AddPedalInfo(AssettoCorsaShared acData, SimulatorDataSet simData)

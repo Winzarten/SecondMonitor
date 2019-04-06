@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicProperties\Acceleration.cs" />
+    <Compile Include="BasicProperties\Angle.cs" />
+    <Compile Include="BasicProperties\AngleUnits.cs" />
     <Compile Include="BasicProperties\BoostStatus.cs" />
     <Compile Include="BasicProperties\ColorDTO.cs" />
     <Compile Include="BasicProperties\DamageInformation.cs" />
@@ -56,6 +58,8 @@
     <Compile Include="BasicProperties\DistanceUnits.cs" />
     <Compile Include="BasicProperties\DrsStatus.cs" />
     <Compile Include="BasicProperties\FlagKind.cs" />
+    <Compile Include="BasicProperties\Force.cs" />
+    <Compile Include="BasicProperties\ForceUnits.cs" />
     <Compile Include="BasicProperties\FuelCalculationScope.cs" />
     <Compile Include="BasicProperties\FuelConsumption\FuelPerDistance.cs" />
     <Compile Include="BasicProperties\FuelConsumption\FuelPerDistanceUnits.cs" />
@@ -120,9 +124,13 @@
     <Compile Include="TrackMap\TrackGeometryDTO.cs" />
     <Compile Include="TrackMap\TrackMapDto.cs" />
     <Compile Include="Visitors\ComputeGapToPlayerVisitor.cs" />
+    <Compile Include="Visitors\ComputeSuspensionVelocityVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BasicProperties\Units\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

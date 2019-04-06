@@ -6,6 +6,8 @@
 
         Laps,
 
-        Time
+        Time,
+
+        TimeWitchExtraLap,
     }
 }

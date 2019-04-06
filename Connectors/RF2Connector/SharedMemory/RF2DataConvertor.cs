@@ -35,8 +35,9 @@
                 simData.SimulatorSourceInfo.SimNotReportingEndOfOutLapCorrectly = true;
                 simData.SimulatorSourceInfo.InvalidateLapBySector = true;
                 simData.SimulatorSourceInfo.SectorTimingSupport = DataInputSupport.Full;
-/*                simData.SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation = true;
-                simData.SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation = true;*/
+                simData.SimulatorSourceInfo.TelemetryInfo.ContainsSuspensionTravel = true;
+                /*                simData.SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation = true;
+                                simData.SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation = true;*/
 
                 FillSessionInfo(rfData, simData);
                 AddDriversData(simData, rfData);
@@ -111,6 +112,8 @@
             }
 
             playerCar.SpeedLimiterEngaged = data.mSpeedLimiter == 1;
+            playerCar.FrontDownForce = Force.GetFromNewtons(data.mFrontDownforce);
+            playerCar.RearDownForce = Force.GetFromNewtons(data.mRearDownforce);
 
         }
 
@@ -163,6 +166,11 @@
 
             simData.PlayerInfo.CarInfo.RearHeight = Distance.FromMeters(playerVehicleTelemetry.mRearRideHeight);
             simData.PlayerInfo.CarInfo.FrontHeight = Distance.FromMeters(playerVehicleTelemetry.mFrontWingHeight);
+
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mCamber);
+            simData.PlayerInfo.CarInfo.WheelsInfo.FrontRight.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontRight].mCamber);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearLeft.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearLeft].mCamber);
+            simData.PlayerInfo.CarInfo.WheelsInfo.RearRight.Camber = Angle.GetFromRadians(playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.RearRight].mCamber);
 
             //Tyre RPS
             simData.PlayerInfo.CarInfo.WheelsInfo.FrontLeft.Rps = -playerVehicleTelemetry.mWheels[(int)rFactor2Constants.rF2WheelIndex.FrontLeft].mRotation;
@@ -257,13 +265,13 @@
 
         private static void AddOilSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.OilSystemInfo.OilTemperature = Temperature.FromCelsius(playerVehicleTelemetry.mEngineOilTemp);
+            simData.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature.ActualQuantity = Temperature.FromCelsius(playerVehicleTelemetry.mEngineOilTemp);
             simData.PlayerInfo.CarInfo.TurboPressure = Pressure.FromKiloPascals(playerVehicleTelemetry.mTurboBoostPressure / 1000);
         }
 
         private static void AddWaterSystemInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)
         {
-            simData.PlayerInfo.CarInfo.WaterSystemInfo.WaterTemperature = Temperature.FromCelsius(playerVehicleTelemetry.mEngineWaterTemp);
+            simData.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature.ActualQuantity = Temperature.FromCelsius(playerVehicleTelemetry.mEngineWaterTemp);
         }
 
         private static void AddPedalInfo(rF2VehicleTelemetry playerVehicleTelemetry, SimulatorDataSet simData)

@@ -7,6 +7,9 @@
              xmlns:quantityText="clr-namespace:SecondMonitor.WindowsControls.WPF.QuantityText"
              xmlns:wheelStatusControl="clr-namespace:SecondMonitor.WindowsControls.WPF.WheelStatusControl"
              xmlns:carStatus="clr-namespace:SecondMonitor.ViewModels.CarStatus;assembly=SecondMonitor.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:volumeBehavior="clr-namespace:SecondMonitor.WindowsControls.WPF.Behaviors.VolumeBehavior"
+             xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance carStatus:CarSystemsViewModel}">
     <UserControl.Resources>
@@ -30,26 +33,61 @@
 
         <Border BorderThickness="3" Grid.Row="0" Grid.Column="0" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
-                <ContentPresenter Content="{StaticResource WaterTemperatureIcon}" MaxHeight="32" DockPanel.Dock="Left" />
+                <wpf:ColorAbleIcon StrokeBrush="{StaticResource LightGrey01Brush}">
+                    <ContentPresenter Content="{StaticResource WaterTemperatureIcon}" MaxHeight="32" DockPanel.Dock="Left" />
+                    <i:Interaction.Behaviors>
+                        <volumeBehavior:StrokeBrushByOptimalTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
+                                                                                HighQuantityColor="{StaticResource HighQuantityColor}"
+                                                                                IdealQuantityColor="{StaticResource OptimalQuantityColor}"
+                                                                                LowQuantityColor="{StaticResource LowButOkQuantityColor}"
+                                                                                Volume="{Binding WaterTemperature}" />
+                    </i:Interaction.Behaviors>
+                </wpf:ColorAbleIcon>
+
                 <quantityText:TemperatureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
                                               Margin="5,0,0,0" MinWidth="60"
                                               FontSize="{StaticResource ExtraBigFontSize}"
                                               Foreground="{StaticResource LightGrey01Brush}"
-                                              Quantity="{Binding WaterTemperature}"
+                                              Quantity="{Binding WaterTemperature.ActualQuantity}"
                                               TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                              ShowUnitSymbol="True" ToolTip="Coolant Temperature" />
+                                              ShowUnitSymbol="True" ToolTip="Coolant Temperature" >
+                    <i:Interaction.Behaviors>
+                        <volumeBehavior:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
+                                                                        HighQuantityColor="{StaticResource HighQuantityColor}"
+                                                                        IdealQuantityColor="{StaticResource OptimalQuantityColor}"
+                                                                        LowQuantityColor="{StaticResource LowButOkQuantityColor}"
+                                                                        Volume="{Binding WaterTemperature}" />
+                    </i:Interaction.Behaviors>
+                </quantityText:TemperatureText>
             </DockPanel>
         </Border>
         <Border BorderThickness="3" Grid.Row="0" Grid.Column="1" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
+                <wpf:ColorAbleIcon StrokeBrush="{StaticResource LightGrey01Brush}">
                 <ContentPresenter Content="{StaticResource OilTemperatureIcon}" MaxHeight="32" DockPanel.Dock="Left" />
+                    <i:Interaction.Behaviors>
+                    <volumeBehavior:StrokeBrushByOptimalTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
+                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
+                                                                            IdealQuantityColor="{StaticResource OptimalQuantityColor}"
+                                                                            LowQuantityColor="{StaticResource LowButOkQuantityColor}"
+                                                                            Volume="{Binding OilTemperature}" />
+                    </i:Interaction.Behaviors>
+                </wpf:ColorAbleIcon>
                 <quantityText:TemperatureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
                                               Margin="5,0,0,0" MinWidth="60"
                                               FontSize="{StaticResource ExtraBigFontSize}"
                                               Foreground="{StaticResource LightGrey01Brush}"
-                                              Quantity="{Binding OilTemperature}"
+                                              Quantity="{Binding OilTemperature.ActualQuantity}"
                                               TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                              ShowUnitSymbol="True" ToolTip="Oil Temperature" />
+                                              ShowUnitSymbol="True" ToolTip="Oil Temperature" >
+                    <i:Interaction.Behaviors>
+                        <volumeBehavior:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
+                                                                        HighQuantityColor="{StaticResource HighQuantityColor}"
+                                                                        IdealQuantityColor="{StaticResource OptimalQuantityColor}"
+                                                                        LowQuantityColor="{StaticResource LowButOkQuantityColor}"
+                                                                        Volume="{Binding OilTemperature}" />
+                    </i:Interaction.Behaviors>
+                </quantityText:TemperatureText>
             </DockPanel>
         </Border>
         <Border BorderThickness="3" Grid.Row="0" Grid.Column="2" BorderBrush="{StaticResource DarkGrey01Brush}">
