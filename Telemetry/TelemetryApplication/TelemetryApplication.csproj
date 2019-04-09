@@ -70,6 +70,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregatedCharts\IAggregatedChartProvider.cs" />
     <Compile Include="Controllers\MainWindow\GraphPanel\AbstractGraphPanelController.cs" />
     <Compile Include="Controllers\MainWindow\GraphPanel\GraphViewModelsProvider.cs" />
     <Compile Include="Controllers\MainWindow\GraphPanel\IGraphPanelController.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Controllers\TelemetryApplicationController.cs" />
     <Compile Include="Controllers\TelemetryLoad\ITelemetryLoadController.cs" />
     <Compile Include="Controllers\TelemetryLoad\TelemetryLoadController.cs" />
+    <Compile Include="Histogram\IHistogramDataProvider.cs" />
     <Compile Include="LapAutoSelector\EmptyLapAutoSelector.cs" />
     <Compile Include="LapAutoSelector\ILapAutoSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,6 +139,8 @@
     <Compile Include="ViewModels\GraphPanel\DataExtractor\CompareToReferenceDataExtractor.cs" />
     <Compile Include="ViewModels\GraphPanel\DataExtractor\ISingleSeriesDataExtractor.cs" />
     <Compile Include="ViewModels\GraphPanel\DataExtractor\SimpleSingleSeriesDataExtractor.cs" />
+    <Compile Include="ViewModels\GraphPanel\Histogram\HistogramChartViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\Histogram\WheelsHistogramViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\BrakeGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\ClutchGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\EngineRpmGraphViewModel.cs" />
@@ -162,6 +166,8 @@
     <Compile Include="ViewModels\GraphPanel\Wheels\SuspensionVelocityGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\TyrePressuresGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\WheelRpsGraphViewModel.cs" />
+    <Compile Include="Histogram\HistogramItem.cs" />
+    <Compile Include="Histogram\Histogram.cs" />
     <Compile Include="ViewModels\LoadedLapCache\ILoadedLapsCache.cs" />
     <Compile Include="ViewModels\LoadedLapCache\LoadedLapsCache.cs" />
     <Compile Include="ViewModels\OpenWindow\IOpenWindowSessionInformationViewModel.cs" />
