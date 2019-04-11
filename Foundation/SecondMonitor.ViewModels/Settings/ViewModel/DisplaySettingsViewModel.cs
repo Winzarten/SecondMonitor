@@ -182,19 +182,19 @@
                 switch (VelocityUnits)
                 {
                     case VelocityUnits.Kph:
-                        return VelocityUnits.CmPerSecond;
+                        return VelocityUnits.MMPerSecond;
                     case VelocityUnits.Mph:
                         return VelocityUnits.InPerSecond;
                     case VelocityUnits.Ms:
-                        return VelocityUnits.CmPerSecond;
+                        return VelocityUnits.MMPerSecond;
                     case VelocityUnits.Fps:
                         return VelocityUnits.InPerSecond;
                     case VelocityUnits.CmPerSecond:
-                        return VelocityUnits.CmPerSecond;
+                        return VelocityUnits.MMPerSecond;
                     case VelocityUnits.InPerSecond:
                         return VelocityUnits.InPerSecond;
                     default:
-                        return VelocityUnits.CmPerSecond;
+                        return VelocityUnits.MMPerSecond;
                 }
             }
         }
@@ -319,7 +319,7 @@
 
         protected override void ApplyModel(DisplaySettings settings)
         {
-       
+
             TemperatureUnits = settings.TemperatureUnits;
             PressureUnits = settings.PressureUnits;
             VolumeUnits = settings.VolumeUnits;

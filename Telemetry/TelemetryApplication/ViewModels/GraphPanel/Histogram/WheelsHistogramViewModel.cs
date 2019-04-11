@@ -1,43 +1,42 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram
 {
-    using SecondMonitor.ViewModels;
-
-    public class WheelsHistogramViewModel : AbstractViewModel
+    public class WheelsHistogramViewModel : AggregatedChartViewModel
     {
-        private HistogramChartViewModel _leftFrontChartViewModel;
-        private HistogramChartViewModel _rightFrontChartViewModel;
-        private HistogramChartViewModel _leftRearChartViewModel;
-        private HistogramChartViewModel _rightRearChartViewModel;
-        private string _title;
+        private HistogramChartViewModel _frontLeftChartViewModel;
+        private HistogramChartViewModel _frontRightChartViewModel;
+        private HistogramChartViewModel _rearLeftChartViewModel;
+        private HistogramChartViewModel _rearRightChartViewModel;
 
-        public string Title
+        public WheelsHistogramViewModel()
         {
-            get => _title;
-            set => SetProperty(ref _title, value);
+            FrontLeftChartViewModel = new HistogramChartViewModel();
+            FrontRightChartViewModel = new HistogramChartViewModel();
+            RearLeftChartViewModel = new HistogramChartViewModel();
+            RearRightChartViewModel = new HistogramChartViewModel();
         }
 
-        public HistogramChartViewModel LeftFrontChartViewModel
+        public HistogramChartViewModel FrontLeftChartViewModel
         {
-            get => _leftFrontChartViewModel;
-            set => SetProperty(ref _leftFrontChartViewModel, value);
+            get => _frontLeftChartViewModel;
+            set => SetProperty(ref _frontLeftChartViewModel, value);
         }
 
-        public HistogramChartViewModel RightFrontChartViewModel
+        public HistogramChartViewModel FrontRightChartViewModel
         {
-            get => _rightFrontChartViewModel;
-            set => SetProperty(ref _rightFrontChartViewModel, value);
+            get => _frontRightChartViewModel;
+            set => SetProperty(ref _frontRightChartViewModel, value);
         }
 
-        public HistogramChartViewModel LeftRearChartViewModel
+        public HistogramChartViewModel RearLeftChartViewModel
         {
-            get => _leftRearChartViewModel;
-            set => SetProperty(ref _leftRearChartViewModel, value);
+            get => _rearLeftChartViewModel;
+            set => SetProperty(ref _rearLeftChartViewModel, value);
         }
 
-        public HistogramChartViewModel RightRearChartViewModel
+        public HistogramChartViewModel RearRightChartViewModel
         {
-            get => _rightRearChartViewModel;
-            set => SetProperty(ref _rightRearChartViewModel, value);
+            get => _rearRightChartViewModel;
+            set => SetProperty(ref _rearRightChartViewModel, value);
         }
     }
 }

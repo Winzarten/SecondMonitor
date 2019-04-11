@@ -59,6 +59,10 @@
         [XmlIgnore]
         public double InCentimeterPerSecond => InMs * 100;
 
+        [JsonIgnore]
+        [XmlIgnore]
+        public double InMillimeterPerSecond => InMs * 1000;
+
         public static Velocity FromMs(double inMs)
         {
             return new Velocity(inMs);
@@ -85,6 +89,8 @@
                     return "cm/s";
                 case VelocityUnits.InPerSecond:
                     return "In/s";
+                case VelocityUnits.MMPerSecond:
+                    return "mm/s";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(units), units, null);
             }
@@ -132,6 +138,8 @@
                     return InCentimeterPerSecond;
                 case VelocityUnits.InPerSecond:
                     return InInPerSecond;
+                case VelocityUnits.MMPerSecond:
+                    return InMillimeterPerSecond;
                 default:
                     throw new ArgumentException("Unable to return value in" + units);
             }

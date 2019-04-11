@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram;assembly=TelemetryApplication">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../TelemetryPresentation.xaml"/>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type histogram:WheelsHistogramViewModel}">
+                <Grid Background="{StaticResource Anthracite01Brush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Style="{StaticResource StandardText}" HorizontalAlignment="Center" FontSize="{StaticResource ExtraBigFontSize}" Text="{Binding Title}"/>
+                    <Grid Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ContentPresenter Grid.Row="0" Grid.Column="0" Content="{Binding FrontLeftChartViewModel}"/>
+                        <ContentPresenter Grid.Row="0" Grid.Column="1" Content="{Binding FrontRightChartViewModel}"/>
+                        <ContentPresenter Grid.Row="1" Grid.Column="0" Content="{Binding RearLeftChartViewModel}"/>
+                        <ContentPresenter Grid.Row="1" Grid.Column="1" Content="{Binding RearRightChartViewModel}"/>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+            <Style TargetType="{x:Type Rectangle}" />
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

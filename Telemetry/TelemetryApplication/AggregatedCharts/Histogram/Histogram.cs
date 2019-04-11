@@ -4,23 +4,24 @@
 
     public class Histogram
     {
-        private readonly List<HistogramItem> _histogramItems;
+        private readonly List<HistogramBand> _histogramItems;
 
         public Histogram()
         {
-            _histogramItems = new List<HistogramItem>();
+            _histogramItems = new List<HistogramBand>();
         }
 
         public string Title { get; set; }
-        public IReadOnlyCollection<HistogramItem> Items => _histogramItems.AsReadOnly();
+        public IReadOnlyCollection<HistogramBand> Items => _histogramItems.AsReadOnly();
         public double BandSize { get; set; }
+        public string Unit { get; set; }
 
-        public void AddItem(HistogramItem histogramItem)
+        public void AddItem(HistogramBand histogramBand)
         {
-            _histogramItems.Add(histogramItem);
+            _histogramItems.Add(histogramBand);
         }
 
-        public void AddItems(IEnumerable<HistogramItem> histogramItems)
+        public void AddItems(IEnumerable<HistogramBand> histogramItems)
         {
             _histogramItems.AddRange(histogramItems);
         }

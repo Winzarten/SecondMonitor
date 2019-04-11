@@ -70,7 +70,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregatedCharts\AbstractTelemetryDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\AbstractWheelHistogramDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\SuspensionVelocityHistogramDataExtractor.cs" />
     <Compile Include="AggregatedCharts\IAggregatedChartProvider.cs" />
+    <Compile Include="AggregatedCharts\SuspensionVelocityHistogramProvider.cs" />
     <Compile Include="Controllers\MainWindow\GraphPanel\AbstractGraphPanelController.cs" />
     <Compile Include="Controllers\MainWindow\GraphPanel\GraphViewModelsProvider.cs" />
     <Compile Include="Controllers\MainWindow\GraphPanel\IGraphPanelController.cs" />
@@ -112,7 +116,8 @@
     <Compile Include="Controllers\TelemetryApplicationController.cs" />
     <Compile Include="Controllers\TelemetryLoad\ITelemetryLoadController.cs" />
     <Compile Include="Controllers\TelemetryLoad\TelemetryLoadController.cs" />
-    <Compile Include="Histogram\IHistogramDataProvider.cs" />
+    <Compile Include="AggregatedCharts\Histogram\AbstractHistogramDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\IWheelHistogramDataProvider.cs" />
     <Compile Include="LapAutoSelector\EmptyLapAutoSelector.cs" />
     <Compile Include="LapAutoSelector\ILapAutoSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +138,7 @@
     <Compile Include="TelemetryApplicationModuleBootstrapper.cs" />
     <Compile Include="ViewModels\GraphPanel\AbstractGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\AbstractSingleSeriesGraphViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\AggregatedChartViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Chassis\AbstractChasisGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Chassis\ChassisRideHeightGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Chassis\FrontRearDownforceGraphViewModel.cs" />
@@ -166,8 +172,8 @@
     <Compile Include="ViewModels\GraphPanel\Wheels\SuspensionVelocityGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\TyrePressuresGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Wheels\WheelRpsGraphViewModel.cs" />
-    <Compile Include="Histogram\HistogramItem.cs" />
-    <Compile Include="Histogram\Histogram.cs" />
+    <Compile Include="AggregatedCharts\Histogram\HistogramBand.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Histogram.cs" />
     <Compile Include="ViewModels\LoadedLapCache\ILoadedLapsCache.cs" />
     <Compile Include="ViewModels\LoadedLapCache\LoadedLapsCache.cs" />
     <Compile Include="ViewModels\OpenWindow\IOpenWindowSessionInformationViewModel.cs" />

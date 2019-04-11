@@ -80,6 +80,7 @@
     <Compile Include="DriversPresentation\DriverPresentationDTO.cs" />
     <Compile Include="DriversPresentation\DriverPresentationsDTO.cs" />
     <Compile Include="Extensions\CollectionExtension.cs" />
+    <Compile Include="Extensions\DoubleExtension.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="OperationalRange\CarModelProperties.cs" />
     <Compile Include="OperationalRange\DataSourceProperties.cs" />

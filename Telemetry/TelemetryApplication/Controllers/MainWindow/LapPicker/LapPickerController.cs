@@ -5,10 +5,13 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Windows;
+    using AggregatedCharts;
     using Contracts.Commands;
     using Contracts.UserInput;
     using DataModel.Extensions;
     using OpenWindow;
+    using SecondMonitor.ViewModels;
     using SecondMonitor.ViewModels.Colors;
     using SecondMonitor.ViewModels.Factory;
     using SettingsWindow;
@@ -16,6 +19,7 @@
     using TelemetryLoad;
     using TelemetryManagement.DTO;
     using ViewModels;
+    using ViewModels.GraphPanel;
     using ViewModels.LapPicker;
 
     public class LapPickerController : ILapPickerController
@@ -28,11 +32,12 @@
         private readonly IOpenWindowController _openWindowController;
         private readonly ISettingsWindowController _settingsWindowController;
         private readonly IUserInputProvider _userInputProvider;
+        private readonly IAggregatedChartProvider _aggregatedChartProvider;
         private readonly ILapSelectionViewModel _lapSelectionViewModel;
         private readonly List<LapSummaryDto> _loadedLaps;
 
         public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, ITelemetryLoadController telemetryLoadController, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory,
-            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController, IUserInputProvider userInputProvider)
+            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController, IUserInputProvider userInputProvider, IAggregatedChartProvider aggregatedChartProvider)
         {
             _loadedLaps = new List<LapSummaryDto>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
@@ -44,6 +49,7 @@
             _openWindowController = openWindowController;
             _settingsWindowController = settingsWindowController;
             _userInputProvider = userInputProvider;
+            _aggregatedChartProvider = aggregatedChartProvider;
         }
 
         public async Task StartControllerAsync()
@@ -154,7 +160,11 @@
 
         private async Task AddCustomLap()
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lap", Filter = "Lap Files (*.lap)|*.lap"};
+
+            AggregatedChartViewModel viewModel = _aggregatedChartProvider.CreateAggregatedChartViewModel();
+            var win = new Window {Content = viewModel, Title = viewModel.Title, WindowState = WindowState.Maximized};
+            win.Show();
+            /*Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lap", Filter = "Lap Files (*.lap)|*.lap"};
             bool? result = dlg.ShowDialog();
             if (result == false)
             {
@@ -163,7 +173,7 @@
 
             string filename = dlg.FileName;
             string fileCustomName = await _userInputProvider.GetUserInput("Enter Lap Name:", $"Ex-{Path.GetFileNameWithoutExtension(filename)}");
-            await _telemetryLoadController.LoadLap(new FileInfo(filename), fileCustomName);
+            await _telemetryLoadController.LoadLap(new FileInfo(filename), fileCustomName);*/
         }
 
 

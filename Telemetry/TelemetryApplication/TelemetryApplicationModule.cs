@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication
 {
     using WindowsControls.WPF.UserInput;
+    using AggregatedCharts;
+    using AggregatedCharts.Histogram;
     using Contracts.UserInput;
     using Controllers.MainWindow;
     using Controllers.MainWindow.GraphPanel;
@@ -115,6 +117,9 @@
             Bind<ISingleSeriesDataExtractor>().To<CompareToReferenceDataExtractor>();
 
             Bind<ILapAutoSelector>().To<EmptyLapAutoSelector>();
+
+            Bind<IAggregatedChartProvider>().To<SuspensionVelocityHistogramProvider>();
+            Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
         }
     }
 }

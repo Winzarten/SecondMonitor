@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Histogram
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram
 {
     public interface IWheelHistogramDataProvider
     {
