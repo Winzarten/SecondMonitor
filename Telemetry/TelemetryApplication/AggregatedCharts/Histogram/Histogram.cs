@@ -14,6 +14,7 @@
         public string Title { get; set; }
         public IReadOnlyCollection<HistogramBand> Items => _histogramItems.AsReadOnly();
         public double BandSize { get; set; }
+        public double MajorTickSize { get; set; }
         public string Unit { get; set; }
 
         public void AddItem(HistogramBand histogramBand)

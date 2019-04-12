@@ -30,6 +30,7 @@
             Histogram histogram = new Histogram()
             {
                 BandSize = bandSize,
+                MajorTickSize = bandSize * 5,
                 Title = title,
                 Unit = Unit,
             };
