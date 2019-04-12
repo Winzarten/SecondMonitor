@@ -4,6 +4,7 @@
     using AggregatedCharts;
     using AggregatedCharts.Histogram;
     using Contracts.UserInput;
+    using Controllers.AggregatedChart;
     using Controllers.MainWindow;
     using Controllers.MainWindow.GraphPanel;
     using Controllers.MainWindow.LapPicker;
@@ -66,6 +67,7 @@
             Bind<IGraphsSettingsProvider>().To<StoredGraphsSettingsProvider>().InNamedScope(MainWidowScopeName); ;
             Bind<IGraphsSettingsProvider>().To<DefaultGraphsSettingsProvider>().WhenInjectedExactlyInto<StoredGraphsSettingsProvider>();
             Bind<ISettingsWindowController>().To<SettingsWindowController>();
+            Bind<IAggregatedChartsController>().To<AggregatedChartsController>();
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
             Bind<ILapPickerController>().To<LapPickerController>();

@@ -300,7 +300,7 @@
             };
             if (YTickInterval > 0)
             {
-                _yAxis.MajorStep = YTickInterval;
+                _yAxis.MajorStep = Math.Round(YTickInterval, 2);
                 _yAxis.MajorGridlineStyle = LineStyle.Solid;
                 _yAxis.MajorGridlineThickness = 1;
                 _yAxis.MajorGridlineColor = OxyColor.Parse("#FF7F7F7F");

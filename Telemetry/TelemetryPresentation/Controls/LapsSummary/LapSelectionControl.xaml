@@ -120,14 +120,28 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Width="36" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" Command="{Binding AddCustomLapCommand}"
-                        Style="{StaticResource StandardButton}" ToolTip="Add a custom lap from disk.">
-                    <Button.Content>
-                        <wpf:ColorAbleIcon Margin="-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                            <ContentPresenter Content="{StaticResource PlusIcon}" />
-                        </wpf:ColorAbleIcon>
-                    </Button.Content>
-                </Button>
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="36" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"
+                            Command="{Binding AddCustomLapCommand}"
+                            Style="{StaticResource StandardButton}" ToolTip="Add a custom lap from disk.">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon Margin="-5"
+                                               StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                <ContentPresenter Content="{StaticResource PlusIcon}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="36" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"
+                            Command="{Binding OpenAggregatedChartSelectorCommand}"
+                            Style="{StaticResource StandardButton}" ToolTip="Opens aggregated graph selector.">
+                        <Button.Content>
+                            <wpf:ColorAbleIcon Margin="-5"
+                                               StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                <ContentPresenter Content="{StaticResource TelemetryIcon}" />
+                            </wpf:ColorAbleIcon>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Border>

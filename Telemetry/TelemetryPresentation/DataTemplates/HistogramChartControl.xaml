@@ -3,14 +3,16 @@
                     xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram;assembly=TelemetryApplication"
                     xmlns:oxy="http://oxyplot.org/wpf">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../TelemetryPresentation.xaml"/>
+        <ResourceDictionary Source="../TelemetryPresentation.xaml" />
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type histogram:HistogramChartViewModel}">
                 <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey01Brush}">
-                <oxy:PlotView Model="{Binding PlotModel}" Background="{StaticResource Anthracite01Brush}"
-                              Foreground="{StaticResource DarkRed01Brush}"
-                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                </oxy:PlotView>
+                    <Grid>
+                        <TextBlock Style="{StaticResource StandardText}" Text="{Binding DataPointsCount, StringFormat=Data Points: {0}}" Grid.ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                        <oxy:PlotView Model="{Binding PlotModel}" Background="{StaticResource Anthracite01Brush}"
+                                      Foreground="{StaticResource DarkRed01Brush}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    </Grid>
                 </Border>
             </DataTemplate>
         </ResourceDictionary>

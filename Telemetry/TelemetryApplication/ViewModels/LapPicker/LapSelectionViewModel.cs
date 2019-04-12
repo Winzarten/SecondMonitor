@@ -24,6 +24,7 @@
         private string _bestSector3;
         private IOpenWindowViewModel _addWindowViewModel;
         private ICommand _addCustomLapCommand;
+        private ICommand _openAggregatedGraphSelectorCommand;
 
         public LapSelectionViewModel()
         {
@@ -57,6 +58,12 @@
         {
             get => _addCustomLapCommand;
             set => SetProperty(ref _addCustomLapCommand, value);
+        }
+
+        public ICommand OpenAggregatedChartSelectorCommand
+        {
+            get => _openAggregatedGraphSelectorCommand;
+            set => SetProperty(ref _openAggregatedGraphSelectorCommand, value);
         }
 
         public ILapSummaryViewModel Selected

@@ -3,25 +3,23 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using DataModel.Extensions;
     using DataModel.Telemetry;
     using Settings;
+    using TelemetryManagement.DTO;
     using TelemetryManagement.StoryBoard;
-    using ViewModels.LoadedLapCache;
 
     public abstract class AbstractHistogramDataExtractor : AbstractTelemetryDataExtractor
     {
         protected abstract bool ZeroBandInMiddle { get; }
-        protected abstract double DefaultBandSize { get; }
-        protected abstract string Unit { get; }
+        public abstract string Unit { get; }
 
-        protected AbstractHistogramDataExtractor(ISettingsProvider settingsProvider, ILoadedLapsCache loadedLapsCache) : base(settingsProvider, loadedLapsCache)
+        protected AbstractHistogramDataExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
         {
         }
 
-        protected Histogram ExtractHistogram(Func<TimedTelemetrySnapshot, double> extractFunc, double bandSize, string title)
+        protected Histogram ExtractHistogram(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractFunc, double bandSize, string title)
         {
-            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(extractFunc).OrderBy(x => x.Value).ToArray();
+            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(loadedLaps, extractFunc).OrderBy(x => x.Value).ToArray();
             double minBand = GetBandMiddleValue(data[0].Value, bandSize);
             double maxBand = GetBandMiddleValue(data[data.Length - 1].Value, bandSize);
             double totalSeconds = data.Sum(x => x.ValueTime.TotalSeconds);
@@ -33,15 +31,15 @@
                 MajorTickSize = bandSize * 5,
                 Title = title,
                 Unit = Unit,
+                DataPointsCount = data.Length,
             };
             for (double i = minBand; i <= maxBand; i += bandSize)
             {
-                IGrouping<double, TimedValue> currentGrouping = groupedByBand.FirstOrDefault(x => x.Key == i);
+                IGrouping<double, TimedValue> currentGrouping = groupedByBand.FirstOrDefault(x => Math.Abs(x.Key - i) < 0.0001);
 
-                string category = i.ToStringScalableDecimals();
                 double bandTime = currentGrouping?.Sum(x => x.ValueTime.TotalSeconds) ?? 0;
                 double percentage = bandTime / totalSeconds * 100;
-                HistogramBand currentBand = new HistogramBand(currentGrouping?.ToArray() ?? new TimedValue[0], category, percentage);
+                HistogramBand currentBand = new HistogramBand(currentGrouping?.ToArray() ?? new TimedValue[0], i, percentage);
                 histogram.AddItem(currentBand);
             }
 

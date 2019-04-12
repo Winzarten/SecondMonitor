@@ -160,11 +160,7 @@
 
         private async Task AddCustomLap()
         {
-
-            AggregatedChartViewModel viewModel = _aggregatedChartProvider.CreateAggregatedChartViewModel();
-            var win = new Window {Content = viewModel, Title = viewModel.Title, WindowState = WindowState.Maximized};
-            win.Show();
-            /*Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lap", Filter = "Lap Files (*.lap)|*.lap"};
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".lap", Filter = "Lap Files (*.lap)|*.lap"};
             bool? result = dlg.ShowDialog();
             if (result == false)
             {
@@ -173,7 +169,7 @@
 
             string filename = dlg.FileName;
             string fileCustomName = await _userInputProvider.GetUserInput("Enter Lap Name:", $"Ex-{Path.GetFileNameWithoutExtension(filename)}");
-            await _telemetryLoadController.LoadLap(new FileInfo(filename), fileCustomName);*/
+            await _telemetryLoadController.LoadLap(new FileInfo(filename), fileCustomName);
         }
 
 

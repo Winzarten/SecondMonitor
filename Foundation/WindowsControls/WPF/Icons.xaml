@@ -3231,6 +3231,20 @@
             </Canvas>
         </Canvas>
     </Viewbox>
+    <Viewbox x:Key="RefreshIcon" x:Shared="False" Stretch="Uniform">
+        <Canvas Name="svg10" Width="63.999999" Height="65.127497">
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="2.1910016 0 0 2.1910016 0 -0.00441294"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                    <Path.Data>
+                        <PathGeometry Figures="m 17.368 10.298 c 0.136 0.242 0.456 0.435 0.732 0.436 l 10.348 0.058 c 0.268 0.002 0.512 -0.138 0.652 -0.366 0.141 -0.228 0.145 -0.517 0.023 -0.755 L 24.404 0.441 C 24.278 0.193 23.995 0.012 23.719 0.003 23.441 -0.009 23.113 0.088 22.967 0.324 L 21.52 2.671 C 19.43 1.49 17.032 0.797 14.464 0.797 6.489 0.795 0 7.285 0 15.261 c 0 7.977 6.489 14.466 14.466 14.466 7.976 0 14.465 -6.489 14.465 -14.466 0 -0.873 -0.09 -1.725 -0.239 -2.556 -0.08 0.007 -0.156 0.029 -0.237 0.029 H 28.434 L 23.576 12.72 c 0.226 0.81 0.355 1.659 0.355 2.54 0 5.219 -4.246 9.466 -9.465 9.466 C 9.246 24.727 5 20.479 5 15.261 c 0 -5.22 4.246 -9.466 9.466 -9.466 1.605 0 3.11 0.415 4.435 1.125 l -1.58 2.563 c -0.146 0.236 -0.087 0.572 0.047 0.815 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
 
 
 </ResourceDictionary>

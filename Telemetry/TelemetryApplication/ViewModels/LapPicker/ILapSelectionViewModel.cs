@@ -24,6 +24,8 @@
 
         ICommand AddCustomLapCommand { get; set; }
 
+        ICommand OpenAggregatedChartSelectorCommand { get; set; }
+
         string CarName { get; set; }
 
         string TrackName { get; set; }

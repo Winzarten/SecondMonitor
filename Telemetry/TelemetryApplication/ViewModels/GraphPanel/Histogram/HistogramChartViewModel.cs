@@ -13,7 +13,14 @@
 
         private double _bandSize;
         private PlotModel _plotModel;
-        private ColumnSeries _columnSeries;
+        private LinearBarSeries _columnSeries;
+        private int _dataPointsCount;
+
+        public int DataPointsCount
+        {
+            get => _dataPointsCount;
+            set => SetProperty(ref _dataPointsCount, value);
+        }
 
         public double BandSize
         {
@@ -37,26 +44,20 @@
                 PlotAreaBorderColor = BaseColor,
             };
 
-            _columnSeries = new ColumnSeries() { Title = "Percentage", StrokeColor = BaseColor, StrokeThickness = 1, LabelPlacement = LabelPlacement.Inside, LabelFormatString = "{0:.00}" };
-            _columnSeries.Items.AddRange(OriginalModel.Items.Select(x => new ColumnItem() { Value = x.Percentage }));
+            _columnSeries = new LinearBarSeries() {TrackerFormatString = OriginalModel.Unit+ ": {2:0.00}\n%: {4:0.00}", Title = "Percentage", StrokeColor = BaseColor, StrokeThickness = 1, BarWidth = double.MaxValue};
+            _columnSeries.Points.AddRange(OriginalModel.Items.Select( x=> new DataPoint(x.Category, x.Percentage)));
 
 
-            CategoryAxis categoryAxis = new CategoryAxis { IsTickCentered = true, AxislineColor = BaseColor,  Position = AxisPosition.Bottom, GapWidth = 0, MajorStep = 5, MinorStep = 1, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, MinorGridlineStyle = LineStyle.Solid, MinorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.Unit, ExtraGridlineStyle = LineStyle.Solid, ExtraGridlineColor = OxyColors.Red};
-            categoryAxis.Labels.AddRange(OriginalModel.Items.Select(x => x.Category));
-            int zeroSeriesIndex = categoryAxis.Labels.IndexOf("0");
-            LinearAxis valueAxis = new LinearAxis { Position = AxisPosition.Left, MinimumPadding = 0, MaximumPadding = 0.0, AbsoluteMinimum = 0, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, MajorStep = 5, AxislineColor = BaseColor, TicklineColor = BaseColor, MinorGridlineStyle = LineStyle.Dot, MinorGridlineColor = BaseColor};
+            LinearAxis barAxis = new LinearAxis {MinimumMinorStep = BandSize, AxislineColor = BaseColor, Position = AxisPosition.Bottom, MajorStep = BandSize * 5, MinorStep = BandSize, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.Unit, ExtraGridlineStyle = LineStyle.Solid, ExtraGridlineColor = OxyColors.Red, ExtraGridlineThickness = 2, ExtraGridlines = new double[] { 0}};
+            LinearAxis valueAxis = new LinearAxis {Unit  = "%", Position = AxisPosition.Left, MinimumPadding = 0, MaximumPadding = 0.0, AbsoluteMinimum = 0, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, MajorStep = 5, AxislineColor = BaseColor, TicklineColor = BaseColor, MinorGridlineStyle = LineStyle.Dot, MinorGridlineColor = BaseColor};
 
+            barAxis.PositionAtZeroCrossing = true;
             model.Series.Add(_columnSeries);
-            model.Axes.Add(categoryAxis);
+            model.Axes.Add(barAxis);
             model.Axes.Add(valueAxis);
 
-            if (zeroSeriesIndex >= 0)
-            {
-                _columnSeries.Items[zeroSeriesIndex].Color = OxyColors.Red;
-                categoryAxis.ExtraGridlines = new double[] { zeroSeriesIndex };
-            }
-
             PlotModel = model;
+            DataPointsCount = OriginalModel.DataPointsCount;
         }
 
         protected override void ApplyModel(Histogram model)

@@ -12,6 +12,7 @@
         }
 
         public string Title { get; set; }
+        public int DataPointsCount { get; set; }
         public IReadOnlyCollection<HistogramBand> Items => _histogramItems.AsReadOnly();
         public double BandSize { get; set; }
         public double MajorTickSize { get; set; }

@@ -1,37 +1,15 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts
 {
     using Histogram;
-    using ViewModels.GraphPanel;
-    using ViewModels.GraphPanel.Histogram;
+    using ViewModels.LoadedLapCache;
 
-    public class SuspensionVelocityHistogramProvider : IAggregatedChartProvider
+    public class SuspensionVelocityHistogramProvider : AbstractWheelHistogramProvider
     {
-        private readonly SuspensionVelocityHistogramDataExtractor _suspensionVelocityHistogramDataExtractor;
-        public string ChartName => "Suspension Velocity";
 
-        public SuspensionVelocityHistogramProvider(SuspensionVelocityHistogramDataExtractor suspensionVelocityHistogramDataExtractor)
+        public SuspensionVelocityHistogramProvider(SuspensionVelocityHistogramDataExtractor suspensionVelocityHistogramDataExtractor, ILoadedLapsCache loadedLapsCache) : base(suspensionVelocityHistogramDataExtractor, loadedLapsCache)
         {
-            _suspensionVelocityHistogramDataExtractor = suspensionVelocityHistogramDataExtractor;
         }
 
-        public AggregatedChartViewModel CreateAggregatedChartViewModel()
-        {
-            Histogram.Histogram flHistogram = _suspensionVelocityHistogramDataExtractor.ExtractHistogramFrontLeft();
-            Histogram.Histogram frHistogram = _suspensionVelocityHistogramDataExtractor.ExtractHistogramFrontRight();
-            Histogram.Histogram rlHistogram = _suspensionVelocityHistogramDataExtractor.ExtractHistogramRearLeft();
-            Histogram.Histogram rrHistogram = _suspensionVelocityHistogramDataExtractor.ExtractHistogramRearRight();
-
-            WheelsHistogramViewModel wheelsHistogram = new WheelsHistogramViewModel()
-            {
-                Title = ChartName,
-            };
-
-            wheelsHistogram.FrontLeftChartViewModel.FromModel(flHistogram);
-            wheelsHistogram.FrontRightChartViewModel.FromModel(frHistogram);
-            wheelsHistogram.RearLeftChartViewModel.FromModel(rlHistogram);
-            wheelsHistogram.RearRightChartViewModel.FromModel(rrHistogram);
-
-            return wheelsHistogram;
-        }
+        public override string ChartName => "Suspension Velocity Histogram";
     }
 }
