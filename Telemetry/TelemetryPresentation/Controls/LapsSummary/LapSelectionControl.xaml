@@ -133,7 +133,7 @@
                     </Button>
                     <Button Width="36" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"
                             Command="{Binding OpenAggregatedChartSelectorCommand}"
-                            Style="{StaticResource StandardButton}" ToolTip="Opens aggregated graph selector.">
+                            Style="{StaticResource StandardButton}" ToolTip="Opens aggregated charts selector.">
                         <Button.Content>
                             <wpf:ColorAbleIcon Margin="-5"
                                                StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">

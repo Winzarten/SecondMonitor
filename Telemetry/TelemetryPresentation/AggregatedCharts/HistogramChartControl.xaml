@@ -5,6 +5,42 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
         <ResourceDictionary>
+            <DataTemplate DataType="{x:Type histogram:SuspensionVelocityHistogramChartViewModel}">
+                <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey01Brush}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock Style="{StaticResource StandardText}"
+                                       Text="{Binding DataPointsCount, StringFormat=Data Points: {0}}" Grid.ZIndex="2"
+                                       VerticalAlignment="Top" HorizontalAlignment="Right" />
+                            <oxy:PlotView Model="{Binding PlotModel}" Background="{StaticResource Anthracite01Brush}"
+                                          Foreground="{StaticResource DarkRed01Brush}"
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                        </Grid>
+                        <DockPanel LastChildFill="False" Grid.Row="1" Margin="10,0,10,10">
+                            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" Text="Average Rebound Speed: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding ReboundAverageSpeed, Converter={StaticResource DoubleToScalableDecimalsConverter}}"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" Margin="15,0,0,0" Text="Average Rebound %: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding ReboundPercentage, Converter={StaticResource DoubleToScalableDecimalsConverter}}"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" Text="Average Bump Speed: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding BumpAverageSpeed, Converter={StaticResource DoubleToScalableDecimalsConverter}}"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" Text="Average Bump %: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="{Binding BumpPercentage, Converter={StaticResource DoubleToScalableDecimalsConverter}}" Margin="0,0,15,0"/>
+                            </StackPanel>
+                        </DockPanel>
+                    </Grid>
+            </Border>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type histogram:HistogramChartViewModel}">
                 <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey01Brush}">
                     <Grid>
