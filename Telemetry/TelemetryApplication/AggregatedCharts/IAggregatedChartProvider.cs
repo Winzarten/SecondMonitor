@@ -1,11 +1,11 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts
 {
-    using SecondMonitor.ViewModels;
     using ViewModels.GraphPanel;
 
     public interface IAggregatedChartProvider
     {
         string ChartName { get; }
+        AggregatedChartKind Kind { get; }
 
         AggregatedChartViewModel CreateAggregatedChartViewModel();
     }

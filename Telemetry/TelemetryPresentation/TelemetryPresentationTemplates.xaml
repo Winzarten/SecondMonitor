@@ -3,7 +3,8 @@
                     xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram;assembly=TelemetryApplication">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="TelemetryPresentation.xaml"/>
-        <ResourceDictionary Source="DataTemplates/WheelHistorgramControl.xaml"/>
-        <ResourceDictionary Source="DataTemplates/HistogramChartControl.xaml"/>
+        <ResourceDictionary Source="AggregatedCharts/WheelHistorgramControl.xaml"/>
+        <ResourceDictionary Source="AggregatedCharts/HistogramChartControl.xaml"/>
+        <ResourceDictionary Source="AggregatedCharts/AggregatedChartSelectorControl.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

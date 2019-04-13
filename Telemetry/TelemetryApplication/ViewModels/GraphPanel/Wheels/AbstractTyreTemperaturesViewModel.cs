@@ -119,16 +119,16 @@
             LineSeries[] lineSeries = new LineSeries[4];
 
             string baseTitle = $"Lap {lapSummary.CustomDisplayName}";
-            lineSeries[0] = CreateLineSeries(baseTitle + " " + LeftTemperatureName, color, LeftSideLineStyle);
+            lineSeries[0] = CreateLineSeries(baseTitle + " " + LeftTemperatureName, color.ChangeSaturation(0.5), LeftSideLineStyle);
             lineSeries[0].IsVisible = LeftTemperatureVisible;
 
-            lineSeries[1] = CreateLineSeries(baseTitle + " " + RightTemperatureName, color, RightSideLineStyle);
+            lineSeries[1] = CreateLineSeries(baseTitle + " " + RightTemperatureName, color.ChangeSaturation(1.5), RightSideLineStyle);
             lineSeries[1].IsVisible = RightTemperatureVisible;
 
             lineSeries[2] = CreateLineSeries(baseTitle + " " + MiddleTemperatureName, color, CenterSideLineStyle);
             lineSeries[2].IsVisible = MiddleTemperatureVisible;
 
-            lineSeries[3] = CreateLineSeries(baseTitle + " " + CoreTemperatureName , color, CoreSideLineStyle);
+            lineSeries[3] = CreateLineSeries(baseTitle + " " + CoreTemperatureName , color.ChangeIntensity(0.5), CoreSideLineStyle);
             lineSeries[3].IsVisible = CoreTemperatureVisible;
 
             lineSeries[0].Points.AddRange(dataPoints.Select(x => new DataPoint(GetXValue(x), WheelSelectionFunction(x.PlayerData.CarInfo.WheelsInfo).LeftTyreTemp.ActualQuantity.GetValueInUnits(TemperatureUnits))));
@@ -143,6 +143,14 @@
             }
 
             return lineSeries.ToList();
+        }
+
+        protected override void ApplyNewLineColor(List<LineSeries> series, OxyColor newColor)
+        {
+            series.First(x => x.Title.Contains(LeftTemperatureName)).Color = newColor.ChangeSaturation(0.5);
+            series.First(x => x.Title.Contains(RightTemperatureName)).Color = newColor.ChangeSaturation(1.5);
+            series.First(x => x.Title.Contains(MiddleTemperatureName)).Color = newColor;
+            series.First(x => x.Title.Contains(CoreTemperatureName)).Color = newColor.ChangeIntensity(0.5);
         }
 
         private void GraphViewSynchronization_TyreTempVisibilityChanged(object sender, Controllers.Synchronization.Graphs.TyreTempVisibilityArgs e)

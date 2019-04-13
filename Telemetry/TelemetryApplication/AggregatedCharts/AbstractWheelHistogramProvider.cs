@@ -21,6 +21,7 @@
         }
 
         public abstract string ChartName { get; }
+        public abstract AggregatedChartKind Kind { get; }
 
         public AggregatedChartViewModel CreateAggregatedChartViewModel()
         {

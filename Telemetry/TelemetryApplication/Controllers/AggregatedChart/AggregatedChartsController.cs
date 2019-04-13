@@ -6,7 +6,10 @@
     using System.Windows;
     using AggregatedCharts;
     using Contracts.Commands;
+    using SecondMonitor.ViewModels;
+    using SecondMonitor.ViewModels.Factory;
     using ViewModels;
+    using ViewModels.AggregatedCharts;
     using ViewModels.GraphPanel;
     using ViewModels.LoadedLapCache;
 
@@ -15,11 +18,16 @@
 
         private readonly IMainWindowViewModel _mainWindowViewModel;
         private readonly ILoadedLapsCache _loadedLapsCache;
+        private readonly IWindowService _windowService;
+        private readonly IViewModelFactory _viewModelFactory;
         private readonly List<IAggregatedChartProvider> _aggregatedChartProviders;
+        private Window _chartSelectionWindow;
 
-        public AggregatedChartsController(IEnumerable<IAggregatedChartProvider> aggregatedChartProviders, IMainWindowViewModel mainWindowViewModel, ILoadedLapsCache loadedLapsCache)
+        public AggregatedChartsController(IEnumerable<IAggregatedChartProvider> aggregatedChartProviders, IMainWindowViewModel mainWindowViewModel, ILoadedLapsCache loadedLapsCache, IWindowService windowService, IViewModelFactory viewModelFactory)
         {
             _loadedLapsCache = loadedLapsCache;
+            _windowService = windowService;
+            _viewModelFactory = viewModelFactory;
             _mainWindowViewModel = mainWindowViewModel;
             _loadedLapsCache = loadedLapsCache;
             _aggregatedChartProviders = aggregatedChartProviders.ToList();
@@ -42,9 +50,63 @@
             {
                 return;
             }
-            AggregatedChartViewModel viewModel = _aggregatedChartProviders.First().CreateAggregatedChartViewModel();
-            var win = new Window { Content = viewModel, Title = viewModel.Title, WindowState = WindowState.Maximized };
-            win.Show();
+
+            if (_chartSelectionWindow?.IsLoaded == true)
+            {
+                _chartSelectionWindow.Focus();
+                return;
+            }
+
+            IAggregatedChartSelectorViewModel viewModel = CreateAggregatedChartSelectionViewModel();
+            _chartSelectionWindow = _windowService.OpenWindow(viewModel, "Select Aggregated Chart");
+
+            /*AggregatedChartViewModel viewModel = _aggregatedChartProviders.First().CreateAggregatedChartViewModel();
+            _windowService.OpenWindow(viewModel, viewModel.Title, WindowState.Maximized);*/
+        }
+
+        private IAggregatedChartSelectorViewModel CreateAggregatedChartSelectionViewModel()
+        {
+            IAggregatedChartSelectorViewModel viewModel = _viewModelFactory.Create<IAggregatedChartSelectorViewModel>();
+            viewModel.HistogramChartNames = _aggregatedChartProviders.Where(x => x.Kind == AggregatedChartKind.Histogram).Select(x => x.ChartName).ToList();
+            viewModel.CancelAndCloseWindowCommand = new RelayCommand(CancelAndCloseSelectionWindow);
+            viewModel.OpenSelectedChartCommand = new RelayCommand(OpenSelectedChart);
+            return viewModel;
+        }
+
+        private void OpenSelectedChart()
+        {
+            if (!(_chartSelectionWindow?.Content is IAggregatedChartSelectorViewModel viewModel))
+            {
+                return;
+            }
+
+            CancelAndCloseSelectionWindow();
+
+            string providerName = viewModel.SelectedTabIndex == 0 ? viewModel.SelectedHistogramChartName : viewModel.SelectedPlotChartName;
+            if (string.IsNullOrWhiteSpace(providerName))
+            {
+                return;
+            }
+
+            IAggregatedChartProvider selectedProvider = _aggregatedChartProviders.FirstOrDefault(x => x.ChartName == providerName);
+
+            if (selectedProvider == null)
+            {
+                return;
+            }
+
+            AggregatedChartViewModel chartViewModel = selectedProvider.CreateAggregatedChartViewModel();
+            _windowService.OpenWindow(chartViewModel, chartViewModel.Title, WindowState.Maximized, SizeToContent.Manual);
+        }
+
+        private void CancelAndCloseSelectionWindow()
+        {
+            if (_chartSelectionWindow?.IsLoaded != true)
+            {
+                return;
+            }
+
+            _chartSelectionWindow.Close();
         }
 
         public Task StopControllerAsync()

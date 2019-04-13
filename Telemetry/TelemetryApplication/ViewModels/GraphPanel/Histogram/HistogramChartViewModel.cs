@@ -1,11 +1,11 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram
 {
     using System.Linq;
-    using AggregatedCharts.Histogram;
     using OxyPlot;
     using OxyPlot.Axes;
     using OxyPlot.Series;
     using SecondMonitor.ViewModels;
+    using TelemetryApplication.AggregatedCharts.Histogram;
 
     public class HistogramChartViewModel : AbstractViewModel<Histogram>
     {

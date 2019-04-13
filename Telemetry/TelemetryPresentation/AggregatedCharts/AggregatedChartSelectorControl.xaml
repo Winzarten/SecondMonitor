@@ -1,0 +1,112 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:aggregatedCharts="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.AggregatedCharts;assembly=TelemetryApplication"
+                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../TelemetryPresentation.xaml" />
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type aggregatedCharts:AggregatedChartSelectorViewModel}">
+                <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey01Brush}">
+                    <Grid Background="{StaticResource Anthracite01Brush}" MinHeight="500">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TabControl  Background="{StaticResource Anthracite01Brush}" TabStripPlacement="Left" Grid.Column="0" TabIndex="{Binding SelectedTabIndex}">
+                            <TabItem Background="{StaticResource Anthracite01Brush}">
+                                <TabItem.Header>
+                                    <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}">
+                                    <Grid Background="{StaticResource Anthracite01Brush}" ToolTip="Histograms" >
+                                        <ContentPresenter Content="{StaticResource HistogramIcon}" Width="48" Margin="10"/>
+                                    </Grid>
+                                    </Border>
+                                </TabItem.Header>
+                                <Grid Background="{StaticResource Anthracite01Brush}" MinWidth="300">
+                                    <ListBox Background="{StaticResource Anthracite01Brush}" ItemsSource="{Binding HistogramChartNames}" SelectedItem="{Binding SelectedHistogramChartName}" Grid.IsSharedSizeScope="True">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Background="{StaticResource Anthracite01Brush}" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" SharedSizeGroup="HistogramWith"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="3" BorderBrush="{StaticResource DarkGrey05Brush}">
+                                                        <Grid Height="64">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Style="{StaticResource StandardText}" Text="{Binding}"></TextBlock>
+                                                            <Grid.InputBindings>
+                                                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenSelectedChartCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"/>
+                                                            </Grid.InputBindings>
+                                                        </Grid>
+                                                        <Border.InputBindings>
+                                                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenSelectedChartCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"/>
+                                                        </Border.InputBindings>
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Background="{StaticResource Anthracite01Brush}">
+                                <TabItem.Header>
+                                    <Grid Background="{StaticResource Anthracite01Brush}" ToolTip="Scatter Plots">
+                                        <ContentPresenter Content="{StaticResource ScatterPlotIcon}" Width="48" Margin="10"/>
+                                    </Grid>
+                                </TabItem.Header>
+                                <Grid Background="{StaticResource Anthracite01Brush}">
+                                    <ListBox Background="{StaticResource Anthracite01Brush}" ItemsSource="{Binding PlotChartNames}" MinWidth="300" Grid.IsSharedSizeScope="True">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Background="{StaticResource Anthracite01Brush}" Margin="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" SharedSizeGroup="HistogramWith"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Grid.Column="0" BorderThickness="3" BorderBrush="{StaticResource DarkGrey05Brush}">
+                                                        <Grid Height="64">
+                                                            <TextBlock VerticalAlignment="Center" Margin="10" Style="{StaticResource StandardText}" Text="{Binding}"></TextBlock>
+                                                            <Grid.InputBindings>
+                                                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenSelectedChartCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"/>
+                                                            </Grid.InputBindings>
+                                                        </Grid>
+                                                        <Border.InputBindings>
+                                                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenSelectedChartCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"/>
+                                                        </Border.InputBindings>
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </TabItem>
+                            <TabControl.Resources>
+                                <Style TargetType="{x:Type TabPanel}">
+                                    <Setter Property="Background" Value="{StaticResource Anthracite01Brush}"></Setter>
+                                </Style>
+                            </TabControl.Resources>
+                        </TabControl>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                    Command="{Binding OpenSelectedChartCommand, Mode=OneWay}"
+                                    Style="{StaticResource StandardButton}">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource OkIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                            <Button Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                    Command="{Binding CancelAndCloseWindowCommand, Mode=OneWay}"
+                                    Style="{StaticResource StandardButton}">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon Margin="5,0,5,0" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource CancelIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

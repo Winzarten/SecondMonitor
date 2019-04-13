@@ -27,6 +27,7 @@
     using SimdataManagement;
     using TelemetryManagement.StoryBoard;
     using ViewModels;
+    using ViewModels.AggregatedCharts;
     using ViewModels.GraphPanel;
     using ViewModels.GraphPanel.Chassis;
     using ViewModels.GraphPanel.DataExtractor;
@@ -122,6 +123,8 @@
 
             Bind<IAggregatedChartProvider>().To<SuspensionVelocityHistogramProvider>();
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
+
+            Bind<IAggregatedChartSelectorViewModel>().To<AggregatedChartSelectorViewModel>();
         }
     }
 }

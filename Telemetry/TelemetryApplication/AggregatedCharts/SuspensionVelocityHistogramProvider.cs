@@ -5,11 +5,12 @@
 
     public class SuspensionVelocityHistogramProvider : AbstractWheelHistogramProvider
     {
-
         public SuspensionVelocityHistogramProvider(SuspensionVelocityHistogramDataExtractor suspensionVelocityHistogramDataExtractor, ILoadedLapsCache loadedLapsCache) : base(suspensionVelocityHistogramDataExtractor, loadedLapsCache)
         {
         }
 
         public override string ChartName => "Suspension Velocity Histogram";
+
+        public override AggregatedChartKind Kind => AggregatedChartKind.Histogram;
     }
 }

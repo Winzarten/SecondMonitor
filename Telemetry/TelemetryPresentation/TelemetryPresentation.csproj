@@ -136,6 +136,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AggregatedCharts\AggregatedChartSelectorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\LapsSummary\LapSelectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -152,11 +156,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DataTemplates\HistogramChartControl.xaml">
+    <Page Include="AggregatedCharts\HistogramChartControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DataTemplates\WheelHistorgramControl.xaml">
+    <Page Include="AggregatedCharts\WheelHistorgramControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
