@@ -9,8 +9,8 @@
         IReadOnlyCollection<string> HistogramChartNames { get; set; }
         string SelectedHistogramChartName { get; set; }
 
-        IReadOnlyCollection<string> PlotChartNames { get; set; }
-        string SelectedPlotChartName { get; set; }
+        IReadOnlyCollection<string> ScatterPlotChartNames { get; set; }
+        string SelectedScatterPlotChartName { get; set; }
 
         int SelectedTabIndex { get; set; }
         ICommand OpenSelectedChartCommand { get; set; }

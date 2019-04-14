@@ -218,14 +218,14 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         {
             LapCompleted?.Invoke(this, lapEventArgs);
 
+            if (lapEventArgs.Lap.Driver.IsPlayer && TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled && (lapEventArgs.Lap.Valid || TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.LogInvalidLaps))
+            {
+                SessionTelemetryController.TrySaveLapTelemetry(lapEventArgs.Lap);
+            }
+
             if (!lapEventArgs.Lap.Valid)
             {
                 return;
-            }
-
-            if (lapEventArgs.Lap.Driver.IsPlayer && TimingDataViewModel.DisplaySettingsViewModel.TelemetrySettingsViewModel.IsTelemetryLoggingEnabled)
-            {
-                SessionTelemetryController.TrySaveLapTelemetry(lapEventArgs.Lap);
             }
 
             if (BestSessionLap == null || (BestSessionLap.LapTime > lapEventArgs.Lap.LapTime && lapEventArgs.Lap.LapTime != TimeSpan.Zero))

@@ -2,6 +2,7 @@
 {
     using Histogram;
     using SecondMonitor.ViewModels.Factory;
+    using ViewModels.AggregatedCharts;
     using ViewModels.GraphPanel;
     using ViewModels.GraphPanel.Histogram;
     using ViewModels.LoadedLapCache;
@@ -12,7 +13,7 @@
         {
         }
 
-        public override AggregatedChartViewModel CreateAggregatedChartViewModel()
+        public override IAggregatedChartViewModel CreateAggregatedChartViewModel()
         {
             return CreateAggregatedChartViewModel<SuspensionVelocityHistogramViewModel, SuspensionVelocityHistogramChartViewModel>();
         }

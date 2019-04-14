@@ -26,13 +26,13 @@
             set => SetProperty(ref _selectedHistogramChartName, value);
         }
 
-        public IReadOnlyCollection<string> PlotChartNames
+        public IReadOnlyCollection<string> ScatterPlotChartNames
         {
             get => _plotChartNames;
             set => SetProperty(ref _plotChartNames, value);
         }
 
-        public string SelectedPlotChartName
+        public string SelectedScatterPlotChartName
         {
             get => _selectedPlotChartName;
             set => SetProperty(ref _selectedPlotChartName, value);

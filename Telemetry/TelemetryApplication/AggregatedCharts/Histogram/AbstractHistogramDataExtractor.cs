@@ -11,7 +11,7 @@
     public abstract class AbstractHistogramDataExtractor : AbstractTelemetryDataExtractor
     {
         protected abstract bool ZeroBandInMiddle { get; }
-        public abstract string Unit { get; }
+        public abstract string YUnit { get; }
 
         protected AbstractHistogramDataExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
         {
@@ -19,7 +19,7 @@
 
         protected Histogram ExtractHistogram(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractFunc, double bandSize, string title)
         {
-            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(loadedLaps, extractFunc).OrderBy(x => x.Value).ToArray();
+            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(loadedLaps, extractFunc).Where(x => x.ValueTime.TotalSeconds < 2).OrderBy(x => x.Value).ToArray();
             double minBand = GetBandMiddleValue(data[0].Value, bandSize);
             double maxBand = GetBandMiddleValue(data[data.Length - 1].Value, bandSize);
             double totalSeconds = data.Sum(x => x.ValueTime.TotalSeconds);
@@ -30,7 +30,7 @@
                 BandSize = bandSize,
                 MajorTickSize = bandSize * 5,
                 Title = title,
-                Unit = Unit,
+                Unit = YUnit,
                 DataPointsCount = data.Length,
             };
             for (double i = minBand; i <= maxBand; i += bandSize)

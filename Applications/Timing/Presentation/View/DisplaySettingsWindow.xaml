@@ -316,6 +316,8 @@
                 <StackPanel>
                     <CheckBox Content="Enable Telemetry" Foreground="White" Margin="5,5,0,0"
                               IsChecked="{Binding TelemetrySettingsViewModel.IsTelemetryLoggingEnabled}" />
+                    <CheckBox Content="Log Invalid Laps" Foreground="White" Margin="5,5,0,0"
+                              IsChecked="{Binding TelemetrySettingsViewModel.LogInvalidLaps}" />
                     <StackPanel Orientation="Horizontal" >
                         <TextBox
                             Text="{Binding TelemetrySettingsViewModel.LoggingInterval, Converter={StaticResource IntegerToStringConverter}, ConverterParameter=50}"

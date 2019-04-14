@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram;assembly=TelemetryApplication"
-                    xmlns:oxy="http://oxyplot.org/wpf">
+                    xmlns:oxy="http://oxyplot.org/wpf"
+                    xmlns:scatterPlot="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.ScatterPlot;assembly=TelemetryApplication">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
         <ResourceDictionary>
@@ -26,7 +27,7 @@
                                 <TextBlock Style="{StaticResource StandardText}" Text="{Binding ReboundAverageSpeed, Converter={StaticResource DoubleToScalableDecimalsConverter}}"/>
                             </StackPanel>
                             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource StandardText}" Margin="15,0,0,0" Text="Average Rebound %: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Margin="15,0,0,0" Text="Rebound %: "/>
                                 <TextBlock Style="{StaticResource StandardText}" Text="{Binding ReboundPercentage, Converter={StaticResource DoubleToScalableDecimalsConverter}}"/>
                             </StackPanel>
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
@@ -34,7 +35,7 @@
                                 <TextBlock Style="{StaticResource StandardText}" Text="{Binding BumpAverageSpeed, Converter={StaticResource DoubleToScalableDecimalsConverter}}"/>
                             </StackPanel>
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource StandardText}" Text="Average Bump %: "/>
+                                <TextBlock Style="{StaticResource StandardText}" Text="Bump %: "/>
                                 <TextBlock Style="{StaticResource StandardText}" Text="{Binding BumpPercentage, Converter={StaticResource DoubleToScalableDecimalsConverter}}" Margin="0,0,15,0"/>
                             </StackPanel>
                         </DockPanel>

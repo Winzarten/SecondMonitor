@@ -6,5 +6,7 @@
         <ResourceDictionary Source="AggregatedCharts/WheelHistorgramControl.xaml"/>
         <ResourceDictionary Source="AggregatedCharts/HistogramChartControl.xaml"/>
         <ResourceDictionary Source="AggregatedCharts/AggregatedChartSelectorControl.xaml"/>
+        <ResourceDictionary Source="AggregatedCharts/CompositeChartControl.xaml"/>
+        <ResourceDictionary Source="AggregatedCharts/ScatterPlotChartControl.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

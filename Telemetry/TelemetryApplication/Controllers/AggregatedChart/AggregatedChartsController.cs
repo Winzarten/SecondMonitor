@@ -59,15 +59,13 @@
 
             IAggregatedChartSelectorViewModel viewModel = CreateAggregatedChartSelectionViewModel();
             _chartSelectionWindow = _windowService.OpenWindow(viewModel, "Select Aggregated Chart");
-
-            /*AggregatedChartViewModel viewModel = _aggregatedChartProviders.First().CreateAggregatedChartViewModel();
-            _windowService.OpenWindow(viewModel, viewModel.Title, WindowState.Maximized);*/
         }
 
         private IAggregatedChartSelectorViewModel CreateAggregatedChartSelectionViewModel()
         {
             IAggregatedChartSelectorViewModel viewModel = _viewModelFactory.Create<IAggregatedChartSelectorViewModel>();
             viewModel.HistogramChartNames = _aggregatedChartProviders.Where(x => x.Kind == AggregatedChartKind.Histogram).Select(x => x.ChartName).ToList();
+            viewModel.ScatterPlotChartNames = _aggregatedChartProviders.Where(x => x.Kind == AggregatedChartKind.ScatterPlot).Select(x => x.ChartName).ToList();
             viewModel.CancelAndCloseWindowCommand = new RelayCommand(CancelAndCloseSelectionWindow);
             viewModel.OpenSelectedChartCommand = new RelayCommand(OpenSelectedChart);
             return viewModel;
@@ -82,7 +80,7 @@
 
             CancelAndCloseSelectionWindow();
 
-            string providerName = viewModel.SelectedTabIndex == 0 ? viewModel.SelectedHistogramChartName : viewModel.SelectedPlotChartName;
+            string providerName = viewModel.SelectedTabIndex == 0 ? viewModel.SelectedHistogramChartName : viewModel.SelectedScatterPlotChartName;
             if (string.IsNullOrWhiteSpace(providerName))
             {
                 return;
@@ -95,7 +93,7 @@
                 return;
             }
 
-            AggregatedChartViewModel chartViewModel = selectedProvider.CreateAggregatedChartViewModel();
+            IAggregatedChartViewModel chartViewModel = selectedProvider.CreateAggregatedChartViewModel();
             _windowService.OpenWindow(chartViewModel, chartViewModel.Title, WindowState.Maximized, SizeToContent.Manual);
         }
 

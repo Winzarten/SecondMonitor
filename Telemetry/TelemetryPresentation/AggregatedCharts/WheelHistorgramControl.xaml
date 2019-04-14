@@ -76,7 +76,7 @@
                             <Button.Content>
                                 <wpf:ColorAbleIcon Margin="-5"
                                                    StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                    <ContentPresenter Content="{StaticResource RefreshIcon}" />
+                                    <ContentPresenter Margin="15" Content="{StaticResource RefreshIcon}" />
                                 </wpf:ColorAbleIcon>
                             </Button.Content>
                         </Button>

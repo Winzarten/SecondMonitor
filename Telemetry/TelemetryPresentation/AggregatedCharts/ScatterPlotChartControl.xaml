@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:oxy="http://oxyplot.org/wpf"
+                    xmlns:scatterPlot="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.ScatterPlot;assembly=TelemetryApplication"
+                    xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram;assembly=TelemetryApplication">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../TelemetryPresentation.xaml" />
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type scatterPlot:ScatterPlotChartViewModel}">
+                <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey05Brush}">
+                    <Grid>
+                        <TextBlock Style="{StaticResource StandardText}"
+                                   Text="{Binding DataPointsCount, StringFormat=Data Points: {0}}" Grid.ZIndex="2"
+                                   VerticalAlignment="Top" HorizontalAlignment="Right" />
+                        <oxy:PlotView Model="{Binding PlotModel}" Background="{StaticResource Anthracite01Brush}"
+                                      Foreground="{StaticResource DarkRed01Brush}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

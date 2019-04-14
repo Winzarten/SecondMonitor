@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram
 {
     using System.Windows.Input;
+    using AggregatedCharts;
 
     public abstract class AbstractWheelsHistogramViewModel<T> : AggregatedChartViewModel  where T : HistogramChartViewModel, new()
     {

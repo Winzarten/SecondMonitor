@@ -14,17 +14,24 @@
         protected AbstractTelemetryDataExtractor(ISettingsProvider settingsProvider)
         {
             VelocityUnitsSmall = settingsProvider.DisplaySettingsViewModel.VelocityUnitsVerySmall;
+            VelocityUnits = settingsProvider.DisplaySettingsViewModel.VelocityUnits;
         }
 
-        protected VelocityUnits VelocityUnitsSmall { get; set; }
+        protected VelocityUnits VelocityUnits { get; }
+        protected VelocityUnits VelocityUnitsSmall { get; }
 
-        public TimedValue[] ExtractTimedValuesOfLoadedLaps(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractionFunc)
+        protected TimedValue[] ExtractTimedValuesOfLoadedLaps(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractionFunc)
         {
-            IEnumerable<TimedValue> timedValues = loadedLaps.SelectMany(x => ExtractTimedValues(x.TimedTelemetrySnapshots, extractionFunc));
+            return ExtractTimedValuesOfLoadedLaps(loadedLaps, extractionFunc, (x) => true);
+        }
+
+        protected TimedValue[] ExtractTimedValuesOfLoadedLaps(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractionFunc, Predicate<TimedTelemetrySnapshot> filter)
+        {
+            IEnumerable<TimedValue> timedValues = loadedLaps.SelectMany(x => ExtractTimedValues(x.TimedTelemetrySnapshots, extractionFunc, filter));
             return timedValues.ToArray();
         }
 
-        private static List<TimedValue> ExtractTimedValues(TimedTelemetrySnapshot[] snapshots, Func<TimedTelemetrySnapshot, double> extractDataFunc)
+        private static List<TimedValue> ExtractTimedValues(TimedTelemetrySnapshot[] snapshots, Func<TimedTelemetrySnapshot, double> extractDataFunc, Predicate<TimedTelemetrySnapshot> filter)
         {
             List<TimedValue> timedValues = new List<TimedValue>(snapshots.Length);
             for (int i = 0; i < snapshots.Length - 1; i++)

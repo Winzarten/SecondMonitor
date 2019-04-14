@@ -35,13 +35,7 @@
                 return Task.FromResult(false);
             }
 
-            if (!lapInfo.Valid)
-            {
-                Logger.Error("Lap Is Invalid! Cannot Save");
-                return Task.FromResult(false);
-            }
-
-            Task<bool> returnTask = Task.Run(() => SaveLapTelemetrySync(lapInfo));
+           Task<bool> returnTask = Task.Run(() => SaveLapTelemetrySync(lapInfo));
             returnTask.ConfigureAwait(false);
             return returnTask;
         }
@@ -72,6 +66,13 @@
 
 
                 Interpolate(lapTelemetryDto, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresDistanceInterpolation, lapTelemetryDto.TimedTelemetrySnapshots.First().SimulatorSourceInfo.TelemetryInfo.RequiresPositionInterpolation);
+
+                LapSummaryDto previousLapInfo = _sessionInfoDto.LapsSummary.FirstOrDefault(x => x.LapNumber == lapSummaryDto.LapNumber);
+                if (previousLapInfo != null)
+                {
+                    _sessionInfoDto.LapsSummary.Remove(previousLapInfo);
+                }
+
                 _sessionInfoDto.LapsSummary.Add(lapSummaryDto);
 
                 _telemetryRepository.SaveRecentSessionInformation(_sessionInfoDto, SessionIdentifier);

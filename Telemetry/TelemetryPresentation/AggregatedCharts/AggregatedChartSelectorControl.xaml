@@ -13,7 +13,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TabControl  Background="{StaticResource Anthracite01Brush}" TabStripPlacement="Left" Grid.Column="0" TabIndex="{Binding SelectedTabIndex}">
+                        <TabControl  Background="{StaticResource Anthracite01Brush}" TabStripPlacement="Left" Grid.Column="0" SelectedIndex="{Binding SelectedTabIndex}">
                             <TabItem Background="{StaticResource Anthracite01Brush}">
                                 <TabItem.Header>
                                     <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey05Brush}">
@@ -54,7 +54,7 @@
                                     </Grid>
                                 </TabItem.Header>
                                 <Grid Background="{StaticResource Anthracite01Brush}">
-                                    <ListBox Background="{StaticResource Anthracite01Brush}" ItemsSource="{Binding PlotChartNames}" MinWidth="300" Grid.IsSharedSizeScope="True">
+                                    <ListBox Background="{StaticResource Anthracite01Brush}" ItemsSource="{Binding ScatterPlotChartNames}" SelectedItem="{Binding SelectedScatterPlotChartName}" MinWidth="300" Grid.IsSharedSizeScope="True">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid Background="{StaticResource Anthracite01Brush}" Margin="10">

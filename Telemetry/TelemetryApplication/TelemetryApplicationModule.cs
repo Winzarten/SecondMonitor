@@ -3,6 +3,8 @@
     using WindowsControls.WPF.UserInput;
     using AggregatedCharts;
     using AggregatedCharts.Histogram;
+    using AggregatedCharts.ScatterPlot;
+    using AggregatedCharts.ScatterPlot.Providers;
     using Contracts.UserInput;
     using Controllers.AggregatedChart;
     using Controllers.MainWindow;
@@ -122,7 +124,9 @@
             Bind<ILapAutoSelector>().To<EmptyLapAutoSelector>();
 
             Bind<IAggregatedChartProvider>().To<SuspensionVelocityHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedToRpmChartProvider>();
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
+            Bind<SpeedToRpmScatterPlotExtractor>().ToSelf();
 
             Bind<IAggregatedChartSelectorViewModel>().To<AggregatedChartSelectorViewModel>();
         }

@@ -73,6 +73,11 @@
             return new Velocity(inKph / 3.6);
         }
 
+        public static Velocity FromMph(double inMph)
+        {
+            return new Velocity(inMph / 2.237);
+        }
+
         public static string GetUnitSymbol(VelocityUnits units)
         {
             switch (units)

@@ -13,7 +13,7 @@
 
         protected override bool ZeroBandInMiddle => true;
         public override double DefaultBandSize => Math.Round(Velocity.FromMs(0.005).GetValueInUnits(VelocityUnitsSmall), 2);
-        public override string Unit => Velocity.GetUnitSymbol(VelocityUnitsSmall);
+        public override string YUnit => Velocity.GetUnitSymbol(VelocityUnitsSmall);
         protected override Func<WheelInfo, double> WheelValueExtractor => (x) => x.SuspensionVelocity?.GetValueInUnits(VelocityUnitsSmall) ?? 0;
     }
 }

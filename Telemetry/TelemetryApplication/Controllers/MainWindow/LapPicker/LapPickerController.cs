@@ -5,13 +5,10 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Windows;
-    using AggregatedCharts;
     using Contracts.Commands;
     using Contracts.UserInput;
     using DataModel.Extensions;
     using OpenWindow;
-    using SecondMonitor.ViewModels;
     using SecondMonitor.ViewModels.Colors;
     using SecondMonitor.ViewModels.Factory;
     using SettingsWindow;
@@ -19,7 +16,6 @@
     using TelemetryLoad;
     using TelemetryManagement.DTO;
     using ViewModels;
-    using ViewModels.GraphPanel;
     using ViewModels.LapPicker;
 
     public class LapPickerController : ILapPickerController
@@ -32,12 +28,11 @@
         private readonly IOpenWindowController _openWindowController;
         private readonly ISettingsWindowController _settingsWindowController;
         private readonly IUserInputProvider _userInputProvider;
-        private readonly IAggregatedChartProvider _aggregatedChartProvider;
         private readonly ILapSelectionViewModel _lapSelectionViewModel;
         private readonly List<LapSummaryDto> _loadedLaps;
 
         public LapPickerController(ITelemetryViewsSynchronization telemetryViewsSynchronization, ITelemetryLoadController telemetryLoadController, IMainWindowViewModel mainWindowViewModel, IViewModelFactory viewModelFactory,
-            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController, IUserInputProvider userInputProvider, IAggregatedChartProvider aggregatedChartProvider)
+            ILapColorSynchronization lapColorSynchronization, IColorPaletteProvider colorPaletteProvider, IOpenWindowController openWindowController, ISettingsWindowController settingsWindowController, IUserInputProvider userInputProvider)
         {
             _loadedLaps = new List<LapSummaryDto>();
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
@@ -49,7 +44,6 @@
             _openWindowController = openWindowController;
             _settingsWindowController = settingsWindowController;
             _userInputProvider = userInputProvider;
-            _aggregatedChartProvider = aggregatedChartProvider;
         }
 
         public async Task StartControllerAsync()
