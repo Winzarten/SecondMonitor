@@ -5,6 +5,7 @@
                     xmlns:scatterPlot="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.ScatterPlot;assembly=TelemetryApplication">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
+        <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type histogram:SuspensionVelocityHistogramChartViewModel}">
                 <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey01Brush}">
@@ -19,7 +20,7 @@
                                        VerticalAlignment="Top" HorizontalAlignment="Right" />
                             <oxy:PlotView Model="{Binding PlotModel}" Background="{StaticResource Anthracite01Brush}"
                                           Foreground="{StaticResource DarkRed01Brush}"
-                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DefaultTrackerTemplate="{StaticResource DefaultTrackerTemplate}" />
                         </Grid>
                         <DockPanel LastChildFill="False" Grid.Row="1" Margin="10,0,10,10">
                             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
@@ -47,8 +48,8 @@
                     <Grid>
                         <TextBlock Style="{StaticResource StandardText}" Text="{Binding DataPointsCount, StringFormat=Data Points: {0}}" Grid.ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Right"/>
                         <oxy:PlotView Model="{Binding PlotModel}" Background="{StaticResource Anthracite01Brush}"
-                                      Foreground="{StaticResource DarkRed01Brush}"
-                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                      Foreground="{StaticResource DarkRed01Brush}" DefaultTrackerTemplate="{StaticResource DefaultTrackerTemplate}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
                 </Border>
             </DataTemplate>

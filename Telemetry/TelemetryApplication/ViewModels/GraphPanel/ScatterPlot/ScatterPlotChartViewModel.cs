@@ -2,7 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows;
+    using System.Windows.Input;
     using AggregatedCharts;
+    using Contracts.Commands;
     using DataModel.Extensions;
     using OxyPlot;
     using OxyPlot.Axes;
@@ -17,6 +20,15 @@
         private PlotModel _plotModel;
         private int _dataPointsCount;
         private string _title;
+        private double _averageBand;
+        private string _averageUnits;
+        private bool _showAverage;
+        private LineSeries _averageSeries;
+
+        public ScatterPlotChartViewModel()
+        {
+            RefreshAverageCommand = new RelayCommand(CreateAverageSeries);
+        }
 
         public PlotModel PlotModel
         {
@@ -28,6 +40,36 @@
         {
             get => _dataPointsCount;
             set => SetProperty(ref _dataPointsCount, value);
+        }
+
+        public double AverageBand
+        {
+            get => _averageBand;
+            set => SetProperty(ref _averageBand, value);
+        }
+
+        public bool ShowAverage
+        {
+            get => _showAverage;
+            set
+            {
+                SetProperty(ref _showAverage, value);
+                if (_averageSeries == null)
+                {
+                    return;
+                }
+
+                _averageSeries.IsVisible = value;
+                PlotModel.InvalidatePlot(false);
+            }
+        }
+
+        public ICommand RefreshAverageCommand { get; }
+
+        public string AverageUnits
+        {
+            get => _averageUnits;
+            set => SetProperty(ref _averageUnits, value);
         }
 
         public string Title
@@ -46,12 +88,12 @@
                 PlotAreaBorderColor = BaseColor,
                 LegendBorder = OxyColors.DarkRed,
                 LegendBorderThickness = 1,
-                LegendPlacement = LegendPlacement.Outside
+                LegendPlacement = LegendPlacement.Outside,
             };
 
 
-            LinearAxis xAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Bottom, MajorStep = OriginalModel.XAxis.MajorTick, MinorStep = OriginalModel.XAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.XAxis.Unit, ExtraGridlineStyle = LineStyle.Solid};
-            LinearAxis yAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Left, MajorStep = OriginalModel.YAxis.MajorTick, MinorStep = OriginalModel.YAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.YAxis.Unit, ExtraGridlineStyle = LineStyle.Solid};
+            LinearAxis xAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Bottom, MajorStep = OriginalModel.XAxis.MajorTick, MinorStep = OriginalModel.XAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.XAxis.Unit, ExtraGridlineStyle = LineStyle.Solid, MinimumPadding = 0.2, MaximumPadding = 0.2};
+            LinearAxis yAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Left, MajorStep = OriginalModel.YAxis.MajorTick, MinorStep = OriginalModel.YAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.YAxis.Unit, ExtraGridlineStyle = LineStyle.Solid, MinimumPadding = 0.2, MaximumPadding = 0.2 };
             xAxis.PositionAtZeroCrossing = true;
             yAxis.PositionAtZeroCrossing = true;
             IEnumerable<ScatterSeries> series = OriginalModel.ScatterPlotSeries.Select(BuildScatterSeries);
@@ -61,6 +103,8 @@
             model.Axes.Add(yAxis);
 
             PlotModel = model;
+
+
             DataPointsCount = OriginalModel.ScatterPlotSeries.Select(x => x.DataPoints.Count).Sum();
         }
 
@@ -68,13 +112,88 @@
         {
             ScatterSeries scatterSeries = new ScatterSeries(){Title = scatterPlotSeries.SeriesName, MarkerFill = scatterPlotSeries.Color, MarkerType = MarkerType.Circle, MarkerSize = 3, TrackerFormatString = "{0}\n" + OriginalModel.XAxis.Unit + ": {2}\n" + OriginalModel.YAxis.Unit + ": {4}" };
             scatterSeries.Points.AddRange(scatterPlotSeries.DataPoints.Select(x => new ScatterPoint(x.X, x.Y)));
+
             return scatterSeries;
         }
 
         protected override void ApplyModel(ScatterPlot model)
         {
-           BuildPlotModel();
+            AverageBand = model.XAxis.MinorTick;
+            AverageUnits = model.XAxis.Unit;
+            BuildPlotModel();
+            CreateAverageSeries();
+            ShowAverage = true;
         }
+
+        private void CreateAverageSeries()
+        {
+            if (OriginalModel == null)
+            {
+                return;
+            }
+
+            if (_averageSeries != null)
+            {
+                PlotModel?.Series.Remove(_averageSeries);
+            }
+
+            List<DataPoint> dataPoints = OriginalModel.ScatterPlotSeries.SelectMany(GetAverageDataPoint).ToList();
+            _averageSeries =  new LineSeries
+            {
+                Title = "Average",
+                Color = OxyColors.YellowGreen,
+                TextColor = OxyColors.Yellow,
+                CanTrackerInterpolatePoints = true,
+                StrokeThickness = 2,
+                TrackerFormatString = "{0}\n" + OriginalModel.XAxis.Unit + ": {2}\n" + OriginalModel.YAxis.Unit + ": {4}"
+            };
+            _averageSeries.Points.AddRange(dataPoints);
+            PlotModel.Series.Add(_averageSeries);
+            PlotModel.InvalidatePlot(true);
+        }
+
+        private List<DataPoint> GetAverageDataPoint(ScatterPlotSeries series)
+        {
+            double currentBand = double.MinValue;
+            List<Point> pointsInBand = new List<Point>();
+            List<DataPoint> pointsToReturn = new List<DataPoint>();
+            foreach (Point point in series.DataPoints.OrderBy(x => x.X))
+            {
+                if (point.X - currentBand > AverageBand)
+                {
+                    if (pointsInBand.Count > 0)
+                    {
+                        double averageX = pointsInBand.Select(x => x.X).Average();
+                        double averageY = pointsInBand.Select(x => x.Y).Average();
+                        pointsToReturn.Add(new DataPoint(averageX, averageY));
+                        pointsInBand.Clear();
+                    }
+
+                    if (pointsToReturn.Count == 0)
+                    {
+                        currentBand = point.X;
+                    }
+
+                    while (point.X - currentBand > AverageBand)
+                    {
+                        currentBand += AverageBand;
+                    }
+                }
+                pointsInBand.Add(point);
+            }
+
+            if (pointsInBand.Count > 0)
+            {
+                double averageX = pointsInBand.Select(x => x.X).Average();
+                double averageY = pointsInBand.Select(x => x.Y).Average();
+                pointsToReturn.Add(new DataPoint(averageX, averageY));
+                pointsInBand.Clear();
+            }
+
+            return pointsToReturn;
+        }
+
+
 
         public override ScatterPlot SaveToNewModel()
         {

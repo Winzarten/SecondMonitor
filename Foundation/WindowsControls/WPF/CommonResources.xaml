@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters">
+                    xmlns:converters="clr-namespace:SecondMonitor.WindowsControls.WPF.Converters"
+                    xmlns:oxy="http://oxyplot.org/wpf">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Colors.xaml" />
         <ResourceDictionary Source="Icons.xaml" />
@@ -16,6 +17,8 @@
     <converters:TimeSpanToMinutesSecondMilisecondsConverter x:Key="TimeSpanToMinutesSecondMilisecondsConverter"/>
     <converters:DateTimeToCurrentConverter x:Key="DateTimeToCurrentConverter"/>
     <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
+    <oxy:OxyColorConverter x:Key="OxyColorConverter" />
+
 
     <Style x:Key="StandardText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />

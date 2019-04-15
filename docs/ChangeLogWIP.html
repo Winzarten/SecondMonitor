@@ -5,21 +5,13 @@
 	<h2>Version 4.5.0</h2>
 	<b>Main App:</b>
 	<ul>
-		<li>Added <b>Fullscreen button:</b> This button will toggle the window title bar off and on. Currently it is
-			placed in not so logical place, will most likely change in the future. :)</li>
-		<li>Camber is now visualized on the wheel status (wheels icons will be angled equally to the current camber).
-		</li>
-		<li>Fuel and Oil Temperatures are now colored</li>
-		<li>R3E: Optimal Brake and Tyres temperatures provided by the r3e shared memory are now used. Previously stored
-			values are automatically overriden.</li>
-		<li>Improved handling of Timed Sessions with extra lap in session remaining calculation (session info and fuel
-			prediction).</li>
-		<li>R3E: Added the recently released cars to the r3eData.json (so they should no longer be unknown)
-		<li><b>Fix:</b> Fixed relative gap to lapped/lapping cars.</li>
+		<li><b>Telemetry Logging:</b> The application will now also log invalid laps. This can be disabled in the options menut. In rare cases where a sim repots two laps with the same number (can happen in outlaps in practice/qualification), the older lap will get overwritten by the newer.</li>
+		<li><b>Telemetry Logging:</b> The application will no longer log datapoints when player is in pits. As outlaps are now also logged, this change is to limit the size of outlaps made after the player sat in pits for several minutes.</li>
 	</ul>
 	<b>Telemetry Viewer</b>
 	<ul>
 		<li><b>Tracker Change:</b> Tracker or chart will not display proper units, instead of X/Y</li>
+		<li><b>Tracker Change:</b> Changed the tracker color</li>
 		<li><b>Colors:</b>Lines in multiline charts (i.e. all Wheel Charts), will not have slighly different color for better readability.</li>		
 	</ul>
 
