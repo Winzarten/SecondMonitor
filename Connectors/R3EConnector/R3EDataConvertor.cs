@@ -83,7 +83,7 @@
         {
             simData.PlayerInfo.CarInfo.Acceleration.XinMs = data.LocalAcceleration.X;
             simData.PlayerInfo.CarInfo.Acceleration.YinMs = data.LocalAcceleration.Y;
-            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.LocalAcceleration.Z;
+            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = -data.LocalAcceleration.Z;
         }
 
         private static string FromByteArray(byte[] buffer)

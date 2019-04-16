@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram.Extractors
 {
     using System;
     using DataModel.BasicProperties;

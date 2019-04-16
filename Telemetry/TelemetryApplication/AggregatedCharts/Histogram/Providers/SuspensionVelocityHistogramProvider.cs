@@ -1,9 +1,9 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram.Providers
 {
-    using Histogram;
+    using AggregatedCharts.Histogram;
+    using Extractors;
     using SecondMonitor.ViewModels.Factory;
     using ViewModels.AggregatedCharts;
-    using ViewModels.GraphPanel;
     using ViewModels.GraphPanel.Histogram;
     using ViewModels.LoadedLapCache;
 

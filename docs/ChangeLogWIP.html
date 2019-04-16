@@ -2,14 +2,18 @@
 <html>
 
 <body>
-	<h2>Version 4.5.0</h2>
+	<h2>Version 4.5.0 - Aggregated Charts for Telemetry Viewer</h2>
 	<b>Main App:</b>
 	<ul>
+		<li><b>Telemetry Logging:</b> Fixed inconsistencies in horizontal acceleration loging, where acceleration would be logged as negative G.</li>
 		<li><b>Telemetry Logging:</b> The application will now also log invalid laps. This can be disabled in the options menut. In rare cases where a sim repots two laps with the same number (can happen in outlaps in practice/qualification), the older lap will get overwritten by the newer.</li>
 		<li><b>Telemetry Logging:</b> The application will no longer log datapoints when player is in pits. As outlaps are now also logged, this change is to limit the size of outlaps made after the player sat in pits for several minutes.</li>
 	</ul>
 	<b>Telemetry Viewer</b>
 	<ul>
+		<li><b>Aggregated charts:</b> Added new kind of charts whitch take all datapoints from all selected laps (please wait until the laps finished loading, before opening the charts), and project them in a way that should help car behaviour analysis. The selector can be opened <b>using the button next to the "Add Lap" button.		
+		</b>Each new charts is opened in a new separated window and unlimited number of these charts can be opened, each with different lap selection.</li>
+		<li><b>Aggregated charts available:</b> Suspension velocity histogram, RPM histogram, Horizontal Acceleration vs Speed scatter plot, Horizontal Acceleration vs RPM scatter plot, Speed vs RPM scatter plot. More charts will come in next version.</li>
 		<li><b>Tracker Change:</b> Tracker or chart will not display proper units, instead of X/Y</li>
 		<li><b>Tracker Change:</b> Changed the tracker color</li>
 		<li><b>Colors:</b>Lines in multiline charts (i.e. all Wheel Charts), will not have slighly different color for better readability.</li>		

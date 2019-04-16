@@ -3,7 +3,9 @@
     using WindowsControls.WPF.UserInput;
     using AggregatedCharts;
     using AggregatedCharts.Histogram;
-    using AggregatedCharts.ScatterPlot;
+    using AggregatedCharts.Histogram.Extractors;
+    using AggregatedCharts.Histogram.Providers;
+    using AggregatedCharts.ScatterPlot.Extractors;
     using AggregatedCharts.ScatterPlot.Providers;
     using Contracts.UserInput;
     using Controllers.AggregatedChart;
@@ -23,7 +25,6 @@
     using Ninject.Modules;
     using Repository;
     using SecondMonitor.ViewModels.Colors;
-    using SecondMonitor.ViewModels.Factory;
     using Settings;
     using Settings.DTO;
     using SimdataManagement;
@@ -125,8 +126,15 @@
 
             Bind<IAggregatedChartProvider>().To<SuspensionVelocityHistogramProvider>();
             Bind<IAggregatedChartProvider>().To<SpeedToRpmChartProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedHorizontalAccelerationChartProvider>();
+            Bind<IAggregatedChartProvider>().To<RpmToHorizontalGChartProvider>();
+            Bind<IAggregatedChartProvider>().To<RpmHistogramProvider>();
+
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
             Bind<SpeedToRpmScatterPlotExtractor>().ToSelf();
+            Bind<SpeedToHorizontalGExtractor>().ToSelf();
+            Bind<RpmToHorizontalGExtractor>().ToSelf();
+            Bind<RpmHistogramDataExtractor>().ToSelf();
 
             Bind<IAggregatedChartSelectorViewModel>().To<AggregatedChartSelectorViewModel>();
         }

@@ -71,18 +71,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregatedCharts\AbstractTelemetryDataExtractor.cs" />
-    <Compile Include="AggregatedCharts\AbstractWheelHistogramProvider.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Providers\AbstractWheelHistogramProvider.cs" />
     <Compile Include="AggregatedCharts\AggregatedChartKind.cs" />
-    <Compile Include="AggregatedCharts\Histogram\AbstractWheelHistogramDataExtractor.cs" />
-    <Compile Include="AggregatedCharts\Histogram\SuspensionVelocityHistogramDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Extractors\AbstractWheelHistogramDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Extractors\RpmHistogramDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Extractors\SuspensionVelocityHistogramDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Providers\RpmHistogramProvider.cs" />
     <Compile Include="AggregatedCharts\IAggregatedChartProvider.cs" />
-    <Compile Include="AggregatedCharts\ScatterPlot\AbstractScatterPlotExtractor.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Extractors\AbstractGearFilteredScatterPlotExtractor.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Extractors\AbstractScatterPlotExtractor.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\AxisDefinition.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Extractors\RpmToHorizontalGExtractor.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Extractors\SpeedToHorizontalGExtractor.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Providers\RpmToHorizontalGChartProvider.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Providers\SpeedHorizontalAccelerationChartProvider.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\ScatterPlot.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\ScatterPlotSeries.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Providers\SpeedToRpmChartProvider.cs" />
-    <Compile Include="AggregatedCharts\ScatterPlot\SpeedToRpmScatterPlotExtractor.cs" />
-    <Compile Include="AggregatedCharts\SuspensionVelocityHistogramProvider.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Extractors\SpeedToRpmScatterPlotExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Providers\SuspensionVelocityHistogramProvider.cs" />
     <Compile Include="Controllers\AggregatedChart\AggregatedChartsController.cs" />
     <Compile Include="Controllers\AggregatedChart\IAggregatedChartsController.cs" />
     <Compile Include="Controllers\MainWindow\GraphPanel\AbstractGraphPanelController.cs" />
@@ -126,7 +133,7 @@
     <Compile Include="Controllers\TelemetryApplicationController.cs" />
     <Compile Include="Controllers\TelemetryLoad\ITelemetryLoadController.cs" />
     <Compile Include="Controllers\TelemetryLoad\TelemetryLoadController.cs" />
-    <Compile Include="AggregatedCharts\Histogram\AbstractHistogramDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Histogram\Extractors\AbstractHistogramDataExtractor.cs" />
     <Compile Include="AggregatedCharts\Histogram\IWheelHistogramDataProvider.cs" />
     <Compile Include="LapAutoSelector\EmptyLapAutoSelector.cs" />
     <Compile Include="LapAutoSelector\ILapAutoSelector.cs" />

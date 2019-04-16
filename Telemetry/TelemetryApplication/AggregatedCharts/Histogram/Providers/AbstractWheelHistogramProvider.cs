@@ -1,13 +1,12 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram.Providers
 {
     using System.Collections.Generic;
     using System.Linq;
     using Contracts.Commands;
-    using Histogram;
+    using Extractors;
     using SecondMonitor.ViewModels.Factory;
     using TelemetryManagement.DTO;
     using ViewModels.AggregatedCharts;
-    using ViewModels.GraphPanel;
     using ViewModels.GraphPanel.Histogram;
     using ViewModels.LoadedLapCache;
 
@@ -50,10 +49,10 @@
 
         protected void FillHistogramViewmodel<TX>(IReadOnlyCollection<LapTelemetryDto> loadedLaps, double bandSize, AbstractWheelsHistogramViewModel<TX> wheelsHistogram) where TX : HistogramChartViewModel, new()
         {
-            Histogram.Histogram flHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramFrontLeft(loadedLaps, bandSize);
-            Histogram.Histogram frHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramFrontRight(loadedLaps, bandSize);
-            Histogram.Histogram rlHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramRearLeft(loadedLaps, bandSize);
-            Histogram.Histogram rrHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramRearRight(loadedLaps, bandSize);
+            AggregatedCharts.Histogram.Histogram flHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramFrontLeft(loadedLaps, bandSize);
+            AggregatedCharts.Histogram.Histogram frHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramFrontRight(loadedLaps, bandSize);
+            AggregatedCharts.Histogram.Histogram rlHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramRearLeft(loadedLaps, bandSize);
+            AggregatedCharts.Histogram.Histogram rrHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramRearRight(loadedLaps, bandSize);
             wheelsHistogram.FrontLeftChartViewModel.FromModel(flHistogram);
             wheelsHistogram.FrontRightChartViewModel.FromModel(frHistogram);
             wheelsHistogram.RearLeftChartViewModel.FromModel(rlHistogram);

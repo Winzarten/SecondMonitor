@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram.Extractors
 {
     using System;
     using System.Collections.Generic;
@@ -6,15 +6,12 @@
     using DataModel.Telemetry;
     using Settings;
     using TelemetryManagement.DTO;
-    using ViewModels.LoadedLapCache;
 
     public abstract class AbstractWheelHistogramDataExtractor : AbstractHistogramDataExtractor
     {
         protected AbstractWheelHistogramDataExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
         {
         }
-
-        public abstract double DefaultBandSize { get; }
 
         protected abstract Func<WheelInfo, double> WheelValueExtractor { get; }
 

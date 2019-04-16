@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram.Extractors
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +12,7 @@
     {
         protected abstract bool ZeroBandInMiddle { get; }
         public abstract string YUnit { get; }
+        public abstract double DefaultBandSize { get; }
 
         protected AbstractHistogramDataExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
         {
@@ -19,7 +20,12 @@
 
         protected Histogram ExtractHistogram(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractFunc, double bandSize, string title)
         {
-            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(loadedLaps, extractFunc).Where(x => x.ValueTime.TotalSeconds < 2).OrderBy(x => x.Value).ToArray();
+            return ExtractHistogram(loadedLaps, extractFunc, (x) => true, bandSize, title);
+        }
+
+        protected Histogram ExtractHistogram(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractFunc, Predicate<TimedTelemetrySnapshot> filterFunc, double bandSize, string title)
+        {
+            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(loadedLaps, extractFunc, filterFunc).Where(x => x.ValueTime.TotalSeconds < 2).OrderBy(x => x.Value).ToArray();
             double minBand = GetBandMiddleValue(data[0].Value, bandSize);
             double maxBand = GetBandMiddleValue(data[data.Length - 1].Value, bandSize);
             double totalSeconds = data.Sum(x => x.ValueTime.TotalSeconds);

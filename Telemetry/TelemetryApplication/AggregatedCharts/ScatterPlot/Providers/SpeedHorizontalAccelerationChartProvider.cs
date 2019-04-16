@@ -8,17 +8,17 @@
     using ViewModels.GraphPanel.ScatterPlot;
     using ViewModels.LoadedLapCache;
 
-    public class SpeedToRpmChartProvider : IAggregatedChartProvider
+    public class SpeedHorizontalAccelerationChartProvider : IAggregatedChartProvider
     {
         private readonly ILoadedLapsCache _loadedLapsCache;
-        private readonly SpeedToRpmScatterPlotExtractor _speedToRpmScatterPlotExtractor;
-        public string ChartName => "Speed vs RPM";
+        private readonly SpeedToHorizontalGExtractor _speedToHorizontalGExtractor;
+        public string ChartName => "Horizontal Acceleration (Speed)";
         public AggregatedChartKind Kind => AggregatedChartKind.ScatterPlot;
 
-        public SpeedToRpmChartProvider(ILoadedLapsCache loadedLapsCache, SpeedToRpmScatterPlotExtractor speedToRpmScatterPlotExtractor)
+        public SpeedHorizontalAccelerationChartProvider(ILoadedLapsCache loadedLapsCache, SpeedToHorizontalGExtractor speedToHorizontalGExtractor)
         {
             _loadedLapsCache = loadedLapsCache;
-            _speedToRpmScatterPlotExtractor = speedToRpmScatterPlotExtractor;
+            _speedToHorizontalGExtractor = speedToHorizontalGExtractor;
         }
 
         public IAggregatedChartViewModel CreateAggregatedChartViewModel()
@@ -28,10 +28,10 @@
 
             int maxGear = loadedLaps.SelectMany(x => x.TimedTelemetrySnapshots).Where(x => !string.IsNullOrWhiteSpace(x.PlayerData.CarInfo.CurrentGear) && x.PlayerData.CarInfo.CurrentGear != "R" && x.PlayerData.CarInfo.CurrentGear != "N").Max(x => int.Parse(x.PlayerData.CarInfo.CurrentGear));
 
-            CompositeAggregatedChartsViewModel viewModel = new CompositeAggregatedChartsViewModel() {Title = title};
+            CompositeAggregatedChartsViewModel viewModel = new CompositeAggregatedChartsViewModel() { Title = title };
 
-            ScatterPlotChartViewModel mainViewModel = new ScatterPlotChartViewModel(){Title = "All Gear"};
-            mainViewModel.FromModel(CreateScatterPlotAllGear(loadedLaps,maxGear));
+            ScatterPlotChartViewModel mainViewModel = new ScatterPlotChartViewModel() { Title = "All Gear" };
+            mainViewModel.FromModel(CreateScatterPlotAllGear(loadedLaps, maxGear));
 
             viewModel.MainAggregatedChartViewModel = mainViewModel;
 
@@ -43,7 +43,7 @@
                     continue;
                 }
 
-                ScatterPlotChartViewModel child = new ScatterPlotChartViewModel() {Title = $"Gear {i}"};
+                ScatterPlotChartViewModel child = new ScatterPlotChartViewModel() { Title = $"Gear {i}" };
                 child.FromModel(scatterPlot);
                 viewModel.AddChildAggregatedChildViewModel(child);
             }
@@ -53,23 +53,23 @@
 
         protected ScatterPlot CreateScatterPlot(IReadOnlyCollection<LapTelemetryDto> loadedLaps, int gear)
         {
-            AxisDefinition xAxis = new AxisDefinition(_speedToRpmScatterPlotExtractor.XMajorTickSize, _speedToRpmScatterPlotExtractor.XMajorTickSize / 5, _speedToRpmScatterPlotExtractor.XUnit);
-            AxisDefinition yAxis = new AxisDefinition(_speedToRpmScatterPlotExtractor.YMajorTickSize, _speedToRpmScatterPlotExtractor.YMajorTickSize / 4, _speedToRpmScatterPlotExtractor.YUnit);
+            AxisDefinition xAxis = new AxisDefinition(_speedToHorizontalGExtractor.XMajorTickSize, _speedToHorizontalGExtractor.XMajorTickSize / 5, _speedToHorizontalGExtractor.XUnit);
+            AxisDefinition yAxis = new AxisDefinition(_speedToHorizontalGExtractor.YMajorTickSize, _speedToHorizontalGExtractor.YMajorTickSize / 5, _speedToHorizontalGExtractor.YUnit);
             ScatterPlot scatterPlot = new ScatterPlot($"Gear: {gear}", xAxis, yAxis);
 
-            scatterPlot.AddScatterPlotSeries(_speedToRpmScatterPlotExtractor.ExtractSeriesForGear(loadedLaps, gear.ToString()));
+            scatterPlot.AddScatterPlotSeries(_speedToHorizontalGExtractor.ExtractSeriesForGear(loadedLaps, gear.ToString()));
             return scatterPlot;
         }
 
         protected ScatterPlot CreateScatterPlotAllGear(IReadOnlyCollection<LapTelemetryDto> loadedLaps, int maxGear)
         {
-            AxisDefinition xAxis = new AxisDefinition(_speedToRpmScatterPlotExtractor.XMajorTickSize, _speedToRpmScatterPlotExtractor.XMajorTickSize / 5, _speedToRpmScatterPlotExtractor.XUnit);
-            AxisDefinition yAxis = new AxisDefinition(_speedToRpmScatterPlotExtractor.YMajorTickSize, _speedToRpmScatterPlotExtractor.YMajorTickSize / 4, _speedToRpmScatterPlotExtractor.YUnit);
+            AxisDefinition xAxis = new AxisDefinition(_speedToHorizontalGExtractor.XMajorTickSize, _speedToHorizontalGExtractor.XMajorTickSize / 5, _speedToHorizontalGExtractor.XUnit);
+            AxisDefinition yAxis = new AxisDefinition(_speedToHorizontalGExtractor.YMajorTickSize, _speedToHorizontalGExtractor.YMajorTickSize / 5, _speedToHorizontalGExtractor.YUnit);
             ScatterPlot scatterPlot = new ScatterPlot("All Gears", xAxis, yAxis);
 
             for (int i = 1; i <= maxGear; i++)
             {
-                scatterPlot.AddScatterPlotSeries(_speedToRpmScatterPlotExtractor.ExtractSeriesForGear(loadedLaps, i.ToString()));
+                scatterPlot.AddScatterPlotSeries(_speedToHorizontalGExtractor.ExtractSeriesForGear(loadedLaps, i.ToString()));
             }
 
             return scatterPlot;
