@@ -1,11 +1,14 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.ScatterPlot.Extractors
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using DataModel.Telemetry;
+    using Filter;
     using Settings;
 
     public class RpmToHorizontalGExtractor : AbstractGearFilteredScatterPlotExtractor
     {
-        public RpmToHorizontalGExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
+        public RpmToHorizontalGExtractor(ISettingsProvider settingsProvider, IEnumerable<ITelemetryFilter> filters, IGearTelemetryFilter gearTelemetryFilter) : base(settingsProvider, filters, gearTelemetryFilter)
         {
         }
 

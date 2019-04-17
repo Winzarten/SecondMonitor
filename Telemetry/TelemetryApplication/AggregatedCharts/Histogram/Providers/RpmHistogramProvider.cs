@@ -38,6 +38,10 @@
             for (int i = 1; i <= maxGear; i++)
             {
                 Histogram histogram = CreateHistogram(loadedLaps, i, _rpmHistogramDataExtractor.DefaultBandSize);
+                if (histogram == null)
+                {
+                    continue;
+                }
                 HistogramChartViewModel child = new HistogramChartViewModel();
                 child.FromModel(histogram);
                 viewModel.AddChildAggregatedChildViewModel(child);

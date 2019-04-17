@@ -71,6 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregatedCharts\AbstractTelemetryDataExtractor.cs" />
+    <Compile Include="AggregatedCharts\Filter\FullThrottleFilter.cs" />
+    <Compile Include="AggregatedCharts\Filter\GearTelemetryFilter.cs" />
+    <Compile Include="AggregatedCharts\Filter\IGearTelemetryFilter.cs" />
+    <Compile Include="AggregatedCharts\Filter\ITelemetryFilter.cs" />
+    <Compile Include="AggregatedCharts\Filter\NoBrakeFilter.cs" />
+    <Compile Include="AggregatedCharts\Filter\NoClutchFilter.cs" />
     <Compile Include="AggregatedCharts\Histogram\Providers\AbstractWheelHistogramProvider.cs" />
     <Compile Include="AggregatedCharts\AggregatedChartKind.cs" />
     <Compile Include="AggregatedCharts\Histogram\Extractors\AbstractWheelHistogramDataExtractor.cs" />

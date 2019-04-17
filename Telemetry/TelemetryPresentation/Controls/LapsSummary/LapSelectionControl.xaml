@@ -132,7 +132,7 @@
                         </Button.Content>
                     </Button>
                     <Button Width="36" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"
-                            Command="{Binding OpenAggregatedChartSelectorCommand}"
+                            Command="{Binding OpenAggregatedChartSelectorCommand}" IsEnabled="{Binding IsOpenAggregatedChartSelectorEnabled, Mode=OneWay}"
                             Style="{StaticResource StandardButton}" ToolTip="Opens aggregated charts selector.">
                         <Button.Content>
                             <wpf:ColorAbleIcon Margin="-5"

@@ -1,6 +1,8 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.ScatterPlot.Extractors
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using Filter;
     using OxyPlot;
     using Settings;
     using TelemetryManagement.DTO;
@@ -20,8 +22,13 @@
             {"8", OxyColor.Parse("#cccc00")},
         };
 
-        protected AbstractGearFilteredScatterPlotExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
+        private readonly IReadOnlyCollection<ITelemetryFilter> _allFilters;
+        private readonly IGearTelemetryFilter _gearTelemetryFilter;
+
+        protected AbstractGearFilteredScatterPlotExtractor(ISettingsProvider settingsProvider, IEnumerable<ITelemetryFilter> filters, IGearTelemetryFilter gearTelemetryFilter) : base(settingsProvider)
         {
+            _allFilters = filters.Append(gearTelemetryFilter).ToList();
+            _gearTelemetryFilter = gearTelemetryFilter;
         }
 
         public ScatterPlotSeries ExtractSeriesForGear(IEnumerable<LapTelemetryDto> loadedLaps, string gear)
@@ -31,7 +38,9 @@
                 color = OxyColors.Azure;
             }
 
-            return ExtractSeries(loadedLaps, x => x.InputInfo.ThrottlePedalPosition > 0.95 && x.PlayerData.CarInfo.CurrentGear == gear, $"Gear {gear}", color);
+            _gearTelemetryFilter.FilterGear = gear;
+
+            return ExtractSeries(loadedLaps, _allFilters, $"Gear {gear}", color);
         }
     }
 }

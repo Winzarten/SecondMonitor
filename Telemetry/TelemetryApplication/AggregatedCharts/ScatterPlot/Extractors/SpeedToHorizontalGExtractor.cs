@@ -1,13 +1,15 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.ScatterPlot.Extractors
 {
     using System;
+    using System.Collections.Generic;
     using DataModel.BasicProperties;
     using DataModel.Telemetry;
+    using Filter;
     using Settings;
 
     public class SpeedToHorizontalGExtractor : AbstractGearFilteredScatterPlotExtractor
     {
-        public SpeedToHorizontalGExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
+        public SpeedToHorizontalGExtractor(ISettingsProvider settingsProvider, IEnumerable<ITelemetryFilter> filters, IGearTelemetryFilter gearTelemetryFilter) : base(settingsProvider, filters, gearTelemetryFilter)
         {
         }
 

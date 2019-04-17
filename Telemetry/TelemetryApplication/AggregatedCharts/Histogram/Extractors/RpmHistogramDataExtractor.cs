@@ -1,13 +1,20 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram.Extractors
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using Filter;
     using Settings;
     using TelemetryManagement.DTO;
 
     public class RpmHistogramDataExtractor : AbstractHistogramDataExtractor
     {
-        public RpmHistogramDataExtractor(ISettingsProvider settingsProvider) : base(settingsProvider)
+        private readonly IGearTelemetryFilter _gearTelemetryFilter;
+        private readonly IReadOnlyCollection<ITelemetryFilter> _allFilters;
+
+        public RpmHistogramDataExtractor(ISettingsProvider settingsProvider, IEnumerable<ITelemetryFilter> telemetryFilters, IGearTelemetryFilter gearTelemetryFilter) : base(settingsProvider)
         {
+            _gearTelemetryFilter = gearTelemetryFilter;
+            _allFilters = telemetryFilters.Append(gearTelemetryFilter).ToList();
         }
 
         protected override bool ZeroBandInMiddle => true;
@@ -23,7 +30,8 @@
 
         public Histogram ExtractSeriesForGear(IEnumerable<LapTelemetryDto> loadedLaps, double bandSize, string gear)
         {
-            return ExtractHistogram(loadedLaps, (x) => x.PlayerData.CarInfo.EngineRpm, x => x.PlayerData.CarInfo.CurrentGear == gear, bandSize, $"Gear {gear}");
+            _gearTelemetryFilter.FilterGear = gear;
+            return ExtractHistogram(loadedLaps, (x) => x.PlayerData.CarInfo.EngineRpm, _allFilters, bandSize, $"Gear {gear}");
         }
     }
 }

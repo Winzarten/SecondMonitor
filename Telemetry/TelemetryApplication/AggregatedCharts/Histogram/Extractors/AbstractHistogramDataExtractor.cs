@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using WindowsControls.Properties;
     using DataModel.Telemetry;
+    using Filter;
     using Settings;
     using TelemetryManagement.DTO;
     using TelemetryManagement.StoryBoard;
@@ -20,12 +22,16 @@
 
         protected Histogram ExtractHistogram(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractFunc, double bandSize, string title)
         {
-            return ExtractHistogram(loadedLaps, extractFunc, (x) => true, bandSize, title);
+            return ExtractHistogram(loadedLaps, extractFunc, null, bandSize, title);
         }
 
-        protected Histogram ExtractHistogram(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractFunc, Predicate<TimedTelemetrySnapshot> filterFunc, double bandSize, string title)
+        protected Histogram ExtractHistogram(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractFunc, [CanBeNull] IReadOnlyCollection<ITelemetryFilter> filters, double bandSize, string title)
         {
-            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(loadedLaps, extractFunc, filterFunc).Where(x => x.ValueTime.TotalSeconds < 2).OrderBy(x => x.Value).ToArray();
+            TimedValue[] data = ExtractTimedValuesOfLoadedLaps(loadedLaps, extractFunc, filters).Where(x => x.ValueTime.TotalSeconds < 2).OrderBy(x => x.Value).ToArray();
+            if (data.Length == 0)
+            {
+                return null;
+            }
             double minBand = GetBandMiddleValue(data[0].Value, bandSize);
             double maxBand = GetBandMiddleValue(data[data.Length - 1].Value, bandSize);
             double totalSeconds = data.Sum(x => x.ValueTime.TotalSeconds);

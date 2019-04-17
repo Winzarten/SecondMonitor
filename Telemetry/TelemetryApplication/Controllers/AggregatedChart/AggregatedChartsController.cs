@@ -8,9 +8,10 @@
     using Contracts.Commands;
     using SecondMonitor.ViewModels;
     using SecondMonitor.ViewModels.Factory;
+    using Synchronization;
+    using TelemetryLoad;
     using ViewModels;
     using ViewModels.AggregatedCharts;
-    using ViewModels.GraphPanel;
     using ViewModels.LoadedLapCache;
 
     public class AggregatedChartsController : IAggregatedChartsController
@@ -20,14 +21,16 @@
         private readonly ILoadedLapsCache _loadedLapsCache;
         private readonly IWindowService _windowService;
         private readonly IViewModelFactory _viewModelFactory;
+        private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly List<IAggregatedChartProvider> _aggregatedChartProviders;
         private Window _chartSelectionWindow;
 
-        public AggregatedChartsController(IEnumerable<IAggregatedChartProvider> aggregatedChartProviders, IMainWindowViewModel mainWindowViewModel, ILoadedLapsCache loadedLapsCache, IWindowService windowService, IViewModelFactory viewModelFactory)
+        public AggregatedChartsController(IEnumerable<IAggregatedChartProvider> aggregatedChartProviders, IMainWindowViewModel mainWindowViewModel, ILoadedLapsCache loadedLapsCache, IWindowService windowService, IViewModelFactory viewModelFactory, ITelemetryViewsSynchronization telemetryViewsSynchronization)
         {
             _loadedLapsCache = loadedLapsCache;
             _windowService = windowService;
             _viewModelFactory = viewModelFactory;
+            _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _mainWindowViewModel = mainWindowViewModel;
             _loadedLapsCache = loadedLapsCache;
             _aggregatedChartProviders = aggregatedChartProviders.ToList();
@@ -36,7 +39,36 @@
         public Task StartControllerAsync()
         {
             BindCommands();
+            Subscribe();
             return Task.CompletedTask;
+        }
+
+        private void Subscribe()
+        {
+            _telemetryViewsSynchronization.LapLoaded += TelemetryViewsSynchronizationOnLapLoaded;
+            _telemetryViewsSynchronization.LapUnloaded += TelemetryViewsSynchronizationOnLapUnloaded;
+        }
+
+        private void UnSubscribe()
+        {
+            _telemetryViewsSynchronization.LapLoaded -= TelemetryViewsSynchronizationOnLapLoaded;
+            _telemetryViewsSynchronization.LapUnloaded -= TelemetryViewsSynchronizationOnLapUnloaded;
+        }
+
+        private void TelemetryViewsSynchronizationOnLapLoaded(object sender, LapTelemetryArgs e)
+        {
+            RefreshOpenSelectorButton();
+        }
+
+        private void TelemetryViewsSynchronizationOnLapUnloaded(object sender, LapSummaryArgs e)
+        {
+            RefreshOpenSelectorButton();
+        }
+
+
+        private void RefreshOpenSelectorButton()
+        {
+            _mainWindowViewModel.LapSelectionViewModel.IsOpenAggregatedChartSelectorEnabled = _loadedLapsCache.LoadedLaps.Count > 0;
         }
 
         private void BindCommands()
@@ -109,6 +141,7 @@
 
         public Task StopControllerAsync()
         {
+            UnSubscribe();
             return Task.CompletedTask;
         }
 
