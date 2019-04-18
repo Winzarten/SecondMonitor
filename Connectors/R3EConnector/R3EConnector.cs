@@ -69,6 +69,7 @@
                 {
                     _lastTickInformation.Clear();
                     _sessionTime = new TimeSpan(0, 0, 1);
+                    _lastSessionTime = _sessionTime;
                     RaiseSessionStartedEvent(data);
                 }
 

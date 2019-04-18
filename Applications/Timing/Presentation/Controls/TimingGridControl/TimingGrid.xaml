@@ -20,7 +20,7 @@
                     <Condition Binding="{Binding IsLapped}" Value="True" />
                     <Condition Binding="{Binding InPits}" Value="False" />
                 </MultiDataTrigger.Conditions>
-                <Setter Property="Foreground" Value="{StaticResource LightBlueBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource TimingLappedForegroundBrush}" />
             </MultiDataTrigger>
             <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource DarkRed01Brush}" />
@@ -124,7 +124,7 @@
                 <Setter Property="BorderThickness" Value="3"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource LightBlueBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource TimingLappedForegroundBrush}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding IsLapping, Mode=OneWay}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource DarkRed01Brush}" />
@@ -178,6 +178,10 @@
         <Setter Property="FontSize" Value="{StaticResource TimingGridFontSize}"/>
         <Setter Property="RowStyle" Value="{StaticResource TimingGridRowStyle}"/>
     </Style>
-
+    <DataTemplate x:Key="TextBoxDataGridCell">
+        <Grid>
+            <TextBlock Text="{Binding}"></TextBlock>
+        </Grid>
+    </DataTemplate>
 
 </ResourceDictionary>

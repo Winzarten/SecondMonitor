@@ -25,6 +25,7 @@ namespace SecondMonitor.Timing.Controllers
     using ViewModels.Settings;
     using ViewModels.Settings.ViewModel;
     using System.Windows;
+    using SessionTiming.Drivers.Presentation.ViewModel;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {
@@ -139,6 +140,7 @@ namespace SecondMonitor.Timing.Controllers
         {
             _timingGui = null;
             List<Exception> exceptions = new List<Exception>();
+            _driverPresentationsManager.SavePresentations();
             _timingDataViewModel?.TerminatePeriodicTask(exceptions);
             _displaySettingsLoader.TrySaveDisplaySettings(_displaySettingsViewModel.SaveToNewModel(), SettingsPath);
             await _pluginsManager.DeletePlugin(this, exceptions);
@@ -156,7 +158,7 @@ namespace SecondMonitor.Timing.Controllers
         {
             _timingDataViewModel.RightClickCommand = new RelayCommand(UnSelectItem);
             _timingDataViewModel.OpenSettingsCommand = new RelayCommand(OpenSettingsWindow);
-            _timingDataViewModel.ScrollToPlayerCommand = new RelayCommand(ScrollToPlayer);
+            _timingDataViewModel.ScrollToPlayerCommand = new RelayCommand(() => ScrollToPlayer(_timingDataViewModel.TimingDataGridViewModel.PlayerViewModel));
             _timingDataViewModel.OpenCarSettingsCommand = new RelayCommand(OpenCarSettingsWindow);
             _timingDataViewModel.OpenCurrentTelemetrySession = new AsyncCommand(OpenCurrentTelemetrySession);
         }
@@ -217,11 +219,11 @@ namespace SecondMonitor.Timing.Controllers
             _simSettingController.OpenCarSettingsControl(_timingGui);
         }
 
-        private void ScrollToPlayer()
+        private void ScrollToPlayer(DriverTimingViewModel driverTimingViewModel)
         {
-            if (_displaySettingsViewModel.ScrollToPlayer && _timingGui != null && _timingDataViewModel?.SessionTiming?.Player != null && _timingGui.DtTimig.Items.Count > 0)
+            if (_displaySettingsViewModel.ScrollToPlayer && _timingGui != null && driverTimingViewModel != null)
             {
-                _timingGui.DtTimig.ScrollToCenterOfView(_timingDataViewModel.SessionTiming.Player);
+                _timingGui.DtTimig.ScrollToCenterOfView(driverTimingViewModel);
             }
         }
     }

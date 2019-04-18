@@ -16,6 +16,7 @@
     <Color x:Shared="False" x:Key="Blue02Color">#FFA1DAE1</Color>
     <Color x:Shared="False" x:Key="Blue03Color">#FF0010FF</Color>
     <Color x:Shared="False" x:Key="Blue04Color">#FF008CE8</Color>
+    <Color x:Shared="False" x:Key="Blue05Color">#99b3ff</Color>
     <Color x:Shared="False" x:Key="InPitsColor">#3F996600</Color>
     <Color x:Shared="False" x:Key="InPitsMovingColor">#FF996600</Color>
 
@@ -65,7 +66,7 @@
     <SolidColorBrush x:Shared="False" x:Key="LightBlueBrush" Color="{StaticResource LightBlue01Color}"/>
 
     <SolidColorBrush x:Shared="False" x:Key="TimingLappedBrush" Color="{StaticResource DarkGrey01Color}"/>
-    <SolidColorBrush x:Shared="False" x:Key="TimingLappedForegroundBrush" Color="{StaticResource LightBlue01Color}"/>
+    <SolidColorBrush x:Shared="False" x:Key="TimingLappedForegroundBrush" Color="{StaticResource Blue05Color}"/>
 
     <SolidColorBrush x:Shared="False" x:Key="TimingLappingBrush" Color="{StaticResource DarkRed01Color}"/>
     <SolidColorBrush x:Shared="False" x:Key="TimingLappingForegroundBrush" Color="{StaticResource LightGrey01Color}"/>

@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.R3EConnector
 {
     using System;
+    using System.Linq;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
@@ -402,6 +403,8 @@
 
             //Add Flags Info
             AddFlags(data, simData);
+
+            simData.SessionInfo.IsMultiClass = simData.DriversInfo.Any(x => x.Position != x.PositionInClass);
 
             return simData;
         }

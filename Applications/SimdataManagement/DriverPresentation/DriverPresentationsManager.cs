@@ -5,6 +5,8 @@ using SecondMonitor.DataModel.DriversPresentation;
 
 namespace SecondMonitor.SimdataManagement.DriverPresentation
 {
+    using System.Threading.Tasks;
+
     public class DriverPresentationsManager
     {
         private readonly DriverPresentationsLoader _driverPresentationsLoader;
@@ -36,7 +38,6 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
         {
             DriverPresentationDto driverPresentation = GetDriverOrCreatePresentation(driverName);
             driverPresentation.CustomOutLineEnabled = isEnabled;
-            _driverPresentationsLoader.Save(DriverPresentationsDto);
 
         }
 
@@ -44,8 +45,8 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
         {
             DriverPresentationDto driverPresentation = GetDriverOrCreatePresentation(driverName);
             driverPresentation.OutLineColor = ColorDto.FromColor(color);
-            _driverPresentationsLoader.Save(DriverPresentationsDto);
         }
+
 
         private DriverPresentationDto GetDriverPresentation(string driverName)
         {
@@ -66,6 +67,12 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
 
             return driverPresentation;
         }
+
+        public void SavePresentations()
+        {
+            _driverPresentationsLoader.Save(_driverPresentationsDto);
+        }
+
         private DriverPresentationsDto LoadDriverPresentations()
         {
             if (!_driverPresentationsLoader.TryLoad(out _driverPresentationsDto))
