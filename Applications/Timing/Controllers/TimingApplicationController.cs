@@ -24,6 +24,7 @@ namespace SecondMonitor.Timing.Controllers
     using TelemetryPresentation.MainWindow;
     using ViewModels.Settings;
     using ViewModels.Settings.ViewModel;
+    using System.Windows;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {
@@ -71,6 +72,9 @@ namespace SecondMonitor.Timing.Controllers
 
         public void RunPlugin()
         {
+            ResourceDictionary dict = new ResourceDictionary {Source = new Uri("pack://application:,,,/TelemetryPresentation;component/TelemetryPresentationTemplates.xaml", UriKind.RelativeOrAbsolute)};
+            Application.Current.Resources.MergedDictionaries.Add(dict);
+
             CreateDisplaySettingsViewModel();
             CreateSimSettingsController();
             CreateMapManagementController();

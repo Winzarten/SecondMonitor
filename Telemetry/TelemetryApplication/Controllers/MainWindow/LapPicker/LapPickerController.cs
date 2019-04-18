@@ -118,17 +118,17 @@
                 _loadedLaps.Add(lapSummaryDto);
             }
 
-            LapSummaryDto bestLap = _loadedLaps.OrderBy(x => x.LapTime).First();
-            _lapSelectionViewModel.BestLap = $"{bestLap.CustomDisplayName} - {bestLap.LapTime.FormatToDefault()}";
+            LapSummaryDto bestLap = _loadedLaps.OrderBy(x => x.LapTime).FirstOrDefault();
+            _lapSelectionViewModel.BestLap = $"{bestLap?.CustomDisplayName} - {bestLap.LapTime.FormatToDefault()}";
 
-            LapSummaryDto bestSector1Lap = _loadedLaps.OrderBy(x => x.Sector1Time).First();
-            _lapSelectionViewModel.BestSector1 = bestSector1Lap.Sector1Time > TimeSpan.Zero ? $"{bestSector1Lap.CustomDisplayName} - {bestSector1Lap.Sector1Time.FormatToDefault()}" : string.Empty;
+            LapSummaryDto bestSector1Lap = _loadedLaps.Where(x => x.Sector1Time > TimeSpan.Zero).OrderBy(x => x.Sector1Time).FirstOrDefault();
+            _lapSelectionViewModel.BestSector1 = bestSector1Lap?.Sector1Time > TimeSpan.Zero ? $"{bestSector1Lap.CustomDisplayName} - {bestSector1Lap.Sector1Time.FormatToDefault()}" : string.Empty;
 
-            LapSummaryDto bestSector2Lap = _loadedLaps.OrderBy(x => x.Sector1Time).First();
-            _lapSelectionViewModel.BestSector2 = bestSector2Lap.Sector2Time > TimeSpan.Zero ? $"{bestSector2Lap.CustomDisplayName} - {bestSector2Lap.Sector2Time.FormatToDefault()}" : string.Empty;
+            LapSummaryDto bestSector2Lap = _loadedLaps.Where(x => x.Sector2Time > TimeSpan.Zero).OrderBy(x => x.Sector1Time).FirstOrDefault();
+            _lapSelectionViewModel.BestSector2 = bestSector2Lap?.Sector2Time > TimeSpan.Zero ? $"{bestSector2Lap.CustomDisplayName} - {bestSector2Lap.Sector2Time.FormatToDefault()}" : string.Empty;
 
-            LapSummaryDto bestSector3Lap = _loadedLaps.OrderBy(x => x.Sector1Time).First();
-            _lapSelectionViewModel.BestSector3 = bestSector3Lap.Sector3Time > TimeSpan.Zero ? $"{bestSector3Lap.CustomDisplayName} - {bestSector3Lap.Sector3Time.FormatToDefault()}" : string.Empty;
+            LapSummaryDto bestSector3Lap = _loadedLaps.Where(x => x.Sector3Time > TimeSpan.Zero).OrderBy(x => x.Sector1Time).FirstOrDefault();
+            _lapSelectionViewModel.BestSector3 = bestSector3Lap?.Sector3Time > TimeSpan.Zero ? $"{bestSector3Lap.CustomDisplayName} - {bestSector3Lap.Sector3Time.FormatToDefault()}" : string.Empty;
         }
 
         private void AddLapsFromSession(SessionInfoDto sessionInfoDto)

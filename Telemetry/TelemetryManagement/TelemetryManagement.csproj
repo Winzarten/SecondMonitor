@@ -58,6 +58,7 @@
     <Compile Include="StoryBoard\TelemetryFrame.cs" />
     <Compile Include="StoryBoard\TelemetryStoryboard.cs" />
     <Compile Include="StoryBoard\TelemetryStoryBoardFactory.cs" />
+    <Compile Include="StoryBoard\TimedValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation\DataModel\DataModel.csproj">

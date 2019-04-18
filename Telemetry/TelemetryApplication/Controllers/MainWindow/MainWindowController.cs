@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
+    using AggregatedChart;
     using GraphPanel;
     using LapPicker;
     using MapView;
@@ -25,11 +26,12 @@
         private readonly ISnapshotSectionController _snapshotSectionController;
         private readonly IMapViewController _mapViewController;
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
+        private readonly IAggregatedChartsController _aggregatedChartsController;
         private readonly IGraphPanelController _leftGraphPanelController;
         private readonly IGraphPanelController _rightGraphPanelController;
 
         public MainWindowController(ISettingsProvider settingsProvider, ITelemetryLoadController telemetryLoadController, ILapPickerController lapPickerController, IViewModelFactory viewModelFactory, IMainWindowViewModel mainWindowViewModel,
-            ISnapshotSectionController snapshotSectionController, IMapViewController mapViewController, ITelemetryViewsSynchronization telemetryViewsSynchronization, IGraphPanelController[] graphPanelControllers)
+            ISnapshotSectionController snapshotSectionController, IMapViewController mapViewController, ITelemetryViewsSynchronization telemetryViewsSynchronization, IGraphPanelController[] graphPanelControllers, IAggregatedChartsController aggregatedChartsController)
         {
             _settingsProvider = settingsProvider;
             _telemetryLoadController = telemetryLoadController;
@@ -39,6 +41,7 @@
             _snapshotSectionController = snapshotSectionController;
             _mapViewController = mapViewController;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
+            _aggregatedChartsController = aggregatedChartsController;
 
             _leftGraphPanelController = graphPanelControllers.First(x => x.IsLetPanel);
             _rightGraphPanelController = graphPanelControllers.First(x => !x.IsLetPanel);
@@ -80,6 +83,7 @@
             await _lapPickerController.StartControllerAsync();
             await _snapshotSectionController.StartControllerAsync();
             await _mapViewController.StartControllerAsync();
+            await _aggregatedChartsController.StartControllerAsync();
         }
 
         private async Task StopChildControllers()
@@ -90,6 +94,7 @@
             await _lapPickerController.StopControllerAsync();
             await _snapshotSectionController.StopControllerAsync();
             await _mapViewController.StopControllerAsync();;
+            await _aggregatedChartsController.StopControllerAsync();
             UnSubscribe();
         }
 

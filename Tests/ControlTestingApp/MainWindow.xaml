@@ -17,6 +17,9 @@
     </Window.DataContext>
     <Grid Background="Black">
         <TabControl>
+            <TabItem Header="Bar Control">
+                <controls:BarControlTestControl/>
+            </TabItem>
             <TabItem Header="Status Icons">
                 <controls:StatusIconTC/>
             </TabItem>

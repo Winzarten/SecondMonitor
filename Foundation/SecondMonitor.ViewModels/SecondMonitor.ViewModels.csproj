@@ -97,6 +97,7 @@
     <Compile Include="IViewModel.cs" />
     <Compile Include="ISimulatorDataSetViewModel.cs" />
     <Compile Include="IWheelStatusViewModel.cs" />
+    <Compile Include="IWindowService.cs" />
     <Compile Include="PluginsSettings\BroadcastLimitSettingsViewModel.cs" />
     <Compile Include="PluginsSettings\IBroadcastLimitSettingsViewModel.cs" />
     <Compile Include="PluginsSettings\IPluginConfigurationViewModel.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="TrackInfo\TrackInfoViewModel.cs" />
     <Compile Include="ViewModelsModule.cs" />
     <Compile Include="ViewModelsModuleBootstrapper.cs" />
+    <Compile Include="WindowService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

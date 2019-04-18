@@ -300,7 +300,7 @@
             };
             if (YTickInterval > 0)
             {
-                _yAxis.MajorStep = YTickInterval;
+                _yAxis.MajorStep = Math.Round(YTickInterval, 2);
                 _yAxis.MajorGridlineStyle = LineStyle.Solid;
                 _yAxis.MajorGridlineThickness = 1;
                 _yAxis.MajorGridlineColor = OxyColor.Parse("#FF7F7F7F");
@@ -493,15 +493,20 @@
             if (LoadedSeries.TryGetValue(e.LapId, out (LapTelemetryDto telemetry, List<LineSeries> lineSeries) series))
             {
                 OxyColor color = OxyColor.Parse(e.Color.ToString());
-                foreach (LineSeries lineSeries in series.lineSeries)
-                {
-                    lineSeries.Color = color;
-                    lineSeries.TextColor = color;
-                }
+                ApplyNewLineColor(series.lineSeries, color);
             }
 
             NotifyPropertyChanged(nameof(SelectedDistances));
             InvalidatePlot();
+        }
+
+        protected virtual void ApplyNewLineColor(List<LineSeries> series, OxyColor newColor)
+        {
+            foreach (LineSeries lineSeries in series)
+            {
+                lineSeries.Color = newColor;
+                lineSeries.TextColor = newColor;
+            }
         }
 
         private Color GetLapColor(LapSummaryDto lapSummaryDto)
@@ -516,7 +521,7 @@
 
         protected abstract List<LineSeries> GetLineSeries(LapSummaryDto lapSummary, TimedTelemetrySnapshot[] dataPoints, OxyColor color);
 
-        protected static LineSeries CreateLineSeries(string title, OxyColor color, LineStyle lineStyle = LineStyle.Solid)
+        protected LineSeries CreateLineSeries(string title, OxyColor color, LineStyle lineStyle = LineStyle.Solid)
         {
             return new LineSeries
             {
@@ -527,6 +532,7 @@
                 CanTrackerInterpolatePoints = false,
                 StrokeThickness = 2,
                 LineStyle = lineStyle,
+                TrackerFormatString = "{0}\n"+ (XAxisKind == XAxisKind.LapTime ? "s" : Distance.GetUnitsSymbol(DistanceUnits)) + ": {2}\n" +YUnits +": {4}"
             };
         }
 

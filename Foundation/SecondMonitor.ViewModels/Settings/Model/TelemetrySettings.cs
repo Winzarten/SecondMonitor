@@ -9,5 +9,6 @@
         public bool IsTelemetryLoggingEnabled { get; set; } = false;
         public int LoggingInterval { get; set; } = 16;
         public int MaxSessionsKept { get; set; } = 10;
+        public bool LogInvalidLaps { get; set; } = true;
     }
 }

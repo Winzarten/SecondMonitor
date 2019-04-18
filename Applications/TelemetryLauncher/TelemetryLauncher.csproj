@@ -103,6 +103,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\SecondMonitor.ViewModels\SecondMonitor.ViewModels.csproj">
+      <Project>{b43064b9-d120-4dd9-9902-e2b8f6006985}</Project>
+      <Name>SecondMonitor.ViewModels</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\Telemetry\TelemetryApplication\TelemetryApplication.csproj">
       <Project>{DE7B2CDD-2392-4769-8F2F-9D1072644B4F}</Project>
       <Name>TelemetryApplication</Name>

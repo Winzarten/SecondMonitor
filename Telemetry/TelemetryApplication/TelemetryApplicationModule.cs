@@ -1,7 +1,15 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication
 {
     using WindowsControls.WPF.UserInput;
+    using AggregatedCharts;
+    using AggregatedCharts.Filter;
+    using AggregatedCharts.Histogram;
+    using AggregatedCharts.Histogram.Extractors;
+    using AggregatedCharts.Histogram.Providers;
+    using AggregatedCharts.ScatterPlot.Extractors;
+    using AggregatedCharts.ScatterPlot.Providers;
     using Contracts.UserInput;
+    using Controllers.AggregatedChart;
     using Controllers.MainWindow;
     using Controllers.MainWindow.GraphPanel;
     using Controllers.MainWindow.LapPicker;
@@ -18,12 +26,12 @@
     using Ninject.Modules;
     using Repository;
     using SecondMonitor.ViewModels.Colors;
-    using SecondMonitor.ViewModels.Factory;
     using Settings;
     using Settings.DTO;
     using SimdataManagement;
     using TelemetryManagement.StoryBoard;
     using ViewModels;
+    using ViewModels.AggregatedCharts;
     using ViewModels.GraphPanel;
     using ViewModels.GraphPanel.Chassis;
     using ViewModels.GraphPanel.DataExtractor;
@@ -64,6 +72,7 @@
             Bind<IGraphsSettingsProvider>().To<StoredGraphsSettingsProvider>().InNamedScope(MainWidowScopeName); ;
             Bind<IGraphsSettingsProvider>().To<DefaultGraphsSettingsProvider>().WhenInjectedExactlyInto<StoredGraphsSettingsProvider>();
             Bind<ISettingsWindowController>().To<SettingsWindowController>();
+            Bind<IAggregatedChartsController>().To<AggregatedChartsController>();
 
             Bind<ITelemetryRepositoryFactory>().To<TelemetryRepositoryFactory>();
             Bind<ILapPickerController>().To<LapPickerController>();
@@ -115,6 +124,35 @@
             Bind<ISingleSeriesDataExtractor>().To<CompareToReferenceDataExtractor>();
 
             Bind<ILapAutoSelector>().To<EmptyLapAutoSelector>();
+
+            Bind<IAggregatedChartProvider>().To<SuspensionVelocityHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedToRpmChartProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedHorizontalAccelerationChartProvider>();
+            Bind<IAggregatedChartProvider>().To<RpmToHorizontalGChartProvider>();
+            Bind<IAggregatedChartProvider>().To<RpmHistogramProvider>();
+
+            Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
+
+            Bind<SpeedToRpmScatterPlotExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
+            Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
+
+            Bind<SpeedToHorizontalGExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<FullThrottleFilter>().WhenInjectedExactlyInto<SpeedToHorizontalGExtractor>();
+            Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<SpeedToHorizontalGExtractor>();
+            Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<SpeedToHorizontalGExtractor>();
+
+            Bind<RpmToHorizontalGExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<FullThrottleFilter>().WhenInjectedExactlyInto<RpmToHorizontalGExtractor>();
+            Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<RpmToHorizontalGExtractor>();
+            Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<RpmToHorizontalGExtractor>();
+
+            Bind<RpmHistogramDataExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<RpmHistogramDataExtractor>();
+            Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<RpmHistogramDataExtractor>();
+
+            Bind<IAggregatedChartSelectorViewModel>().To<AggregatedChartSelectorViewModel>();
+            Bind<IGearTelemetryFilter>().To<GearTelemetryFilter>();
         }
     }
 }

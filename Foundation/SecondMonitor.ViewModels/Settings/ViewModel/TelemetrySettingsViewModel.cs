@@ -8,6 +8,7 @@
         private bool _isTelemetryLoggingEnabled;
         private int _loggingInterval;
         private int _maxSessionsKept;
+        private bool _logInvalidLaps;
 
         public bool IsFeatureEnabled
         {
@@ -49,6 +50,12 @@
             }
         }
 
+        public bool LogInvalidLaps
+        {
+            get => _logInvalidLaps;
+            set => SetProperty(ref _logInvalidLaps, value);
+        }
+
 
         protected override void ApplyModel(TelemetrySettings model)
         {
@@ -56,6 +63,7 @@
             IsTelemetryLoggingEnabled = model.IsTelemetryLoggingEnabled;
             LoggingInterval = model.LoggingInterval;
             MaxSessionsKept = model.MaxSessionsKept;
+            LogInvalidLaps = model.LogInvalidLaps;
         }
 
         public override TelemetrySettings SaveToNewModel()
@@ -65,7 +73,8 @@
                 IsFeatureEnabled = IsFeatureEnabled,
                 IsTelemetryLoggingEnabled = IsTelemetryLoggingEnabled,
                 LoggingInterval = LoggingInterval,
-                MaxSessionsKept = MaxSessionsKept
+                MaxSessionsKept = MaxSessionsKept,
+                LogInvalidLaps = LogInvalidLaps,
             };
         }
     }

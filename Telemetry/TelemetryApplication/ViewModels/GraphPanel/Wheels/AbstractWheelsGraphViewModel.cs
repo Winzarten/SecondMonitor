@@ -91,12 +91,12 @@
             List<DataPoint> plotDataPoints = dataPoints.Select(x => new DataPoint(GetXValue(x), ExtractorFunction(x.PlayerData.CarInfo.WheelsInfo.FrontLeft))).ToList();
             double newMax = plotDataPoints.Max(x => x.Y);
             double newMin = plotDataPoints.Min(x => x.Y);
-            lineSeries[0] = CreateLineSeries(baseTitle + $" {FrontLeftName}", color, LineStyles[0]);
+            lineSeries[0] = CreateLineSeries(baseTitle + $" {FrontLeftName}", color.ChangeSaturation(0.5), LineStyles[0]);
             lineSeries[0].IsVisible = FrontLeftVisible;
             lineSeries[0].Points.AddRange(plotDataPoints);
 
             plotDataPoints = dataPoints.Select(x => new DataPoint(GetXValue(x), ExtractorFunction(x.PlayerData.CarInfo.WheelsInfo.FrontRight))).ToList();
-            lineSeries[1] = CreateLineSeries(baseTitle + $" {FrontRightName}", color, LineStyles[1]);
+            lineSeries[1] = CreateLineSeries(baseTitle + $" {FrontRightName}", color.ChangeSaturation(1.5), LineStyles[1]);
             lineSeries[1].Points.AddRange(plotDataPoints);
             lineSeries[1].IsVisible = FrontRightVisible;
             newMax = Math.Max(newMax, plotDataPoints.Max(x => x.Y));
@@ -110,7 +110,7 @@
             newMin = Math.Min(newMin, plotDataPoints.Min(x => x.Y));
 
             plotDataPoints = dataPoints.Select(x => new DataPoint(GetXValue(x), ExtractorFunction(x.PlayerData.CarInfo.WheelsInfo.RearRight))).ToList();
-            lineSeries[3] = CreateLineSeries(baseTitle + $" {RearRightName}", color, LineStyles[3]);
+            lineSeries[3] = CreateLineSeries(baseTitle + $" {RearRightName}", color.ChangeIntensity(0.5), LineStyles[3]);
             lineSeries[3].Points.AddRange(plotDataPoints);
             lineSeries[3].IsVisible = RearRightVisible;
             newMax = Math.Max(newMax, plotDataPoints.Max(x => x.Y));
@@ -127,6 +127,14 @@
             }
 
             return lineSeries.ToList();
+        }
+
+        protected override void ApplyNewLineColor(List<LineSeries> series, OxyColor newColor)
+        {
+            series.First(x => x.Title.Contains(FrontLeftName)).Color = newColor.ChangeSaturation(0.5);
+            series.First(x => x.Title.Contains(FrontRightName)).Color = newColor.ChangeSaturation(1.5);
+            series.First(x => x.Title.Contains(RearLeftName)).Color = newColor;
+            series.First(x => x.Title.Contains(RearRightName)).Color = newColor.ChangeIntensity(0.5);
         }
 
         protected override void UnsubscribeGraphViewSync()

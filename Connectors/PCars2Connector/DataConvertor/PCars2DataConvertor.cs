@@ -131,7 +131,7 @@
         {
             simData.PlayerInfo.CarInfo.Acceleration.XinMs = data.mLocalAcceleration[0];
             simData.PlayerInfo.CarInfo.Acceleration.YinMs = data.mLocalAcceleration[1];
-            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = data.mLocalAcceleration[2];
+            simData.PlayerInfo.CarInfo.Acceleration.ZinMs = -data.mLocalAcceleration[2];
         }
 
         private static void AddTyresAndFuelInfo(PCars2SharedMemory data, SimulatorDataSet simData)

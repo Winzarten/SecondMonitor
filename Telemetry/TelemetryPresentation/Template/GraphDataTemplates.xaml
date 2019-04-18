@@ -9,6 +9,14 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    <ControlTemplate x:Key="DefaultTrackerTemplate" x:Shared="False">
+        <oxy:TrackerControl Background="{StaticResource Anthracite01Brush}"  Position="{Binding Position}" LineStroke="{StaticResource DarkRed01Brush}" LineExtents="{Binding PlotModel.PlotArea}" BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="3">
+            <oxy:TrackerControl.Content>
+                <TextBlock Style="{StaticResource StandardText}" Text="{Binding}" Margin="3" />
+            </oxy:TrackerControl.Content>
+        </oxy:TrackerControl>
+    </ControlTemplate>
+
     <DataTemplate x:Key="DefaultGraphDataTemplate" DataType="graphPanel:AbstractSingleSeriesGraphViewModel">
         <Border BorderThickness="2" BorderBrush="{StaticResource DarkGrey01Brush}">
             <Expander IsExpanded="True" Header="{Binding Title}" Foreground="{StaticResource LightGrey01Brush}">
@@ -35,7 +43,7 @@
                             <Grid Grid.Row="0">
                                 <oxy:PlotView Model="{Binding PlotModel}" Background="Black"
                                               Foreground="{StaticResource Anthracite01Brush}"
-                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  DefaultTrackerTemplate="{StaticResource DefaultTrackerTemplate}">
                                     <i:Interaction.Behaviors>
                                         <behavior:ShowSelectedDistanceBehavior GraphViewModel="{Binding .}" />
                                     </i:Interaction.Behaviors>
@@ -90,7 +98,7 @@
                             <Grid Grid.Row="0">
                                 <oxy:PlotView Model="{Binding PlotModel}" Background="Black"
                                               Foreground="{StaticResource Anthracite01Brush}"
-                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  DefaultTrackerTemplate="{StaticResource DefaultTrackerTemplate}">
                                     <i:Interaction.Behaviors>
                                         <behavior:ShowSelectedDistanceBehavior GraphViewModel="{Binding .}" />
                                     </i:Interaction.Behaviors>
@@ -148,7 +156,7 @@
                             <Grid Grid.Row="0">
                                 <oxy:PlotView Model="{Binding PlotModel}" Background="Black"
                                               Foreground="{StaticResource Anthracite01Brush}"
-                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  DefaultTrackerTemplate="{StaticResource DefaultTrackerTemplate}">
                                     <i:Interaction.Behaviors>
                                         <behavior:ShowSelectedDistanceBehavior GraphViewModel="{Binding .}" />
                                     </i:Interaction.Behaviors>
@@ -206,7 +214,7 @@
                             <Grid Grid.Row="0">
                                 <oxy:PlotView Model="{Binding PlotModel}" Background="Black"
                                               Foreground="{StaticResource Anthracite01Brush}"
-                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  DefaultTrackerTemplate="{StaticResource DefaultTrackerTemplate}">
                                     <i:Interaction.Behaviors>
                                         <behavior:ShowSelectedDistanceBehavior GraphViewModel="{Binding .}" />
                                     </i:Interaction.Behaviors>
