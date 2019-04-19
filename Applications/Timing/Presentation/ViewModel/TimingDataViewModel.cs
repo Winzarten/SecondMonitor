@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading;
@@ -22,6 +23,7 @@
 
     using DataModel.Extensions;
     using Controllers;
+    using DataModel.Snapshot.Drivers;
     using SecondMonitor.Timing.LapTimings.ViewModel;
     using SecondMonitor.Timing.ReportCreation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
@@ -55,6 +57,10 @@
         private SessionType _sessionType = SessionType.Na;
         private SimulatorDataSet _lastDataSet;
         private bool _isOpenCarSettingsCommandEnable;
+
+        private bool _isNamesNotUnique;
+        private string _notUniqueNamesMessage;
+        private Stopwatch _notUniqueCheckWatch;
 
         private Task _refreshGuiTask;
         private Task _refreshBasicInfoTask;
@@ -109,6 +115,26 @@
                 _mapManagementController = value;
                 SituationOverviewProvider.MapManagementController = value;
                 value.SessionTiming = SessionTiming;
+            }
+        }
+
+        public bool IsNamesNotUnique
+        {
+            get => _isNamesNotUnique;
+            private set
+            {
+                _isNamesNotUnique = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string NotUniqueNamesMessage
+        {
+            get => _notUniqueNamesMessage;
+            private set
+            {
+                _notUniqueNamesMessage = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -266,6 +292,7 @@
 
             try
             {
+                CheckNamesUniques(data);
                 _sessionTiming?.UpdateTiming(data);
                 CarStatusViewModel?.PedalsAndGearViewModel?.ApplyDateSet(data);
             }
@@ -334,6 +361,30 @@
                 _sessionTiming.PaceLaps = DisplaySettingsViewModel.PaceLaps;
             }
 
+        }
+
+        private void CheckNamesUniques(SimulatorDataSet dataSet)
+        {
+            if (_notUniqueCheckWatch == null || _notUniqueCheckWatch.ElapsedMilliseconds < 10000)
+            {
+                return;
+            }
+
+            List<IGrouping<string, string>> namesGrouping = dataSet.DriversInfo.Select(x => x.DriverName).GroupBy(x => x).ToList();
+
+            List<string> uniqueNames = namesGrouping.Where(x => x.Count() == 1).SelectMany(x => x).ToList();
+            List<string> notUniqueNames = namesGrouping.Where(x => x.Count() > 1).Select(x => x.Key).ToList();
+
+
+            if (notUniqueNames.Count == 0)
+            {
+                IsNamesNotUnique = false;
+                return;
+            }
+
+            IsNamesNotUnique = true;
+            NotUniqueNamesMessage = $"Not All Driver Names are unique: Number of unique drivers - {uniqueNames.Count}, Not unique names - {string.Join(", ", notUniqueNames)} ";
+            _notUniqueCheckWatch.Restart();
         }
 
         private void ScheduleReset()
@@ -517,6 +568,7 @@
             ChangeTimeDisplayMode();
             ChangeOrderingMode();
             ConnectedSource = data.Source;
+            _notUniqueCheckWatch = Stopwatch.StartNew();
             NotifyPropertyChanged(nameof(ConnectedSource));
         }
 
@@ -545,8 +597,7 @@
                 return;
             }
 
-            TimingDataGridViewModel.RemoveAllDrivers();
-            TimingDataGridViewModel.AddDrivers(_sessionTiming.Drivers.Values);
+            TimingDataGridViewModel.MatchDriversList(_sessionTiming.Drivers.Values.ToList());
             SituationOverviewProvider.ApplyDateSet(data);
         }
 

@@ -2,6 +2,13 @@
 <html>
 
 <body>
+	<h2>Version 4.5.1</h2>
+	<b>Main App:</b>
+	<ul>
+		<li>Removed performance of cost of resorting the main timing grid. This should remove freezes that did occur roughly every 10seconds, when the gird was resorted. This also allows to resort the grid on every update.</li>
+		<li>Not unique names - The application has a limitation of requiring unique driver names, for the timing grid to operate correctly. But until now it did not inform the user if this prerequsitie was vioalet. This can happen mainly when running versus AI, when more opponents are selected, than the simulator has name for. Now, a message will appear above the grid stating that such situation happened, and showing the number of unique names, and the list of non-unique names. The check is done every 10 seconds.</li>
+		<li><b>R3E Fix</b> - Fixed multiclass support for R3E.</li>
+	</ul>
 	<h2>Version 4.5.0 - Aggregated Charts for Telemetry Viewer</h2>
 	<b>Main App:</b>
 	<ul>

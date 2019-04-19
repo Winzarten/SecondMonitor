@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     using DataModel.BasicProperties;
@@ -17,6 +18,7 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
 
+        private Stopwatch _refreshBestSectorIndicationWatch;
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
         private readonly List<LapInfo> _lapsInfo;
         private readonly List<PitStopInfo> _pitStopInfo;
@@ -24,6 +26,7 @@
 
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
+            _refreshBestSectorIndicationWatch = Stopwatch.StartNew();
             _lapsInfo = new List<LapInfo>();
             _pitStopInfo = new List<PitStopInfo>();
             DriverInfo = driverInfo;
@@ -209,6 +212,7 @@
                 TopSpeed = DriverInfo.Speed;
             }
 
+
             UpdateInPitsProperty(set);
             if (_lapsInfo.Count == 0)
             {
@@ -232,6 +236,12 @@
             if (!currentLap.Completed)
             {
                 UpdateCurrentLap(set);
+            }
+
+            if (_refreshBestSectorIndicationWatch.ElapsedMilliseconds > 2000)
+            {
+                UpdateBestSectorProperties();
+                _refreshBestSectorIndicationWatch.Restart();
             }
 
             if (ShouldFinishLap(set, currentLap))

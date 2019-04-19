@@ -83,7 +83,7 @@
 
         }
 
-        public void RemoveAllDrivers()
+        private void RemoveAllDrivers()
         {
             if (!Application.Current.Dispatcher.CheckAccess())
             {
@@ -109,16 +109,42 @@
             DriverTimingViewModel newViewModel = new DriverTimingViewModel(driver, _driverPresentationsManager);
             lock (_lockObject)
             {
+                //If possible, rebind - do not create new
+                if (_driverNameTimingMap.ContainsKey(driver.Name))
+                {
+                    _driverNameTimingMap[driver.Name] = driver;
+                    DriversViewModels.First(x => x.Name == driver.Name).DriverTiming = driver;
+                    return;
+                }
                 _driverNameTimingMap[driver.Name] = driver;
                 DriversViewModels.Add(newViewModel);
             }
         }
 
-        public async Task AddDrivers(IEnumerable<DriverTiming> drivers)
+        public void MatchDriversList(List<DriverTiming> drivers)
+        {
+            lock (_lockObject)
+            {
+                IEnumerable<DriverTiming> driversToRemove = _driverNameTimingMap.Values.Where(x => drivers.FirstOrDefault(y => y.Name == x.Name) == null).ToList();
+                IEnumerable<DriverTiming> driversToAdd = drivers.Where(x => !_driverNameTimingMap.ContainsKey(x.Name)).ToList();
+                IEnumerable<DriverTiming> driversToRebind = drivers.Where(x => _driverNameTimingMap.ContainsKey(x.Name)).ToList();
+
+                driversToRemove.ForEach(RemoveDriver);
+                AddDrivers(driversToAdd);
+
+                foreach (DriverTiming driverToRebind in driversToRebind)
+                {
+                    _driverNameTimingMap[driverToRebind.Name] = driverToRebind;
+                    DriversViewModels.First(x => x.Name == driverToRebind.Name).DriverTiming = driverToRebind;
+                }
+            }
+        }
+
+        private void AddDrivers(IEnumerable<DriverTiming> drivers)
         {
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                await Application.Current.Dispatcher.Invoke(async() => await AddDrivers(drivers));
+                Application.Current.Dispatcher.Invoke(() => AddDrivers(drivers));
                 return;
             }
 

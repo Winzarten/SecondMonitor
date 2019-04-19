@@ -106,8 +106,14 @@
                 BorderBrush="{StaticResource DarkGrey01Brush}"
                 BorderThickness="3" CornerRadius="5">
             <Grid x:Name="SessionTiming" VerticalAlignment="Top" Background="Black">
-
-                <timingGridControl:TimingGrid x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Visibility="{Binding IsNamesNotUnique, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding NotUniqueNamesMessage}" HorizontalAlignment="Center"></TextBlock>
+                </Grid>
+                <timingGridControl:TimingGrid Grid.Row="1" x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
                                               ItemsSource="{Binding TimingDataGridViewModel.DriversViewModels}" ScrollViewer.CanContentScroll="True"
                                               SelectedItem="{Binding SelectedDriverTimingViewModel}">
                     <timingGridControl:TimingGrid.InputBindings>
@@ -119,7 +125,7 @@
                             <StackPanel/>
                         </ItemsPanelTemplate>
                     </timingGridControl:TimingGrid.ItemsPanel>
-                        <timingGridControl:TimingGrid.Resources>
+                    <timingGridControl:TimingGrid.Resources>
                         <view:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                         <view:DoubleToDataGridLengthValueConverter x:Key="lengthConverter" />
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -228,7 +234,6 @@
                         </DataGridTemplateColumn>
                     </timingGridControl:TimingGrid.Columns>
                 </timingGridControl:TimingGrid>
-
             </Grid>
         </Border>
         <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{StaticResource DarkGrey01Brush}"/>

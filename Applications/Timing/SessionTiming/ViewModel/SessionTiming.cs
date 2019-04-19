@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-
+﻿
 namespace SecondMonitor.Timing.SessionTiming.ViewModel
 {
     using System;
@@ -16,7 +15,6 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
     using SecondMonitor.Timing.Presentation.ViewModel;
     using Properties;
     using Drivers;
-    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using NLog;
     using SimdataManagement.DriverPresentation;
@@ -24,7 +22,6 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
     public class SessionTiming : DependencyObject, IEnumerable, INotifyPropertyChanged
     {
-        private readonly DriverPresentationsManager _driverPresentationsManager;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public class DriverNotFoundException : Exception
@@ -58,9 +55,8 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         private CombinedLapPortionComparatorsViewModel _combinedLapPortionComparatorsViewModel;
 
-        private SessionTiming(TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryController sessionTelemetryController)
+        private SessionTiming(TimingDataViewModel timingDataViewModel, ISessionTelemetryController sessionTelemetryController)
         {
-            _driverPresentationsManager = driverPresentationsManager;
             PaceLaps = 4;
             DisplayBindTimeRelative = false;
             TimingDataViewModel = timingDataViewModel;
@@ -175,7 +171,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
             Dictionary<string, DriverTiming> drivers = new Dictionary<string, DriverTiming>();
             Logger.Info($"New Seesion Started :{dataSet.SessionInfo.SessionType.ToString()}");
-            SessionTiming timing = new SessionTiming(timingDataViewModel, driverPresentationsManager, sessionTelemetryControllerFactory.Create(dataSet))
+            SessionTiming timing = new SessionTiming(timingDataViewModel, sessionTelemetryControllerFactory.Create(dataSet))
                                        {
                                            SessionStarTime = dataSet.SessionInfo.SessionTime,
                                            SessionType = dataSet.SessionInfo.SessionType,
