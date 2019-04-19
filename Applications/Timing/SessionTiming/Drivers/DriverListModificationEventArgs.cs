@@ -2,17 +2,17 @@
 {
     using System;
 
-    using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
+    using ViewModel;
 
     public class DriverListModificationEventArgs : EventArgs
     {
 
-        public DriverListModificationEventArgs(DriverTimingViewModel data)
+        public DriverListModificationEventArgs(DriverTiming data)
         {
             Data = data;
         }
 
-        public DriverTimingViewModel Data
+        public DriverTiming Data
         {
             get;
             set;

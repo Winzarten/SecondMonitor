@@ -106,9 +106,15 @@
                 BorderBrush="{StaticResource DarkGrey01Brush}"
                 BorderThickness="3" CornerRadius="5">
             <Grid x:Name="SessionTiming" VerticalAlignment="Top" Background="Black">
-
-                <timingGridControl:TimingGrid x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
-                                              ItemsSource="{Binding TimingInfo}" ScrollViewer.CanContentScroll="True"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Visibility="{Binding IsNamesNotUnique, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Style="{StaticResource StandardText}" Text="{Binding NotUniqueNamesMessage}" HorizontalAlignment="Center"></TextBlock>
+                </Grid>
+                <timingGridControl:TimingGrid Grid.Row="1" x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
+                                              ItemsSource="{Binding TimingDataGridViewModel.DriversViewModels}" ScrollViewer.CanContentScroll="True"
                                               SelectedItem="{Binding SelectedDriverTimingViewModel}">
                     <timingGridControl:TimingGrid.InputBindings>
                         <MouseBinding Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="RightClick" />
@@ -119,7 +125,7 @@
                             <StackPanel/>
                         </ItemsPanelTemplate>
                     </timingGridControl:TimingGrid.ItemsPanel>
-                        <timingGridControl:TimingGrid.Resources>
+                    <timingGridControl:TimingGrid.Resources>
                         <view:BindingProxy x:Key="proxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                         <view:DoubleToDataGridLengthValueConverter x:Key="lengthConverter" />
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -131,17 +137,17 @@
                                             Header="#"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Position.Visible, Mode=TwoWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Name.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
-                                            Binding="{Binding Name, Mode=OneTime}"
+                                            Binding="{Binding Name, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Name"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Name.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
-                                            Binding="{Binding CarName, Mode=OneTime}"
+                                            Binding="{Binding CarName, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Car"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
-                                            Binding="{Binding CarClassName, Mode=OneTime}"
+                                            Binding="{Binding CarClassName, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Class"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
@@ -191,7 +197,7 @@
                                             Header="Pits"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.LastPitInfo.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.TimeToPlayer.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
-                                            Binding="{Binding TimeToPlayer, Mode=OneWay}"
+                                            Binding="{Binding GapToColumnText, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             FontWeight="ExtraBold"
                                             Header="Gap"
@@ -228,7 +234,6 @@
                         </DataGridTemplateColumn>
                     </timingGridControl:TimingGrid.Columns>
                 </timingGridControl:TimingGrid>
-
             </Grid>
         </Border>
         <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{StaticResource DarkGrey01Brush}"/>

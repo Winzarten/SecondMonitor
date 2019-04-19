@@ -30,7 +30,7 @@
 
         private static void AddDrivers(SessionSummary summary, SessionTiming timing)
         {
-           summary.Drivers.AddRange(timing.Drivers.Select(d => ConvertToSummaryDriver(d.Value.DriverTiming, timing.SessionType)));
+           summary.Drivers.AddRange(timing.Drivers.Select(d => ConvertToSummaryDriver(d.Value, timing.SessionType)));
         }
 
         private static Driver ConvertToSummaryDriver(DriverTiming driverTiming, SessionType sessionTime)

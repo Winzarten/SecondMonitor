@@ -6,8 +6,11 @@ using SecondMonitor.DataModel.DriversPresentation;
 
 namespace SecondMonitor.SimdataManagement.DriverPresentation
 {
+    using NLog;
+
     public class DriverPresentationsLoader
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _storedDirectoryPath;
         private const string FileName = "DriverPresentations.xml";
 
@@ -29,7 +32,7 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
                     XmlReader reader = XmlReader.Create(file, new XmlReaderSettings() { CheckCharacters = false });
                     driverPresentationsDto = (DriverPresentationsDto)_xmlSerializer.Deserialize(reader);
                 }
-                return true;
+                return driverPresentationsDto != null;
             }
             catch (Exception)
             {
@@ -45,11 +48,18 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
 
         public void Save(DriverPresentationsDto driverPresentationsDto)
         {
-            string fullPathName = Path.Combine(_storedDirectoryPath, FileName);
-            Directory.CreateDirectory(_storedDirectoryPath);
-            using (FileStream file = File.Exists(fullPathName) ? File.Open(fullPathName, FileMode.Truncate) : File.Create(fullPathName))
+            try
             {
-                _xmlSerializer.Serialize(file, driverPresentationsDto);
+                string fullPathName = Path.Combine(_storedDirectoryPath, FileName);
+                Directory.CreateDirectory(_storedDirectoryPath);
+                using (FileStream file = File.Exists(fullPathName) ? File.Open(fullPathName, FileMode.Truncate) : File.Create(fullPathName))
+                {
+                    _xmlSerializer.Serialize(file, driverPresentationsDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex,"Error while saving driver presentation");
             }
         }
     }

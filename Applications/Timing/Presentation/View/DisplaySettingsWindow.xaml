@@ -156,27 +156,50 @@
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Margin="5">
             <GroupBox Header="Timing Grid" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"
-                      Width="150" DockPanel.Dock="Top">
-                <StackPanel Margin="0,0,0,5">
-                    <Label Content="Pace Laps:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" />
-                    <xctk:IntegerUpDown x:Name="UpDownPaceLaps" VerticalAlignment="Top" Minimum="1" Maximum="10"
-                                        Text=""
-                                        Value="{Binding PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label Content="Refresh Rate:" HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Foreground="White" />
-                    <xctk:IntegerUpDown x:Name="UpDownRefreshRate" VerticalAlignment="Top" Minimum="50" Maximum="5000"
-                                        Text="" Value="{Binding RefreshRate}" Increment="50" />
-                    <CheckBox Content="Scroll to Player" Foreground="White" VerticalAlignment="Top"
-                              HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding ScrollToPlayer}" />
-                    <CheckBox Content="Animate Delta Bar" Foreground="White" VerticalAlignment="Top"
-                              HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDeltaTimes}"
-                              ToolTip="Enables and Disables the fluid animation of delta times bars. Disable to lower CPU usage of application." />
-                    <Label Content="MultiClass Display Mode:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,0" Foreground="White" />
-                    <ComboBox HorizontalAlignment="Left"
-                              VerticalAlignment="Top" Width="94"
-                              ItemsSource="{Binding Source={StaticResource DataFromMultiClassDisplayKindEnum}}"
-                              SelectedItem="{Binding MultiClassDisplayKind}" />
-                </StackPanel>
+                      DockPanel.Dock="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="10,0,10,5" Grid.Column="0">
+                        <Label Content="Pace Laps:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
+                        <xctk:IntegerUpDown x:Name="UpDownPaceLaps" VerticalAlignment="Top" Minimum="1" Maximum="10"
+                                            Text="" Margin="0,0,15,0"
+                                            Value="{Binding PaceLaps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label Content="Refresh Rate:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
+                        <xctk:IntegerUpDown x:Name="UpDownRefreshRate" VerticalAlignment="Top" Minimum="50"
+                                            Maximum="5000" Margin="0,0,15,0"
+                                            Text="" Value="{Binding RefreshRate}" Increment="50" />
+                        <CheckBox Content="Scroll to Player" Foreground="White" VerticalAlignment="Top"
+                                  HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding ScrollToPlayer}" />
+                        <CheckBox Content="Animate Delta Bar" Foreground="White" VerticalAlignment="Top"
+                                  HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding AnimateDeltaTimes}"
+                                  ToolTip="Enables and Disables the fluid animation of delta times bars. Disable to lower CPU usage of application." />
+                        <Label Content="MultiClass Display Mode:" HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Margin="0,10,0,0" Foreground="White" />
+                        <ComboBox HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataFromMultiClassDisplayKindEnum}}"
+                                  SelectedItem="{Binding MultiClassDisplayKind}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    </StackPanel>
+                    <StackPanel Margin="10,0,10,5" Grid.Column="2">
+                        <CheckBox Content="Enable Gap Visualization" Foreground="White" VerticalAlignment="Top"
+                                  HorizontalAlignment="Left" Margin="0,10,0,0" IsChecked="{Binding IsGapVisualizationEnabled}" />
+                        <Label HorizontalAlignment="Left" Foreground="White"  Content="Gap (seconds) with no gap visualization:"/>
+                        <TextBox Style="{StaticResource StandardTextBox}" Text="{Binding MinimalGapForVisualization, Converter={StaticResource DoubleToScalableDecimalsConverter}}"></TextBox>
+                        <Label HorizontalAlignment="Left" Foreground="White"  Content="Gap height for each seconds:"/>
+                        <TextBox Style="{StaticResource StandardTextBox}" Text="{Binding GapHeightForOneSecond, Converter={StaticResource DoubleToScalableDecimalsConverter}}"></TextBox>
+                        <Label HorizontalAlignment="Left" Foreground="White"  Content="Maximum Gap Height:"/>
+                        <TextBox Style="{StaticResource StandardTextBox}" Text="{Binding MaximumGapHeight, Converter={StaticResource DoubleToScalableDecimalsConverter}}"></TextBox>
+                    </StackPanel>
+                </Grid>
             </GroupBox>
             <GroupBox Header="Map Options" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       DockPanel.Dock="Top">
@@ -206,41 +229,53 @@
                               ToolTip="Forces the app to always use the circle instead of a track map." />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Width="150" DockPanel.Dock="Top">
-                <StackPanel VerticalAlignment="Top" Margin="0,0,0,5">
-                    <Label Content="Temperature" HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Foreground="White" />
-                    <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left"
-                              VerticalAlignment="Top" Width="94"
-                              ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}"
-                              SelectedItem="{Binding TemperatureUnits}" />
-                    <Label Content="Pressure" HorizontalAlignment="Left" VerticalAlignment="Top"
-                    Foreground="White" />
-                    <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left"
-                              VerticalAlignment="Top" Width="94"
-                              ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}"
-                              SelectedItem="{Binding PressureUnits}" />
-                    <Label Content="Volume" HorizontalAlignment="Left" VerticalAlignment="Top"
-                    Foreground="White" />
+            <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Height="200" DockPanel.Dock="Top">
+                <WrapPanel Orientation="Vertical">
+                    <StackPanel>
+                        <Label Content="Temperature" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
+                        <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}"
+                                  SelectedItem="{Binding TemperatureUnits}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Pressure" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
+                        <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}"
+                                  SelectedItem="{Binding PressureUnits}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Volume" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
                         <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" VerticalAlignment="Top"
-                              Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}"
-                              SelectedItem="{Binding VolumeUnits}" />
-                    <Label Content="Velocity" HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Foreground="White" />
-                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
-                              ItemsSource="{Binding Source={StaticResource DataFromVelocityEnum}}"
-                              SelectedItem="{Binding VelocityUnits}" />
-                    <Label Content="Force" HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Foreground="White" />
-                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
-                              ItemsSource="{Binding Source={StaticResource DataForForceUnitsEnum}}"
-                              SelectedItem="{Binding ForceUnits}" />
-                    <Label Content="Angle" HorizontalAlignment="Left" VerticalAlignment="Top"
-                           Foreground="White" />
-                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
-                              ItemsSource="{Binding Source={StaticResource DataForAngleUnitsEnum}}"
-                              SelectedItem="{Binding AngleUnits}" />
-                </StackPanel>
+                                  Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}"
+                                  SelectedItem="{Binding VolumeUnits}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Velocity" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
+                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataFromVelocityEnum}}"
+                                  SelectedItem="{Binding VelocityUnits}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Force" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
+                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataForForceUnitsEnum}}"
+                                  SelectedItem="{Binding ForceUnits}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Content="Angle" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Foreground="White" />
+                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                                  ItemsSource="{Binding Source={StaticResource DataForAngleUnitsEnum}}"
+                                  SelectedItem="{Binding AngleUnits}" />
+                    </StackPanel>
+                </WrapPanel>
             </GroupBox>
         </DockPanel>
         <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Stretch">

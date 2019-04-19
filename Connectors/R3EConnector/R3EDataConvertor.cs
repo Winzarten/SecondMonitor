@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.R3EConnector
 {
     using System;
+    using System.Linq;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
@@ -332,8 +333,8 @@
 
         internal void FillTimingInfo(DriverInfo driverInfo, DriverData r3EDriverData, R3ESharedData r3RData)
         {
-            driverInfo.Timing.GapAhead = TimeSpan.FromSeconds(r3EDriverData.TimeDeltaFront);
-            driverInfo.Timing.GapBehind = TimeSpan.FromSeconds(r3EDriverData.TimeDeltaBehind);
+            driverInfo.Timing.GapAhead = -TimeSpan.FromSeconds(r3EDriverData.TimeDeltaFront);
+            driverInfo.Timing.GapBehind = -TimeSpan.FromSeconds(r3EDriverData.TimeDeltaBehind);
 
             if (driverInfo.IsPlayer)
             {
@@ -402,6 +403,8 @@
 
             //Add Flags Info
             AddFlags(data, simData);
+
+            simData.SessionInfo.IsMultiClass = simData.DriversInfo.Any(x => x.Position != x.PositionInClass);
 
             return simData;
         }

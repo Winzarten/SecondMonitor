@@ -41,9 +41,9 @@
             _sessionRemainingCalculator = new SessionRemainingCalculator(this);
         }
 
-        public TimeSpan? PlayersPace => _timing?.Player?.DriverTiming.Pace;
+        public TimeSpan? PlayersPace => _timing?.Player?.Pace;
 
-        public TimeSpan? LeadersPace => _timing?.Leader?.DriverTiming.Pace;
+        public TimeSpan? LeadersPace => _timing?.Leader?.Pace;
 
         public string BestSector1
         {
@@ -196,7 +196,7 @@
             {
                 string prefix = dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time ? "Time: " : "Time (+1 Lap): ";
                 string timeRemaining =  prefix + _sessionRemainingCalculator.GetTimeRemaining(dataSet).FormatToMinutesSeconds();
-                if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
+                if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.Pace != TimeSpan.Zero)
                 {
                     timeRemaining += "\nEst. Laps:" + (Math.Floor(_sessionRemainingCalculator.GetLapsRemaining(dataSet) * 10) / 10.0).ToString("N1");
                 }
@@ -218,7 +218,7 @@
                 string lapsToDisplay = lapsToGo < 2000
                                            ? lapsToGo.ToString()
                                            : "Infinite";
-                if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.DriverTiming?.Pace != TimeSpan.Zero)
+                if (_timing?.Leader != null && dataSet.SessionInfo?.SessionType == SessionType.Race && _timing?.Leader?.Pace != TimeSpan.Zero)
                 {
                     lapsToDisplay += "\nEst. Time: " + _sessionRemainingCalculator.GetTimeRemaining(dataSet).FormatToMinutesSeconds();
                 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     using DataModel.BasicProperties;
@@ -17,6 +18,7 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly TimeSpan MaxPendingStateWait = TimeSpan.FromSeconds(5);
 
+        private Stopwatch _refreshBestSectorIndicationWatch;
         private readonly Velocity _maximumVelocity = Velocity.FromMs(85);
         private readonly List<LapInfo> _lapsInfo;
         private readonly List<PitStopInfo> _pitStopInfo;
@@ -24,6 +26,7 @@
 
         public DriverTiming(DriverInfo driverInfo, SessionTiming session)
         {
+            _refreshBestSectorIndicationWatch = Stopwatch.StartNew();
             _lapsInfo = new List<LapInfo>();
             _pitStopInfo = new List<PitStopInfo>();
             DriverInfo = driverInfo;
@@ -90,6 +93,14 @@
         public SectorTiming BestSector2 { get; private set; }
 
         public SectorTiming BestSector3 { get; private set; }
+
+        public bool IsLastSector1PersonalBest { get; private set; }
+        public bool IsLastSector2PersonalBest { get; private set; }
+        public bool IsLastSector3PersonalBest { get; private set; }
+
+        public bool IsLastSector1SessionBest { get; private set; }
+        public bool IsLastSector2SessionBest { get; private set; }
+        public bool IsLastSector3SessionBest { get; private set; }
 
         public IReadOnlyCollection<LapInfo> Laps => _lapsInfo.AsReadOnly();
 
@@ -201,6 +212,7 @@
                 TopSpeed = DriverInfo.Speed;
             }
 
+
             UpdateInPitsProperty(set);
             if (_lapsInfo.Count == 0)
             {
@@ -224,6 +236,12 @@
             if (!currentLap.Completed)
             {
                 UpdateCurrentLap(set);
+            }
+
+            if (_refreshBestSectorIndicationWatch.ElapsedMilliseconds > 2000)
+            {
+                UpdateBestSectorProperties();
+                _refreshBestSectorIndicationWatch.Restart();
             }
 
             if (ShouldFinishLap(set, currentLap))
@@ -409,6 +427,18 @@
                     break;
             }
             OnSectorCompletedEvent(e);
+            UpdateBestSectorProperties();
+        }
+
+        private void UpdateBestSectorProperties()
+        {
+            IsLastSector1PersonalBest = GetIsSector1PersonalBest();
+            IsLastSector2PersonalBest = GetIsSector2PersonalBest();
+            IsLastSector3PersonalBest = GetIsSector3PersonalBest();
+
+            IsLastSector1SessionBest = GetIsSector1SessionBest();
+            IsLastSector2SessionBest = GetIsSector2SessionBest();
+            IsLastSector3SessionBest = GetIsSector3SessionBest();
         }
 
         private void UpdateInPitsProperty(SimulatorDataSet set)
@@ -510,6 +540,114 @@
         {
             return Laps.Where(l => l.Valid).Select(sectorPickerFunc).Where(s => s != null && s.Duration != TimeSpan.Zero)
                 .OrderBy(s => s.Duration).FirstOrDefault();
+        }
+
+        private bool GetIsSector1SessionBest()
+        {
+            if (CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = GetSector1Timing();
+            return sector != null && sector == Session.BestSector1;
+        }
+
+        private bool GetIsSector2SessionBest()
+        {
+            if (CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = GetSector2Timing();
+            return sector != null && sector == Session.BestSector2;
+        }
+
+        private bool GetIsSector3SessionBest()
+        {
+            if (CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = GetSector3Timing();
+            return sector != null && sector == Session.BestSector3;
+        }
+
+        private bool GetIsSector1PersonalBest()
+        {
+            if (CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = GetSector1Timing();
+            return sector != null && sector == BestSector1;
+        }
+
+        private bool GetIsSector2PersonalBest()
+        {
+            if (CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = GetSector2Timing();
+            return sector != null && sector == BestSector2;
+        }
+
+        private bool GetIsSector3PersonalBest()
+        {
+            if (CurrentLap == null)
+            {
+                return false;
+            }
+
+            var sector = GetSector3Timing();
+            return sector != null && sector == BestSector3;
+        }
+
+        public SectorTiming GetSector1Timing()
+        {
+            if (CurrentLap == null)
+            {
+                return null;
+            }
+            SectorTiming sector = CurrentLap.Sector1;
+            if (sector == null && CurrentLap.PreviousLap != null)
+            {
+                sector = CurrentLap.PreviousLap.Sector1;
+            }
+            return sector;
+        }
+
+        public SectorTiming GetSector2Timing()
+        {
+            if (CurrentLap == null)
+            {
+                return null;
+            }
+            SectorTiming sector = CurrentLap.Sector2;
+            if (sector == null && CurrentLap.PreviousLap != null)
+            {
+                sector = CurrentLap.PreviousLap.Sector2;
+            }
+            return sector;
+        }
+
+        public SectorTiming GetSector3Timing()
+        {
+            if (CurrentLap == null)
+            {
+                return null;
+            }
+            SectorTiming sector = CurrentLap.Sector3;
+            if (sector == null && CurrentLap.PreviousLap != null)
+            {
+                sector = CurrentLap.PreviousLap.Sector3;
+            }
+            return sector;
         }
     }
 }

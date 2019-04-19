@@ -83,7 +83,7 @@
             // Scroll the center of the container to the center of the viewport
             if (scrollInfo.CanVerticallyScroll)
             {
-                scrollInfo.SetVerticalOffset(CenteringOffset(center.Y, scrollInfo.ViewportHeight, scrollInfo.ExtentHeight));
+                scrollInfo.SetVerticalOffset(CenteringOffset(center.Y, scrollInfo.ViewportHeight, scrollInfo.ExtentHeight + 10));
             }
 
             /*if (scrollInfo.CanHorizontallyScroll)
