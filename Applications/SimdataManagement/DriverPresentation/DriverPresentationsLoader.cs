@@ -32,7 +32,7 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
                     XmlReader reader = XmlReader.Create(file, new XmlReaderSettings() { CheckCharacters = false });
                     driverPresentationsDto = (DriverPresentationsDto)_xmlSerializer.Deserialize(reader);
                 }
-                return true;
+                return driverPresentationsDto != null;
             }
             catch (Exception)
             {

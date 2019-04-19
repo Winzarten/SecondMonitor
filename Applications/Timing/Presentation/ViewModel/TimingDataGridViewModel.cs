@@ -3,13 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Media;
     using WindowsControls.WPF;
-
+    using DataModel.BasicProperties;
     using DataModel.Extensions;
+    using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using NLog;
     using SessionTiming.Drivers.Presentation.ViewModel;
@@ -17,20 +18,25 @@
     using SimdataManagement.DriverPresentation;
     using ViewModels;
     using ViewModels.Settings.Model;
+    using ViewModels.Settings.ViewModel;
 
     public class TimingDataGridViewModel : AbstractViewModel, IPositionCircleInformationProvider
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly DriverPresentationsManager _driverPresentationsManager;
+        private readonly DisplaySettingsViewModel _displaySettingsViewModel;
         private readonly object _lockObject = new object();
         private readonly Dictionary<string, DriverTiming> _driverNameTimingMap;
         private int _loadIndex;
+        private readonly Stopwatch _refreshGapWatch;
 
-        public TimingDataGridViewModel(DriverPresentationsManager driverPresentationsManager )
+        public TimingDataGridViewModel(DriverPresentationsManager driverPresentationsManager, DisplaySettingsViewModel displaySettingsViewModel )
         {
+            _refreshGapWatch = Stopwatch.StartNew();
             _loadIndex = 0;
             _driverNameTimingMap = new Dictionary<string, DriverTiming>();
             _driverPresentationsManager = driverPresentationsManager;
+            _displaySettingsViewModel = displaySettingsViewModel;
             DriversViewModels = new ObservableCollection<DriverTimingViewModel>();
         }
 
@@ -40,7 +46,7 @@
 
         public DriverTimingViewModel PlayerViewModel { get; set; }
 
-        public void UpdateProperties()
+        public void UpdateProperties(SimulatorDataSet dataSet)
         {
             if (_loadIndex > 0)
             {
@@ -58,6 +64,47 @@
                     }
                 }
                 DriversViewModels.ForEach(x => x.RefreshProperties());
+                if (_refreshGapWatch.ElapsedMilliseconds < 500)
+                {
+                    return;
+                }
+
+                UpdateGapsSize(dataSet);
+                _refreshGapWatch.Restart();
+            }
+        }
+
+        private void UpdateGapsSize(SimulatorDataSet dataSet)
+        {
+            if (dataSet?.SessionInfo == null || dataSet.SessionInfo.SessionType != SessionType.Race || DriversOrdering != DisplayModeEnum.Relative)
+            {
+                return;
+            }
+
+            bool isVisualizationEnabled = _displaySettingsViewModel.IsGapVisualizationEnabled;
+            double minimalGap = _displaySettingsViewModel.MinimalGapForVisualization;
+            double heightPerSecond = _displaySettingsViewModel.GapHeightForOneSecond;
+            double maximumGap = _displaySettingsViewModel.MaximumGapHeight;
+
+            DriverTimingViewModel previousViewModel = null;
+            foreach (DriverTimingViewModel driverTimingViewModel in DriversViewModels)
+            {
+                if (previousViewModel == null)
+                {
+                    previousViewModel = driverTimingViewModel;
+                    continue;
+                }
+
+                double gapInSeconds = Math.Abs(driverTimingViewModel.GapToPlayer.TotalSeconds - previousViewModel.GapToPlayer.TotalSeconds) - minimalGap;
+                if (!isVisualizationEnabled || gapInSeconds < 0 )
+                {
+                    previousViewModel.GapHeight = 0;
+                    previousViewModel = driverTimingViewModel;
+                    continue;
+                }
+                previousViewModel.GapHeight = Math.Min(gapInSeconds * heightPerSecond, maximumGap);
+                previousViewModel = driverTimingViewModel;
+
             }
         }
 
@@ -123,6 +170,12 @@
 
         public void MatchDriversList(List<DriverTiming> drivers)
         {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() => MatchDriversList(drivers));
+                return;
+            }
+
             lock (_lockObject)
             {
                 IEnumerable<DriverTiming> driversToRemove = _driverNameTimingMap.Values.Where(x => drivers.FirstOrDefault(y => y.Name == x.Name) == null).ToList();

@@ -39,6 +39,14 @@
 
         public bool AnimateDeltaTimes { get; set; } = true;
 
+        public bool IsGapVisualizationEnabled { get; set; } = false;
+
+        public double MinimalGapForVisualization { get; set; } = 2;
+
+        public double GapHeightForOneSecond { get; set; } = 25;
+
+        public double MaximumGapHeight { get; set; } = 150;
+
         public SessionOptions PracticeOptions { get; set; } = new SessionOptions { OrderingDisplayMode = DisplayModeEnum.Absolute, TimesDisplayMode = DisplayModeEnum.Absolute, SessionName = "Practice" };
 
         public SessionOptions QualificationOptions { get; set; } = new SessionOptions { OrderingDisplayMode = DisplayModeEnum.Absolute, TimesDisplayMode = DisplayModeEnum.Absolute, SessionName = "Quali" };

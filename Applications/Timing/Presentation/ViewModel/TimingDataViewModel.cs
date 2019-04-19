@@ -74,7 +74,7 @@
 
         public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory)
         {
-            TimingDataGridViewModel = new TimingDataGridViewModel(driverPresentationsManager);
+            TimingDataGridViewModel = new TimingDataGridViewModel(driverPresentationsManager, displaySettingsViewModel);
             SessionInfoViewModel = new SessionInfoViewModel();
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = driverLapsWindowManager;
@@ -346,12 +346,12 @@
             _refreshGuiTask = SchedulePeriodicAction(() => RefreshGui(_lastDataSet), () => 10000, this, true);
             _refreshBasicInfoTask = SchedulePeriodicAction(() => RefreshBasicInfo(_lastDataSet), () => 100, this, true);
             _refreshTimingCircleTask = SchedulePeriodicAction(() => RefreshTimingCircle(_lastDataSet), () => 100, this, true);
-            _refreshTimingGridTask = SchedulePeriodicAction(() => RefreshTimingGrid(_lastDataSet), () => DisplaySettingsViewModel.RefreshRate, this, false);
+            _refreshTimingGridTask = SchedulePeriodicAction(() => RefreshTimingGrid(_lastDataSet), () => DisplaySettingsViewModel.RefreshRate, this, true);
         }
 
         private void RefreshTimingGrid(SimulatorDataSet lastDataSet)
         {
-            TimingDataGridViewModel.UpdateProperties();
+            TimingDataGridViewModel.UpdateProperties(lastDataSet);
         }
 
         private void PaceLapsChanged()

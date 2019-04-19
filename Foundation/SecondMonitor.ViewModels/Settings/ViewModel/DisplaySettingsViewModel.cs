@@ -1,17 +1,14 @@
 ﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.IO;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Input;
     using Contracts.Commands;
     using DataModel.BasicProperties;
     using DataModel.BasicProperties.FuelConsumption;
     using Model;
-    using Properties;
 
     public class DisplaySettingsViewModel : AbstractViewModel<DisplaySettings>
     {
@@ -34,6 +31,10 @@
         private MultiClassDisplayKind _multiClassDisplayKind;
         private ForceUnits _forceUnits;
         private AngleUnits _angleUnits;
+        private bool _isGapVisualizationEnabled;
+        private double _minimalGapForVisualization;
+        private double _gapHeightForOneSecond;
+        private double _maximumGapHeight;
 
         public ICommand OpenLogDirectoryCommand => new RelayCommand(OpenLogDirectory);
 
@@ -317,6 +318,30 @@
             }
         }
 
+        public bool IsGapVisualizationEnabled
+        {
+            get => _isGapVisualizationEnabled;
+            set => SetProperty(ref _isGapVisualizationEnabled, value);
+        }
+
+        public double MinimalGapForVisualization
+        {
+            get => _minimalGapForVisualization;
+            set => SetProperty(ref _minimalGapForVisualization, value);
+        }
+
+        public double GapHeightForOneSecond
+        {
+            get => _gapHeightForOneSecond;
+            set => SetProperty(ref _gapHeightForOneSecond, value);
+        }
+
+        public double MaximumGapHeight
+        {
+            get => _maximumGapHeight;
+            set => SetProperty(ref _maximumGapHeight, value);
+        }
+
         protected override void ApplyModel(DisplaySettings settings)
         {
 
@@ -333,6 +358,11 @@
             MultiClassDisplayKind = settings.MultiClassDisplayKind;
             ForceUnits = settings.ForceUnits;
             AngleUnits = settings.AngleUnits;
+
+            IsGapVisualizationEnabled = settings.IsGapVisualizationEnabled;
+            MinimalGapForVisualization = settings.MinimalGapForVisualization;
+            MaximumGapHeight = settings.MaximumGapHeight;
+            GapHeightForOneSecond = settings.GapHeightForOneSecond;
 
             MapDisplaySettingsViewModel = new MapDisplaySettingsViewModel();
             MapDisplaySettingsViewModel.FromModel(settings.MapDisplaySettings);
@@ -371,6 +401,10 @@
                 MultiClassDisplayKind = MultiClassDisplayKind,
                 ForceUnits = ForceUnits,
                 AngleUnits = AngleUnits,
+                IsGapVisualizationEnabled = IsGapVisualizationEnabled,
+                MinimalGapForVisualization = MinimalGapForVisualization,
+                MaximumGapHeight = MaximumGapHeight,
+                GapHeightForOneSecond = GapHeightForOneSecond
             };
         }
 

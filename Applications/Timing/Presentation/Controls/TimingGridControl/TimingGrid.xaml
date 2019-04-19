@@ -107,6 +107,28 @@
         <Setter Property="Background" Value="{StaticResource Anthracite01Brush}" />
         <Setter Property="BorderBrush" Value="{StaticResource LightGrey02Brush}" />
         <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border x:Name="DGR_Border" Grid.Row="0"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True">
+                            <DataGridCellsPresenter
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <Grid Grid.Row="1" Background="{StaticResource Anthracite01Brush}" Height="{Binding DataContext.GapHeight, RelativeSource={RelativeSource TemplatedParent}}"></Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="Black" />
@@ -178,10 +200,5 @@
         <Setter Property="FontSize" Value="{StaticResource TimingGridFontSize}"/>
         <Setter Property="RowStyle" Value="{StaticResource TimingGridRowStyle}"/>
     </Style>
-    <DataTemplate x:Key="TextBoxDataGridCell">
-        <Grid>
-            <TextBlock Text="{Binding}"></TextBlock>
-        </Grid>
-    </DataTemplate>
 
 </ResourceDictionary>

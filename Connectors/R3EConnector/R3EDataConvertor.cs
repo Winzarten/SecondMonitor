@@ -333,8 +333,8 @@
 
         internal void FillTimingInfo(DriverInfo driverInfo, DriverData r3EDriverData, R3ESharedData r3RData)
         {
-            driverInfo.Timing.GapAhead = TimeSpan.FromSeconds(r3EDriverData.TimeDeltaFront);
-            driverInfo.Timing.GapBehind = TimeSpan.FromSeconds(r3EDriverData.TimeDeltaBehind);
+            driverInfo.Timing.GapAhead = -TimeSpan.FromSeconds(r3EDriverData.TimeDeltaFront);
+            driverInfo.Timing.GapBehind = -TimeSpan.FromSeconds(r3EDriverData.TimeDeltaBehind);
 
             if (driverInfo.IsPlayer)
             {
