@@ -153,7 +153,7 @@
             {
                 if (_drivers.TryGetValue(driver.DriverName, out DriverPositionControl driverPositionControl))
                 {
-                    driverPositionControl.IsClassColorIndicationEnabled = dataSet.SessionInfo.IsMultiClass;
+                    driverPositionControl.IsClassColorIndicationEnabled = dataSet?.SessionInfo?.IsMultiClass == true;
                     UpdateDriver(driver, driverPositionControl);
                 }
                 else

@@ -52,6 +52,7 @@
         {
             Unsubscribe();
             Graphs.ForEach(x => x.Dispose());
+            _loadedLaps.Clear();
             return Task.CompletedTask;
         }
 
@@ -81,10 +82,10 @@
 
         private void Unsubscribe()
         {
-            _telemetryViewsSynchronization.SyncTelemetryView += TelemetryViewsSynchronizationOnSyncTelemetryView;
+            _telemetryViewsSynchronization.SyncTelemetryView -= TelemetryViewsSynchronizationOnSyncTelemetryView;
             _telemetryViewsSynchronization.LapLoaded -= TelemetryViewsSynchronizationOnLapLoaded;
             _telemetryViewsSynchronization.LapUnloaded -= TelemetryViewsSynchronizationOnLapUnloaded;
-            _telemetrySettingsRepository.SettingsChanged += TelemetrySettingsRepositoryOnSettingsChanged;
+            _telemetrySettingsRepository.SettingsChanged -= TelemetrySettingsRepositoryOnSettingsChanged;
         }
 
         private void TelemetrySettingsRepositoryOnSettingsChanged(object sender, EventArgs e)

@@ -44,6 +44,10 @@
         [XmlIgnore]
         public double InFeet => InMeters * 3.28084;
 
+        [XmlIgnore]
+        public double InMillimeter => InMeters * 1000;
+
+
         public double GetByUnit(DistanceUnits distanceUnits)
         {
             switch (distanceUnits)
@@ -62,6 +66,8 @@
                     return InCentimeters;
                 case DistanceUnits.Yards:
                     return InYards;
+                case DistanceUnits.Millimeter:
+                    return InMillimeter;
                 default:
                     throw new ArgumentException($"Distance units {distanceUnits} is not known");
             }
@@ -139,6 +145,8 @@
                     return "cm";
                 case DistanceUnits.Yards:
                     return "yd";
+                case DistanceUnits.Millimeter:
+                    return "mm";
                 default:
                     throw new ArgumentException($"Distance units {nameof(distanceUnits)} is unknown.");
             }

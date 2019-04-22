@@ -2,7 +2,7 @@
 {
     using SecondMonitor.ViewModels;
 
-    public abstract class AggregatedChartViewModel : AbstractViewModel, IAggregatedChartViewModel
+    public abstract class AbstractAggregatedChartViewModel : AbstractViewModel, IAggregatedChartViewModel
     {
         private string _title;
 

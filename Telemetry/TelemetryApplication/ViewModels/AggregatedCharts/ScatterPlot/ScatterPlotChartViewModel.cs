@@ -92,8 +92,8 @@
             };
 
 
-            LinearAxis xAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Bottom, MajorStep = OriginalModel.XAxis.MajorTick, MinorGridlineStyle = LineStyle.Dot, MinorGridlineColor = BaseColor, MinorGridlineThickness = 1, MinorStep = OriginalModel.XAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.XAxis.Unit, ExtraGridlineStyle = LineStyle.Solid, MinimumPadding = 0.2, MaximumPadding = 0.2, ExtraGridlineColor = OxyColors.Red, ExtraGridlineThickness = 2, ExtraGridlines = new double[] { 0 } };
-            LinearAxis yAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Left, MajorStep = OriginalModel.YAxis.MajorTick, MinorGridlineStyle  = LineStyle.Dot, MinorGridlineColor = BaseColor, MinorGridlineThickness = 1, MinorStep = OriginalModel.YAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.YAxis.Unit, ExtraGridlineStyle = LineStyle.Solid, MinimumPadding = 0.2, MaximumPadding = 0.2, ExtraGridlineColor = OxyColors.Red, ExtraGridlineThickness = 2, ExtraGridlines = new double[] { 0 } };
+            LinearAxis xAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Bottom, MajorStep = OriginalModel.XAxis.MajorTick, MinorGridlineStyle = LineStyle.None, MinorGridlineColor = BaseColor, MinorGridlineThickness = 0.5, MinorStep = OriginalModel.XAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.XAxis.Unit, ExtraGridlineStyle = LineStyle.Solid, MinimumPadding = 0.2, MaximumPadding = 0.2, ExtraGridlineColor = OxyColors.Red, ExtraGridlineThickness = 2, ExtraGridlines = new double[] { 0 } };
+            LinearAxis yAxis = new LinearAxis { AxislineColor = BaseColor, Position = AxisPosition.Left, MajorStep = OriginalModel.YAxis.MajorTick, MinorGridlineStyle  = LineStyle.None, MinorGridlineColor = BaseColor, MinorGridlineThickness = 0.5, MinorStep = OriginalModel.YAxis.MinorTick, MajorGridlineStyle = LineStyle.Solid, MajorGridlineColor = BaseColor, TicklineColor = BaseColor, Unit = OriginalModel.YAxis.Unit, ExtraGridlineStyle = LineStyle.Solid, MinimumPadding = 0.2, MaximumPadding = 0.2, ExtraGridlineColor = OxyColors.Red, ExtraGridlineThickness = 2, ExtraGridlines = new double[] { 0 } };
             IEnumerable<ScatterSeries> series = OriginalModel.ScatterPlotSeries.Select(BuildScatterSeries);
 
             series.ForEach(model.Series.Add);
@@ -120,7 +120,7 @@
             AverageUnits = model.XAxis.Unit;
             BuildPlotModel();
             CreateAverageSeries();
-            ShowAverage = true;
+            ShowAverage = false;
         }
 
         private void CreateAverageSeries()

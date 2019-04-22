@@ -115,7 +115,7 @@
                 </Grid>
                 <timingGridControl:TimingGrid Grid.Row="1" x:Name="DtTimig" EnableColumnVirtualization="False" EnableRowVirtualization="False"
                                               ItemsSource="{Binding TimingDataGridViewModel.DriversViewModels}" ScrollViewer.CanContentScroll="True"
-                                              SelectedItem="{Binding SelectedDriverTimingViewModel}">
+                                              SelectedItem="{Binding SelectedDriverTimingViewModel}" MinColumnWidth="5">
                     <timingGridControl:TimingGrid.InputBindings>
                         <MouseBinding Command="{Binding DataContext.RightClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="RightClick" />
                         <MouseBinding Command="{Binding DataContext.DoubleLeftClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Gesture="LeftDoubleClick" />
@@ -131,6 +131,13 @@
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
                     </timingGridControl:TimingGrid.Resources>
                     <timingGridControl:TimingGrid.Columns>
+                        <DataGridTemplateColumn Width="5">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Width="5" MinWidth="5" Background="{Binding ClassIndicationBrush, Converter={StaticResource ColorDtoToSolidBrushConverter}, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Position.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding PositionInClass, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"

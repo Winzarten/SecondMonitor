@@ -130,12 +130,27 @@
             Bind<IAggregatedChartProvider>().To<SpeedHorizontalAccelerationChartProvider>();
             Bind<IAggregatedChartProvider>().To<RpmToHorizontalGChartProvider>();
             Bind<IAggregatedChartProvider>().To<RpmHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToHorizontalAccProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToLateralAccProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToSpeedProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedToDownforceProvider>();
 
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
+            Bind<RideHeightGraphViewModel>().ToSelf();
 
             Bind<SpeedToRpmScatterPlotExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
             Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
+
+            Bind<HorizontalAccelerationToRideHeightExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoLateralAccelerationFilter>().WhenInjectedExactlyInto<HorizontalAccelerationToRideHeightExtractor>();
+
+            Bind<LateralAccelerationToRideHeightExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoHorizontalAccelerationFilter>().WhenInjectedExactlyInto<LateralAccelerationToRideHeightExtractor>();
+
+            Bind<SpeedToRideHeightExtractor>().ToSelf();
+            Bind<SpeedToDownforceExtractor>().ToSelf();
 
             Bind<SpeedToHorizontalGExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<FullThrottleFilter>().WhenInjectedExactlyInto<SpeedToHorizontalGExtractor>();

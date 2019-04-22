@@ -9,7 +9,7 @@
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type scatterPlot:ScatterPlotChartViewModel}">
                 <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey05Brush}">
-                    <Grid>
+                    <Grid Background="{StaticResource Anthracite01Brush}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />

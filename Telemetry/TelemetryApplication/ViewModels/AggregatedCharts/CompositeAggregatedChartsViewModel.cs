@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class CompositeAggregatedChartsViewModel : AggregatedChartViewModel
+    public class CompositeAggregatedChartsViewModel : AbstractAggregatedChartViewModel
     {
         private IAggregatedChartViewModel _mainAggregatedChartViewModel;
         private readonly List<IAggregatedChartViewModel> _childAggregatedChartViewModels;

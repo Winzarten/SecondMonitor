@@ -37,9 +37,9 @@
             wheelsHistogram.BandSize = _abstractWheelHistogramDataExtractor.DefaultBandSize;
             wheelsHistogram.Unit = _abstractWheelHistogramDataExtractor.YUnit;
 
-            wheelsHistogram.RefreshCommand = new RelayCommand(() => FillHistogramViewmodel<SuspensionVelocityHistogramChartViewModel>(loadedLaps, wheelsHistogram.BandSize, wheelsHistogram));
+            wheelsHistogram.RefreshCommand = new RelayCommand(() => FillHistogramViewmodel<TX>(loadedLaps, wheelsHistogram.BandSize, wheelsHistogram));
 
-            FillHistogramViewmodel<SuspensionVelocityHistogramChartViewModel>(loadedLaps, _abstractWheelHistogramDataExtractor.DefaultBandSize, wheelsHistogram);
+            FillHistogramViewmodel<TX>(loadedLaps, _abstractWheelHistogramDataExtractor.DefaultBandSize, wheelsHistogram);
 
             return wheelsHistogram;
         }

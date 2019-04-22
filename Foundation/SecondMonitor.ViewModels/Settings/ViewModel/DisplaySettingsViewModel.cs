@@ -165,13 +165,13 @@
                 switch (VelocityUnits)
                 {
                     case VelocityUnits.Kph:
-                        return DistanceUnits.Centimeter;
+                        return DistanceUnits.Millimeter;
                     case VelocityUnits.Mph:
                         return DistanceUnits.Inches;
                     case VelocityUnits.Ms:
-                        return DistanceUnits.Centimeter;
+                        return DistanceUnits.Millimeter;
                     default:
-                        return DistanceUnits.Centimeter;
+                        return DistanceUnits.Millimeter;
                 }
             }
         }
