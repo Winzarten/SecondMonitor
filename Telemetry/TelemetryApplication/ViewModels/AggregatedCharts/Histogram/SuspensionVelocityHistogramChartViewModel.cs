@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.AggregatedCharts.Histogram
 {
     using System.Collections.Generic;
     using System.Linq;

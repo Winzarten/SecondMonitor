@@ -5,7 +5,7 @@
     using Extractors;
     using TelemetryManagement.DTO;
     using ViewModels.AggregatedCharts;
-    using ViewModels.GraphPanel.ScatterPlot;
+    using ViewModels.AggregatedCharts.ScatterPlot;
     using ViewModels.LoadedLapCache;
 
     public class RpmToHorizontalGChartProvider : IAggregatedChartProvider

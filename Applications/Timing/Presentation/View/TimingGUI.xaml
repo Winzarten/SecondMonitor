@@ -146,11 +146,23 @@
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Car"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
-                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
-                                            Binding="{Binding CarClassName, Mode=OneWay}"
-                                            ElementStyle="{StaticResource TextBoxStyle}"
+                        <DataGridTemplateColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Header="Class"
-                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CarClassName.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" Background="{Binding ClassIndicationBrush, Converter={StaticResource ColorDtoToSolidBrushConverter}, Mode=OneWay}"/>
+                                        <TextBlock Grid.Column="2" Style="{StaticResource TextBoxStyle}" Text="{Binding CarClassName, Mode=OneWay}"></TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.CompletedLaps.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding CompletedLaps, Mode=OneWay}"
                                             ElementStyle="{StaticResource TextBoxStyle}"
@@ -220,13 +232,13 @@
                                                 <TextBlock FontSize="{StaticResource SmallFontSize}" Text="Enable" />
                                             </CheckBox>
                                             <Grid Width="20" Margin="5,0,0,0"
-                                                      Background="{Binding OutLineColor, Converter={StaticResource ColorToBrushConverter}}" />
+                                                      Background="{Binding OutLineColor, Converter={StaticResource ColorDtoToSolidBrushConverter}, Mode=OneWay}" />
 
                                             <xctk:ColorPicker Width="15" Height="15" Margin="2" HorizontalAlignment="Left"
                                                                   Background="{StaticResource Anthracite01Brush}"
                                                                   ButtonStyle="{StaticResource ComboBoxToggleButton2}"
                                                                   Foreground="{StaticResource LightGrey01Brush}"
-                                                                  SelectedColor="{Binding OutLineColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                  SelectedColor="{Binding OutLineColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorDtoToColorConverter}}" />
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>

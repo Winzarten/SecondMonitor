@@ -1,11 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram;assembly=TelemetryApplication"
-                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls">
+                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls"
+                    xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.AggregatedCharts.Histogram;assembly=TelemetryApplication"
+                    xmlns:aggregatedCharts="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.AggregatedCharts;assembly=TelemetryApplication">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml"/>
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type histogram:WheelsHistogramViewModel}">
+            <DataTemplate DataType="{x:Type aggregatedCharts:WheelsChartViewModel}">
                 <Grid Background="{StaticResource Anthracite01Brush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -44,7 +45,7 @@
                     </StackPanel>
                 </Grid>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type histogram:SuspensionVelocityHistogramViewModel}">
+            <DataTemplate DataType="{x:Type histogram:WheelsHistogramChartViewModel}">
                 <Grid Background="{StaticResource Anthracite01Brush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

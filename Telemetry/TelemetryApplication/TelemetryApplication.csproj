@@ -160,6 +160,7 @@
     <Compile Include="TelemetryApplicationModule.cs" />
     <Compile Include="TelemetryApplicationModuleBootstrapper.cs" />
     <Compile Include="ViewModels\AggregatedCharts\AggregatedChartSelectorViewModel.cs" />
+    <Compile Include="ViewModels\AggregatedCharts\Histogram\WheelsHistogramChartViewModel.cs" />
     <Compile Include="ViewModels\AggregatedCharts\IAggregatedChartSelectorViewModel.cs" />
     <Compile Include="ViewModels\AggregatedCharts\CompositeAggregatedChartsViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\AbstractGraphViewModel.cs" />
@@ -171,11 +172,9 @@
     <Compile Include="ViewModels\GraphPanel\DataExtractor\CompareToReferenceDataExtractor.cs" />
     <Compile Include="ViewModels\GraphPanel\DataExtractor\ISingleSeriesDataExtractor.cs" />
     <Compile Include="ViewModels\GraphPanel\DataExtractor\SimpleSingleSeriesDataExtractor.cs" />
-    <Compile Include="ViewModels\GraphPanel\Histogram\HistogramChartViewModel.cs" />
-    <Compile Include="ViewModels\GraphPanel\Histogram\AbstractWheelsHistogramViewModel.cs" />
-    <Compile Include="ViewModels\GraphPanel\Histogram\SuspensionVelocityHistogramChartViewModel.cs" />
-    <Compile Include="ViewModels\GraphPanel\Histogram\SuspensionVelocityHistogramViewModel.cs" />
-    <Compile Include="ViewModels\GraphPanel\Histogram\WheelsHistogramViewModel.cs" />
+    <Compile Include="ViewModels\AggregatedCharts\Histogram\HistogramChartViewModel.cs" />
+    <Compile Include="ViewModels\AggregatedCharts\WheelsChartViewModel.cs" />
+    <Compile Include="ViewModels\AggregatedCharts\Histogram\SuspensionVelocityHistogramChartViewModel.cs" />
     <Compile Include="ViewModels\AggregatedCharts\IAggregatedChartViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\BrakeGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\ClutchGraphViewModel.cs" />
@@ -186,7 +185,7 @@
     <Compile Include="ViewModels\GraphPanel\LapTimeGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\LateralGGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\OverallDownForceGraphViewModel.cs" />
-    <Compile Include="ViewModels\GraphPanel\ScatterPlot\ScatterPlotChartViewModel.cs" />
+    <Compile Include="ViewModels\AggregatedCharts\ScatterPlot\ScatterPlotChartViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\SpeedGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\ThrottleGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\TurboBoostGraphViewModel.cs" />

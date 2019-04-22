@@ -5,7 +5,7 @@
     using Extractors;
     using TelemetryManagement.DTO;
     using ViewModels.AggregatedCharts;
-    using ViewModels.GraphPanel.Histogram;
+    using ViewModels.AggregatedCharts.Histogram;
     using ViewModels.LoadedLapCache;
 
     public class RpmHistogramProvider : IAggregatedChartProvider

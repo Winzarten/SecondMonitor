@@ -151,9 +151,10 @@
             LastDataSet = dataSet;
             foreach (IDriverInfo driver in drivers)
             {
-                if (_drivers.ContainsKey(driver.DriverName))
+                if (_drivers.TryGetValue(driver.DriverName, out DriverPositionControl driverPositionControl))
                 {
-                    UpdateDriver(driver, _drivers[driver.DriverName]);
+                    driverPositionControl.IsClassColorIndicationEnabled = dataSet.SessionInfo.IsMultiClass;
+                    UpdateDriver(driver, driverPositionControl);
                 }
                 else
                 {
@@ -191,6 +192,7 @@
                         VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         Animate = AnimateDriversPos,
+                        ClassIndicationBrush = PositionCircleInformationProvider.GetClassColor(driverInfo).ToSolidColorBrush()
                     };
                 PostDriverCreation(newDriverControl);
                 UpdateDriver(driverInfo, newDriverControl);
@@ -239,10 +241,13 @@
                 return;
             }
 
-            if(PositionCircleInformationProvider!= null && PositionCircleInformationProvider.GetTryCustomOutline(driverInfo, out SolidColorBrush outlineBrush))
+            if(PositionCircleInformationProvider!= null && PositionCircleInformationProvider.TryGetCustomOutline(driverInfo, out ColorDto outlineColor))
             {
-                driverPositionControl.OutLineColor = outlineBrush;
-                //SetZIndex(driverPositionControl, 100);
+                if (outlineColor != null && (driverPositionControl.OutLineColor == null || driverPositionControl.OutLineColor.Color.A != outlineColor.Alpha || driverPositionControl.OutLineColor.Color.B != outlineColor.Blue
+                                             || driverPositionControl.OutLineColor.Color.G != outlineColor.Green || driverPositionControl.OutLineColor.Color.R != outlineColor.Red))
+                {
+                    driverPositionControl.OutLineColor = new SolidColorBrush(Color.FromArgb(outlineColor.Alpha, outlineColor.Red, outlineColor.Green, outlineColor.Blue));
+                }
             }
 
             if (driverInfo.InPits)
@@ -266,6 +271,7 @@
                 return;
             }
 
+            driverPositionControl.OutLineColor = Brushes.Transparent;
             driverPositionControl.CircleBrush = DriverBackgroundBrush;
             driverPositionControl.TextBrush = DriverForegroundBrush;
         }

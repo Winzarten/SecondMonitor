@@ -1,4 +1,4 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.ScatterPlot
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.AggregatedCharts.ScatterPlot
 {
     using System.Collections.Generic;
     using System.Linq;

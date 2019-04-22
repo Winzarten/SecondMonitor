@@ -145,6 +145,8 @@
       <DependentUpon>DashboardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\ColorableIcon.cs" />
+    <Compile Include="WPF\Converters\ColorDtoToColorConverter.cs" />
+    <Compile Include="WPF\Converters\ColorDtoToSolidBrushConverter.cs" />
     <Compile Include="WPF\Converters\ColorToBrushConverter.cs" />
     <Compile Include="WPF\Converters\DateTimeToCurrentConverter.cs" />
     <Compile Include="WPF\Converters\DoubleToScalableDecimalsConverter.cs" />

@@ -19,7 +19,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
         private DriverTiming _driverTiming;
         private readonly Stopwatch _refreshStopwatch;
         private readonly DriverPresentationsManager _driverPresentationsManager;
-        private Color _outLineColor;
+        private ColorDto _outLineColor;
         private bool _hasCustomOutline;
 
         public DriverTimingViewModel(DriverTiming driverTiming, DriverPresentationsManager driverPresentationsManager)
@@ -40,24 +40,22 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             }
         }
 
-        public Color OutLineColor
+        public ColorDto OutLineColor
         {
             get => _outLineColor;
             set
             {
                 _outLineColor = value;
-                OutlineBrush = new SolidColorBrush(_outLineColor);
                 _driverPresentationsManager.SetOutLineColor(Name, value);
                 NotifyPropertyChanged();
-                NotifyPropertyChanged(nameof(OutlineBrush));
             }
         }
 
-        private SolidColorBrush _outLineBrush;
-        public SolidColorBrush OutlineBrush
+        private ColorDto _classIndicationBrush;
+        public ColorDto ClassIndicationBrush
         {
-            get => _outLineBrush;
-            private set => SetProperty(ref _outLineBrush, value);
+            get => _classIndicationBrush;
+            set => SetProperty(ref _classIndicationBrush, value);
         }
 
 
@@ -417,9 +415,9 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             CarClassName = DriverTiming.CarClassName;
             Name = DriverTiming.Name;
             HasCustomOutline = _driverPresentationsManager.IsCustomOutlineEnabled(Name);
-            if (_driverPresentationsManager.TryGetOutLineColor(Name, out Color color))
+            if (_driverPresentationsManager.TryGetOutLineColor(Name, out ColorDto color))
             {
-                OutLineColor = Color.FromArgb(color.A, color.B, color.G, color.B);
+                OutLineColor = color;
             }
         }
 

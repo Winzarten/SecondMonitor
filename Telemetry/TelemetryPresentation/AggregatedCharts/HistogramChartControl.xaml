@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram;assembly=TelemetryApplication"
                     xmlns:oxy="http://oxyplot.org/wpf"
-                    xmlns:scatterPlot="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.ScatterPlot;assembly=TelemetryApplication">
+                    xmlns:histogram="clr-namespace:SecondMonitor.Telemetry.TelemetryApplication.ViewModels.AggregatedCharts.Histogram;assembly=TelemetryApplication">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
         <ResourceDictionary Source="../Template/GraphDataTemplates.xaml" />

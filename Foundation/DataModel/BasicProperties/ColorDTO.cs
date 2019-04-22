@@ -1,24 +1,33 @@
 ﻿using System;
-using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace SecondMonitor.DataModel.BasicProperties
 {
+    using System.Windows.Media;
+
     [Serializable]
     public sealed class ColorDto
     {
         [XmlAttribute]
-        public byte Alpha;
+        public byte Alpha { get; set; }
+
         [XmlAttribute]
-        public byte Red;
+        public byte Red { get; set; }
+
         [XmlAttribute]
-        public byte Green;
+        public byte Green { get; set; }
+
         [XmlAttribute]
-        public byte Blue;
+        public byte Blue { get; set; }
 
         public Color ToColor()
         {
             return Color.FromArgb(Alpha, Red, Green, Blue);
+        }
+
+        public SolidColorBrush ToSolidColorBrush()
+        {
+            return new SolidColorBrush(ToColor());
         }
 
         public static ColorDto FromColor(Color color)
@@ -26,9 +35,9 @@ namespace SecondMonitor.DataModel.BasicProperties
             return new ColorDto()
             {
                 Alpha = color.A,
-                Red = color.R,
+                Blue = color.B,
                 Green = color.G,
-                Blue = color.B
+                Red = color.R,
             };
         }
     }

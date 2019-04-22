@@ -10,7 +10,6 @@
     using System.Windows.Shapes;
     using WindowsControls.WPF;
     using WindowsControls.WPF.DriverPosition;
-    using Contracts.NInject;
     using Controllers.Synchronization;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
@@ -453,7 +452,7 @@
 
         public bool IsDriverLastSectorPurple(IDriverInfo driver, int sectorNumber) => false;
 
-        public bool GetTryCustomOutline(IDriverInfo driverInfo, out SolidColorBrush outlineBrush)
+        public bool TryGetCustomOutline(IDriverInfo driverInfo, out ColorDto outlineBrush)
         {
             if (LapColorSynchronization == null)
             {
@@ -463,12 +462,23 @@
 
             if (LapColorSynchronization.TryGetColorForLap(driverInfo.DriverName, out Color lapColor))
             {
-                outlineBrush = new SolidColorBrush(lapColor);
+                outlineBrush = new ColorDto()
+                {
+                    Alpha = lapColor.A,
+                    Blue = lapColor.B,
+                    Green = lapColor.G,
+                    Red =  lapColor.R,
+                };
                 return true;
             }
 
             outlineBrush = null;
             return false;
+        }
+
+        public ColorDto GetClassColor(IDriverInfo driverInfo)
+        {
+            return ColorDto.FromColor(Colors.Transparent);
         }
     }
 }

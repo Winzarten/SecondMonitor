@@ -1,30 +1,32 @@
 ﻿namespace SecondMonitor.ViewModels.Colors
 {
     using System.Windows.Media;
+    using DataModel.BasicProperties;
 
     public class BasicColorPaletteProvider : IColorPaletteProvider
     {
         private static readonly Color[] Colors = new[]
         {
-            /*(Color) ColorConverter.ConvertFromString("#003f5c"),
-            (Color) ColorConverter.ConvertFromString("#2f4b7c"),
-            (Color) ColorConverter.ConvertFromString("#665191"),
-            (Color) ColorConverter.ConvertFromString("#a05195"),
-            (Color) ColorConverter.ConvertFromString("#d45087"),
-            (Color) ColorConverter.ConvertFromString("#f95d6a"),
-            (Color) ColorConverter.ConvertFromString("#ff7c43"),
-            (Color) ColorConverter.ConvertFromString("#ffa600")*/
-            (Color) ColorConverter.ConvertFromString("#FFE4B5"),
-            (Color) ColorConverter.ConvertFromString("#ADD8E6"),
-            (Color) ColorConverter.ConvertFromString("#00FF7F"),
-            (Color) ColorConverter.ConvertFromString("#845EC2"),
-            (Color) ColorConverter.ConvertFromString("#D65DB1"),
-            (Color) ColorConverter.ConvertFromString("#FF6F91"),
-            (Color) ColorConverter.ConvertFromString("#FF9671"),
-            (Color) ColorConverter.ConvertFromString("#FFC75F"),
-            (Color) ColorConverter.ConvertFromString("#F9F871"),
-            (Color) ColorConverter.ConvertFromString("#ff7c43"),
-            (Color) ColorConverter.ConvertFromString("#ffa600")
+            (Color) ColorConverter.ConvertFromString("#e6194B"),
+            (Color) ColorConverter.ConvertFromString("#3cb44b"),
+            (Color) ColorConverter.ConvertFromString("#ffe119"),
+            (Color) ColorConverter.ConvertFromString("#4363d8"),
+            (Color) ColorConverter.ConvertFromString("#f58231"),
+            (Color) ColorConverter.ConvertFromString("#911eb4"),
+            (Color) ColorConverter.ConvertFromString("#42d4f4"),
+            (Color) ColorConverter.ConvertFromString("#f032e6"),
+            (Color) ColorConverter.ConvertFromString("#bfef45"),
+            (Color) ColorConverter.ConvertFromString("#fabebe"),
+            (Color) ColorConverter.ConvertFromString("#469990"),
+            (Color) ColorConverter.ConvertFromString("#e6beff"),
+            (Color) ColorConverter.ConvertFromString("#9A6324"),
+            (Color) ColorConverter.ConvertFromString("#fffac8"),
+            (Color) ColorConverter.ConvertFromString("#800000"),
+            (Color) ColorConverter.ConvertFromString("#aaffc3"),
+            (Color) ColorConverter.ConvertFromString("#808000"),
+            (Color) ColorConverter.ConvertFromString("#ffd8b1"),
+            (Color) ColorConverter.ConvertFromString("#000075"),
+
         };
 
         private int _currentIndex;
@@ -44,6 +46,11 @@
             {
                 _currentIndex = (_currentIndex + 1) % Colors.Length;
             }
+        }
+
+        public ColorDto GetNextAsDto()
+        {
+            return ColorDto.FromColor(GetNext());
         }
 
         public void Reset()

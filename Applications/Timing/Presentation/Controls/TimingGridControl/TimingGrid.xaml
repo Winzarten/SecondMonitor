@@ -142,7 +142,7 @@
                 <Setter Property="BorderThickness" Value="3"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding HasCustomOutline, Mode=OneWay}" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding OutlineBrush}"/>
+                <Setter Property="BorderBrush" Value="{Binding OutLineColor, Converter={StaticResource ColorDtoToSolidBrushConverter}, Mode=OneWay}"/>
                 <Setter Property="BorderThickness" Value="3"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsLapped, Mode=OneWay}" Value="True">

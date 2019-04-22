@@ -1,7 +1,6 @@
-﻿using System.Windows.Media;
-
-namespace SecondMonitor.WindowsControls.WPF
+﻿namespace SecondMonitor.WindowsControls.WPF
 {
+    using DataModel.BasicProperties;
     using DataModel.Snapshot.Drivers;
 
     public interface IPositionCircleInformationProvider
@@ -10,6 +9,8 @@ namespace SecondMonitor.WindowsControls.WPF
         bool IsDriverLastSectorGreen(IDriverInfo driver, int sectorNumber);
         bool IsDriverLastSectorPurple(IDriverInfo driver, int sectorNumber);
 
-        bool GetTryCustomOutline(IDriverInfo driverInfo, out SolidColorBrush outlineBrush);
+        bool TryGetCustomOutline(IDriverInfo driverInfo, out ColorDto outlineColor);
+        ColorDto GetClassColor(IDriverInfo driverInfo);
+
     }
 }

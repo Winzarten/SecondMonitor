@@ -88,6 +88,8 @@
     <Compile Include="CarStatus\SessionRemainingCalculator.cs" />
     <Compile Include="CarStatus\WheelStatusViewModel.cs" />
     <Compile Include="Colors\BasicColorPaletteProvider.cs" />
+    <Compile Include="Colors\ClassColorProvider.cs" />
+    <Compile Include="Colors\IClassColorProvider.cs" />
     <Compile Include="Controllers\AutoUpdateController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Colors\IColorPaletteProvider.cs" />
