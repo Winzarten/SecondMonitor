@@ -66,6 +66,13 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             private set => SetProperty(ref _colorLapsColumns, value);
         }
 
+        private bool _isClassIndicationEnabled;
+        public bool IsClassIndicationEnabled
+        {
+            get => _isClassIndicationEnabled;
+            private set => SetProperty(ref _isClassIndicationEnabled, value);
+        }
+
         private bool _isLastPLayerLapBetter;
         public bool IsLastPlayerLapBetter
         {
@@ -415,6 +422,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             CarClassName = DriverTiming.CarClassName;
             Name = DriverTiming.Name;
             HasCustomOutline = _driverPresentationsManager.IsCustomOutlineEnabled(Name);
+            IsClassIndicationEnabled = DriverTiming.Session?.LastSet?.SessionInfo?.IsMultiClass == true;
             if (_driverPresentationsManager.TryGetOutLineColor(Name, out ColorDto color))
             {
                 OutLineColor = color;

@@ -131,10 +131,10 @@
                         <BooleanToVisibilityConverter x:Key="BoolToVis" />
                     </timingGridControl:TimingGrid.Resources>
                     <timingGridControl:TimingGrid.Columns>
-                        <DataGridTemplateColumn Width="5">
+                        <DataGridTemplateColumn Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Grid Width="5" MinWidth="5" Background="{Binding ClassIndicationBrush, Converter={StaticResource ColorDtoToSolidBrushConverter}, Mode=OneWay}"/>
+                                    <Grid Visibility="{Binding IsClassIndicationEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Background="{Binding ClassIndicationBrush, Converter={StaticResource ColorDtoToSolidBrushConverter}, Mode=OneWay}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
