@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using DataModel.Extensions;
     using SecondMonitor.ViewModels.Factory;
     using Settings;
     using ViewModels.GraphPanel;
@@ -20,12 +21,22 @@
 
         public IEnumerable<(IGraphViewModel graphViewModel, int priority)> GetLeftSideViewModels()
         {
-            return _viewModelFactory.CreateAll<IGraphViewModel>().Where(_graphsSettingsProvider.IsGraphViewModelLeft).Select(x => (x, _graphsSettingsProvider.GetGraphPriority(x)));
+            List<IGraphViewModel> allCharts =  _viewModelFactory.CreateAll<IGraphViewModel>().ToList();
+            List<IGraphViewModel> chartsToReturn = allCharts.Where(_graphsSettingsProvider.IsGraphViewModelLeft).ToList();
+
+            allCharts.Except(chartsToReturn).ForEach(x => x.Dispose());
+
+            return chartsToReturn.Select(x => (x, _graphsSettingsProvider.GetGraphPriority(x)));
         }
 
         public IEnumerable<(IGraphViewModel graphViewModel, int priority)> GetRightSideViewModels()
         {
-            return _viewModelFactory.CreateAll<IGraphViewModel>().Where(_graphsSettingsProvider.IsGraphViewModelRight).Select(x => (x, _graphsSettingsProvider.GetGraphPriority(x)));
+            List<IGraphViewModel> allCharts = _viewModelFactory.CreateAll<IGraphViewModel>().ToList();
+            List<IGraphViewModel> chartsToReturn = allCharts.Where(_graphsSettingsProvider.IsGraphViewModelRight).ToList();
+
+            allCharts.Except(chartsToReturn).ForEach(x => x.Dispose());
+
+            return chartsToReturn.Select(x => (x, _graphsSettingsProvider.GetGraphPriority(x)));
         }
     }
 }

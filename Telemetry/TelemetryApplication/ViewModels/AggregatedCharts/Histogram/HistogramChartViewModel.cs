@@ -1,15 +1,21 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.GraphPanel.Histogram
+﻿namespace SecondMonitor.Telemetry.TelemetryApplication.ViewModels.AggregatedCharts.Histogram
 {
     using System.Collections.Generic;
+    using System.Windows;
     using AggregatedCharts;
+    using Controllers.Synchronization;
+    using DataModel.Extensions;
     using OxyPlot;
+    using OxyPlot.Annotations;
     using OxyPlot.Axes;
-    using OxyPlot.Series;
     using SecondMonitor.ViewModels;
     using TelemetryApplication.AggregatedCharts.Histogram;
+    using LinearAxis = OxyPlot.Axes.LinearAxis;
+    using LinearBarSeries = OxyPlot.Series.LinearBarSeries;
 
     public class HistogramChartViewModel : AbstractViewModel<Histogram>, IAggregatedChartViewModel
     {
+        private readonly IDataPointSelectionSynchronization _dataPointSelectionSynchronization;
         private static readonly OxyColor BaseColor = OxyColors.White;
         private static readonly OxyColor SelectedColor = OxyColors.MediumVioletRed;
 
@@ -19,11 +25,14 @@
         private LinearBarSeries _columnSeries;
         private int _dataPointsCount;
         private readonly Dictionary<DataPoint, HistogramBand> _pointBandMap;
+        private readonly Dictionary<HistogramBand, RectangleAnnotation> _selectionAnnotations;
         private string _title;
 
-        public HistogramChartViewModel()
+        public HistogramChartViewModel(IDataPointSelectionSynchronization dataPointSelectionSynchronization)
         {
+            _dataPointSelectionSynchronization = dataPointSelectionSynchronization;
             _pointBandMap = new Dictionary<DataPoint, HistogramBand>();
+            _selectionAnnotations = new Dictionary<HistogramBand, RectangleAnnotation>();
         }
 
         public int DataPointsCount
@@ -83,6 +92,30 @@
 
         }
 
+        public void ToggleSelection(Point mousePoint)
+        {
+            if (!TryGetBandByMousePoint(mousePoint, out HistogramBand histogramBand))
+            {
+                return;
+            }
+            if (_selectionAnnotations.TryGetValue(histogramBand, out RectangleAnnotation annotation))
+            {
+                PlotModel.Annotations.Remove(annotation);
+                _selectionAnnotations.Remove(histogramBand);
+                _dataPointSelectionSynchronization.DeSelectPoints(histogramBand.SourceValues);
+
+            }
+            else
+            {
+                annotation = new RectangleAnnotation { MinimumX = histogramBand.Category - BandSize / 2, MaximumX = histogramBand.Category + BandSize / 2, MinimumY = 0, MaximumY = histogramBand.Percentage, ToolTip = "Bar is Selected", Fill = OxyColor.FromAColor(99, OxyColors.Blue) };
+                PlotModel.Annotations.Add(annotation);
+                _selectionAnnotations.Add(histogramBand, annotation);
+                _dataPointSelectionSynchronization.SelectPoints(histogramBand.SourceValues);
+            }
+
+            PlotModel.InvalidatePlot(false);
+        }
+
         protected override void ApplyModel(Histogram model)
         {
             _pointBandMap.Clear();;
@@ -93,6 +126,30 @@
         public override Histogram SaveToNewModel()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void DeselectAll()
+        {
+            _selectionAnnotations.Keys.ForEach(x => _dataPointSelectionSynchronization.DeSelectPoints(x.SourceValues));
+            _selectionAnnotations.Clear();
+        }
+
+        private bool TryGetBandByMousePoint(Point mousePoint, out HistogramBand band)
+        {
+            HitTestResult hitResult = _columnSeries.HitTest(new HitTestArguments(new ScreenPoint(mousePoint.X, mousePoint.Y), 0));
+            if (hitResult?.Item == null || !(hitResult.Item is DataPoint dataPoint))
+            {
+                band = null;
+                return false;
+            }
+
+            band = _pointBandMap[dataPoint];
+            return true;
+        }
+
+        public void Dispose()
+        {
+            DeselectAll();
         }
     }
 }

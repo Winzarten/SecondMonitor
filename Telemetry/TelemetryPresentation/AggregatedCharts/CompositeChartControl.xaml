@@ -5,7 +5,23 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../TelemetryPresentation.xaml" />
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type aggregatedCharts:CompositeAggregatedChartsViewModel}" >
+            <DataTemplate DataType="{x:Type aggregatedCharts:SplitAggregatedChartViewModel}" >
+                <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey05Brush}">
+                    <Grid Background="{StaticResource Anthracite01Brush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock Style="{StaticResource StandardText}" Text="{Binding Title}" FontSize="{StaticResource ExtraBigFontSize}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+                        <ContentPresenter Grid.Row="1" Content="{Binding TopViewModel}"/>
+                        <ContentPresenter Grid.Row="2" Content="{Binding BottomViewModel}"/>
+                    </Grid>
+                </Border>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type aggregatedCharts:CompositeAggregatedChartsViewModel}" >
                 <Border BorderThickness="1" BorderBrush="{StaticResource DarkGrey05Brush}">
                     <Grid Background="{StaticResource Anthracite01Brush}">
                         <Grid.RowDefinitions>

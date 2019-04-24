@@ -61,6 +61,7 @@
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InSingletonScope();
             Bind<IGraphViewSynchronization>().To<GraphViewSynchronization>().InNamedScope(MainWidowScopeName);
+            Bind<IDataPointSelectionSynchronization>().To<DataPointSelectionSynchronization>().InSingletonScope();
             Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InNamedScope(MainWidowScopeName);
             Bind<IMapViewController>().To<MapViewController>().InNamedScope(MainWidowScopeName);
             Bind<ILapColorSynchronization>().To<LapColorSynchronization>().InNamedScope(MainWidowScopeName);
@@ -130,12 +131,27 @@
             Bind<IAggregatedChartProvider>().To<SpeedHorizontalAccelerationChartProvider>();
             Bind<IAggregatedChartProvider>().To<RpmToHorizontalGChartProvider>();
             Bind<IAggregatedChartProvider>().To<RpmHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToHorizontalAccProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToLateralAccProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToSpeedProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedToDownforceProvider>();
 
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
+            Bind<RideHeightGraphViewModel>().ToSelf();
 
             Bind<SpeedToRpmScatterPlotExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
             Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
+
+            Bind<HorizontalAccelerationToRideHeightExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoLateralAccelerationFilter>().WhenInjectedExactlyInto<HorizontalAccelerationToRideHeightExtractor>();
+
+            Bind<LateralAccelerationToRideHeightExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoHorizontalAccelerationFilter>().WhenInjectedExactlyInto<LateralAccelerationToRideHeightExtractor>();
+
+            Bind<SpeedToRideHeightExtractor>().ToSelf();
+            Bind<SpeedToDownforceExtractor>().ToSelf();
 
             Bind<SpeedToHorizontalGExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<FullThrottleFilter>().WhenInjectedExactlyInto<SpeedToHorizontalGExtractor>();

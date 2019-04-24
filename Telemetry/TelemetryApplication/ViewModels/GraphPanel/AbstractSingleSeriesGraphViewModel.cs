@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using DataExtractor;
+    using DataModel.Extensions;
     using DataModel.Telemetry;
     using OxyPlot;
     using OxyPlot.Series;
@@ -74,6 +75,14 @@
         private void SelectedDataExtractorOnDataRefreshRequested(object sender, EventArgs e)
         {
             RecreateAllLineSeries();
+        }
+
+
+        public override void Dispose()
+        {
+            UnSubscribeDataExtractor();
+            DataExtractors.ForEach(x => x.Dispose());
+            base.Dispose();
         }
     }
 

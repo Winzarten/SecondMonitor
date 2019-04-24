@@ -21,7 +21,7 @@
         public abstract double XMajorTickSize { get; }
         public abstract double YMajorTickSize { get; }
 
-        protected ScatterPlotSeries ExtractSeries(IEnumerable<LapTelemetryDto> loadedLaps, IReadOnlyCollection<ITelemetryFilter> filters, string seriesTitle, OxyColor color)
+        public ScatterPlotSeries ExtractSeries(IEnumerable<LapTelemetryDto> loadedLaps, IReadOnlyCollection<ITelemetryFilter> filters, string seriesTitle, OxyColor color)
         {
             TimedTelemetrySnapshot[] timedTelemetrySnapshots = loadedLaps.SelectMany(x => x.TimedTelemetrySnapshots).Where(x => filters.All(y => y.Accepts(x))).ToArray();
 

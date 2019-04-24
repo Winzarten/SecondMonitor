@@ -10,7 +10,7 @@
 
         protected override string YUnits => Velocity.GetUnitSymbol(VelocityUnitsSmall);
 
-        protected override double YTickInterval => Velocity.FromMs(0.1).GetValueInUnits(VelocityUnitsSmall);
+        protected override double YTickInterval => Math.Round(Velocity.FromMs(0.05).GetValueInUnits(VelocityUnitsSmall), 2);
 
         protected override bool CanYZoom => true;
 

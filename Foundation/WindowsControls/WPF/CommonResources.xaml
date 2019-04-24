@@ -17,6 +17,8 @@
     <converters:TimeSpanToMinutesSecondMilisecondsConverter x:Key="TimeSpanToMinutesSecondMilisecondsConverter"/>
     <converters:DateTimeToCurrentConverter x:Key="DateTimeToCurrentConverter"/>
     <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter"/>
+    <converters:ColorDtoToColorConverter x:Key="ColorDtoToColorConverter"/>
+    <converters:ColorDtoToSolidBrushConverter x:Key="ColorDtoToSolidBrushConverter"/>
     <oxy:OxyColorConverter x:Key="OxyColorConverter" />
 
 

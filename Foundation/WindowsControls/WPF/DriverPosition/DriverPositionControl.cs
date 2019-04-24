@@ -18,6 +18,24 @@
         private TranslateTransform _translateTransform;
         private TimeSpan _animationTime = TimeSpan.FromMilliseconds(100);
 
+        public static readonly DependencyProperty ClassIndicationBrushProperty = DependencyProperty.Register(
+            "ClassIndicationBrush", typeof(SolidColorBrush), typeof(DriverPositionControl), new PropertyMetadata(default(SolidColorBrush)));
+
+        public static readonly DependencyProperty IsClassColorIndicationEnabledProperty = DependencyProperty.Register(
+            "IsClassColorIndicationEnabled", typeof(bool), typeof(DriverPositionControl), new PropertyMetadata(default(bool)));
+
+        public bool IsClassColorIndicationEnabled
+        {
+            get => (bool) GetValue(IsClassColorIndicationEnabledProperty);
+            set => SetValue(IsClassColorIndicationEnabledProperty, value);
+        }
+
+        public SolidColorBrush ClassIndicationBrush
+        {
+            get => (SolidColorBrush) GetValue(ClassIndicationBrushProperty);
+            set => SetValue(ClassIndicationBrushProperty, value);
+        }
+
         public SolidColorBrush OutLineColor
         {
             get => (SolidColorBrush) GetValue(OutLineColorProperty);

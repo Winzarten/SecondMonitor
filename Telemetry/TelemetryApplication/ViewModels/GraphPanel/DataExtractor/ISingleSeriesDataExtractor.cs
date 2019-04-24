@@ -5,7 +5,7 @@
     using Settings.DTO;
     using TelemetryManagement.DTO;
 
-    public interface ISingleSeriesDataExtractor
+    public interface ISingleSeriesDataExtractor : IDisposable
     {
         event EventHandler<EventArgs> DataRefreshRequested;
 
