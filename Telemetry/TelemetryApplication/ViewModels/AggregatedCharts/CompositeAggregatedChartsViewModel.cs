@@ -25,5 +25,10 @@
             _childAggregatedChartViewModels.Add(aggregatedChartViewModel);
         }
 
+        public override void Dispose()
+        {
+            _mainAggregatedChartViewModel.Dispose();
+            _childAggregatedChartViewModels.ForEach(x => x.Dispose());
+        }
     }
 }

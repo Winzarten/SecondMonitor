@@ -23,6 +23,7 @@
     using SecondMonitor.ViewModels.Factory;
     using SimdataManagement;
     using TelemetryManagement.DTO;
+    using TelemetryManagement.StoryBoard;
 
     public class MapViewViewModel : AbstractViewModel, IMapViewViewModel, IPositionCircleInformationProvider
     {
@@ -41,6 +42,7 @@
         private bool _showClutchOverlay;
         private bool _showShiftPoints;
         private bool _showColoredSectors;
+        private Path _selectionPath;
 
         public MapViewViewModel(IViewModelFactory viewModelFactory, IResolutionRoot resolutionRoot)
         {
@@ -202,6 +204,18 @@
             }
             RefreshOverlays();
             geometryCollection.GetAllPaths().ForEach(SituationOverviewControl.AddCustomPath);
+        }
+
+        public void RefreshCustomPointsPath(IReadOnlyCollection<TimedValue> points, TrackMapDto trackMapDto)
+        {
+            string selectionGeometry = TrackMapFromTelemetryFactory.GetGeometry(points, trackMapDto.TrackGeometry.XCoef, trackMapDto.TrackGeometry.YCoef, trackMapDto.TrackGeometry.IsSwappedAxis);
+            if (_selectionPath != null)
+            {
+                _situationOverviewControl.RemoveCustomPath(_selectionPath);
+            }
+
+            _selectionPath = new Path() {Data = Geometry.Parse(selectionGeometry), StrokeThickness = 6.0, Stroke = Brushes.GreenYellow};
+            _situationOverviewControl.AddCustomPath(_selectionPath);
         }
 
         private async Task InitializeGeometryCollection(ILapCustomPathsCollection geometryCollection, LapTelemetryDto lapTelemetry, TrackMapDto trackMapDto)

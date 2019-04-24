@@ -61,6 +61,7 @@
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InSingletonScope();
             Bind<IGraphViewSynchronization>().To<GraphViewSynchronization>().InNamedScope(MainWidowScopeName);
+            Bind<IDataPointSelectionSynchronization>().To<DataPointSelectionSynchronization>().InSingletonScope();
             Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InNamedScope(MainWidowScopeName);
             Bind<IMapViewController>().To<MapViewController>().InNamedScope(MainWidowScopeName);
             Bind<ILapColorSynchronization>().To<LapColorSynchronization>().InNamedScope(MainWidowScopeName);

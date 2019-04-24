@@ -11,5 +11,7 @@
             get => _title;
             set => SetProperty(ref _title, value);
         }
+
+        public abstract void Dispose();
     }
 }

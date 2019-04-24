@@ -197,5 +197,10 @@
         {
             throw new System.NotImplementedException();
         }
+
+        public void Dispose()
+        {
+            PlotModel = null;
+        }
     }
 }

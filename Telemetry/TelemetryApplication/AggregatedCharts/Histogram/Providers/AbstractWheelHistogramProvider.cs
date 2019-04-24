@@ -26,7 +26,7 @@
         public abstract string ChartName { get; }
         public abstract AggregatedChartKind Kind { get; }
 
-        protected virtual IAggregatedChartViewModel CreateAggregatedChartViewModel<T, TX>() where T : WheelsHistogramChartViewModel, new() where TX : HistogramChartViewModel, new()
+        protected virtual IAggregatedChartViewModel CreateAggregatedChartViewModel<T, TX>() where T : WheelsHistogramChartViewModel, new() where TX : HistogramChartViewModel
         {
             List<LapTelemetryDto> loadedLaps = _loadedLapsCache.LoadedLaps.ToList();
             string title = $"{ChartName} - Laps: {string.Join(", ", loadedLaps.Select(x => x.LapSummary.CustomDisplayName))}";
@@ -47,23 +47,23 @@
         public virtual IAggregatedChartViewModel CreateAggregatedChartViewModel() => CreateAggregatedChartViewModel<WheelsHistogramChartViewModel, HistogramChartViewModel>();
 
 
-        protected void FillHistogramViewmodel<T>(IReadOnlyCollection<LapTelemetryDto> loadedLaps, double bandSize, WheelsChartViewModel wheelsChart) where T : HistogramChartViewModel, new()
+        protected void FillHistogramViewmodel<T>(IReadOnlyCollection<LapTelemetryDto> loadedLaps, double bandSize, WheelsChartViewModel wheelsChart) where T : HistogramChartViewModel
         {
             Histogram flHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramFrontLeft(loadedLaps, bandSize);
             Histogram frHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramFrontRight(loadedLaps, bandSize);
             Histogram rlHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramRearLeft(loadedLaps, bandSize);
             Histogram rrHistogram = _abstractWheelHistogramDataExtractor.ExtractHistogramRearRight(loadedLaps, bandSize);
 
-            T flViewModel = new T();
+            T flViewModel = _viewModelFactory.Create<T>();
             flViewModel.FromModel(flHistogram);
 
-            T frViewModel = new T();
+            T frViewModel = _viewModelFactory.Create<T>();
             frViewModel.FromModel(frHistogram);
 
-            T rlViewModel = new T();
+            T rlViewModel = _viewModelFactory.Create<T>();
             rlViewModel.FromModel(rlHistogram);
 
-            T rrViewModel = new T();
+            T rrViewModel = _viewModelFactory.Create<T>();
             rrViewModel.FromModel(rrHistogram);
 
             wheelsChart.FrontLeftChartViewModel = flViewModel;

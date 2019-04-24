@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Controllers.Synchronization;
     using TelemetryApplication.AggregatedCharts.Histogram;
+    using TelemetryManagement.StoryBoard;
 
     public class SuspensionVelocityHistogramChartViewModel : HistogramChartViewModel
     {
@@ -10,6 +12,10 @@
         private double _reboundAverageSpeed;
         private double _bumpPercentage;
         private double _reboundPercentage;
+
+        public SuspensionVelocityHistogramChartViewModel(IDataPointSelectionSynchronization dataPointSelectionSynchronization) : base(dataPointSelectionSynchronization)
+        {
+        }
 
         public double BumpAverageSpeed
         {
@@ -41,8 +47,11 @@
             List<HistogramBand> rebound = model.Items.Where(x => x.Category < 0).ToList();
             BumpPercentage = bumps.Sum(x => x.Percentage);
             ReboundPercentage = rebound.Sum(x => x.Percentage);
-            BumpAverageSpeed = bumps.Sum(x => x.Category * x.Percentage) / _bumpPercentage;
-            ReboundAverageSpeed = rebound.Sum(x => x.Category * x.Percentage) / _reboundPercentage;
+            List<TimedValue> bumpValues = bumps.SelectMany(x => x.SourceValues).ToList();
+            BumpAverageSpeed = bumpValues.Sum(x => x.Value * x.ValueTime.TotalSeconds) / bumpValues.Sum(x => x.ValueTime.TotalSeconds);
+
+            List<TimedValue> reboundValues = rebound.SelectMany(x => x.SourceValues).ToList();
+            ReboundAverageSpeed = reboundValues.Sum(x => x.Value * x.ValueTime.TotalSeconds) / reboundValues.Sum(x => x.ValueTime.TotalSeconds);
             base.ApplyModel(model);
         }
     }

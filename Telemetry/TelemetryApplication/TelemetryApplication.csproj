@@ -135,12 +135,14 @@
     <Compile Include="Controllers\OpenWindow\OpenWindowController.cs" />
     <Compile Include="Controllers\SettingsWindow\ISettingsWindowController.cs" />
     <Compile Include="Controllers\SettingsWindow\SettingsWindowController.cs" />
+    <Compile Include="Controllers\Synchronization\DataPointSelectionSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\GraphViewSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\IGraphViewSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\PanEventArgs.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\ScaleEventArgs.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\TyreTempVisibilityArgs.cs" />
     <Compile Include="Controllers\Synchronization\Graphs\WheelVisibilityArgs.cs" />
+    <Compile Include="Controllers\Synchronization\IDataPointSelectionSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\ILapColorSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\ITelemetryViewsSynchronization.cs" />
     <Compile Include="Controllers\Synchronization\LapColorArgs.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Controllers\Synchronization\TelemetrySessionArgs.cs" />
     <Compile Include="Controllers\Synchronization\TelemetrySnapshotArgs.cs" />
     <Compile Include="Controllers\Synchronization\TelemetryViewsSynchronization.cs" />
+    <Compile Include="Controllers\Synchronization\TimedValuesArgs.cs" />
     <Compile Include="Controllers\TelemetryApplicationController.cs" />
     <Compile Include="Controllers\TelemetryLoad\ITelemetryLoadController.cs" />
     <Compile Include="Controllers\TelemetryLoad\TelemetryLoadController.cs" />

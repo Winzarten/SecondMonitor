@@ -33,5 +33,13 @@
             get => _rearRightChartViewModel;
             set => SetProperty(ref _rearRightChartViewModel, value);
         }
+
+        public override void Dispose()
+        {
+            FrontLeftChartViewModel.Dispose();
+            FrontRightChartViewModel.Dispose();
+            RearLeftChartViewModel.Dispose();
+            RearRightChartViewModel.Dispose();
+        }
     }
 }

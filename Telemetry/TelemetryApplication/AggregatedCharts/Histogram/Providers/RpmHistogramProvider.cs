@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Extractors;
+    using SecondMonitor.ViewModels.Factory;
     using TelemetryManagement.DTO;
     using ViewModels.AggregatedCharts;
     using ViewModels.AggregatedCharts.Histogram;
@@ -12,13 +13,15 @@
     {
         private readonly ILoadedLapsCache _loadedLapsCache;
         private readonly RpmHistogramDataExtractor _rpmHistogramDataExtractor;
+        private readonly IViewModelFactory _viewModelFactory;
         public string ChartName => "RPM Histogram";
         public AggregatedChartKind Kind => AggregatedChartKind.Histogram;
 
-        public RpmHistogramProvider(ILoadedLapsCache loadedLapsCache, RpmHistogramDataExtractor rpmHistogramDataExtractor)
+        public RpmHistogramProvider(ILoadedLapsCache loadedLapsCache, RpmHistogramDataExtractor rpmHistogramDataExtractor, IViewModelFactory viewModelFactory)
         {
             _loadedLapsCache = loadedLapsCache;
             _rpmHistogramDataExtractor = rpmHistogramDataExtractor;
+            _viewModelFactory = viewModelFactory;
         }
 
         public IAggregatedChartViewModel CreateAggregatedChartViewModel()
@@ -30,7 +33,7 @@
 
             CompositeAggregatedChartsViewModel viewModel = new CompositeAggregatedChartsViewModel() { Title = title };
 
-            HistogramChartViewModel mainViewModel = new HistogramChartViewModel();
+            HistogramChartViewModel mainViewModel = _viewModelFactory.Create<HistogramChartViewModel>();
             mainViewModel.FromModel(CreateHistogramAllGears(loadedLaps, _rpmHistogramDataExtractor.DefaultBandSize));
 
             viewModel.MainAggregatedChartViewModel = mainViewModel;
@@ -42,7 +45,7 @@
                 {
                     continue;
                 }
-                HistogramChartViewModel child = new HistogramChartViewModel();
+                HistogramChartViewModel child = _viewModelFactory.Create<HistogramChartViewModel>();
                 child.FromModel(histogram);
                 viewModel.AddChildAggregatedChildViewModel(child);
             }

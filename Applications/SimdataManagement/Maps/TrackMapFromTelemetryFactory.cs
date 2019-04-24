@@ -5,9 +5,11 @@
     using System.Linq;
     using System.Text;
     using System.Windows;
+    using DataModel.BasicProperties;
     using DataModel.Extensions;
     using DataModel.Telemetry;
     using DataModel.TrackMap;
+    using Telemetry.TelemetryManagement.StoryBoard;
 
     public class TrackMapFromTelemetryFactory
     {
@@ -78,6 +80,17 @@
             return GetGeometry(points, wrapAround);
         }
 
+        public static string GetGeometry(IReadOnlyCollection<TimedValue> timedPoints, double xCoef = 1, double yCoef = 1, bool swapXy = false)
+        {
+            StringBuilder sb =new StringBuilder();
+            foreach (TimedValue timedPoint in timedPoints)
+            {
+                Point[] points = ExtractWorldPoints(xCoef, yCoef, swapXy, timedPoint.StartSnapshot.PlayerData.WorldPosition, timedPoint.EndSnapshot.PlayerData.WorldPosition);
+                sb.Append($"M {points[0].X} {points[0].Y} L  {points[1].X} {points[1].Y} ");
+            }
+            return sb.ToString().Replace(",", ".");
+        }
+
         public static string GetGeometry(Point[] points, bool wrapAround)
         {
             StringBuilder sb = new StringBuilder($"M {points.First().X} {points.First().Y} ");
@@ -102,6 +115,12 @@
         {
             return swapXy ? fullTrackPoint.Select(x => new Point(x.PlayerData.WorldPosition.Z.InMeters * yCoef, x.PlayerData.WorldPosition.X.InMeters * xCoef)).ToArray() :
             fullTrackPoint.Select(x => new Point(x.PlayerData.WorldPosition.X.InMeters * xCoef, x.PlayerData.WorldPosition.Z.InMeters * yCoef)).ToArray();
+        }
+
+        public static Point[] ExtractWorldPoints(double xCoef, double yCoef, bool swapXy, params Point3D[] points )
+        {
+            return swapXy ? points.Select(x => new Point(x.Z.InMeters * yCoef, x.X.InMeters * xCoef)).ToArray() :
+                points.Select(x => new Point(x.X.InMeters * xCoef, x.Z.InMeters * yCoef)).ToArray();
         }
 
         private List<TimedTelemetrySnapshot> Filter(TimedTelemetrySnapshots timedTelemetrySnapshots)
