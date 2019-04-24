@@ -329,6 +329,7 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
         {
             try
             {
+                IsClassIndicationEnabled = DriverTiming.Session?.LastSet?.SessionInfo?.IsMultiClass == true;
                 Position = DriverTiming.Position.ToString();
                 PositionInClass = FormatPositionInClass();
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();
