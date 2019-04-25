@@ -118,6 +118,7 @@
     <Compile Include="Settings\Model\SessionOptions.cs" />
     <Compile Include="Settings\Model\SessionReportSettings.cs" />
     <Compile Include="Settings\Model\TelemetrySettings.cs" />
+    <Compile Include="Settings\Model\WindowLocationSetting.cs" />
     <Compile Include="Settings\ViewModel\ColumnSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\ColumnsSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\DisplaySettingsLoader.cs" />

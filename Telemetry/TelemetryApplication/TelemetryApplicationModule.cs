@@ -120,6 +120,7 @@
             Bind<IGraphViewModel>().To<TurboBoostGraphViewModel>();
             Bind<IGraphViewModel>().To<FrontRearDownForceGraphViewModel>();
             Bind<IGraphViewModel>().To<CamberGraphViewModel>();
+            Bind<IGraphViewModel>().To<RakeGraphViewModel>();
 
             Bind<ISingleSeriesDataExtractor>().To<SimpleSingleSeriesDataExtractor>();
             Bind<ISingleSeriesDataExtractor>().To<CompareToReferenceDataExtractor>();
@@ -136,6 +137,7 @@
             Bind<IAggregatedChartProvider>().To<RideHeightToLateralAccProvider>();
             Bind<IAggregatedChartProvider>().To<RideHeightToSpeedProvider>();
             Bind<IAggregatedChartProvider>().To<SpeedToDownforceProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedToRakeProvider>();
 
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
             Bind<RideHeightGraphViewModel>().ToSelf();
@@ -149,6 +151,9 @@
 
             Bind<LateralAccelerationToRideHeightExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<NoHorizontalAccelerationFilter>().WhenInjectedExactlyInto<LateralAccelerationToRideHeightExtractor>();
+
+            Bind<SpeedToRakeExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoLateralAccelerationFilter>().WhenInjectedExactlyInto<SpeedToRakeExtractor>();
 
             Bind<SpeedToRideHeightExtractor>().ToSelf();
             Bind<SpeedToDownforceExtractor>().ToSelf();

@@ -97,6 +97,7 @@
     <Compile Include="AggregatedCharts\ScatterPlot\Extractors\RpmToHorizontalGExtractor.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Extractors\SpeedToDownforceExtractor.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Extractors\SpeedToHorizontalGExtractor.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Extractors\SpeedToRakeExtractor.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Extractors\SpeedToRideHeightExtractor.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Providers\AbstractWheelChartProvider.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Providers\RideHeightToHorizontalAccProvider.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="AggregatedCharts\ScatterPlot\Providers\RpmToHorizontalGChartProvider.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Providers\SpeedHorizontalAccelerationChartProvider.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Providers\SpeedToDownforceProvider.cs" />
+    <Compile Include="AggregatedCharts\ScatterPlot\Providers\SpeedToRakeProvider.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\ScatterPlot.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\ScatterPlotSeries.cs" />
     <Compile Include="AggregatedCharts\ScatterPlot\Providers\SpeedToRpmChartProvider.cs" />
@@ -204,6 +206,7 @@
     <Compile Include="ViewModels\GraphPanel\LateralGGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\OverallDownForceGraphViewModel.cs" />
     <Compile Include="ViewModels\AggregatedCharts\ScatterPlot\ScatterPlotChartViewModel.cs" />
+    <Compile Include="ViewModels\GraphPanel\RakeGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\SpeedGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\Inputs\ThrottleGraphViewModel.cs" />
     <Compile Include="ViewModels\GraphPanel\TurboBoostGraphViewModel.cs" />

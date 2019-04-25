@@ -58,6 +58,8 @@
         public MapDisplaySettings MapDisplaySettings { get; set; } = new MapDisplaySettings();
 
         public TelemetrySettings TelemetrySettings { get; set; } = new TelemetrySettings();
+
+        public WindowLocationSetting WindowLocationSetting { get; set; }
     }
 
 }

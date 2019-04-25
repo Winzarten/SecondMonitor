@@ -6,9 +6,8 @@
         xmlns:carSystems="clr-namespace:SecondMonitor.WindowsControls.WPF.CarSystems;assembly=WindowsControls"
         x:Name="MainWindow"
         Title="{Binding Title}"
-        Width="1600" Height="800"
         d:DataContext="{d:DesignInstance Type=viewModel:TimingDataViewModel}"
-        d:DesignHeight="300" d:DesignWidth="300" WindowState="Maximized" WindowStyle="SingleBorderWindow"
+        d:DesignHeight="300" d:DesignWidth="300" WindowStyle="SingleBorderWindow"
         mc:Ignorable="d">
 
     <Window.Resources>

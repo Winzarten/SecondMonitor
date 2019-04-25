@@ -342,6 +342,8 @@
             set => SetProperty(ref _maximumGapHeight, value);
         }
 
+        public WindowLocationSetting WindowLocationSetting { get; set; }
+
         protected override void ApplyModel(DisplaySettings settings)
         {
 
@@ -376,6 +378,7 @@
 
             TelemetrySettingsViewModel = new TelemetrySettingsViewModel();
             TelemetrySettingsViewModel.FromModel(settings.TelemetrySettings);
+            WindowLocationSetting = settings.WindowLocationSetting;
         }
 
         public override DisplaySettings SaveToNewModel()
@@ -404,7 +407,8 @@
                 IsGapVisualizationEnabled = IsGapVisualizationEnabled,
                 MinimalGapForVisualization = MinimalGapForVisualization,
                 MaximumGapHeight = MaximumGapHeight,
-                GapHeightForOneSecond = GapHeightForOneSecond
+                GapHeightForOneSecond = GapHeightForOneSecond,
+                WindowLocationSetting = WindowLocationSetting,
             };
         }
 
