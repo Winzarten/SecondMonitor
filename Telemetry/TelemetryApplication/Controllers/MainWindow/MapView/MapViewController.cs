@@ -1,10 +1,10 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.MapView
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using DataModel.Extensions;
     using DataModel.TrackMap;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using SimdataManagement;
     using Synchronization;

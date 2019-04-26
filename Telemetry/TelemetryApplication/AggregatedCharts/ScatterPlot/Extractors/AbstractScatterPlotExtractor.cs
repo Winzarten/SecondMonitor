@@ -7,6 +7,7 @@
     using DataModel.Telemetry;
     using Filter;
     using OxyPlot;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using TelemetryManagement.DTO;
 

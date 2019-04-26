@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using DataModel.Snapshot.Systems;
     using DataModel.Telemetry;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using TelemetryManagement.DTO;
 

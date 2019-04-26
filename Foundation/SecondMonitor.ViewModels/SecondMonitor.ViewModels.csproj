@@ -109,6 +109,8 @@
     <Compile Include="PluginsSettings\PluginsConfigurationViewModel.cs" />
     <Compile Include="PluginsSettings\RemoteConfigurationViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Settings\AppDataSettingsProvider.cs" />
+    <Compile Include="Settings\ISettingsProvider.cs" />
     <Compile Include="Settings\Model\ColumnSettings.cs" />
     <Compile Include="Settings\Model\ColumnsSettings.cs" />
     <Compile Include="Settings\Model\DisplayModeEnum.cs" />

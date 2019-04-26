@@ -10,6 +10,7 @@
     using LapPicker;
     using MapView;
     using SecondMonitor.ViewModels.Factory;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using Snapshot;
     using Synchronization;

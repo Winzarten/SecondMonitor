@@ -3,6 +3,7 @@
     using System;
     using DataModel.BasicProperties;
     using DataModel.Snapshot.Systems;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
 
     public class SuspensionVelocityHistogramDataExtractor : AbstractWheelHistogramDataExtractor

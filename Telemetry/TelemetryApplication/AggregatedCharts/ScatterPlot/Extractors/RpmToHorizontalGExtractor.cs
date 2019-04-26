@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using DataModel.Telemetry;
     using Filter;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
 
     public class RpmToHorizontalGExtractor : AbstractGearFilteredScatterPlotExtractor

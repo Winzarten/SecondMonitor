@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using NLog;
     using Repository;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using Synchronization;
     using TelemetryManagement.DTO;

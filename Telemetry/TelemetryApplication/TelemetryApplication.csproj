@@ -172,8 +172,6 @@
     <Compile Include="Settings\DTO\TelemetrySettingsDto.cs" />
     <Compile Include="Settings\DTO\XAxisKind.cs" />
     <Compile Include="Settings\IGraphsSettingsProvider.cs" />
-    <Compile Include="Settings\ISettingsProvider.cs" />
-    <Compile Include="Settings\AppDataSettingsProvider.cs" />
     <Compile Include="Settings\ITelemetrySettingsRepository.cs" />
     <Compile Include="Settings\TelemetrySettingsRepository.cs" />
     <Compile Include="TelemetryApplicationModule.cs" />

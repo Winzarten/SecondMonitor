@@ -3,6 +3,7 @@
     using Factory;
     using Ninject.Modules;
     using PluginsSettings;
+    using Settings;
 
     public class ViewModelsModule : NinjectModule
     {
@@ -14,6 +15,7 @@
             Bind<IPluginConfigurationViewModel>().To<PluginConfigurationViewModel>();
             Bind<IPluginsConfigurationViewModel>().To<PluginsConfigurationViewModel>();
             Bind<IRemoteConfigurationViewModel>().To<RemoteConfigurationViewModel>();
+            Bind<ISettingsProvider>().To<AppDataSettingsProvider>().InSingletonScope();
         }
     }
 }
