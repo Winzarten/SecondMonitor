@@ -23,6 +23,7 @@ namespace SecondMonitor.Timing.Controllers
     using TelemetryPresentation.MainWindow;
     using ViewModels.Settings.ViewModel;
     using System.Windows;
+    using ReportCreation.ViewModel;
     using SessionTiming.Drivers.Presentation.ViewModel;
     using ViewModels.Settings.Model;
 
@@ -45,6 +46,7 @@ namespace SecondMonitor.Timing.Controllers
         private DriverPresentationsManager _driverPresentationsManager;
         private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
         private readonly DisplaySettingsLoader _displaySettingsLoader;
+        private ReportsController _reportsController;
 
         public TimingApplicationController()
         {
@@ -76,16 +78,23 @@ namespace SecondMonitor.Timing.Controllers
             Application.Current.Resources.MergedDictionaries.Add(dict);
 
             CreateDisplaySettingsViewModel();
+            CreateReportsController();
             CreateSimSettingsController();
             CreateMapManagementController();
             CreateDriverPresentationManager();
             CreateSessionTelemetryControllerFactory();
             DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
             _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel, _driverPresentationsManager, _sessionTelemetryControllerFactory) {MapManagementController = _mapManagementController};
+            _timingDataViewModel.SessionCompleted+=TimingDataViewModelOnSessionCompleted;
             BindCommands();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
             _timingDataViewModel?.Reset();
+        }
+
+        private void CreateReportsController()
+        {
+            _reportsController = new ReportsController(_displaySettingsViewModel);
         }
 
         private void CreateSessionTelemetryControllerFactory()
@@ -161,6 +170,7 @@ namespace SecondMonitor.Timing.Controllers
             _timingGui = null;
             List<Exception> exceptions = new List<Exception>();
             _driverPresentationsManager.SavePresentations();
+            _timingDataViewModel.SessionCompleted -= TimingDataViewModelOnSessionCompleted;
             _timingDataViewModel?.TerminatePeriodicTask(exceptions);
             _displaySettingsLoader.TrySaveDisplaySettings(_displaySettingsViewModel.SaveToNewModel(), SettingsPath);
             await _pluginsManager.DeletePlugin(this, exceptions);
@@ -181,6 +191,8 @@ namespace SecondMonitor.Timing.Controllers
             _timingDataViewModel.ScrollToPlayerCommand = new RelayCommand(() => ScrollToPlayer(_timingDataViewModel.TimingDataGridViewModel.PlayerViewModel));
             _timingDataViewModel.OpenCarSettingsCommand = new RelayCommand(OpenCarSettingsWindow);
             _timingDataViewModel.OpenCurrentTelemetrySession = new AsyncCommand(OpenCurrentTelemetrySession);
+            _timingDataViewModel.OpenLastReportCommand = new RelayCommand(_reportsController.OpenLastReport);
+            _timingDataViewModel.OpenReportFolderCommand = new RelayCommand(_reportsController.OpenReportsFolder);
         }
 
         private void UnSelectItem()
@@ -246,6 +258,11 @@ namespace SecondMonitor.Timing.Controllers
             {
                 _timingGui.DtTimig.ScrollToCenterOfView(driverTimingViewModel);
             }
+        }
+
+        private void TimingDataViewModelOnSessionCompleted(object sender, SessionSummaryEventArgs e)
+        {
+            _reportsController?.CreateReport(e.Summary);
         }
     }
 }

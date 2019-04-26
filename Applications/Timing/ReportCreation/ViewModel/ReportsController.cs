@@ -12,7 +12,6 @@
 
     using NLog;
 
-    using SecondMonitor.Timing.SessionTiming.ViewModel;
     using ViewModels.Settings.ViewModel;
     using XslxExport;
 
@@ -27,25 +26,18 @@
         public ReportsController(DisplaySettingsViewModel settingsView)
         {
             SettingsView = settingsView;
-            OpenLastReportCommand = new RelayCommand(OpenLastReport);
-            OpenReportsFolderCommand = new RelayCommand(OpenReportsFolder);
         }
 
-        public RelayCommand OpenLastReportCommand { get; }
+       public DisplaySettingsViewModel SettingsView { get; set; }
 
-        public RelayCommand OpenReportsFolderCommand { get; }
-
-        public DisplaySettingsViewModel SettingsView { get; set; }
-
-        public void CreateReport(SessionTiming sessionTiming)
+        public void CreateReport(SessionSummary sessionSummary)
         {
-            if (!ShouldBeExported(sessionTiming))
+            if (!ShouldBeExported(sessionSummary))
             {
                 return;
             }
             try
             {
-                SessionSummary sessionSummary = sessionTiming.ToSessionSummary();
                 string reportName = GetReportName(sessionSummary);
                 SessionSummaryExporter sessionSummaryExporter = CreateSessionSummaryExporter();
                 string fullReportPath = Path.Combine(
@@ -90,19 +82,19 @@
             return sessionSummaryExporter;
         }
 
-        private bool ShouldBeExported(SessionTiming sessionTiming)
+        private bool ShouldBeExported(SessionSummary sessionSummary)
         {
-            if (sessionTiming?.LastSet?.SessionInfo == null || SettingsView == null)
+            if (SettingsView == null)
             {
                 return false;
             }
 
-            if (sessionTiming.LastSet.SessionInfo.SessionTime.TotalMinutes < SettingsView.ReportingSettingsView.MinimumSessionLength)
+            if (sessionSummary.SessionRunDuration.TotalMinutes < SettingsView.ReportingSettingsView.MinimumSessionLength)
             {
                 return false;
             }
 
-            switch (sessionTiming.SessionType)
+            switch (sessionSummary.SessionType)
             {
                 case SessionType.Practice:
                     return SettingsView.ReportingSettingsView.PracticeReportSettingsView.Export;

@@ -91,6 +91,7 @@
     <Compile Include="LapTimings\ViewModel\DriverLapsViewModel.cs" />
     <Compile Include="LapTimings\ViewModel\LapViewModel.cs" />
     <Compile Include="Presentation\ViewModel\NotifyingDateTime.cs" />
+    <Compile Include="Presentation\ViewModel\SessionSummaryEventArgs.cs" />
     <Compile Include="Presentation\ViewModel\SessionInfoViewModel.cs" />
     <Compile Include="Presentation\ViewModel\TimeSpanFormatHelper.cs" />
     <Compile Include="Presentation\ViewModel\TimingDataGridViewModel.cs" />

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Linq;
@@ -11,7 +10,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
-    using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Threading;
     using WindowsControls.SituationOverview;
@@ -23,9 +21,8 @@
 
     using DataModel.Extensions;
     using Controllers;
-    using DataModel.Snapshot.Drivers;
+    using ReportCreation;
     using SecondMonitor.Timing.LapTimings.ViewModel;
-    using SecondMonitor.Timing.ReportCreation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SecondMonitor.Timing.SessionTiming.ViewModel;
@@ -82,12 +79,12 @@
             _driverPresentationsManager = driverPresentationsManager;
             _sessionTelemetryControllerFactory = sessionTelemetryControllerFactory;
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
-            ReportsController = new ReportsController(DisplaySettingsViewModel);
             DisplaySettingsViewModel = displaySettingsViewModel;
             SituationOverviewProvider = new SituationOverviewProvider(TimingDataGridViewModel, displaySettingsViewModel);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<SessionSummaryEventArgs> SessionCompleted;
 
         public TimeSpan? PlayersPace => SessionTiming?.Player?.Pace;
         public TimeSpan? LeadersPace => SessionTiming?.Leader?.Pace;
@@ -175,8 +172,6 @@
             set;
         }
 
-        public ReportsController ReportsController { get; }
-
         public string SessionTime => _sessionTiming?.SessionTime.FormatToDefault() ?? string.Empty;
 
         public string ConnectedSource
@@ -238,6 +233,9 @@
         }
 
         private bool TerminatePeriodicTasks { get; set; }
+
+        public ICommand OpenLastReportCommand { get; set; }
+        public ICommand OpenReportFolderCommand { get; set; }
 
         public void TerminatePeriodicTask(List<Exception> exceptions)
         {
@@ -541,11 +539,7 @@
             bool invalidateLap = _shouldReset == TimingDataViewModelResetModeEnum.Manual ||
                                 data.SessionInfo.SessionType != SessionType.Race;
             _lastDataSet = data;
-            if (_sessionTiming != null && ReportsController != null)
-            {
-                ReportsController.CreateReport(_sessionTiming);
-            }
-
+            CheckAndNotifySessionCompleted();
             SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this, _driverPresentationsManager, _sessionTelemetryControllerFactory);
             foreach (var driverTimingModelView in SessionTiming.Drivers.Values)
             {
@@ -638,11 +632,6 @@
             newDisplaySettingsViewModel.PracticeSessionDisplayOptionsView.PropertyChanged += OnDisplaySettingsChange;
             newDisplaySettingsViewModel.RaceSessionDisplayOptionsView.PropertyChanged += OnDisplaySettingsChange;
             newDisplaySettingsViewModel.QualificationSessionDisplayOptionsView.PropertyChanged += OnDisplaySettingsChange;
-
-            if (ReportsController != null)
-            {
-                ReportsController.SettingsView = newDisplaySettingsViewModel;
-            }
         }
 
         private static async Task SchedulePeriodicAction(Action action, Func<int> delayFunc, TimingDataViewModel sender, bool captureContext)
@@ -667,6 +656,15 @@
                 timingDataViewModel.ChangeOrderingMode();
                 timingDataViewModel.ChangeTimeDisplayMode();
             }
+        }
+
+        private void CheckAndNotifySessionCompleted()
+        {
+            if (_sessionTiming?.WasGreen != true)
+            {
+                return;
+            }
+            SessionCompleted?.Invoke(this, new SessionSummaryEventArgs(_sessionTiming.ToSessionSummary()));
         }
     }
 }

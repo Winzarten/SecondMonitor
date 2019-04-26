@@ -581,7 +581,7 @@
                     break;
                 case Constant.SessionLengthFormat.TimeAndLapBased:
                     simData.SessionInfo.SessionTimeRemaining = data.SessionTimeRemaining;
-                    simData.SessionInfo.SessionLengthType = SessionLengthType.TimeWitchExtraLap;
+                    simData.SessionInfo.SessionLengthType = SessionLengthType.TimeWithExtraLap;
                     break;
                 case Constant.SessionLengthFormat.Unavailable:
                 default:

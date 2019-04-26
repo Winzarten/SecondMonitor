@@ -21,6 +21,8 @@
 
         public SessionType SessionType { get; set; }
 
+        public bool WasGreen { get; set; }
+
         public string Simulator { get; set; }
 
         public SessionLengthType SessionLengthType { get; set; } = SessionLengthType.Na;
@@ -28,6 +30,8 @@
         public int TotalNumberOfLaps { get; set; } = 0;
 
         public TimeSpan SessionLength { get; set; }
+
+        public TimeSpan SessionRunDuration { get; set; }
 
         public TrackInfo TrackInfo { get; set; } = new TrackInfo();
 

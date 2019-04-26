@@ -26,6 +26,8 @@
             summary.SessionLength = TimeSpan.FromSeconds(timing.TotalSessionLength);
             summary.SessionLengthType = timing.LastSet.SessionInfo.SessionLengthType;
             summary.TotalNumberOfLaps = timing.LastSet.SessionInfo.TotalNumberOfLaps;
+            summary.SessionRunDuration = timing.SessionTime;
+            summary.WasGreen = timing.WasGreen;
         }
 
         private static void AddDrivers(SessionSummary summary, SessionTiming timing)

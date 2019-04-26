@@ -89,6 +89,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         }
 
         public bool DisplayGapToPlayerRelative { get; set; }
+        public bool WasGreen { get; private set; }
 
         public TimingDataViewModel TimingDataViewModel { get; private set; }
         public ISessionTelemetryController SessionTelemetryController { get; }
@@ -157,7 +158,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                                   / LastSet.SessionInfo.TotalNumberOfLaps) * 1000);
                 }
 
-                if (LastSet != null && (LastSet.SessionInfo.SessionLengthType == SessionLengthType.Time || LastSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap))
+                if (LastSet != null && (LastSet.SessionInfo.SessionLengthType == SessionLengthType.Time || LastSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWithExtraLap))
                 {
                     return (int)(1000 - (LastSet.SessionInfo.SessionTimeRemaining / TotalSessionLength) * 1000);
                 }
@@ -201,7 +202,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                 }
             });
             timing.Drivers = drivers;
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWithExtraLap)
             {
                 timing.TotalSessionLength = dataSet.SessionInfo.SessionTimeRemaining;
             }
@@ -318,6 +319,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             LastSet = dataSet;
             SessionTime = dataSet.SessionInfo.SessionTime - SessionStarTime;
             SessionType = dataSet.SessionInfo.SessionType;
+            WasGreen |= dataSet.SessionInfo.SessionPhase == SessionPhase.Green;
             UpdateDrivers(dataSet);
 
         }
