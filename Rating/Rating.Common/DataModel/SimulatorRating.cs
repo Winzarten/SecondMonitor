@@ -14,7 +14,7 @@
         [XmlAttribute]
         public string SimulatorName { get; set; }
 
-        public PlayersRating PlayersRating { get; set; }
+        public DriversRating PlayersRating { get; set; }
 
         public List<ClassRating> ClassRatings { get; set; }
     }

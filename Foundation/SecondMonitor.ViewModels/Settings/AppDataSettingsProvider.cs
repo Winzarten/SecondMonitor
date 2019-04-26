@@ -10,7 +10,6 @@
         private const string MapFolder = "TrackMaps";
         private const string RatingsFolder = "Ratings";
         private const string SettingsFolder = "Settings";
-        //private const string TelemetryFolder = "Telemetry_Samples";
         private const string TelemetryFolder = "Telemetry";
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),

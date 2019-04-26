@@ -23,6 +23,8 @@ namespace SecondMonitor.Timing.Controllers
     using TelemetryPresentation.MainWindow;
     using ViewModels.Settings.ViewModel;
     using System.Windows;
+    using Contracts.NInject;
+    using Rating.Application.Controller;
     using ReportCreation.ViewModel;
     using SessionTiming.Drivers.Presentation.ViewModel;
     using ViewModels.Settings.Model;
@@ -36,6 +38,7 @@ namespace SecondMonitor.Timing.Controllers
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "SecondMonitor\\settings.json");
 
+        private KernelWrapper _kernelWrapper;
         private TimingDataViewModel _timingDataViewModel;
         private SimSettingController _simSettingController;
         private DisplaySettingsWindow _settingsWindow;
@@ -47,10 +50,13 @@ namespace SecondMonitor.Timing.Controllers
         private ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
         private readonly DisplaySettingsLoader _displaySettingsLoader;
         private ReportsController _reportsController;
+        private readonly IRatingApplicationController _ratingApplicationController;
 
         public TimingApplicationController()
         {
+            _kernelWrapper = new KernelWrapper();
             _displaySettingsLoader = new DisplaySettingsLoader();
+            _ratingApplicationController = _kernelWrapper.Get<IRatingApplicationController>();
         }
 
         public PluginsManager PluginManager
@@ -83,13 +89,20 @@ namespace SecondMonitor.Timing.Controllers
             CreateMapManagementController();
             CreateDriverPresentationManager();
             CreateSessionTelemetryControllerFactory();
+            CreateRatingController();
             DriverLapsWindowManager driverLapsWindowManager = new DriverLapsWindowManager(() => _timingGui, () => _timingDataViewModel.SelectedDriverTiming);
             _timingDataViewModel = new TimingDataViewModel(driverLapsWindowManager, _displaySettingsViewModel, _driverPresentationsManager, _sessionTelemetryControllerFactory) {MapManagementController = _mapManagementController};
             _timingDataViewModel.SessionCompleted+=TimingDataViewModelOnSessionCompleted;
+            _timingDataViewModel.RatingApplicationViewModel = _ratingApplicationController.RatingApplicationViewModel;
             BindCommands();
             CreateGui();
             _timingDataViewModel.GuiDispatcher = _timingGui.Dispatcher;
             _timingDataViewModel?.Reset();
+        }
+
+        private void CreateRatingController()
+        {
+            _ratingApplicationController.StartControllerAsync();
         }
 
         private void CreateReportsController()
@@ -118,6 +131,7 @@ namespace SecondMonitor.Timing.Controllers
             SimulatorDataSet dataSet = e.Data;
             try
             {
+                _ratingApplicationController.NotifyDataLoaded(dataSet);
                 _simSettingController?.ApplySimSettings(dataSet);
 
             }
@@ -161,6 +175,7 @@ namespace SecondMonitor.Timing.Controllers
 
         private async void OnGuiClosed(object sender, EventArgs e)
         {
+            await _ratingApplicationController.StopControllerAsync();
             _displaySettingsViewModel.WindowLocationSetting = new WindowLocationSetting()
             {
                 Left = _timingGui.Left,
@@ -263,6 +278,7 @@ namespace SecondMonitor.Timing.Controllers
         private void TimingDataViewModelOnSessionCompleted(object sender, SessionSummaryEventArgs e)
         {
             _reportsController?.CreateReport(e.Summary);
+            _ratingApplicationController.NotifySessionCompletion(e.Summary);
         }
     }
 }

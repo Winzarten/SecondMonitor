@@ -2,7 +2,7 @@
 {
     using System.Xml.Serialization;
 
-    public class PlayersRating
+    public class DriversRating
     {
         [XmlAttribute]
         public double Rating { get; set; }

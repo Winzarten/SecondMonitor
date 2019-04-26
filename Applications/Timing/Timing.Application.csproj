@@ -43,6 +43,10 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -165,6 +169,16 @@
     <ProjectReference Include="..\..\Foundation\WindowsControls\WindowsControls.csproj">
       <Project>{EA13AF3C-A4E0-4AD2-94AE-78006B04FC41}</Project>
       <Name>WindowsControls</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Rating\Rating.Application\Rating.Application.csproj">
+      <Project>{6AFA0291-BD43-461F-98FE-9EB66B4E7C86}</Project>
+      <Name>Rating.Application</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Rating\Rating.Common\Rating.Common.csproj">
+      <Project>{b6f16b0d-c649-42da-af92-6d7dca71b3b4}</Project>
+      <Name>Rating.Common</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Telemetry\TelemetryApplication\TelemetryApplication.csproj">

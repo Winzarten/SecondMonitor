@@ -6,7 +6,6 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
@@ -21,6 +20,7 @@
 
     using DataModel.Extensions;
     using Controllers;
+    using Rating.Application.ViewModels;
     using ReportCreation;
     using SecondMonitor.Timing.LapTimings.ViewModel;
     using SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel;
@@ -38,11 +38,8 @@
     using ViewModels.Settings.Model;
     using ViewModels.Settings.ViewModel;
 
-    public class TimingDataViewModel : DependencyObject, ISimulatorDataSetViewModel,  INotifyPropertyChanged, IPaceProvider
+    public class TimingDataViewModel : AbstractViewModel, ISimulatorDataSetViewModel,  INotifyPropertyChanged, IPaceProvider
     {
-        private static readonly DependencyProperty CurrentSessionOptionsViewProperty = DependencyProperty.Register("CurrentSessionOptionsView", typeof(SessionOptionsViewModel), typeof(TimingDataViewModel), new PropertyMetadata(null, CurrentSessionOptionsPropertyChanged));
-        private static readonly DependencyProperty SelectedDriverTimingViewModelProperty = DependencyProperty.Register("SelectedDriverTimingViewModel", typeof(DriverTimingViewModel), typeof(TimingDataViewModel));
-        private static readonly DependencyProperty OpenCarSettingsCommandProperty = DependencyProperty.Register("OpenCarSettingsCommand", typeof(ICommand), typeof(TimingDataViewModel));
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
         private readonly DriverPresentationsManager _driverPresentationsManager;
         private readonly ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
@@ -83,7 +80,6 @@
             SituationOverviewProvider = new SituationOverviewProvider(TimingDataGridViewModel, displaySettingsViewModel);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<SessionSummaryEventArgs> SessionCompleted;
 
         public TimeSpan? PlayersPace => SessionTiming?.Player?.Pace;
@@ -100,10 +96,16 @@
             }
         }
 
+        private SessionOptionsViewModel _currentSessionOptionsView;
         public SessionOptionsViewModel CurrentSessionOptionsView
         {
-            get => (SessionOptionsViewModel)GetValue(CurrentSessionOptionsViewProperty);
-            set => SetValue(CurrentSessionOptionsViewProperty, value);
+            get => _currentSessionOptionsView;
+            set
+            {
+                SetProperty(ref _currentSessionOptionsView, value);
+                ChangeOrderingMode();
+                ChangeTimeDisplayMode();
+            }
         }
 
         public MapManagementController MapManagementController
@@ -119,21 +121,13 @@
         public bool IsNamesNotUnique
         {
             get => _isNamesNotUnique;
-            private set
-            {
-                _isNamesNotUnique = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _isNamesNotUnique, value);
         }
 
         public string NotUniqueNamesMessage
         {
             get => _notUniqueNamesMessage;
-            private set
-            {
-                _notUniqueNamesMessage = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _notUniqueNamesMessage, value);
         }
 
         public TimingDataGridViewModel TimingDataGridViewModel { get; }
@@ -150,11 +144,7 @@
 
         public ICommand OpenCurrentTelemetrySession { get; set; }
 
-        public ICommand OpenCarSettingsCommand
-        {
-            get => (ICommand)GetValue(OpenCarSettingsCommandProperty);
-            set => SetValue(OpenCarSettingsCommandProperty, value);
-        }
+        public ICommand OpenCarSettingsCommand { get; set; }
 
         public bool IsOpenCarSettingsCommandEnable
         {
@@ -177,15 +167,7 @@
         public string ConnectedSource
         {
             get => _connectedSource;
-            private set
-            {
-                bool wasChanged = _connectedSource != value;
-                _connectedSource = value;
-                if (wasChanged)
-                {
-                    NotifyPropertyChanged();
-                }
-            }
+            set => SetProperty(ref _connectedSource, value);
         }
 
         public string SystemTime => DateTime.Now.ToString("HH:mm");
@@ -208,10 +190,11 @@
 
         public Dispatcher GuiDispatcher { get; set; }
 
+        private DriverTimingViewModel _selectedDriverTimingViewModel;
         public DriverTimingViewModel SelectedDriverTimingViewModel
         {
-            get => (DriverTimingViewModel)GetValue(SelectedDriverTimingViewModelProperty);
-            set => SetValue(SelectedDriverTimingViewModelProperty, value);
+            get => _selectedDriverTimingViewModel;
+            set => SetProperty(ref _selectedDriverTimingViewModel, value);
         }
 
         public DriverTiming SelectedDriverTiming => SelectedDriverTimingViewModel?.DriverTiming;
@@ -219,17 +202,21 @@
         public SessionTiming SessionTiming
         {
             get => _sessionTiming;
-            private set
-            {
-                _sessionTiming = value;
-                NotifyPropertyChanged();
-            }
+            private set => SetProperty(ref _sessionTiming, value);
         }
 
         public CarStatusViewModel CarStatusViewModel
         {
             get;
             private set;
+        }
+
+        private IRatingApplicationViewModel _ratingApplicationViewModel;
+
+        public IRatingApplicationViewModel RatingApplicationViewModel
+        {
+            get => _ratingApplicationViewModel;
+            set => SetProperty(ref _ratingApplicationViewModel, value);
         }
 
         private bool TerminatePeriodicTasks { get; set; }
@@ -596,11 +583,6 @@
             SituationOverviewProvider.ApplyDateSet(data);
         }
 
-        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void OnDisplaySettingsChange(object sender, PropertyChangedEventArgs args)
         {
             ApplyDisplaySettings(DisplaySettingsViewModel);
@@ -647,15 +629,6 @@
             }
 
 
-        }
-
-        private static void CurrentSessionOptionsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is TimingDataViewModel timingDataViewModel)
-            {
-                timingDataViewModel.ChangeOrderingMode();
-                timingDataViewModel.ChangeTimeDisplayMode();
-            }
         }
 
         private void CheckAndNotifySessionCompleted()
