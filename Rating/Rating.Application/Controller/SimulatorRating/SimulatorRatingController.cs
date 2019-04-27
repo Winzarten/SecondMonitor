@@ -6,9 +6,12 @@
     using Common.DataModel;
     using Common.DataModel.Player;
     using Common.Repository;
+    using NLog;
+    using NLog.Fluent;
 
     public class SimulatorRatingController : ISimulatorRatingController
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly string _simulatorName;
         private readonly IRatingRepository _ratingRepository;
         private readonly SimulatorRatingConfiguration _simulatorRatingConfiguration;
@@ -49,6 +52,8 @@
                     Volatility = _simulatorRatingConfiguration.DefaultPlayerVolatility,
                 }
             };
+
+            Logger.Info($"Created Default Simulator Rating for {_simulatorName}");
             return simulatorRating;
         }
 
