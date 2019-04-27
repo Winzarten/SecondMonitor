@@ -560,7 +560,7 @@
                     simData.SessionInfo.SessionPhase = SessionPhase.Checkered;
                     break;
                 default:
-                    simData.SessionInfo.SessionPhase = SessionPhase.Green;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
                     break;
 
             }

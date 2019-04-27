@@ -45,6 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ISimulatorRatingConfigurationProvider.cs" />
+    <Compile Include="Configuration\SimulatorRatingConfiguration.cs" />
+    <Compile Include="Configuration\SimulatorRatingConfigurationProvider.cs" />
+    <Compile Include="Configuration\SimulatorsRatingConfiguration.cs" />
     <Compile Include="DataModel\ClassRating.cs" />
     <Compile Include="DataModel\Player\DriverWithoutRating.cs" />
     <Compile Include="DataModel\Player\DriversRating.cs" />

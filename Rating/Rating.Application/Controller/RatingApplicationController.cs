@@ -1,44 +1,64 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller
 {
+    using System;
     using System.Threading.Tasks;
     using Common.Repository;
     using DataModel.Snapshot;
     using DataModel.Summary;
+    using NLog;
+    using RaceObserver;
     using SecondMonitor.ViewModels.Factory;
     using ViewModels;
 
     public class RatingApplicationController : IRatingApplicationController
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IRatingRepository _ratingRepository;
         private readonly IViewModelFactory _viewModelFactory;
+        private readonly IRaceObserverController _raceObserverController;
 
-        public RatingApplicationController(IRatingRepository ratingRepository, IViewModelFactory viewModelFactory)
+        public RatingApplicationController(IRatingRepository ratingRepository, IViewModelFactory viewModelFactory, IRaceObserverController raceObserverController)
         {
             _ratingRepository = ratingRepository;
             _viewModelFactory = viewModelFactory;
+            _raceObserverController = raceObserverController;
         }
 
         public IRatingApplicationViewModel RatingApplicationViewModel { get; set; }
 
-        public Task StartControllerAsync()
+        public async Task StartControllerAsync()
         {
             RatingApplicationViewModel = _viewModelFactory.Create<IRatingApplicationViewModel>();
-            return Task.CompletedTask;
+            await _raceObserverController.StartControllerAsync();
         }
 
-        public Task StopControllerAsync()
+        public async Task StopControllerAsync()
         {
-            return Task.CompletedTask;
+            await _raceObserverController.StopControllerAsync();
         }
 
-        public void NotifySessionCompletion(SessionSummary sessionSummary)
+        public async Task NotifySessionCompletion(SessionSummary sessionSummary)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                await _raceObserverController.NotifySessionCompletion(sessionSummary);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
 
-        public void NotifyDataLoaded(SimulatorDataSet simulatorDataSet)
+        public async Task NotifyDataLoaded(SimulatorDataSet simulatorDataSet)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                await _raceObserverController.NotifyDataLoaded(simulatorDataSet);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
     }
 }

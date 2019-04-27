@@ -130,12 +130,12 @@ namespace SecondMonitor.Timing.Controllers
             _timingDataViewModel?.StartNewSession(e.Data);
         }
 
-        private void OnDataLoaded(object sender, DataEventArgs e)
+        private async void OnDataLoaded(object sender, DataEventArgs e)
         {
             SimulatorDataSet dataSet = e.Data;
             try
             {
-                _ratingApplicationController.NotifyDataLoaded(dataSet);
+                await _ratingApplicationController.NotifyDataLoaded(dataSet);
                 _simSettingController?.ApplySimSettings(dataSet);
 
             }
@@ -279,10 +279,10 @@ namespace SecondMonitor.Timing.Controllers
             }
         }
 
-        private void TimingDataViewModelOnSessionCompleted(object sender, SessionSummaryEventArgs e)
+        private async void TimingDataViewModelOnSessionCompleted(object sender, SessionSummaryEventArgs e)
         {
             _reportsController?.CreateReport(e.Summary);
-            _ratingApplicationController.NotifySessionCompletion(e.Summary);
+            await _ratingApplicationController.NotifySessionCompletion(e.Summary);
         }
     }
 }

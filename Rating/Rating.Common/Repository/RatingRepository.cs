@@ -10,6 +10,7 @@
         private readonly string _fileName;
         private readonly string _directory;
         private readonly XmlSerializer _xmlSerializer;
+        private readonly object _lockObject = new object();
 
         public RatingRepository(ISettingsProvider settingsProvider)
         {
@@ -29,23 +30,30 @@
 
         public Ratings LoadRatingsOrCreateNew()
         {
-            CheckDirectory();
-            if (!File.Exists(_fileName))
+            lock (_lockObject)
             {
-                return new Ratings();
-            }
-            using (FileStream file = File.Open(_fileName, FileMode.Open))
-            {
-                return _xmlSerializer.Deserialize(file) as Ratings;
+                CheckDirectory();
+                if (!File.Exists(_fileName))
+                {
+                    return new Ratings();
+                }
+
+                using (FileStream file = File.Open(_fileName, FileMode.Open))
+                {
+                    return _xmlSerializer.Deserialize(file) as Ratings;
+                }
             }
         }
 
         public void SaveRatings(Ratings ratings)
         {
-            CheckDirectory();
-            using (FileStream file = File.Exists(_fileName) ? File.Open(_fileName, FileMode.Truncate) : File.Create(_fileName))
+            lock (_lockObject)
             {
-                _xmlSerializer.Serialize(file, ratings);
+                CheckDirectory();
+                using (FileStream file = File.Exists(_fileName) ? File.Open(_fileName, FileMode.Truncate) : File.Create(_fileName))
+                {
+                    _xmlSerializer.Serialize(file, ratings);
+                }
             }
         }
     }
