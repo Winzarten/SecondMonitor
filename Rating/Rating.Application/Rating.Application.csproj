@@ -55,6 +55,8 @@
     <Compile Include="RatingProvider\RatingChangeArgs.cs" />
     <Compile Include="ViewModels\IRatingApplicationViewModel.cs" />
     <Compile Include="ViewModels\RatingApplicationViewModel.cs" />
+    <Compile Include="ViewModels\Rating\IRatingViewModel.cs" />
+    <Compile Include="ViewModels\Rating\RatingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Foundation\Contracts\Contracts.csproj">

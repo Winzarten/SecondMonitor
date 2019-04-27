@@ -3,6 +3,7 @@
     using Controller;
     using Ninject.Modules;
     using ViewModels;
+    using ViewModels.Rating;
 
     public class RatingApplicationModule : NinjectModule
     {
@@ -10,6 +11,7 @@
         {
             Bind<IRatingApplicationController>().To<RatingApplicationController>();
             Bind<IRatingApplicationViewModel>().To<RatingApplicationViewModel>();
+            Bind<IRatingViewModel>().To<RatingViewModel>();
         }
     }
 }

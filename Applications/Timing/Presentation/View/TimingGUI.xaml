@@ -449,6 +449,9 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="55" />
                         </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <ContentPresenter Content="{Binding RatingApplicationViewModel}"/>
+                        </Grid>
                         <StackPanel Grid.Column="1">
 
                             <Button HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"

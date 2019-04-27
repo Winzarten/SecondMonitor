@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Common;
     using Contracts.NInject;
     using Ninject.Modules;
 

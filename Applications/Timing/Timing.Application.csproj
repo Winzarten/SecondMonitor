@@ -181,6 +181,11 @@
       <Name>Rating.Common</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\Rating\Rating.Presentation\Rating.Presentation.csproj">
+      <Project>{79d11cc1-9e85-440b-9635-5c0638382ac9}</Project>
+      <Name>Rating.Presentation</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\Telemetry\TelemetryApplication\TelemetryApplication.csproj">
       <Project>{DE7B2CDD-2392-4769-8F2F-9D1072644B4F}</Project>
       <Name>TelemetryApplication</Name>

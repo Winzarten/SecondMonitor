@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModels="clr-namespace:SecondMonitor.Rating.Application.ViewModels;assembly=Rating.Application">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../RatingPresentation.xaml"/>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type viewModels:RatingApplicationViewModel}">
+                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="1" Padding="5">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,10" >
+                            <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource BigFontSize}" Text="Ratings" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource StandardText}" ToolTip="Current Simulator Rating" Text="SR:" VerticalAlignment="Top"/>
+                            <ContentPresenter Content="{Binding SimulatorRating}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Style="{StaticResource StandardText}" ToolTip="Current Class Rating" Text="CR:" VerticalAlignment="Top"/>
+                            <ContentPresenter Content="{Binding ClassRating}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

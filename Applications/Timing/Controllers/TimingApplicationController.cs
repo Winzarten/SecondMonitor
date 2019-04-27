@@ -83,6 +83,9 @@ namespace SecondMonitor.Timing.Controllers
             ResourceDictionary dict = new ResourceDictionary {Source = new Uri("pack://application:,,,/TelemetryPresentation;component/TelemetryPresentationTemplates.xaml", UriKind.RelativeOrAbsolute)};
             Application.Current.Resources.MergedDictionaries.Add(dict);
 
+            dict = new ResourceDictionary { Source = new Uri("pack://application:,,,/Rating.Presentation;component/RatingPresentationTemplates.xaml", UriKind.RelativeOrAbsolute) };
+            Application.Current.Resources.MergedDictionaries.Add(dict);
+
             CreateDisplaySettingsViewModel();
             CreateReportsController();
             CreateSimSettingsController();
@@ -123,6 +126,7 @@ namespace SecondMonitor.Timing.Controllers
 
         private void OnSessionStarted(object sender, DataEventArgs e)
         {
+            _ratingApplicationController.NotifyDataLoaded(e.Data);
             _timingDataViewModel?.StartNewSession(e.Data);
         }
 
