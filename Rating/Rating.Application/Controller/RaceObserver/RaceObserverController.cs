@@ -4,6 +4,7 @@
     using DataModel.Snapshot;
     using DataModel.Summary;
     using SimulatorRating;
+    using ViewModels;
 
     public class RaceObserverController : IRaceObserverController
     {
@@ -32,6 +33,8 @@
             }
 
         }
+
+        public IRatingApplicationViewModel RatingApplicationViewModel { get; set; }
 
         public Task NotifySessionCompletion(SessionSummary sessionSummary)
         {
@@ -70,7 +73,7 @@
 
         private void OnClassChanged()
         {
-
+            RefreshClassRatingOnVm();
         }
 
         private async Task OnSimulatorChanged()
@@ -88,6 +91,26 @@
 
             _simulatorRatingController = _simulatorRatingControllerFactory.CreateController(_currentSimulator);
             await _simulatorRatingController.StartControllerAsync();
+            RefreshSimulatorRatingOnVm();
+        }
+
+        private void RefreshSimulatorRatingOnVm()
+        {
+            if (_simulatorRatingController == null)
+            {
+                return;
+            }
+            RatingApplicationViewModel.SimulatorRating.FromModel(_simulatorRatingController.GetPlayerOverallRating());
+        }
+
+        private void RefreshClassRatingOnVm()
+        {
+            if (string.IsNullOrWhiteSpace(_currentClass))
+            {
+                return;
+            }
+
+            RatingApplicationViewModel.ClassRating.FromModel(_simulatorRatingController.GetPlayerRating(_currentClass));
         }
     }
 }

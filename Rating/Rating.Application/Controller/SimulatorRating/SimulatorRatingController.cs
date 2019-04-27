@@ -7,7 +7,6 @@
     using Common.DataModel.Player;
     using Common.Repository;
     using NLog;
-    using NLog.Fluent;
 
     public class SimulatorRatingController : ISimulatorRatingController
     {
@@ -54,7 +53,26 @@
             };
 
             Logger.Info($"Created Default Simulator Rating for {_simulatorName}");
+            LogRating(simulatorRating.PlayersRating);
             return simulatorRating;
+        }
+
+        private ClassRating CreateClassRating(string className)
+        {
+            ClassRating classRating = new ClassRating()
+            {
+                ClassName = className,
+                PlayersRating = new DriversRating()
+                {
+                    Rating = _simulatorRating.PlayersRating.Rating,
+                    Deviation = _simulatorRating.PlayersRating.Deviation,
+                    Volatility = _simulatorRating.PlayersRating.Volatility,
+                }
+            };
+            _simulatorRating.ClassRatings.Add(classRating);
+            Logger.Info($"Created Rating for {className}");
+            LogRating(classRating.PlayersRating);
+            return classRating;
         }
 
         public Task StopControllerAsync()
@@ -70,12 +88,20 @@
 
         public DriversRating GetPlayerRating(string className)
         {
-            throw new System.NotImplementedException();
+            ClassRating classRating = _simulatorRating.ClassRatings.FirstOrDefault(x => x.ClassName == className) ?? CreateClassRating(className);
+            Logger.Info($"Retreived Players Rating for Class {className}");
+            LogRating(classRating.PlayersRating);
+            return classRating.PlayersRating;
         }
 
         public DriverWithoutRating GetAiRating(string aiDriverName, string className)
         {
             throw new System.NotImplementedException();
+        }
+
+        private static void LogRating(DriversRating driversRating)
+        {
+            Logger.Info($"Rating - {driversRating.Rating}, Deviation - {driversRating.Deviation}, Volatility - {driversRating.Volatility}");
         }
     }
 }

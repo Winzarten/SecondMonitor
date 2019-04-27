@@ -29,6 +29,7 @@
         public async Task StartControllerAsync()
         {
             RatingApplicationViewModel = _viewModelFactory.Create<IRatingApplicationViewModel>();
+            _raceObserverController.RatingApplicationViewModel = RatingApplicationViewModel;
             await _raceObserverController.StartControllerAsync();
         }
 

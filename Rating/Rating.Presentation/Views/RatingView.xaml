@@ -5,8 +5,7 @@
         <ResourceDictionary Source="../RatingPresentation.xaml" />
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type rating:RatingViewModel}">
-                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="1" Padding="5">
-                    <StackPanel>
+                <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Style="{StaticResource StandardText}" Text="{Binding MainRating}" Margin="5,0,0,0" />
                             <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource SmallFontSize}" Text="{Binding SecondaryRating}" Margin="5,0,0,0" />
@@ -15,7 +14,6 @@
                             <TextBlock Style="{StaticResource StandardText}" Text="{Binding RatingChange}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </StackPanel>
                     </StackPanel>
-                </Border>
             </DataTemplate>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
