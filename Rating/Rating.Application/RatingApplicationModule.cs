@@ -16,6 +16,7 @@
             Bind<IRatingStorageController>().To<RatingStorageController>();
             Bind<ISimulatorRatingControllerFactory>().To<SimulatorRatingControllerFactory>();
             Bind<ISimulatorRatingController>().To<SimulatorRatingController>();
+            Bind<IRaceStateFactory>().To<RaceStateFactory>();
 
             Bind<IRatingApplicationViewModel>().To<RatingApplicationViewModel>();
             Bind<IRatingViewModel>().To<RatingViewModel>();

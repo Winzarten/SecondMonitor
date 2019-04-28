@@ -3,6 +3,7 @@
                     xmlns:rating="clr-namespace:SecondMonitor.Rating.Application.ViewModels.Rating;assembly=Rating.Application">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../RatingPresentation.xaml" />
+        <ResourceDictionary Source="../RatingColors.xaml" />
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type rating:RatingViewModel}">
                 <StackPanel>

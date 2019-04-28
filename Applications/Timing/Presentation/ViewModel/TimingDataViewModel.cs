@@ -38,7 +38,7 @@
     using ViewModels.Settings.Model;
     using ViewModels.Settings.ViewModel;
 
-    public class TimingDataViewModel : AbstractViewModel, ISimulatorDataSetViewModel,  INotifyPropertyChanged, IPaceProvider
+    public class TimingDataViewModel : AbstractViewModel, ISimulatorDataSetViewModel,  IPaceProvider
     {
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
         private readonly DriverPresentationsManager _driverPresentationsManager;

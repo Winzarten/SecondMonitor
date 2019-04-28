@@ -3381,4 +3381,89 @@
             </Path>
         </Canvas>
     </Viewbox>
+    <Viewbox Stretch="Uniform" x:Key="CircleLight" x:Shared="False">
+        <Canvas Width="64" Height="60.328461" Canvas.Left="0" Canvas.Top="0">
+            <Canvas Name="g4">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="m 92.3 63.2 -6 -2.2 c 1.4 -3.8 2.1 -7.9 2.1 -12 0 -4.4 -0.8 -8.7 -2.4 -12.7 L 92 34 c 1.8 4.8 2.8 9.9 2.8 15 0 4.9 -0.9 9.6 -2.5 14.2 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="m 17.1 36.7 -6 -2.2 c 6 -16.4 21.8 -27.4 39.2 -27.4 17.2 0 32.9 10.8 39.1 26.8 l -6 2.3 C 78.2 22.6 64.9 13.5 50.3 13.5 35.6 13.5 22.2 22.8 17.1 36.7 Z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="M 8.3 63.2 C 6.7 58.6 5.9 53.9 5.9 49 5.9 44 6.8 39.1 8.5 34.4 l 6 2.2 c -1.5 3.9 -2.2 8.1 -2.2 12.3 0 4.1 0.7 8.2 2.1 12 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="M 50.3 90.9 C 32.7 90.9 16.9 79.8 10.9 63.2 l 6 -2.2 c 5 14 18.5 23.4 33.4 23.4 14.9 0 28.3 -9.4 33.4 -23.4 l 6 2.2 C 83.8 79.7 67.9 90.9 50.3 90.9 Z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="M 22.9 65.4 C 19.5 60.6 17.8 54.9 17.8 49 c 0 -6.3 2 -12.4 5.9 -17.4 l 9.2 7 c -2.3 3 -3.5 6.6 -3.5 10.4 0 3.5 1.1 6.9 3.1 9.8 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="m 50.3 77.7 c -9.4 0 -18.2 -4.6 -23.6 -12.3 l 9.5 -6.6 c 3.2 4.6 8.5 7.4 14.1 7.4 5.6 0 10.9 -2.8 14.1 -7.4 l 9.5 6.6 C 68.5 73.1 59.7 77.7 50.3 77.7 Z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}" >
+                    <Path.Data>
+                        <PathGeometry Figures="m 77.7 65.4 -9.5 -6.6 c 2 -2.9 3.1 -6.3 3.1 -9.8 0 -3.8 -1.2 -7.4 -3.5 -10.4 l 9.2 -7 c 3.8 5 5.9 11.1 5.9 17.4 0 5.9 -1.8 11.6 -5.2 16.4 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.71991001 0 0 0.71991001 -4.2474691 -5.1113611"/>
+                </Canvas.RenderTransform>
+                <Path Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}">
+                    <Path.Data>
+                        <PathGeometry Figures="m 36.7 38.6 -9.2 -7 C 33 24.4 41.3 20.3 50.4 20.3 c 9 0 17.4 4.1 22.9 11.3 l -9.2 7 c -3.3 -4.3 -8.3 -6.8 -13.7 -6.8 -5.5 0 -10.5 2.5 -13.7 6.8 z" FillRule="NonZero"/>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
 </ResourceDictionary>

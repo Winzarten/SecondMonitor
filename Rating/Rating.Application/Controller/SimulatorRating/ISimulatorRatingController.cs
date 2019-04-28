@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.SimulatorRating
 {
+    using System.Collections.Generic;
     using Common.DataModel.Player;
     using SecondMonitor.ViewModels.Controllers;
 
@@ -8,5 +9,6 @@
         DriversRating GetPlayerOverallRating();
         DriverWithoutRating GetAiRating(string aiDriverName, string className);
         DriversRating GetPlayerRating(string className);
+        IReadOnlyCollection<string> GetAllKnowClassNames();
     }
 }

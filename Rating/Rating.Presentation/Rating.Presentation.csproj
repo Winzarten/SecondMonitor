@@ -48,6 +48,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\SessionKindToBrushConverter.cs" />
+    <Compile Include="Converters\SessionPhaseToBrushConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -71,6 +73,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="RatingColors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RatingPresentation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

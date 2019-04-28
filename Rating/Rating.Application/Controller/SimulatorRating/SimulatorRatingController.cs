@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.SimulatorRating
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Common.Configuration;
@@ -92,6 +93,11 @@
             Logger.Info($"Retreived Players Rating for Class {className}");
             LogRating(classRating.PlayersRating);
             return classRating.PlayersRating;
+        }
+
+        public IReadOnlyCollection<string> GetAllKnowClassNames()
+        {
+            return _simulatorRating.ClassRatings.Select(x => x.ClassName).ToList();
         }
 
         public DriverWithoutRating GetAiRating(string aiDriverName, string className)
