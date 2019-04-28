@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver
 {
+    using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
     using DataModel.Extensions;
@@ -16,6 +17,7 @@
         private string _currentSimulator;
         private string _currentClass;
         private ISimulatorRatingController _simulatorRatingController;
+        public IRatingApplicationViewModel _ratingApplicationViewModel;
         private IRaceState _currentState;
 
         public RaceObserverController(ISimulatorRatingControllerFactory simulatorRatingControllerFactory, IRaceStateFactory raceStateFactory)
@@ -38,25 +40,73 @@
                 await _simulatorRatingController.StopControllerAsync();
             }
 
+            if (RatingApplicationViewModel != null)
+            {
+                RatingApplicationViewModel.PropertyChanged -= RatingApplicationViewModelOnPropertyChanged;
+            }
+
         }
 
-        public IRatingApplicationViewModel RatingApplicationViewModel { get; set; }
-
-        public async Task NotifySessionCompletion(SessionSummary sessionSummary)
+        public IRatingApplicationViewModel RatingApplicationViewModel
         {
-            if (_currentState != null && await _currentState.DoSessionCompletion(sessionSummary))
+            get => _ratingApplicationViewModel;
+            set
             {
-                _currentState = _currentState.GetNextState();
+                UnsubscribeViewModel();
+                _ratingApplicationViewModel = value;
+                SubscribeViewModel();
+            }
+        }
+
+        private void SubscribeViewModel()
+        {
+            if (RatingApplicationViewModel == null)
+            {
+                return;
+            }
+            RatingApplicationViewModel.PropertyChanged += RatingApplicationViewModelOnPropertyChanged;
+        }
+
+        private void UnsubscribeViewModel()
+        {
+            if (RatingApplicationViewModel == null)
+            {
+                return;
+            }
+            RatingApplicationViewModel.PropertyChanged -= RatingApplicationViewModelOnPropertyChanged;
+        }
+
+        private void RatingApplicationViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(RatingApplicationViewModel.SelectedClass) && _currentState.CanUserSelectClass)
+            {
+                _currentClass = RatingApplicationViewModel.SelectedClass;
+                OnClassChanged();
+            }
+
+            if (e.PropertyName == nameof(RatingApplicationViewModel.UseSuggestedDifficulty) && RatingApplicationViewModel.UseSuggestedDifficulty)
+            {
+                RatingApplicationViewModel.Difficulty = _simulatorRatingController.GetSuggestedDifficulty(_currentClass);
+            }
+
+        }
+
+        public Task NotifySessionCompletion(SessionSummary sessionSummary)
+        {
+            if (_currentState != null && _currentState.DoSessionCompletion(sessionSummary))
+            {
+                _currentState = _currentState.NextState;
             }
             RefreshViewModelByState();
+            return Task.CompletedTask;
         }
 
         public async Task NotifyDataLoaded(SimulatorDataSet simulatorDataSet)
         {
             await CheckSimulatorClassChange(simulatorDataSet);
-            if (_currentState != null && await _currentState.DoDataLoaded(simulatorDataSet))
+            if (_currentState != null && _currentState.DoDataLoaded(simulatorDataSet))
             {
-                _currentState = _currentState.GetNextState();
+                _currentState = _currentState.NextState;
             }
             RefreshViewModelByState();
         }
@@ -77,12 +127,14 @@
                 return;
             }
 
-            if (simulatorDataSet.PlayerInfo.CarClassName == _currentClass || string.IsNullOrWhiteSpace(simulatorDataSet.PlayerInfo.CarClassName))
+            if (simulatorDataSet.PlayerInfo.CarClassName == _currentClass || string.IsNullOrWhiteSpace(simulatorDataSet.PlayerInfo.CarClassName) || _currentState.CanUserSelectClass)
             {
                 return;
             }
 
             _currentClass = simulatorDataSet.PlayerInfo.CarClassName;
+            RatingApplicationViewModel.AddSelectableClass(_currentClass);
+            RatingApplicationViewModel.SelectedClass = _currentClass;
             OnClassChanged();
         }
 
@@ -93,19 +145,19 @@
 
         private async Task OnSimulatorChanged()
         {
-            if (_simulatorRatingController != null)
-            {
-                await _simulatorRatingController.StopControllerAsync();
-            }
-
-            _simulatorRatingController = null;
             if (!_simulatorRatingControllerFactory.IsSimulatorSupported(_currentSimulator))
             {
                 return;
             }
 
+            if (_simulatorRatingController != null)
+            {
+                await _simulatorRatingController.StopControllerAsync();
+            }
+
             _simulatorRatingController = _simulatorRatingControllerFactory.CreateController(_currentSimulator);
             await _simulatorRatingController.StartControllerAsync();
+            RatingApplicationViewModel.InitializeAiDifficultySelection(_simulatorRatingController.MinimumAiDifficulty, _simulatorRatingController.MaximumAiDifficulty);
             _currentState = _raceStateFactory.CreateInitialState(_currentSimulator);
             RefreshClassesOnVm();
             RefreshSimulatorRatingOnVm();
@@ -115,6 +167,7 @@
         {
             RatingApplicationViewModel.ClearSelectableClasses();
             _simulatorRatingController.GetAllKnowClassNames().OrderBy(x => x).ForEach(RatingApplicationViewModel.AddSelectableClass);
+            RatingApplicationViewModel.SelectedClass = RatingApplicationViewModel.SelectableClasses.First();
         }
 
         private void RefreshSimulatorRatingOnVm()
@@ -132,8 +185,11 @@
             {
                 return;
             }
-
             RatingApplicationViewModel.ClassRating.FromModel(_simulatorRatingController.GetPlayerRating(_currentClass));
+            if (RatingApplicationViewModel.UseSuggestedDifficulty)
+            {
+                RatingApplicationViewModel.Difficulty = _simulatorRatingController.GetSuggestedDifficulty(_currentClass);
+            }
         }
 
         private void RefreshViewModelByState()
@@ -143,6 +199,7 @@
                 return;
             }
 
+            RatingApplicationViewModel.IsClassSelectionEnable = _currentState.CanUserSelectClass;
             RatingApplicationViewModel.SessionPhaseKind = _currentState.SessionPhaseKind;
             RatingApplicationViewModel.SessionKind = _currentState.SessionKind;
         }

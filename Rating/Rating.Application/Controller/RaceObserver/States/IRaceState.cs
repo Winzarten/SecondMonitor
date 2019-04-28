@@ -1,6 +1,5 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver.States
 {
-    using System.Threading.Tasks;
     using DataModel.Snapshot;
     using DataModel.Summary;
 
@@ -8,9 +7,10 @@
     {
         SessionKind SessionKind { get; }
         SessionPhaseKind SessionPhaseKind { get; }
+        IRaceState NextState { get; }
 
-        Task<bool> DoSessionCompletion(SessionSummary sessionSummary);
-        Task<bool> DoDataLoaded(SimulatorDataSet simulatorDataSet);
-        IRaceState GetNextState();
+        bool CanUserSelectClass { get; }
+        bool DoSessionCompletion(SessionSummary sessionSummary);
+        bool DoDataLoaded(SimulatorDataSet simulatorDataSet);
     }
 }

@@ -12,12 +12,18 @@
     {
         private SessionKind _sessionKind;
         private SessionPhaseKind _sessionPhaseKind;
+        private string _selectedClass;
+        private bool _isClassSelectionEnable;
+        private int _difficulty;
+        private bool _useSuggestedDifficulty;
 
         public RatingApplicationViewModel(IViewModelFactory viewModelFactory)
         {
             SimulatorRating = viewModelFactory.Create<IRatingViewModel>();
             ClassRating = viewModelFactory.Create<IRatingViewModel>();
             SelectableClasses = new ObservableCollection<string>();
+            AiLevels = new ObservableCollection<int>();
+            UseSuggestedDifficulty = true;
         }
 
         public IRatingViewModel SimulatorRating { get; }
@@ -38,7 +44,31 @@
         }
 
         public ObservableCollection<string> SelectableClasses { get; set; }
-        public string SelectedClass { get; set; }
+        public ObservableCollection<int> AiLevels { get; set; }
+
+        public string SelectedClass
+        {
+            get => _selectedClass;
+            set => SetProperty(ref _selectedClass, value);
+        }
+
+        public bool IsClassSelectionEnable
+        {
+            get => _isClassSelectionEnable;
+            set => SetProperty(ref _isClassSelectionEnable, value);
+        }
+
+        public int Difficulty
+        {
+            get => _difficulty;
+            set => SetProperty(ref _difficulty, value);
+        }
+
+        public bool UseSuggestedDifficulty
+        {
+            get => _useSuggestedDifficulty;
+            set => SetProperty(ref _useSuggestedDifficulty, value);
+        }
 
         public void ApplySimulatorRating(DriversRating driversRating)
         {
@@ -74,6 +104,20 @@
                 return;
             }
             SelectableClasses.Clear();
+        }
+
+        public void InitializeAiDifficultySelection(int minimumLevel, int maximumLevel)
+        {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.Invoke(() => InitializeAiDifficultySelection(minimumLevel, maximumLevel));
+                return;
+            }
+            AiLevels.Clear();
+            for (int i = minimumLevel; i <= maximumLevel; i++)
+            {
+                AiLevels.Add(i);
+            }
         }
     }
 }

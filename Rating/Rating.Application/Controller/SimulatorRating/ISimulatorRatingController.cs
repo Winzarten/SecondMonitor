@@ -6,9 +6,14 @@
 
     public interface ISimulatorRatingController : IController
     {
+        int MinimumAiDifficulty { get; }
+        int MaximumAiDifficulty { get; }
+
         DriversRating GetPlayerOverallRating();
         DriverWithoutRating GetAiRating(string aiDriverName, string className);
         DriversRating GetPlayerRating(string className);
+        int GetSuggestedDifficulty(string className);
         IReadOnlyCollection<string> GetAllKnowClassNames();
+
     }
 }

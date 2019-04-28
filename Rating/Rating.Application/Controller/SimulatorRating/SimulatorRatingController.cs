@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.SimulatorRating
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -18,12 +19,16 @@
         private Ratings _ratings;
         private SimulatorRating _simulatorRating;
 
+
         public SimulatorRatingController(string simulatorName, IRatingRepository ratingRepository, ISimulatorRatingConfigurationProvider simulatorRatingConfigurationProvider)
         {
             _simulatorName = simulatorName;
             _ratingRepository = ratingRepository;
             _simulatorRatingConfiguration = simulatorRatingConfigurationProvider.GetRatingConfiguration(simulatorName);
         }
+
+        public int MinimumAiDifficulty => _simulatorRatingConfiguration.MinimumAiLevel;
+        public int MaximumAiDifficulty => _simulatorRatingConfiguration.MaximumAiLevel;
 
         public Task StartControllerAsync()
         {
@@ -93,6 +98,12 @@
             Logger.Info($"Retreived Players Rating for Class {className}");
             LogRating(classRating.PlayersRating);
             return classRating.PlayersRating;
+        }
+
+        public int GetSuggestedDifficulty(string className)
+        {
+            DriversRating driversRating = GetPlayerRating(className);
+            return Math.Min(_simulatorRatingConfiguration.MinimumAiLevel + ((driversRating.Rating - _simulatorRatingConfiguration.MinimumRating) / _simulatorRatingConfiguration.RatingPerLevel), _simulatorRatingConfiguration.MaximumAiLevel);
         }
 
         public IReadOnlyCollection<string> GetAllKnowClassNames()

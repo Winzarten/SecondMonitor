@@ -15,7 +15,7 @@
                     new SimulatorRatingConfiguration()
                     {
                         SimulatorName = "R3E",
-                        MinimumAiLevel = 20,
+                        MinimumAiLevel = 80,
                         MaximumAiLevel = 120,
                         RatingPerLevel = 300,
                         DefaultPlayerRating = 1500,

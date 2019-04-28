@@ -1,26 +1,25 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver.States
 {
-    using System.Threading.Tasks;
+    using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Summary;
 
-    public class IdleState : IRaceState
+    public class IdleState : AbstractSessionTypeState
     {
-        public SessionKind SessionKind => SessionKind.Idle;
-        public SessionPhaseKind SessionPhaseKind => SessionPhaseKind.None;
-        public Task<bool> DoSessionCompletion(SessionSummary sessionSummary)
+        public override SessionKind SessionKind { get; protected set; } = SessionKind.Idle;
+        public override SessionPhaseKind SessionPhaseKind { get; protected set; } = SessionPhaseKind.None;
+        public override bool CanUserSelectClass => true;
+
+        public override bool DoDataLoaded(SimulatorDataSet simulatorDataSet)
         {
-            return Task.FromResult(false);
+            return simulatorDataSet.SessionInfo.SessionType != SessionType && base.DoDataLoaded(simulatorDataSet);
         }
 
-        public Task<bool> DoDataLoaded(SimulatorDataSet simulatorDataSet)
+        public override bool DoSessionCompletion(SessionSummary sessionSummary)
         {
-            return Task.FromResult(false);
+            return false;
         }
 
-        public IRaceState GetNextState()
-        {
-            return null;
-        }
+        protected override SessionType SessionType => SessionType.Na;
     }
 }

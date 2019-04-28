@@ -59,10 +59,15 @@
     <Compile Include="Controller\IRatingStorageController.cs" />
     <Compile Include="Controller\RaceObserver\IRaceStateFactory.cs" />
     <Compile Include="Controller\RaceObserver\RaceStateFactory.cs" />
+    <Compile Include="Controller\RaceObserver\States\AbstractSessionTypeState.cs" />
     <Compile Include="Controller\RaceObserver\States\IdleState.cs" />
     <Compile Include="Controller\RaceObserver\States\IRaceState.cs" />
+    <Compile Include="Controller\RaceObserver\States\PracticeState.cs" />
+    <Compile Include="Controller\RaceObserver\States\QualificationState.cs" />
+    <Compile Include="Controller\RaceObserver\States\RaceState.cs" />
     <Compile Include="Controller\RaceObserver\States\SessionPhaseKind.cs" />
     <Compile Include="Controller\RaceObserver\States\SessionKind.cs" />
+    <Compile Include="Controller\RaceObserver\States\WarmupState.cs" />
     <Compile Include="Controller\SimulatorRating\ISimulatorRatingController.cs" />
     <Compile Include="Controller\RaceObserver\IRaceObserverController.cs" />
     <Compile Include="Controller\RaceObserver\RaceObserverController.cs" />
@@ -100,6 +105,7 @@
     <ProjectReference Include="..\Rating.Common\Rating.Common.csproj">
       <Project>{B6F16B0D-C649-42DA-AF92-6D7DCA71B3B4}</Project>
       <Name>Rating.Common</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
