@@ -3466,4 +3466,232 @@
         </Canvas>
     </Viewbox>
 
+    <Viewbox x:Key="CircleLight2" x:Shared="False" Stretch="Uniform">
+        <Canvas Width="64" Height="63.788315" Canvas.Left="0" Canvas.Top="0">
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="4" Canvas.Top="44.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="18.2" Canvas.Top="44.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="31.5" Canvas.Top="44.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="38.4" Canvas.Top="56.9" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="51.8" Canvas.Top="56.9" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="58.1" Canvas.Top="68.7" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="31.5" Canvas.Top="68.7" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="44.8" Canvas.Top="71.5" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="21.6" Canvas.Top="58.7" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="6.9" Canvas.Top="58.7" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="83.6" Canvas.Top="58.7" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="68.1" Canvas.Top="58.7" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="76.4" Canvas.Top="71.5" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="14" Canvas.Top="71.5" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="25.1" Canvas.Top="80.2" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="65.2" Canvas.Top="80.2" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="51.8" Canvas.Top="85.2" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="37.8" Canvas.Top="85.2" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="38.4" Canvas.Top="33.1" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="51.8" Canvas.Top="33.1" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="58.1" Canvas.Top="21.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="31.5" Canvas.Top="21.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="44.8" Canvas.Top="18.4" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="21.6" Canvas.Top="31.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="6.9" Canvas.Top="31.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="83.6" Canvas.Top="31.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="68.1" Canvas.Top="31.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="76.4" Canvas.Top="18.4" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="14" Canvas.Top="18.4" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="25.1" Canvas.Top="9.8" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="65.2" Canvas.Top="9.8" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="51.8" Canvas.Top="4.8" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="37.8" Canvas.Top="4.8" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="44.8" Canvas.Top="44.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="58.1" Canvas.Top="44.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="71.4" Canvas.Top="44.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70562296 0 0 0.70562296 -2.8224918 -3.3869903"/>
+                </Canvas.RenderTransform>
+                <Ellipse  Canvas.Left="84.7" Canvas.Top="44.3" Width="10" Height="10" Fill="{Binding StrokeBrush, RelativeSource={RelativeSource AncestorType=wpf:ColorAbleIcon}, Mode=OneWay, FallbackValue={StaticResource LightGrey01Brush}}"/>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+
 </ResourceDictionary>

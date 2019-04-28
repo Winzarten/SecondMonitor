@@ -34,7 +34,7 @@
                             <ComboBox Style="{StaticResource StandardComboBoxStyle}" ItemsSource="{Binding AiLevels}" SelectedItem="{Binding Difficulty}" IsTextSearchEnabled="True" Visibility="{Binding UseSuggestedDifficulty, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
                             <TextBlock Style="{StaticResource StandardText}" Text="{Binding Difficulty, Mode=OneWay}" Visibility="{Binding UseSuggestedDifficulty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </Grid>
-                        <CheckBox Content="Use Suggested Visibility" Foreground="{StaticResource LightGrey01Brush}" Margin="5,5,0,0" IsChecked="{Binding UseSuggestedDifficulty}"/>
+                        <CheckBox Content="Use Suggested Diff" Foreground="{StaticResource LightGrey01Brush}" Margin="5,5,0,0" IsChecked="{Binding UseSuggestedDifficulty}"/>
 
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
@@ -44,11 +44,11 @@
                             </Grid.ColumnDefinitions>
                             <wpf:ColorAbleIcon Margin="5"
                                 StrokeBrush="{Binding SessionKind, Mode=OneWay, Converter={StaticResource SessionKindToBrushConverter}}">
-                                <ContentPresenter Content="{StaticResource CircleLight}" />
+                                <ContentPresenter Content="{StaticResource CircleLight2}" />
                             </wpf:ColorAbleIcon>
                             <wpf:ColorAbleIcon Grid.Column="2" Margin="5"
                                                StrokeBrush="{Binding SessionPhaseKind, Mode=OneWay, Converter={StaticResource SessionPhaseToBrushConverter}}">
-                                <ContentPresenter Content="{StaticResource CircleLight}" />
+                                <ContentPresenter Content="{StaticResource CircleLight2}" />
                             </wpf:ColorAbleIcon>
                         </Grid>
                     </StackPanel>
