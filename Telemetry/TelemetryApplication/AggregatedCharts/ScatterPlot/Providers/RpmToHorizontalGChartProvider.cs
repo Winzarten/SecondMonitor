@@ -12,7 +12,7 @@
     {
         private readonly ILoadedLapsCache _loadedLapsCache;
         private readonly RpmToHorizontalGExtractor _rpmToHorizontalGExtractor;
-        public string ChartName => "Horizontal Acceleration (RPM)";
+        public string ChartName => "Longitudinal Acceleration (RPM)";
         public AggregatedChartKind Kind => AggregatedChartKind.ScatterPlot;
 
         public RpmToHorizontalGChartProvider(ILoadedLapsCache loadedLapsCache, RpmToHorizontalGExtractor rpmToHorizontalGExtractor)

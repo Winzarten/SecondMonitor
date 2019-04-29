@@ -23,6 +23,8 @@
             OverallDownForce = new Force();
             FrontDownForce = new Force();
             RearDownForce = new Force();
+            FrontRollAngle = new Angle();
+            RearRollAngle = new Angle();
         }
 
         public Wheels WheelsInfo { get; set; }
@@ -60,6 +62,10 @@
         public Force FrontDownForce { get; set; }
 
         public Force RearDownForce { get; set; }
+
+        public Angle FrontRollAngle { get; set; }
+
+        public Angle RearRollAngle { get; set; }
 
     }
 }
