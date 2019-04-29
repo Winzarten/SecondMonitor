@@ -16,6 +16,8 @@
         private bool _isClassSelectionEnable;
         private int _difficulty;
         private bool _useSuggestedDifficulty;
+        private bool _isVisible;
+        private string _invisibleMessage;
 
         public RatingApplicationViewModel(IViewModelFactory viewModelFactory)
         {
@@ -24,6 +26,19 @@
             SelectableClasses = new ObservableCollection<string>();
             AiLevels = new ObservableCollection<int>();
             UseSuggestedDifficulty = true;
+            IsVisible = true;
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set => SetProperty(ref _isVisible, value);
+        }
+
+        public string InvisibleMessage
+        {
+            get => _invisibleMessage;
+            set => SetProperty(ref _invisibleMessage, value);
         }
 
         public IRatingViewModel SimulatorRating { get; }

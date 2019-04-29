@@ -6,7 +6,7 @@
 
     public class ColorAbleIcon : Viewbox
     {
-        private static readonly DependencyProperty StrokeBrushProperty = DependencyProperty.Register("StrokeBrush", typeof(SolidColorBrush), typeof(ColorAbleIcon), new FrameworkPropertyMetadata());
+        private static readonly DependencyProperty StrokeBrushProperty = DependencyProperty.Register("StrokeBrush", typeof(SolidColorBrush), typeof(ColorAbleIcon), new FrameworkPropertyMetadata(){DefaultValue = Brushes.Aqua});
 
         public SolidColorBrush StrokeBrush
         {

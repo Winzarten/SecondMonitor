@@ -6,8 +6,12 @@
         <ResourceDictionary Source="../RatingPresentation.xaml"/>
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type viewModels:RatingApplicationViewModel}">
-                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="1" Width="170">
-                    <StackPanel>
+                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="1" >
+                    <Grid>
+                        <Grid  Visibility="{Binding IsVisible, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Width="40" >
+                            <TextBlock TextAlignment="Center" Style="{StaticResource StandardText}" VerticalAlignment="Center" Width="40" TextWrapping="Wrap" Text="{Binding InvisibleMessage}"></TextBlock>
+                        </Grid>
+                        <StackPanel Width="170" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Grid Margin="0,0,0,10" >
                             <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource BigFontSize}" Text="Ratings" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                         </Grid>
@@ -52,6 +56,7 @@
                             </wpf:ColorAbleIcon>
                         </Grid>
                     </StackPanel>
+                    </Grid>
                 </Border>
             </DataTemplate>
         </ResourceDictionary>

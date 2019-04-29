@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller
 {
     using System;
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using Common.Repository;
     using DataModel.Snapshot;
@@ -13,13 +14,13 @@
     public class RatingApplicationController : IRatingApplicationController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IRatingRepository _ratingRepository;
+        private readonly Stopwatch _refreshStopwatch;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IRaceObserverController _raceObserverController;
 
-        public RatingApplicationController(IRatingRepository ratingRepository, IViewModelFactory viewModelFactory, IRaceObserverController raceObserverController)
+        public RatingApplicationController(IViewModelFactory viewModelFactory, IRaceObserverController raceObserverController)
         {
-            _ratingRepository = ratingRepository;
+            _refreshStopwatch = Stopwatch.StartNew();
             _viewModelFactory = viewModelFactory;
             _raceObserverController = raceObserverController;
         }
@@ -52,9 +53,14 @@
 
         public async Task NotifyDataLoaded(SimulatorDataSet simulatorDataSet)
         {
+            if (_refreshStopwatch.ElapsedMilliseconds < 1000)
+            {
+                return;
+            }
             try
             {
                 await _raceObserverController.NotifyDataLoaded(simulatorDataSet);
+                _refreshStopwatch.Restart();
             }
             catch (Exception ex)
             {

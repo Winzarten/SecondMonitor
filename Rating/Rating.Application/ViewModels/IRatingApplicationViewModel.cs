@@ -8,6 +8,9 @@
 
     public interface IRatingApplicationViewModel : IViewModel
     {
+        bool IsVisible { get; set; }
+        string InvisibleMessage { get; set; }
+
         IRatingViewModel SimulatorRating { get; }
         IRatingViewModel ClassRating { get; }
         SessionKind SessionKind { get; set; }

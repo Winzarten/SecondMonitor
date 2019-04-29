@@ -3,6 +3,7 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
+    using DataModel;
     using DataModel.Extensions;
     using DataModel.Snapshot;
     using DataModel.Summary;
@@ -117,7 +118,7 @@
 
         private async Task CheckSimulatorClassChange(SimulatorDataSet simulatorDataSet)
         {
-            if (simulatorDataSet.Source != _currentSimulator && !string.IsNullOrWhiteSpace(simulatorDataSet.Source))
+            if (simulatorDataSet.Source != _currentSimulator && !string.IsNullOrWhiteSpace(simulatorDataSet.Source) && !SimulatorsNameMap.IsNotConnected(simulatorDataSet.Source))
             {
                 _currentSimulator = simulatorDataSet.Source;
                 _currentClass = string.Empty;
@@ -151,9 +152,11 @@
         {
             if (!_simulatorRatingControllerFactory.IsSimulatorSupported(_currentSimulator))
             {
+                RatingApplicationViewModel.IsVisible = false;
+                RatingApplicationViewModel.InvisibleMessage = $"{_currentSimulator}, is not supported";
                 return;
             }
-
+            RatingApplicationViewModel.IsVisible = true;
             if (_simulatorRatingController != null)
             {
                 await _simulatorRatingController.StopControllerAsync();

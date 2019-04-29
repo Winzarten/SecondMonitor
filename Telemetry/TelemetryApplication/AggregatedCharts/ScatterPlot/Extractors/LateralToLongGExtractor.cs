@@ -1,7 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.ScatterPlot.Extractors
 {
     using DataModel.Telemetry;
-    using Settings;
+    using SecondMonitor.ViewModels.Settings;
 
     public class LateralToLongGExtractor : AbstractScatterPlotExtractor
     {

@@ -2,7 +2,7 @@
 {
     using DataModel.BasicProperties;
     using DataModel.Telemetry;
-    using Settings;
+    using SecondMonitor.ViewModels.Settings;
 
     public class RearRollAngleToFrontRollAngleExtractor : AbstractScatterPlotExtractor
     {
