@@ -12,7 +12,7 @@
     {
         private readonly ILoadedLapsCache _loadedLapsCache;
         private readonly SpeedToHorizontalGExtractor _speedToHorizontalGExtractor;
-        public string ChartName => "Horizontal Acceleration (Speed)";
+        public string ChartName => "Longitudinal Acceleration (Speed)";
         public AggregatedChartKind Kind => AggregatedChartKind.ScatterPlot;
 
         public SpeedHorizontalAccelerationChartProvider(ILoadedLapsCache loadedLapsCache, SpeedToHorizontalGExtractor speedToHorizontalGExtractor)

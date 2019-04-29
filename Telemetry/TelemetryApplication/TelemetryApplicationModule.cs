@@ -136,6 +136,8 @@
             Bind<IAggregatedChartProvider>().To<RideHeightToSpeedProvider>();
             Bind<IAggregatedChartProvider>().To<SpeedToDownforceProvider>();
             Bind<IAggregatedChartProvider>().To<SpeedToRakeProvider>();
+            Bind<IAggregatedChartProvider>().To<LatToLogGProvider>();
+            Bind<IAggregatedChartProvider>().To<RearRollAngleToFrontRollAngleProvider>();
 
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
             Bind<RideHeightGraphViewModel>().ToSelf();
@@ -169,6 +171,11 @@
             Bind<RpmHistogramDataExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<RpmHistogramDataExtractor>();
             Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<RpmHistogramDataExtractor>();
+
+            Bind<LateralToLongGExtractor>().ToSelf();
+            Bind<RearRollAngleToFrontRollAngleExtractor>().ToSelf();
+            Bind<LateralAccFilter>().ToSelf();
+            Bind<ThrottlePositionFilter>().ToSelf();
 
             Bind<IAggregatedChartSelectorViewModel>().To<AggregatedChartSelectorViewModel>();
             Bind<IGearTelemetryFilter>().To<GearTelemetryFilter>();

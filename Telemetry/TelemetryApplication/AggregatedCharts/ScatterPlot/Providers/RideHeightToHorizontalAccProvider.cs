@@ -9,6 +9,6 @@
         {
         }
 
-        public override string ChartName => "Ride Height / Horizontal Acceleration";
+        public override string ChartName => "Ride Height / Longitudinal Acceleration";
     }
 }
