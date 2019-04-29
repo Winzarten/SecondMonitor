@@ -423,6 +423,9 @@
             playerCar.TurboPressure = Math.Abs(data.TurboPressure) < 0.1 ? Pressure.Zero : Pressure.FromBar(data.TurboPressure);
             playerCar.OverallDownForce = Force.GetFromNewtons(data.Player.CurrentDownforce);
 
+            playerCar.FrontRollAngle = Angle.GetFromRadians(data.Player.FrontRollAngle);
+            playerCar.RearRollAngle = Angle.GetFromRadians(data.Player.RearRollAngle);
+
             playerCar.SpeedLimiterEngaged = data.PitLimiter == 1;
 
             FillDrsData(data, playerCar);

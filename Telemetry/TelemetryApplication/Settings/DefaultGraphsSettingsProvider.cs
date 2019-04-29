@@ -5,7 +5,7 @@
 
     public class DefaultGraphsSettingsProvider : IGraphsSettingsProvider
     {
-        private static readonly string[] LeftGraphs = { "Speed", "Engine RPM", "Gear", "Lateral Acceleration", "Horizontal Acceleration", "Brake Temperature", "Tyre Pressures", "Left Front Tyre Temperatures", "Right Front Tyre Temperatures", "Left Rear Tyre Temperatures", "Right Rear Tyre Temperatures", "Tyre Rps", "Suspension Travel", "Ride Height - Wheels" };
+        private static readonly string[] LeftGraphs = { "Speed", "Engine RPM", "Gear", "Lateral Acceleration", "Longitudinal Acceleration", "Brake Temperature", "Tyre Pressures", "Left Front Tyre Temperatures", "Right Front Tyre Temperatures", "Left Rear Tyre Temperatures", "Right Rear Tyre Temperatures", "Tyre Rps", "Suspension Travel", "Ride Height - Wheels" };
         private static readonly string[] RightGraphs = { "Lap Time", "Steering Angle", "Throttle", "Brake", "Clutch", "Ride Height - Chassis" };
 
         public void ForceSettingsReload()

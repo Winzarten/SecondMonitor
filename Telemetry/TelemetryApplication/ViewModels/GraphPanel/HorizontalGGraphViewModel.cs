@@ -11,7 +11,7 @@
         {
         }
 
-        public override string Title => "Horizontal Acceleration";
+        public override string Title => "Longitudinal Acceleration";
         protected override string YUnits => "Gs";
         protected override double YTickInterval => 1;
         protected override bool CanYZoom => true;
