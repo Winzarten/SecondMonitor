@@ -78,6 +78,10 @@
 
         private void RatingApplicationViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (_simulatorRatingController == null)
+            {
+                return;
+            }
             if (e.PropertyName == nameof(RatingApplicationViewModel.SelectedClass) && _currentState.CanUserSelectClass)
             {
                 _currentClass = RatingApplicationViewModel.SelectedClass;

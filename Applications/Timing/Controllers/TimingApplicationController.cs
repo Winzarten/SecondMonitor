@@ -27,6 +27,7 @@ namespace SecondMonitor.Timing.Controllers
     using Rating.Application.Controller;
     using ReportCreation.ViewModel;
     using SessionTiming.Drivers.Presentation.ViewModel;
+    using ViewModels.Settings;
     using ViewModels.Settings.Model;
 
     public class TimingApplicationController : ISecondMonitorPlugin
@@ -51,12 +52,14 @@ namespace SecondMonitor.Timing.Controllers
         private readonly DisplaySettingsLoader _displaySettingsLoader;
         private ReportsController _reportsController;
         private readonly IRatingApplicationController _ratingApplicationController;
+        private readonly ISettingsProvider _settingsProvider;
 
         public TimingApplicationController()
         {
             _kernelWrapper = new KernelWrapper();
             _displaySettingsLoader = new DisplaySettingsLoader();
             _ratingApplicationController = _kernelWrapper.Get<IRatingApplicationController>();
+            _settingsProvider = _kernelWrapper.Get<ISettingsProvider>();
         }
 
         public PluginsManager PluginManager
@@ -221,8 +224,7 @@ namespace SecondMonitor.Timing.Controllers
 
         private void CreateDisplaySettingsViewModel()
         {
-           _displaySettingsViewModel = new DisplaySettingsViewModel();
-           _displaySettingsViewModel.FromModel(_displaySettingsLoader.LoadDisplaySettingsFromFileSafe(SettingsPath));
+            _displaySettingsViewModel = _settingsProvider.DisplaySettingsViewModel;
         }
 
         private void CreateMapManagementController()
