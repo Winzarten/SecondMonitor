@@ -3,6 +3,7 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
+    using Common.DataModel.Player;
     using DataModel;
     using DataModel.Extensions;
     using DataModel.Snapshot;
@@ -18,7 +19,7 @@
         private string _currentSimulator;
         private string _currentClass;
         private ISimulatorRatingController _simulatorRatingController;
-        public IRatingApplicationViewModel _ratingApplicationViewModel;
+        private IRatingApplicationViewModel _ratingApplicationViewModel;
         private IRaceState _currentState;
 
         public RaceObserverController(ISimulatorRatingControllerFactory simulatorRatingControllerFactory, IRaceStateFactory raceStateFactory)
@@ -94,6 +95,11 @@
                 RatingApplicationViewModel.Difficulty = _simulatorRatingController.GetSuggestedDifficulty(_currentClass);
             }
 
+            if (e.PropertyName == nameof(RatingApplicationViewModel.Difficulty))
+            {
+                _currentState.SharedContext.UserSelectedDifficulty = RatingApplicationViewModel.Difficulty;
+            }
+
         }
 
         public Task NotifySessionCompletion(SessionSummary sessionSummary)
@@ -166,6 +172,8 @@
             await _simulatorRatingController.StartControllerAsync();
             RatingApplicationViewModel.InitializeAiDifficultySelection(_simulatorRatingController.MinimumAiDifficulty, _simulatorRatingController.MaximumAiDifficulty);
             _currentState = _raceStateFactory.CreateInitialState(_currentSimulator);
+            _currentState.SharedContext.UserSelectedDifficulty = RatingApplicationViewModel.Difficulty;
+            _currentState.SharedContext.SimulatorRatingController = _simulatorRatingController;
             RefreshClassesOnVm();
             RefreshSimulatorRatingOnVm();
         }
@@ -209,6 +217,12 @@
             RatingApplicationViewModel.IsClassSelectionEnable = _currentState.CanUserSelectClass;
             RatingApplicationViewModel.SessionPhaseKind = _currentState.SessionPhaseKind;
             RatingApplicationViewModel.SessionKind = _currentState.SessionKind;
+            RatingApplicationViewModel.SessionTextInformation = _currentState.SessionDescription;
+        }
+
+        public bool TryGetRatingForDriverCurrentSession(string driverName, out DriversRating driversRating)
+        {
+            return _currentState.TryGetDriverRating(driverName, out driversRating);
         }
     }
 }

@@ -60,6 +60,9 @@
     <Compile Include="Controller\RaceObserver\IRaceStateFactory.cs" />
     <Compile Include="Controller\RaceObserver\RaceStateFactory.cs" />
     <Compile Include="Controller\RaceObserver\States\AbstractSessionTypeState.cs" />
+    <Compile Include="Controller\RaceObserver\States\Context\QualificationContexxt.cs" />
+    <Compile Include="Controller\RaceObserver\States\Context\RaceContext.cs" />
+    <Compile Include="Controller\RaceObserver\States\Context\SharedContext.cs" />
     <Compile Include="Controller\RaceObserver\States\IdleState.cs" />
     <Compile Include="Controller\RaceObserver\States\IRaceState.cs" />
     <Compile Include="Controller\RaceObserver\States\PracticeState.cs" />
@@ -75,6 +78,8 @@
     <Compile Include="Controller\SimulatorRating\RatingStorageController.cs" />
     <Compile Include="Controller\SimulatorRating\SimulatorRatingController.cs" />
     <Compile Include="Controller\SimulatorRating\SimulatorRatingControllerFactory.cs" />
+    <Compile Include="RatingProvider\FieldRatingProvider\IQualificationResultRatingProvider.cs" />
+    <Compile Include="RatingProvider\FieldRatingProvider\QualificationResultRatingProvider.cs" />
     <Compile Include="RatingProvider\IRatingProvider.cs" />
     <Compile Include="Controller\RatingApplicationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

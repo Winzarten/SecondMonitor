@@ -20,6 +20,7 @@
 
     using DataModel.Extensions;
     using Controllers;
+    using Rating.Application.RatingProvider;
     using Rating.Application.ViewModels;
     using ReportCreation;
     using SecondMonitor.Timing.LapTimings.ViewModel;
@@ -41,8 +42,8 @@
     public class TimingDataViewModel : AbstractViewModel, ISimulatorDataSetViewModel,  IPaceProvider
     {
         private readonly DriverLapsWindowManager _driverLapsWindowManager;
-        private readonly DriverPresentationsManager _driverPresentationsManager;
         private readonly ISessionTelemetryControllerFactory _sessionTelemetryControllerFactory;
+        private readonly IRatingProvider _ratingProvider;
 
         private ICommand _resetCommand;
 
@@ -67,14 +68,14 @@
         private DisplaySettingsViewModel _displaySettingsViewModel;
 
 
-        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory)
+        public TimingDataViewModel(DriverLapsWindowManager driverLapsWindowManager, DisplaySettingsViewModel displaySettingsViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory, IRatingProvider ratingProvider)
         {
             TimingDataGridViewModel = new TimingDataGridViewModel(driverPresentationsManager, displaySettingsViewModel, new ClassColorProvider(new BasicColorPaletteProvider()));
             SessionInfoViewModel = new SessionInfoViewModel();
             TrackInfoViewModel = new TrackInfoViewModel();
             _driverLapsWindowManager = driverLapsWindowManager;
-            _driverPresentationsManager = driverPresentationsManager;
             _sessionTelemetryControllerFactory = sessionTelemetryControllerFactory;
+            _ratingProvider = ratingProvider;
             DoubleLeftClickCommand = _driverLapsWindowManager.OpenWindowCommand;
             DisplaySettingsViewModel = displaySettingsViewModel;
             SituationOverviewProvider = new SituationOverviewProvider(TimingDataGridViewModel, displaySettingsViewModel);
@@ -527,7 +528,7 @@
                                 data.SessionInfo.SessionType != SessionType.Race;
             _lastDataSet = data;
             CheckAndNotifySessionCompleted();
-            SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this, _driverPresentationsManager, _sessionTelemetryControllerFactory);
+            SessionTiming = SessionTiming.FromSimulatorData(data, invalidateLap, this, _sessionTelemetryControllerFactory, _ratingProvider);
             foreach (var driverTimingModelView in SessionTiming.Drivers.Values)
             {
                 _driverLapsWindowManager.Rebind(driverTimingModelView);

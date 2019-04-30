@@ -3,6 +3,7 @@
     using System;
     using DataModel;
     using States;
+    using States.Context;
 
     public class RaceStateFactory : IRaceStateFactory
     {
@@ -10,7 +11,7 @@
         {
             if (SimulatorsNameMap.IsR3ESimulator(simulatorName))
             {
-                return new IdleState();
+                return new IdleState(new SharedContext());
             }
 
             throw new ArgumentException($"Simulator {simulatorName} is not supported");

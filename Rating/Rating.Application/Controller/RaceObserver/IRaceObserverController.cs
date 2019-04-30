@@ -3,10 +3,11 @@
     using System.Threading.Tasks;
     using DataModel.Snapshot;
     using DataModel.Summary;
+    using RatingProvider;
     using SecondMonitor.ViewModels.Controllers;
     using ViewModels;
 
-    public interface IRaceObserverController : IController
+    public interface IRaceObserverController : IController, IRatingProvider
     {
         IRatingApplicationViewModel RatingApplicationViewModel { get; set; }
 

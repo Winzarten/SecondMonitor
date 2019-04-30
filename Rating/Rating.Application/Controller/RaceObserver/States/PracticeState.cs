@@ -1,10 +1,17 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver.States
 {
+    using Context;
     using DataModel.BasicProperties;
+    using DataModel.Snapshot;
     using DataModel.Summary;
 
     public class PracticeState : AbstractSessionTypeState
     {
+        public PracticeState(SharedContext sharedContext) : base(sharedContext)
+        {
+            SharedContext.QualificationContext = null;
+        }
+
         public override SessionKind SessionKind { get; protected set; } = SessionKind.OtherSession;
 
         public override SessionPhaseKind SessionPhaseKind { get; protected set; }
@@ -14,6 +21,11 @@
         {
             return false;
         }
+
+        protected override void Initialize(SimulatorDataSet simulatorDataSet)
+        {
+        }
+
 
         protected override SessionType SessionType => SessionType.Practice;
     }

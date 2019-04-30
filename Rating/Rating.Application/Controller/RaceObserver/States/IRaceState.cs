@@ -1,5 +1,7 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver.States
 {
+    using Common.DataModel.Player;
+    using Context;
     using DataModel.Snapshot;
     using DataModel.Summary;
 
@@ -8,9 +10,12 @@
         SessionKind SessionKind { get; }
         SessionPhaseKind SessionPhaseKind { get; }
         IRaceState NextState { get; }
+        string SessionDescription { get; }
+        SharedContext SharedContext { get; }
 
         bool CanUserSelectClass { get; }
         bool DoSessionCompletion(SessionSummary sessionSummary);
         bool DoDataLoaded(SimulatorDataSet simulatorDataSet);
+        bool TryGetDriverRating(string driverName, out DriversRating driversRating);
     }
 }

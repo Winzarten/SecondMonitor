@@ -44,7 +44,9 @@
                                            Finished = driverTiming.IsActive,
                                            FinishingPosition = driverTiming.Position,
                                            TopSpeed = driverTiming.TopSpeed,
-                                           IsPlayer = driverTiming.DriverInfo.IsPlayer
+                                           IsPlayer = driverTiming.DriverInfo.IsPlayer,
+                                           FinishStatus = driverTiming.DriverInfo.FinishStatus,
+                                           ClassName = driverTiming.CarClassName
                                        };
             int lapNumber = 1;
             bool allLaps = sessionTime == SessionType.Race;

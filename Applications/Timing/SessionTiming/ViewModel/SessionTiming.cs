@@ -5,6 +5,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows;
@@ -17,11 +18,14 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
     using Drivers;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using NLog;
+    using Rating.Application.RatingProvider;
+    using Rating.Common.DataModel.Player;
     using SimdataManagement.DriverPresentation;
     using Telemetry;
 
     public class SessionTiming : DependencyObject, IEnumerable, INotifyPropertyChanged
     {
+        private readonly IRatingProvider _ratingProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public class DriverNotFoundException : Exception
@@ -45,7 +49,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         public TimeSpan SessionStarTime { get; private set; }
 
-        private DateTime _nextUpdateTime = DateTime.Now;
+        private readonly Stopwatch _ratingUpdateStopwatch;
 
         private LapInfo _bestSessionLap;
 
@@ -55,12 +59,14 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         private CombinedLapPortionComparatorsViewModel _combinedLapPortionComparatorsViewModel;
 
-        private SessionTiming(TimingDataViewModel timingDataViewModel, ISessionTelemetryController sessionTelemetryController)
+        private SessionTiming(TimingDataViewModel timingDataViewModel, ISessionTelemetryController sessionTelemetryController, IRatingProvider ratingProvider)
         {
+            _ratingProvider = ratingProvider;
             PaceLaps = 4;
             DisplayBindTimeRelative = false;
             TimingDataViewModel = timingDataViewModel;
             SessionTelemetryController = sessionTelemetryController;
+            _ratingUpdateStopwatch = Stopwatch.StartNew();
         }
 
         public LapInfo BestSessionLap
@@ -167,12 +173,12 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             }
         }
 
-        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel, DriverPresentationsManager driverPresentationsManager, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory)
+        public static SessionTiming FromSimulatorData(SimulatorDataSet dataSet, bool invalidateFirstLap, TimingDataViewModel timingDataViewModel, ISessionTelemetryControllerFactory sessionTelemetryControllerFactory, IRatingProvider ratingProvider)
         {
 
             Dictionary<string, DriverTiming> drivers = new Dictionary<string, DriverTiming>();
             Logger.Info($"New Seesion Started :{dataSet.SessionInfo.SessionType.ToString()}");
-            SessionTiming timing = new SessionTiming(timingDataViewModel, sessionTelemetryControllerFactory.Create(dataSet))
+            SessionTiming timing = new SessionTiming(timingDataViewModel, sessionTelemetryControllerFactory.Create(dataSet), ratingProvider)
                                        {
                                            SessionStarTime = dataSet.SessionInfo.SessionTime,
                                            SessionType = dataSet.SessionInfo.SessionType,
@@ -200,7 +206,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
                     timing.Player = newDriver;
                     timing.CombinedLapPortionComparator = new CombinedLapPortionComparatorsViewModel(newDriver);
                 }
-            });
+                    });
             timing.Drivers = drivers;
             if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWithExtraLap)
             {
@@ -328,18 +334,29 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
         {
             try
             {
-               HashSet<string> updatedDrivers = new HashSet<string>();
-                Array.ForEach( dataSet.DriversInfo,
+                bool updateRating = _ratingUpdateStopwatch.ElapsedMilliseconds > 10000;
+                if (updateRating)
+                {
+                    _ratingUpdateStopwatch.Restart();
+                }
+                HashSet<string> updatedDrivers = new HashSet<string>();
+               Array.ForEach( dataSet.DriversInfo,
                     s =>
                         {
                             updatedDrivers.Add(s.DriverName);
                             if (Drivers.ContainsKey(s.DriverName) && Drivers[s.DriverName].IsActive)
                             {
-                                UpdateDriver(s, Drivers[s.DriverName], dataSet);
+                                DriverTiming driverToUpdate = Drivers[s.DriverName];
+                                UpdateDriver(s, driverToUpdate, dataSet);
 
                                 if (Drivers[s.DriverName].IsPlayer)
                                 {
                                     Player = Drivers[s.DriverName];
+                                }
+
+                                if (updateRating && _ratingProvider.TryGetRatingForDriverCurrentSession(s.DriverName, out DriversRating driversRating))
+                                {
+                                    driverToUpdate.Rating = driversRating.Rating;
                                 }
                             }
                             else

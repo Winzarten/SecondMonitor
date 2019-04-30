@@ -8,7 +8,7 @@
         public string Name { get; set; }
 
         [XmlAttribute]
-        public double Deviation { get; set; }
+        public int Deviation { get; set; }
 
         [XmlAttribute]
         public double Volatility { get; set; }

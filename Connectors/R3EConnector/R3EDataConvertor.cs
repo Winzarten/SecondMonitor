@@ -563,7 +563,7 @@
                     simData.SessionInfo.SessionPhase = SessionPhase.Checkered;
                     break;
                 default:
-                    simData.SessionInfo.SessionPhase = SessionPhase.Countdown;
+                    simData.SessionInfo.SessionPhase = SessionPhase.Unavailable;
                     break;
 
             }

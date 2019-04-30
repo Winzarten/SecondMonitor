@@ -18,6 +18,7 @@
         private bool _useSuggestedDifficulty;
         private bool _isVisible;
         private string _invisibleMessage;
+        private string _sessionTextInformation;
 
         public RatingApplicationViewModel(IViewModelFactory viewModelFactory)
         {
@@ -45,6 +46,12 @@
 
 
         public IRatingViewModel ClassRating { get; }
+
+        public string SessionTextInformation
+        {
+            get => _sessionTextInformation;
+            set => SetProperty(ref _sessionTextInformation, value);
+        }
 
         public SessionKind SessionKind
         {

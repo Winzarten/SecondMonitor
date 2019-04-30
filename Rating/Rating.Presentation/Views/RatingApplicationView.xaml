@@ -50,7 +50,8 @@
                                 StrokeBrush="{Binding SessionKind, Mode=OneWay, Converter={StaticResource SessionKindToBrushConverter}}">
                                 <ContentPresenter Content="{StaticResource CircleLight2}" />
                             </wpf:ColorAbleIcon>
-                            <wpf:ColorAbleIcon Grid.Column="2" Margin="5"
+                            <TextBlock Grid.Column="1" Style="{StaticResource StandardText}" Text="{Binding SessionTextInformation, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <wpf:ColorAbleIcon Grid.Column="2" Margin="5"
                                                StrokeBrush="{Binding SessionPhaseKind, Mode=OneWay, Converter={StaticResource SessionPhaseToBrushConverter}}">
                                 <ContentPresenter Content="{StaticResource CircleLight2}" />
                             </wpf:ColorAbleIcon>

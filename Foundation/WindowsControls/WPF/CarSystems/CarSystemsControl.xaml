@@ -95,7 +95,7 @@
                 <ContentPresenter Content="{StaticResource TurboIcon}" MaxHeight="32" DockPanel.Dock="Left" />
                 <quantityText:PressureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
                                            Margin="5,0,0,0" MinWidth="120"
-                                           FontSize="{StaticResource ExtraBigFontSize}"
+                                           FontSize="{StaticResource BigFontSize}"
                                            Foreground="{StaticResource LightGrey01Brush}"
                                            Quantity="{Binding TurboPressure}"
                                            PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"

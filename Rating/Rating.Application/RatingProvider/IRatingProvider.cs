@@ -1,11 +1,9 @@
 ﻿namespace SecondMonitor.Rating.Application.RatingProvider
 {
-    using System;
     using Common.DataModel.Player;
 
     public interface IRatingProvider
     {
-        event EventHandler<RatingChangeArgs> PlayersRatingChanged;
-        DriversRating GetRatingForDriverCurrentSession(string driverName);
+        bool  TryGetRatingForDriverCurrentSession(string driverName, out DriversRating driversRating);
     }
 }

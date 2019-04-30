@@ -13,6 +13,7 @@
 
         IRatingViewModel SimulatorRating { get; }
         IRatingViewModel ClassRating { get; }
+        string SessionTextInformation { get; set; }
         SessionKind SessionKind { get; set; }
         SessionPhaseKind SessionPhaseKind { get; set; }
         ObservableCollection<string> SelectableClasses { get; }

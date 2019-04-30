@@ -3,11 +3,11 @@
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using Common.Repository;
     using DataModel.Snapshot;
     using DataModel.Summary;
     using NLog;
     using RaceObserver;
+    using RatingProvider;
     using SecondMonitor.ViewModels.Factory;
     using ViewModels;
 
@@ -26,6 +26,7 @@
         }
 
         public IRatingApplicationViewModel RatingApplicationViewModel { get; set; }
+        public IRatingProvider RatingProvider => _raceObserverController;
 
         public async Task StartControllerAsync()
         {

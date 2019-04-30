@@ -19,7 +19,6 @@
         private Ratings _ratings;
         private SimulatorRating _simulatorRating;
 
-
         public SimulatorRatingController(string simulatorName, IRatingRepository ratingRepository, ISimulatorRatingConfigurationProvider simulatorRatingConfigurationProvider)
         {
             _simulatorName = simulatorName;
@@ -29,6 +28,12 @@
 
         public int MinimumAiDifficulty => _simulatorRatingConfiguration.MinimumAiLevel;
         public int MaximumAiDifficulty => _simulatorRatingConfiguration.MaximumAiLevel;
+
+        public double AiTimeDifferencePerLevel => _simulatorRatingConfiguration.AiTimeDifferencePerLevel;
+
+        public int RatingPerLevel => _simulatorRatingConfiguration.RatingPerLevel;
+
+        public double AiRatingNoise => _simulatorRatingConfiguration.AiRatingNoise;
 
         public Task StartControllerAsync()
         {
@@ -106,6 +111,11 @@
             return Math.Min(_simulatorRatingConfiguration.MinimumAiLevel + ((driversRating.Rating - _simulatorRatingConfiguration.MinimumRating) / _simulatorRatingConfiguration.RatingPerLevel), _simulatorRatingConfiguration.MaximumAiLevel);
         }
 
+        public int GetRatingForDifficulty(int aiDifficulty)
+        {
+            return (int)(_simulatorRatingConfiguration.MinimumRating + (aiDifficulty - _simulatorRatingConfiguration.MinimumAiLevel + 0.5) * _simulatorRatingConfiguration.RatingPerLevel);
+        }
+
         public IReadOnlyCollection<string> GetAllKnowClassNames()
         {
             return _simulatorRating.ClassRatings.Select(x => x.ClassName).ToList();
@@ -113,7 +123,10 @@
 
         public DriverWithoutRating GetAiRating(string aiDriverName, string className)
         {
-            throw new System.NotImplementedException();
+            return new DriverWithoutRating()
+            {
+                Deviation = 50, Volatility = 0.02, Name = aiDriverName
+            };
         }
 
         private static void LogRating(DriversRating driversRating)
