@@ -24,6 +24,7 @@
                         MinimumRating = 100,
                         AiTimeDifferencePerLevel = 1,
                         AiRatingNoise = 10,
+                        QuickRaceAiRatingForPlace = 20,
                     }
                 }
             };

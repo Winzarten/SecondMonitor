@@ -17,6 +17,7 @@
         private readonly Stopwatch _refreshStopwatch;
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IRaceObserverController _raceObserverController;
+        private bool _inMp;
 
         public RatingApplicationController(IViewModelFactory viewModelFactory, IRaceObserverController raceObserverController)
         {
@@ -42,6 +43,10 @@
 
         public async Task NotifySessionCompletion(SessionSummary sessionSummary)
         {
+            if (_inMp)
+            {
+                return;
+            }
             try
             {
                 await _raceObserverController.NotifySessionCompletion(sessionSummary);
@@ -60,13 +65,40 @@
             }
             try
             {
-                await _raceObserverController.NotifyDataLoaded(simulatorDataSet);
                 _refreshStopwatch.Restart();
+                CheckMp(simulatorDataSet.SessionInfo);
+                if (_inMp)
+                {
+                    return;
+                }
+                await _raceObserverController.NotifyDataLoaded(simulatorDataSet);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
             }
+        }
+
+        private void CheckMp(SessionInfo sessionInfo)
+        {
+            if (_inMp == sessionInfo.IsMultiplayer)
+            {
+                return;
+            }
+
+            if (sessionInfo.IsMultiplayer)
+            {
+                _inMp = true;
+                RatingApplicationViewModel.InvisibleMessage = "MP Detected, Rating Disabled";
+                RatingApplicationViewModel.IsVisible = false;
+            }
+            else
+            {
+                _inMp = false;
+                RatingApplicationViewModel.InvisibleMessage = string.Empty;
+                RatingApplicationViewModel.IsVisible = true;
+            }
+
         }
     }
 }

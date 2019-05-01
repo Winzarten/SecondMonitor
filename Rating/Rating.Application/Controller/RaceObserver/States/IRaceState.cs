@@ -12,6 +12,7 @@
         IRaceState NextState { get; }
         string SessionDescription { get; }
         SharedContext SharedContext { get; }
+        bool ShowRatingChange { get; }
 
         bool CanUserSelectClass { get; }
         bool DoSessionCompletion(SessionSummary sessionSummary);

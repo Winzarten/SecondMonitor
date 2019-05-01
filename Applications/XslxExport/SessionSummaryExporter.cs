@@ -729,7 +729,7 @@
             {
                 return sessionSummary.SessionLength.Hours + "h " + (sessionSummary.SessionLength.Minutes + 1) + "min" ;
             }
-            return sessionSummary.SessionLength.Minutes + "mins";
+            return Math.Ceiling((decimal) sessionSummary.SessionLength.Minutes) + "mins";
         }
 
         private static void CreateWorkBook(ExcelPackage package, bool includeRaceProgress)

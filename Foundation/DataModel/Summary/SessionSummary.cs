@@ -37,6 +37,8 @@
 
         public List<Driver> Drivers { get; } = new List<Driver>();
 
+        public bool IsMultiClass { get; set; }
+
         [XmlIgnore]
         public Lap SessionBestLap
         {

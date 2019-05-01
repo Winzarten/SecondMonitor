@@ -20,6 +20,7 @@
         <ResourceDictionary>
             <converters:SessionKindToBrushConverter x:Key="SessionKindToBrushConverter"/>
             <converters:SessionPhaseToBrushConverter x:Key="SessionPhaseToBrushConverter"/>
+            <converters:IntToRedGreenConverter x:Key="IntToRedGreenConverter"/>
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 

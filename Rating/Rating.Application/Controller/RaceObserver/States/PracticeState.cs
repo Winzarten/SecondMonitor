@@ -17,6 +17,8 @@
         public override SessionPhaseKind SessionPhaseKind { get; protected set; }
         public override bool CanUserSelectClass => false;
 
+        public override bool ShowRatingChange => true;
+
         public override bool DoSessionCompletion(SessionSummary sessionSummary)
         {
             return false;

@@ -6,8 +6,9 @@
     public class RatingViewModel : AbstractViewModel<DriversRating>, IRatingViewModel
     {
         private string _secondaryRating;
-        private string _ratingChange;
+        private int _ratingChange;
         private string _mainRating;
+        private bool _ratingChangeVisible;
 
         public string SecondaryRating
         {
@@ -15,10 +16,16 @@
             set => SetProperty(ref _secondaryRating, value);
         }
 
-        public string RatingChange
+        public int RatingChange
         {
             get => _ratingChange;
             set => SetProperty(ref _ratingChange, value);
+        }
+
+        public bool RatingChangeVisible
+        {
+            get => _ratingChangeVisible;
+            set => SetProperty(ref _ratingChangeVisible, value);
         }
 
         public string MainRating
@@ -30,17 +37,7 @@
         protected override void ApplyModel(DriversRating model)
         {
             MainRating = model.Rating.ToString();
-            SecondaryRating = $"{model.Deviation}-{model.Volatility}";
-        }
-
-        public void ApplyRatingChange(int ratingChange)
-        {
-            if (ratingChange == 0)
-            {
-                RatingChange = string.Empty;
-            }
-
-            RatingChange = ratingChange < 0 ? $"-{ratingChange}" : $"+{ratingChange}";
+            SecondaryRating = $"{model.Deviation}-{model.Volatility:F2}";
         }
 
         public override DriversRating SaveToNewModel()

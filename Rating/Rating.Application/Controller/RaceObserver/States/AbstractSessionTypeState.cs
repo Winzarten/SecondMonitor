@@ -7,10 +7,12 @@
     using DataModel.Snapshot;
     using DataModel.Summary;
     using RatingProvider.FieldRatingProvider;
+    using SimulatorRating.RatingUpdater;
 
     public abstract class AbstractSessionTypeState : IRaceState
     {
         private bool _isStateInitialized;
+
         protected AbstractSessionTypeState(SharedContext sharedContext)
         {
             SharedContext = sharedContext;
@@ -21,6 +23,8 @@
         public abstract SessionPhaseKind SessionPhaseKind { get; protected set; }
         public IRaceState NextState { get; protected set; }
         public string SessionDescription { get; protected set; }
+
+        public abstract bool ShowRatingChange { get; }
 
         public abstract bool CanUserSelectClass { get; }
         protected abstract SessionType SessionType { get; }
@@ -38,7 +42,11 @@
                 _isStateInitialized = true;
             }
 
-            SessionPhaseKind = simulatorDataSet.SessionInfo.SessionPhase == SessionPhase.Countdown ? SessionPhaseKind.NotStarted : SessionPhaseKind.InProgress;
+            if (simulatorDataSet.SessionInfo.SessionType != SessionType.Race)
+            {
+                SessionPhaseKind = simulatorDataSet.SessionInfo.SessionPhase == SessionPhase.Countdown ? SessionPhaseKind.NotStarted : SessionPhaseKind.InProgress;
+            }
+
             if (simulatorDataSet.SessionInfo.SessionType == SessionType)
             {
                 return false;
@@ -59,7 +67,7 @@
                     NextState = new QualificationState(SharedContext);
                     break;
                 case SessionType.Race:
-                    NextState = new RaceState(new QualificationResultRatingProvider(SharedContext.SimulatorRatingController),  SharedContext);
+                    NextState = new RaceState(new QualificationResultRatingProvider(SharedContext.SimulatorRatingController), new RatingUpdater(SharedContext.SimulatorRatingController),   SharedContext);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -70,7 +78,7 @@
 
         public virtual bool TryGetDriverRating(string driverName, out DriversRating driversRating)
         {
-            driversRating = null;
+            driversRating = new DriversRating();
             return false;
         }
     }

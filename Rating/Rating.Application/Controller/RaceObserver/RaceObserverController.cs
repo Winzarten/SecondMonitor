@@ -8,6 +8,7 @@
     using DataModel.Extensions;
     using DataModel.Snapshot;
     using DataModel.Summary;
+    using RatingProvider;
     using SimulatorRating;
     using States;
     using ViewModels;
@@ -163,6 +164,7 @@
                 return;
             }
             RatingApplicationViewModel.IsVisible = true;
+            UnSubscribeSimulatorRatingController();
             if (_simulatorRatingController != null)
             {
                 await _simulatorRatingController.StopControllerAsync();
@@ -174,8 +176,10 @@
             _currentState = _raceStateFactory.CreateInitialState(_currentSimulator);
             _currentState.SharedContext.UserSelectedDifficulty = RatingApplicationViewModel.Difficulty;
             _currentState.SharedContext.SimulatorRatingController = _simulatorRatingController;
+            _currentState.SharedContext.SimulatorRating = _simulatorRatingController.GetPlayerOverallRating();
             RefreshClassesOnVm();
             RefreshSimulatorRatingOnVm();
+            SubscribeSimulatorRatingController();
         }
 
         private void RefreshClassesOnVm()
@@ -218,10 +222,49 @@
             RatingApplicationViewModel.SessionPhaseKind = _currentState.SessionPhaseKind;
             RatingApplicationViewModel.SessionKind = _currentState.SessionKind;
             RatingApplicationViewModel.SessionTextInformation = _currentState.SessionDescription;
+            RatingApplicationViewModel.SimulatorRating.RatingChangeVisible = _currentState.ShowRatingChange;
+            RatingApplicationViewModel.ClassRating.RatingChangeVisible = _currentState.ShowRatingChange;
+        }
+
+        private void SubscribeSimulatorRatingController()
+        {
+            if (_simulatorRatingController == null)
+            {
+                return;
+            }
+            _simulatorRatingController.ClassRatingChanged+= SimulatorRatingControllerOnClassRatingChanged;
+            _simulatorRatingController.SimulatorRatingChanged += SimulatorRatingControllerOnSimulatorRatingChanged;
+        }
+
+        private void UnSubscribeSimulatorRatingController()
+        {
+            if (_simulatorRatingController == null)
+            {
+                return;
+            }
+            _simulatorRatingController.ClassRatingChanged -= SimulatorRatingControllerOnClassRatingChanged;
+            _simulatorRatingController.SimulatorRatingChanged -= SimulatorRatingControllerOnSimulatorRatingChanged;
+        }
+
+        private void SimulatorRatingControllerOnSimulatorRatingChanged(object sender, RatingChangeArgs e)
+        {
+            RefreshSimulatorRatingOnVm();
+            _ratingApplicationViewModel.SimulatorRating.RatingChange = e.RatingChange;
+        }
+
+        private void SimulatorRatingControllerOnClassRatingChanged(object sender, RatingChangeArgs e)
+        {
+            RefreshClassRatingOnVm();
+            _ratingApplicationViewModel.ClassRating.RatingChange = e.RatingChange;
         }
 
         public bool TryGetRatingForDriverCurrentSession(string driverName, out DriversRating driversRating)
         {
+            if (_currentState == null)
+            {
+                driversRating = new DriversRating();
+                return false;
+            }
             return _currentState.TryGetDriverRating(driverName, out driversRating);
         }
     }

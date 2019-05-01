@@ -2,7 +2,6 @@
 {
     public class SimulatorRatingConfiguration
     {
-
         public string SimulatorName { get; set; }
         public int MinimumAiLevel { get; set; }
         public int MaximumAiLevel { get; set; }
@@ -16,5 +15,7 @@
         public double DefaultPlayerVolatility { get; set; }
 
         public double AiRatingNoise { get; set; }
+
+        public int QuickRaceAiRatingForPlace { get; set; }
     }
 }

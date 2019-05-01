@@ -5,12 +5,13 @@
     using System.Linq;
     using Common.DataModel.Player;
     using Controller.SimulatorRating;
+    using DataModel.Snapshot.Drivers;
     using DataModel.Summary;
 
     public class QualificationResultRatingProvider : IQualificationResultRatingProvider
     {
         private readonly ISimulatorRatingController _simulatorRatingController;
-        private int _maxNoise;
+        private readonly int _maxNoise;
         private readonly Random _random;
         private TimeSpan _referenceTime;
         private int _referenceRating;
@@ -19,11 +20,11 @@
         {
             _random = new Random();
             _simulatorRatingController = simulatorRatingController;
+            _maxNoise = (int)(_simulatorRatingController.RatingPerLevel * _simulatorRatingController.AiRatingNoise / 100);
         }
 
-        public Dictionary<string, DriversRating> CreateFieldRating(List<Driver> qualificationResult, int difficulty)
+        public Dictionary<string, DriversRating> CreateFieldRatingFromQualificationResult(List<Driver> qualificationResult, int difficulty)
         {
-            _maxNoise = (int)(_simulatorRatingController.RatingPerLevel * _simulatorRatingController.AiRatingNoise / 100);
             InitializeReferenceTime(qualificationResult);
             InitializeReferenceRating(difficulty);
 
@@ -37,7 +38,7 @@
                     continue;
                 }
 
-                DriverWithoutRating aiDriver = _simulatorRatingController.GetAiRating(driver.DriverName, driver.ClassName);
+                DriverWithoutRating aiDriver = _simulatorRatingController.GetAiRating(driver.DriverName);
                 lastRating = ComputeRating(driver.BestPersonalLap.LapTime);
                 ratings[driver.DriverName] = new DriversRating()
                 {
@@ -49,12 +50,40 @@
 
             foreach (Driver driver in qualificationResult.Where(x => !x.IsPlayer && x.BestPersonalLap == null))
             {
-                DriverWithoutRating aiDriver = _simulatorRatingController.GetAiRating(driver.DriverName, driver.ClassName);
+                DriverWithoutRating aiDriver = _simulatorRatingController.GetAiRating(driver.DriverName);
                 ratings[driver.DriverName] = new DriversRating()
                 {
                     Deviation = aiDriver.Deviation,
                     Volatility = aiDriver.Volatility,
                     Rating = lastRating
+                };
+            }
+
+            return ratings;
+        }
+
+        public Dictionary<string, DriversRating> CreateFieldRating(DriverInfo[] fieldDrivers, int difficulty)
+        {
+            InitializeReferenceRating(difficulty);
+            Dictionary<string, DriversRating> ratings = new Dictionary<string, DriversRating>();
+            int middleDriverIndex = fieldDrivers.Length / 2;
+            int ratingBetweenPlaces = _simulatorRatingController.QuickRaceAiRatingForPlace;
+            for(int i = 0; i < fieldDrivers.Length; i++)
+            {
+                DriverInfo driver = fieldDrivers[i];
+                if (driver.IsPlayer)
+                {
+                    ratings[driver.DriverName] = _simulatorRatingController.GetPlayerRating(driver.CarClassName);
+                    continue;
+                }
+
+                DriverWithoutRating aiDriver = _simulatorRatingController.GetAiRating(driver.DriverName);
+                int rating = AddNoise(_referenceRating + (middleDriverIndex - i) * ratingBetweenPlaces);
+                ratings[driver.DriverName] = new DriversRating()
+                {
+                    Deviation = aiDriver.Deviation,
+                    Volatility = aiDriver.Volatility,
+                    Rating = rating
                 };
             }
 

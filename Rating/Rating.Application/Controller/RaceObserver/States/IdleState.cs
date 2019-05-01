@@ -14,6 +14,9 @@
 
         public override SessionKind SessionKind { get; protected set; } = SessionKind.Idle;
         public override SessionPhaseKind SessionPhaseKind { get; protected set; } = SessionPhaseKind.None;
+
+        public override bool ShowRatingChange => true;
+
         public override bool CanUserSelectClass => true;
 
         protected override void Initialize(SimulatorDataSet simulatorDataSet)

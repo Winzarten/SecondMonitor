@@ -85,6 +85,8 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
 
         public TimeSpan SessionTime { get; private set; }
 
+        public bool IsMultiClass { get; set; }
+
 
         public SessionType SessionType { get; private set; }
 
@@ -326,6 +328,7 @@ namespace SecondMonitor.Timing.SessionTiming.ViewModel
             SessionTime = dataSet.SessionInfo.SessionTime - SessionStarTime;
             SessionType = dataSet.SessionInfo.SessionType;
             WasGreen |= dataSet.SessionInfo.SessionPhase == SessionPhase.Green;
+            IsMultiClass |= dataSet.SessionInfo.IsMultiClass;
             UpdateDrivers(dataSet);
 
         }

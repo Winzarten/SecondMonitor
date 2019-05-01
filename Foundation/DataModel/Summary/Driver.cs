@@ -21,6 +21,8 @@
 
         public string ClassName { get; set; }
 
+        public string ClassId { get; set; }
+
         public string DriverName { get; set; }
 
         public int FinishingPosition { get; set; }
@@ -90,6 +92,7 @@
                 return _bestSector3Lap;
             }
         }
+
 
         private Lap FindBest(Func<Lap, TimeSpan> paramFunc, List<Lap> laps)
         {

@@ -68,7 +68,7 @@
                 OrderingDisplayMode = OrderingMode,
                 TimesDisplayMode = TimesDisplayMode,
                 SessionName = SessionName,
-                ColumnsSettings = ColumnsSettingsView.ToModel()
+                ColumnsSettings = ColumnsSettingsView.SaveToNewModel()
             };
 
         }

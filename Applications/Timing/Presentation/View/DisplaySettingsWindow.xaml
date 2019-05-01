@@ -131,6 +131,9 @@
                                     <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 2" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector2.Visible}"></CheckBox>
                                     <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Sector 3" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Sector3.Visible}"></CheckBox>
                                 </DockPanel>
+                                <DockPanel DockPanel.Dock="Top">
+                                    <CheckBox DockPanel.Dock="Left" Foreground="White" Content="Rating" Margin="10,0,0,10" IsChecked="{Binding ColumnsSettingsView.Rating.Visible}"></CheckBox>
+                                </DockPanel>
                             </DockPanel>
                         </Grid>
                     </Grid>

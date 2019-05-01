@@ -28,6 +28,7 @@
             summary.TotalNumberOfLaps = timing.LastSet.SessionInfo.TotalNumberOfLaps;
             summary.SessionRunDuration = timing.SessionTime;
             summary.WasGreen = timing.WasGreen;
+            summary.IsMultiClass = timing.IsMultiClass;
         }
 
         private static void AddDrivers(SessionSummary summary, SessionTiming timing)
@@ -46,7 +47,8 @@
                                            TopSpeed = driverTiming.TopSpeed,
                                            IsPlayer = driverTiming.DriverInfo.IsPlayer,
                                            FinishStatus = driverTiming.DriverInfo.FinishStatus,
-                                           ClassName = driverTiming.CarClassName
+                                           ClassName = driverTiming.CarClassName,
+                                           ClassId = driverTiming.CarClassId,
                                        };
             int lapNumber = 1;
             bool allLaps = sessionTime == SessionType.Race;

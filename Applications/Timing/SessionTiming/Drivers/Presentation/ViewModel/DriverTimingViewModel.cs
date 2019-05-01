@@ -325,11 +325,19 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             private set => SetProperty(ref _isLastSector3SessionBest, value);
         }
 
+        private int _rating;
+        public int Rating
+        {
+            get => _rating;
+            set => SetProperty(ref _rating, value);
+        }
+
         public void RefreshProperties()
         {
             try
             {
                 IsClassIndicationEnabled = DriverTiming.Session?.LastSet?.SessionInfo?.IsMultiClass == true;
+                Rating = DriverTiming.Rating;
                 Position = DriverTiming.Position.ToString();
                 PositionInClass = FormatPositionInClass();
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();

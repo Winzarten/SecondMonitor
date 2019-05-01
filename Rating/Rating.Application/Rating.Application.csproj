@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Glicko2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Glicko-2RankingSystem.2.0.0\lib\Glicko2.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
       <Private>False</Private>
@@ -76,6 +79,9 @@
     <Compile Include="Controller\RaceObserver\RaceObserverController.cs" />
     <Compile Include="Controller\SimulatorRating\ISimulatorRatingControllerFactory.cs" />
     <Compile Include="Controller\SimulatorRating\RatingStorageController.cs" />
+    <Compile Include="Controller\SimulatorRating\RatingUpdater\GlickoRatingExtension.cs" />
+    <Compile Include="Controller\SimulatorRating\RatingUpdater\IRatingUpdater.cs" />
+    <Compile Include="Controller\SimulatorRating\RatingUpdater\RatingUpdater.cs" />
     <Compile Include="Controller\SimulatorRating\SimulatorRatingController.cs" />
     <Compile Include="Controller\SimulatorRating\SimulatorRatingControllerFactory.cs" />
     <Compile Include="RatingProvider\FieldRatingProvider\IQualificationResultRatingProvider.cs" />

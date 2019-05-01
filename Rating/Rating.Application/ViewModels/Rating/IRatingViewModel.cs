@@ -6,8 +6,7 @@
     public interface IRatingViewModel : IViewModel<DriversRating>
     {
         string SecondaryRating { get; }
-        string RatingChange { get; }
-
-        void ApplyRatingChange(int ratingChange);
+        int RatingChange { get; set; }
+        bool RatingChangeVisible { get; set; }
     }
 }

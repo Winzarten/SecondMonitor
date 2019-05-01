@@ -20,6 +20,7 @@
         public ColumnSettings Sector1 { get; set; } = new ColumnSettings { Visible = true, Width = 80 };
         public ColumnSettings Sector2 { get; set; } = new ColumnSettings { Visible = true, Width = 80 };
         public ColumnSettings Sector3 { get; set; } = new ColumnSettings { Visible = true, Width = 80 };
+        public ColumnSettings Rating { get; set; } = new ColumnSettings { Visible = false, Width = 80 };
 
 
     }
