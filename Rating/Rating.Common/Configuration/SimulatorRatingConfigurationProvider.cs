@@ -17,14 +17,14 @@
                         SimulatorName = "R3E",
                         MinimumAiLevel = 80,
                         MaximumAiLevel = 120,
-                        RatingPerLevel = 300,
+                        RatingPerLevel = 100,
                         DefaultPlayerRating = 1500,
                         DefaultPlayerDeviation = 350,
                         DefaultPlayerVolatility = 0.06,
                         MinimumRating = 100,
                         AiTimeDifferencePerLevel = 1,
-                        AiRatingNoise = 10,
-                        QuickRaceAiRatingForPlace = 20,
+                        AiRatingNoise = 25,
+                        QuickRaceAiRatingForPlace = 10,
                     }
                 }
             };

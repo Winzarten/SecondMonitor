@@ -11,6 +11,8 @@
     {
         IRatingApplicationViewModel RatingApplicationViewModel { get; set; }
 
+        void Reset();
+
         Task NotifySessionCompletion(SessionSummary sessionSummary);
         Task NotifyDataLoaded(SimulatorDataSet simulatorDataSet);
     }

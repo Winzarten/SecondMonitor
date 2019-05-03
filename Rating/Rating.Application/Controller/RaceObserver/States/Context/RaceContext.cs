@@ -8,5 +8,9 @@
         public int UsedDifficulty { get; set; }
 
         public Dictionary<string, DriversRating> FieldRating { get; set; }
+
+        public bool WasQuit { get; set; }
+
+        public bool IsRatingBasedOnQualification { get; set; }
     }
 }

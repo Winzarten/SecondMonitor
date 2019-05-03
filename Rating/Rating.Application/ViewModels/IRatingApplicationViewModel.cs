@@ -9,7 +9,8 @@
     public interface IRatingApplicationViewModel : IViewModel
     {
         bool IsVisible { get; set; }
-        string InvisibleMessage { get; set; }
+        bool IsCollapsed { get; set; }
+        string CollapsedMessage { get; set; }
 
         IRatingViewModel SimulatorRating { get; }
         IRatingViewModel ClassRating { get; }
@@ -21,6 +22,7 @@
         bool IsClassSelectionEnable { get; set; }
         int Difficulty { get; set; }
         bool UseSuggestedDifficulty { get; set; }
+        bool IsRateRaceCheckboxChecked { get; }
 
         void ApplySimulatorRating(DriversRating driversRating);
         void ApplyClassRating(DriversRating driversRating);

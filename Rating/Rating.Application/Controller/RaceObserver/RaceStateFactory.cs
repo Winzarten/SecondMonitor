@@ -2,19 +2,20 @@
 {
     using System;
     using DataModel;
+    using SimulatorRating;
     using States;
     using States.Context;
 
     public class RaceStateFactory : IRaceStateFactory
     {
-        public IRaceState CreateInitialState(string simulatorName)
+        public IRaceState CreateInitialState(ISimulatorRatingController simulatorRatingController)
         {
-            if (SimulatorsNameMap.IsR3ESimulator(simulatorName))
+            if (SimulatorsNameMap.IsR3ESimulator(simulatorRatingController.SimulatorName))
             {
-                return new IdleState(new SharedContext());
+                return new IdleState(new SharedContext() {SimulatorRatingController = simulatorRatingController});
             }
 
-            throw new ArgumentException($"Simulator {simulatorName} is not supported");
+            throw new ArgumentException($"Simulator {simulatorRatingController.SimulatorName} is not supported");
         }
     }
 }

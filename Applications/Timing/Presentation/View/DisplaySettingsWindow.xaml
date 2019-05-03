@@ -232,54 +232,65 @@
                               ToolTip="Forces the app to always use the circle instead of a track map." />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Height="200" DockPanel.Dock="Top">
-                <WrapPanel Orientation="Vertical">
+            <DockPanel LastChildFill="True"  DockPanel.Dock="Top">
+                <GroupBox Header="UOM" Foreground="White" HorizontalAlignment="Left" Height="200" DockPanel.Dock="Left">
+                    <WrapPanel Orientation="Vertical">
+                        <StackPanel>
+                            <Label Content="Temperature" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Foreground="White" />
+                            <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left"
+                                      VerticalAlignment="Top" Width="94"
+                                      ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}"
+                                      SelectedItem="{Binding TemperatureUnits}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <Label Content="Pressure" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Foreground="White" />
+                            <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left"
+                                      VerticalAlignment="Top" Width="94"
+                                      ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}"
+                                      SelectedItem="{Binding PressureUnits}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <Label Content="Volume" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Foreground="White" />
+                            <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                      Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}"
+                                      SelectedItem="{Binding VolumeUnits}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <Label Content="Velocity" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Foreground="White" />
+                            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                                      ItemsSource="{Binding Source={StaticResource DataFromVelocityEnum}}"
+                                      SelectedItem="{Binding VelocityUnits}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <Label Content="Force" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Foreground="White" />
+                            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                                      ItemsSource="{Binding Source={StaticResource DataForForceUnitsEnum}}"
+                                      SelectedItem="{Binding ForceUnits}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <Label Content="Angle" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Foreground="White" />
+                            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
+                                      ItemsSource="{Binding Source={StaticResource DataForAngleUnitsEnum}}"
+                                      SelectedItem="{Binding AngleUnits}" />
+                        </StackPanel>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Rating" Foreground="White" HorizontalAlignment="Left" DockPanel.Dock="Left">
                     <StackPanel>
-                        <Label Content="Temperature" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Foreground="White" />
-                        <ComboBox x:Name="CmbTemperature" HorizontalAlignment="Left"
-                                  VerticalAlignment="Top" Width="94"
-                                  ItemsSource="{Binding Source={StaticResource DataFromTemperatureEnum}}"
-                                  SelectedItem="{Binding TemperatureUnits}" />
+                        <CheckBox Content="Enable Rating" Foreground="White" VerticalAlignment="Top"
+                                  HorizontalAlignment="Left" Margin="0,10,0,0"
+                                  IsChecked="{Binding RatingSettingsViewModel.IsEnabled}"
+                                  ToolTip="Enables and Disables the rating application module." />
                     </StackPanel>
-                    <StackPanel>
-                        <Label Content="Pressure" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Foreground="White" />
-                        <ComboBox x:Name="CmbPressure" HorizontalAlignment="Left"
-                                  VerticalAlignment="Top" Width="94"
-                                  ItemsSource="{Binding Source={StaticResource DataFromPressureEnum}}"
-                                  SelectedItem="{Binding PressureUnits}" />
-                    </StackPanel>
-                    <StackPanel>
-                        <Label Content="Volume" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Foreground="White" />
-                        <ComboBox x:Name="CmbVolume" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                  Width="94" ItemsSource="{Binding Source={StaticResource DataFromVolumeEnum}}"
-                                  SelectedItem="{Binding VolumeUnits}" />
-                    </StackPanel>
-                    <StackPanel>
-                        <Label Content="Velocity" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Foreground="White" />
-                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
-                                  ItemsSource="{Binding Source={StaticResource DataFromVelocityEnum}}"
-                                  SelectedItem="{Binding VelocityUnits}" />
-                    </StackPanel>
-                    <StackPanel>
-                        <Label Content="Force" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Foreground="White" />
-                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
-                                  ItemsSource="{Binding Source={StaticResource DataForForceUnitsEnum}}"
-                                  SelectedItem="{Binding ForceUnits}" />
-                    </StackPanel>
-                    <StackPanel>
-                        <Label Content="Angle" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Foreground="White" />
-                        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"
-                                  ItemsSource="{Binding Source={StaticResource DataForAngleUnitsEnum}}"
-                                  SelectedItem="{Binding AngleUnits}" />
-                    </StackPanel>
-                </WrapPanel>
-            </GroupBox>
+                </GroupBox>
+
+            </DockPanel>
         </DockPanel>
         <DockPanel Grid.Column="1" Margin="5" VerticalAlignment="Stretch">
             <GroupBox Header="Session Options" Foreground="White" VerticalAlignment="Stretch">

@@ -35,6 +35,7 @@
         private double _minimalGapForVisualization;
         private double _gapHeightForOneSecond;
         private double _maximumGapHeight;
+        private RatingSettingsViewModel _ratingSettingsViewModel;
 
         public ICommand OpenLogDirectoryCommand => new RelayCommand(OpenLogDirectory);
 
@@ -342,6 +343,12 @@
             set => SetProperty(ref _maximumGapHeight, value);
         }
 
+        public RatingSettingsViewModel RatingSettingsViewModel
+        {
+            get => _ratingSettingsViewModel;
+            set => SetProperty(ref _ratingSettingsViewModel, value);
+        }
+
         public WindowLocationSetting WindowLocationSetting { get; set; }
 
         protected override void ApplyModel(DisplaySettings settings)
@@ -379,6 +386,9 @@
             TelemetrySettingsViewModel = new TelemetrySettingsViewModel();
             TelemetrySettingsViewModel.FromModel(settings.TelemetrySettings);
             WindowLocationSetting = settings.WindowLocationSetting;
+
+            RatingSettingsViewModel = new RatingSettingsViewModel();
+            RatingSettingsViewModel.FromModel(settings.RatingSettings);
         }
 
         public override DisplaySettings SaveToNewModel()
@@ -409,6 +419,7 @@
                 MaximumGapHeight = MaximumGapHeight,
                 GapHeightForOneSecond = GapHeightForOneSecond,
                 WindowLocationSetting = WindowLocationSetting,
+                RatingSettings = RatingSettingsViewModel.SaveToNewModel(),
             };
         }
 

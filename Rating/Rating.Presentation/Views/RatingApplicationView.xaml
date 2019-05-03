@@ -6,12 +6,12 @@
         <ResourceDictionary Source="../RatingPresentation.xaml"/>
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type viewModels:RatingApplicationViewModel}">
-                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="1" >
+                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="1" Visibility="{Binding IsVisible, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
-                        <Grid  Visibility="{Binding IsVisible, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Width="40" >
-                            <TextBlock TextAlignment="Center" Style="{StaticResource StandardText}" VerticalAlignment="Center" Width="40" TextWrapping="Wrap" Text="{Binding InvisibleMessage}"></TextBlock>
+                        <Grid  Visibility="{Binding IsCollapsed, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Width="40" >
+                            <TextBlock TextAlignment="Center" Style="{StaticResource StandardText}" VerticalAlignment="Center" Width="40" TextWrapping="Wrap" Text="{Binding CollapsedMessage}"></TextBlock>
                         </Grid>
-                        <StackPanel Width="170" Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Width="170" Visibility="{Binding IsCollapsed, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Grid Margin="0,0,0,10" >
                             <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource BigFontSize}" Text="Ratings" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
                         </Grid>
@@ -47,16 +47,20 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <wpf:ColorAbleIcon Margin="5"
-                                StrokeBrush="{Binding SessionKind, Mode=OneWay, Converter={StaticResource SessionKindToBrushConverter}}">
+                                StrokeBrush="{Binding SessionKind, Mode=OneWay, Converter={StaticResource SessionKindToBrushConverter}}" RebindOnVisibilityChange="True">
                                 <ContentPresenter Content="{StaticResource CircleLight2}" />
                             </wpf:ColorAbleIcon>
-                            <TextBlock Grid.Column="1" Style="{StaticResource StandardText}" Text="{Binding SessionTextInformation, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <wpf:ColorAbleIcon Grid.Column="2" Margin="5"
+                            <TextBlock Grid.Column="1" Style="{StaticResource StandardText}" Text="{Binding SessionTextInformation, Mode=OneWay}" FontSize="{StaticResource SmallFontSize}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+                                <wpf:ColorAbleIcon Grid.Column="2" Margin="5" RebindOnVisibilityChange="True"
                                                StrokeBrush="{Binding SessionPhaseKind, Mode=OneWay, Converter={StaticResource SessionPhaseToBrushConverter}}">
                                 <ContentPresenter Content="{StaticResource CircleLight2}" />
                             </wpf:ColorAbleIcon>
                         </Grid>
-                    </StackPanel>
+                        <Grid Margin="0,5,0,5">
+                            <CheckBox Content="Rate Race" Foreground="{StaticResource LightGrey01Brush}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                      Margin="5,5,0,0" IsChecked="{Binding IsRateRaceCheckboxChecked}" />
+                        </Grid>
+                        </StackPanel>
                     </Grid>
                 </Border>
             </DataTemplate>

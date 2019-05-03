@@ -13,6 +13,7 @@
         private readonly ISimulatorRatingController _simulatorRatingController;
         private readonly int _maxNoise;
         private readonly Random _random;
+        private readonly int _minimumRating;
         private TimeSpan _referenceTime;
         private int _referenceRating;
 
@@ -21,6 +22,7 @@
             _random = new Random();
             _simulatorRatingController = simulatorRatingController;
             _maxNoise = (int)(_simulatorRatingController.RatingPerLevel * _simulatorRatingController.AiRatingNoise / 100);
+            _minimumRating = _simulatorRatingController.MinimumAiDifficulty;
         }
 
         public Dictionary<string, DriversRating> CreateFieldRatingFromQualificationResult(List<Driver> qualificationResult, int difficulty)
@@ -66,7 +68,7 @@
         {
             InitializeReferenceRating(difficulty);
             Dictionary<string, DriversRating> ratings = new Dictionary<string, DriversRating>();
-            int middleDriverIndex = fieldDrivers.Length / 2;
+            int middleDriverIndex = fieldDrivers.Length > 3 ? 3 : fieldDrivers.Length - 1;
             int ratingBetweenPlaces = _simulatorRatingController.QuickRaceAiRatingForPlace;
             for(int i = 0; i < fieldDrivers.Length; i++)
             {
@@ -100,7 +102,7 @@
 
         private int AddNoise(int rating)
         {
-            return rating  + _random.Next(_maxNoise) - _maxNoise / 2;
+            return Math.Max(rating  + _random.Next(_maxNoise) - _maxNoise / 2, _minimumRating);
         }
 
         private void InitializeReferenceRating(int difficulty)
@@ -111,7 +113,7 @@
         private void InitializeReferenceTime(List<Driver> drivers)
         {
             List<Driver> driversWithTime = drivers.Where(x => x.BestPersonalLap != null && x.IsPlayer == false).ToList();
-            _referenceTime = driversWithTime.Count < 2 ? driversWithTime[0].BestPersonalLap.LapTime : driversWithTime[driversWithTime.Count / 2].BestPersonalLap.LapTime;
+            _referenceTime = driversWithTime.Count <= 3 ? driversWithTime[0].BestPersonalLap.LapTime : driversWithTime[3].BestPersonalLap.LapTime;
         }
     }
 }

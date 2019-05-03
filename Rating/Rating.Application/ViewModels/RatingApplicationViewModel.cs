@@ -16,9 +16,11 @@
         private bool _isClassSelectionEnable;
         private int _difficulty;
         private bool _useSuggestedDifficulty;
-        private bool _isVisible;
+        private bool _isCollapsed;
         private string _invisibleMessage;
         private string _sessionTextInformation;
+        private bool _isVisible;
+        private bool _isRateRaceCheckboxChecked;
 
         public RatingApplicationViewModel(IViewModelFactory viewModelFactory)
         {
@@ -27,7 +29,8 @@
             SelectableClasses = new ObservableCollection<string>();
             AiLevels = new ObservableCollection<int>();
             UseSuggestedDifficulty = true;
-            IsVisible = true;
+            IsCollapsed = true;
+            IsRateRaceCheckboxChecked = true;
         }
 
         public bool IsVisible
@@ -36,7 +39,13 @@
             set => SetProperty(ref _isVisible, value);
         }
 
-        public string InvisibleMessage
+        public bool IsCollapsed
+        {
+            get => _isCollapsed;
+            set => SetProperty(ref _isCollapsed, value);
+        }
+
+        public string CollapsedMessage
         {
             get => _invisibleMessage;
             set => SetProperty(ref _invisibleMessage, value);
@@ -90,6 +99,12 @@
         {
             get => _useSuggestedDifficulty;
             set => SetProperty(ref _useSuggestedDifficulty, value);
+        }
+
+        public bool IsRateRaceCheckboxChecked
+        {
+            get => _isRateRaceCheckboxChecked;
+            set => SetProperty(ref _isRateRaceCheckboxChecked, value);
         }
 
         public void ApplySimulatorRating(DriversRating driversRating)

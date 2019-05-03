@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver.States
 {
+    using System.Diagnostics;
     using System.Linq;
     using Common.DataModel.Player;
     using Context;
@@ -14,31 +15,44 @@
     {
         private readonly IQualificationResultRatingProvider _qualificationResultRatingProvider;
         private readonly IRatingUpdater _ratingUpdater;
+        private bool _isFlashing;
+        private readonly Stopwatch _flashStopwatch;
 
         public RaceState(IQualificationResultRatingProvider qualificationResultRatingProvider, IRatingUpdater ratingUpdater, SharedContext sharedContext) : base(sharedContext)
         {
             _qualificationResultRatingProvider = qualificationResultRatingProvider;
             _ratingUpdater = ratingUpdater;
+            _flashStopwatch = new Stopwatch();
         }
 
         public override SessionKind SessionKind { get; protected set; } = SessionKind.RaceWithoutQualification;
         public override SessionPhaseKind SessionPhaseKind { get; protected set; }
         public override bool CanUserSelectClass => false;
-        public override bool ShowRatingChange => false;
+        public override bool ShowRatingChange => SharedContext?.RaceContext?.WasQuit ?? false;
 
         protected override void Initialize(SimulatorDataSet simulatorDataSet)
         {
+            DriverInfo[] eligibleDrivers = FilterEligibleDrivers(simulatorDataSet);
+            if (CanUserPreviousRaceContext(eligibleDrivers))
+            {
+                SessionKind = SharedContext.RaceContext.IsRatingBasedOnQualification ? SessionKind.RaceWithQualification : SessionKind.RaceWithoutQualification;
+                SessionDescription = SharedContext.RaceContext.UsedDifficulty.ToString();
+                return;
+            }
             int difficultyToUse = SharedContext.QualificationContext?.QualificationDifficulty ?? SharedContext.UserSelectedDifficulty;
+
             SharedContext.RaceContext = new RaceContext()
             {
                 UsedDifficulty = difficultyToUse,
             };
             SessionDescription = difficultyToUse.ToString();
-            DriverInfo[] eligibleDrivers = FilterEligibleDrivers(simulatorDataSet);
+
             if (CanUseQualification(eligibleDrivers) && SharedContext.QualificationContext != null)
             {
                 SessionKind = SessionKind.RaceWithQualification;
+                SharedContext.RaceContext.IsRatingBasedOnQualification = true;
                 SharedContext.RaceContext.FieldRating = _qualificationResultRatingProvider.CreateFieldRatingFromQualificationResult(SharedContext.QualificationContext.LastQualificationResult, difficultyToUse);
+                SharedContext.QualificationContext = null;
             }
             else
             {
@@ -46,7 +60,7 @@
             }
         }
 
-        private DriverInfo[] FilterEligibleDrivers(SimulatorDataSet simulatorDataSetDataSet)
+       private DriverInfo[] FilterEligibleDrivers(SimulatorDataSet simulatorDataSetDataSet)
         {
              var eligibleDrivers = simulatorDataSetDataSet.SessionInfo.IsMultiClass ? simulatorDataSetDataSet.DriversInfo.Where(x => x.CarClassId == simulatorDataSetDataSet.PlayerInfo.CarClassId) : simulatorDataSetDataSet.DriversInfo;
              return eligibleDrivers.ToArray();
@@ -54,11 +68,17 @@
 
         public override bool DoDataLoaded(SimulatorDataSet simulatorDataSet)
         {
+            if (_isFlashing)
+            {
+                Flash();
+                return base.DoDataLoaded(simulatorDataSet);
+            }
+
             if (simulatorDataSet.SessionInfo.SessionPhase == SessionPhase.Countdown)
             {
                 SessionPhaseKind = SessionPhaseKind.NotStarted;
             }
-            else if (simulatorDataSet.SessionInfo.LeaderCurrentLap < 1)
+            else if (simulatorDataSet.PlayerInfo.CompletedLaps < 1)
             {
                 SessionPhaseKind = SessionPhaseKind.FreeRestartPeriod;
             }
@@ -67,11 +87,39 @@
                 SessionPhaseKind = SessionPhaseKind.InProgress;
             }
 
+            if (!_isFlashing && simulatorDataSet.PlayerInfo.FinishStatus == DriverFinishStatus.Finished)
+            {
+                StartFlashing();
+            }
+
+
+
             return base.DoDataLoaded(simulatorDataSet);
+        }
+
+        private void Flash()
+        {
+            if (_flashStopwatch.ElapsedMilliseconds <= 800)
+            {
+                return;
+            }
+            _flashStopwatch.Restart();
+            SessionKind = SessionKind == SessionKind.RaceWithQualification ? SessionKind.Idle : SessionKind.RaceWithQualification;
+            SessionPhaseKind = SessionPhaseKind == SessionPhaseKind.None ? SessionPhaseKind.InProgress : SessionPhaseKind.None;
+        }
+
+        private void StartFlashing()
+        {
+            _isFlashing = true;
+            _flashStopwatch.Start();
+            SessionKind = SessionKind.RaceWithQualification;
+            SessionPhaseKind = SessionPhaseKind.None;
+
         }
 
         public override bool DoSessionCompletion(SessionSummary sessionSummary)
         {
+
             Driver player = sessionSummary.Drivers.FirstOrDefault(x => x.IsPlayer);
             if (player == null)
             {
@@ -82,13 +130,14 @@
             {
                 ComputeRatingFromResults(sessionSummary);
                 SharedContext.QualificationContext = null;
+                SharedContext.RaceContext = null;
                 return false;
             }
 
             if (SessionPhaseKind == SessionPhaseKind.InProgress)
             {
                 ComputeRatingAsLast(sessionSummary);
-                SharedContext.QualificationContext = null;
+                SharedContext.RaceContext.WasQuit = true;
             }
             return false;
         }
@@ -100,7 +149,7 @@
             {
                 return;
             }
-            _ratingUpdater.UpdateRatingsAsLoss(SharedContext.RaceContext.FieldRating, SharedContext.SimulatorRating, player);
+            _ratingUpdater.UpdateRatingsAsLoss(SharedContext.RaceContext.FieldRating, SharedContext.SimulatorRating, player, sessionSummary.TrackInfo.TrackFullName);
         }
 
         private void ComputeRatingFromResults(SessionSummary sessionSummary)
@@ -117,6 +166,16 @@
 
 
             return !SharedContext.QualificationContext.LastQualificationResult.Select(y => y.DriverName).Except(eligibleDrivers.Select(x => x.DriverName)).Any();
+        }
+
+        private bool CanUserPreviousRaceContext(DriverInfo[] eligibleDrivers)
+        {
+            if(SharedContext.RaceContext?.FieldRating == null)
+            {
+                return false;
+            }
+
+            return eligibleDrivers.All(x => SharedContext.RaceContext.FieldRating.ContainsKey(x.DriverName));
         }
 
         protected override SessionType SessionType => SessionType.Race;

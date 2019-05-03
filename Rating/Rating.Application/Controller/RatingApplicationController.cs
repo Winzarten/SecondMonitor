@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller
 {
     using System;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Threading.Tasks;
     using DataModel.Snapshot;
@@ -9,6 +10,8 @@
     using RaceObserver;
     using RatingProvider;
     using SecondMonitor.ViewModels.Factory;
+    using SecondMonitor.ViewModels.Settings;
+    using SecondMonitor.ViewModels.Settings.ViewModel;
     using ViewModels;
 
     public class RatingApplicationController : IRatingApplicationController
@@ -18,12 +21,14 @@
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IRaceObserverController _raceObserverController;
         private bool _inMp;
+        private readonly DisplaySettingsViewModel _displaySettingsViewModel;
 
-        public RatingApplicationController(IViewModelFactory viewModelFactory, IRaceObserverController raceObserverController)
+        public RatingApplicationController(IViewModelFactory viewModelFactory, IRaceObserverController raceObserverController, ISettingsProvider settingsProvider)
         {
             _refreshStopwatch = Stopwatch.StartNew();
             _viewModelFactory = viewModelFactory;
             _raceObserverController = raceObserverController;
+            _displaySettingsViewModel = settingsProvider.DisplaySettingsViewModel;
         }
 
         public IRatingApplicationViewModel RatingApplicationViewModel { get; set; }
@@ -32,18 +37,40 @@
         public async Task StartControllerAsync()
         {
             RatingApplicationViewModel = _viewModelFactory.Create<IRatingApplicationViewModel>();
+            RatingApplicationViewModel.IsVisible = _displaySettingsViewModel.RatingSettingsViewModel.IsEnabled;
             _raceObserverController.RatingApplicationViewModel = RatingApplicationViewModel;
+            _displaySettingsViewModel.RatingSettingsViewModel.PropertyChanged+= RatingSettingsViewModelOnPropertyChanged;
+            RatingApplicationViewModel.PropertyChanged += RatingApplicationViewModelOnPropertyChanged;
             await _raceObserverController.StartControllerAsync();
+        }
+
+        private void RatingApplicationViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(RatingApplicationViewModel.IsRateRaceCheckboxChecked))
+            {
+                _raceObserverController.Reset();
+            }
+        }
+
+        private void RatingSettingsViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(RatingSettingsViewModel.IsEnabled))
+            {
+                RatingApplicationViewModel.IsVisible = _displaySettingsViewModel.RatingSettingsViewModel.IsEnabled;
+                _raceObserverController.Reset();
+            }
         }
 
         public async Task StopControllerAsync()
         {
+            RatingApplicationViewModel.PropertyChanged -= RatingApplicationViewModelOnPropertyChanged;
+            _displaySettingsViewModel.RatingSettingsViewModel.PropertyChanged -= RatingSettingsViewModelOnPropertyChanged;
             await _raceObserverController.StopControllerAsync();
         }
 
         public async Task NotifySessionCompletion(SessionSummary sessionSummary)
         {
-            if (_inMp)
+            if (_inMp || !_displaySettingsViewModel.RatingSettingsViewModel.IsEnabled || !RatingApplicationViewModel.IsRateRaceCheckboxChecked)
             {
                 return;
             }
@@ -67,7 +94,7 @@
             {
                 _refreshStopwatch.Restart();
                 CheckMp(simulatorDataSet.SessionInfo);
-                if (_inMp)
+                if (_inMp || !_displaySettingsViewModel.RatingSettingsViewModel.IsEnabled || !RatingApplicationViewModel.IsRateRaceCheckboxChecked)
                 {
                     return;
                 }
@@ -89,14 +116,14 @@
             if (sessionInfo.IsMultiplayer)
             {
                 _inMp = true;
-                RatingApplicationViewModel.InvisibleMessage = "MP Detected, Rating Disabled";
-                RatingApplicationViewModel.IsVisible = false;
+                RatingApplicationViewModel.CollapsedMessage = "MP Detected, Rating Disabled";
+                RatingApplicationViewModel.IsCollapsed = false;
             }
             else
             {
                 _inMp = false;
-                RatingApplicationViewModel.InvisibleMessage = string.Empty;
-                RatingApplicationViewModel.IsVisible = true;
+                RatingApplicationViewModel.CollapsedMessage = string.Empty;
+                RatingApplicationViewModel.IsCollapsed = true;
             }
 
         }

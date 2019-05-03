@@ -50,6 +50,7 @@
     <Compile Include="Configuration\SimulatorRatingConfigurationProvider.cs" />
     <Compile Include="Configuration\SimulatorsRatingConfiguration.cs" />
     <Compile Include="DataModel\ClassRating.cs" />
+    <Compile Include="DataModel\DifficultySettings.cs" />
     <Compile Include="DataModel\Player\DriverWithoutRating.cs" />
     <Compile Include="DataModel\Player\DriversRating.cs" />
     <Compile Include="DataModel\Ratings.cs" />

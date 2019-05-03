@@ -20,9 +20,11 @@
         private readonly SimulatorRatingConfiguration _simulatorRatingConfiguration;
         private Ratings _ratings;
         private SimulatorRating _simulatorRating;
+        private readonly Random _random;
 
         public SimulatorRatingController(string simulatorName, IRatingRepository ratingRepository, ISimulatorRatingConfigurationProvider simulatorRatingConfigurationProvider)
         {
+            _random = new Random();
             _simulatorName = simulatorName;
             _ratingRepository = ratingRepository;
             _simulatorRatingConfiguration = simulatorRatingConfigurationProvider.GetRatingConfiguration(simulatorName);
@@ -38,6 +40,8 @@
         public int RatingPerLevel => _simulatorRatingConfiguration.RatingPerLevel;
 
         public int QuickRaceAiRatingForPlace => _simulatorRatingConfiguration.QuickRaceAiRatingForPlace;
+
+        public string SimulatorName => _simulatorName;
 
         public double AiRatingNoise => _simulatorRatingConfiguration.AiRatingNoise;
 
@@ -86,7 +90,13 @@
                     Deviation = _simulatorRating.PlayersRating.Deviation,
                     Volatility = _simulatorRating.PlayersRating.Volatility,
                     CreationTime = DateTime.Now,
+                },
+                DifficultySettings = new DifficultySettings()
+                {
+                    SelectedDifficulty = GetSuggestedDifficulty(_simulatorRating.PlayersRating.Rating),
+                    WasUserSelected =  true,
                 }
+
             };
             _simulatorRating.ClassRatings.Add(classRating);
             Logger.Info($"Created Rating for {className}");
@@ -113,23 +123,62 @@
             return UpdateDeviation(classRating.PlayersRating);
         }
 
-        public void UpdateRating(DriversRating newClassRating, DriversRating newSimRating, string className)
+        public void SetSelectedDifficulty(int difficulty, bool wasUserSelected, string className)
         {
-            ClassRating classRating = _simulatorRating.ClassRatings.FirstOrDefault(x => x.ClassName == className) ?? CreateClassRating(className);
-            newClassRating.Rating = Math.Max(newClassRating.Rating, _simulatorRatingConfiguration.MinimumRating);
-            newSimRating.Rating = Math.Max(newSimRating.Rating, _simulatorRatingConfiguration.MinimumRating);
+            ClassRating classRating = GetOrCreateClassRating(className);
+            classRating.DifficultySettings = new DifficultySettings()
+            {
+                SelectedDifficulty = difficulty,
+                WasUserSelected = wasUserSelected
+            };
+        }
+
+        public void UpdateRating(DriversRating newClassRating, DriversRating newSimRating, string className, string trackName)
+        {
+            ClassRating classRating = GetOrCreateClassRating(className);
             DriversRating oldClassRating = classRating.PlayersRating;
             DriversRating oldSimRating = _simulatorRating.PlayersRating;
+            newSimRating = NormalizeRatingChange(oldSimRating, newSimRating);
+            newClassRating = NormalizeRatingChange(oldClassRating, newClassRating);
             classRating.PlayersRating = newClassRating;
             _simulatorRating.PlayersRating = newSimRating;
+            _simulatorRating.RunTracks.Add(trackName);
+
+            if (!classRating.DifficultySettings.WasUserSelected)
+            {
+                classRating.DifficultySettings.SelectedDifficulty = GetSuggestedDifficulty(className);
+            }
+
             _ratingRepository.SaveRatings(_ratings);
             NotifyRatingsChanges(CreateChangeArgs(oldClassRating, classRating.PlayersRating, className), CreateChangeArgs(oldSimRating, _simulatorRating.PlayersRating, _simulatorName));
         }
 
+        public string GetRaceSuggestion()
+        {
+            if (_simulatorRating.ClassRatings.Count == 0 || _simulatorRating.RunTracks.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            List<string> runTracks = _simulatorRating.RunTracks.ToList();
+            return $"{_simulatorRating.ClassRatings[_random.Next(_simulatorRating.ClassRatings.Count - 1)].ClassName}, at: {runTracks[_random.Next(runTracks.Count - 1)]}";
+        }
+
+
         public int GetSuggestedDifficulty(string className)
         {
             DriversRating driversRating = GetPlayerRating(className);
-            return Math.Min(_simulatorRatingConfiguration.MinimumAiLevel + ((driversRating.Rating - _simulatorRatingConfiguration.MinimumRating) / _simulatorRatingConfiguration.RatingPerLevel), _simulatorRatingConfiguration.MaximumAiLevel);
+            return GetSuggestedDifficulty(driversRating.Rating);
+        }
+
+        public int GetSuggestedDifficulty(int rating)
+        {
+            return Math.Min(_simulatorRatingConfiguration.MinimumAiLevel + ((rating - _simulatorRatingConfiguration.MinimumRating) / _simulatorRatingConfiguration.RatingPerLevel), _simulatorRatingConfiguration.MaximumAiLevel);
+        }
+
+        public DifficultySettings GetDifficultySettings(string className)
+        {
+            return GetOrCreateClassRating(className).DifficultySettings;
         }
 
         public int GetRatingForDifficulty(int aiDifficulty)
@@ -146,7 +195,7 @@
         {
             return new DriverWithoutRating()
             {
-                Deviation = 50, Volatility = 0.02, Name = aiDriverName
+                Deviation = 100, Volatility = 0.06, Name = aiDriverName
             };
         }
 
@@ -160,8 +209,17 @@
             return new RatingChangeArgs(newRating, newRating.Rating - oldRating.Rating, newRating.Deviation - oldRating.Deviation, newRating.Volatility - oldRating.Volatility, ratingName);
         }
 
+        private ClassRating GetOrCreateClassRating(string className)
+        {
+            return _simulatorRating.ClassRatings.FirstOrDefault(x => x.ClassName == className) ?? CreateClassRating(className);
+        }
+
         private void NotifyRatingsChanges(RatingChangeArgs classRatingChange, RatingChangeArgs simRatingChange)
         {
+            Logger.Info("New Simulator Rating:");
+            LogRating(simRatingChange.NewRating);
+            Logger.Info("New Class Rating:");
+            LogRating(classRatingChange.NewRating);
             ClassRatingChanged?.Invoke(this, classRatingChange);
             SimulatorRatingChanged?.Invoke(this, simRatingChange);
         }
@@ -177,6 +235,19 @@
 
             driversRating.Deviation = (int) newDeviation;
             return driversRating;
+        }
+
+        private DriversRating NormalizeRatingChange(DriversRating oldRating, DriversRating newRating)
+        {
+            newRating.Rating = Math.Max(newRating.Rating, _simulatorRatingConfiguration.MinimumRating);
+            int maximumChange = _simulatorRatingConfiguration.RatingPerLevel * 5;
+            int ratingDifference = newRating.Rating - oldRating.Rating;
+            if (Math.Abs(ratingDifference) > maximumChange)
+            {
+                newRating.Rating = ratingDifference < 0 ? oldRating.Rating - maximumChange : oldRating.Rating + maximumChange;
+            }
+
+            return newRating;
         }
     }
 }

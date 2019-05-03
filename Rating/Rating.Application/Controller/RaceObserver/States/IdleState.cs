@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver.States
 {
+    using System.Diagnostics;
     using Context;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
@@ -7,9 +8,15 @@
 
     public class IdleState : AbstractSessionTypeState
     {
+        private readonly Stopwatch _stateDuration;
+
         public IdleState(SharedContext sharedContext) : base(sharedContext)
         {
-
+            _stateDuration = Stopwatch.StartNew();
+            if (sharedContext.SimulatorRatingController != null)
+            {
+                SessionDescription = sharedContext.SimulatorRatingController.GetRaceSuggestion();
+            }
         }
 
         public override SessionKind SessionKind { get; protected set; } = SessionKind.Idle;
@@ -21,11 +28,17 @@
 
         protected override void Initialize(SimulatorDataSet simulatorDataSet)
         {
-
         }
 
         public override bool DoDataLoaded(SimulatorDataSet simulatorDataSet)
         {
+            if (_stateDuration.ElapsedMilliseconds > 7000 && !IsStateInitialized)
+            {
+                _stateDuration.Stop();
+                SharedContext.QualificationContext = null;
+                SharedContext.RaceContext = null;
+                IsStateInitialized = true;
+            }
             return simulatorDataSet.SessionInfo.SessionType != SessionType && base.DoDataLoaded(simulatorDataSet);
         }
 

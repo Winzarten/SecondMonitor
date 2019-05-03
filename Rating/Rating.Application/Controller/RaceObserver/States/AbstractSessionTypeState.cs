@@ -11,8 +11,6 @@
 
     public abstract class AbstractSessionTypeState : IRaceState
     {
-        private bool _isStateInitialized;
-
         protected AbstractSessionTypeState(SharedContext sharedContext)
         {
             SharedContext = sharedContext;
@@ -33,13 +31,14 @@
         public SharedContext SharedContext { get; }
 
         protected abstract void Initialize(SimulatorDataSet simulatorDataSet);
+        protected bool IsStateInitialized { get; set; }
 
         public virtual bool DoDataLoaded(SimulatorDataSet simulatorDataSet)
         {
-            if (!_isStateInitialized && simulatorDataSet.SessionInfo.SessionPhase != SessionPhase.Unavailable)
+            if (!IsStateInitialized && simulatorDataSet.SessionInfo.SessionPhase != SessionPhase.Unavailable)
             {
                 Initialize(simulatorDataSet);
-                _isStateInitialized = true;
+                IsStateInitialized = true;
             }
 
             if (simulatorDataSet.SessionInfo.SessionType != SessionType.Race)

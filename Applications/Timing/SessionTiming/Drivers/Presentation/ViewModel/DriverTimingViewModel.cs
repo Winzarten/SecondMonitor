@@ -332,12 +332,19 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             set => SetProperty(ref _rating, value);
         }
 
+        private bool _isPlayersRatingBetter;
+        public bool IsPlayersRatingBetter
+        {
+            get => _isPlayersRatingBetter;
+            set => SetProperty(ref _isPlayersRatingBetter, value);
+        }
+
         public void RefreshProperties()
         {
             try
             {
                 IsClassIndicationEnabled = DriverTiming.Session?.LastSet?.SessionInfo?.IsMultiClass == true;
-                Rating = DriverTiming.Rating;
+                Rating = GetRating();
                 Position = DriverTiming.Position.ToString();
                 PositionInClass = FormatPositionInClass();
                 CompletedLaps = DriverTiming.CompletedLaps.ToString();
@@ -376,6 +383,17 @@ namespace SecondMonitor.Timing.SessionTiming.Drivers.Presentation.ViewModel
             {
                 LogManager.GetCurrentClassLogger().Error(ex);
             }
+        }
+
+        private int GetRating()
+        {
+            if (IsPlayer || DriverTiming.Rating == 0 || DriverTiming?.Session?.Player == null)
+            {
+                IsPlayersRatingBetter = true;
+                return DriverTiming.Rating;
+            }
+            IsPlayersRatingBetter = DriverTiming.Session.Player.Rating >= DriverTiming.Rating;
+            return DriverTiming.Rating;
         }
 
         private string FormatPositionInClass()

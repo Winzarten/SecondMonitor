@@ -227,7 +227,7 @@
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Rating.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
                                             Binding="{Binding Rating, Mode=OneWay}"
-                                            ElementStyle="{StaticResource TextBoxStyle}"
+                                            ElementStyle="{StaticResource TextBoxStyleRating}"
                                             Header="Rating"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Rating.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTemplateColumn Width="120" Header="Mark">
