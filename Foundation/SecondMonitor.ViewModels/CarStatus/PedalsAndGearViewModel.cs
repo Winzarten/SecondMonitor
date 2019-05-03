@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.ViewModels.CarStatus
 {
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
@@ -8,67 +9,28 @@
 
     public class PedalsAndGearViewModel : INotifyPropertyChanged, ISimulatorDataSetViewModel
     {
+        private readonly Stopwatch _refreshWatch;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private double _throttlePercentage;
-        private double _clutchPercentage;
-        private double _brakePercentage;
-        private string _gear;
-        private double _wheelRotation;
-
-        public double ThrottlePercentage
-        {
-            get => _throttlePercentage;
-            set
-            {
-                _throttlePercentage = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public double ThrottlePercentage { get; set; }
 
         public Velocity Speed { get; private set; }
 
         public int Rpm { get; private set; }
 
-        public double WheelRotation
+        public double WheelRotation { get; set; }
+
+        public double ClutchPercentage { get; set; }
+
+        public double BrakePercentage { get; set; }
+
+        public string Gear { get; set; }
+
+        public PedalsAndGearViewModel()
         {
-            get => _wheelRotation;
-            set
-            {
-                _wheelRotation = value;
-                NotifyPropertyChanged();
-            }
+            _refreshWatch = Stopwatch.StartNew();
         }
 
-        public double ClutchPercentage
-        {
-            get => _clutchPercentage;
-            set
-            {
-                _clutchPercentage = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double BrakePercentage
-        {
-            get => _brakePercentage;
-            set
-            {
-                _brakePercentage = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Gear
-        {
-            get => _gear;
-            set
-            {
-                _gear = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
@@ -83,28 +45,34 @@
                 return;
             }
 
+            if (_refreshWatch.ElapsedMilliseconds < 50)
+            {
+                return;
+            }
+
             if (dataSet.InputInfo.ThrottlePedalPosition >= 0)
             {
-                _throttlePercentage = dataSet.InputInfo.ThrottlePedalPosition * 100;
+                ThrottlePercentage = dataSet.InputInfo.ThrottlePedalPosition * 100;
             }
 
             if (dataSet.InputInfo.BrakePedalPosition >= 0)
             {
-                _brakePercentage = dataSet.InputInfo.BrakePedalPosition * 100;
+                BrakePercentage = dataSet.InputInfo.BrakePedalPosition * 100;
             }
 
             if (dataSet.InputInfo.ClutchPedalPosition >= 0)
             {
-                _clutchPercentage = dataSet.InputInfo.ClutchPedalPosition * 100;
+                ClutchPercentage = dataSet.InputInfo.ClutchPedalPosition * 100;
             }
 
             Speed = dataSet.PlayerInfo.Speed;
             Rpm = dataSet.PlayerInfo.CarInfo.EngineRpm;
 
 
-            _wheelRotation = dataSet.InputInfo.WheelAngle;
-            _gear = dataSet.PlayerInfo.CarInfo.CurrentGear;
+            WheelRotation = dataSet.InputInfo.WheelAngle;
+            Gear = dataSet.PlayerInfo.CarInfo.CurrentGear;
             NotifyPropertyChanged(string.Empty);
+            _refreshWatch.Restart();
         }
 
         public void Reset()

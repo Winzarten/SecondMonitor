@@ -301,7 +301,7 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -318,7 +318,7 @@
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}"
                                                                                WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.WheelCamber, Mode=OneWay}"/>
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -336,7 +336,7 @@
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}"
                                                                            WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.WheelCamber, Mode=OneWay}"/>
 
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -353,7 +353,7 @@
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}"
                                                                            WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.WheelCamber, Mode=OneWay}"/>
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -396,7 +396,7 @@
                                                                      ShowAdditionalInfo="{Binding CarStatusViewModel.FuelOverviewViewModel.ShowDeltaInfo}"
                                                                      TimeDelta="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeDelta}"
                                                                      TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
-                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}" />
+                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}"  />
                                 </Border>
                             </Grid>
                         </Grid>
@@ -425,7 +425,7 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <carSystems:CarSystemsControl TemperatureUnits="{Binding DataContext.DisplaySettingsViewModel.TemperatureUnits, RelativeSource={RelativeSource AncestorType=view:TimingGui }}" PressureUnits="{Binding DataContext.DisplaySettingsViewModel.PressureUnits, RelativeSource={RelativeSource AncestorType=view:TimingGui }}"
-                                                              DataContext="{Binding CarStatusViewModel.CarSystemsViewModel}"/>
+                                                              DataContext="{Binding CarStatusViewModel.CarSystemsViewModel}" Height="75" />
                                 <Grid Row="1" Background="Black">
                                     <carSystems:DashboardControl DataContext="{Binding CarStatusViewModel.DashboardViewModel}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                                 </Grid>

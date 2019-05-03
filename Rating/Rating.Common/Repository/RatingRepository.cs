@@ -50,10 +50,30 @@
             lock (_lockObject)
             {
                 CheckDirectory();
+                BackupOld();
                 using (FileStream file = File.Exists(_fileName) ? File.Open(_fileName, FileMode.Truncate) : File.Create(_fileName))
                 {
                     _xmlSerializer.Serialize(file, ratings);
                 }
+            }
+        }
+
+        private void BackupOld()
+        {
+            for (int i = 9; i >= 0; i--)
+            {
+                string originalFile = $"{_fileName}.{i}";
+                string backupFile = $"{_fileName}.{i+1}";
+                if (File.Exists(originalFile))
+                {
+                    File.Copy(originalFile, backupFile, true);
+                }
+
+            }
+
+            if (File.Exists(_fileName))
+            {
+                File.Copy(_fileName, $"{_fileName}.0", true);
             }
         }
     }

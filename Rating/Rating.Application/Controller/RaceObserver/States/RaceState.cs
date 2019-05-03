@@ -68,6 +68,11 @@
 
         public override bool DoDataLoaded(SimulatorDataSet simulatorDataSet)
         {
+            if (!IsStateInitialized && simulatorDataSet.DriversInfo.Any(x => string.IsNullOrWhiteSpace(x.DriverName)))
+            {
+                return false;
+            }
+
             if (_isFlashing)
             {
                 Flash();

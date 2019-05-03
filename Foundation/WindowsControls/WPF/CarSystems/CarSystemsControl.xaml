@@ -34,7 +34,7 @@
         <Border BorderThickness="3" Grid.Row="0" Grid.Column="0" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
                 <wpf:ColorAbleIcon StrokeBrush="{StaticResource LightGrey01Brush}">
-                    <ContentPresenter Content="{StaticResource WaterTemperatureIcon}" MaxHeight="32" DockPanel.Dock="Left" />
+                    <ContentPresenter Content="{StaticResource WaterTemperatureIcon}" Height="32" Width="32" DockPanel.Dock="Left" />
                     <i:Interaction.Behaviors>
                         <volumeBehavior:StrokeBrushByOptimalTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                                 HighQuantityColor="{StaticResource HighQuantityColor}"
@@ -64,7 +64,7 @@
         <Border BorderThickness="3" Grid.Row="0" Grid.Column="1" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
                 <wpf:ColorAbleIcon StrokeBrush="{StaticResource LightGrey01Brush}">
-                <ContentPresenter Content="{StaticResource OilTemperatureIcon}" MaxHeight="32" DockPanel.Dock="Left" />
+                    <ContentPresenter Content="{StaticResource OilTemperatureIcon}"  Height="32" Width="32" DockPanel.Dock="Left" />
                     <i:Interaction.Behaviors>
                     <volumeBehavior:StrokeBrushByOptimalTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                             HighQuantityColor="{StaticResource HighQuantityColor}"

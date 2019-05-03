@@ -161,7 +161,7 @@
             }
 
             List<string> runTracks = _simulatorRating.RunTracks.ToList();
-            return $"{_simulatorRating.ClassRatings[_random.Next(_simulatorRating.ClassRatings.Count - 1)].ClassName}, at: {runTracks[_random.Next(runTracks.Count - 1)]}";
+            return $"{_simulatorRating.ClassRatings[_random.Next(_simulatorRating.ClassRatings.Count)].ClassName}, at: {runTracks[_random.Next(runTracks.Count)]}";
         }
 
 
