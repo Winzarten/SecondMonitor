@@ -86,7 +86,7 @@
                 }
 
                 _lastSessionTime = data.SessionInfo.SessionTime;
-                AddToQueue(data);
+                RaiseDataLoadedEvent(data);
 
                 if (r3RData.ControlType == -1 && !IsProcessRunning())
                 {
