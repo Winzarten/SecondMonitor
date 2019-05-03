@@ -9,7 +9,6 @@
 
     public class PedalsAndGearViewModel : INotifyPropertyChanged, ISimulatorDataSetViewModel
     {
-        private readonly Stopwatch _refreshWatch;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public double ThrottlePercentage { get; set; }
@@ -26,10 +25,6 @@
 
         public string Gear { get; set; }
 
-        public PedalsAndGearViewModel()
-        {
-            _refreshWatch = Stopwatch.StartNew();
-        }
 
 
         [NotifyPropertyChangedInvocator]
@@ -41,11 +36,6 @@
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
             if (dataSet?.PlayerInfo?.CarInfo == null || dataSet.InputInfo == null)
-            {
-                return;
-            }
-
-            if (_refreshWatch.ElapsedMilliseconds < 50)
             {
                 return;
             }
@@ -72,7 +62,6 @@
             WheelRotation = dataSet.InputInfo.WheelAngle;
             Gear = dataSet.PlayerInfo.CarInfo.CurrentGear;
             NotifyPropertyChanged(string.Empty);
-            _refreshWatch.Restart();
         }
 
         public void Reset()

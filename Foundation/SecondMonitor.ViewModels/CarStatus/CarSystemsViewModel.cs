@@ -60,16 +60,16 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            if (dataSet?.PlayerInfo == null || _refreshStopwatch.ElapsedMilliseconds < 100)
+            if (dataSet?.PlayerInfo == null || _refreshStopwatch.ElapsedMilliseconds < 200)
             {
                 return;
             }
 
             WaterTemperature = dataSet.PlayerInfo.CarInfo.WaterSystemInfo.OptimalWaterTemperature;
-            WaterPressure = dataSet.PlayerInfo.CarInfo.WaterSystemInfo.WaterPressure;
             OilTemperature = dataSet.PlayerInfo.CarInfo.OilSystemInfo.OptimalOilTemperature;
-            OilPressure = dataSet.PlayerInfo.CarInfo.OilSystemInfo.OilPressure;
             TurboPressure = dataSet.PlayerInfo.CarInfo.TurboPressure;
+            OilPressure = dataSet.PlayerInfo.CarInfo.OilSystemInfo.OilPressure;
+            WaterPressure = dataSet.PlayerInfo.CarInfo.WaterSystemInfo.WaterPressure;
             FuelPressure = dataSet.PlayerInfo.CarInfo.FuelSystemInfo.FuelPressure;
             _refreshStopwatch.Restart();
 
