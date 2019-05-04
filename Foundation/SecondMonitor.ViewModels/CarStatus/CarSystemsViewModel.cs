@@ -7,8 +7,6 @@
     public class CarSystemsViewModel : AbstractViewModel, ISimulatorDataSetViewModel
     {
 
-        private readonly Stopwatch _refreshStopwatch;
-
         private OptimalQuantity<Temperature> _waterTemperature;
         private OptimalQuantity<Temperature> _oilTemperature;
         private Pressure _turboPressure;
@@ -18,7 +16,6 @@
 
         public CarSystemsViewModel()
         {
-            _refreshStopwatch = Stopwatch.StartNew();
             TurboPressure = Pressure.Zero;
         }
 
@@ -60,7 +57,7 @@
 
         public void ApplyDateSet(SimulatorDataSet dataSet)
         {
-            if (dataSet?.PlayerInfo == null || _refreshStopwatch.ElapsedMilliseconds < 200)
+            if (dataSet?.PlayerInfo == null)
             {
                 return;
             }
@@ -71,8 +68,6 @@
             OilPressure = dataSet.PlayerInfo.CarInfo.OilSystemInfo.OilPressure;
             WaterPressure = dataSet.PlayerInfo.CarInfo.WaterSystemInfo.WaterPressure;
             FuelPressure = dataSet.PlayerInfo.CarInfo.FuelSystemInfo.FuelPressure;
-            _refreshStopwatch.Restart();
-
         }
 
         public void Reset()

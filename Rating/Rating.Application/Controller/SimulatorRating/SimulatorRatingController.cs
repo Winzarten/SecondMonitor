@@ -15,7 +15,6 @@
     {
         private const double GlickoDeviationC = 22.3;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly string _simulatorName;
         private readonly IRatingRepository _ratingRepository;
         private readonly SimulatorRatingConfiguration _simulatorRatingConfiguration;
         private Ratings _ratings;
@@ -25,7 +24,7 @@
         public SimulatorRatingController(string simulatorName, IRatingRepository ratingRepository, ISimulatorRatingConfigurationProvider simulatorRatingConfigurationProvider)
         {
             _random = new Random();
-            _simulatorName = simulatorName;
+            SimulatorName = simulatorName;
             _ratingRepository = ratingRepository;
             _simulatorRatingConfiguration = simulatorRatingConfigurationProvider.GetRatingConfiguration(simulatorName);
         }
@@ -41,14 +40,14 @@
 
         public int QuickRaceAiRatingForPlace => _simulatorRatingConfiguration.QuickRaceAiRatingForPlace;
 
-        public string SimulatorName => _simulatorName;
+        public string SimulatorName { get; }
 
         public double AiRatingNoise => _simulatorRatingConfiguration.AiRatingNoise;
 
         public Task StartControllerAsync()
         {
             _ratings = _ratingRepository.LoadRatingsOrCreateNew();
-            _simulatorRating = _ratings.SimulatorsRatings.FirstOrDefault(x => x.SimulatorName == _simulatorName);
+            _simulatorRating = _ratings.SimulatorsRatings.FirstOrDefault(x => x.SimulatorName == SimulatorName);
             if (_simulatorRating != null)
             {
                 return Task.CompletedTask;
@@ -64,7 +63,7 @@
         {
             SimulatorRating simulatorRating = new SimulatorRating()
             {
-                SimulatorName = _simulatorName,
+                SimulatorName = SimulatorName,
                 PlayersRating = new DriversRating()
                 {
                     Rating = _simulatorRatingConfiguration.DefaultPlayerRating,
@@ -74,7 +73,7 @@
                 }
             };
 
-            Logger.Info($"Created Default Simulator Rating for {_simulatorName}");
+            Logger.Info($"Created Default Simulator Rating for {SimulatorName}");
             LogRating(simulatorRating.PlayersRating);
             return simulatorRating;
         }
@@ -150,7 +149,7 @@
             }
 
             _ratingRepository.SaveRatings(_ratings);
-            NotifyRatingsChanges(CreateChangeArgs(oldClassRating, classRating.PlayersRating, className), CreateChangeArgs(oldSimRating, _simulatorRating.PlayersRating, _simulatorName));
+            NotifyRatingsChanges(CreateChangeArgs(oldClassRating, classRating.PlayersRating, className), CreateChangeArgs(oldSimRating, _simulatorRating.PlayersRating, SimulatorName));
         }
 
         public string GetRaceSuggestion()
