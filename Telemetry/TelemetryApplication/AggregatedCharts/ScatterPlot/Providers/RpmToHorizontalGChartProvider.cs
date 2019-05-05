@@ -5,14 +5,14 @@
     using Extractors;
     using TelemetryManagement.DTO;
     using ViewModels.AggregatedCharts;
-    using ViewModels.GraphPanel.ScatterPlot;
+    using ViewModels.AggregatedCharts.ScatterPlot;
     using ViewModels.LoadedLapCache;
 
     public class RpmToHorizontalGChartProvider : IAggregatedChartProvider
     {
         private readonly ILoadedLapsCache _loadedLapsCache;
         private readonly RpmToHorizontalGExtractor _rpmToHorizontalGExtractor;
-        public string ChartName => "Horizontal Acceleration (RPM)";
+        public string ChartName => "Longitudinal Acceleration (RPM)";
         public AggregatedChartKind Kind => AggregatedChartKind.ScatterPlot;
 
         public RpmToHorizontalGChartProvider(ILoadedLapsCache loadedLapsCache, RpmToHorizontalGExtractor rpmToHorizontalGExtractor)

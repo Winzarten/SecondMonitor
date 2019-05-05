@@ -8,16 +8,23 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="driverPosition:DriverPositionControl">
-                    <Viewbox Stretch="Uniform">
-                    <Grid Width="25" Height="25">
-                        <Ellipse Stroke="{Binding OutLineColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" StrokeThickness="4"
-                                 Fill="{Binding CircleBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
-                        <TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Center" Style="{StaticResource StandardText}" Margin="0,-2,0,0"
-                                   FontSize="{StaticResource BigFontSize}"
-                                   FontWeight="Bold" Text="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Foreground="{Binding TextBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        <ContentPresenter/>
-                    </Grid>
+                    <Viewbox Stretch="Uniform" ClipToBounds="False">
+                        <Grid  Width="25" Height="25">
+                            <Grid>
+                                <Ellipse Fill="{Binding ClassIndicationBrush, RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding IsClassColorIndicationEnabled ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="7,-10,7,25"></Ellipse>
+                                <Ellipse
+                                    Stroke="{Binding OutLineColor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                    StrokeThickness="4"
+                                    Fill="{Binding CircleBrush, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                <TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Center"
+                                           Style="{StaticResource StandardText}" Margin="0,-2,0,0"
+                                           FontSize="{StaticResource BigFontSize}"
+                                           FontWeight="Bold"
+                                           Text="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}"
+                                           Foreground="{Binding TextBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <ContentPresenter/>
+                            </Grid>
+                        </Grid>
                     </Viewbox>
                 </ControlTemplate>
             </Setter.Value>

@@ -1,10 +1,9 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.AggregatedCharts.Histogram.Providers
 {
-    using AggregatedCharts.Histogram;
     using Extractors;
     using SecondMonitor.ViewModels.Factory;
     using ViewModels.AggregatedCharts;
-    using ViewModels.GraphPanel.Histogram;
+    using ViewModels.AggregatedCharts.Histogram;
     using ViewModels.LoadedLapCache;
 
     public class SuspensionVelocityHistogramProvider : AbstractWheelHistogramProvider
@@ -15,7 +14,7 @@
 
         public override IAggregatedChartViewModel CreateAggregatedChartViewModel()
         {
-            return CreateAggregatedChartViewModel<SuspensionVelocityHistogramViewModel, SuspensionVelocityHistogramChartViewModel>();
+            return CreateAggregatedChartViewModel<WheelsHistogramChartViewModel, SuspensionVelocityHistogramChartViewModel>();
         }
 
         public override string ChartName => "Suspension Velocity Histogram";

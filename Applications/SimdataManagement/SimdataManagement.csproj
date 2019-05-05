@@ -94,6 +94,11 @@
       <Name>WindowsControls</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\Telemetry\TelemetryManagement\TelemetryManagement.csproj">
+      <Project>{5271AFE9-29A9-4F65-AB04-58F93C72AD03}</Project>
+      <Name>TelemetryManagement</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

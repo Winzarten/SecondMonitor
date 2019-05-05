@@ -75,6 +75,9 @@
         public Task StopControllerAsync()
         {
             UnSubscribe();
+            _storyboards?.Clear();
+            _storyBoardsShift?.Clear();
+            _displayedFrame = null;
             return Task.CompletedTask;
         }
 

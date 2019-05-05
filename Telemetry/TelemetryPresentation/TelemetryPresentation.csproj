@@ -88,6 +88,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behavior\BandSelectionByClickBehavior.cs" />
     <Compile Include="Behavior\ShowSelectedDistanceBehavior.cs" />
     <Compile Include="Controls\LapsSummary\LapSelectionControl.xaml.cs">
       <DependentUpon>LapSelectionControl.xaml</DependentUpon>

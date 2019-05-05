@@ -2,7 +2,7 @@
 {
     using SecondMonitor.ViewModels;
 
-    public abstract class AggregatedChartViewModel : AbstractViewModel, IAggregatedChartViewModel
+    public abstract class AbstractAggregatedChartViewModel : AbstractViewModel, IAggregatedChartViewModel
     {
         private string _title;
 
@@ -11,5 +11,7 @@
             get => _title;
             set => SetProperty(ref _title, value);
         }
+
+        public abstract void Dispose();
     }
 }

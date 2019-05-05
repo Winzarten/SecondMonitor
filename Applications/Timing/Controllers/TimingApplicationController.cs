@@ -15,17 +15,16 @@ namespace SecondMonitor.Timing.Controllers
     using LapTimings.ViewModel;
     using Presentation.View;
     using Presentation.ViewModel;
-    using DataModel.Visitors;
     using SecondMonitor.Telemetry.TelemetryApplication.Controllers;
     using SecondMonitor.Telemetry.TelemetryManagement.Repository;
     using SimdataManagement;
     using SimdataManagement.DriverPresentation;
     using Telemetry;
     using TelemetryPresentation.MainWindow;
-    using ViewModels.Settings;
     using ViewModels.Settings.ViewModel;
     using System.Windows;
     using SessionTiming.Drivers.Presentation.ViewModel;
+    using ViewModels.Settings.Model;
 
     public class TimingApplicationController : ISecondMonitorPlugin
     {
@@ -130,14 +129,35 @@ namespace SecondMonitor.Timing.Controllers
         private void CreateGui()
         {
             _timingGui = new TimingGui(false);
+
             _timingGui.Show();
             _timingGui.Closed += OnGuiClosed;
             _timingGui.MouseLeave += GuiOnMouseLeave;
+
+            if (_displaySettingsViewModel?.WindowLocationSetting != null)
+            {
+                _timingGui.WindowStartupLocation = WindowStartupLocation.Manual;
+                _timingGui.Left = _displaySettingsViewModel.WindowLocationSetting.Left;
+                _timingGui.Top = _displaySettingsViewModel.WindowLocationSetting.Top;
+                _timingGui.WindowState = WindowState.Normal;
+                _timingGui.WindowState = (WindowState)_displaySettingsViewModel.WindowLocationSetting.WindowState;
+                if (_timingGui.WindowState == WindowState.Maximized)
+                {
+                    _timingGui.WindowStyle = WindowStyle.None;
+                }
+            }
+
             _timingGui.DataContext = _timingDataViewModel;
         }
 
         private async void OnGuiClosed(object sender, EventArgs e)
         {
+            _displaySettingsViewModel.WindowLocationSetting = new WindowLocationSetting()
+            {
+                Left = _timingGui.Left,
+                Top = _timingGui.Top,
+                WindowState = (int) _timingGui.WindowState
+            };
             _timingGui = null;
             List<Exception> exceptions = new List<Exception>();
             _driverPresentationsManager.SavePresentations();
@@ -210,6 +230,7 @@ namespace SecondMonitor.Timing.Controllers
             mainWindow.Closed += async (sender, args) =>
             {
                 await controller.StopControllerAsync();
+                mainWindow.Content = null;
             };
             await controller.OpenLastSessionFromRepository();
         }

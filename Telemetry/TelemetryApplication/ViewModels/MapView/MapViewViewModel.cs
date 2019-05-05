@@ -10,7 +10,6 @@
     using System.Windows.Shapes;
     using WindowsControls.WPF;
     using WindowsControls.WPF.DriverPosition;
-    using Contracts.NInject;
     using Controllers.Synchronization;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
@@ -24,6 +23,7 @@
     using SecondMonitor.ViewModels.Factory;
     using SimdataManagement;
     using TelemetryManagement.DTO;
+    using TelemetryManagement.StoryBoard;
 
     public class MapViewViewModel : AbstractViewModel, IMapViewViewModel, IPositionCircleInformationProvider
     {
@@ -42,6 +42,7 @@
         private bool _showClutchOverlay;
         private bool _showShiftPoints;
         private bool _showColoredSectors;
+        private Path _selectionPath;
 
         public MapViewViewModel(IViewModelFactory viewModelFactory, IResolutionRoot resolutionRoot)
         {
@@ -203,6 +204,18 @@
             }
             RefreshOverlays();
             geometryCollection.GetAllPaths().ForEach(SituationOverviewControl.AddCustomPath);
+        }
+
+        public void RefreshCustomPointsPath(IReadOnlyCollection<TimedValue> points, TrackMapDto trackMapDto)
+        {
+            string selectionGeometry = TrackMapFromTelemetryFactory.GetGeometry(points, trackMapDto.TrackGeometry.XCoef, trackMapDto.TrackGeometry.YCoef, trackMapDto.TrackGeometry.IsSwappedAxis);
+            if (_selectionPath != null)
+            {
+                _situationOverviewControl.RemoveCustomPath(_selectionPath);
+            }
+
+            _selectionPath = new Path() {Data = Geometry.Parse(selectionGeometry), StrokeThickness = 6.0, Stroke = Brushes.GreenYellow};
+            _situationOverviewControl.AddCustomPath(_selectionPath);
         }
 
         private async Task InitializeGeometryCollection(ILapCustomPathsCollection geometryCollection, LapTelemetryDto lapTelemetry, TrackMapDto trackMapDto)
@@ -453,7 +466,7 @@
 
         public bool IsDriverLastSectorPurple(IDriverInfo driver, int sectorNumber) => false;
 
-        public bool GetTryCustomOutline(IDriverInfo driverInfo, out SolidColorBrush outlineBrush)
+        public bool TryGetCustomOutline(IDriverInfo driverInfo, out ColorDto outlineBrush)
         {
             if (LapColorSynchronization == null)
             {
@@ -463,12 +476,23 @@
 
             if (LapColorSynchronization.TryGetColorForLap(driverInfo.DriverName, out Color lapColor))
             {
-                outlineBrush = new SolidColorBrush(lapColor);
+                outlineBrush = new ColorDto()
+                {
+                    Alpha = lapColor.A,
+                    Blue = lapColor.B,
+                    Green = lapColor.G,
+                    Red =  lapColor.R,
+                };
                 return true;
             }
 
             outlineBrush = null;
             return false;
+        }
+
+        public ColorDto GetClassColor(IDriverInfo driverInfo)
+        {
+            return ColorDto.FromColor(Colors.Transparent);
         }
     }
 }

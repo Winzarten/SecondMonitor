@@ -286,6 +286,10 @@
             {
 
             }
+            finally
+            {
+                _cachedTelemetries.Clear();
+            }
         }
     }
 }

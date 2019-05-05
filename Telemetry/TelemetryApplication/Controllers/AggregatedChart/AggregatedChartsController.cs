@@ -126,7 +126,7 @@
             }
 
             IAggregatedChartViewModel chartViewModel = selectedProvider.CreateAggregatedChartViewModel();
-            _windowService.OpenWindow(chartViewModel, chartViewModel.Title, WindowState.Maximized, SizeToContent.Manual);
+            _windowService.OpenWindow(chartViewModel, chartViewModel.Title, WindowState.Maximized, SizeToContent.Manual, chartViewModel.Dispose);
         }
 
         private void CancelAndCloseSelectionWindow()

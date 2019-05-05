@@ -17,11 +17,16 @@
         {
             VelocityUnitsSmall = settingsProvider.DisplaySettingsViewModel.VelocityUnitsVerySmall;
             VelocityUnits = settingsProvider.DisplaySettingsViewModel.VelocityUnits;
+            DistanceUnitsSmall = settingsProvider.DisplaySettingsViewModel.DistanceUnitsVerySmall;
+            ForceUnits = settingsProvider.DisplaySettingsViewModel.ForceUnits;
+            AngleUnits = settingsProvider.DisplaySettingsViewModel.AngleUnits;
         }
 
         protected VelocityUnits VelocityUnits { get; }
         protected VelocityUnits VelocityUnitsSmall { get; }
-
+        protected DistanceUnits DistanceUnitsSmall { get; }
+        protected ForceUnits ForceUnits { get; }
+        protected AngleUnits AngleUnits { get; }
 
         protected TimedValue[] ExtractTimedValuesOfLoadedLaps(IEnumerable<LapTelemetryDto> loadedLaps, Func<TimedTelemetrySnapshot, double> extractionFunc)
         {

@@ -20,5 +20,9 @@
         {
             return true;
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

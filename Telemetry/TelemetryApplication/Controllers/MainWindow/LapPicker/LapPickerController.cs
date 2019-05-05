@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Controllers.MainWindow.LapPicker
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -67,6 +68,8 @@
 
         private async Task StopChildControllersAsync()
         {
+            IEnumerable<Task> unloadTask = _loadedLaps.Select(x => _telemetryLoadController.UnloadLap(x));
+            await Task.WhenAll(unloadTask);
             await _openWindowController.StopControllerAsync();
             await _settingsWindowController.StopControllerAsync();
         }

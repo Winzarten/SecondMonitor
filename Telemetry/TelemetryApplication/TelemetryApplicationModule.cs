@@ -61,6 +61,7 @@
             Bind<ITelemetryLoadController>().To<TelemetryLoadController>().InNamedScope(MainWidowScopeName);
             Bind<ITelemetryViewsSynchronization>().To<TelemetryViewsSynchronization>().InSingletonScope();
             Bind<IGraphViewSynchronization>().To<GraphViewSynchronization>().InNamedScope(MainWidowScopeName);
+            Bind<IDataPointSelectionSynchronization>().To<DataPointSelectionSynchronization>().InSingletonScope();
             Bind<IMainWindowViewModel>().To<MainWindowViewModel>().InNamedScope(MainWidowScopeName);
             Bind<IMapViewController>().To<MapViewController>().InNamedScope(MainWidowScopeName);
             Bind<ILapColorSynchronization>().To<LapColorSynchronization>().InNamedScope(MainWidowScopeName);
@@ -119,6 +120,7 @@
             Bind<IGraphViewModel>().To<TurboBoostGraphViewModel>();
             Bind<IGraphViewModel>().To<FrontRearDownForceGraphViewModel>();
             Bind<IGraphViewModel>().To<CamberGraphViewModel>();
+            Bind<IGraphViewModel>().To<RakeGraphViewModel>();
 
             Bind<ISingleSeriesDataExtractor>().To<SimpleSingleSeriesDataExtractor>();
             Bind<ISingleSeriesDataExtractor>().To<CompareToReferenceDataExtractor>();
@@ -130,12 +132,33 @@
             Bind<IAggregatedChartProvider>().To<SpeedHorizontalAccelerationChartProvider>();
             Bind<IAggregatedChartProvider>().To<RpmToHorizontalGChartProvider>();
             Bind<IAggregatedChartProvider>().To<RpmHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightHistogramProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToHorizontalAccProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToLateralAccProvider>();
+            Bind<IAggregatedChartProvider>().To<RideHeightToSpeedProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedToDownforceProvider>();
+            Bind<IAggregatedChartProvider>().To<SpeedToRakeProvider>();
+            Bind<IAggregatedChartProvider>().To<LatToLogGProvider>();
+            Bind<IAggregatedChartProvider>().To<RearRollAngleToFrontRollAngleProvider>();
 
             Bind<SuspensionVelocityHistogramDataExtractor>().ToSelf();
+            Bind<RideHeightGraphViewModel>().ToSelf();
 
             Bind<SpeedToRpmScatterPlotExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
             Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<SpeedToRpmScatterPlotExtractor>();
+
+            Bind<HorizontalAccelerationToRideHeightExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoLateralAccelerationFilter>().WhenInjectedExactlyInto<HorizontalAccelerationToRideHeightExtractor>();
+
+            Bind<LateralAccelerationToRideHeightExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoHorizontalAccelerationFilter>().WhenInjectedExactlyInto<LateralAccelerationToRideHeightExtractor>();
+
+            Bind<SpeedToRakeExtractor>().ToSelf();
+            Bind<ITelemetryFilter>().To<NoLateralAccelerationFilter>().WhenInjectedExactlyInto<SpeedToRakeExtractor>();
+
+            Bind<SpeedToRideHeightExtractor>().ToSelf();
+            Bind<SpeedToDownforceExtractor>().ToSelf();
 
             Bind<SpeedToHorizontalGExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<FullThrottleFilter>().WhenInjectedExactlyInto<SpeedToHorizontalGExtractor>();
@@ -150,6 +173,11 @@
             Bind<RpmHistogramDataExtractor>().ToSelf();
             Bind<ITelemetryFilter>().To<NoBrakeFilter>().WhenInjectedExactlyInto<RpmHistogramDataExtractor>();
             Bind<ITelemetryFilter>().To<NoClutchFilter>().WhenInjectedExactlyInto<RpmHistogramDataExtractor>();
+
+            Bind<LateralToLongGExtractor>().ToSelf();
+            Bind<RearRollAngleToFrontRollAngleExtractor>().ToSelf();
+            Bind<LateralAccFilter>().ToSelf();
+            Bind<ThrottlePositionFilter>().ToSelf();
 
             Bind<IAggregatedChartSelectorViewModel>().To<AggregatedChartSelectorViewModel>();
             Bind<IGearTelemetryFilter>().To<GearTelemetryFilter>();

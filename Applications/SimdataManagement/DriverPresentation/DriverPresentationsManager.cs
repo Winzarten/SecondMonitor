@@ -1,12 +1,9 @@
 ﻿using System.Linq;
-using System.Windows.Media;
 using SecondMonitor.DataModel.BasicProperties;
 using SecondMonitor.DataModel.DriversPresentation;
 
 namespace SecondMonitor.SimdataManagement.DriverPresentation
 {
-    using System.Threading.Tasks;
-
     public class DriverPresentationsManager
     {
         private readonly DriverPresentationsLoader _driverPresentationsLoader;
@@ -20,10 +17,10 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
 
         private DriverPresentationsDto DriverPresentationsDto => _driverPresentationsDto ?? LoadDriverPresentations();
 
-        public bool TryGetOutLineColor(string driverName, out Color color)
+        public bool TryGetOutLineColor(string driverName, out ColorDto color)
         {
             DriverPresentationDto driverPresentation = GetDriverPresentation(driverName);
-            color = driverPresentation?.OutLineColor?.ToColor() ?? Colors.Transparent;
+            color = driverPresentation?.OutLineColor;
             return driverPresentation?.OutLineColor != null;
         }
 
@@ -41,10 +38,10 @@ namespace SecondMonitor.SimdataManagement.DriverPresentation
 
         }
 
-        public void SetOutLineColor(string driverName, Color color)
+        public void SetOutLineColor(string driverName, ColorDto color)
         {
             DriverPresentationDto driverPresentation = GetDriverOrCreatePresentation(driverName);
-            driverPresentation.OutLineColor = ColorDto.FromColor(color);
+            driverPresentation.OutLineColor = color;
         }
 
 

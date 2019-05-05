@@ -14,6 +14,8 @@
 
     public class CompareToReferenceDataExtractor : ISingleSeriesDataExtractor
     {
+
+        private static int counter = 0;
         private readonly ITelemetryViewsSynchronization _telemetryViewsSynchronization;
         private readonly TelemetryStoryBoardFactory _telemetryStoryBoardFactory;
         private readonly ILoadedLapsCache _loadedLapsCache;
@@ -24,6 +26,7 @@
 
         public CompareToReferenceDataExtractor(ITelemetryViewsSynchronization telemetryViewsSynchronization, TelemetryStoryBoardFactory telemetryStoryBoardFactory, ILoadedLapsCache loadedLapsCache)
         {
+            counter++;
             _telemetryViewsSynchronization = telemetryViewsSynchronization;
             _telemetryStoryBoardFactory = telemetryStoryBoardFactory;
             _loadedLapsCache = loadedLapsCache;
@@ -43,6 +46,13 @@
             _telemetryViewsSynchronization.LapLoaded += TelemetryViewsSynchronizationOnLapLoaded;
             _telemetryViewsSynchronization.LapUnloaded += TelemetryViewsSynchronizationOnLapUnloaded;
             _telemetryViewsSynchronization.ReferenceLapSelected += TelemetryViewsSynchronizationOnReferenceLapSelected;
+        }
+
+        private void  UnSubscribe()
+        {
+            _telemetryViewsSynchronization.LapLoaded -= TelemetryViewsSynchronizationOnLapLoaded;
+            _telemetryViewsSynchronization.LapUnloaded -= TelemetryViewsSynchronizationOnLapUnloaded;
+            _telemetryViewsSynchronization.ReferenceLapSelected -= TelemetryViewsSynchronizationOnReferenceLapSelected;
         }
 
         private void TelemetryViewsSynchronizationOnReferenceLapSelected(object sender, LapSummaryArgs e)
@@ -89,6 +99,14 @@
         public bool ShowLapGraph(LapSummaryDto lapSummaryDto)
         {
             return lapSummaryDto.Id != _referenceLap?.LapSummaryDto.Id;
+        }
+
+        public void Dispose()
+        {
+            counter--;
+            Console.WriteLine($"Counter {counter}");
+            UnSubscribe();
+            _loadedTelemetries.Clear();
         }
     }
 }

@@ -6,7 +6,6 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Media;
     using WindowsControls.WPF;
     using DataModel.BasicProperties;
     using DataModel.Extensions;
@@ -17,6 +16,7 @@
     using SessionTiming.Drivers.ViewModel;
     using SimdataManagement.DriverPresentation;
     using ViewModels;
+    using ViewModels.Colors;
     using ViewModels.Settings.Model;
     using ViewModels.Settings.ViewModel;
 
@@ -25,18 +25,20 @@
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly DriverPresentationsManager _driverPresentationsManager;
         private readonly DisplaySettingsViewModel _displaySettingsViewModel;
+        private readonly IClassColorProvider _classColorProvider;
         private readonly object _lockObject = new object();
         private readonly Dictionary<string, DriverTiming> _driverNameTimingMap;
         private int _loadIndex;
         private readonly Stopwatch _refreshGapWatch;
 
-        public TimingDataGridViewModel(DriverPresentationsManager driverPresentationsManager, DisplaySettingsViewModel displaySettingsViewModel )
+        public TimingDataGridViewModel(DriverPresentationsManager driverPresentationsManager, DisplaySettingsViewModel displaySettingsViewModel, IClassColorProvider classColorProvider )
         {
             _refreshGapWatch = Stopwatch.StartNew();
             _loadIndex = 0;
             _driverNameTimingMap = new Dictionary<string, DriverTiming>();
             _driverPresentationsManager = driverPresentationsManager;
             _displaySettingsViewModel = displaySettingsViewModel;
+            _classColorProvider = classColorProvider;
             DriversViewModels = new ObservableCollection<DriverTimingViewModel>();
         }
 
@@ -57,7 +59,7 @@
                 List<DriverTiming> orderedTimings = (DriversOrdering == DisplayModeEnum.Absolute ? _driverNameTimingMap.Values.OrderBy(x => x.Position) : _driverNameTimingMap.Values.OrderBy(x => x.DistanceToPlayer)).ToList();
                 for (int i = 0; i < orderedTimings.Count; i++)
                 {
-                    DriversViewModels[i].DriverTiming = orderedTimings[i];
+                    RebindViewModel(DriversViewModels[i], orderedTimings[i]);
                     if (DriversViewModels[i].IsPlayer)
                     {
                         PlayerViewModel = DriversViewModels[i];
@@ -72,6 +74,21 @@
                 UpdateGapsSize(dataSet);
                 _refreshGapWatch.Restart();
             }
+        }
+
+        private void RebindViewModel(DriverTimingViewModel driverTimingViewModel, DriverTiming driverTiming)
+        {
+            if(driverTimingViewModel.DriverTiming == driverTiming)
+            {
+                return;
+            }
+
+            if (driverTimingViewModel.DriverTiming.CarClassId != driverTiming.CarClassId)
+            {
+                driverTimingViewModel.ClassIndicationBrush = _classColorProvider.GetColorForClass(driverTiming.CarClassId);
+            }
+
+            driverTimingViewModel.DriverTiming = driverTiming;
         }
 
         private void UpdateGapsSize(SimulatorDataSet dataSet)
@@ -154,13 +171,14 @@
             }
 
             DriverTimingViewModel newViewModel = new DriverTimingViewModel(driver, _driverPresentationsManager);
+            newViewModel.ClassIndicationBrush = GetClassColor(driver.DriverInfo);
             lock (_lockObject)
             {
                 //If possible, rebind - do not create new
                 if (_driverNameTimingMap.ContainsKey(driver.Name))
                 {
                     _driverNameTimingMap[driver.Name] = driver;
-                    DriversViewModels.First(x => x.Name == driver.Name).DriverTiming = driver;
+                    RebindViewModel(DriversViewModels.First(x => x.Name == driver.Name), driver);
                     return;
                 }
                 _driverNameTimingMap[driver.Name] = driver;
@@ -188,7 +206,7 @@
                 foreach (DriverTiming driverToRebind in driversToRebind)
                 {
                     _driverNameTimingMap[driverToRebind.Name] = driverToRebind;
-                    DriversViewModels.First(x => x.Name == driverToRebind.Name).DriverTiming = driverToRebind;
+                    RebindViewModel(DriversViewModels.First(x => x.Name == driverToRebind.Name), driverToRebind);
                 }
             }
         }
@@ -205,7 +223,7 @@
             {
                 _loadIndex++;
                 Logger.Info("Add Drivers Called");
-                List<DriverTimingViewModel> newViewModels = drivers.Select(x => new DriverTimingViewModel(x, _driverPresentationsManager)).ToList();
+                List<DriverTimingViewModel> newViewModels = drivers.Select(x => new DriverTimingViewModel(x, _driverPresentationsManager) {ClassIndicationBrush = GetClassColor(x.DriverInfo)}).ToList();
 
                 foreach (DriverTimingViewModel driverTimingViewModel in newViewModels)
                 {
@@ -305,11 +323,11 @@
             }
         }
 
-        public bool GetTryCustomOutline(IDriverInfo driverInfo, out SolidColorBrush outlineBrush)
+        public bool TryGetCustomOutline(IDriverInfo driverInfo, out ColorDto outlineColor)
         {
             if (driverInfo?.DriverName == null)
             {
-                outlineBrush = null;
+                outlineColor = null;
                 return false;
             }
             DriverTimingViewModel viewModel;
@@ -318,8 +336,13 @@
                 viewModel = DriversViewModels.FirstOrDefault(x => x.Name == driverInfo.DriverName);
             }
 
-            outlineBrush = viewModel?.OutlineBrush ?? default(SolidColorBrush);
+            outlineColor = viewModel?.OutLineColor;
             return viewModel?.HasCustomOutline ?? false;
+        }
+
+        public ColorDto GetClassColor(IDriverInfo driverInfo)
+        {
+            return _classColorProvider.GetColorForClass(driverInfo.CarClassId);
         }
     }
 }

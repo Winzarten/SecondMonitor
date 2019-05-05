@@ -9,7 +9,6 @@
     using System.Windows.Interactivity;
     using System.Windows.Media;
     using System.Windows.Shapes;
-    using DataModel.BasicProperties;
     using OxyPlot;
     using OxyPlot.Axes;
     using Telemetry.TelemetryApplication.ViewModels.GraphPanel;

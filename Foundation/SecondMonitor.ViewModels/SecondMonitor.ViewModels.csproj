@@ -88,6 +88,8 @@
     <Compile Include="CarStatus\SessionRemainingCalculator.cs" />
     <Compile Include="CarStatus\WheelStatusViewModel.cs" />
     <Compile Include="Colors\BasicColorPaletteProvider.cs" />
+    <Compile Include="Colors\ClassColorProvider.cs" />
+    <Compile Include="Colors\IClassColorProvider.cs" />
     <Compile Include="Controllers\AutoUpdateController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Colors\IColorPaletteProvider.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Settings\Model\SessionOptions.cs" />
     <Compile Include="Settings\Model\SessionReportSettings.cs" />
     <Compile Include="Settings\Model\TelemetrySettings.cs" />
+    <Compile Include="Settings\Model\WindowLocationSetting.cs" />
     <Compile Include="Settings\ViewModel\ColumnSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\ColumnsSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\DisplaySettingsLoader.cs" />

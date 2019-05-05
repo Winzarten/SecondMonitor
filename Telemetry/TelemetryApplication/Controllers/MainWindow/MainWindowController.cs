@@ -90,7 +90,7 @@
         {
             await _telemetryLoadController.StopControllerAsync();
             await _leftGraphPanelController.StopControllerAsync();
-            await _rightGraphPanelController.StartControllerAsync();
+            await _rightGraphPanelController.StopControllerAsync();
             await _lapPickerController.StopControllerAsync();
             await _snapshotSectionController.StopControllerAsync();
             await _mapViewController.StopControllerAsync();;

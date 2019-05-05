@@ -538,7 +538,7 @@
 
         //protected abstract bool FilterFunction(TimedTelemetrySnapshot previousSnapshot, TimedTelemetrySnapshot currentSnapshot);
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             UnsubscribeLapColorSync();
             UnsubscribeGraphViewSync();
@@ -547,6 +547,8 @@
             {
                 _xAxis.AxisChanged -= XAxisOnAxisChanged;
             }
+
+            LoadedSeries.Clear();
         }
     }
 }

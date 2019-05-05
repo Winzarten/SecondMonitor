@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class CompositeAggregatedChartsViewModel : AggregatedChartViewModel
+    public class CompositeAggregatedChartsViewModel : AbstractAggregatedChartViewModel
     {
         private IAggregatedChartViewModel _mainAggregatedChartViewModel;
         private readonly List<IAggregatedChartViewModel> _childAggregatedChartViewModels;
@@ -25,5 +25,10 @@
             _childAggregatedChartViewModels.Add(aggregatedChartViewModel);
         }
 
+        public override void Dispose()
+        {
+            _mainAggregatedChartViewModel.Dispose();
+            _childAggregatedChartViewModels.ForEach(x => x.Dispose());
+        }
     }
 }
