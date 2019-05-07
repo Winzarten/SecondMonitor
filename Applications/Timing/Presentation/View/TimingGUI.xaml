@@ -334,7 +334,7 @@
                                                                                TyrePressure="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyrePressure, Mode=OneWay}"
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}"
-                                                                            WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.WheelCamber, Mode=OneWay}"/>
+                                                                           WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.WheelCamber, Mode=OneWay}"/>
 
                                     <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"

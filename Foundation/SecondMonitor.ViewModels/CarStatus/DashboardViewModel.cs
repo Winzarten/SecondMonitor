@@ -150,7 +150,7 @@
 
         private static void ApplyDamage(DamageInformation damageInformation, StatusIconViewModel viewModel)
         {
-            viewModel.AdditionalText = damageInformation.Damage < 0.01 ? string.Empty : ((int)(damageInformation.Damage * 100)).ToString(CultureInfo.CurrentCulture);
+            viewModel.AdditionalText = damageInformation.Damage > 0 ? Math.Ceiling(damageInformation.Damage * 100).ToString("F0") : string.Empty;
 
             if (damageInformation.Damage < damageInformation.MediumDamageThreshold)
             {

@@ -184,6 +184,11 @@
                     RemoveDriver(driverInfo.DriverName);
                 }
 
+                if (string.IsNullOrWhiteSpace(driverInfo.DriverName))
+                {
+                    return;
+                }
+
                 DriverPositionControl newDriverControl =
                     new DriverPositionControl
                     {

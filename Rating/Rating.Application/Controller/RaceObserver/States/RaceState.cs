@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Rating.Application.Controller.RaceObserver.States
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using Common.DataModel.Player;
@@ -8,11 +9,14 @@
     using DataModel.Snapshot;
     using DataModel.Snapshot.Drivers;
     using DataModel.Summary;
+    using NLog;
+    using NLog.Fluent;
     using RatingProvider.FieldRatingProvider;
     using SimulatorRating.RatingUpdater;
 
     public class RaceState : AbstractSessionTypeState
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IQualificationResultRatingProvider _qualificationResultRatingProvider;
         private readonly IRatingUpdater _ratingUpdater;
         private bool _isFlashing;
@@ -49,6 +53,7 @@
 
             if (CanUseQualification(eligibleDrivers) && SharedContext.QualificationContext != null)
             {
+                Logger.Info("Can use qualification result");
                 SessionKind = SessionKind.RaceWithQualification;
                 SharedContext.RaceContext.IsRatingBasedOnQualification = true;
                 SharedContext.RaceContext.FieldRating = _qualificationResultRatingProvider.CreateFieldRatingFromQualificationResult(SharedContext.QualificationContext.LastQualificationResult, difficultyToUse);
@@ -56,6 +61,7 @@
             }
             else
             {
+                Logger.Info("Cannot use qualification result");
                 SharedContext.RaceContext.FieldRating = _qualificationResultRatingProvider.CreateFieldRating(eligibleDrivers, difficultyToUse);
             }
         }
@@ -170,7 +176,9 @@
             }
 
 
-            return !SharedContext.QualificationContext.LastQualificationResult.Select(y => y.DriverName).Except(eligibleDrivers.Select(x => x.DriverName)).Any();
+            List<string> missingDrivers = SharedContext.QualificationContext.LastQualificationResult.Select(y => y.DriverName).Except(eligibleDrivers.Select(x => x.DriverName)).ToList();
+            missingDrivers.ForEach(x => Logger.Info($"Missing rating qualification result for: {x}"));
+            return missingDrivers.Count == 0;
         }
 
         private bool CanUserPreviousRaceContext(DriverInfo[] eligibleDrivers)

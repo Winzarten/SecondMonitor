@@ -234,6 +234,10 @@
             {
                 DriverData r3RDriverData = r3RData.DriverData[i];
                 DriverInfo driverInfo = CreateDriverInfo(r3RData, r3RDriverData, playerName);
+                /*if (string.IsNullOrWhiteSpace(driverInfo.DriverName))
+                {
+                    continue;
+                }*/
 
                 if (driverInfo.IsPlayer)
                 {
@@ -404,7 +408,7 @@
             //Add Flags Info
             AddFlags(data, simData);
 
-            simData.SessionInfo.IsMultiClass = simData.DriversInfo.Any(x => x.Position != x.PositionInClass);
+            simData.SessionInfo.IsMultiClass = simData.DriversInfo != null && simData.DriversInfo.Any(x => x != null && x.Position != x.PositionInClass);
 
             return simData;
         }

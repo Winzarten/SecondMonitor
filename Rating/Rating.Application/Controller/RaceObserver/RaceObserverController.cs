@@ -94,7 +94,7 @@
 
             if (e.PropertyName == nameof(RatingApplicationViewModel.UseSuggestedDifficulty) && RatingApplicationViewModel.UseSuggestedDifficulty)
             {
-                RatingApplicationViewModel.Difficulty = _simulatorRatingController.GetSuggestedDifficulty(_currentClass);
+                RatingApplicationViewModel.Difficulty = RatingApplicationViewModel.ClassRating.OriginalModel.Difficulty;
             }
 
             if (e.PropertyName == nameof(RatingApplicationViewModel.Difficulty))

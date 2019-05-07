@@ -5,9 +5,12 @@
     using DataModel.BasicProperties;
     using DataModel.Snapshot;
     using DataModel.Summary;
+    using NLog;
+    using NLog.Fluent;
 
     public class IdleState : AbstractSessionTypeState
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly Stopwatch _stateDuration;
 
         public IdleState(SharedContext sharedContext) : base(sharedContext)
@@ -34,6 +37,7 @@
         {
             if (_stateDuration.ElapsedMilliseconds > 7000 && !IsStateInitialized)
             {
+                Logger.Info("Idle state for 7seconds - clearing race and qualification context");
                 _stateDuration.Stop();
                 SharedContext.QualificationContext = null;
                 SharedContext.RaceContext = null;

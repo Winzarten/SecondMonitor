@@ -16,6 +16,9 @@
         [XmlAttribute]
         public double Volatility { get; set; }
 
+        [XmlAttribute]
+        public int Difficulty { get; set; }
+
         [XmlIgnore]
         public DateTime CreationTime
         {

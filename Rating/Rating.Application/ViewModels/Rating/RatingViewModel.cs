@@ -36,7 +36,7 @@
 
         protected override void ApplyModel(DriversRating model)
         {
-            MainRating = model.Rating.ToString();
+            MainRating = $"{model.Rating}-{model.Difficulty}";
             SecondaryRating = $"{model.Deviation}-{model.Volatility:F2}";
         }
 
