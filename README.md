@@ -1,8 +1,6 @@
+## Project was Migrated https://gitlab.com/winzarten/SecondMonitor
+
 # Second Monitor
-
-Master: [![Build status](https://ci.appveyor.com/api/projects/status/9a6pw8no49n8irip/branch/master?svg=true)](https://ci.appveyor.com/project/Winzarten/secondmonitor/branch/master)
-
-Project: [![Build status](https://ci.appveyor.com/api/projects/status/9a6pw8no49n8irip?svg=true)](https://ci.appveyor.com/project/Winzarten/secondmonitor)
 
 ## Introduction:
 
@@ -42,23 +40,3 @@ Telemetry Viewer allows to view and analyse the telemetry data that the main sec
 * Assetto Corsa - Requires custom plugin, than should be automatically installed when the app detect Assetto Corsa running. The plugin needs to be enabled in the options settings manualy. 
 * Project Cars 2 - Works out of the box. Just be sure to enable the shared memory inside Project Cars 2 [options](http://www.eksimracing.com/f-a-q/configure-project-cars-to-use-shared-memory/)
 * Project Cars - Limited functionality as split times and lap times are not provided by the sim api. Splits don't work at all, and lap timing is done by the app, so the will be slight difference between what is in the app and what is in sim. Big thanks to mr_belowski for allowing me to use his project cars pit coordinates from CrewChief :)
-
-## Known Issues
-[Known Issues - Second Monitor](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues)
-
-[Known Issues - Telemetry Viewer](https://github.com/Winzarten/SecondMonitor/wiki/Known-Issues-(Telemetry-Viewer))
-
-
-## Future Plans   
- - [x] Telemetry - Allow the application to track and view advanced telemetry for individual laps.
- - [x] Client/Server - Ability to show second monitor on different computer than the simulator is running.
- - [ ] Improve Telemetry Viewer 
- - [ ] F1 2018 Support
- 
-## Support
-For Support please use the application topic on r3e forums : https://forum.sector3studios.com/index.php?threads/secondmonitor-timing-status-app.9587/
- 
-
-## Installation
-
-Check [release tab](https://github.com/Winzarten/SecondMonitor/releases) for latest version
