@@ -1,5 +1,6 @@
 ﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Repository
 {
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using TelemetryManagement.Repository;
 

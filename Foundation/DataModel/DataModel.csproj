@@ -85,6 +85,7 @@
     <Compile Include="OperationalRange\CarModelProperties.cs" />
     <Compile Include="OperationalRange\DataSourceProperties.cs" />
     <Compile Include="OperationalRange\TyreCompoundProperties.cs" />
+    <Compile Include="SimulatorsNameMap.cs" />
     <Compile Include="Snapshot\Drivers\DriverFinishStatus.cs" />
     <Compile Include="Snapshot\Drivers\GapInformationKind.cs" />
     <Compile Include="Snapshot\Drivers\IDriverInfo.cs" />

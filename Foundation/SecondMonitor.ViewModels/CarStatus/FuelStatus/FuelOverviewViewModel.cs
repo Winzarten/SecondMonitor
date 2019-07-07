@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
     using Contracts.Commands;
@@ -27,12 +28,14 @@
         private TimeSpan _timeDelta;
         private double _lapsDelta;
         private Volume _fuelDelta;
+        private readonly Stopwatch _refreshWatch;
 
         private readonly FuelConsumptionMonitor _fuelConsumptionMonitor;
         private readonly SessionRemainingCalculator _sessionRemainingCalculator;
 
         public FuelOverviewViewModel(IPaceProvider paceProvider)
         {
+            _refreshWatch = Stopwatch.StartNew();
             _sessionRemainingCalculator = new SessionRemainingCalculator(paceProvider);
             _fuelConsumptionMonitor = new FuelConsumptionMonitor();
             _resetCommand = new RelayCommand(Reset);
@@ -342,6 +345,11 @@
         {
             try
             {
+                if (_refreshWatch.ElapsedMilliseconds < 500)
+                {
+                    return;
+                }
+                _refreshWatch.Restart();
                 ShowDeltaInfo = dataSet.SessionInfo.SessionType == SessionType.Race;
                 ReApplyFuelLevels(dataSet.PlayerInfo.CarInfo.FuelSystemInfo);
                 _fuelConsumptionMonitor.UpdateFuelConsumption(dataSet);

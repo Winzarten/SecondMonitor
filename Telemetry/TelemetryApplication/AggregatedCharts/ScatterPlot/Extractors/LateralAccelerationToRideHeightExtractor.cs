@@ -4,6 +4,7 @@
     using DataModel.Snapshot.Systems;
     using DataModel.Telemetry;
     using Filter;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
 
     public class LateralAccelerationToRideHeightExtractor : HorizontalAccelerationToRideHeightExtractor

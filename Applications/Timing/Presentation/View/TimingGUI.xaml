@@ -225,6 +225,11 @@
                                             ElementStyle="{StaticResource TextBoxStyle}"
                                             Header="Top Speed"
                                             Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.TopSpeed.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                        <DataGridTextColumn Width="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Rating.Width, Mode=TwoWay, Converter={StaticResource lengthConverter}}"
+                                            Binding="{Binding Rating, Mode=OneWay}"
+                                            ElementStyle="{StaticResource TextBoxStyleRating}"
+                                            Header="Rating"
+                                            Visibility="{Binding Source={StaticResource proxy}, Path=Data.CurrentSessionOptionsView.ColumnsSettingsView.Rating.Visible, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                         <DataGridTemplateColumn Width="120" Header="Mark">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -296,7 +301,7 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="0" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -313,7 +318,7 @@
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.TyreSlippingIndication, Mode=OneWay}"
                                                                                WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftFrontTyre.WheelCamber, Mode=OneWay}"/>
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="0" Grid.Column="1" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -331,7 +336,7 @@
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.TyreSlippingIndication, Mode=OneWay}"
                                                                            WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightFrontTyre.WheelCamber, Mode=OneWay}"/>
 
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="0" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -348,7 +353,7 @@
                                                                                TyreRightTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreRightTemperature, Mode=OneWay}"
                                                                                TyreSlippingIndication="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.TyreSlippingIndication, Mode=OneWay}"
                                                                            WheelCamber="{Binding CarStatusViewModel.PlayersWheelsViewModel.LeftRearTyre.WheelCamber, Mode=OneWay}"/>
-                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96"
+                                    <wheelStatusControl:WheelStatusControl Grid.Row="1" Grid.Column="1" Height="96" Width="200"
                                                                                BrakeTemperature="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.BrakeTemperature, Mode=OneWay}"
                                                                                IsLeftWheel="{Binding CarStatusViewModel.PlayersWheelsViewModel.RightRearTyre.IsLeftWheel, Mode=OneWay}"
                                                                                PressureUnits="{Binding DisplaySettingsViewModel.PressureUnits, Mode=OneWay}"
@@ -391,7 +396,7 @@
                                                                      ShowAdditionalInfo="{Binding CarStatusViewModel.FuelOverviewViewModel.ShowDeltaInfo}"
                                                                      TimeDelta="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeDelta}"
                                                                      TimeLeft="{Binding CarStatusViewModel.FuelOverviewViewModel.TimeLeft}"
-                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}" />
+                                                                     VolumeUnits="{Binding DisplaySettingsViewModel.VolumeUnits}"  />
                                 </Border>
                             </Grid>
                         </Grid>
@@ -420,26 +425,12 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <carSystems:CarSystemsControl TemperatureUnits="{Binding DataContext.DisplaySettingsViewModel.TemperatureUnits, RelativeSource={RelativeSource AncestorType=view:TimingGui }}" PressureUnits="{Binding DataContext.DisplaySettingsViewModel.PressureUnits, RelativeSource={RelativeSource AncestorType=view:TimingGui }}"
-                                                              DataContext="{Binding CarStatusViewModel.CarSystemsViewModel}"/>
+                                                              DataContext="{Binding CarStatusViewModel.CarSystemsViewModel}" Height="75" />
                                 <Grid Row="1" Background="Black">
                                     <carSystems:DashboardControl DataContext="{Binding CarStatusViewModel.DashboardViewModel}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                                 </Grid>
                             </Grid>
-                                <!--<temperatureControl:TemperatureControl Width="200" Height="150" Grid.Column="1"
-                                                                       Icon="{StaticResource WaterTemperatureIcon}"
-                                                                       MaximalNormalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
-                                                                       MaximalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
-                                                                       MinimalTemperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
-                                                                       Temperature="{Binding CarStatusViewModel.WaterTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />
-                                <temperatureControl:TemperatureControl Width="200" Height="150" Grid.Column="2"
-                                                                       Icon="{StaticResource OilTemperatureIcon}"
-                                                                       MaximalNormalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumNormalTemperature, Mode=OneWay}"
-                                                                       MaximalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MaximumTemperature, Mode=OneWay}"
-                                                                       MinimalTemperature="{Binding CarStatusViewModel.OilTemperatureViewModel.MinimalTemperature, Mode=OneWay}"
-                                                                       Temperature="{Binding CarStatusViewModel.OilTemperatureViewModel.Temperature, Mode=OneWay}"
-                                                                       TemperatureUnits="{Binding DisplaySettingsViewModel.TemperatureUnits, Mode=OneWay}" />-->
-                            </Grid>
+                        </Grid>
 
                         </Grid>
                         <Border Grid.Column="1"
@@ -459,145 +450,79 @@
             <Grid Column="3">
                 <Border BorderBrush="{StaticResource DarkGrey01Brush}" BorderThickness="2">
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0">
-                            <GroupBox Width="240" Height="107"
-                                      BorderBrush="{StaticResource DarkGrey01Brush}"
-                                      Foreground="{StaticResource LightGrey01Brush}"
-                                      Header="Session SettingsView">
-                                <Grid Margin="0" VerticalAlignment="Top">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.5*" />
-                                        <ColumnDefinition Width="0.5*" />
-                                    </Grid.ColumnDefinitions>
-                                    <CheckBox x:Name="ChkScrollToPlayer" Width="100" Margin="10,64,0,-3" HorizontalAlignment="Left"
-                                              VerticalAlignment="Top" Content="Scroll To Player"
-                                              Foreground="{StaticResource LightGrey01Brush}"
-                                              IsChecked="{Binding DisplaySettingsViewModel.ScrollToPlayer}" />
-                                    <Label Width="74" Height="29" Margin="10,5,0,0" HorizontalAlignment="Left"
-                                           VerticalAlignment="Top" Content="Order:"
-                                           Foreground="{StaticResource LightGrey01Brush}" />
-                                    <ComboBox Grid.Column="0" Margin="10,34,10,0" VerticalAlignment="Top"
-                                              ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
-                                              SelectedItem="{Binding CurrentSessionOptionsView.OrderingMode}"
-                                              Style="{StaticResource StandardComboBoxStyle}" />
-                                    <Label Grid.Column="1" Width="74" Height="29" Margin="10,5,0,0"
-                                           HorizontalAlignment="Left" VerticalAlignment="Top" Content="Times:"
-                                           Foreground="{StaticResource LightGrey01Brush}" />
-                                    <ComboBox Grid.Column="1" Margin="10,34,10,0" VerticalAlignment="Top"
-                                              ItemsSource="{Binding Source={StaticResource DataFromDisplayModeEnum}}"
-                                              SelectedItem="{Binding CurrentSessionOptionsView.TimesDisplayMode}"
-                                              Style="{StaticResource StandardComboBoxStyle}" />
-                                </Grid>
-                            </GroupBox>
-                            <Grid HorizontalAlignment="Right">
-                                <GroupBox BorderBrush="{StaticResource DarkGrey01Brush}"
-                                          Foreground="{StaticResource LightGrey01Brush}"
-                                          Header="Telemetry + Reports">
-                                    <Grid HorizontalAlignment="Right">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0">
-                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
-                                                Command="{Binding OpenCurrentTelemetrySession, Mode=OneWay}"
-                                                Style="{StaticResource StandardButton}"
-                                                ToolTip="Open Current Session Telemetry">
-                                                <Button.Content>
-                                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                                        <ContentPresenter Content="{StaticResource TelemetryIcon}" />
-                                                    </wpf:ColorAbleIcon>
-                                                </Button.Content>
-                                            </Button>
-                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
-                                                    Style="{StaticResource StandardButton}"
-                                                    Click="ButtonBase_OnClick"
-                                                    ToolTip="Toggle Fullscreen">
-                                                <Button.Content>
-                                                    <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                                        <ContentPresenter Content="{StaticResource FullscreenIcon}" />
-                                                    </wpf:ColorAbleIcon>
-                                                </Button.Content>
-                                            </Button>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1">
-                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
-                                                Command="{Binding ReportsController.OpenLastReportCommand, Mode=OneWay}"
-                                                Style="{StaticResource StandardButton}"
-                                                ToolTip="Open Last Report">
-                                            <Button.Content>
-                                                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                                    <ContentPresenter Content="{StaticResource ReportIcon}" />
-                                                </wpf:ColorAbleIcon>
-                                            </Button.Content>
-                                        </Button>
-                                            <Button Height="55" Width="75" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
-                                                Command="{Binding ReportsController.OpenReportsFolderCommand, Mode=OneWay}"
-                                                Style="{StaticResource StandardButton}"
-                                                ToolTip="Open Reports Folder">
-                                            <Button.Content>
-                                                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                                    <ContentPresenter Content="{StaticResource FolderIcon}" />
-                                                </wpf:ColorAbleIcon>
-                                            </Button.Content>
-                                        </Button>
-                                    </StackPanel>
-                                    </Grid>
-                                </GroupBox>
-                            </Grid>
-                        </StackPanel>
-                        <Grid Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Height="55"
-                                    Command="{Binding OpenCarSettingsCommand}"
-                                    IsEnabled="{Binding IsOpenCarSettingsCommandEnable}"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="55" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <ContentPresenter Content="{Binding RatingApplicationViewModel}"/>
+                        </Grid>
+                        <StackPanel Grid.Column="1">
+
+                            <Button HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                    Command="{Binding OpenCurrentTelemetrySession, Mode=OneWay}"
                                     Style="{StaticResource StandardButton}"
-                                    ToolTip="Opens the configuration window for the current car.">
+                                    ToolTip="Open Current Session Telemetry">
                                 <Button.Content>
-                                    <wpf:ColorAbleIcon Margin="5,5,5,5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                    <wpf:ColorAbleIcon
+                                        StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource TelemetryIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                            <Button HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                    Command="{Binding OpenLastReportCommand, Mode=OneWay}"
+                                    Style="{StaticResource StandardButton}"
+                                    ToolTip="Open Last Report">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon
+                                        StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource ReportIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                            <Button HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                    Command="{Binding OpenReportFolderCommand, Mode=OneWay}"
+                                    Style="{StaticResource StandardButton}"
+                                    ToolTip="Open Reports Folder">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon
+                                        StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource FolderIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                            <Button
+                                Command="{Binding OpenCarSettingsCommand}"
+                                IsEnabled="{Binding IsOpenCarSettingsCommandEnable}"
+                                Style="{StaticResource StandardButton}"
+                                ToolTip="Opens the configuration window for the current car.">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon Margin="5,5,5,5"
+                                                       StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                                         <ContentPresenter Content="{StaticResource CarSettingsIcon}" />
                                     </wpf:ColorAbleIcon>
                                 </Button.Content>
                             </Button>
-                            <Button Grid.Column="1" Height="55"
-                                    Command="{Binding OpenSettingsCommand}"
-                                    Style="{StaticResource StandardButton}"
-                                    ToolTip="Opens the configuration window for the application.">
+                            <Button
+                                Command="{Binding OpenSettingsCommand}"
+                                Style="{StaticResource StandardButton}"
+                                ToolTip="Opens the configuration window for the application.">
                                 <Button.Content>
-                                    <wpf:ColorAbleIcon Margin="5,5,5,5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                    <wpf:ColorAbleIcon Margin="5,5,5,5"
+                                                       StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
                                         <ContentPresenter Content="{StaticResource SettingsIcon}" />
                                     </wpf:ColorAbleIcon>
                                 </Button.Content>
                             </Button>
-                            <Button x:Name="BtnReset" Grid.Column="2" Height="55"
-                                    Command="{Binding ResetCommand}"
-                                    Style="{StaticResource StandardButton}"
-                                    ToolTip="Resets the timing.">
-                                <Button.Content>
-                                    <wpf:ColorAbleIcon Margin="5,5,5,5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
-                                        <ContentPresenter Content="{StaticResource ResetIcon}" />
-                                    </wpf:ColorAbleIcon>
-                                </Button.Content>
-                            </Button>
-                        </Grid>
+                        </StackPanel>
                     </Grid>
                 </Border>
-
             </Grid>
         </Grid>
-
         <Grid Row="5">
             <Border BorderThickness="1">
-                <StatusBar Height="21" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Panel.ZIndex="5"
+                <StatusBar Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Panel.ZIndex="5"
                            Background="{StaticResource Anthracite01Brush}">
                     <StatusBar.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -608,6 +533,8 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
@@ -642,7 +569,32 @@
                         </Grid>
                     </StatusBarItem>
                     <Separator Grid.Column="5" />
-                    <StatusBarItem Grid.Column="6" Margin="10,0,15,0">
+                    <StatusBarItem Grid.Column="6">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Width="30" Margin="-5"
+                                    Command="{Binding ResetCommand}"
+                                    Style="{StaticResource StandardButton}"
+                                    ToolTip="Resets the timing.">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon Margin="-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource ResetIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                            <Button Width="30" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch"
+                                    Style="{StaticResource StandardButton}"
+                                    Click="ButtonBase_OnClick"
+                                    ToolTip="Toggle Fullscreen" Margin="-5">
+                                <Button.Content>
+                                    <wpf:ColorAbleIcon Margin="-5" StrokeBrush="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}, Mode=OneWay}">
+                                        <ContentPresenter Content="{StaticResource FullscreenIcon}" />
+                                    </wpf:ColorAbleIcon>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </StatusBarItem>
+                    <Separator Grid.Column="7" />
+                    <StatusBarItem Grid.Column="8" Margin="10,0,15,0">
                         <TextBlock Name="SystemTime"
                                    Style="{StaticResource SmallText}"
                                    Text="{Binding SystemTime, UpdateSourceTrigger=PropertyChanged}" />

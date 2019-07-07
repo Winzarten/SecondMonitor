@@ -192,7 +192,7 @@
                 return "NA";
             }
 
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWithExtraLap)
             {
                 string prefix = dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time ? "Time: " : "Time (+1 Lap): ";
                 string timeRemaining =  prefix + _sessionRemainingCalculator.GetTimeRemaining(dataSet).FormatToMinutesSeconds();

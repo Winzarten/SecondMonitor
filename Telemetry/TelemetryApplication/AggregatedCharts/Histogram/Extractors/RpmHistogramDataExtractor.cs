@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Filter;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using TelemetryManagement.DTO;
 

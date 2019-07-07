@@ -4,6 +4,7 @@
     using DataModel.BasicProperties;
     using DataModel.Telemetry;
     using Filter;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
 
     public class SpeedToRpmScatterPlotExtractor : AbstractGearFilteredScatterPlotExtractor

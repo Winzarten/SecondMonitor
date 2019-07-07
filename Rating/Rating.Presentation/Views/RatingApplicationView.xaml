@@ -1,0 +1,69 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModels="clr-namespace:SecondMonitor.Rating.Application.ViewModels;assembly=Rating.Application"
+                    xmlns:wpf="clr-namespace:SecondMonitor.WindowsControls.WPF;assembly=WindowsControls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../RatingPresentation.xaml"/>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type viewModels:RatingApplicationViewModel}">
+                <Border BorderBrush="{StaticResource DarkGrey05Brush}" BorderThickness="1" Visibility="{Binding IsVisible, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid  Visibility="{Binding IsCollapsed, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Width="40" >
+                            <TextBlock TextAlignment="Center" Style="{StaticResource StandardText}" VerticalAlignment="Center" Width="40" TextWrapping="Wrap" Text="{Binding CollapsedMessage}"></TextBlock>
+                        </Grid>
+                        <StackPanel Width="170" Visibility="{Binding IsCollapsed, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid Margin="0,0,0,10" >
+                            <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource BigFontSize}" Text="Ratings" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        </Grid>
+                        <Border BorderThickness="1" BorderBrush="{StaticResource LightGrey01Brush}" Padding="2">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource StandardText}" ToolTip="Current Simulator Rating"
+                                           Text="SR:" VerticalAlignment="Center" />
+                                <ContentPresenter Content="{Binding SimulatorRating}" Margin="5,0,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border BorderThickness="1" BorderBrush="{StaticResource LightGrey01Brush}" Padding="2">
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <TextBlock Style="{StaticResource StandardText}" ToolTip="Current Class Rating" Text="CR:" VerticalAlignment="Center"/>
+                                <ContentPresenter Content="{Binding ClassRating}" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock Style="{StaticResource StandardText}" Text="Class:" Margin="5,5,0,0"/>
+                        <Grid Margin="5,2,0,0">
+                            <ComboBox Style="{StaticResource StandardComboBoxStyle}" ItemsSource="{Binding SelectableClasses}" SelectedItem="{Binding SelectedClass}" IsTextSearchEnabled="True" Visibility="{Binding IsClassSelectionEnable, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource SmallFontSize}" Text="{Binding SelectedClass}" Visibility="{Binding IsClassSelectionEnable, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+                        </Grid>
+                        <TextBlock Style="{StaticResource StandardText}" Text="Difficulty:" Margin="5,5,0,0"/>
+                        <Grid Margin="5,2,0,0">
+                            <ComboBox Style="{StaticResource StandardComboBoxStyle}" ItemsSource="{Binding AiLevels}" SelectedItem="{Binding Difficulty}" IsTextSearchEnabled="True" Visibility="{Binding UseSuggestedDifficulty, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+                            <TextBlock Style="{StaticResource StandardText}" Text="{Binding Difficulty, Mode=OneWay}" Visibility="{Binding UseSuggestedDifficulty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                        <CheckBox Content="Use Suggested Diff" Foreground="{StaticResource LightGrey01Brush}" Margin="5,5,0,0" IsChecked="{Binding UseSuggestedDifficulty}"/>
+
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <wpf:ColorAbleIcon Margin="5"
+                                StrokeBrush="{Binding SessionKind, Mode=OneWay, Converter={StaticResource SessionKindToBrushConverter}}" RebindOnVisibilityChange="True">
+                                <ContentPresenter Content="{StaticResource CircleLight2}" />
+                            </wpf:ColorAbleIcon>
+                            <TextBlock Grid.Column="1" Style="{StaticResource StandardText}" Text="{Binding SessionTextInformation, Mode=OneWay}" FontSize="{StaticResource SmallFontSize}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+                                <wpf:ColorAbleIcon Grid.Column="2" Margin="5" RebindOnVisibilityChange="True"
+                                               StrokeBrush="{Binding SessionPhaseKind, Mode=OneWay, Converter={StaticResource SessionPhaseToBrushConverter}}">
+                                <ContentPresenter Content="{StaticResource CircleLight2}" />
+                            </wpf:ColorAbleIcon>
+                        </Grid>
+                        <Grid Margin="0,5,0,5">
+                            <CheckBox Content="Rate Race" Foreground="{StaticResource LightGrey01Brush}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                      Margin="5,5,0,0" IsChecked="{Binding IsRateRaceCheckboxChecked}" />
+                        </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

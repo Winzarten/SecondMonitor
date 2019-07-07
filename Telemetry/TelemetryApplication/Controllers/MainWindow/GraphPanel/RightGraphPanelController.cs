@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using DataModel.Extensions;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using Synchronization;
     using Synchronization.Graphs;

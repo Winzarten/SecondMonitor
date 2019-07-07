@@ -3,6 +3,7 @@
     using System;
     using DataModel.BasicProperties;
     using DataModel.Telemetry;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
 
     public class SpeedToDownforceExtractor : AbstractScatterPlotExtractor

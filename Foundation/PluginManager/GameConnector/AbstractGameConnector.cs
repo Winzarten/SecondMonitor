@@ -29,10 +29,7 @@
 
         private readonly string[] executables;
 
-        private readonly Queue<SimulatorDataSet> _queue = new Queue<SimulatorDataSet>();
-
-        private Task _daemonTask;
-        private Task _queueProcessorTask;
+       private Task _daemonTask;
         private CancellationTokenSource _cancellationTokenSource;
         private Stopwatch _lastCheck;
 
@@ -110,20 +107,7 @@
                 Logger.Error(ex, "Error in connector");
             }
 
-            try
-            {
-                await _queueProcessorTask;
-            }
-            catch (OperationCanceledException)
-            {
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Error in connector");
-            }
             _daemonTask = null;
-            _queueProcessorTask = null;
         }
 
         private bool Connect()
@@ -152,13 +136,6 @@
 
         protected abstract Task DaemonMethod(CancellationToken cancellationToken);
 
-        protected void AddToQueue(SimulatorDataSet set)
-        {
-            lock (_queue)
-            {
-                _queue.Enqueue(set);
-            }
-        }
 
         public void StartConnectorLoop()
         {
@@ -170,44 +147,10 @@
             _cancellationTokenSource = new CancellationTokenSource();
             ResetConnector();
             ShouldDisconnect = false;
-            _queue.Clear();
             _daemonTask = DaemonMethod(_cancellationTokenSource.Token);
 
-            _queueProcessorTask = QueueProcessor(_cancellationTokenSource.Token);
-
         }
 
-        private async Task QueueProcessor(CancellationToken cancellationToken)
-        {
-            while (ShouldDisconnect == false)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    return;
-                }
-
-                lock (_queue)
-                {
-                    while (_queue.Count != 0)
-                    {
-                        SimulatorDataSet set;
-                        lock (_queue)
-                        {
-                            set = _queue.Dequeue();
-                        }
-
-                        RaiseDataLoadedEvent(set);
-                    }
-                }
-
-                await Task.Delay(TickTime, cancellationToken).ConfigureAwait(false);
-            }
-
-            lock (_queue)
-            {
-                _queue.Clear();
-            }
-        }
 
         protected void SendMessageToClients(string message)
         {

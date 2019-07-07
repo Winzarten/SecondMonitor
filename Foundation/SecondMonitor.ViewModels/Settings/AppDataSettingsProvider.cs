@@ -1,15 +1,15 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Settings
+﻿namespace SecondMonitor.ViewModels.Settings
 {
     using System;
     using System.IO;
     using System.Threading;
-    using SecondMonitor.ViewModels.Settings.ViewModel;
+    using ViewModel;
 
     public class AppDataSettingsProvider : ISettingsProvider
     {
         private const string MapFolder = "TrackMaps";
+        private const string RatingsFolder = "Ratings";
         private const string SettingsFolder = "Settings";
-        //private const string TelemetryFolder = "Telemetry_Samples";
         private const string TelemetryFolder = "Telemetry";
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -27,6 +27,7 @@
         public string TelemetryRepositoryPath => Path.Combine(DisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, TelemetryFolder);
 
         public string MapRepositoryPath => Path.Combine(DisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, MapFolder);
+        public string RatingsRepositoryPath => Path.Combine(DisplaySettingsViewModel.ReportingSettingsView.ExportDirectoryReplacedSpecialDirs, RatingsFolder);
 
         private DisplaySettingsViewModel LoadSettings()
         {

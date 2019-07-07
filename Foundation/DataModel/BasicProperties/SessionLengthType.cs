@@ -8,6 +8,6 @@
 
         Time,
 
-        TimeWitchExtraLap,
+        TimeWithExtraLap,
     }
 }

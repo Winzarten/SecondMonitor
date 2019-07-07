@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rating="clr-namespace:SecondMonitor.Rating.Application.ViewModels.Rating;assembly=Rating.Application">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../RatingPresentation.xaml" />
+        <ResourceDictionary Source="../RatingColors.xaml" />
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type rating:RatingViewModel}">
+                <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource StandardText}" Text="{Binding MainRating}" Margin="5,0,0,0" />
+                            <TextBlock Style="{StaticResource StandardText}" FontSize="{StaticResource SmallFontSize}" Text="{Binding SecondaryRating}" Margin="5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource StandardText}" Text="{Binding RatingChange, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding RatingChange, Converter={StaticResource IntToRedGreenConverter}, Mode=OneWay}" Visibility="{Binding RatingChangeVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </StackPanel>
+                    </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -477,7 +477,7 @@
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (data.EndET > 0)
             {
-                simData.SessionInfo.SessionLengthType = simData.SessionInfo.SessionType != SessionType.Race ? SessionLengthType.Time : SessionLengthType.TimeWitchExtraLap;
+                simData.SessionInfo.SessionLengthType = simData.SessionInfo.SessionType != SessionType.Race ? SessionLengthType.Time : SessionLengthType.TimeWithExtraLap;
                 simData.SessionInfo.SessionTimeRemaining =
                     data.EndET - data.CurrentET > 0 ? data.EndET - data.CurrentET : 0;
             }

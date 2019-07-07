@@ -1,122 +1,130 @@
 ﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using System.Windows;
     using Model;
-    using Properties;
 
-    public class ColumnsSettingsViewModel : DependencyObject, INotifyPropertyChanged
+    public class ColumnsSettingsViewModel : AbstractViewModel<ColumnsSettings>
     {
-        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty CarNameProperty = DependencyProperty.Register("CarName", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty CompletedLapsProperty = DependencyProperty.Register("CompletedLaps", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty LastLapTimeProperty = DependencyProperty.Register("LastLapTime", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty PaceProperty = DependencyProperty.Register("Pace", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty BestLapProperty = DependencyProperty.Register("BestLap", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty CurrentLapProgressTimeProperty = DependencyProperty.Register("CurrentLapProgressTime", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty LastPitInfoProperty = DependencyProperty.Register("LastPitInfo", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty TimeToPlayerProperty = DependencyProperty.Register("TimeToPlayer", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty TopSpeedProperty = DependencyProperty.Register("TopSpeed", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty Sector1Property = DependencyProperty.Register("Sector1", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty Sector2Property = DependencyProperty.Register("Sector2", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty Sector3Property = DependencyProperty.Register("Sector3", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-        public static readonly DependencyProperty CarClassNameProperty = DependencyProperty.Register("CarClassName", typeof(ColumnSettingsViewModel), typeof(ColumnsSettingsViewModel), new PropertyMetadata { PropertyChangedCallback = PropertyChangedCallback });
-
+        private ColumnSettingsViewModel _carClassName;
         public ColumnSettingsViewModel CarClassName
         {
-            get => (ColumnSettingsViewModel) GetValue(CarClassNameProperty);
-            set => SetValue(CarClassNameProperty, value);
+            get => _carClassName;
+            set => SetProperty(ref _carClassName, value);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        private ColumnSettingsViewModel _position;
         public ColumnSettingsViewModel Position
         {
-            get => (ColumnSettingsViewModel)GetValue(PositionProperty);
-            set => SetValue(PositionProperty, value);
+            get => _position;
+            set => SetProperty(ref _position, value);
         }
 
+        private ColumnSettingsViewModel _name;
         public ColumnSettingsViewModel Name
         {
-            get => (ColumnSettingsViewModel)GetValue(NameProperty);
-            set => SetValue(NameProperty, value);
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
+        private ColumnSettingsViewModel _carName;
         public ColumnSettingsViewModel CarName
         {
-            get => (ColumnSettingsViewModel)GetValue(CarNameProperty);
-            set => SetValue(CarNameProperty, value);
+            get => _carName;
+            set => SetProperty(ref _carName, value);
         }
 
+        private ColumnSettingsViewModel _completedLaps;
         public ColumnSettingsViewModel CompletedLaps
         {
-            get => (ColumnSettingsViewModel)GetValue(CompletedLapsProperty);
-            set => SetValue(CompletedLapsProperty, value);
+            get => _completedLaps;
+            set => SetProperty(ref _completedLaps, value);
         }
 
+        private ColumnSettingsViewModel _lastLapTime;
         public ColumnSettingsViewModel LastLapTime
         {
-            get => (ColumnSettingsViewModel)GetValue(LastLapTimeProperty);
-            set => SetValue(LastLapTimeProperty, value);
+            get => _lastLapTime;
+            set => SetProperty(ref _lastLapTime, value);
         }
 
+        private ColumnSettingsViewModel _pace;
         public ColumnSettingsViewModel Pace
         {
-            get => (ColumnSettingsViewModel)GetValue(PaceProperty);
-            set => SetValue(PaceProperty, value);
+            get => _pace;
+            set => SetProperty(ref _pace, value);
         }
 
+        private ColumnSettingsViewModel _bestLap;
         public ColumnSettingsViewModel BestLap
         {
-            get => (ColumnSettingsViewModel)GetValue(BestLapProperty);
-            set => SetValue(BestLapProperty, value);
+            get => _bestLap;
+            set => SetProperty(ref _bestLap, value);
         }
 
+        private ColumnSettingsViewModel _currentLapProgressTime;
         public ColumnSettingsViewModel CurrentLapProgressTime
         {
-            get => (ColumnSettingsViewModel)GetValue(CurrentLapProgressTimeProperty);
-            set => SetValue(CurrentLapProgressTimeProperty, value);
+            get => _currentLapProgressTime;
+            set => SetProperty(ref _currentLapProgressTime, value);
         }
 
+        private ColumnSettingsViewModel _lastPitInfo;
         public ColumnSettingsViewModel LastPitInfo
         {
-            get => (ColumnSettingsViewModel)GetValue(LastPitInfoProperty);
-            set => SetValue(LastPitInfoProperty, value);
+            get => _lastPitInfo;
+            set => SetProperty(ref _lastPitInfo, value);
         }
 
+        private ColumnSettingsViewModel _timeToPlayer;
         public ColumnSettingsViewModel TimeToPlayer
         {
-            get => (ColumnSettingsViewModel)GetValue(TimeToPlayerProperty);
-            set => SetValue(TimeToPlayerProperty, value);
+            get => _timeToPlayer;
+            set => SetProperty(ref _timeToPlayer, value);
         }
 
+        private ColumnSettingsViewModel _topSpeed;
         public ColumnSettingsViewModel TopSpeed
         {
-            get => (ColumnSettingsViewModel)GetValue(TopSpeedProperty);
-            set => SetValue(TopSpeedProperty, value);
+            get => _topSpeed;
+            set => SetProperty(ref _topSpeed, value);
         }
 
+        private ColumnSettingsViewModel _sector1;
         public ColumnSettingsViewModel Sector1
         {
-            get => (ColumnSettingsViewModel)GetValue(Sector1Property);
-            set => SetValue(Sector1Property, value);
+            get => _sector1;
+            set => SetProperty(ref _sector1, value);
         }
 
+        private ColumnSettingsViewModel _sector2;
         public ColumnSettingsViewModel Sector2
         {
-            get => (ColumnSettingsViewModel)GetValue(Sector2Property);
-            set => SetValue(Sector2Property, value);
+            get => _sector2;
+            set => SetProperty(ref _sector2, value);
         }
 
+        private ColumnSettingsViewModel _sector3;
         public ColumnSettingsViewModel Sector3
         {
-            get => (ColumnSettingsViewModel)GetValue(Sector3Property);
-            set => SetValue(Sector3Property, value);
+            get => _sector3;
+            set => SetProperty(ref _sector3, value);
         }
 
-        public void FromModel(ColumnsSettings columnsSettings)
+        private ColumnSettingsViewModel _rating;
+        public ColumnSettingsViewModel Rating
+        {
+            get => _rating;
+            set => SetProperty(ref _rating, value);
+        }
+
+        public static ColumnsSettingsViewModel CreateFromModel(ColumnsSettings columnsSettings)
+        {
+            ColumnsSettingsViewModel newColumnSettingsViewModel = new ColumnsSettingsViewModel();
+            newColumnSettingsViewModel.ApplyModel(columnsSettings);
+            return newColumnSettingsViewModel;
+        }
+
+
+        protected override void ApplyModel(ColumnsSettings columnsSettings)
         {
             Position = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Position);
             Name = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Name);
@@ -133,50 +141,30 @@
             Sector1 = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Sector1);
             Sector2 = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Sector2);
             Sector3 = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Sector3);
+            Rating = ColumnSettingsViewModel.CreateFromModel(columnsSettings.Rating);
         }
 
-        public static ColumnsSettingsViewModel CreateFromModel(ColumnsSettings columnsSettings)
-        {
-            ColumnsSettingsViewModel newColumnSettingsViewModel = new ColumnsSettingsViewModel();
-            newColumnSettingsViewModel.FromModel(columnsSettings);
-            return newColumnSettingsViewModel;
-        }
-
-        public ColumnsSettings ToModel()
+        public override ColumnsSettings SaveToNewModel()
         {
             return new ColumnsSettings
-                       {
-                           Position = Position.ToModel(),
-                           Name = Name.ToModel(),
-                           CarName = CarName.ToModel(),
-                           CarClassName = CarClassName.ToModel(),
-                           CompletedLaps = CompletedLaps.ToModel(),
-                           LastLapTime = LastLapTime.ToModel(),
-                           Pace = Pace.ToModel(),
-                           BestLap = BestLap.ToModel(),
-                           CurrentLapProgressTime = CurrentLapProgressTime.ToModel(),
-                           LastPitInfo = LastPitInfo.ToModel(),
-                           TimeToPlayer = TimeToPlayer.ToModel(),
-                           TopSpeed = TopSpeed.ToModel(),
-                           Sector1 = Sector1.ToModel(),
-                           Sector2 = Sector2.ToModel(),
-                           Sector3 = Sector3.ToModel()
-        };
-
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ColumnsSettingsViewModel columnsSettingsModelView)
             {
-                columnsSettingsModelView.OnPropertyChanged(e.Property.Name);
-            }
+                Position = Position.ToModel(),
+                Name = Name.ToModel(),
+                CarName = CarName.ToModel(),
+                CarClassName = CarClassName.ToModel(),
+                CompletedLaps = CompletedLaps.ToModel(),
+                LastLapTime = LastLapTime.ToModel(),
+                Pace = Pace.ToModel(),
+                BestLap = BestLap.ToModel(),
+                CurrentLapProgressTime = CurrentLapProgressTime.ToModel(),
+                LastPitInfo = LastPitInfo.ToModel(),
+                TimeToPlayer = TimeToPlayer.ToModel(),
+                TopSpeed = TopSpeed.ToModel(),
+                Sector1 = Sector1.ToModel(),
+                Sector2 = Sector2.ToModel(),
+                Sector3 = Sector3.ToModel(),
+                Rating = Rating.ToModel(),
+            };
         }
     }
 }

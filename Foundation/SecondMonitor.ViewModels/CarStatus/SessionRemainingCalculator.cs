@@ -18,7 +18,7 @@
 
         public TimeSpan GetTimeRemaining(SimulatorDataSet dataSet)
         {
-            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap)
+            if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.Time || dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWithExtraLap)
             {
                 return TimeSpan.FromSeconds(dataSet.SessionInfo.SessionTimeRemaining);
             }
@@ -66,7 +66,7 @@
                     totalDistanceToGo -= dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
                 }
 
-                if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWitchExtraLap && (_leaderTimeoutLap == -1 || _leaderTimeoutLap == dataSet.LeaderInfo.CompletedLaps))
+                if (dataSet.SessionInfo.SessionLengthType == SessionLengthType.TimeWithExtraLap && (_leaderTimeoutLap == -1 || _leaderTimeoutLap == dataSet.LeaderInfo.CompletedLaps))
                 {
                     totalDistanceToGo += dataSet.SessionInfo.TrackInfo.LayoutLength.InMeters;
                 }

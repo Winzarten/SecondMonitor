@@ -1,10 +1,10 @@
 ﻿namespace SecondMonitor.Timing.LapTimings.ViewModel
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows;
     using System.Windows.Input;
-    using Contracts.Collection;
     using SecondMonitor.Timing.SessionTiming.Drivers.ViewModel;
     using SessionTiming;
     using DriverLapsWindow = View.DriverLapsWindow;

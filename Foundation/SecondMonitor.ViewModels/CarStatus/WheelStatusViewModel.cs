@@ -166,7 +166,7 @@
             TyrePressure = wheelInfo.TyrePressure;
             TyreCompound = wheelInfo.TyreType;
             TyreSlippingIndication = wheelInfo.Detached;
-            WheelCamber = wheelInfo.Camber.GetValueInUnits(AngleUnits.Degrees);
+            //WheelCamber = wheelInfo.Camber.GetValueInUnits(AngleUnits.Degrees);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -13,26 +13,26 @@
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                        Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
                        Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock.Effect>
+                <!--<TextBlock.Effect>
                     <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
                                       Color="{StaticResource DarkGrey01Color}" />
-                </TextBlock.Effect>
+                </TextBlock.Effect>-->
             </TextBlock>
             <TextBox HorizontalAlignment="Center" VerticalAlignment="Center"  Background="{StaticResource Anthracite01Brush}" Foreground="{StaticResource LightGrey01Brush}"
                        Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToStringConverter}}"
                        Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
-                <TextBox.Effect>
+                <!--<TextBox.Effect>
                     <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
                                       Color="{StaticResource DarkGrey01Color}" />
-                </TextBox.Effect>
+                </TextBox.Effect>-->
             </TextBox>
             <TextBlock Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Text="{Binding UnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
                        Visibility="{Binding ShowUnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock.Effect>
+                <!--<TextBlock.Effect>
                     <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
                                       Color="{StaticResource DarkGrey01Color}" />
-                </TextBlock.Effect>
+                </TextBlock.Effect>-->
             </TextBlock>
         </StackPanel>
     </ControlTemplate>
@@ -41,26 +41,26 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}"
                    Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToScalableDecimalsConverter}}">
-            <TextBlock.Effect>
+            <!--<TextBlock.Effect>
                 <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
                                   Color="{StaticResource DarkGrey01Color}" />
-            </TextBlock.Effect>
+            </TextBlock.Effect>-->
         </TextBlock>
             <TextBox HorizontalAlignment="Center" VerticalAlignment="Center"  Background="{StaticResource Anthracite01Brush}" Foreground="{StaticResource LightGrey01Brush}"
                      Text="{Binding ValueInUnits, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource DoubleToScalableDecimalsConverter}}"
                      Visibility="{Binding IsReadonly, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
-                <TextBox.Effect>
+                <!--<TextBox.Effect>
                     <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
                                       Color="{StaticResource DarkGrey01Color}" />
-                </TextBox.Effect>
+                </TextBox.Effect>-->
             </TextBox>
             <TextBlock Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Text="{Binding UnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
                        Visibility="{Binding ShowUnitSymbol, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <TextBlock.Effect>
+                <!--<TextBlock.Effect>
                     <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
                                       Color="{StaticResource DarkGrey01Color}" />
-                </TextBlock.Effect>
+                </TextBlock.Effect>-->
             </TextBlock>
         </StackPanel>
     </ControlTemplate>

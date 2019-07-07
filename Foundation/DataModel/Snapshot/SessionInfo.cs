@@ -36,5 +36,7 @@
         public List<FlagKind> ActiveFlags = new List<FlagKind>();
 
         public bool IsMultiClass { get; set; }
+
+        public bool IsMultiplayer { get; set; } = false;
     }
 }

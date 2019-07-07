@@ -4,6 +4,7 @@
     using System.ComponentModel;
     using System.Threading.Tasks;
     using Replay;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using Synchronization;
     using TelemetryManagement.DTO;

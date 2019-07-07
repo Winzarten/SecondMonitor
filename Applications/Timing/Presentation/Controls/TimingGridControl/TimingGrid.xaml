@@ -60,6 +60,17 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="TextBoxStyleRating" TargetType="TextBlock" BasedOn="{StaticResource TextBoxStyle}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPlayersRatingBetter}" Value="True">
+                <Setter Property="Background" Value="{StaticResource Green01Brush}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsPlayersRatingBetter}" Value="False">
+                <Setter Property="Background" Value="{StaticResource DarkRed01Brush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="TextBoxStylePace" TargetType="TextBlock" BasedOn="{StaticResource TextBoxStyle}">
         <Style.Triggers>
             <MultiDataTrigger>

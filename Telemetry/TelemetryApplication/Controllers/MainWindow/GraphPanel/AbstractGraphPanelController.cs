@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using DataModel.Extensions;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using Settings.DTO;
     using Synchronization;

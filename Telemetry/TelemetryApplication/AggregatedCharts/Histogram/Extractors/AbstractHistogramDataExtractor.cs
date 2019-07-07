@@ -6,6 +6,7 @@
     using WindowsControls.Properties;
     using DataModel.Telemetry;
     using Filter;
+    using SecondMonitor.ViewModels.Settings;
     using Settings;
     using TelemetryManagement.DTO;
     using TelemetryManagement.StoryBoard;

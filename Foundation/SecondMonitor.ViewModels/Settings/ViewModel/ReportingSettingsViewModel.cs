@@ -1,86 +1,70 @@
 ﻿namespace SecondMonitor.ViewModels.Settings.ViewModel
 {
     using System;
-    using System.ComponentModel;
     using System.IO;
-    using System.Runtime.CompilerServices;
-    using System.Windows;
     using System.Windows.Forms;
     using System.Windows.Input;
     using Contracts.Commands;
     using Model;
-    using Properties;
 
-    public class ReportingSettingsViewModel : DependencyObject, INotifyPropertyChanged
+    public class ReportingSettingsViewModel : AbstractViewModel
     {
-
-        private static readonly  DependencyProperty ExportDirectoryProperty = DependencyProperty.Register("ExportDirectory", typeof(string), typeof(ReportingSettingsViewModel), new PropertyMetadata(){PropertyChangedCallback = PropertyChangedCallback});
-
-        private static readonly DependencyProperty MaximumReportsProperty = DependencyProperty.Register("MaximumReports", typeof(int), typeof(ReportingSettingsViewModel), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
-
-        private static readonly DependencyProperty PracticeReportSettingsViewProperty = DependencyProperty.Register("PracticeReportSettingsView", typeof(SessionReportSettingsViewModel), typeof(ReportingSettingsViewModel), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
-
-        private static readonly DependencyProperty QualificationReportSettingsProperty = DependencyProperty.Register("QualificationReportSettings", typeof(SessionReportSettingsViewModel), typeof(ReportingSettingsViewModel), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
-
-        private static readonly DependencyProperty RaceReportSettingsViewProperty = DependencyProperty.Register("RaceReportSettingsView", typeof(SessionReportSettingsViewModel), typeof(ReportingSettingsViewModel), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
-
-        private static readonly DependencyProperty WarmUpReportSettingsViewProperty = DependencyProperty.Register("WarmUpReportSettingsView", typeof(SessionReportSettingsViewModel), typeof(ReportingSettingsViewModel), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
-
-        private static readonly DependencyProperty MinimumSessionLengthProperty = DependencyProperty.Register("MinimumSessionLength", typeof(int), typeof(ReportingSettingsViewModel), new PropertyMetadata() { PropertyChangedCallback = PropertyChangedCallback });
 
         public ReportingSettingsViewModel()
         {
             SelectExportDirCommand = new RelayCommand(SelectExportDir);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
+        private string _exportDirectory;
         internal string ExportDirectory
         {
-            get => (string)GetValue(ExportDirectoryProperty);
-            set
-            {
-                SetValue(ExportDirectoryProperty, value);
-                OnPropertyChanged(nameof(ExportDirectoryReplacedSpecialDirs));
-            }
+            get => _exportDirectory;
+            set => SetProperty(ref _exportDirectory, value);
         }
 
-        public string ExportDirectoryReplacedSpecialDirs => ReplaceSpecialDirs((string)GetValue(ExportDirectoryProperty));
+        public string ExportDirectoryReplacedSpecialDirs => ReplaceSpecialDirs(ExportDirectory);
 
+        private int _maximumReports;
         public int MaximumReports
         {
-            get => (int)GetValue(MaximumReportsProperty);
-            set => SetValue(MaximumReportsProperty, value);
+            get => _maximumReports;
+            set => SetProperty(ref _maximumReports, value);
         }
 
+        private SessionReportSettingsViewModel _practiceReportSettingsView;
         public SessionReportSettingsViewModel PracticeReportSettingsView
         {
-            get => (SessionReportSettingsViewModel)GetValue(PracticeReportSettingsViewProperty);
-            set => SetValue(PracticeReportSettingsViewProperty, value);
+            get => _practiceReportSettingsView;
+            set => SetProperty(ref _practiceReportSettingsView, value);
         }
 
+        private SessionReportSettingsViewModel _qualificationReportSettingView;
         public SessionReportSettingsViewModel QualificationReportSettingView
         {
-            get => (SessionReportSettingsViewModel)GetValue(QualificationReportSettingsProperty);
-            set => SetValue(QualificationReportSettingsProperty, value);
+            get => _qualificationReportSettingView;
+            set => SetProperty(ref _qualificationReportSettingView, value);
         }
 
+        private SessionReportSettingsViewModel _raceReportSettingsView;
         public SessionReportSettingsViewModel RaceReportSettingsView
         {
-            get => (SessionReportSettingsViewModel)GetValue(RaceReportSettingsViewProperty);
-            set => SetValue(RaceReportSettingsViewProperty, value);
+            get => _raceReportSettingsView;
+            set => SetProperty(ref _raceReportSettingsView, value);
         }
 
+        private SessionReportSettingsViewModel _warmUpReportSettingsView;
         public SessionReportSettingsViewModel WarmUpReportSettingsView
         {
-            get => (SessionReportSettingsViewModel)GetValue(WarmUpReportSettingsViewProperty);
-            set => SetValue(WarmUpReportSettingsViewProperty, value);
+            get => _warmUpReportSettingsView;
+            set => SetProperty(ref _warmUpReportSettingsView, value);
         }
 
+        private int _minimumSessionLength;
         public int MinimumSessionLength
         {
-            get => (int)GetValue(MinimumSessionLengthProperty);
-            set => SetValue(MinimumSessionLengthProperty, value);
+            get => _minimumSessionLength;
+            set => SetProperty(ref _minimumSessionLength, value);
         }
 
         public void FromModel(ReportingSettings model)
@@ -124,12 +108,6 @@
                        };
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void SelectExportDir()
         {
             using (var fbd = new FolderBrowserDialog())
@@ -142,14 +120,6 @@
                 {
                     ExportDirectory = fbd.SelectedPath;
                 }
-            }
-        }
-
-        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ReportingSettingsViewModel reportingSettingsModelView)
-            {
-                reportingSettingsModelView.OnPropertyChanged(e.Property.Name);
             }
         }
 
