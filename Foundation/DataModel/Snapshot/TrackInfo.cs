@@ -1,6 +1,7 @@
 ﻿namespace SecondMonitor.DataModel.Snapshot
 {
     using System;
+    using System.Xml.Serialization;
     using BasicProperties;
 
     [Serializable]
@@ -17,5 +18,8 @@
         public string TrackLayoutName { get; set; }
 
         public Distance LayoutLength { get; set; }
+
+        [XmlIgnore]
+        public string TrackFullName => string.IsNullOrEmpty(TrackLayoutName) ? TrackName : $"{TrackName}-{TrackLayoutName}";
     }
 }

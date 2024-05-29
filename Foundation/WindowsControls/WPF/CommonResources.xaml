@@ -26,12 +26,12 @@
         <Setter Property="Foreground" Value="{StaticResource LightGrey01Brush}" />
         <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
-        <Setter Property="TextBlock.Effect">
+        <!--<Setter Property="TextBlock.Effect">
             <Setter.Value>
                 <DropShadowEffect BlurRadius="4" Direction="330" Opacity="0.5" ShadowDepth="4"
                                   Color="{StaticResource DarkGrey01Color}" />
             </Setter.Value>
-        </Setter>
+        </Setter>-->
     </Style>
 
     <Style x:Key="StandardTextBox" TargetType="TextBox">

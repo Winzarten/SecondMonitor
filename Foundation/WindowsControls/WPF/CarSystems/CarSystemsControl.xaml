@@ -26,31 +26,24 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <Border BorderThickness="3" Grid.Row="0" Grid.Column="0" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
-                <wpf:ColorAbleIcon StrokeBrush="{StaticResource LightGrey01Brush}">
-                    <ContentPresenter Content="{StaticResource WaterTemperatureIcon}" MaxHeight="32" DockPanel.Dock="Left" />
-                    <i:Interaction.Behaviors>
-                        <volumeBehavior:StrokeBrushByOptimalTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
-                                                                                HighQuantityColor="{StaticResource HighQuantityColor}"
-                                                                                IdealQuantityColor="{StaticResource OptimalQuantityColor}"
-                                                                                LowQuantityColor="{StaticResource LowButOkQuantityColor}"
-                                                                                Volume="{Binding WaterTemperature}" />
-                    </i:Interaction.Behaviors>
+                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground,  ElementName=TemperatureText, Mode=OneWay}">
+                    <ContentPresenter Content="{StaticResource WaterTemperatureIcon}" Height="32" Width="32" DockPanel.Dock="Left" />
                 </wpf:ColorAbleIcon>
 
-                <quantityText:TemperatureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
-                                              Margin="5,0,0,0" MinWidth="60"
+                <quantityText:TemperatureText x:Name="TemperatureText" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
+                                              Margin="5,0,0,0"
                                               FontSize="{StaticResource ExtraBigFontSize}"
                                               Foreground="{StaticResource LightGrey01Brush}"
                                               Quantity="{Binding WaterTemperature.ActualQuantity}"
                                               TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                              ShowUnitSymbol="True" ToolTip="Coolant Temperature" >
+                                              ShowUnitSymbol="True" ToolTip="Coolant Temperature" Width="80">
                     <i:Interaction.Behaviors>
                         <volumeBehavior:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                         HighQuantityColor="{StaticResource HighQuantityColor}"
@@ -63,23 +56,16 @@
         </Border>
         <Border BorderThickness="3" Grid.Row="0" Grid.Column="1" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
-                <wpf:ColorAbleIcon StrokeBrush="{StaticResource LightGrey01Brush}">
-                <ContentPresenter Content="{StaticResource OilTemperatureIcon}" MaxHeight="32" DockPanel.Dock="Left" />
-                    <i:Interaction.Behaviors>
-                    <volumeBehavior:StrokeBrushByOptimalTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
-                                                                            HighQuantityColor="{StaticResource HighQuantityColor}"
-                                                                            IdealQuantityColor="{StaticResource OptimalQuantityColor}"
-                                                                            LowQuantityColor="{StaticResource LowButOkQuantityColor}"
-                                                                            Volume="{Binding OilTemperature}" />
-                    </i:Interaction.Behaviors>
+                <wpf:ColorAbleIcon StrokeBrush="{Binding Foreground,  ElementName=OilTemperatureText, Mode=OneWay}">
+                    <ContentPresenter Content="{StaticResource OilTemperatureIcon}"  Height="32" Width="32" DockPanel.Dock="Left" />
                 </wpf:ColorAbleIcon>
-                <quantityText:TemperatureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
-                                              Margin="5,0,0,0" MinWidth="60"
+                <quantityText:TemperatureText x:Name="OilTemperatureText" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
+                                              Margin="5,0,0,0"
                                               FontSize="{StaticResource ExtraBigFontSize}"
                                               Foreground="{StaticResource LightGrey01Brush}"
                                               Quantity="{Binding OilTemperature.ActualQuantity}"
                                               TemperatureUnits="{Binding TemperatureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                              ShowUnitSymbol="True" ToolTip="Oil Temperature" >
+                                              ShowUnitSymbol="True" ToolTip="Oil Temperature" Width="80">
                     <i:Interaction.Behaviors>
                         <volumeBehavior:ForegroundByTemperatureBehavior DefaultColor="{StaticResource OptimalQuantityColor}"
                                                                         HighQuantityColor="{StaticResource HighQuantityColor}"
@@ -94,48 +80,48 @@
             <DockPanel>
                 <ContentPresenter Content="{StaticResource TurboIcon}" MaxHeight="32" DockPanel.Dock="Left" />
                 <quantityText:PressureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
-                                           Margin="5,0,0,0" MinWidth="120"
-                                           FontSize="{StaticResource ExtraBigFontSize}"
+                                           Margin="5,0,0,0"
+                                           FontSize="{StaticResource BigFontSize}"
                                            Foreground="{StaticResource LightGrey01Brush}"
                                            Quantity="{Binding TurboPressure}"
                                            PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                           ShowUnitSymbol="True" ToolTip="Turbo Boost Pressure" />
+                                           ShowUnitSymbol="True" ToolTip="Turbo Boost Pressure" Width="100" />
             </DockPanel>
         </Border>
         <Border BorderThickness="3" Grid.Row="1" Grid.Column="0" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
                 <ContentPresenter Content="{StaticResource RadiatorIcon}" MaxHeight="15" DockPanel.Dock="Left" />
                 <quantityText:PressureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
-                                           Margin="5,0,0,0" MinWidth="72"
+                                           Margin="5,0,0,0"
                                            FontSize="{StaticResource BigFontSize}"
                                            Foreground="{StaticResource LightGrey01Brush}"
                                            Quantity="{Binding WaterPressure}"
                                            PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                           ShowUnitSymbol="True" ToolTip="Coolant Pressure" />
+                                           ShowUnitSymbol="True" ToolTip="Coolant Pressure" Width="80" />
             </DockPanel>
         </Border>
         <Border BorderThickness="3" Grid.Row="1" Grid.Column="1" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
                 <ContentPresenter Content="{StaticResource OilIcon}" MaxHeight="15" DockPanel.Dock="Left" />
                 <quantityText:PressureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
-                                           Margin="5,0,0,0" MinWidth="60"
+                                           Margin="5,0,0,0"
                                            FontSize="{StaticResource BigFontSize}"
                                            Foreground="{StaticResource LightGrey01Brush}"
                                            Quantity="{Binding OilPressure}"
                                            PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                           ShowUnitSymbol="True" ToolTip="OilPressure" />
+                                           ShowUnitSymbol="True" ToolTip="OilPressure" Width="80" />
             </DockPanel>
         </Border>
         <Border BorderThickness="3" Grid.Row="1" Grid.Column="2" BorderBrush="{StaticResource DarkGrey01Brush}">
             <DockPanel>
                 <ContentPresenter Content="{StaticResource FuelIcon}" MaxHeight="15" DockPanel.Dock="Left"/>
                 <quantityText:PressureText HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Left"
-                                           Margin="5,0,0,0" MinWidth="82"
+                                           Margin="5,0,0,0"
                                            FontSize="{StaticResource BigFontSize}"
                                            Foreground="{StaticResource LightGrey01Brush}"
                                            Quantity="{Binding FuelPressure}"
                                            PressureUnits="{Binding PressureUnits, RelativeSource={RelativeSource AncestorType=local:CarSystemsControl}, Mode=OneWay}"
-                                           ShowUnitSymbol="True" ToolTip="Fuel Pressure" />
+                                           ShowUnitSymbol="True" ToolTip="Fuel Pressure" Width="80" />
             </DockPanel>
         </Border>
     </Grid>

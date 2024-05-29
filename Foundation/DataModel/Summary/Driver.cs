@@ -6,6 +6,7 @@
     using System.Xml.Serialization;
 
     using BasicProperties;
+    using Snapshot.Drivers;
 
     [Serializable]
     public sealed class Driver
@@ -17,6 +18,10 @@
         private Lap _bestSector2Lap;
 
         private Lap _bestSector3Lap;
+
+        public string ClassName { get; set; }
+
+        public string ClassId { get; set; }
 
         public string DriverName { get; set; }
 
@@ -33,6 +38,8 @@
         public bool IsPlayer { get; set;  }
 
         public bool Finished { get; set; } = true;
+
+        public DriverFinishStatus FinishStatus { get; set; } =  DriverFinishStatus.None;
 
         [XmlIgnore]
         public Lap BestPersonalLap
@@ -85,6 +92,7 @@
                 return _bestSector3Lap;
             }
         }
+
 
         private Lap FindBest(Func<Lap, TimeSpan> paramFunc, List<Lap> laps)
         {

@@ -68,7 +68,7 @@
                 if (CheckSessionStarted(r3RData, data))
                 {
                     _lastTickInformation.Clear();
-                    _sessionTime = new TimeSpan(0, 0, 1);
+                    _sessionTime = TimeSpan.Zero;
                     _lastSessionTime = _sessionTime;
                     RaiseSessionStartedEvent(data);
                 }
@@ -86,7 +86,7 @@
                 }
 
                 _lastSessionTime = data.SessionInfo.SessionTime;
-                AddToQueue(data);
+                RaiseDataLoadedEvent(data);
 
                 if (r3RData.ControlType == -1 && !IsProcessRunning())
                 {
@@ -95,7 +95,7 @@
             }
 
             _sharedMemory = null;
-            _sessionTime = new TimeSpan(0, 0, 1);
+            _sessionTime = TimeSpan.Zero;
             RaiseDisconnectedEvent();
         }
 

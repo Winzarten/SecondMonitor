@@ -109,11 +109,14 @@
     <Compile Include="PluginsSettings\PluginsConfigurationViewModel.cs" />
     <Compile Include="PluginsSettings\RemoteConfigurationViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Settings\AppDataSettingsProvider.cs" />
+    <Compile Include="Settings\ISettingsProvider.cs" />
     <Compile Include="Settings\Model\ColumnSettings.cs" />
     <Compile Include="Settings\Model\ColumnsSettings.cs" />
     <Compile Include="Settings\Model\DisplayModeEnum.cs" />
     <Compile Include="Settings\Model\DisplaySettings.cs" />
     <Compile Include="Settings\Model\MapDisplaySettings.cs" />
+    <Compile Include="Settings\Model\RatingSettings.cs" />
     <Compile Include="Settings\Model\ReportingSettings.cs" />
     <Compile Include="Settings\Model\SessionOptions.cs" />
     <Compile Include="Settings\Model\SessionReportSettings.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="Settings\ViewModel\DisplaySettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\EnumBooleanConverter.cs" />
     <Compile Include="Settings\ViewModel\MapDisplaySettingsViewmodel.cs" />
+    <Compile Include="Settings\ViewModel\RatingSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\ReportingSettingsViewModel.cs" />
     <Compile Include="Settings\ViewModel\SessionOptionsViewModel.cs" />
     <Compile Include="Settings\ViewModel\SessionReportSettingsViewModel.cs" />

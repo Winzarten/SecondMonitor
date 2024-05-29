@@ -21,6 +21,8 @@
 
         public SessionType SessionType { get; set; }
 
+        public bool WasGreen { get; set; }
+
         public string Simulator { get; set; }
 
         public SessionLengthType SessionLengthType { get; set; } = SessionLengthType.Na;
@@ -29,9 +31,13 @@
 
         public TimeSpan SessionLength { get; set; }
 
+        public TimeSpan SessionRunDuration { get; set; }
+
         public TrackInfo TrackInfo { get; set; } = new TrackInfo();
 
         public List<Driver> Drivers { get; } = new List<Driver>();
+
+        public bool IsMultiClass { get; set; }
 
         [XmlIgnore]
         public Lap SessionBestLap

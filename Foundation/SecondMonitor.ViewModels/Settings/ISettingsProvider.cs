@@ -1,6 +1,6 @@
-﻿namespace SecondMonitor.Telemetry.TelemetryApplication.Settings
+﻿namespace SecondMonitor.ViewModels.Settings
 {
-    using SecondMonitor.ViewModels.Settings.ViewModel;
+    using ViewModel;
 
     public interface ISettingsProvider
     {
@@ -9,5 +9,7 @@
         string TelemetryRepositoryPath { get; }
 
         string MapRepositoryPath { get; }
+
+        string RatingsRepositoryPath { get; }
     }
 }

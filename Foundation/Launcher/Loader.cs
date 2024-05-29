@@ -33,6 +33,7 @@
                 //Application.SetCompatibleTextRenderingDefault(false);
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                 Application app = new Application();
+                LoadAssemblies();
                 LoadUsingGameConnectorsFromDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConnectorsDir));
                 app.Run();
 
@@ -41,6 +42,16 @@
             {
                 LogManager.GetCurrentClassLogger().Error(ex, "Application experienced an error");
             }
+        }
+
+        private static void LoadAssemblies()
+        {
+            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            var loadedPaths = loadedAssemblies.Select(a => a.Location).ToArray();
+
+            var referencedPaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+            var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
+            toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
         }
 
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)

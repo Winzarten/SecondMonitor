@@ -25,7 +25,7 @@
                         var ninjectModuleBootstrapper =
                             (INinjectModuleBootstrapper)Activator.CreateInstance(t);
 
-                        standardKernel.Load(ninjectModuleBootstrapper.GetModules());
+                        standardKernel.Load(ninjectModuleBootstrapper.GetModules().Where(x => !standardKernel.HasModule(x.Name)));
                     });
             }
             return standardKernel;

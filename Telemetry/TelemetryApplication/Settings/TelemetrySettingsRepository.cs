@@ -7,6 +7,7 @@
     using System.Xml.Serialization;
     using DTO;
     using NLog;
+    using SecondMonitor.ViewModels.Settings;
 
     public class TelemetrySettingsRepository : ITelemetrySettingsRepository
     {

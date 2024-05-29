@@ -6,6 +6,7 @@
 
         Green,
 
-        Checkered
+        Checkered,
+        Unavailable,
     }
 }

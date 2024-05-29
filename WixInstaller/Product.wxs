@@ -161,6 +161,21 @@
       <Component Id="cc8c1c81d226648f1a7eb0ddb8959910d" Directory="APPLICATIONROOTDIRECTORY" Guid="fca38ce3-1f6f-4e29-8233-c1933b064878">
         <File Id="fc8c1c81d226648f1a7eb0ddb8959910d" KeyPath="yes" Source="..\Deployment\Contracts.dll" />
       </Component>
+
+      <Component Id="c28bbb59791be4bf088c56374b383bb22" Directory="APPLICATIONROOTDIRECTORY" Guid="28bbb597-91be-4bf0-88c5-6374b383bb22">
+        <File Id="file28bbb59791be4bf088c56374b383bb22" KeyPath="yes" Source="..\Deployment\Glicko2.dll" />
+      </Component>
+      <Component Id="cfee84c142b6743a4a6f64b5aa97972a2" Directory="APPLICATIONROOTDIRECTORY" Guid="48f4e25a-99ad-400b-a875-57cf4b618841">
+        <File Id="ffee84c142b6743a4a6f64b5aa97972a2" KeyPath="yes" Source="..\Deployment\Rating.Application.dll" />
+      </Component>
+      <Component Id="c22168358761841228257fbcbdfaf0d6e" Directory="APPLICATIONROOTDIRECTORY" Guid="921ce34a-d31d-4881-8592-3a80162b0019">
+        <File Id="f22168358761841228257fbcbdfaf0d6e" KeyPath="yes" Source="..\Deployment\Rating.Common.dll" />
+      </Component>
+      <Component Id="c4b0392c949134aeea6b9e652433c3678" Directory="APPLICATIONROOTDIRECTORY" Guid="65c740f8-5696-4038-a2ed-5855d2fd87c2">
+        <File Id="f4b0392c949134aeea6b9e652433c3678" KeyPath="yes" Source="..\Deployment\Rating.Presentation.dll" />
+      </Component>
+
+
       <Component Id="cmp44450B3EA8BEA00A3085509BFE17EA56" Directory="dirF09AC222E5E846B669ECCC3285BC0D7B" Guid="62ae6c28-044b-4029-a248-9b04ee5b0abf">
         <File Id="filCD83CF2407F23ADF1015E2352A06DD75" KeyPath="yes" Source="..\Deployment\Connectors\Pcars\Newtonsoft.Json.dll" />
       </Component>
